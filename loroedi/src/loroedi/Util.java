@@ -302,7 +302,7 @@ public final class Util
 	public static String readFile(File file)
 	throws FileNotFoundException, IOException
 	{
-		System.out.println("reading " +file);
+		// System.out.println("reading " +file);
 		BufferedReader br = new BufferedReader(
 			new InputStreamReader(new FileInputStream(file), charset)
 		);
@@ -324,7 +324,7 @@ public final class Util
 	public static void writeFile(File file, String text)
 	throws IOException
 	{
-		System.out.println("writing " +file);
+		// System.out.println("writing " +file);
 		PrintWriter s = new PrintWriter(
 			new OutputStreamWriter(new FileOutputStream(file), charset)
 		);
