@@ -98,30 +98,6 @@ public class InterpreteInteractivo
 
 		loroi = Loro.crearInterprete(br, pw, false, null);
 		ii = loroi.getInteractiveInterpreter();
-		ii.setManager(new IInterprete.IInteractiveInterpreter.IManager()
-		{
-			///////////////////////////////////////////////////////////////////////
-			public String prompt()
-			throws IOException
-			{
-				pw.print(" ? ");
-				pw.flush();
-				return br.readLine();
-			}
-
-			///////////////////////////////////////////////////////////////////////
-			public void expression(String expr)
-			{
-				pw.println("Expresion = " +expr);
-			}
-
-			///////////////////////////////////////////////////////////////////////
-			public void exception(String msg)
-			{
-				pw.println("Exception = " +msg);
-			}
-		});
-		
 		loroi.setMetaListener(new IInterprete.IMetaListener()
 		{
 			String info = 

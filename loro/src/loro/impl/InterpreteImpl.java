@@ -514,7 +514,7 @@ public class InterpreteImpl implements IInterprete
 			///////////////////////////////////////////////////////////////////////
 			public void exception(String msg)
 			{
-				pw.println(msg);
+				pw.println(" ! " +msg.replaceAll("\n", "\n ! "));
 			}
 		}
 		
