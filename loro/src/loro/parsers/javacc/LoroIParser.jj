@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2002-10-25
+// FECHA ULTIMA ACTUALIZACION   : 2002-11-21
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2002-11-21
+//		- Nuevas palabras reservadas y sintaxis correspondiente para:
+//			lance, intente, atrape, siempre.
 //
 //		2002-10-25
 //			- Modificada gramatica para aceptar coma "," al final de la lista de
@@ -381,6 +385,7 @@ TOKEN : // tipos básicos
 TOKEN : // otras palabras reservadas
 {
 	< ALGORITMO: "algoritmo">
+  | < ATRAPE: "atrape">
   | < BAJANDO: "bajando">
   | < CASO: "caso" >
   | < CICLO: "ciclo" >
@@ -410,7 +415,9 @@ TOKEN : // otras palabras reservadas
   | < IMPLEMENTACION: "implementacion" | "implementación">
   | < INICIO: "inicio">
   | < IMPLEMENTA: "implementa">
+  | < INTENTE: "intente">
   | < INTERFACE: "interface">
+  | < LANCE: "lance">
   | < METODO: "metodo" | "método">
   | < MIENTRAS: "mientras" >
   | < NADA: "nada">
@@ -430,7 +437,8 @@ TOKEN : // otras palabras reservadas
   | < SI: "si" >
   | < SI_NO: "si_no" >
   | < SI_NO_si: "si_no_si" >
-  | < SUPER: "super" >
+  | < SIEMPRE: "siempre" >
+  | < SUPER: "super" | "súper" >
   | < TERMINE: "termine" >
   | < UTILIZA: "utiliza" >
 }
@@ -1049,6 +1057,10 @@ Nodo accion() :
 	|
 		n=retorne()
 	|
+		n=intente()
+	|
+		n=lance()
+	|
 		n=afirmacion()
 	|
 		n=termine()
@@ -1347,6 +1359,57 @@ NContinue _continue() :
 	t=<CONTINUE> [ "/" etq=tid() "/" ]  [ "si"  e=expresion() ]
 	{
 		return ConstructorArbol.crearNContinue(t, etq, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NIntente intente() :
+{
+	Token ti, tf;
+	Token ti2, tf2 = null;
+	NDeclaracion d;
+	Nodo[] a, ca;
+	NAtrape c;
+	NAtrape f = null;
+	List clist = new ArrayList();
+}
+{
+	ti="intente"
+		a=acciones()
+	(
+		ti2="atrape" "(" d=declaracion() ")"
+			ca=acciones()
+		[ LOOKAHEAD(2) "fin" tf2="atrape" ]
+		{
+			clist.add(ConstructorArbol.crearNAtrape(ti2, d, ca, tf2));
+			tf2 = null;
+		}
+	)*
+	[
+		ti2="siempre"
+			ca=acciones()
+		{
+			f = ConstructorArbol.crearNAtrape(ti2, null, ca, null);
+		}
+	]
+	"fin" tf="intente"
+	{
+		NAtrape[] cc = (NAtrape[]) clist.toArray(new NAtrape[clist.size()]); 
+		return ConstructorArbol.crearNIntente(ti, a, cc, f, tf);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NLance lance() :
+{
+	NExpresion e;
+	Token t;
+}
+{
+	t="lance" e=expresion()
+	{
+		return ConstructorArbol.crearNLance(t, e);
 	}
 }
 

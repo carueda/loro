@@ -2786,6 +2786,74 @@ public class Chequeador extends ChequeadorBase
 
 	}
 	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 *
+	 */
+	public void visitar(NLance n)
+	throws VisitanteException
+	{
+		n.obtExpresion().aceptar(this);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * 
+	 */
+	public void visitar(NIntente n)
+	throws VisitanteException
+	{
+		Nodo[] acciones = n.obtAcciones();
+		NAtrape[] cc = n.obtAtrapes();
+		NAtrape f = n.obtSiempre();
+		
+		if ( cc.length == 0 && f == null )
+		{
+			throw new ChequeadorException(
+				n,
+				"Por lo menos se debe indicar un 'atrape' o un 'siempre'"
+			);
+		}
+		
+		tabSimb.marcar();
+		try
+		{
+			visitarAcciones(acciones);
+		}
+		finally
+		{
+			tabSimb.desmarcar();
+		}
+		
+		visitarAcciones(cc);
+		if ( f != null )
+			f.aceptar(this);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 *
+	 */
+	public void visitar(NAtrape n)
+	throws VisitanteException
+	{
+		tabSimb.marcar();
+		try
+		{
+			NDeclaracion d = n.obtDeclaracion();
+			if ( d != null )
+			{
+				d.aceptar(this);
+				tabSimb.ponAsignado(d.obtId().obtId(), true);		
+			}
+			visitarAcciones(n.obtAcciones());
+		}
+		finally
+		{
+			tabSimb.desmarcar();
+		}
+	}
+	
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Chequea un nodo.

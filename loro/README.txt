@@ -27,6 +27,45 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2002-11-21 Version 0.7.6
+
+Nuevo manejo de excepciones
+
+	- Nuevas palabras reservadas y sintaxis correspondiente para:
+		lance, intente, atrape, siempre
+	  Ver LoroIParser.jj. 
+	  
+	  La sintaxis para "atrapar" es:
+		"intente"
+			acciones
+			(
+				"atrape" "(" declaracion ")"
+					acciones
+				[ "fin" "atrape" ]
+			)*
+			[
+				"siempre"
+					acciones
+			]
+		"fin" "intente"
+	  
+	  y para "lanzar":
+	  	"lance" expresion
+	  
+	- Nuevos nodos para el árbol: NLance, NIntente, NAtrape.
+	- Nueva ControlLanceException.
+	- Actualizados: ConstructorArbol, IVisitante, VisitanteProfundidad, Chequeador, 
+	  LoroEjecutor, ControlException, InterpreteImpl.
+	  
+	Descripción
+		En esta primera versión (digamos, exploratoria) no se incluye la declaración de
+		si un proceso lanza o no excepciones. Además, se permite el lanzamiento de
+		cualquier tipo de expresión, incluso primitivos.
+	
+	
+	
+	  
+////////////////////////////////////////////////////////////////////////////
 2002-11-18 Version 0.7.5
 
 	- Nuevo Loro.expandExtensionFile(File file)

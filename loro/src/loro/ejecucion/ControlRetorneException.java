@@ -16,7 +16,7 @@ class ControlRetorneException extends ControlException
 
 	/////////////////////////////////////////////////////
 	/**
-	 * Crea un RetorneException.
+	 * Crea un ControlRetorneException.
 	 *
 	 * @param r Arreglo de valores de retorno.
 	 */

@@ -14,12 +14,9 @@ import loro.arbol.*;
  * algo más útil.
  *
  * @author Carlos Rueda
- * @version Jun/09/1999
- * @version Sep/21/2001 - NDeclDesc
  */
 
-public class VisitanteProfundidad
-			implements IVisitante
+public class VisitanteProfundidad implements IVisitante
 {
 
 	/**
@@ -840,4 +837,37 @@ public class VisitanteProfundidad
 	throws VisitanteException
 	{
 	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 */
+	public void visitar(NLance n)
+	throws VisitanteException
+	{
+		n.obtExpresion().aceptar(this);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 */
+	public void visitar(NIntente n)
+	throws VisitanteException
+	{
+		visitarLista(n.obtAcciones());
+		visitarLista(n.obtAtrapes());
+		if ( n.obtSiempre() != null )
+			n.obtSiempre().aceptar(this);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 */
+	public void visitar(NAtrape n)
+	throws VisitanteException
+	{
+		if ( n.obtDeclaracion() != null )
+				n.obtDeclaracion().aceptar(this);
+		visitarLista(n.obtAcciones());
+	}
+	
 }

@@ -358,6 +358,12 @@ public class LoroEjecutor extends LoroEjecutorBase
 		{
 			throw new EjecucionException(ex.obtPilaEjecucion(), ex.obtRango(), ex.getMessage());
 		}
+		catch(ControlLanceException ex)
+		{
+			throw new EjecucionException(null, null, 
+				ex.getMessage()+ "\n" +ex.obtEstadoPila()
+			);
+		}
 		catch(VisitanteException ex)
 		{
 			throw new RuntimeException("Imposible: " +
@@ -750,6 +756,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 						res[i] = _convertirValor(exprs[i], d.obtTipo(), exprs[i].obtTipo(), res[i]);
 						tabSimb.ponValor(d.obtId().obtId(), res[i]);
 					}
+				}
+				catch(ControlLanceException ex)
+				{
+					_pop();
+					throw ex;
 				}
 
 				if ( !hubo_retorne )
@@ -2391,6 +2402,101 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 
 		throw new ControlRetorneException(res, expresiones);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 */
+	public void visitar(NLance n)
+	throws VisitanteException
+	{
+		NExpresion e = n.obtExpresion();
+		Object res = _ejecutarExpresion(e);
+		throw new ControlLanceException(res, e, pilaEjec);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 *
+	 */
+	public void visitar(NIntente n)
+	throws VisitanteException
+	{
+		try
+		{
+			Nodo[] acciones = n.obtAcciones();
+			for ( int i = 0; i < acciones.length; i++ )
+				acciones[i].aceptar(this);
+		}
+		catch(ControlLanceException ex)
+		{
+			NAtrape[] cc = n.obtAtrapes();
+			Object res = ex.obtResultado();
+			NExpresion e = ex.obtExpresion();
+			Tipo te = e.obtTipo();
+			
+			// el que se ejecutará:
+			NAtrape c = null;
+			
+			try
+			{
+				for ( int i = 0; i < cc.length; i++ )
+				{
+					NDeclaracion d = cc[i].obtDeclaracion();
+					Tipo td = d.obtTipo();
+					if ( td.esAsignable(te) )
+					{
+						c = cc[i];
+						break;
+					}
+				}
+			}
+			catch (ClaseNoEncontradaException exc)
+			{
+				throw _crearEjecucionException(n,
+					"Clase no encontrada durante resolución de opción 'atrape': '" +exc.obtNombre()+ "'"
+				);
+			}
+			
+			if ( c != null )   // si hubo un atrape adecuado
+			{
+				tabSimb.marcar();
+				try
+				{
+					NDeclaracion d = c.obtDeclaracion();
+					d.aceptar(this);
+					tabSimb.ponValor(d.obtId().obtId(), res);		
+					Nodo[] cacciones = c.obtAcciones();
+					for ( int i = 0; i < cacciones.length; i++ )
+						cacciones[i].aceptar(this);
+				}
+				finally
+				{
+					tabSimb.desmarcar();
+				}
+			}
+			else
+				throw ex;      // rethrow
+		}
+		finally
+		{
+			NAtrape f = n.obtSiempre();
+			if ( f != null )
+			{
+				Nodo[] cacciones = f.obtAcciones();
+				for ( int i = 0; i < cacciones.length; i++ )
+					cacciones[i].aceptar(this);
+			}
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * No hace nada. Ver visitar(NIntente)
+	 */
+	public void visitar(NAtrape n)
+	throws VisitanteException
+	{
 	}
 	
 	//////////////////////////////////////////////////////////////////////

@@ -8,7 +8,6 @@ import loro.arbol.*;
  * para visitar un árbol sintáctico de Loro.
  *
  * @author Carlos Rueda
- * @version 2002-03-27
  */
 public interface IVisitante
 {
@@ -19,6 +18,8 @@ public interface IVisitante
 	public void visitar(NAlgoritmo n)
 	throws VisitanteException;
 	public void visitar(NAsignacion n)
+	throws VisitanteException;
+	public void visitar(NAtrape n)
 	throws VisitanteException;
 	public void visitar(NCardinalidad n)
 	throws VisitanteException;
@@ -82,9 +83,13 @@ public interface IVisitante
 	throws VisitanteException;
 	public void visitar(NImplicacion n)
 	throws VisitanteException;
+	public void visitar(NIntente n)
+	throws VisitanteException;
 	public void visitar(NInterface n)
 	throws VisitanteException;
 	public void visitar(NInvocacion n)
+	throws VisitanteException;
+	public void visitar(NLance n)
 	throws VisitanteException;
 	public void visitar(NLiteralBooleano n)
 	throws VisitanteException;

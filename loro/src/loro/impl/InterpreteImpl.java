@@ -149,6 +149,12 @@ public class InterpreteImpl implements IInterprete
 				ex.obtPilaEjecucion(), ex.obtRango(), ex.getMessage()
 			);
 		}
+		catch(ControlLanceException ex)
+		{
+			throw new EjecucionException(null, null, 
+				ex.getMessage()+ "\n" +ex.obtEstadoPila()
+			);
+		}
 		catch(VisitanteException ex)
 		{
 			throw new EjecucionException(null, null, ex.getMessage());

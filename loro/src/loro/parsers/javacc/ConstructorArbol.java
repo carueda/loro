@@ -15,7 +15,6 @@ import java.util.*;
  * arbol de derivacion.
  *
  * @author Carlos Rueda
- * @version 2002-10-06
  */
 class ConstructorArbol
 {
@@ -376,6 +375,34 @@ class ConstructorArbol
 		}
 		
 		return new NRetorne(rango, es);
+	}
+
+	//////////////////////////////////////////////////////////////////
+	static NIntente crearNIntente(Token ti, Nodo[] a, NAtrape[] cc, NAtrape f, Token tf)
+	{
+		Rango rango = obtRango(ti, tf);
+		return new NIntente(rango, a, cc, f);
+	}
+
+	//////////////////////////////////////////////////////////////////
+	static NAtrape crearNAtrape(Token ti, NDeclaracion d, Nodo[] a, Token tf)
+	{
+		Rango rango;
+		if ( tf != null )
+			rango = obtRango(ti, tf);
+		else if ( a.length > 0 )
+			rango = obtRango(ti, a[a.length - 1]);
+		else
+			rango = obtRango(ti, d);
+			
+		return new NAtrape(rango, d, a);
+	}
+
+	//////////////////////////////////////////////////////////////////
+	static NLance crearNLance(Token t, NExpresion e)
+	{
+		Rango rango = obtRango(t, e);
+		return new NLance(rango, e);
 	}
 
 	//////////////////////////////////////////////////////////////////

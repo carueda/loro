@@ -16,67 +16,71 @@ public interface LoroIParserConstants {
   int ENTERO = 22;
   int REAL = 23;
   int ALGORITMO = 24;
-  int BAJANDO = 25;
-  int CASO = 26;
-  int CICLO = 27;
-  int CIERTO = 28;
-  int CLASE = 29;
-  int COMO = 30;
-  int CONSTANTE = 31;
-  int CONSTRUCTOR = 32;
-  int CONTINUE = 33;
-  int CREAR = 34;
-  int DESDE = 35;
-  int DESCRIPCION = 36;
-  int EN = 37;
-  int ENTONCES = 38;
-  int ENTRADA = 39;
-  int ES = 40;
-  int ESPECIFICACION = 41;
-  int ESTE = 42;
-  int ESTRATEGIA = 43;
-  int EXISTE = 44;
-  int EXTIENDE = 45;
-  int FALSO = 46;
-  int FIN = 47;
-  int GLOBAL = 48;
-  int HAGA = 49;
-  int HASTA = 50;
-  int IMPLEMENTACION = 51;
-  int INICIO = 52;
-  int IMPLEMENTA = 53;
-  int INTERFACE = 54;
-  int METODO = 55;
-  int MIENTRAS = 56;
-  int NADA = 57;
-  int NULO = 58;
-  int OBJETO = 59;
-  int OPERACION = 60;
-  int PAQUETE = 61;
-  int PARA = 62;
-  int PARA_TODO = 63;
-  int PASO = 64;
-  int POS = 65;
-  int PRE = 66;
-  int REPITA = 67;
-  int RETORNE = 68;
-  int SALIDA = 69;
-  int SEGUN = 70;
-  int SI = 71;
-  int SI_NO = 72;
-  int SI_NO_si = 73;
-  int SUPER = 74;
-  int TERMINE = 75;
-  int UTILIZA = 76;
-  int LITERAL_ENTERO = 77;
-  int LITERAL_REAL = 78;
-  int EXPONENTE = 79;
-  int HEXA = 80;
-  int LITERAL_CARACTER = 81;
-  int LITERAL_CADENA = 82;
-  int ID = 83;
-  int LETRA = 84;
-  int DIGITO = 85;
+  int ATRAPE = 25;
+  int BAJANDO = 26;
+  int CASO = 27;
+  int CICLO = 28;
+  int CIERTO = 29;
+  int CLASE = 30;
+  int COMO = 31;
+  int CONSTANTE = 32;
+  int CONSTRUCTOR = 33;
+  int CONTINUE = 34;
+  int CREAR = 35;
+  int DESDE = 36;
+  int DESCRIPCION = 37;
+  int EN = 38;
+  int ENTONCES = 39;
+  int ENTRADA = 40;
+  int ES = 41;
+  int ESPECIFICACION = 42;
+  int ESTE = 43;
+  int ESTRATEGIA = 44;
+  int EXISTE = 45;
+  int EXTIENDE = 46;
+  int FALSO = 47;
+  int FIN = 48;
+  int GLOBAL = 49;
+  int HAGA = 50;
+  int HASTA = 51;
+  int IMPLEMENTACION = 52;
+  int INICIO = 53;
+  int IMPLEMENTA = 54;
+  int INTENTE = 55;
+  int INTERFACE = 56;
+  int LANCE = 57;
+  int METODO = 58;
+  int MIENTRAS = 59;
+  int NADA = 60;
+  int NULO = 61;
+  int OBJETO = 62;
+  int OPERACION = 63;
+  int PAQUETE = 64;
+  int PARA = 65;
+  int PARA_TODO = 66;
+  int PASO = 67;
+  int POS = 68;
+  int PRE = 69;
+  int REPITA = 70;
+  int RETORNE = 71;
+  int SALIDA = 72;
+  int SEGUN = 73;
+  int SI = 74;
+  int SI_NO = 75;
+  int SI_NO_si = 76;
+  int SIEMPRE = 77;
+  int SUPER = 78;
+  int TERMINE = 79;
+  int UTILIZA = 80;
+  int LITERAL_ENTERO = 81;
+  int LITERAL_REAL = 82;
+  int EXPONENTE = 83;
+  int HEXA = 84;
+  int LITERAL_CARACTER = 85;
+  int LITERAL_CADENA = 86;
+  int ID = 87;
+  int LETRA = 88;
+  int DIGITO = 89;
 
   int DEFAULT = 0;
   int IN_SINGLE_LINE_COMMENT = 1;
@@ -112,6 +116,7 @@ public interface LoroIParserConstants {
     "\"entero\"",
     "\"real\"",
     "\"algoritmo\"",
+    "\"atrape\"",
     "\"bajando\"",
     "\"caso\"",
     "\"ciclo\"",
@@ -141,7 +146,9 @@ public interface LoroIParserConstants {
     "<IMPLEMENTACION>",
     "\"inicio\"",
     "\"implementa\"",
+    "\"intente\"",
     "\"interface\"",
+    "\"lance\"",
     "<METODO>",
     "\"mientras\"",
     "\"nada\"",
@@ -161,7 +168,8 @@ public interface LoroIParserConstants {
     "\"si\"",
     "\"si_no\"",
     "\"si_no_si\"",
-    "\"super\"",
+    "\"siempre\"",
+    "<SUPER>",
     "\"termine\"",
     "\"utiliza\"",
     "<LITERAL_ENTERO>",
