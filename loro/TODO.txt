@@ -1,0 +1,13 @@
+- Definir concepto de "orden de búsqueda"
+  Quizá OroLoaderManager podría encargarse de todo este asunto
+  (incluyendo el coreOroLoader y el dirGuardarOroLoader)
+  El orden siempre comenzaría con:
+	1) coreOroLoader
+	2) dirGuardarOroLoader
+	3) directorios
+	4) extensiones
+  pero falta definirse completamente.
+		  
+- Compilación "integral" de un directorio al estilo de como el Entorno
+  compila un proyecto completo.
+
