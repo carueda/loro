@@ -1543,7 +1543,7 @@ public class GUI
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Abre el edita del guión de demostración.
+	 * Abre el editor del guión de demostración.
 	 */
 	public static UEditor editDemo()
 	{

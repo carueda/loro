@@ -21,7 +21,7 @@ inicio
 
 	// ciclo para interactuar con el usuario varias veces
 	// hasta que se desee:
-	ciclo
+	ciclo /interaccion/
 		// despliegue un menu de algoritmos para escoger:
 		escribirln("Escoja el algoritmo para fibo: ");
 		escribirln("  i-terativo");
@@ -47,6 +47,10 @@ inicio
 				escribir("Nombre de algoritmo: ");
 				alg: algoritmo;
 				alg := obtAlgoritmo(leerCadena());
+				si alg = nulo entonces
+					escribirln("Algoritmo no encontrado.");
+					continue /interaccion/;
+				fin si;
 				fib := alg como algoritmo para fibo;
 			fin caso;
 		fin según;
