@@ -2903,9 +2903,9 @@ public class Chequeador extends ChequeadorBase
 		// e puede ser un arreglo o cadena:
 		else if ( e_tipo.esArreglo() || e_tipo.esCadena() ) {
 			String oper = id.obtId();
-			if ( oper.equals("longitud")
-			||   oper.equals("inf")
-			||   oper.equals("sup") ) {
+			if ( oper.equals(Str.get("length"))
+			||   oper.equals(Str.get("inf"))
+			||   oper.equals(Str.get("sup")) ) {
 				n.ponTipo(Tipo.entero);
 				return;
 			}

@@ -2753,11 +2753,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 			}
 			
 			String oper = id.obtId();
-			if ( oper.equals("longitud") )
+			if ( oper.equals(Str.get("length")) )
 				retorno = new Integer(size);
-			else if ( oper.equals("inf") )
+			else if ( oper.equals(Str.get("inf")) )
 				retorno = new Integer(base);
-			else if ( oper.equals("sup") )
+			else if ( oper.equals(Str.get("sup")) )
 				retorno = new Integer(base + size - 1);
 			else
 			{

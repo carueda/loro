@@ -2,6 +2,10 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-07-06 Version 0.8pre4
+	- strings for special operations on arrays: length, inf, sup 
+	
+////////////////////////////////////////////////////////////////////////////
 2004-07-05 Version 0.8pre3
 	- Language changes:
 		- Pre-/post-conditions are not required
