@@ -1,6 +1,7 @@
 package loroedi;
 
 import util.jterm.JTerm;
+import util.jterm.JTermListener;
 import util.jterm.ITextArea;
 import util.jterm.taimp.*;
 
@@ -28,7 +29,7 @@ import java.net.URL;
  * @author Carlos Rueda
  */
 public abstract class InterpreterWindow extends Thread
-implements ActionListener
+implements ActionListener, JTermListener
 {
 	protected static final String PROMPT         =  " $ ";
 	protected static final String PREFIX_EXPR    =  "=  ";
@@ -56,6 +57,7 @@ implements ActionListener
 
 	ObservadorPP obspp;	
 
+	String title;
 
 	/////////////////////////////////////////////////////////////////////
 	/**
@@ -68,6 +70,7 @@ implements ActionListener
 	public InterpreterWindow(String title, String hello, boolean newSymTab, boolean ejecutorpp)
 	{
 		super();
+		this.title = title;
 
 		ta = JETextArea.createJEditTextArea(
 			PROMPT,
@@ -76,11 +79,12 @@ implements ActionListener
 			false
 		);
 		term = new JTerm((ITextArea) ta);
+		term.addJTermListener(this);
 
 		pw = new PrintWriter(term.getWriter());
 		br = new BufferedReader(term.getReader());
 
-		obspp = ejecutorpp ? new ObservadorPP() : null;
+		obspp = ejecutorpp ? new ObservadorPP(this) : null;
 		
 		loroii = Loro.crearInterprete(br, pw, newSymTab, obspp);
 
@@ -178,6 +182,16 @@ implements ActionListener
 	protected abstract void body()
 	throws Exception;
 	
+	///////////////////////////////////////////////////////////////////////
+	void enableTraceableButtons(boolean enable)
+	{
+		if ( loroii.isTraceable() )
+		{
+			butStep.setEnabled(enable);
+			butStepInto.setEnabled(enable);
+			butResume.setEnabled(enable);
+		}
+	}
 	
 	///////////////////////////////////////////////////////////////////////
 	protected void handleException(Exception exc)
@@ -251,12 +265,7 @@ implements ActionListener
 		{
 			butCerrar.setEnabled(true);
 			butTerminar.setEnabled(false);
-			if ( loroii.isTraceable() )
-			{
-				butStep.setEnabled(false);
-				butStepInto.setEnabled(false);
-				butResume.setEnabled(false);
-			}
+			enableTraceableButtons(false);
 			GUI.updateSymbolTable();
 		}
 	}
@@ -267,9 +276,7 @@ implements ActionListener
 		String cmd = e.getActionCommand();
 		if ( cmd.equals("close") )
 		{
-			if ( obspp != null )
-				obspp.end();
-			frame.setVisible(false);
+			close();
 		}
 		else if ( cmd.equals("terminate") )
 		{
@@ -476,6 +483,22 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		procesarLoro(text);
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	/** For JTermListener */
+	public void waitingRead(boolean reading)
+	{
+		enableTraceableButtons(!reading);
+		if ( reading )
+		{
+			frame.setTitle(title+ " <<ESPERANDO ENTRADA POR TECLADO>>");
+			term.requestFocus();
+		}
+		else
+		{
+			frame.setTitle(title);
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////
 	/**
 	 * @param s Initial part to include in the read string.
@@ -485,26 +508,19 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	{
 		term.setInitialStringToRead(s);
 		butTerminar.setEnabled(execute);
-		if ( loroii.isTraceable() )
-		{
-			// no queremos control de seguimiento mientras se lee:
-			butStep.setEnabled(false);
-			butStepInto.setEnabled(false);
-			butResume.setEnabled(false);
-		}
+		// no queremos control de seguimiento mientras se lee:
+		enableTraceableButtons(false);
+		frame.setTitle(title+ " <<ESPERANDO ENTRADA POR TECLADO>>");
 		readingThread = Thread.currentThread();
+		term.requestFocus();
 		try
 		{
 			return br.readLine();
 		}
 		finally
 		{
-			if ( loroii.isTraceable() )
-			{
-				butStep.setEnabled(execute);
-				butStepInto.setEnabled(execute);
-				butResume.setEnabled(execute);
-			}
+			frame.setTitle(title);
+			enableTraceableButtons(execute);
 			readingThread = null;
 		}
 	}
@@ -522,24 +538,14 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 
 			// habilite el boton de terminacion si el modo es ejecucion:
 			butTerminar.setEnabled(execute);
-			if ( loroii.isTraceable() )
-			{
-				butStep.setEnabled(execute);
-				butStepInto.setEnabled(execute);
-				butResume.setEnabled(execute);
-			}
+			enableTraceableButtons(execute);
 			
 			if ( execute )
 			{
 				String res = loroii.ejecutar(text);
 				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 				butTerminar.setEnabled(false);
-				if ( loroii.isTraceable() )
-				{
-					butStep.setEnabled(false);
-					butStepInto.setEnabled(false);
-					butResume.setEnabled(false);
-				}
+				enableTraceableButtons(false);
 				
 				if ( term.somethingWritten() )
 				{
@@ -570,12 +576,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 				pw.println();
 			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 			butTerminar.setEnabled(false);
-			if ( loroii.isTraceable() )
-			{
-				butStep.setEnabled(false);
-				butStepInto.setEnabled(false);
-				butResume.setEnabled(false);
-			}
+			enableTraceableButtons(false);
 		}
 	}
 	
@@ -591,17 +592,23 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	///////////////////////////////////////////////
 	protected void close()
 	{
-		try
+		if ( butCerrar.isEnabled() )
 		{
-			pw.close();
-			br.close();
-		}
-		catch(Exception e)
-		{
-		}
-		finally
-		{
-			frame.dispose();
+			if ( obspp != null )
+				obspp.end();
+			try
+			{
+				frame.setVisible(false);
+				pw.close();
+				br.close();
+			}
+			catch(Exception e)
+			{
+			}
+			finally
+			{
+				frame.dispose();
+			}
 		}
 	}
 }

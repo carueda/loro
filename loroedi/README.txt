@@ -66,7 +66,17 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-02-13 (0.8pre8)
 
-	- Más ajustes menores en GUI.init() y en el splash.
+	- Ejecución paso-a-paso
+		- Ahora se muestra un aviso al usuario cuando se está esperando 
+		  una entrada de datos (lectura). 
+	  	- Problema: A veces "pasar" en un nodo interno hace regresar a un
+		  nivel menor y además propagarse su efecto más de lo
+		  debido. En gran parte corregido, pero hay que probar.
+		- Problema: A veces se resalta mal cuando recién se regresa de
+		  la invocación de un algoritmo. Debe definirse manejo repetido
+		  exit() vs. pop().
+	
+	- GUI: Más ajustes menores en GUI.init() y en el splash.
 
 ////////////////////////////////////////////////////////////////////////////
 2003-02-12 (0.8pre8)
