@@ -60,19 +60,6 @@ public interface IInterprete
 	 */
 	public boolean isTraceable();
 
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Siguiente paso en la ejecucion en curso.
-	 */
-	public void nextStep()
-	throws InterruptedException;
-
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Continuar en la ejecucion en curso.
-	 */
-	public void resume();
-
 	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Pone a todas las variables el estado de asignacion indicado.

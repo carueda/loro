@@ -65,15 +65,6 @@ public class InterpreteImpl implements IInterprete
 		if ( obspp != null )
 		{
 			ejecutor = new EjecutorPP(tabSimbBase, ui);
-	
-			try
-			{
-				ejecutor.ponSenalPP(0);
-			}
-			catch(InterruptedException ex)
-			{
-			}
-			
 			ejecutor.ponObservadorPP(obspp); 
 		}
 		else
@@ -209,19 +200,6 @@ public class InterpreteImpl implements IInterprete
 		ejecutor.terminarExternamente();
 	}
 	
-	///////////////////////////////////////////////////////////////////////
-	public void nextStep()
-	throws InterruptedException
-	{
-		ejecutor.ponSenalPP(0);
-	}
-
-	///////////////////////////////////////////////////////////////////////
-	public void resume()
-	{
-		ejecutor.resume();
-	}
-
 	///////////////////////////////////////////////////////////////////////
 	String valorComillas(Nodo n, Object o)
 	throws LException

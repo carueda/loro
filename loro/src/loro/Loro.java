@@ -9,6 +9,7 @@ import loro.util.*;
 import loro.util.Logger;
 import loro.tipo.Tipo;
 import loro.tabsimb.TablaSimbolos;
+import loro.visitante.Descriptor;
 
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -571,6 +572,20 @@ public final class Loro
 		return null;
 	}	
 
+	//////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene una descripción concisa del tipo del nodo dado.
+	 *
+	 * @param n   El nodo a describir.
+	 *
+	 * @return La descripción concisa del tipo del nodo dado.
+	 */
+	public static String getNodeDescription(INodo n)
+	{
+		_verificarIniciado();
+		return Descriptor.getDescription(n);
+	}
+		
 	//////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene una especificación.

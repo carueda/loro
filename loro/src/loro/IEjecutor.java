@@ -46,18 +46,6 @@ public interface IEjecutor
 	
 	//////////////////////////////////////////////////////
 	/**
-	 * Pone senal para ejecución paso-a-paso.
-	 * 
-	 * POR COMPLEMENTAR.
-	 *
-	 * @throws UnsupportedOperationException Si este ejecutor
-	 *         no puede admite esta operación.
-	 */
-	public void ponSenalPP(int senal)
-	throws InterruptedException;
-
-	//////////////////////////////////////////////////////
-	/**
 	 * Pone observador para ejecución paso-a-paso.
 	 * 
 	 * POR COMPLEMENTAR.

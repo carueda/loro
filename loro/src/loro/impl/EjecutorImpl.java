@@ -57,13 +57,6 @@ public class EjecutorImpl implements IEjecutor
 	}
 	
 	//////////////////////////////////////////////////////
-	public void ponSenalPP(int senal)
-	throws InterruptedException
-	{
-		loroEjecutor.ponSenalPP(senal);
-	}
-
-	//////////////////////////////////////////////////////
 	public void ponObservadorPP(IObservadorPP obspp)
 	{
 		loroEjecutor.ponObservadorPP(obspp);

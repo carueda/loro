@@ -27,6 +27,23 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2003-02-11 Version 0.7.7
+
+	- Nuevo servicio Loro.getNodeDescription(INodo n) que obtiene una
+	  descripción concisa del tipo del nodo dado.
+	  Se apoya en una nueva clase loro.visitante.Descriptor, la que
+	  a su vez se apoya en una clase static interna que opera como
+	  visitante para obtener la descripción.
+	  Pendiente: precisar estas descripciones (por ejemplo en un nodo
+	  NMas convendría distinguir entre suma aritmética o concatenación
+	  de cadenas).
+	  
+	- Eliminado loro.ejecucion.ControlPP
+	  A nivel del núcleo el seguimiento paso-a-paso se reduce al
+	  mecanismo de notificación a un IObservadorPP, en quien recaerá
+	  la responsabilidad de la sincronización de hilos, si es del caso.
+
+////////////////////////////////////////////////////////////////////////////
 2003-02-10 Version 0.7.7
 
 Ejecución paso-a-paso

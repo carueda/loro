@@ -1056,26 +1056,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	/**
 	 * @throws UnsupportedOperationException
 	 */
-	public void ponSenalPP(int senal)
-	throws InterruptedException
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	//////////////////////////////////////////////////////
-	/**
-	 * @throws UnsupportedOperationException
-	 */
 	public void ponObservadorPP(IObservadorPP obspp)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	//////////////////////////////////////////////////////
-	/**
-	 * @throws UnsupportedOperationException
-	 */
-	public void resume()
 	{
 		throw new UnsupportedOperationException();
 	}

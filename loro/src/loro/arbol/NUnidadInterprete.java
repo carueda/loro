@@ -44,4 +44,11 @@ public class NUnidadInterprete extends NUnidad
 	{
 		throw new IllegalStateException("NUnidadInterprete.getTypeString() called!");
 	}
+
+
+	///////////////////////////////////////////////////////////
+	public String toString()
+	{
+		return "Unidad de interpretación";
+	}
 }
