@@ -13,24 +13,27 @@ import java.util.*;
  */
 public class InterpreteInteractivo
 {
-	static final String PROMPT         =  " $ ";
-	static final String PREFIX_EXPR    =  "=  ";
-	static final String PREFIX_INVALID =  "!  ";
-	static final String PREFIX_SPECIAL =  "   ";
-
+	/////////////////////////////////////////////////////////////////////
+	public static void main(String[] args)
+	throws Exception
+	{
+		processArgs(args);
+		init();
+		execute();
+		end();
+	}
+	
 	static PrintWriter pw;
 	static BufferedReader br;
+	static IInterprete loroi;
+	static IInterprete.IInteractiveInterpreter ii;
 
-	static IInterprete loroii;
-
-	// prepare valores de configuracion para Loro:
 	static String ext_dir = "";
 	static String oro_dir = ".";
 	static String paths_dir = "";
 
 	/////////////////////////////////////////////////////////////////////
-	public static void main(String[] args)
-	throws Exception
+	static void processArgs(String[] args)
 	{
 		int arg = 0;
 		while ( arg < args.length && args[arg].startsWith("-") )
@@ -44,7 +47,7 @@ public class InterpreteInteractivo
 				else
 				{
 					System.out.println(obtUso());
-					return;
+					System.exit(1);
 				}
 			}
 			else if ( args[arg].equals("-ext") )
@@ -56,30 +59,20 @@ public class InterpreteInteractivo
 				else
 				{
 					System.out.println(obtUso());
-					return;
+					System.exit(1);
 				}
 			}
 			else if ( args[arg].startsWith("-ayuda") )
 			{
 				System.out.println(obtUso());
-				return;
+				System.exit(0);
 			}
 			arg++;
 		}
-		iniciar();
-		ejecutar();
-		finalizar();
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////
-	static void finalizar()
-	throws Exception
-	{
-		Loro.cerrar();
-	}
-	
-	/////////////////////////////////////////////////////////////////////
-	static void iniciar()
+	static void init()
 	throws Exception
 	{
 		// Inicie sistema Loro:
@@ -97,92 +90,42 @@ public class InterpreteInteractivo
 		pw = new PrintWriter(System.out, true);
 		br = new BufferedReader(new InputStreamReader(System.in));
 
-		loroii = Loro.crearInterprete(br, pw, false, null);
-
-		pw.println(
-			Loro.obtNombre()+ " " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")\n" +
-			"Escriba .? para obtener una ayuda"
-		);
+		loroi = Loro.crearInterprete(br, pw, false, null);
+		ii = loroi.getInteractiveInterpreter();
+		loroi.setMetaListener(new IInterprete.IMetaListener()
+		{
+			String info = ".salir        - Termina el modo interactivo";
+			
+			///////////////////////////////////////////////////////////////////////
+			public String getInfo()
+			{
+				return info;
+			}
+			
+			public String execute(String meta)
+			{
+				String res = null;
+				if ( meta.equals(".salir") )
+				{
+					ii.end();
+					res = "** modo interactivo terminado **";
+				}
+				return res;
+			}
+		});
 	}
 
-	///////////////////////////////////////////////////////////////////////
-	static void ejecutar()
+	/////////////////////////////////////////////////////////////////////
+	static void execute()
 	{
-		while ( true )
-		{
-			String msg = null;
-
-			try
-			{
-				pw.print(PROMPT);
-				pw.flush();
-				String text = br.readLine();
-				if ( text == null )
-				{
-					break;
-				}
-				text = text.trim();
-				if ( text.length() == 0 )
-				{
-					continue;
-				}
-
-
-				procesarLoro(text);
-			}
-			catch ( EjecucionException ex )
-			{
-				StringWriter sw = new StringWriter();
-					ex.printStackTrace(new PrintWriter(sw));
-					msg = ex.getMessage() + "\n" +sw.toString();
-			}
-			catch(CompilacionException ex)
-			{
-				msg = ex.getMessage();
-			}
-			catch(Exception ex)
-			{
-				StringWriter sw = new StringWriter();
-				PrintWriter psw = new PrintWriter(sw);
-				psw.println("INESPERADO");
-				ex.printStackTrace(psw);
-				psw.println(
-"Esta es una anomalía del sistema. Por favor, consulte la ayuda general (F1)\n"+
-"para saber si se trata de un problema ya reconocido o es nuevo, en cuyo caso\n"+
-"encontrará instrucciones sobre cómo notificarlo y así tenerlo en cuenta para\n"+
-"corregirlo en una próxima versión. Gracias."
-				);
-				msg = sw.toString();
-			}
-
-			if ( msg != null )
-			{
-				pw.println(PREFIX_INVALID + msg);
-			}
-		}
+		ii.run();
 	}
-
-	///////////////////////////////////////////////////////////////////////
-	static void procesarLoro(String text)
-	throws AnalisisException
+	
+	/////////////////////////////////////////////////////////////////////
+	static void end()
+	throws Exception
 	{
-		try
-		{
-			if ( loroii.getExecute() )
-			{
-				String res = loroii.ejecutar(text);
-				if ( res != null )
-					pw.println(PREFIX_EXPR + res);
-			}
-			else
-			{
-				loroii.compilar(text);
-			}
-		}
-		finally
-		{
-			pw.println();
-		}
+		Loro.cerrar();
 	}
 	
 	/////////////////////////////////////////////////////////////////

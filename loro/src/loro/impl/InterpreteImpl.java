@@ -1,6 +1,5 @@
 package loro.impl;
 
-
 import loro.visitante.VisitanteException;
 import loro.compilacion.*;
 import loro.arbol.Nodo;
@@ -8,18 +7,16 @@ import loro.arbol.NExpresion;
 import loro.arbol.NUnidadInterprete;
 import loro.arbol.NUtiliza;
 import loro.ejecucion.*;
-import loro.util.Util;
-
-import java.io.*;
-import java.util.*;
-
+import loro.util.*;
 import loro.tabsimb.*;
 import loro.tipo.Tipo;
 import loro.derivacion.*;
 import loro.ijava.LException;
 import loro.*;
 
-import loro.util.UtilValor;
+import java.io.*;
+import java.util.*;
+
 
 /////////////////////////////////////////////////////////////////////
 /**
@@ -37,7 +34,19 @@ public class InterpreteImpl implements IInterprete
 
 	IDerivador derivador;
 	
+	BufferedReader br = null;
 	PrintWriter pw = null;
+	PrefixWriter prefixw;
+
+	String version =	
+		"Intérprete Interactivo de Loro\n" +
+		Loro.obtNombre()+ " versión " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")"
+	;
+
+	IMetaListener base_ml;
+	
+	boolean interactive;
+	IInteractiveInterpreter interactiveInterpreter;
 
 
 	/////////////////////////////////////////////////////////////////////
@@ -78,12 +87,26 @@ public class InterpreteImpl implements IInterprete
 		
 		
 		if ( r != null )
-			ejecutor.ponEntradaEstandar(new BufferedReader(r));
+		{
+			br = new BufferedReader(r);
+			ejecutor.ponEntradaEstandar(br);
+		}
 		if ( w != null )
 		{
-			pw = new PrintWriter(w);
+			if ( w instanceof PrintWriter )
+				pw = (PrintWriter) w;
+			else
+				pw = new PrintWriter(w, true);
+			prefixw = new PrefixWriter(pw);
+			pw = new PrintWriter(prefixw);
+
 			ejecutor.ponSalidaEstandar(pw);
 		}
+		
+		base_ml = new MetaListener();
+		
+		// created on demand
+		interactiveInterpreter = null;
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -144,13 +167,7 @@ public class InterpreteImpl implements IInterprete
 	public String procesar(String text)
 	throws AnalisisException
 	{
-		if ( execute )
-			return ejecutar(text);
-		else
-		{
-			compilar(text);
-			return null;
-		}
+		return (String) eval(text, true);
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -163,11 +180,7 @@ public class InterpreteImpl implements IInterprete
 		Object ret = null;
 		List list = _compilar(text);
 		if ( list == null || list.size() == 0 )
-		{
-			// un comentario.
-			return null;
-		}
-		
+			return null;   // un comentario.
 		
 		try
 		{
@@ -182,10 +195,8 @@ public class InterpreteImpl implements IInterprete
 					{
 						ret = null;
 					}
-					else
+					else if ( execute )
 					{
-						////////////////////
-						// fase ejecucion:
 						ui.setSourceCode(text);
 						ejecutor.reset(tabSimbBase, ui);
 						n.aceptar(ejecutor);
@@ -196,10 +207,10 @@ public class InterpreteImpl implements IInterprete
 				}
 				else
 				{
-					// metacomando.
 					String meta = (String) obj;
-					System.out.println("meta=" +meta);
-					metaProcesar("." +meta);
+					ret = base_ml.execute("." +meta);
+					pw.println(ret);
+					ret = null;
 				}
 			}
 			
@@ -264,18 +275,12 @@ public class InterpreteImpl implements IInterprete
 
 				char q = 0;
 				if ( tipo.esCaracter() )
-				{
 					q = '\'';
-				}
 				else if ( tipo.esCadena() )
-				{
 					q = '\"';
-				}
 
 				if ( q != 0 )
-				{
 					res = Util.quote(q, res);
-				}
 			}
 			else if ( tipo.esUnit() )
 			{
@@ -322,128 +327,6 @@ public class InterpreteImpl implements IInterprete
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	private void metaProcesar(String text)
-	{
-		String msg;
-
-		if ( text.equals(".?") )
-		{
-			msg =
-"El Intérprete Interactivo permite ejecutar instrucciones de\n"+
-"manera inmediata. Escribe una instrucción a continuación del\n"+
-"indicador y presiona Entrar.\n" +
-"\n"+
-"Hay algunos comandos especiales para el propio intérprete\n"+
-"reconocidos porque empiezan con punto (.):\n"+
-"\n"+
-"   .?            - Muestra esta ayuda\n" +
-"   .vars         - Muestra las variables declaradas actualmente\n" +
-"   .borrar ID    - Borra la declaración de la variable indicada\n" +
-"   .borrarvars   - Borra todas las variables declaradas\n" +
-"   .verobj nivel - Pone máximo nivel para visualizar objetos\n"+
-"   .verarr long  - Pone máxima longitud para visualizar arreglos\n" +
-"   .version      - Muestra información general sobre versión del sistema\n" +
-"   .??           - Muestra otros comandos avanzados"
-			;
-		}
-		else if ( text.equals(".??") )
-		{
-			msg =
-"Comandos avanzados:\n"+
-"   .modo         - Muestra el modo de interpretación actual.\n" +
-"                   Hay dos modos de operación:\n" +
-"                     - ejecución completa (por defecto)\n" +
-"                     - sólo compilación (usar con cuidado)\n" +
-"   .cambiarmodo  - Intercambia el modo de interpretación\n"+
-"   .gc           - Reciclar memoria\n"
-			;
-		}
-		else if ( text.equals(".vars") )
-		{
-			msg = tabSimbBase.toString();
-		}
-		else if ( text.equals(".modo") )
-		{
-			msg = obtModo(execute);
-		}
-		else if ( text.equals(".borrarvars") )
-		{
-			this.reiniciar();
-			msg = tabSimbBase.toString();
-		}
-		else if ( text.startsWith(".borrar") )
-		{
-			StringTokenizer st = new StringTokenizer(text.substring(".borrar".length()));
-			try
-			{
-				String id = st.nextToken();
-				msg = id+ " " +(this.quitarID(id)
-					? "borrado" 
-					: "no declarado"
-				);
-			}
-			catch ( Exception ex )
-			{
-				msg = "Indique un nombre de variable";
-			}
-		}
-		else if ( text.equals(".cambiarmodo") )
-		{
-			execute = !execute;
-			if ( execute )
-			{
-				// se acaba de pasar de "solo compilacion" a "ejecucion".
-				// Hacer que todas las variables figuren como sin asignacion:
-				this.ponAsignado(false);
-			}
-			msg = "Modo cambiado a: " +obtModo(execute);
-		}
-		else if ( text.equals(".version") )
-		{
-			msg =
-"Lenguaje Loro\n"+
-Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
-			;
-		}
-		else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )
-		{
-			StringTokenizer st = new StringTokenizer(text);
-			try
-			{
-				st.nextToken(); // ignore comando
-				int num = Integer.parseInt(st.nextToken());
-				if ( text.startsWith(".verobj") )
-				{
-					this.ponNivelVerObjeto(num);
-				}
-				else
-				{
-					this.ponLongitudVerArreglo(num);
-				}
-				msg = "";
-			}
-			catch ( Exception ex )
-			{
-				msg = "Indique un valor numérico";
-			}
-		}
-		else if ( text.equals(".gc") )
-		{
-			System.gc();
-			msg = "free memory = " +Runtime.getRuntime().freeMemory()+ "  " +
-			      "total memory = " +Runtime.getRuntime().totalMemory()
-			;
-		}
-		else
-		{
-			msg = text+ ": comando no entendido.    .? para obtener ayuda.";
-		}
-
-		if ( pw != null )
-			pw.println(msg);
-	}
-
-	///////////////////////////////////////////////////////////////////////
 	static String obtModo(boolean execute)
 	{
 		return execute ? "Interpretación completa con ejecución"
@@ -451,5 +334,269 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 		;
 	}
 
+	///////////////////////////////////////////////////////////////////////
+	public void setMetaListener(IMetaListener ml)
+	{
+		((MetaListener) base_ml).client = ml;
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////
+	// Base listener for meta-commands
+	private class MetaListener implements IMetaListener
+	{
+		/** Client listener. */
+		IMetaListener client = null;
+		
+		String info =
+".?            - Muestra esta ayuda\n" +
+".vars         - Muestra las variables declaradas actualmente\n" +
+".borrar ID    - Borra la declaración de la variable indicada\n" +
+".borrarvars   - Borra todas las variables declaradas\n" +
+".verobj nivel - Pone máximo nivel para visualizar objetos\n"+
+".verarr long  - Pone máxima longitud para visualizar arreglos\n" +
+".version      - Muestra información general sobre versión del sistema\n" +
+".modo         - Muestra el modo de interpretación actual.\n" +
+"                Hay dos modos de operación:\n" +
+"                  - ejecución completa (por defecto)\n" +
+"                  - sólo compilación (usar con cuidado)\n" +
+".cambiarmodo  - Intercambia el modo de interpretación\n"+
+".gc           - Recicla memoria"
+		;
+		
+		///////////////////////////////////////////////////////////////////////
+		public String getInfo()
+		{
+			if ( client != null )
+				return info + "\n" + client.getInfo();
+			else
+				return info;
+		}
+		
+		///////////////////////////////////////////////////////////////////////
+		// never returns null.
+		public String execute(String text)
+		{
+			String msg = null;
+			
+			if ( client != null )
+				msg = client.execute(text);
+	
+			if ( msg != null )
+			{
+				// procesado por cliente meta-listener.
+			}
+			else if ( text.equals(".?") )
+			{
+				msg = getInfo();
+			}
+			else if ( text.equals(".vars") )
+			{
+				msg = tabSimbBase.toString();
+			}
+			else if ( text.equals(".modo") )
+			{
+				msg = obtModo(execute);
+			}
+			else if ( text.equals(".borrarvars") )
+			{
+				reiniciar();
+				msg = tabSimbBase.toString();
+			}
+			else if ( text.startsWith(".borrar") )
+			{
+				StringTokenizer st = new StringTokenizer(text.substring(".borrar".length()));
+				try
+				{
+					String id = st.nextToken();
+					msg = id+ " " +(quitarID(id)
+						? "borrado" 
+						: "no declarado"
+					);
+				}
+				catch ( Exception ex )
+				{
+					msg = "Indique un nombre de variable";
+				}
+			}
+			else if ( text.equals(".cambiarmodo") )
+			{
+				execute = !execute;
+				if ( execute )
+				{
+					// se acaba de pasar de "solo compilacion" a "ejecucion".
+					// Hacer que todas las variables figuren como sin asignacion:
+					ponAsignado(false);
+				}
+				msg = "Modo cambiado a: " +obtModo(execute);
+			}
+			else if ( text.equals(".version") )
+			{
+				msg = version;
+			}
+			else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )
+			{
+				StringTokenizer st = new StringTokenizer(text);
+				try
+				{
+					st.nextToken(); // ignore comando
+					int num = Integer.parseInt(st.nextToken());
+					if ( text.startsWith(".verobj") )
+						ponNivelVerObjeto(num);
+					else
+						ponLongitudVerArreglo(num);
+					
+					msg = "";
+				}
+				catch ( Exception ex )
+				{
+					msg = "Indique un valor numérico";
+				}
+			}
+			else if ( text.equals(".salir") )
+			{
+				interactive = false;
+				msg = "** modo interactivo terminado **";
+			}
+			else if ( text.equals(".gc") )
+			{
+				System.gc();
+				msg = "free memory = " +Runtime.getRuntime().freeMemory()+ "  " +
+					  "total memory = " +Runtime.getRuntime().totalMemory()
+				;
+			}
+			else
+			{
+				msg = text+ ": meta-comando no entendido.\n" +
+					  "Escribe .? para obtener una ayuda\n";
+			}
+	
+			return msg;
+		}
+	
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////
+	public IInteractiveInterpreter getInteractiveInterpreter()
+	{
+		if ( interactiveInterpreter == null )
+		{
+			interactive = true;
+			interactiveInterpreter = new InteractiveInterpreter();
+		}
+		
+		return interactiveInterpreter;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	private class InteractiveInterpreter implements IInteractiveInterpreter
+	{
+		String prompt         =  " $ ";
+		String prefix_expr    =  "=  ";
+		String prefix_invalid =  "!  ";
+		String prefix_special =  "   ";
+		
+		///////////////////////////////////////////////////////////////////////
+		public void setPrompt(String prompt)
+		{
+			this.prompt = prompt;
+		}
 
+		///////////////////////////////////////////////////////////////////////
+		public void setPrefixes(String expr, String invalid, String special)
+		{
+			this.prefix_expr    = expr;
+			this.prefix_invalid = invalid;
+			this.prefix_special = special;
+		}
+
+		///////////////////////////////////////////////////////////////////////
+		public void end()
+		{
+			interactive = false;
+		}
+		
+		///////////////////////////////////////////////////////////////////////
+		public void run()
+		{
+			String prefix = prefix_special;
+			
+			if ( interactive )
+			{
+				prefixw.setPrefix(prefix);
+				pw.println(
+					prefix +
+					version+ "\n" +
+					"Escribe .? para obtener una ayuda\n"
+				);
+			}
+			
+			while ( interactive )
+			{
+				String res = null;  // normal output
+				
+				prefix = null;
+				prefixw.setPrefix(prefix);
+				pw.print(prompt);
+				pw.flush();
+	
+				try
+				{
+					String text = br.readLine();
+					if ( text == null )
+						break;
+					text = text.trim();
+					if ( text.length() == 0 )
+						continue;
+	
+					prefixw.setPrefix(prefix_special);
+					pw.print(prefix_special);
+					res = procesar(text);
+					prefix = prefix_expr;
+				}
+				catch ( EjecucionException ex )
+				{
+					prefix = prefix_invalid;
+					if ( ex.esTerminacionInterna() )
+					{
+						res = "Ejecución terminada. Código de terminación = " 
+							+ex.obtCodigoTerminacionInterna()
+						;
+					}
+					else
+					{
+						StringWriter sw = new StringWriter();
+						ex.printStackTrace(new PrintWriter(sw));
+						res = ex.getMessage() + "\n" +sw.toString();
+					}
+				}
+				catch(CompilacionException ex)
+				{
+					prefix = prefix_invalid;
+					res = ex.getMessage() + "\n";
+				}
+				catch ( InterruptedIOException ex )
+				{
+					// ignore
+				}
+				catch(Exception ex)
+				{
+					prefix = prefix_invalid;
+					StringWriter sw = new StringWriter();
+					PrintWriter psw = new PrintWriter(sw);
+					psw.println("INESPERADO");
+					ex.printStackTrace(psw);
+					psw.println("Esta es una anomalía del sistema.");
+					res = sw.toString();
+				}
+	
+				prefixw.setPrefix(null);
+				pw.println();
+				prefixw.setPrefix(prefix);
+				if ( res != null )
+					pw.println(res);
+			}
+		}
+	}
 }

@@ -226,6 +226,9 @@ public class ManejadorEntradaSalida implements LManejadorES
 	 */
 	public void ponSalidaEstandar(Writer w)
 	{
-		pw = new PrintWriter(w);
+		if ( w instanceof PrintWriter )
+			pw = (PrintWriter) w;
+		else
+			pw = new PrintWriter(w, true);
 	}
 }

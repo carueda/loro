@@ -1,20 +1,5 @@
 Loro README
 
-	pendientes:
-	
-		- Definir concepto de "orden de búsqueda"
-		  Quizá OroLoaderManager podría encargarse de todo este asunto
-		  (incluyendo el coreOroLoader y el dirGuardarOroLoader)
-		  El orden siempre comenzaría con:
-			1) coreOroLoader
-			2) dirGuardarOroLoader
-			3) directorios
-			4) extensiones
-		  pero falta definirse completamente.
-		  
-		- Compilación "integral" de un directorio al estilo de como el Entorno
-		  compila un proyecto completo.
-
 NOTAS
 	
 	- Si un elemento dentro de un paquete foo necesita referenciar un
@@ -25,6 +10,21 @@ NOTAS
 	  desde un paquete nombrado ni siquiera con un 'import' --el import 
 	  no acepta un nombre simple.)
 
+////////////////////////////////////////////////////////////////////////////
+2003-04-28 Version 0.7.91
+
+Más avances en rediseño de interpretación
+	- Ajustes en InterpreteImpl/IInterprete.
+	- Nueva interfaz IInterprete.IInteractiveInterpreter
+	- Nueva interfaz IInterprete.IMetaListener
+	- Nueva clase loro.util.PrefixWriter que define un flujo con manejo de prefix
+	  al estilo de JTerm.
+	- Pruebas preliminares siguen haciéndose en loro.tools.InterpreteInteractivo
+	  que ya empieza a funcionar aceptablemente (aún no se modifican otros clientes).
+	  
+Misc.
+	- Nuevo TODO.txt
+	
 ////////////////////////////////////////////////////////////////////////////
 2003-04-24 Version 0.7.91
 
