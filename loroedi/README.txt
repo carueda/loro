@@ -3,6 +3,8 @@ $Id$
 
 ////////////////////////////////////////////////////////////////////////////
 2004-03-26 (0.8.3)
+	- Un poco de actualizacion de documentos, base_dist/doc/*
+	
 	- build.xml: <jar ...> now uses <manifest>.
 
 	New IzPack installation:

@@ -212,7 +212,12 @@
 			<replacefilter token="@VERSION@" value="${VERSION}"/>
 			<replacefilter token="@BUILD@"   value="${DSTAMP}"/>
 		</replace>
-    </target>
+
+		<replace file="${dir.installer}/doc/index.html">
+			<replacefilter token="@VERSION@" value="${VERSION}"/>
+			<replacefilter token="@BUILD@"   value="${DSTAMP}"/>
+		</replace>
+	</target>
 
   <target name="nanoproperties" depends="init"
    description="Actualiza las propiedades para hacer el instalador">
