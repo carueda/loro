@@ -166,7 +166,7 @@ class EDICompiler
 		}
 		catch ( LoroException ex )
 		{
-			loro.Loro.log("LoroEDI: "+
+			Loro.log("LoroEDI: "+
 				"Error al generar documentación: " +ex.getMessage()
 			);
 		}
