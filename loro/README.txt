@@ -26,7 +26,16 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
-2003-02-15 Version 0.7.7
+2003-02-25 Version 0.7.8
+
+	- LoroEjecutor.ejecutarAlgoritmoBsh ahora hace:
+	      res = _convertirRetornoDeJava(res);
+	  para convertir debidamente el valor retornado por BeanShell (de
+	  forma similar a ejecutarAlgoritmoJava()).
+
+
+////////////////////////////////////////////////////////////////////////////
+2003-02-15 Version 0.7.7  (final)
 
 Sobre nuevo código de implementación "usr"
 

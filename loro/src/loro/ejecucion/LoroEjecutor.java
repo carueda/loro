@@ -238,6 +238,9 @@ public class LoroEjecutor extends LoroEjecutorBase
 				String out_id = psal[0].obtId().obtId();
 				res = bsh.get(out_id);
 			}
+			
+			// Convierta retorno:
+			res = _convertirRetornoDeJava(res);
 		}
 		catch ( bsh.EvalError ex )
 		{
