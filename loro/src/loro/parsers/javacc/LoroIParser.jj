@@ -1897,17 +1897,9 @@ NExpresion e_prefijoPrimaria() :
 			e = ConstructorArbol.crearNExpresionArreglo(ti, list, tf);
 		}
 	  |
-		//LOOKAHEAD(3)  Ya no porque se quito conversion de tipo de abajo
 		e=e_nombre()
-
-/* ******
- Sintaxis vieja para conversion de tipo (quitada 2002-03-27)	  
 	  |
-		t=ntipo() "(" e=expresion() tf=")"     // conversión
-		{
-			e = ConstructorArbol.crearNConvertirTipo(e, t, tf);
-		}
-****** */
+		e=e_qualified_nombre()
 	  |
 		"(" e=expresion() ")" 
 	  |
@@ -2113,6 +2105,30 @@ NExpresion e_nombre() : // id1::id2::id3
 		TId[] a = new TId[size];
 		v.copyInto(a);
 		return ConstructorArbol.crearNNombre(a);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_qualified_nombre() : // unittype id1::id2::id3
+{
+	Token ti;
+	Vector v = new Vector();
+	String what;
+	TId t;
+}
+{
+	(
+		ti=<ALGORITMO>    { what = "algorithm"; }
+	  |
+		ti=<OBJETO>    { what = "object"; }
+	)
+	t=tid()              { v.addElement(t); }
+	( LOOKAHEAD(2) "::" t=tid()  { v.addElement(t); } )*
+	{
+		int size = v.size();
+		TId[] a = new TId[size];
+		v.copyInto(a);
+		return ConstructorArbol.createNQualifiedName(ti, what, a);
 	}
 }
 

@@ -419,6 +419,12 @@ public class Descriptor
 			description = Str.get("node.name");
 		}
 		
+		public void visitar(NQualifiedName n)
+		throws VisitanteException
+		{
+			description = Str.get("node.qualified_name");
+		}
+		
 		public void visitar(NO n)
 		throws VisitanteException
 		{

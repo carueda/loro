@@ -26,7 +26,6 @@ import java.io.PrintWriter;
 import java.util.*;
 
 
-/////////////////////////////////////////////////////////////////////
 /**
  * Visitante básico para ejecución. 
  * Aquí se implementan propiamente las operaciones visitar(*) de la
@@ -40,7 +39,6 @@ import java.util.*;
  */
 public class LoroEjecutor extends LoroEjecutorBase
 {
-	////////////////////////////////////////////////////////////////
 	/**
 	 * Crea un ejecutor.
 	 * La tabla de simbolos de base se pone en null.
@@ -63,7 +61,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 	}
 
 
-	///////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta un algoritmo implementado en Java.
 	 *
@@ -186,7 +183,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		return res;
 	}
 
-	///////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta un algoritmo implementado en BeanShell.
 	 *
@@ -266,7 +262,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		return res;
 	}
 
-	///////////////////////////////////////////////////////////////////
 	/**
 	 * Simulación "usr" para ejecutar algoritmo.
 	 *
@@ -293,7 +288,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		);
 	}
 	
-	///////////////////////////////////////////////////////////////////
 	/**
 	 * Conversion de argumento para invocacion de metodo en Java.
 	 */
@@ -322,7 +316,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		return arg;
 	}
 
-	//////////////////////////////////////////////////////////////
 	public LObjeto crearInstancia(LClase c)
 	throws LException
 	{
@@ -338,14 +331,12 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 
-	//////////////////////////////////////////////////////////////
 	public LObjeto obtEste()
 	throws LException
 	{
 		return este;
 	}
 
-	////////////////////////////////////////////////////////////////////
 	/**
 	 * Auxiliar para ejecutar un algoritmo con argumentos dados.
 	 */
@@ -436,7 +427,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta un algoritmo con argumentos dados.
 	 */
@@ -448,7 +438,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		return _ejecutarAlgoritmo(true, alg, args, true);
 	}
 
-	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Para cuando se llame desde línea de comandos.
 	 * Este hace preparativos y llama a ejecutarAlgoritmo(alg, Object[]).
@@ -563,7 +552,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 	
 
 
-	////////////////////////////////////////////////////////
 	public LAlgoritmo obtAlgoritmo(String nombre) {
 		NAlgoritmo alg = mu.obtAlgoritmo(nombre);
 		if ( alg != null )
@@ -573,7 +561,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 	}
 
 
-	////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta el nodo.
 	 */
@@ -583,7 +570,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		NExpresion e = n.obtExpresion();
 		retorno = UtilValor.comoCadena(_ejecutarExpresion(e));
 	}
-	/////////////////////////////////////////////////////////////////////
+	
 	/**
 	 * Ejecuta un nodo afirmacion.
 	 */
@@ -617,7 +604,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 			throw _crearEjecucionException(expresion, a+ ": "+n.obtCadena());
 		}
 	}
-	//////////////////////////////////////////////////////////////////////
+	
 	/**
 	 * Visita un algoritmo para su ejecucion.
 	 *
@@ -935,7 +922,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta una asignación.
 	 */
@@ -984,7 +970,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = val;
 	}
-	////////////////////////////////////////////////////////////
+	
 	/**
 	 * Ejecuta el nodo.
 	 */
@@ -1028,7 +1014,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = new Integer(res);
 	}
-	////////////////////////////////////////////////////////////
+	
 	/**
 	 * Ejecuta el nodo.
 	 */
@@ -1041,7 +1027,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 			acciones[i].aceptar(this);
 		}
 	}
-	///////////////////////////////////////////////////////////////////////
+	
 	/**
 	 */
 	public void visitar(NCiclo n)
@@ -1084,7 +1070,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Por cumplir con la implementación.  NO se usa.
 	 */
@@ -1094,7 +1079,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		throw new RuntimeException("Internal eror: Ejecutor.visitar(NClase) called");
 	}
 	
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Por cumplir con la implementación.  NO se usa.
 	 */
@@ -1104,8 +1088,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		throw new RuntimeException("Internal eror: Ejecutor.visitar(NInterface) called");
 	}
 	
-	/**
-	 */
 	public void visitar(NCondicion n)
 	throws VisitanteException
 	{
@@ -1119,7 +1101,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 			retorno = _ejecutarExpresion(n.obtSegundaAlternativa());
 		}
 	}
-	///////////////////////////////////////////////////////////////////
+	
 	/**
 	 * Visita un constructor para su ejecucion.
 	 *
@@ -1229,10 +1211,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = obj;
 	}
-	///////////////////////////////////////////
-	/**
-	 * PENDIENTE
-	 */
+	
 	public void visitar(NContinue n)
 	throws VisitanteException
 	{
@@ -1252,8 +1231,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 			throw new ControlInteracionException(false, etq);
 		}
 	}
-	/**
-	 */
+	
 	public void visitar(NConvertirTipo n)
 	throws VisitanteException
 	{
@@ -1262,9 +1240,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = _convertirValor(n, n.obtTipo(), e.obtTipo(), val);
 	}
-	/**
-	 * PENDIENTE
-	 */
+	
 	public void visitar(NCorrDer n)
 	throws VisitanteException
 	{
@@ -1274,9 +1250,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		int fv = ((Integer)_ejecutarExpresion(f)).intValue();
 		retorno = new Integer(ev >> fv);
 	}
-	/**
-	 * PENDIENTE
-	 */
+	
 	public void visitar(NCorrDerDer n)
 	throws VisitanteException
 	{
@@ -1286,8 +1260,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		int fv = ((Integer)_ejecutarExpresion(f)).intValue();
 		retorno = new Integer(ev >>> fv);
 	}
-	/**
-	 */
+	
 	public void visitar(NCorrIzq n)
 	throws VisitanteException
 	{
@@ -1298,7 +1271,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		retorno = new Integer(ev << fv);
 	}
 	
-	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Visita una expresión arreglo.
 	 * Se crea un arreglo con los valores de las expresiones correspondientes.
@@ -1322,7 +1294,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		retorno = vals;
 	}
 	
-	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta una creacion de arreglo.
 	 */
@@ -1373,17 +1344,13 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 */
 	public void visitar(NCrearArregloTipoBase n)
 	throws VisitanteException
 	{
 		Tipo tipo = n.obtTipo();
 		retorno = tipo.obtValorDefecto();
 	}
-	/**
-	 */
+	
 	public void visitar(NCrearObjeto n)
 	throws VisitanteException
 	{
@@ -1403,7 +1370,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		NConstructor constructor = n.obtConstructor();
 		constructor.aceptar(this);
 	}
-	/////////////////////////////////////////////////////////////
+	
 	/**
 	 * Ejecuta una expresión cuantificada.
 	 *
@@ -1417,7 +1384,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		afirmacionCiertaPorCuantificacion = true;
 	}
 	
-	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta una decision.
 	 */
@@ -1473,7 +1439,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	//////////////////////////////////////////////////////////////////////
 	/**
 	 * No debe llamarse. La ejecucion de un fragmento "si_no_si" se hace
 	 * desde la misma decision.
@@ -1485,8 +1450,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 	}
 	
 	
-	/**
-	 */
 	public void visitar(NDecisionMultiple n)
 	throws VisitanteException
 	{
@@ -1523,7 +1486,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		if ( si_no != null && ( !hubo_caso || seguir_ejecutando) )
 			si_no.aceptar(this);
 	}
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta una declaracion.
 	 */
@@ -1602,7 +1564,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 	throws VisitanteException
 	{
 	}
-	////////////////////////////////////////////////////////////////
 	/**
 	 */
 	public void visitar(NDiferente n)
@@ -1614,8 +1575,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		Object f_val = _ejecutarExpresion(f);
 		retorno = new Boolean(! Util.valoresIguales(e_val, f_val));
 	}
-	/**
-	 */
 	public void visitar(NDivReal n)
 	throws VisitanteException
 	{
@@ -1636,8 +1595,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 			throw _crearEjecucionException(n, Str.get("rt.error.arithmetic"));
 		}
 	}
-	/**
-	 */
 	public void visitar(NEquivalencia n)
 	throws VisitanteException
 	{
@@ -1649,7 +1606,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		);
 	}
 	
-	////////////////////////////////////////////////////////////
 	public void visitar(NEsInstanciaDe n)
 	throws VisitanteException
 	{
@@ -1670,7 +1626,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	///////////////////////////////////////////////////////////////////
 	/**
 	 * NO SE USA. Vea _visitarCondicion(NEspecificacion, int).
 	 */
@@ -1682,7 +1637,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		);
 	}
 
-	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta una expresión "éste".
 	 */
@@ -1703,11 +1657,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 		);
 	}
 
-	/////////////////////////////////////////////////////////////////
 	/**
-	 * Ejecuta un nodo NId.
+	 * Ejecuta un nodo NId.  Version vieja buggy
+	 * Ver mas abajo por nueva version.
 	 */
-	public void visitar(NId n)
+	public void visitar__OLD(NId n)
 	throws VisitanteException
 	{
 		if ( enInvocacion )
@@ -1763,7 +1717,26 @@ public class LoroEjecutor extends LoroEjecutorBase
 	}
 
 	/**
+	 * Ejecuta un nodo NId.  2004-06-30: Version nueva
 	 */
+	public void visitar(NId n) throws VisitanteException {
+		if ( _resolverIdEnTablaSimbolos(n)
+		||   _resolverIdEnAmbiente(n) ) {
+			// OK
+		}
+		else {
+			// problema: genere exception:
+			if ( enInvocacion )
+				throw _crearEjecucionException(n,
+					Str.get("error.1_algorithm_not_found", n.obtId())
+				);
+			else
+				throw _crearEjecucionException(n,
+					Str.get("error.1_id_undefined", n.obtId())
+				);
+		}
+	}
+
 	public void visitar(NIgual n)
 	throws VisitanteException
 	{
@@ -1879,9 +1852,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		// Igualdad satisfecha por instanciacion:
 		retorno = Boolean.TRUE;
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NImplicacion n)
 	throws VisitanteException
 	{
@@ -1908,152 +1878,137 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		// haga primero una ejecución directa de los argumentos,
 		// más abajo se revisa posible conversión de estos valores:
-		for ( int i = 0; i < args.length; i++ )
-		{
+		for ( int i = 0; i < args.length; i++ ) {
 			a[i] = _ejecutarExpresion(args[i]);
 		}
 
 		LObjeto save_este = este;
+		boolean save_enInvocacion = enInvocacion;
+		LObjeto save_objInvocado = objInvocado;
 
-		// ejecute la expresión que se va a invocar:
-		objInvocado = null;
-		enInvocacion = expr instanceof NId || expr instanceof NSubId;
-		Object invoc = _ejecutarExpresion(expr);
-		enInvocacion = false;
-
-		if ( invoc instanceof NAlgoritmo )
-		{
-			NAlgoritmo alg = (NAlgoritmo) invoc;
-
-			// confronte con los tipos esperados para posible conversion
-			// de valores:
-			NDeclaracion[] pent = alg.obtParametrosEntrada();
-			for ( int i = 0; i < args.length; i++ )
-			{
-				a[i] = _convertirValor(
-							args[i],            // nodo
-							pent[i].obtTipo(),  // tipo esperado
-							args[i].obtTipo(),  // tipo valor
-							a[i]                // valor
-				);
-			}
-
+		try {
+			// ejecute la expresión que se va a invocar:
+			objInvocado = null;
+			enInvocacion = expr instanceof NId || expr instanceof NSubId;
+			Object invoc = _ejecutarExpresion(expr);
 			
-			este = objInvocado;
-			argsParaAlgoritmo = a;
+			enInvocacion = save_enInvocacion;
 
-			// todo listo para ejecutar el algoritmo:
-			try
-			{
-				alg.aceptar(this);
-			}
-			finally
-			{
-				este = save_este;
-			}
-		}
-		else if ( invoc instanceof LAlgoritmo )
-		{
-			// PENDIENTE (2001-10-11)
-			// Hacer mismo manejo que con NAlgoritmo sobre posible
-			// conversion de valores.
+			if ( invoc instanceof NAlgoritmo ) {
+				NAlgoritmo alg = (NAlgoritmo) invoc;
+	
+				// confronte con los tipos esperados para posible conversion
+				// de valores:
+				NDeclaracion[] pent = alg.obtParametrosEntrada();
 
-			LAlgoritmo lalg = (LAlgoritmo) invoc;
-			try
-			{
-				retorno = lalg.ejecutar(a);
+				if ( pent.length != args.length ) {
+					throw new RuntimeException(
+						"pent.length=" +pent.length+ " != " +args.length+ "=args.length\n"+
+						"expr = " +expr+ "\n"+
+						"alg = " +alg+ "  " +alg.getTypeString()+ "\n"
+					);
+				}
+				
+				for ( int i = 0; i < args.length; i++ ) {
+					a[i] = _convertirValor(
+								args[i],            // nodo
+								pent[i].obtTipo(),  // tipo esperado
+								args[i].obtTipo(),  // tipo valor
+								a[i]                // valor
+					);
+				}
+	
+				
+				este = objInvocado;
+				argsParaAlgoritmo = a;
+	
+				// todo listo para ejecutar el algoritmo:
+				try {
+					alg.aceptar(this);
+				}
+				finally {
+					este = save_este;
+				}
 			}
-			catch(LException ex)
-			{
-				throw _crearEjecucionException(expr,
-					"Error executing LAlgoritmo: " +ex.getMessage()
+			else if ( invoc instanceof LAlgoritmo ) {
+				// PENDIENTE (2001-10-11)
+				// Hacer mismo manejo que con NAlgoritmo sobre posible
+				// conversion de valores.
+	
+				LAlgoritmo lalg = (LAlgoritmo) invoc;
+				try {
+					retorno = lalg.ejecutar(a);
+				}
+				catch(LException ex) {
+					throw _crearEjecucionException(expr,
+						"Error executing LAlgoritmo: " +ex.getMessage()
+					);
+				}
+			}
+			else if ( invoc instanceof LMethod ) {
+				// PENDIENTE (2001-10-11)
+				// Hacer mismo manejo que con NAlgoritmo sobre posible
+				// conversion de valores.
+	
+				LMethod lalg = (LMethod) invoc;
+				try {
+					retorno = lalg.invoke(este, a);
+				}
+				catch(LException ex) {
+					throw _crearEjecucionException(expr,
+						"Error invoking LMethod: " +ex.getMessage()
+					);
+				}
+			}
+			else if ( invoc == null ) {
+				throw _crearEjecucionException(n,
+					Str.get("rt.error.null_algorithm_called")
+				);
+			}
+			else {
+				throw new RuntimeException(
+					"Internal error: invoc is " +invoc.getClass().toString()
+						+ "\ninvoc.toString()= " +invoc
 				);
 			}
 		}
-		else if ( invoc instanceof LMethod )
-		{
-			// PENDIENTE (2001-10-11)
-			// Hacer mismo manejo que con NAlgoritmo sobre posible
-			// conversion de valores.
-
-			LMethod lalg = (LMethod) invoc;
-			try
-			{
-				retorno = lalg.invoke(este, a);
-			}
-			catch(LException ex)
-			{
-				throw _crearEjecucionException(expr,
-					"Error invoking LMethod: " +ex.getMessage()
-				);
-			}
-		}
-		else if ( invoc == null )
-		{
-			throw _crearEjecucionException(n,
-				Str.get("rt.error.null_algorithm_called")
-			);
-		}
-		else
-		{
-			throw new RuntimeException(
-				"Internal error: invoc is " +invoc.getClass().toString()
-					+ "\ninvoc.toString()= " +invoc
-			);
+		finally {
+			enInvocacion = save_enInvocacion;
+			objInvocado = save_objInvocado;
 		}
 	}
-	/**
-	 * PENDIENTE
-	 */
+	
 	public void visitar(NLiteralBooleano n)
 	throws VisitanteException
 	{
 		retorno = n.obtValor();
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NLiteralCadena n)
 	throws VisitanteException
 	{
 		retorno = n.obtValor();
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NLiteralCaracter n)
 	throws VisitanteException
 	{
 		retorno = n.obtValor();
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NLiteralEntero n)
 	throws VisitanteException
 	{
 		retorno = n.obtValor();
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NLiteralNulo n)
 	throws VisitanteException
 	{
 		retorno = n.obtValor();
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NLiteralReal n)
 	throws VisitanteException
 	{
 		retorno = n.obtValor();
 	}
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 * PENDIENTE
-	 */
+	
 	public void visitar(NMas n)
 	throws VisitanteException
 	{
@@ -2077,9 +2032,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 				retorno = new Double(ev.doubleValue() + fv.doubleValue());
 		}
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NMayor n)
 	throws VisitanteException
 	{
@@ -2109,9 +2061,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = new Boolean(res);
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NMayorIgual n)
 	throws VisitanteException
 	{
@@ -2141,9 +2090,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = new Boolean(res);
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NMenor n)
 	throws VisitanteException
 	{
@@ -2173,9 +2119,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = new Boolean(res);
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NMenorIgual n)
 	throws VisitanteException
 	{
@@ -2205,8 +2148,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = new Boolean(res);
 	}
-	/**
-	 */
 	public void visitar(NMenos n)
 	throws VisitanteException
 	{
@@ -2220,8 +2161,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		else
 			retorno = new Double(ev.doubleValue() - fv.doubleValue());
 	}
-	/**
-	 */
 	public void visitar(NMientras n)
 	throws VisitanteException
 	{
@@ -2262,8 +2201,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 			}
 		}
 	}
-	/**
-	 */
 	public void visitar(NMod n)
 	throws VisitanteException
 	{
@@ -2274,8 +2211,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 		retorno = new Integer(ev.intValue() % fv.intValue());
 	}
-	/**
-	 */
 	public void visitar(NNeg n)
 	throws VisitanteException
 	{
@@ -2288,8 +2223,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		else
 			retorno = new Double( - ev.doubleValue() );
 	}
-	/**
-	 */
 	public void visitar(NNo n)
 	throws VisitanteException
 	{
@@ -2297,8 +2230,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		Boolean ev = (Boolean) _ejecutarExpresion(e);
 		retorno = new Boolean( ! ev.booleanValue() );
 	}
-	/**
-	 */
 	public void visitar(NNoBit n)
 	throws VisitanteException
 	{
@@ -2326,9 +2257,21 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 		retorno = alg;
 	}
-	/**
-	 * PENDIENTE
-	 */
+	/** Visits a NQualifiedName */
+	public void visitar(NQualifiedName n) throws VisitanteException {
+		// Se busca por paquete:
+		TNombre nom = n.obtNombre();
+		NAlgoritmo alg = _obtAlgoritmoParaNombre(nom);
+		if ( alg == null ) {
+			throw _crearEjecucionException(n,
+				Str.get("rt.error.1_name_not_found", nom)
+			);
+		}
+		retorno = alg;
+	}
+
+
+
 	public void visitar(NO n)
 	throws VisitanteException
 	{
@@ -2339,8 +2282,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 				|| ((Boolean)_ejecutarExpresion(f)).booleanValue()
 		);
 	}
-	/**
-	 */
 	public void visitar(NOArit n)
 	throws VisitanteException
 	{
@@ -2361,8 +2302,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 			);
 		}
 	}
-	/**
-	 */
 	public void visitar(NOExc n)
 	throws VisitanteException
 	{
@@ -2383,17 +2322,12 @@ public class LoroEjecutor extends LoroEjecutorBase
 			);
 		}
 	}
-	/**
-	 */
 	public void visitar(NPaquete n)
 	throws VisitanteException
 	{
 		throw new RuntimeException("Internal error: visitar(NPaquete) called");
 	}
 
-	//////////////////////////////////////////////////////////////
-	/**
-	 */
 	public void visitar(NForEach n)
 	throws VisitanteException
 	{
@@ -2493,9 +2427,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	//////////////////////////////////////////////////////////////
-	/**
-	 */
 	public void visitar(NPara n)
 	throws VisitanteException
 	{
@@ -2597,16 +2528,12 @@ public class LoroEjecutor extends LoroEjecutorBase
 			}
 		}
 	}
-	/**
-	 */
 	public void visitar(NPlus n)
 	throws VisitanteException
 	{
 		NExpresion e = n.obtExpresion();
 		retorno = _ejecutarExpresion(e);
 	}
-	/**
-	 */
 	public void visitar(NPor n)
 	throws VisitanteException
 	{
@@ -2620,9 +2547,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		else
 			retorno = new Double(ev.doubleValue() * fv.doubleValue());
 	}
-	///////////////////////////////////////////////////////////////////
-	/**
-	 */
 	public void visitar(NRepita n)
 	throws VisitanteException
 	{
@@ -2660,9 +2584,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 		while ( ! ((Boolean)_ejecutarExpresion(expr)).booleanValue() );
 	}
-	///////////////////////////////////////////////////////////////
-	/**
-	 */
 	public void visitar(NRetorne n)
 	throws VisitanteException
 	{
@@ -2676,9 +2597,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		throw new ControlRetorneException(res, expresiones);
 	}
 	
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 */
 	public void visitar(NLance n)
 	throws VisitanteException
 	{
@@ -2687,10 +2605,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		throw new ControlLanceException(res, e, pilaEjec);
 	}
 	
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 *
-	 */
 	public void visitar(NIntente n)
 	throws VisitanteException
 	{
@@ -2773,7 +2687,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	//////////////////////////////////////////////////////////////////////
 	/**
 	 * No hace nada. Ver visitar(NIntente)
 	 */
@@ -2862,7 +2775,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 	
-	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta una subindización.
 	 */
@@ -2878,10 +2790,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		retorno = _obtValorDeArreglo(obj, i, e);
 	}
 	
-	///////////////////////////////////////////////////////////////
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NTermine n)
 	throws VisitanteException
 	{
@@ -2902,7 +2810,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 
-	///////////////////////////////////////////////////////////////
 	/**
 	 * Por cumplir con la implementación.
 	 * Genera un RuntimeException.
@@ -2912,9 +2819,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 	{
 		throw new RuntimeException("Internal error: Ejecutor.visitar(NUtiliza) called");
 	}
-	/**
-	 * PENDIENTE
-	 */
 	public void visitar(NY n)
 	throws VisitanteException
 	{
@@ -2925,8 +2829,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 				&& ((Boolean)_ejecutarExpresion(f)).booleanValue()
 		);
 	}
-	/**
-	 */
 	public void visitar(NYArit n)
 	throws VisitanteException
 	{
@@ -2948,7 +2850,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */
@@ -2962,7 +2863,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		n.ponTipo(Tipo.arreglo(te));
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */
@@ -2972,7 +2872,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		n.ponTipo(Tipo.booleano);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */
@@ -2982,7 +2881,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		n.ponTipo(Tipo.cadena);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */
@@ -2992,7 +2890,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		n.ponTipo(Tipo.caracter);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */
@@ -3012,7 +2909,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		n.ponTipo(tipo);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */
@@ -3022,7 +2918,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		n.ponTipo(Tipo.entero);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 * Un algoritmo se indica para una cierta especificacion,
@@ -3052,7 +2947,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		n.ponTipo(tipo);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */
@@ -3119,7 +3013,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 	}
 
-	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
 	 */

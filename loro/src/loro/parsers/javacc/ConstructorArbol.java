@@ -794,6 +794,13 @@ class ConstructorArbol
 	}
 
 	//////////////////////////////////////////////////////////////////
+	static NQualifiedName createNQualifiedName(Token ti, String what, TId[] nom)
+	{
+		Rango rango = obtRango(ti, nom[nom.length -1]);
+		return new NQualifiedName(rango, what, new TNombre(nom));
+	}
+
+	//////////////////////////////////////////////////////////////////
 	static NNombre crearNNombre(TId[] nom)
 	{
 		return new NNombre(new TNombre(nom));

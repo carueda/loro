@@ -2,6 +2,52 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-06-30 Version 0.8pre2
+	- Compare 
+		Chequeador.visitar(NId)  
+		LoroEjecutor.visitar(NId)
+	  Chequador siempre intenta primero resolver el id en la tabla de
+	  simbolos (sea enInvocacion on no), y luego en el ambiente.
+	  Pero LoroEjecutor operaba distinto dependiendo de si se esta enInvocacion
+	  o no. Ver LoroEjecutor.visitar__OLD(NId).  Acabo de ajustar
+	  LoroEjecutor.visitar(NId) para que opere consistentemente como
+	  en Chequeador.
+	  
+	  El esquema anterior provocaba el siguiente BUG: suponga que en el ambiente
+	  existe un algoritmo de cero entradas alg(). Suponga ademas que se ha
+	  declarado una variable alg (mismo nombre) para alguna especificacion
+	  ESPEC1 que indica 1 (este ejemplo es con diferencia en el numero de
+	  entradas pero el problema es en general para cualquier par de algoritmos
+	  que sean para *distintas* especificaciones). Ahora suponga que invocamos
+	  un tercer algoritmo foo que recibe como entrada un algoritmo para ESPEC1,
+	  es decir, invocamos foo(alg). Que pasaba? alg se resolvia en runtime como
+	  el algoritmo alg de cero entradas y no como el algoritmo para ESPEC1
+	  asignado a la *variable* alg en la tabla de simbolos!
+	  
+	  Ahora bien, deberia en general ofrecerse algun mecanismo para permitirle
+	  al usuario diferenciar entre los dos valores de algoritmos a traves del
+	  mismo nombre ``alg''?
+	  
+	  	// Existe algoritmo alg que es algoritmo para ESPEC_A
+		...
+		alg: algoritmo para ESPEC_B := ...
+		...
+		alg();    <<--  cual algoritmo?
+		
+	  Se deja entonces el esquema de utilizar la tabla de simbolos primero y
+	  entonces la invocacion se refiere al algoritmo para ESPEC_B. Si el usuario
+	  quiere tener acceso a ambos algoritmos, entonces tiene dos alternativas:
+	  1) utilizar otro nombre para la variable declarada (simple!)
+	  2) utilizar un nombre "qualified" para referenciar directamente a un valor
+	     algoritmo u objeto en el ambiente:
+			algoritmo alg      // el algoritmo para ESPEC_A
+			objeto obj         // algun objeto existente (no implementado aun)
+	  Para permitir esta seguna alternativa agregue a la gramatica la 
+	  expresion e_qualified_nombre(), el nuevo nodo NQualifiedName y se 
+	  ajustaron todas las clases visitantes. 
+
+
+////////////////////////////////////////////////////////////////////////////
 2004-06-29 Version 0.8pre1
 	- new ILanguageInfo to provide meta information about the current
 	  programming language. Currently it only gives lists of keywords

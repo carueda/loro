@@ -677,6 +677,7 @@ public class VisitanteProfundidad implements IVisitante
 	{
 		n.obtExpresion().aceptar(this);
 	}
+
 	/**
 	 * Visita una expresión binaria de *.
 	 * Pide en orden a las expresiones operadas que acepten este visitante.
@@ -687,6 +688,15 @@ public class VisitanteProfundidad implements IVisitante
 		n.obtExpresionIzq().aceptar(this);
 		n.obtExpresionDer().aceptar(this);
 	}
+
+	/**
+	 * Visits a NQualifiedName
+	 */
+	public void visitar(NQualifiedName n)
+	throws VisitanteException
+	{
+	}
+
 	/**
 	 * Visita una acción repita.
 	 * Se recorren los nodos hijos así:

@@ -145,6 +145,8 @@ public interface IVisitante
 	throws VisitanteException;
 	public void visitar(NPor n)
 	throws VisitanteException;
+	public void visitar(NQualifiedName n)
+	throws VisitanteException;
 	public void visitar(NRepita n)
 	throws VisitanteException;
 	public void visitar(NRetorne n)

@@ -2362,6 +2362,46 @@ public class Chequeador extends ChequeadorBase
 		}
 	}
 	
+	////////////////////////////////////////////////////////////////
+	/** Visits a NQualifiedName */
+	public void visitar(NQualifiedName n)
+	throws VisitanteException
+	{
+		String what = n.getWhat();
+		TNombre nom = n.obtNombre();
+		TId[] ids = nom.obtIds();
+		if ( !enAfirmacion ) {
+			for (int i = 0; i < ids.length; i++) {
+				if ( Util.esVarSemantica(ids[i]) ) {
+					throw new ChequeadorException(ids[i],
+						Str.get("error.1_invalid_place_for", ids[i])
+					);
+				}
+			}
+		}
+
+		if ( what.equals("algorithm") ) {
+			NAlgoritmo alg = _obtAlgoritmoParaNombre(nom);
+			if ( alg == null ) {
+				throw new ChequeadorException(n,
+					Str.get("error.1_undefined_algorithm", nom.obtCadena())
+				);
+			}
+			Tipo tipo = Tipo.especificacion(alg.obtNombreEspecificacion());
+			n.ponTipo(tipo);
+		}
+		else if ( what.equals("object") ) {
+			throw new ChequeadorException(n,
+				"search for object: not yet implemented"
+			);
+		}
+		else {
+			throw new RuntimeException(
+				"EXPECTED: algorithm or object"
+			);
+		}
+	}
+	
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Chequea un nodo.

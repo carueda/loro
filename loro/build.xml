@@ -108,6 +108,7 @@
 			classpath="${bsh.jar}"
 			debug="on"
 			encoding="ISO8859_1"
+			source="1.4"
        />
     </target>
 
@@ -128,6 +129,7 @@
 			classpath="${build}/classes"
 			debug="on"
 			encoding="ISO8859_1"
+			source="1.4"
 		/>
     </target>
 
