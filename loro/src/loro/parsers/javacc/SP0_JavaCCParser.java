@@ -1,5 +1,6 @@
 package loro.parsers.javacc;
 
+import loro.ILanguageInfo;
 import loro.DerivacionException;
 import loro.derivacion.*;
 import loro.arbol.*;
@@ -135,6 +136,95 @@ public class SP0_JavaCCParser extends BaseParser {
 		//parser = new LoroIParser(new StringReader(texto));
 		ConstructorArbol.ponTexto(texto);
 		return this;
+	}
+
+
+	private static String[] keywords1 = {
+		"clase",
+		"interfaz",
+		"interface",
+		"objeto",
+		"especificacion",
+		"especificación",
+		"implementacion",
+		"implementación",
+		"algoritmo",
+		"termine",
+		"crear",
+		"caso",
+		"continue",
+		"constructor",
+		"si_no",
+		"si_no_si",
+		"haga",
+		"para",
+		"desde",
+		"hasta",
+		"bajando",
+		"paso",
+		"inicio",
+		"fin",
+		"ciclo",
+		"repita",
+		"si",
+		"entonces",
+		"es_instancia_de",
+		"como",
+		"en",
+		"existe",
+		"para_todo",
+		"global",
+		"retorne",
+		"siempre",
+		"segun",
+		"según",
+		"mientras",
+		"lance",
+		"intente",
+		"atrape",
+		"extiende",
+		"implementa",
+		"operacion",
+		"operación",
+		"metodo",
+		"método",
+//			"lanza",
+		"caracter",
+		"cadena",
+		"entero",
+		"real",
+		"booleano",
+	};
+	private static String[] keywords2 = {
+		"paquete",
+		"utiliza",
+	};
+	private static String[] keywords3 = {
+		"nada",
+		"descripcion",
+		"descripción",
+		"estrategia",
+		"pre",
+		"pos",
+		"entrada",
+		"salida",
+		"constante",
+		"este",
+		"éste",
+		"super",
+		"súper",
+	};
+	private static String[] literals = {
+		"nulo",
+		"cierto",
+		"falso",
+	};
+	
+	public static class MetaInfo implements ILanguageInfo {
+		public String[] getKeywords1() { return keywords1; }
+		public String[] getKeywords2() { return keywords2; }
+		public String[] getKeywords3() { return keywords3; }
+		public String[] getLiterals()  { return literals; }
 	}
 }
 

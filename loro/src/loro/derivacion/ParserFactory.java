@@ -1,6 +1,8 @@
 // $Id$
 package loro.derivacion;
 
+import loro.ILanguageInfo;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -15,9 +17,17 @@ public final class ParserFactory {
 	/** Code of English-0 parser */
 	public static final String EN_0 = "en-0";
 
+	private static class Pair {
+		IDerivador parser;
+		ILanguageInfo langInfo;
+		Pair(IDerivador parser, ILanguageInfo langInfo) {
+			this.parser = parser;
+			this.langInfo = langInfo;
+		}
+	}
 
 	/** available parsers. */
-	private static Map /*name->IDerivador*/ parsers;
+	private static Map /*name->Pair*/ parsers;
 	
 	/** current language code */
 	private static String currCode;
@@ -25,8 +35,18 @@ public final class ParserFactory {
 	/** initialization: must be called before other services. */
 	static {
 		parsers = new HashMap();
-		parsers.put(SP_0, new loro.parsers.javacc.SP0_JavaCCParser());
-		parsers.put(EN_0, new loro.parsers.javacc.EN0_JavaCCParser());
+		parsers.put(SP_0,
+			new Pair(
+				new loro.parsers.javacc.SP0_JavaCCParser(),
+				new loro.parsers.javacc.SP0_JavaCCParser.MetaInfo()
+			)
+		);
+		parsers.put(EN_0, 
+			new Pair(
+				new loro.parsers.javacc.EN0_JavaCCParser(),
+				new loro.parsers.javacc.EN0_JavaCCParser.MetaInfo()
+			)
+		);
 	}		
 
 	/** Sets the current enabled language code.
@@ -50,8 +70,18 @@ public final class ParserFactory {
 	public static IDerivador getParser() {
 		if (currCode == null )
 			throw new NullPointerException("currCode is null");
-		IDerivador parser = (IDerivador) parsers.get(currCode);
+		IDerivador parser = ((Pair) parsers.get(currCode)).parser;
 		return parser;
+	}
+
+	/** Gets the parser metainfo according to current language code.
+	 * @throws NullPointerException if current code is null
+	 */
+	public static ILanguageInfo getLanguageInfo() {
+		if (currCode == null )
+			throw new NullPointerException("currCode is null");
+		ILanguageInfo langInfo = ((Pair) parsers.get(currCode)).langInfo;
+		return langInfo;
 	}
 
 	// No instanceable.

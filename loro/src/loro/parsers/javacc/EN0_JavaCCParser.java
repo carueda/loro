@@ -1,5 +1,6 @@
 package loro.parsers.javacc;
 
+import loro.ILanguageInfo;
 import loro.DerivacionException;
 import loro.derivacion.*;
 import loro.arbol.*;
@@ -135,6 +136,86 @@ public class EN0_JavaCCParser extends BaseParser {
 		//parser = new LoroParser(new StringReader(texto));
 		ConstructorArbol.ponTexto(texto);
 		return this;
+	}
+	
+	private static String[] keywords1 = {
+		"class",
+		"interface",
+		"object",
+		"specification",
+		"implementation",
+		"algorithm",
+		"break",
+		"new",
+		"case",
+		"continue",
+		"constructor",
+		"else",
+		"elseif",
+		"do",
+		"for",
+		"from",
+		"until",
+		"to",
+		"downto",
+		"step",
+		"begin",
+		"end",
+		"loop",
+		"repeat",
+		"if",
+		"then",
+		"instanceof",
+		"as",
+		"in",
+		"exists",
+		"forall",
+		"global",
+		"return",
+		"finally",
+		"switch",
+		"while",
+		"throw",
+		"try",
+		"catch",
+		"extends",
+		"implements",
+		"operation",
+		"method",
+//			"throws",
+		"char",
+		"string",
+		"int",
+		"real",
+		"boolean",
+	};
+	private static String[] keywords2 = {
+		"package",
+		"uses",
+	};
+	private static String[] keywords3 = {
+		"nothing",
+		"description",
+		"strategy",
+		"pre",
+		"post",
+		"input",
+		"output",
+		"constant",
+		"this",
+		"super",
+	};
+	private static String[] literals = {
+		"null",
+		"true",
+		"false",
+	};
+	
+	public static class MetaInfo implements ILanguageInfo {
+		public String[] getKeywords1() { return keywords1; }
+		public String[] getKeywords2() { return keywords2; }
+		public String[] getKeywords3() { return keywords3; }
+		public String[] getLiterals()  { return literals; }
 	}
 }
 

@@ -114,7 +114,6 @@ public class LoroCompilerTask extends MatchingTask {
 	/** Sets the "user.language" system property. */
 	public void setLocale(String locale) {
 		Loro.setLocale(locale);
-		log("Locale set to '" +locale+ "'");
 	}
 
 	/** Sets the shownames flag. */

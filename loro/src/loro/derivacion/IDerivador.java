@@ -6,7 +6,6 @@ import loro.arbol.*;
 import java.io.Reader;
 import java.util.List;
 
-//////////////////////////////////////////////////////////////////////
 /**
  * Interface para interactuar con un analizador sintáctico.
  *
@@ -17,9 +16,7 @@ import java.util.List;
  *
  * @author Carlos Rueda
  */
-public interface IDerivador
-{
-	///////////////////////////////////////////////////////////////////////
+public interface IDerivador {
 	/**
 	 * Deriva un arbol sintactico para lista de acciones de interprete.
 	 *
@@ -28,10 +25,8 @@ public interface IDerivador
 	 * @exception DerivacionException
 	 *		Si se presenta algún error en la derivación.
 	 */
-	public List derivarAccionesInterprete()
-	throws DerivacionException;
+	public List derivarAccionesInterprete() throws DerivacionException;
 
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Deriva un arbol sintactico para el programa fuente asociado.
 	 *
@@ -41,10 +36,8 @@ public interface IDerivador
 	 *		TraduccionException Si se presenta 
 	 *		algún error en la derivación.
 	 */
-	public NFuente derivarFuente()
-	throws DerivacionException;
+	public NFuente derivarFuente() throws DerivacionException;
 
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Deriva un identificador:  id &lt;EOF>
 	 *
@@ -54,10 +47,8 @@ public interface IDerivador
 	 *		TraduccionException Si se presenta 
 	 *		algún error en la derivación.
 	 */
-	public TId derivarId()
-	throws DerivacionException;
+	public TId derivarId() throws DerivacionException;
 
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Deriva un nombre:  id1::id2::id3 &lt;EOF>
 	 *
@@ -67,10 +58,8 @@ public interface IDerivador
 	 *		TraduccionException Si se presenta 
 	 *		algún error en la derivación.
 	 */
-	public TNombre derivarNombre()
-	throws DerivacionException;
+	public TNombre derivarNombre() throws DerivacionException;
 
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene el texto fuente asociado actualmente al derivador.
 	 *
@@ -78,7 +67,6 @@ public interface IDerivador
 	 */
 	public String obtTextoFuente();
 
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Establece fuente a examinar.
 	 *
@@ -88,7 +76,6 @@ public interface IDerivador
 	 */
 	public IDerivador ponTextoFuente(Reader fuente);
 
-	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Establece fuente a examinar.
 	 *

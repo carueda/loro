@@ -112,7 +112,7 @@ public final class Loro
 		catch(java.util.MissingResourceException ex) {
 			System.err.println(
 				"!!!!!! Warning:\n" +
-				"!!!!!! Cannot get bundle loro.resource.strings.\n" +
+				"!!!!!! Cannot get loro.resource.strings bundle.\n" +
 				"!!!!!! The system has not been compiled properly.\n"+
 				"!!!!!! locale = " +locale_+ "\n"
 			);
@@ -597,6 +597,15 @@ public final class Loro
 		_verificarIniciado();
 		
 		return compilador;
+	}
+
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Gets metainfo about current programming language.
+	 */
+	public static ILanguageInfo getLanguageInfo() {
+		_verificarIniciado();
+		return ParserFactory.getLanguageInfo();
 	}
 
 	/////////////////////////////////////////////////////////////////////

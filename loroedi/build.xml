@@ -58,6 +58,9 @@
 	<!-- El archivo de instalacion a crear -->
 	<property name="i.jar" value="instalar-loro-${VERSION}.jar"/>
 	
+	<!-- All test sources are in spanish -->
+	<property name="locale" value="es"/>
+
 	<!-- Para hacer pruebas de compilacion de fuentes Loro -->
 	<taskdef name="loroc" classname="loro.misc.ant.LoroCompilerTask">
 		<classpath>
@@ -182,7 +185,7 @@
 
 	<!-- nano-instalador (to be dropped) -->
     <target name="instalador"  depends="loroedi.jar, verifique.nic, prepare-inst, nanoproperties"
-     description="Crea el instalador de LoroEDI">
+     description="Crea el viejo instalador de LoroEDI">
 	   <java jar="${i.nic.jar}" fork="true">
             <arg value="-lang"/>
 			<arg value="spa"/>
@@ -249,6 +252,7 @@
 		 destdir="${build}/oro"
 		 includes="*/*.loro"
 		 excludes="**/*LEAME.loro, **/*README.loro"
+		 locale="${locale}"
 		/>
 	</target>
 
