@@ -5,7 +5,7 @@ PENDIENTES (más o menos en orden de prioridad)
 	- Idea: Guiones en Loro
 	  En principio, la idea es restringir los guiones sólo para fines de
 	  demostraciones asociados a los proyectos. 
-	  Un proyecto puede tener una o más demostraciones asociadas.
+	  Un proyecto puede tener un guion de demostración asociado.
 	  Una demostración es una lista de acciones para ser interpretadas
 	  inmediatamente con resultado similar a si dichas acciones las
 	  escribiera el usuario directamente.
