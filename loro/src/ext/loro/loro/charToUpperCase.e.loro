@@ -1,9 +1,0 @@
-package loro
-
-specification charToUpperCase(c: char) -> u: char
-    ''get the upper case version of a character.''
-    input c: ''the character.''
-    output u: ''the character in upper case.''
-    pre  { true }
-    post { u = u' }
-end specification

@@ -1,9 +1,0 @@
-package loro
-
-specification charToLowerCase(c: char) -> l: char
-    ''get the lower case version of a character.''
-    input c: ''the character.''
-    output l: ''the character in lower case.''
-    pre  { true }
-    post { l = l' }
-end specification

@@ -1,7 +1,0 @@
-package loro
-
-specification readBoolean() -> v: boolean
-    ''Reads a boolean value from standard input.''
-    output v: ''the value.''
-    post { v = v' }
-end specification

@@ -1,8 +1,0 @@
-package loro::math
-
-specification sqrt(v: real) -> r: real
-    ''The square root of a real value.''
-    input v: ''the input value.''
-    output r: ''the square root.''
-    post { r = r' }
-end specification

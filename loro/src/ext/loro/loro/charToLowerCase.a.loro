@@ -1,8 +1,0 @@
-package loro
-
-algorithm for charToLowerCase(c:char)->l:char
-implementation "bsh" 
-{%
-	return Character.toLowerCase(c);
-%}
-end algorithm

@@ -1,8 +1,0 @@
-package loro
-
-algorithm sleep for sleep(millis:int)
-implementation "bsh" 
-{%
-	Thread.sleep(millis);
-%}
-end algorithm

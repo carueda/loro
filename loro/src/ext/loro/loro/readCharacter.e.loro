@@ -1,7 +1,0 @@
-package loro
-
-specification readCharacter() -> v: char
-    ''Reads a character value from standard input.''
-    output v: ''the value.''
-    post { v = v' }
-end specification

@@ -1,8 +1,0 @@
-package loro
-
-algorithm readReal for readReal()->v:real
-implementation "bsh"
-{%
-	return $amb.obtManejadorEntradaSalida().leerReal();
-%}
-end algorithm

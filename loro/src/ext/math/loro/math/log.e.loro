@@ -1,8 +1,0 @@
-package loro::math
-
-specification log(v: real) -> r: real
-    ''Returns the natural logarithm (base E) of a real value.''
-    input v: ''the input value.''
-    output r: ''the logarithm.''
-    post { r = r' }
-end specification

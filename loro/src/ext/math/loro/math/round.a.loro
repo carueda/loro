@@ -1,8 +1,0 @@
-package loro::math
-
-algorithm round for round(v:real)->r:real
-implementation "bsh" 
-{%
-	return (double) Math.round(v);
-%}
-end algorithm

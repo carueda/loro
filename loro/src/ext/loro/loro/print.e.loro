@@ -1,6 +1,0 @@
-package loro
-
-specification print(m: string)
-    ''Prints a text to standard output.''
-    input m: ''The text.''
-end specification

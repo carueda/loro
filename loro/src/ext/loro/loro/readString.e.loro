@@ -1,7 +1,0 @@
-package loro
-
-specification readString() -> v: string
-    ''Reads a string value from standard input.''
-    output v: ''the value.''
-    post { v = v' }
-end specification

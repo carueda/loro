@@ -1,8 +1,0 @@
-package loro::math
-
-specification exp(v: real) -> r: real
-    ''Returns E raised to the power of a real value''
-    input v: ''the input value.''
-    output r: ''E to the power v.''
-    post { r = r' }
-end specification

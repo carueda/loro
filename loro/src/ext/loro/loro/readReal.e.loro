@@ -1,7 +1,0 @@
-package loro
-
-specification readReal() -> v: real
-    ''Reads a real value from standard input.''
-    output v: ''the value.''
-    post { v = v' }
-end specification

@@ -1,8 +1,0 @@
-package loro::math
-
-algorithm randomReal for randomReal()->r:real
-implementation "bsh" 
-{%
-	return Math.random();
-%}
-end algorithm

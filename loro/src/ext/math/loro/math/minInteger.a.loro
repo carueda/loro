@@ -1,8 +1,0 @@
-package loro::math
-
-algorithm minInteger for minInteger(v1:int,v2:int)->min:int
-implementation "bsh" 
-{%
-	return Math.min(v1, v2);
-%}
-end algorithm

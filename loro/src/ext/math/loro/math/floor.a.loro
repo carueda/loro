@@ -1,8 +1,0 @@
-package loro::math
-
-algorithm floor for floor(v:real)->r:real
-implementation "bsh" 
-{%
-	return Math.floor(v);
-%}
-end algorithm

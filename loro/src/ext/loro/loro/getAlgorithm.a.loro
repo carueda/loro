@@ -1,8 +1,0 @@
-package loro
-
-algorithm getAlgorithm for getAlgorithm(name:string)->alg:algorithm
-implementation "bsh" 
-{%
-	return $amb.obtAlgoritmo(name);
-%}
-end algorithm

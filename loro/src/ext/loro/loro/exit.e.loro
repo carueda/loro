@@ -1,8 +1,0 @@
-package loro
-
-specification exit(cod: int)
-    ''Terminates the current execution.
-    This means this invocaction does not return to its caller.''
-    input cod: ''A code of termination. By convention 0 if this
-               is a normal termination.''
-end specification

@@ -1,5 +1,0 @@
-package loro
-
-class Object ''Every object in Loro is an instance of this class.''
-    
-end class

@@ -1,8 +1,0 @@
-package loro::math
-
-algorithm minReal for minReal(v1:real,v2:real)->min:real
-implementation "bsh" 
-{%
-	return Math.min(v1, v2);
-%}
-end algorithm

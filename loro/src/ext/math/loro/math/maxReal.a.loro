@@ -1,8 +1,0 @@
-package loro::math
-
-algorithm maxReal for maxReal(v1:real,v2:real)->max:real
-implementation "bsh" 
-{%
-	return Math.max(v1, v2);
-%}
-end algorithm

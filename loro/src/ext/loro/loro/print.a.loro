@@ -1,8 +1,0 @@
-package loro
-
-algorithm for print(m:string)
-implementation "bsh" 
-{%
-	$amb.obtManejadorEntradaSalida().escribir(m);
-%}
-end algorithm

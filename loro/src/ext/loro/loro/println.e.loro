@@ -1,6 +1,0 @@
-package loro
-
-specification println(m: string)
-    ''Prints a text to standard output and add a new line.''
-    input m: ''The text.''
-end specification

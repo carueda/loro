@@ -1,8 +1,0 @@
-package loro::math
-
-algorithm abs for abs(v:real)->r:real
-implementation "bsh" 
-{%
-	return Math.abs(v);
-%}
-end algorithm

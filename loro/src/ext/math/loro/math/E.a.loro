@@ -1,9 +1,0 @@
-package loro::math
-
-algorithm E for realConstant()->k:real
-	''The base of the natural logarithms.''
-implementation "bsh" 
-{%
-	return Math.E;
-%}
-end algorithm
