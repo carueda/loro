@@ -16,6 +16,8 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-14 (0.8pre11)
 
+	- Intérprete interactivo ahora creado por demanda.
+	
 	- JTerm: indicador simpleRead eliminado (no usado).
 	
 	- JTerm: más ajustes para mejorar manejo de \r y \b. Ahora se maneja un
@@ -28,7 +30,7 @@ NOTAS
 	
 	- Interprete, InterpreterWindow: puestos button mnemonics (Alt-T para
 	  Terminar y Alt-C para Cerrar).
-	
+	  
 ////////////////////////////////////////////////////////////////////////////
 2003-05-13 (0.8pre11)
 

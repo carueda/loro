@@ -606,7 +606,7 @@ public class EDI implements EditorListener
 	 */
 	public void mostrarInterpreteInteractivo()
 	{
-		loroedi.Interprete.mostrarInterprete();
+		loroedi.Interprete.getInstance().mostrar();
 	}
 
 	////////////////////////////////////////////////////////////////////////////

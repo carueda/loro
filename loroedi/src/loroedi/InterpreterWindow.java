@@ -97,7 +97,7 @@ implements ActionListener, JTermListener
 		obspp = ejecutorpp ? new ObservadorPP(this) : null;
 		
 		loroii = Loro.crearInterprete(br, pw, newSymTab, obspp);
-
+		
 		if ( hello != null )
 		{
 			term.setPrefix(PREFIX_SPECIAL);

@@ -17,8 +17,10 @@ import javax.swing.*;
 /////////////////////////////////////////////////////////////////////
 /**
  * El Entorno de desarrollo Integrado para Loro.
+ * POR DESAPARECER
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class LoroEDI
 {
@@ -71,9 +73,6 @@ public class LoroEDI
 
 			// Cree controlador central y lance el entorno de desarrollo:
 			LoroEDI loroEDI = new LoroEDI(frame, new LoroControl());
-
-			// Cree el interprete interactivo:
-			Interprete.crearInterprete();
 
 			// despache posible primera ejecucion de la version actual del sistema:
 			loroEDI.despacharPrimeraVez();

@@ -141,9 +141,6 @@ public class GUI
 //				}
 			}
 			
-			// Cree el interprete interactivo:
-			Interprete.crearInterprete();
-
 			_dispatch(frame, model);
 			
 			_firstTime();
@@ -350,7 +347,7 @@ public class GUI
 	 */
 	public static void showII()
 	{
-		loroedi.Interprete.mostrarInterprete();
+		loroedi.Interprete.getInstance().mostrar();
 	}
 	
 	/////////////////////////////////////////////////////////////////

@@ -46,22 +46,87 @@ implements ActionListener
 
 	////////////////////////////////////////////////////////////////////////////
 	/**
-	 * Muestra la ventana del Interprete. Debe llamarse despues de haber
-	 * invocado crearInterprete().
+	 * Obtiene la instancia de esta clase.
 	 */
-	public static void mostrarInterprete()
+	public static Interprete getInstance()
 	{
 		if ( ii == null )
-		{
-			throw new IllegalStateException(
-				"Aun no se ha llamado a crearInterprete()!"
-			);
-		}
+			_createInstance();
 
-		ii.mostrar();
+		return ii;
 	}
 
 
+	////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Crea la instancia unica del Interprete.
+	 *
+	 * @throws IllegalStateException   Ante un segundo llamado
+	 */
+	private static void _createInstance()
+	{
+		if ( ii != null )
+		{
+			throw new IllegalStateException(
+				"Second call to _createInstance()!"
+			);
+		}
+
+		ii = new Interprete();
+		frame = new JFrame("Intérprete Interactivo de Loro");
+		URL url = ClassLoader.getSystemClassLoader().getResource("img/icon.jpg");
+		if ( url != null ) 
+			frame.setIconImage(new ImageIcon(url).getImage());
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			public void windowClosing(java.awt.event.WindowEvent _)
+			{
+				frame.setVisible(false);
+			}
+		});
+
+		java.awt.Container content_pane = frame.getContentPane();
+
+		content_pane.add(ii.obtAreaTexto());
+
+		javax.swing.JPanel pan = new javax.swing.JPanel(
+			new java.awt.FlowLayout(java.awt.FlowLayout.LEFT)
+		);
+		javax.swing.JButton but;
+		butCerrar = but = new javax.swing.JButton("Cerrar");
+		butCerrar.setMnemonic(KeyEvent.VK_C);
+		butCerrar.setToolTipText("Cierra esta ventana");
+		but.addActionListener(ii);
+		pan.add(but);
+		pan.add(new javax.swing.JLabel("        "));
+		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
+		butTerminar.setMnemonic(KeyEvent.VK_T);
+		butTerminar.setToolTipText("Termina abruptamente la ejecución en curso");
+		but.addActionListener(ii);
+		butTerminar.setEnabled(false);
+		pan.add(but);
+		content_pane.add(pan, "South");
+
+		Rectangle rect = Preferencias.obtRectangulo(Preferencias.II_RECT);
+		frame.setLocation(rect.x, rect.y);
+		frame.setSize(rect.width, rect.height);
+
+		frame.addComponentListener(new ComponentAdapter()
+		{
+			void common()
+			{
+				Rectangle rect_ = new Rectangle(frame.getLocationOnScreen(), frame.getSize());
+				Preferencias.ponRectangulo(Preferencias.II_RECT, rect_);
+			}
+			public void componentResized(ComponentEvent e){common();}
+			public void componentMoved(ComponentEvent e){common();}
+		});
+
+		ii.start();
+	}
+
+	
 
 	//
 	// Instance:
@@ -208,75 +273,6 @@ implements ActionListener
 		);
 	}
 
-	////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Crea la instancia unica del Interprete.
-	 *
-	 * @throws IllegalStateException   Ante un segundo llamado
-	 */
-	public static void crearInterprete()
-	{
-		if ( ii != null )
-		{
-			throw new IllegalStateException(
-				"Segundo llamado a crearInterprete()!"
-			);
-		}
-
-		ii = new Interprete();
-		frame = new JFrame("Intérprete Interactivo de Loro");
-		URL url = ClassLoader.getSystemClassLoader().getResource("img/icon.jpg");
-		if ( url != null ) 
-			frame.setIconImage(new ImageIcon(url).getImage());
-		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		frame.addWindowListener(new java.awt.event.WindowAdapter()
-		{
-			public void windowClosing(java.awt.event.WindowEvent _)
-			{
-				frame.setVisible(false);
-			}
-		});
-
-		java.awt.Container content_pane = frame.getContentPane();
-
-		content_pane.add(ii.obtAreaTexto());
-
-		javax.swing.JPanel pan = new javax.swing.JPanel(
-			new java.awt.FlowLayout(java.awt.FlowLayout.LEFT)
-		);
-		javax.swing.JButton but;
-		butCerrar = but = new javax.swing.JButton("Cerrar");
-		butCerrar.setMnemonic(KeyEvent.VK_C);
-		butCerrar.setToolTipText("Cierra esta ventana");
-		but.addActionListener(ii);
-		pan.add(but);
-		pan.add(new javax.swing.JLabel("        "));
-		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
-		butTerminar.setMnemonic(KeyEvent.VK_T);
-		butTerminar.setToolTipText("Termina abruptamente la ejecución en curso");
-		but.addActionListener(ii);
-		butTerminar.setEnabled(false);
-		pan.add(but);
-		content_pane.add(pan, "South");
-
-		Rectangle rect = Preferencias.obtRectangulo(Preferencias.II_RECT);
-		frame.setLocation(rect.x, rect.y);
-		frame.setSize(rect.width, rect.height);
-
-		frame.addComponentListener(new ComponentAdapter()
-		{
-			void common()
-			{
-				Rectangle rect_ = new Rectangle(frame.getLocationOnScreen(), frame.getSize());
-				Preferencias.ponRectangulo(Preferencias.II_RECT, rect_);
-			}
-			public void componentResized(ComponentEvent e){common();}
-			public void componentMoved(ComponentEvent e){common();}
-		});
-
-		ii.start();
-	}
-
 	///////////////////////////////////////////////////////////////////////
 	void metaProcesar(String text)
 	{
@@ -412,7 +408,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-	void mostrar()
+	public void mostrar()
 	{
 		if ( !frame.isShowing() )
 		{
