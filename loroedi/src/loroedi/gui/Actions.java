@@ -442,7 +442,7 @@ public class Actions
 		public InstallAction()
 		{
 			super("Instalar...");
-			putValue(SHORT_DESCRIPTION, "Instalación de proyectos incluidos en el sistema");
+			putValue(SHORT_DESCRIPTION, "Permite poner un proyecto en el espacio de trabajo");
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK));
 		}
@@ -841,6 +841,7 @@ public class Actions
 		{
 			super("Ejecutar demo");
 			putValue(SHORT_DESCRIPTION, "Ejecuta un guión de demostración de este proyecto");
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_MASK));
 		}
 	
 		/////////////////////////////////////////////////////////

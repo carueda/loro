@@ -2,7 +2,10 @@ LoroEDI README
 
 PENDIENTES (más o menos en orden de prioridad)
 	
-	- Idea: Guiones en Loro
+	- Preparar los proyectos "incluidos" como archivos *.lar en la
+	  distribución del sistema.  (Ver opción "instalar")
+	  
+	- Guiones en Loro
 	  En principio, la idea es restringir los guiones sólo para fines de
 	  demostraciones asociados a los proyectos. 
 	  Un proyecto puede tener un guion de demostración asociado.
@@ -16,13 +19,6 @@ PENDIENTES (más o menos en orden de prioridad)
 	  en particular y no puede incluir la definición de ninguna unidad;
 	  sólo acepta las acciones aceptadas por un intérprete.
 	  
-  	- InstallProject() ahora solo considera 'directorios' bajo una
-	  cierta localización en la distribución del sistema.
-	  Pendiente incluir más posibilidades de origen del proyecto,
-	  como:
-	  	- archivo extensión (.lar) desde sistema local de archivos
-		- archivo extensión (.lar) desde la web (http).
-		
   	- Al compilar proyecto, despachar las posible lista de errores.
 	  La idea es mantener un sólo error por unidad, pero si varias
 	  unidades tienen problemas, entonces sí permitir abrir los editores
@@ -67,6 +63,31 @@ NOTAS
 	  build-ext.html del núcleo), pero se tiene generada en un directorio para
 	  ello.
 	  
+////////////////////////////////////////////////////////////////////////////
+2002-11-18 (0.8pre6)
+
+	- Complementando opción "instalar demo" para incluir proveniencia
+	  externa: web o sistema local de archivos.
+	  Ver GUI.installProject()
+	  
+	  Descripción general: (ver también ajustes en el núcleo 0.7.5).
+	  	Cada proyecto se empaqueta en un archivo .lar . Al instalar un
+		proyecto xxx.lar, éste se ubica bajo el directorio de proyectos
+		de trabajo prs_dir/. Luego se expande para generar el directorio
+		prs_dir/xxx/ y se agrega este nombre xxx a la lista de proyectos
+		disponibles.
+		Los archivos .lar que se encuentren bajo lib/ext/ se siguen
+		accediendo directamente, o sea, no se expanden, y por lo tanto
+		continúan como proyectos no-modificables.
+		NOTA: Los proyectos "incluidos" siguen por ahora en forma de
+		directorios, pero queda pendiente tenerlos como *.lar para
+		que se sometan a un manejo similar al efectuar su instalación.
+	
+////////////////////////////////////////////////////////////////////////////
+2002-11-17 (0.8pre6)
+
+	- Ctrl-M accelerator to "ejecutar demo".
+	
 ////////////////////////////////////////////////////////////////////////////
 2002-11-07 (0.8pre5)
 

@@ -265,6 +265,15 @@ public class GUI
 		Loro.addDirectoryToPath(dir);
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Adiciona un archivo extensión a la ruta de búsqueda.
+	 */
+	static IOroLoader _addExtensionToPath(File file)
+	{
+		return Loro.addExtensionToPath(file);
+	}
+	
 	////////////////////////////////////////////////////////////////
 //	private static void _newOrOpenProject(ProjectFrame frame)
 //	{
@@ -2155,11 +2164,114 @@ public class GUI
 		return true;
 	}
 	
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Instala proyecto con base en URL dado.
+	 *
+	 * @return el directorio en donde se hizo la instalación.
+	 *              null si hay problemas.
+	 */
+	static File installFromURL(final URL url, final File outfile)
+	{
+		File dir = null;
+		
+		DataInputStream in;
+		try
+		{
+			in = new DataInputStream(url.openStream());
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showOptionDialog(
+				focusedProject.getFrame(),
+				"Error al tratar de leer el archivo indicado.\n"
+				+"Favor verificar la localización dada.\n"
+				+"\n"
+				+ex.getClass()+ ":\n"
+				+"   " +ex.getMessage(),
+				"Error al tratar de leer el archivo indicado",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.ERROR_MESSAGE,
+				null,
+				null,
+				null
+			);
+			return null;
+		}
+		try
+		{
+			MessageArea prj_msg = focusedProject.getMessageArea();
+			prj_msg.clear();
+			prj_msg.println("Importando proyecto:");
+			
+			File path = new File(url.getPath());
+			String name = path.getName();
+			DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
+				new FileOutputStream(outfile)
+			));
+	
+			byte[] buffer = new byte[1024];
+			int read;
+			while ( (read = in.read(buffer)) > 0 )
+			{
+				out.write(buffer, 0, read);
+				prj_msg.print(".");
+			}
+			
+			out.close();
+			in.close();
+
+			dir = Loro.expandExtensionFile(outfile, true);
+			workspace.addProjectModelName(dir.getName());
+			_addDirectoryToPath(dir.getName());
+			
+			prj_msg.println(" Listo");
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showOptionDialog(
+				focusedProject.getFrame(),
+				ex.getMessage(),
+				"Error al tratar de instalar proyecto de proveniencia externa",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.ERROR_MESSAGE,
+				null,
+				null,
+				null
+			);
+		}
+		finally
+		{
+			try{in.close();}catch(Exception ex){}
+		}
+		
+		return dir;
+	}
+	
 	////////////////////////////////////////////////////////////////
 	/**
 	 * Permite al usuario instalar un proyecto de los incluidos en el sistema.
 	 */
 	public static void installProject()
+	{
+		Runnable run = new Runnable() 
+		{
+			public void run() 
+			{
+				_installProject();
+			}
+		};
+		new Thread(run).start(); 
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Permite al usuario instalar un proyecto de los incluidos en el sistema.
+	 */
+	private static void _installProject()
 	{
 		String private_prs_directory = Configuracion.getProperty(Configuracion.DIR)+ "/lib/prs/";
 		List prjnames = new ArrayList();
@@ -2178,39 +2290,123 @@ public class GUI
 			}
 		}
 		
-		if ( prjnames.size() == 0 )
-		{
-			message(focusedProject.getFrame(), "No hay proyectos por instalar");
-			return;
-		}
-
 		final JLabel status = new JLabel();
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
-		final JList cb_prjs = new JList((String[]) prjnames.toArray(new String[0])); 
+		final JList cb_prjs = new JList((String[]) prjnames.toArray(new String[0]));
+		cb_prjs.setVisibleRowCount(5);
 		cb_prjs.setSelectedIndex(0); 
-		cb_prjs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+		cb_prjs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		
         final JTextField f_name = new JTextField(50);
 		f_name.setFont(monospaced12_font);
+		
+		
 		JCheckBox chk_open = new JCheckBox("Abrir proyecto al finalizar instalación", null, true); 
 		
 		JScrollPane sp = new JScrollPane(cb_prjs);
-		sp.setBorder(createTitledBorder("Proyectos incluidos"));
 		f_name.setBorder(createTitledBorder("Instalar con el nombre"));
 		f_name.setText((String) cb_prjs.getSelectedValue());
+
+		final JPanel panel_inc = new JPanel();
+		panel_inc.setLayout(new BoxLayout(panel_inc, BoxLayout.Y_AXIS));
+		panel_inc.setBorder(createTitledBorder(""));
+		final JRadioButton radio_inc = new JRadioButton("Instalar proyecto incluido:");
+		radio_inc.setAlignmentX(0f);
+		radio_inc.setMnemonic(KeyEvent.VK_I);
+		radio_inc.setSelected(true);
+		panel_inc.add(radio_inc);
+		sp.setAlignmentX(0f);
+		panel_inc.add(sp);
+
 		cb_prjs.addListSelectionListener(new ListSelectionListener()
 		{
 			public void valueChanged(ListSelectionEvent e)
 			{
 				f_name.setText((String) cb_prjs.getSelectedValue());
 				cb_prjs.ensureIndexIsVisible(cb_prjs.getSelectedIndex());
+				radio_inc.setSelected(true);
 			}
 		});
 
+		final JPanel panel_lar = new JPanel();
+		panel_lar.setLayout(new BoxLayout(panel_lar, BoxLayout.Y_AXIS));
+		panel_lar.setBorder(createTitledBorder(""));
+		final JRadioButton radio_lar = new JRadioButton("Instalar proyecto externo:");
+		radio_lar.setAlignmentX(0f);
+		panel_lar.add(radio_lar);
+		JLabel l_header_lar = new JLabel(
+			"<html>"+
+			"Escribe la ubicación web (URL) o indica el archivo local que contiene<br>\n"+
+			"el proyecto a instalar.\n"+
+			"</html>"
+		);
+		l_header_lar.setForeground(Color.gray);
+		l_header_lar.setAlignmentX(0f);
+		panel_lar.add(l_header_lar);
+		final JPanel panel_lar2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panel_lar2.setAlignmentX(0f);
+        final JTextField f_lar = new JTextField(30);
+		radio_lar.setMnemonic(KeyEvent.VK_E);
+		JButton choose_lar = new JButton("Local...");
+		choose_lar.setMnemonic(KeyEvent.VK_L);
+		panel_lar2.add(f_lar);
+		panel_lar2.add(choose_lar);
+		panel_lar.add(panel_lar2);
+
+		final DocumentListener docListener = new DocumentListener()
+		{
+			void common()
+			{
+				String name = "";
+				f_name.setText("");
+//				radio_lar.setSelected(true);
+				String lar = f_lar.getText().trim();
+				if ( lar.length() == 0 )
+					return;
+
+				if ( lar.toLowerCase().startsWith("http:")
+				||   lar.toLowerCase().startsWith("ftp:")
+				||   lar.toLowerCase().startsWith("file:") )
+				{
+					try
+					{
+						URL url = new URL(lar);
+						name = new File(url.getPath()).getName();
+					}
+					catch (java.net.MalformedURLException ex)
+					{
+					}
+				}
+				else
+				{
+					// Se asume como archivo local.
+					
+					File file = new File(lar);
+					if ( file.exists() )
+						name = file.getName();
+				}
+				if ( name.toLowerCase().endsWith(".lar") )
+					name = name.substring(0, name.length() -4);
+				f_name.setText(name);
+			}
+			public void insertUpdate(DocumentEvent e) { common(); }
+			public void removeUpdate(DocumentEvent e) { common(); }
+			public void changedUpdate(DocumentEvent e) { common(); }
+		};
+		f_lar.getDocument().addDocumentListener(docListener);
+
+		ButtonGroup group = new ButtonGroup();
+        group.add(radio_inc);
+        group.add(radio_lar);
+
 		JLabel l_header = new JLabel(
 			"<html>"+
-			"Estos proyectos vienen incluidos con el sistema Loro.<br>\n"+
-			"Instalar un proyecto significa ponerlo en el espacio de trabajo<br>\n"+
-			"para que pueda ser abierto, probado y posiblemente modificado."+
+			"Instalar un proyecto significa ponerlo en el espacio de trabajo para<br>\n"+
+			"que pueda ser abierto, probado y posiblemente modificado.<br>\n"+
+			"<br>\n"+
+			"Aquí puedes elegir entre instalar uno de los proyectos incluidos con<br>\n"+
+			"el sistema, o instalar un proyecto de proveniencia externa.<br>\n"+
 			"</html>"
 		);
 		l_header.setForeground(Color.gray);
@@ -2218,40 +2414,79 @@ public class GUI
 		
         Object[] array = {
 			l_header,
-			sp,
+			panel_inc,
+			panel_lar,
 			f_name,
 			chk_open,
 			status
 		};
 		
-        ProjectDialog form = new ProjectDialog(focusedProject.getFrame(), "Instalar proyecto", array)
+        final ProjectDialog form = new ProjectDialog(focusedProject.getFrame(), "Instalar proyecto", array)
 		{
 			public boolean dataOk()
 			{
+				String prjname = f_name.getText();
 				String msg = null;
 				boolean ret = true;
-				String from_name = (String) cb_prjs.getSelectedValue();
-				String prjname = f_name.getText();
 				
-				if ( from_name == null || from_name.trim().length() == 0 )
+				if ( radio_inc.isSelected() )
 				{
-					msg = "Falta indicar el proyecto a instalar";
-					ret = false;
+					String from_name = (String) cb_prjs.getSelectedValue();
+					
+					if ( from_name == null || from_name.trim().length() == 0 )
+					{
+						msg = "Falta indicar el proyecto a instalar";
+						ret = false;
+					}
 				}
-				else if ( prjname.trim().length() == 0 )
+				else if ( radio_lar.isSelected() )
 				{
-					msg = "Falta indicar un nombre para instalar el proyecto";
-					ret = false;
+					String lar = f_lar.getText().trim();
+					if ( lar.length() == 0 )
+					{
+						msg = "Falta indicar el archivo";
+						ret = false;
+					}
+					else if ( lar.toLowerCase().startsWith("http:")
+					||   lar.toLowerCase().startsWith("ftp:")
+					||   lar.toLowerCase().startsWith("file:") )
+					{
+						try
+						{
+							URL url = new URL(lar);
+						}
+						catch (java.net.MalformedURLException ex)
+						{
+							msg = "URL mal formado";
+							ret = false;
+						}
+					}
+					else
+					{
+						// Se asume como archivo local.
+						
+						File file = new File(lar);
+						if ( !file.exists() )
+						{
+							msg = "El elemento indicado no existe";
+							ret = false;
+						}
+					}
 				}
-				else if ( alreadyOpen(prjname) )
+				
+				if ( msg == null )
 				{
-					msg = "Hay un proyecto abierto con el nombre '" +prjname+ "'";
-					ret = false;
-				}
-				else
-				{
-					String prj_dir = prs_dir +File.separator+ prjname;
-					if ( new File(prj_dir).exists() )
+					if ( prjname.trim().length() == 0 )
+					{
+						msg = "Falta indicar un nombre para instalar el proyecto";
+						ret = false;
+					}
+					else if ( alreadyOpen(prjname) )
+					{
+						msg = "Hay un proyecto abierto con el nombre '" +prjname+ "'";
+						ret = false;
+					}
+					else if ( new File(new File(prs_dir), prjname).exists() )
 					{
 						msg = "Ya hay un proyecto instalado con el nombre '" +prjname+ "'";
 						setAcceptText("SOBREESCRIBIR");
@@ -2272,42 +2507,121 @@ public class GUI
 			}
 		};
 		
+		choose_lar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				String lar = Util.selectFile(
+					focusedProject.getFrame(),
+					"Archivo proyecto",
+					JFileChooser.FILES_ONLY
+				);
+				if ( lar != null )
+				{
+					f_lar.setText(lar);
+					radio_lar.setSelected(true);
+				}
+			}
+		});
+
+		ActionListener radio_listener = new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				boolean b = e.getSource() == radio_inc;
+				panel_inc.setEnabled(b);
+				panel_lar.setEnabled(!b);
+				form.notifyUpdate(); 
+				docListener.changedUpdate(null);
+			}
+		};
+		radio_inc.addActionListener(radio_listener);
+		radio_lar.addActionListener(radio_listener);
+
 		form.activate();
         form.pack();
 		form.setLocationRelativeTo(focusedProject.getFrame());
 		form.setVisible(true);
 		if ( form.accepted() )
 		{
-			// haga copia del directorio:
-			String from_name = (String) cb_prjs.getSelectedValue();
 			String to_name = f_name.getText();
-			File private_prj_dir = new File(private_prs_directory, from_name);
+			String from_name;
 			
-			File prj_dir = new File(prs_dir +File.separator+ to_name);
-			try
+			if ( radio_inc.isSelected() )
 			{
-				prj_dir.mkdirs();
-				loroedi.Util.copyDirectory(private_prj_dir, "", prj_dir, true);
-				workspace.addProjectModelName(to_name);
-				_addDirectoryToPath(to_name);
+				// haga copia del directorio:
+				from_name = (String) cb_prjs.getSelectedValue();
+				File private_prj_dir = new File(private_prs_directory, from_name);
 				
-				// ahora copy documentación:
-				loroedi.Util.copyDirectory(private_prj_dir, ".html", new File(doc_dir), true);
+				File prj_dir = new File(new File(prs_dir), to_name);
+				try
+				{
+					prj_dir.mkdirs();
+					loroedi.Util.copyDirectory(private_prj_dir, "", prj_dir, true);
+					workspace.addProjectModelName(to_name);
+					_addDirectoryToPath(to_name);
+					
+					// ahora copy documentación:
+					loroedi.Util.copyDirectory(private_prj_dir, ".html", new File(doc_dir), true);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+					JOptionPane.showOptionDialog(
+						focusedProject.getFrame(),
+						ex.getMessage(),
+						"Error al instalar proyecto",
+						JOptionPane.DEFAULT_OPTION,
+						JOptionPane.ERROR_MESSAGE,
+						null,
+						null,
+						null
+					);
+					return;
+				}
+				
 			}
-			catch(Exception ex)
+			else if ( radio_lar.isSelected() )
 			{
-				ex.printStackTrace();
-				JOptionPane.showOptionDialog(
-					focusedProject.getFrame(),
-					ex.getMessage(),
-					"Error al instalar proyecto",
-					JOptionPane.DEFAULT_OPTION,
-					JOptionPane.ERROR_MESSAGE,
-					null,
-					null,
-					null
-				);
-				return;
+				URL url;
+				
+				String lar = f_lar.getText().trim();
+				if ( lar.toLowerCase().startsWith("http:")
+				||   lar.toLowerCase().startsWith("ftp:") 
+				||   lar.toLowerCase().startsWith("file:") )
+				{
+					try
+					{
+						url = new URL(lar);
+					}
+					catch (java.net.MalformedURLException ex)
+					{
+						// But shouldn't happen.
+						return;
+					}
+				}
+				else
+				{
+					File file = new File(lar);
+					try
+					{
+						url = file.toURL();
+					}
+					catch (java.net.MalformedURLException ex)
+					{
+						// But shouldn't happen.
+						return;
+					}
+				}
+				
+				File outfile = new File(new File(prs_dir), to_name+ ".lar");
+				File dir = installFromURL(url, outfile);
+				
+				from_name = dir.getName(); 
+			}
+			else
+			{
+				throw new RuntimeException("Impossible");
 			}
 			
 			String msg; 
@@ -2612,7 +2926,7 @@ public class GUI
 				public void windowLostFocus(WindowEvent _) {}
 			});
 			setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-			java.net.URL url = getClass().getClassLoader().getResource("img/icon.jpg");
+			URL url = getClass().getClassLoader().getResource("img/icon.jpg");
 			if ( url != null ) 
 			{
 				setIconImage(new ImageIcon(url).getImage());

@@ -119,11 +119,7 @@ public final class Workspace
 		for ( Iterator it = extensionLoaders.iterator(); it.hasNext(); )
 		{
 			IOroLoader oroLoader = (IOroLoader) it.next();
-			Extension extinfo = new Extension(oroLoader);
-			String name = extinfo.getName(); 
-			prjnames.add(name);
-			IProjectModel prjm = _loadProjectModelExtension(extinfo);
-			name_prj.put(name.toLowerCase(), prjm);
+			addProjectModelFromLoader(oroLoader);
 		}
 
 		// 3- obtenga el mismo cargador de unidades del núcleo:
@@ -138,24 +134,41 @@ public final class Workspace
 	
 	/////////////////////////////////////////////////////////////////
 	/**
+	 * Adiciona un proyecto a la lista de disponibles de acuerdo con
+	 * un cargador de unidades.
+	 */
+	public void addProjectModelFromLoader(IOroLoader oroLoader)
+	throws IOException
+	{
+		Extension extinfo = new Extension(oroLoader);
+		String name = extinfo.getName();
+		if ( !existsProjectModel(name) )
+			prjnames.add(name);
+		IProjectModel prjm = _loadProjectModelExtension(extinfo);
+		name_prj.put(name.toLowerCase(), prjm);
+	}
+
+	/////////////////////////////////////////////////////////////////
+	/**
 	 * Adiciona un nombre de proyecto a la lista de disponibles.
-	 * Si el nombre ya está incluido, no se hace nada.
 	 *
 	 * @throws RuntimeException Si el directorio correspondiente no existe.
 	 */
 	public void addProjectModelName(String name)
 	{
 		File dir = new File(prs_dir, name);
-		if ( !dir.isDirectory() )
+		if ( dir.isDirectory() )
+		{
+			IProjectModel prjm = _loadProjectModelDirectory(name);
+			if ( !existsProjectModel(name) )
+			{
+				name_prj.put(name.toLowerCase(), prjm);
+				prjnames.add(name);
+			}
+		}
+		else
 		{
 			throw new RuntimeException(dir+ ": no es directorio");
-		}
-		
-		if ( !existsProjectModel(name) )
-		{
-			prjnames.add(name);
-			IProjectModel prjm = _loadProjectModelDirectory(name);
-			name_prj.put(name.toLowerCase(), prjm);
 		}
 	}
 	
