@@ -64,6 +64,17 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2002-11-21 (0.8pre7)
+
+	- Resaltado de: lance, intente, atrape, siempre de acuerdo con adiciones
+	  al núcleo 0.7.6.
+	  Ver LoroTokenMarker.java.
+	
+	- Bug corregido: Un proyecto nuevo no se estaba agregando a la lista de
+	  proyectos disponibles al actualizarse en disco. 
+	  Corrección: en Workspace.saveProjectModel se actualiza esta información.
+	  
+////////////////////////////////////////////////////////////////////////////
 2002-11-18 (0.8pre6)
 
 	- Complementando opción "instalar demo" para incluir proveniencia

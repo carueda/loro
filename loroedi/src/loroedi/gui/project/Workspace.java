@@ -930,6 +930,13 @@ public final class Workspace
 		
 		File prj_dir = new File(prs_dir, name);
 		_saveProjectModel(prjm, prj_dir, true);
+		
+		if ( !existsProjectModel(name) )
+		{
+			// update list of available projects:
+			name_prj.put(name.toLowerCase(), prjm);
+			prjnames.add(name);
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////

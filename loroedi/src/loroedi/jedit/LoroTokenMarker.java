@@ -85,12 +85,13 @@ public class LoroTokenMarker extends CTokenMarker
 			keywords.add("para_todo",Token.KEYWORD1);
 			keywords.add("global",Token.KEYWORD1);
 			keywords.add("retorne",Token.KEYWORD1);
+			keywords.add("siempre",Token.KEYWORD1);
 			keywords.add("segun",Token.KEYWORD1);
 			keywords.add("según",Token.KEYWORD1);
 			keywords.add("mientras",Token.KEYWORD1);
-//			keywords.add("lance",Token.KEYWORD1);
-//			keywords.add("intente",Token.KEYWORD1);
-//			keywords.add("atrape",Token.KEYWORD1);
+			keywords.add("lance",Token.KEYWORD1);
+			keywords.add("intente",Token.KEYWORD1);
+			keywords.add("atrape",Token.KEYWORD1);
 			keywords.add("extiende",Token.KEYWORD1);
 			keywords.add("implementa",Token.KEYWORD1);
 			keywords.add("operacion",Token.KEYWORD1);
