@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2003-03-14
+// FECHA ULTIMA ACTUALIZACION   : 2003-03-18
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2003-03-18
+//		- ";" opcional al final de:
+//			- indicación de paquete
+//			- indicación utiliza
+//			- cada atributo en definición de clase
 //
 //		2003-03-14
 //		- Incluida variante "foreach"  ("para" .. "en" expresion ..)
@@ -555,7 +561,7 @@ NFuente fuente() :
 }
 {
 	[ pq=paquete() ]
-	( utz=utiliza() ";"   { v_utz.addElement(utz); } )*
+	( utz=utiliza() [";"]   { v_utz.addElement(utz); } )*
 	( n=unidad()            { v.addElement(n); }	)+
 	<EOF>
 	{
@@ -631,7 +637,7 @@ NPaquete paquete() :
 	TNombre nom;
 }
 {
-	tini="paquete" nom=tnombre() ";"
+	tini="paquete" nom=tnombre() [";"]
 	{
 		return ConstructorArbol.crearNPaquete(tini, nom);
 	}
@@ -718,8 +724,8 @@ NDeclDesc[] declDescs() :
 	NDeclDesc d;
 }
 {
-	d=declDesc() ";"    { v.addElement(d); }
-	( d=declDesc() ";"  { v.addElement(d); } )*
+	d=declDesc()   [";"]    { v.addElement(d); }
+	( d=declDesc() [";"]    { v.addElement(d); } )*
 	{
 		NDeclDesc[] a = new NDeclDesc[v.size()];
 		v.copyInto(a);

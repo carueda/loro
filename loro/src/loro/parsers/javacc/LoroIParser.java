@@ -33,8 +33,15 @@ class LoroIParser implements LoroIParserConstants {
         break label_1;
       }
       utz = utiliza();
-      jj_consume_token(90);
-                                v_utz.addElement(utz);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case 90:
+        jj_consume_token(90);
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        ;
+      }
+                                  v_utz.addElement(utz);
     }
     label_2:
     while (true) {
@@ -51,7 +58,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[2] = jj_gen;
+        jj_la1[3] = jj_gen;
         break label_2;
       }
     }
@@ -84,7 +91,7 @@ class LoroIParser implements LoroIParserConstants {
       n = interface_();
       break;
     default:
-      jj_la1[3] = jj_gen;
+      jj_la1[4] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -120,7 +127,7 @@ class LoroIParser implements LoroIParserConstants {
           ;
           break;
         default:
-          jj_la1[4] = jj_gen;
+          jj_la1[5] = jj_gen;
           break label_3;
         }
         jj_consume_token(91);
@@ -129,7 +136,7 @@ class LoroIParser implements LoroIParserConstants {
       }
       break;
     default:
-      jj_la1[5] = jj_gen;
+      jj_la1[6] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -137,7 +144,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(DESCRIPCION);
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[7] = jj_gen;
       ;
     }
     d = tdoc();
@@ -149,7 +156,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[8] = jj_gen;
         break label_4;
       }
       op = especificacion();
@@ -170,7 +177,14 @@ class LoroIParser implements LoroIParserConstants {
         TNombre nom;
     tini = jj_consume_token(PAQUETE);
     nom = tnombre();
-    jj_consume_token(90);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 90:
+      jj_consume_token(90);
+      break;
+    default:
+      jj_la1[9] = jj_gen;
+      ;
+    }
                 {if (true) return ConstructorArbol.crearNPaquete(tini, nom);}
     throw new Error("Missing return statement in function");
   }
@@ -192,7 +206,7 @@ class LoroIParser implements LoroIParserConstants {
       que = jj_consume_token(CLASE);
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[10] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -227,7 +241,7 @@ class LoroIParser implements LoroIParserConstants {
       tini = jj_consume_token(OBJETO);
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[11] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -238,7 +252,7 @@ class LoroIParser implements LoroIParserConstants {
       x = tnombre();
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[12] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -253,7 +267,7 @@ class LoroIParser implements LoroIParserConstants {
           ;
           break;
         default:
-          jj_la1[11] = jj_gen;
+          jj_la1[13] = jj_gen;
           break label_5;
         }
         jj_consume_token(91);
@@ -262,7 +276,7 @@ class LoroIParser implements LoroIParserConstants {
       }
       break;
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[14] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -270,7 +284,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(DESCRIPCION);
       break;
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[15] = jj_gen;
       ;
     }
     d = tdoc();
@@ -279,7 +293,7 @@ class LoroIParser implements LoroIParserConstants {
       atrs = declDescs();
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[16] = jj_gen;
       ;
     }
     label_6:
@@ -289,7 +303,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[15] = jj_gen;
+        jj_la1[17] = jj_gen;
         break label_6;
       }
       c = constructor();
@@ -303,7 +317,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[16] = jj_gen;
+        jj_la1[18] = jj_gen;
         break label_7;
       }
       m = algoritmo();
@@ -318,7 +332,7 @@ class LoroIParser implements LoroIParserConstants {
       tfin = jj_consume_token(OBJETO);
       break;
     default:
-      jj_la1[17] = jj_gen;
+      jj_la1[19] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -340,8 +354,15 @@ class LoroIParser implements LoroIParserConstants {
         Vector v = new Vector();
         NDeclDesc d;
     d = declDesc();
-    jj_consume_token(90);
-                              v.addElement(d);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 90:
+      jj_consume_token(90);
+      break;
+    default:
+      jj_la1[20] = jj_gen;
+      ;
+    }
+                                  v.addElement(d);
     label_8:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -349,12 +370,19 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[18] = jj_gen;
+        jj_la1[21] = jj_gen;
         break label_8;
       }
       d = declDesc();
-      jj_consume_token(90);
-                              v.addElement(d);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case 90:
+        jj_consume_token(90);
+        break;
+      default:
+        jj_la1[22] = jj_gen;
+        ;
+      }
+                                  v.addElement(d);
     }
                 NDeclDesc[] a = new NDeclDesc[v.size()];
                 v.copyInto(a);
@@ -389,19 +417,19 @@ class LoroIParser implements LoroIParserConstants {
           e = expresion();
           break;
         default:
-          jj_la1[19] = jj_gen;
+          jj_la1[23] = jj_gen;
           ;
         }
                                                                esConstante = true;
         break;
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[24] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[25] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -409,7 +437,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(92);
       break;
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[26] = jj_gen;
       ;
     }
     d = tdoc();
@@ -436,7 +464,7 @@ class LoroIParser implements LoroIParserConstants {
       ent = declaraciones();
       break;
     default:
-      jj_la1[23] = jj_gen;
+      jj_la1[27] = jj_gen;
       ;
     }
     jj_consume_token(96);
@@ -445,7 +473,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(DESCRIPCION);
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[28] = jj_gen;
       ;
     }
     d = tdoc();
@@ -460,13 +488,13 @@ class LoroIParser implements LoroIParserConstants {
         dent = descripciones();
         break;
       default:
-        jj_la1[25] = jj_gen;
+        jj_la1[29] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[26] = jj_gen;
+      jj_la1[30] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -475,7 +503,7 @@ class LoroIParser implements LoroIParserConstants {
       pre = afirmacion();
       break;
     default:
-      jj_la1[27] = jj_gen;
+      jj_la1[31] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -484,7 +512,7 @@ class LoroIParser implements LoroIParserConstants {
       pos = afirmacion();
       break;
     default:
-      jj_la1[28] = jj_gen;
+      jj_la1[32] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -498,13 +526,13 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(ESTRATEGIA);
         break;
       default:
-        jj_la1[29] = jj_gen;
+        jj_la1[33] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[30] = jj_gen;
+      jj_la1[34] = jj_gen;
       ;
     }
     e = tdoc();
@@ -536,7 +564,7 @@ class LoroIParser implements LoroIParserConstants {
       tini = jj_consume_token(OPERACION);
       break;
     default:
-      jj_la1[31] = jj_gen;
+      jj_la1[35] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -547,7 +575,7 @@ class LoroIParser implements LoroIParserConstants {
       ent = declaraciones();
       break;
     default:
-      jj_la1[32] = jj_gen;
+      jj_la1[36] = jj_gen;
       ;
     }
     jj_consume_token(96);
@@ -557,7 +585,7 @@ class LoroIParser implements LoroIParserConstants {
       sal = declaraciones();
       break;
     default:
-      jj_la1[33] = jj_gen;
+      jj_la1[37] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -565,7 +593,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(DESCRIPCION);
       break;
     default:
-      jj_la1[34] = jj_gen;
+      jj_la1[38] = jj_gen;
       ;
     }
     d = tdoc();
@@ -580,13 +608,13 @@ class LoroIParser implements LoroIParserConstants {
         dent = descripciones();
         break;
       default:
-        jj_la1[35] = jj_gen;
+        jj_la1[39] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[36] = jj_gen;
+      jj_la1[40] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -600,13 +628,13 @@ class LoroIParser implements LoroIParserConstants {
         dsal = descripciones();
         break;
       default:
-        jj_la1[37] = jj_gen;
+        jj_la1[41] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[38] = jj_gen;
+      jj_la1[42] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -615,7 +643,7 @@ class LoroIParser implements LoroIParserConstants {
       pre = afirmacion();
       break;
     default:
-      jj_la1[39] = jj_gen;
+      jj_la1[43] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -624,7 +652,7 @@ class LoroIParser implements LoroIParserConstants {
       pos = afirmacion();
       break;
     default:
-      jj_la1[40] = jj_gen;
+      jj_la1[44] = jj_gen;
       ;
     }
     jj_consume_token(FIN);
@@ -636,7 +664,7 @@ class LoroIParser implements LoroIParserConstants {
       tfin = jj_consume_token(OPERACION);
       break;
     default:
-      jj_la1[41] = jj_gen;
+      jj_la1[45] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -661,7 +689,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[42] = jj_gen;
+        jj_la1[46] = jj_gen;
         break label_9;
       }
     }
@@ -683,7 +711,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(90);
       break;
     default:
-      jj_la1[43] = jj_gen;
+      jj_la1[47] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNDescripcion(i, d);}
@@ -709,7 +737,7 @@ class LoroIParser implements LoroIParserConstants {
       ti = jj_consume_token(METODO);
       break;
     default:
-      jj_la1[44] = jj_gen;
+      jj_la1[48] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -718,7 +746,7 @@ class LoroIParser implements LoroIParserConstants {
       id = tid();
       break;
     default:
-      jj_la1[45] = jj_gen;
+      jj_la1[49] = jj_gen;
       ;
     }
     jj_consume_token(PARA);
@@ -729,7 +757,7 @@ class LoroIParser implements LoroIParserConstants {
       ent = declaraciones();
       break;
     default:
-      jj_la1[46] = jj_gen;
+      jj_la1[50] = jj_gen;
       ;
     }
     jj_consume_token(96);
@@ -739,7 +767,7 @@ class LoroIParser implements LoroIParserConstants {
       sal = declaraciones();
       break;
     default:
-      jj_la1[47] = jj_gen;
+      jj_la1[51] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -758,13 +786,13 @@ class LoroIParser implements LoroIParserConstants {
           jj_consume_token(ESTRATEGIA);
           break;
         default:
-          jj_la1[48] = jj_gen;
+          jj_la1[52] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[49] = jj_gen;
+        jj_la1[53] = jj_gen;
         ;
       }
       d = tdoc();
@@ -780,7 +808,7 @@ class LoroIParser implements LoroIParserConstants {
         lengAdic = timpl();
         break;
       default:
-        jj_la1[50] = jj_gen;
+        jj_la1[54] = jj_gen;
         ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -788,12 +816,12 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(90);
         break;
       default:
-        jj_la1[51] = jj_gen;
+        jj_la1[55] = jj_gen;
         ;
       }
       break;
     default:
-      jj_la1[52] = jj_gen;
+      jj_la1[56] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -806,7 +834,7 @@ class LoroIParser implements LoroIParserConstants {
       tf = jj_consume_token(METODO);
       break;
     default:
-      jj_la1[53] = jj_gen;
+      jj_la1[57] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -888,19 +916,19 @@ class LoroIParser implements LoroIParserConstants {
           e = expresion();
           break;
         default:
-          jj_la1[54] = jj_gen;
+          jj_la1[58] = jj_gen;
           ;
         }
                           esConstante = true;
         break;
       default:
-        jj_la1[55] = jj_gen;
+        jj_la1[59] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[56] = jj_gen;
+      jj_la1[60] = jj_gen;
       ;
     }
                 NDeclaracion[] decl = new NDeclaracion[i.length];
@@ -939,19 +967,19 @@ class LoroIParser implements LoroIParserConstants {
           e = expresion();
           break;
         default:
-          jj_la1[57] = jj_gen;
+          jj_la1[61] = jj_gen;
           ;
         }
                           esConstante = true;
         break;
       default:
-        jj_la1[58] = jj_gen;
+        jj_la1[62] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[59] = jj_gen;
+      jj_la1[63] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNDeclaracion(i, t, esConstante, e, c);}
@@ -991,7 +1019,7 @@ class LoroIParser implements LoroIParserConstants {
         nom = tnombre();
         break;
       default:
-        jj_la1[60] = jj_gen;
+        jj_la1[64] = jj_gen;
         ;
       }
                   t = ConstructorArbol.crearNTipoEspecificacion(ti, nom);
@@ -1003,14 +1031,14 @@ class LoroIParser implements LoroIParserConstants {
         ti = jj_consume_token(CLASE);
         break;
       default:
-        jj_la1[61] = jj_gen;
+        jj_la1[65] = jj_gen;
         ;
       }
       nom = tnombre();
                   t = ConstructorArbol.crearNTipoClase(ti, nom);
       break;
     default:
-      jj_la1[62] = jj_gen;
+      jj_la1[66] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1038,7 +1066,7 @@ class LoroIParser implements LoroIParserConstants {
       t = jj_consume_token(CADENA);
       break;
     default:
-      jj_la1[63] = jj_gen;
+      jj_la1[67] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1089,7 +1117,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[64] = jj_gen;
+        jj_la1[68] = jj_gen;
         break label_11;
       }
       a = accion();
@@ -1163,7 +1191,7 @@ class LoroIParser implements LoroIParserConstants {
         n = _continue();
         break;
       default:
-        jj_la1[65] = jj_gen;
+        jj_la1[69] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1235,12 +1263,12 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(90);
         break;
       default:
-        jj_la1[66] = jj_gen;
+        jj_la1[70] = jj_gen;
         ;
       }
       break;
     default:
-      jj_la1[67] = jj_gen;
+      jj_la1[71] = jj_gen;
       ;
     }
     jj_consume_token(0);
@@ -1297,7 +1325,7 @@ class LoroIParser implements LoroIParserConstants {
       n = utiliza();
       break;
     default:
-      jj_la1[68] = jj_gen;
+      jj_la1[72] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1322,7 +1350,7 @@ class LoroIParser implements LoroIParserConstants {
         n = ciclo();
         break;
       default:
-        jj_la1[69] = jj_gen;
+        jj_la1[73] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1365,7 +1393,7 @@ class LoroIParser implements LoroIParserConstants {
       tdoc = jj_consume_token(TEXT_DOC);
       break;
     default:
-      jj_la1[70] = jj_gen;
+      jj_la1[74] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1396,7 +1424,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[71] = jj_gen;
+        jj_la1[75] = jj_gen;
         break label_13;
       }
       sinosi = decision_si_no_si();
@@ -1408,7 +1436,7 @@ class LoroIParser implements LoroIParserConstants {
       an = acciones();
       break;
     default:
-      jj_la1[72] = jj_gen;
+      jj_la1[76] = jj_gen;
       ;
     }
     jj_consume_token(FIN);
@@ -1453,7 +1481,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[73] = jj_gen;
+        jj_la1[77] = jj_gen;
         break label_14;
       }
       cti = jj_consume_token(CASO);
@@ -1468,7 +1496,7 @@ class LoroIParser implements LoroIParserConstants {
           jj_consume_token(90);
           break;
         default:
-          jj_la1[74] = jj_gen;
+          jj_la1[78] = jj_gen;
           ;
         }
                                                                 con_fin_caso = true;
@@ -1489,7 +1517,7 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(92);
         break;
       default:
-        jj_la1[75] = jj_gen;
+        jj_la1[79] = jj_gen;
         ;
       }
       a_caso = acciones();
@@ -1501,7 +1529,7 @@ class LoroIParser implements LoroIParserConstants {
           jj_consume_token(90);
           break;
         default:
-          jj_la1[76] = jj_gen;
+          jj_la1[80] = jj_gen;
           ;
         }
       } else {
@@ -1510,7 +1538,7 @@ class LoroIParser implements LoroIParserConstants {
                                 caso_sino = ConstructorArbol.crearNCaso(cti, null, a_caso, true, ctf);
       break;
     default:
-      jj_la1[77] = jj_gen;
+      jj_la1[81] = jj_gen;
       ;
     }
     jj_consume_token(FIN);
@@ -1535,7 +1563,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(102);
       break;
     default:
-      jj_la1[78] = jj_gen;
+      jj_la1[82] = jj_gen;
       ;
     }
     e = expresion();
@@ -1567,7 +1595,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(102);
       break;
     default:
-      jj_la1[79] = jj_gen;
+      jj_la1[83] = jj_gen;
       ;
     }
     if (jj_2_7(2)) {
@@ -1578,7 +1606,7 @@ class LoroIParser implements LoroIParserConstants {
         i = tid();
         break;
       default:
-        jj_la1[80] = jj_gen;
+        jj_la1[84] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1594,7 +1622,7 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(93);
         break;
       default:
-        jj_la1[81] = jj_gen;
+        jj_la1[85] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1605,7 +1633,7 @@ class LoroIParser implements LoroIParserConstants {
                                                                  b = true;
         break;
       default:
-        jj_la1[82] = jj_gen;
+        jj_la1[86] = jj_gen;
         ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1614,7 +1642,7 @@ class LoroIParser implements LoroIParserConstants {
         ep = expresion();
         break;
       default:
-        jj_la1[83] = jj_gen;
+        jj_la1[87] = jj_gen;
         ;
       }
       jj_consume_token(HASTA);
@@ -1635,7 +1663,7 @@ class LoroIParser implements LoroIParserConstants {
                         {if (true) return ConstructorArbol.crearNForEach(ti, etq, i, d, en, a, tf);}
       break;
     default:
-      jj_la1[84] = jj_gen;
+      jj_la1[88] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1656,7 +1684,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(102);
       break;
     default:
-      jj_la1[85] = jj_gen;
+      jj_la1[89] = jj_gen;
       ;
     }
     a = acciones();
@@ -1679,7 +1707,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(102);
       break;
     default:
-      jj_la1[86] = jj_gen;
+      jj_la1[90] = jj_gen;
       ;
     }
     a = acciones();
@@ -1719,7 +1747,7 @@ class LoroIParser implements LoroIParserConstants {
       es = expresiones();
       break;
     default:
-      jj_la1[87] = jj_gen;
+      jj_la1[91] = jj_gen;
       ;
     }
                 if ( es == null )
@@ -1742,7 +1770,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(102);
       break;
     default:
-      jj_la1[88] = jj_gen;
+      jj_la1[92] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1751,7 +1779,7 @@ class LoroIParser implements LoroIParserConstants {
       e = expresion();
       break;
     default:
-      jj_la1[89] = jj_gen;
+      jj_la1[93] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNTermine(t, etq, e);}
@@ -1771,7 +1799,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(102);
       break;
     default:
-      jj_la1[90] = jj_gen;
+      jj_la1[94] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1780,7 +1808,7 @@ class LoroIParser implements LoroIParserConstants {
       e = expresion();
       break;
     default:
-      jj_la1[91] = jj_gen;
+      jj_la1[95] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNContinue(t, etq, e);}
@@ -1805,7 +1833,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[92] = jj_gen;
+        jj_la1[96] = jj_gen;
         break label_15;
       }
       ti2 = jj_consume_token(ATRAPE);
@@ -1829,7 +1857,7 @@ class LoroIParser implements LoroIParserConstants {
                         f = ConstructorArbol.crearNAtrape(ti2, null, ca, null);
       break;
     default:
-      jj_la1[93] = jj_gen;
+      jj_la1[97] = jj_gen;
       ;
     }
     jj_consume_token(FIN);
@@ -1862,7 +1890,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[94] = jj_gen;
+        jj_la1[98] = jj_gen;
         break label_16;
       }
       jj_consume_token(91);
@@ -1890,7 +1918,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNAsignacion(e, f);
       break;
     default:
-      jj_la1[95] = jj_gen;
+      jj_la1[99] = jj_gen;
       ;
     }
                 {if (true) return e;}
@@ -1910,7 +1938,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCondicion(e, f, g);
       break;
     default:
-      jj_la1[96] = jj_gen;
+      jj_la1[100] = jj_gen;
       ;
     }
                 {if (true) return e;}
@@ -1929,7 +1957,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[97] = jj_gen;
+        jj_la1[101] = jj_gen;
         break label_17;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1944,7 +1972,7 @@ class LoroIParser implements LoroIParserConstants {
                                 e = ConstructorArbol.crearNImplicacion(e, f);
         break;
       default:
-        jj_la1[98] = jj_gen;
+        jj_la1[102] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1964,7 +1992,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[99] = jj_gen;
+        jj_la1[103] = jj_gen;
         break label_18;
       }
       jj_consume_token(106);
@@ -1986,7 +2014,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[100] = jj_gen;
+        jj_la1[104] = jj_gen;
         break label_19;
       }
       jj_consume_token(107);
@@ -2008,7 +2036,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[101] = jj_gen;
+        jj_la1[105] = jj_gen;
         break label_20;
       }
       jj_consume_token(108);
@@ -2030,7 +2058,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[102] = jj_gen;
+        jj_la1[106] = jj_gen;
         break label_21;
       }
       jj_consume_token(109);
@@ -2052,7 +2080,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[103] = jj_gen;
+        jj_la1[107] = jj_gen;
         break label_22;
       }
       jj_consume_token(110);
@@ -2075,7 +2103,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[104] = jj_gen;
+        jj_la1[108] = jj_gen;
         break label_23;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2090,7 +2118,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNDiferente(e, f);
         break;
       default:
-        jj_la1[105] = jj_gen;
+        jj_la1[109] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2125,13 +2153,13 @@ class LoroIParser implements LoroIParserConstants {
                                 e = ConstructorArbol.crearNEsInstanciaDe(e, t);
         break;
       default:
-        jj_la1[106] = jj_gen;
+        jj_la1[110] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[107] = jj_gen;
+      jj_la1[111] = jj_gen;
       ;
     }
                 {if (true) return e;}
@@ -2152,7 +2180,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[108] = jj_gen;
+        jj_la1[112] = jj_gen;
         break label_24;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2177,7 +2205,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNMayorIgual(e, f);
         break;
       default:
-        jj_la1[109] = jj_gen;
+        jj_la1[113] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2199,7 +2227,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[110] = jj_gen;
+        jj_la1[114] = jj_gen;
         break label_25;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2219,7 +2247,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCorrDerDer(e, f);
         break;
       default:
-        jj_la1[111] = jj_gen;
+        jj_la1[115] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2240,7 +2268,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[112] = jj_gen;
+        jj_la1[116] = jj_gen;
         break label_26;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2255,7 +2283,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNMenos(e, f);
         break;
       default:
-        jj_la1[113] = jj_gen;
+        jj_la1[117] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2277,7 +2305,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[114] = jj_gen;
+        jj_la1[118] = jj_gen;
         break label_27;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2297,7 +2325,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNMod(e, f);
         break;
       default:
-        jj_la1[115] = jj_gen;
+        jj_la1[119] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2368,7 +2396,7 @@ class LoroIParser implements LoroIParserConstants {
         ti = jj_consume_token(PARA_TODO);
         break;
       default:
-        jj_la1[116] = jj_gen;
+        jj_la1[120] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2379,7 +2407,7 @@ class LoroIParser implements LoroIParserConstants {
         con = expresion();
         break;
       default:
-        jj_la1[117] = jj_gen;
+        jj_la1[121] = jj_gen;
         ;
       }
       jj_consume_token(92);
@@ -2387,7 +2415,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCuantificado(ti, d, con, e);
       break;
     default:
-      jj_la1[118] = jj_gen;
+      jj_la1[122] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2411,7 +2439,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[119] = jj_gen;
+        jj_la1[123] = jj_gen;
         break label_28;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2453,7 +2481,7 @@ class LoroIParser implements LoroIParserConstants {
           args = expresiones();
           break;
         default:
-          jj_la1[120] = jj_gen;
+          jj_la1[124] = jj_gen;
           ;
         }
         tf = jj_consume_token(96);
@@ -2462,7 +2490,7 @@ class LoroIParser implements LoroIParserConstants {
                                 e = ConstructorArbol.crearNInvocacion(e, args, tf);
         break;
       default:
-        jj_la1[121] = jj_gen;
+        jj_la1[125] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2511,7 +2539,7 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(91);
         break;
       default:
-        jj_la1[122] = jj_gen;
+        jj_la1[126] = jj_gen;
         ;
       }
       tf = jj_consume_token(99);
@@ -2530,7 +2558,7 @@ class LoroIParser implements LoroIParserConstants {
       e = e_crear();
       break;
     default:
-      jj_la1[123] = jj_gen;
+      jj_la1[127] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2555,7 +2583,7 @@ class LoroIParser implements LoroIParserConstants {
         g = expresion();
         break;
       default:
-        jj_la1[124] = jj_gen;
+        jj_la1[128] = jj_gen;
         ;
       }
       jj_consume_token(99);
@@ -2591,7 +2619,7 @@ class LoroIParser implements LoroIParserConstants {
           args = expresiones();
           break;
         default:
-          jj_la1[125] = jj_gen;
+          jj_la1[129] = jj_gen;
           ;
         }
         tf = jj_consume_token(96);
@@ -2606,7 +2634,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCrearObjeto(ti, c, args, tf);
       break;
     default:
-      jj_la1[126] = jj_gen;
+      jj_la1[130] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2634,7 +2662,7 @@ class LoroIParser implements LoroIParserConstants {
           g = expresion();
           break;
         default:
-          jj_la1[127] = jj_gen;
+          jj_la1[131] = jj_gen;
           ;
         }
         jj_consume_token(99);
@@ -2642,7 +2670,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCrearArreglo(ti, e, g, f);
         break;
       default:
-        jj_la1[128] = jj_gen;
+        jj_la1[132] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2676,7 +2704,7 @@ class LoroIParser implements LoroIParserConstants {
       e = e_literalNulo();
       break;
     default:
-      jj_la1[129] = jj_gen;
+      jj_la1[133] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2730,7 +2758,7 @@ class LoroIParser implements LoroIParserConstants {
       t = jj_consume_token(PRE);
       break;
     default:
-      jj_la1[130] = jj_gen;
+      jj_la1[134] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2819,7 +2847,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[131] = jj_gen;
+        jj_la1[135] = jj_gen;
         break label_31;
       }
       jj_consume_token(91);
@@ -2877,7 +2905,7 @@ class LoroIParser implements LoroIParserConstants {
                                  str = t.image.substring(1, t.image.length() -1);
       break;
     default:
-      jj_la1[132] = jj_gen;
+      jj_la1[136] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2897,7 +2925,7 @@ class LoroIParser implements LoroIParserConstants {
       t = jj_consume_token(LITERAL_CADENA);
       break;
     default:
-      jj_la1[133] = jj_gen;
+      jj_la1[137] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2994,49 +3022,6 @@ class LoroIParser implements LoroIParserConstants {
     boolean retval = !jj_3_13();
     jj_save(12, xla);
     return retval;
-  }
-
-  static final private boolean jj_3_7() {
-    if (jj_3R_37()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_99() {
-    if (jj_3R_100()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3_9() {
-    if (jj_scan_token(91)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_38()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_118() {
-    if (jj_3R_123()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_92() {
-    if (jj_scan_token(REPITA)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_35() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_43()) {
-    jj_scanpos = xsp;
-    if (jj_3R_44()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
   }
 
   static final private boolean jj_3R_37() {
@@ -3447,16 +3432,16 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3_8() {
-    if (jj_scan_token(FIN)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_scan_token(ATRAPE)) return true;
+  static final private boolean jj_3R_75() {
+    if (jj_scan_token(REAL)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_75() {
-    if (jj_scan_token(REAL)) return true;
+  static final private boolean jj_3_8() {
+    if (jj_scan_token(FIN)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_scan_token(ATRAPE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3920,6 +3905,49 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
+  static final private boolean jj_3_7() {
+    if (jj_3R_37()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_99() {
+    if (jj_3R_100()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_9() {
+    if (jj_scan_token(91)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_38()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_118() {
+    if (jj_3R_123()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_92() {
+    if (jj_scan_token(REPITA)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_35() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_43()) {
+    jj_scanpos = xsp;
+    if (jj_3R_44()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static private boolean jj_initialized_once = false;
   static public LoroIParserTokenManager token_source;
   static SimpleCharStream jj_input_stream;
@@ -3930,12 +3958,12 @@ class LoroIParser implements LoroIParserConstants {
   static public boolean lookingAhead = false;
   static private boolean jj_semLA;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[134];
-  static final private int[] jj_la1_0 = {0x0,0x0,0x41000000,0x41000000,0x0,0x0,0x0,0x0,0x41000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x0,0x0,0x0,0x0,0x0,0x40000,0x0,0x10000,0x1000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x41f80000,0xf80000,0x30000000,0x30000000,0x0,0x30000000,0x30000000,0x10000000,0x20010000,0x0,0x0,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4000000,0x0,0x0,0x0,0x0,0x20000000,0x0,0x0,0x0,0x0,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x80000000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x20000000,0x0,0x20000000,0x0,0x0,0x20000000,0x0,0x20000000,0x0,0x0,0x0,0x20000000,0x20000000,0x0,0x40000,0x10000,};
-  static final private int[] jj_la1_1 = {0x0,0x0,0xc5000400,0xc5000400,0x0,0x4000,0x20,0x80000400,0x400,0x40000000,0x4000,0x0,0x0,0x20,0x0,0x2,0x4000000,0x40000000,0x0,0x0,0x1,0x1,0x0,0x0,0x20,0x10000000,0x100,0x0,0x0,0x1020,0x1020,0x80000400,0x0,0x0,0x20,0x10000000,0x100,0x10000000,0x0,0x0,0x0,0x80000400,0x0,0x0,0x4000000,0x0,0x0,0x0,0x1020,0x1020,0x0,0x0,0x101020,0x4000000,0x0,0x1,0x1,0x0,0x1,0x1,0x0,0x0,0x1000000,0x0,0x2a80a80c,0x2a80a80c,0x0,0x2a80a80c,0x2a80a80c,0x0,0x2000a808,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x10,0x0,0x0,0x50,0x0,0x0,0x2000a808,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x400200,0x400200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2000,0x0,0x2000a808,0x0,0x2000a808,0x0,0x0,0x20008808,0x0,0x2000a808,0x0,0x0,0x0,0x20008000,0x8000,0x0,0x0,0x0,};
-  static final private int[] jj_la1_2 = {0x1,0x10000,0x0,0x0,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x8000000,0x2,0x0,0x800000,0x0,0x0,0x0,0x800000,0x40000000,0x20000000,0x20000000,0x10000000,0x800000,0x0,0x800000,0x0,0x20,0x10,0x0,0x0,0x0,0x800000,0x0,0x0,0x800000,0x0,0x800000,0x100,0x20,0x10,0x0,0x800000,0x4000000,0x0,0x800000,0x800000,0x0,0x0,0x0,0x400000,0x4000000,0x400000,0x0,0x40000000,0x20000000,0x20000000,0x40000000,0x20000000,0x20000000,0x2,0x0,0x800000,0x0,0x80e686e6,0x80e686e6,0x4000000,0x80e786e6,0x80e786e6,0x42,0x80e60024,0x1000,0x800,0x0,0x4000000,0x10000000,0x4000000,0x800,0x0,0x0,0x800000,0x20000000,0x0,0x8,0x20000000,0x0,0x0,0x80e60024,0x0,0x400,0x0,0x400,0x0,0x2000,0x8000000,0x20000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x8000000,0x80e60024,0x80000000,0x80e60024,0x80000000,0x8000000,0x80e60020,0x0,0x80e60024,0x800000,0x0,0x0,0x660020,0x20,0x8000000,0x400000,0x400000,};
-  static final private int[] jj_la1_3 = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x0,0x79800014,0x79800014,0x0,0x79800014,0x79800014,0x0,0x79800004,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40,0x40,0x0,0x0,0x0,0x0,0x0,0x40,0x40,0x79800004,0x40,0x0,0x40,0x0,0x0,0x0,0x0,0x0,0x80,0x300,0x300,0x400,0x800,0x1000,0x2000,0x4000,0x8000,0x8000,0x0,0x0,0xf0000,0xf0000,0x700000,0x700000,0x1800000,0x1800000,0x6000040,0x6000040,0x0,0x0,0x79800004,0x80000004,0x79800004,0x80000004,0x0,0x4,0x0,0x79800004,0x4,0x0,0x4,0x0,0x0,0x0,0x0,0x0,};
-  static final private int[] jj_la1_4 = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x0,0x0,};
+  static final private int[] jj_la1 = new int[138];
+  static final private int[] jj_la1_0 = {0x0,0x0,0x0,0x41000000,0x41000000,0x0,0x0,0x0,0x0,0x0,0x41000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x0,0x0,0x0,0x0,0x0,0x40000,0x0,0x10000,0x1000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x41f80000,0xf80000,0x30000000,0x30000000,0x0,0x30000000,0x30000000,0x10000000,0x20010000,0x0,0x0,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4000000,0x0,0x0,0x0,0x0,0x20000000,0x0,0x0,0x0,0x0,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x80000000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x20000000,0x0,0x20000000,0x0,0x0,0x20000000,0x0,0x20000000,0x0,0x0,0x0,0x20000000,0x20000000,0x0,0x40000,0x10000,};
+  static final private int[] jj_la1_1 = {0x0,0x0,0x0,0xc5000400,0xc5000400,0x0,0x4000,0x20,0x80000400,0x0,0x400,0x40000000,0x4000,0x0,0x0,0x20,0x0,0x2,0x4000000,0x40000000,0x0,0x0,0x0,0x0,0x1,0x1,0x0,0x0,0x20,0x10000000,0x100,0x0,0x0,0x1020,0x1020,0x80000400,0x0,0x0,0x20,0x10000000,0x100,0x10000000,0x0,0x0,0x0,0x80000400,0x0,0x0,0x4000000,0x0,0x0,0x0,0x1020,0x1020,0x0,0x0,0x101020,0x4000000,0x0,0x1,0x1,0x0,0x1,0x1,0x0,0x0,0x1000000,0x0,0x2a80a80c,0x2a80a80c,0x0,0x2a80a80c,0x2a80a80c,0x0,0x2000a808,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x10,0x0,0x0,0x50,0x0,0x0,0x2000a808,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x400200,0x400200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2000,0x0,0x2000a808,0x0,0x2000a808,0x0,0x0,0x20008808,0x0,0x2000a808,0x0,0x0,0x0,0x20008000,0x8000,0x0,0x0,0x0,};
+  static final private int[] jj_la1_2 = {0x1,0x10000,0x4000000,0x0,0x0,0x8000000,0x0,0x0,0x0,0x4000000,0x0,0x0,0x0,0x8000000,0x2,0x0,0x800000,0x0,0x0,0x0,0x4000000,0x800000,0x4000000,0x40000000,0x20000000,0x20000000,0x10000000,0x800000,0x0,0x800000,0x0,0x20,0x10,0x0,0x0,0x0,0x800000,0x0,0x0,0x800000,0x0,0x800000,0x100,0x20,0x10,0x0,0x800000,0x4000000,0x0,0x800000,0x800000,0x0,0x0,0x0,0x400000,0x4000000,0x400000,0x0,0x40000000,0x20000000,0x20000000,0x40000000,0x20000000,0x20000000,0x2,0x0,0x800000,0x0,0x80e686e6,0x80e686e6,0x4000000,0x80e786e6,0x80e786e6,0x42,0x80e60024,0x1000,0x800,0x0,0x4000000,0x10000000,0x4000000,0x800,0x0,0x0,0x800000,0x20000000,0x0,0x8,0x20000000,0x0,0x0,0x80e60024,0x0,0x400,0x0,0x400,0x0,0x2000,0x8000000,0x20000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x8000000,0x80e60024,0x80000000,0x80e60024,0x80000000,0x8000000,0x80e60020,0x0,0x80e60024,0x800000,0x0,0x0,0x660020,0x20,0x8000000,0x400000,0x400000,};
+  static final private int[] jj_la1_3 = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x0,0x79800014,0x79800014,0x0,0x79800014,0x79800014,0x0,0x79800004,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40,0x40,0x0,0x0,0x0,0x0,0x0,0x40,0x40,0x79800004,0x40,0x0,0x40,0x0,0x0,0x0,0x0,0x0,0x80,0x300,0x300,0x400,0x800,0x1000,0x2000,0x4000,0x8000,0x8000,0x0,0x0,0xf0000,0xf0000,0x700000,0x700000,0x1800000,0x1800000,0x6000040,0x6000040,0x0,0x0,0x79800004,0x80000004,0x79800004,0x80000004,0x0,0x4,0x0,0x79800004,0x4,0x0,0x4,0x0,0x0,0x0,0x0,0x0,};
+  static final private int[] jj_la1_4 = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x0,0x0,};
   static final private JJCalls[] jj_2_rtns = new JJCalls[13];
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
@@ -3953,7 +3981,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 134; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 138; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3963,7 +3991,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 134; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 138; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3980,7 +4008,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 134; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 138; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3990,7 +4018,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 134; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 138; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -4006,7 +4034,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 134; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 138; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -4015,7 +4043,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 134; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 138; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -4130,7 +4158,7 @@ class LoroIParser implements LoroIParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 134; i++) {
+    for (int i = 0; i < 138; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {

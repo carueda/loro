@@ -26,7 +26,22 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
-2003-03-14 Version 0.7.8
+2003-03-18 Version 0.7.9
+
+	- LoroEjecutor.visitar(NEsInstanciaDe n) ahora utiliza Tipos.aKindOf().
+	  Esto corrige bug 706065 que producía un resultado falso al ejecutar:
+	  	unEmpleado  es_instancia_de  Persona
+	  siendo Empleado extensión de Persona.
+	  
+	- Sintaxis: ahora ";" es opcional al final de:
+		- indicación de paquete
+		- indicación utiliza
+		- cada atributo en definición de clase
+	  
+	- Nueva operación getPrototype() para especificaciones y algoritmos.
+	
+////////////////////////////////////////////////////////////////////////////
+2003-03-14 Version 0.7.8 (final)
 
 	- Adición al lenguaje:
 	  Incluida variante "for each" a iteración "para":

@@ -161,12 +161,9 @@ public class NAlgoritmo extends NUnidad implements IUnidad.IAlgoritmo
 	}
 
 	///////////////////////////////////////////////////////////
-	public String toString()
+	public String getPrototype()
 	{
-		StringBuffer sb = new StringBuffer(
-			(clase == null ? "algoritmo " : "método " +clase.obtNombreCompletoCadena()+ ".") 
-			+obtNombreCompletoCadena()+ "("
-		);
+		StringBuffer sb = new StringBuffer(obtNombreSimpleCadena()+ "(");
 		for ( int i = 0; i < pent.length; i++ )
 		{
 			if ( i > 0 )
@@ -178,13 +175,38 @@ public class NAlgoritmo extends NUnidad implements IUnidad.IAlgoritmo
 		{
 			sb.append("->");
 			for ( int i = 0; i < psal.length; i++ )
-			{   if ( i > 0 )
+			{ 
+				if ( i > 0 )
 					sb.append(",");
 				sb.append(psal[i].toString());
 			}
 		}
 
 		return sb.toString();
+	}
+
+	///////////////////////////////////////////////////////////
+	/**
+	 */
+	public String toString()
+	{
+		if ( clase == null )
+		{
+			String pkg = obtNombrePaquete();
+			if ( pkg == null )
+				pkg = "";
+			else
+				pkg += "::";
+			
+			return "algoritmo " +pkg + getPrototype();
+		}
+		else
+		{
+			return
+				"método " +clase.obtNombreCompletoCadena()+ "." 
+				+getPrototype()
+			;
+		}
 	}
 
 	//////////////////////////////////////////////////

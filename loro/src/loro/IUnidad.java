@@ -65,6 +65,12 @@ public interface IUnidad
 	 */
 	public interface IEspecificacion extends IUnidad
 	{
+		///////////////////////////////////////////////////////////
+		/**
+		 * Obtiene el prototipo de esta especificación, estilo: 
+		 *     simple_name(x:entero,y:blabla)->z:otroblabla
+		 */
+		public String getPrototype();
 	}
 	
 	//////////////////////////////////////////////////////
@@ -79,6 +85,13 @@ public interface IUnidad
 		 * por este algoritmo.
 		 */
 		public String getSpecificationName();
+		
+		///////////////////////////////////////////////////////////
+		/**
+		 * Obtiene el prototipo de este algoritmo, estilo: 
+		 *     simple_name(x:entero,y:blabla)->z:otroblabla
+		 */
+		public String getPrototype();
 	}
 
 	//////////////////////////////////////////////////////

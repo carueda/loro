@@ -139,18 +139,21 @@ public class NEspecificacion extends NUnidad implements IUnidad.IEspecificacion
 	}
 
 	///////////////////////////////////////////////////////////////////
-	public String toString()
+	public String getPrototype()
 	{
-		StringBuffer sb = new StringBuffer("especificación " +obtNombreCompletoCadena()+ "(");
-		for ( int i = 0; i < pent.length; i++ ) {
+		StringBuffer sb = new StringBuffer(obtNombreSimpleCadena()+ "(");
+		for ( int i = 0; i < pent.length; i++ ) 
+		{
 			if ( i > 0 )
 				sb.append(",");
 			sb.append(pent[i].toString());
 		}
 		sb.append(")");
-		if ( psal.length > 0 ) {
+		if ( psal.length > 0 ) 
+		{
 			sb.append("->");
-			for ( int i = 0; i < psal.length; i++ ) {
+			for ( int i = 0; i < psal.length; i++ ) 
+			{
 				if ( i > 0 )
 					sb.append(",");
 				sb.append(psal[i].toString());
@@ -158,6 +161,30 @@ public class NEspecificacion extends NUnidad implements IUnidad.IEspecificacion
 		}
 
 		return sb.toString();
+	}
+
+	///////////////////////////////////////////////////////////////////
+	/**
+	 */
+	public String toString()
+	{
+		if ( interf == null )
+		{
+			String pkg = obtNombrePaquete();
+			if ( pkg == null )
+				pkg = "";
+			else
+				pkg += "::";
+			
+			return "especificación " +pkg + getPrototype();
+		}
+		else
+		{
+			return
+				"operación " +interf.obtNombreCompletoCadena()+ "." 
+				+getPrototype()
+			;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////

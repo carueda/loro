@@ -1680,15 +1680,14 @@ search:
 				== ((Boolean)_ejecutarExpresion(f)).booleanValue()
 		);
 	}
-	/**
-	 */
+	
+	////////////////////////////////////////////////////////////
 	public void visitar(NEsInstanciaDe n)
 	throws VisitanteException
 	{
 		NExpresion e = n.obtExpresion();
 		Objeto obj = (Objeto)_ejecutarExpresion(e);
 
-		// 2001-10-07
 		if ( obj == null )
 		{
 			// asi opera tambien Java:
@@ -1700,16 +1699,18 @@ search:
 			// y mirar si es la misma que la de tipoRevisado, o es subclase
 			// de la de tipoRevisado.
 
-			// 2001-08-28
-			// Por ahora solo se verifica que sea EXACTAMENTE la misma clase
-
-			String nombre_clase_obj = obj.obtNClase().obtNombreCompletoCadena();
-			
-			String nombre_clase_rev = Util.obtStringRuta(
-				((TipoClase) n.obtNTipoRevisado().obtTipo()).obtNombreConPaquete()
-			);
-
-			retorno = new Boolean ( nombre_clase_obj.equals(nombre_clase_rev) );
+			TipoClase tcobj = (TipoClase) e.obtTipo();
+			TipoClase tcrev = (TipoClase) n.obtNTipoRevisado().obtTipo();
+			try
+			{
+				retorno = new Boolean(Tipos.aKindOf(tcobj, tcrev));
+			}
+			catch(ClaseNoEncontradaException exc)
+			{
+				throw _crearEjecucionException(n,
+					"Clase no encontrada durante revisión de 'es_intancia_de': '" +exc.obtNombre()+ "'"
+				);
+			}
 		}
 	}
 	///////////////////////////////////////////////////////////////////
