@@ -26,6 +26,14 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-24 Version 0.7.91
+
+	- Manejo del flag 'execute' a nivel de IInterprete.
+	- Simplificado loro.tools.InterpreteInteractivo de acuerdo a nuevos
+	  cambios en InterpreteImpl.
+	- Ajuste menor a TablaSimbolos.toString: No "\n" final.
+
+////////////////////////////////////////////////////////////////////////////
 2003-04-23 Version 0.7.91
 
 Reorganización de interpretación: Se busca unificar el manejo de meta-comandos
