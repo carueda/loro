@@ -26,6 +26,24 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-14 Version 0.7.8
+
+	- Mejoramiento de documentación HTML, con corrección de formato
+	  para símbolos especiales como ``&'' y ``<'' en código Loro
+	  llevado directamente a código HTML, concretamente el caso de 
+	  las pre y poscondiciones (VisitanteLoroDoc.afir()).
+	  Ver:
+	  	VisitanteLoroDoc
+		Util.formatHtml()        -- nuevo
+		Util.processInlineTags() -- movido de VisitanteLoroDoc
+	
+	NOTA: Las cadenas de documentación NO son procesadas en este
+	sentido pues se asume que es código HTML desde el principio;
+	por lo menos, esa es la situación actual (luego habrá que
+	estudiar este asunto).
+	
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-03-13 Version 0.7.8
 
 	- VisitanteLoroDoc: Puesto un </table> que faltaba.

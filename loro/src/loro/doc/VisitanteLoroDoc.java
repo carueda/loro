@@ -81,70 +81,11 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 
 	//////////////////////////////////////////////////////////////////////////
 	/**
-	 * Replaces an inline tag.
-	 * This is assumed to have the form:
-	 *	p::q::u.x
-	 * where x is one of:  i, o, c, e, a.
-	 */
-	static String replaceInlineTag(String it, NUnidad n)
-	{
-		if ( !it.endsWith(".i") 
-		&&   !it.endsWith(".o")
-		&&   !it.endsWith(".c")
-		&&   !it.endsWith(".e")
-		&&   !it.endsWith(".a") )
-		{
-			// don't change it:
-			return it;
-		}
-
-		int len = it.length();
-		String dest = it.substring(0, len - 2);
-		char x = it.charAt(len - 1);
-
-		String href = Util.getRelativeLocation(n.obtNombreCompleto(), dest)
-			+ "." +x+ ".html"
-		;
-
-		// only show the simple name:
-		String simple = dest;
-		int i;
-		if ( (i = simple.lastIndexOf(":")) >= 0 )
-		{
-			simple = simple.substring(i + 1);
-		}
-
-		return "<a href=\"" +href+ "\">" +tt(simple)+ "</a>";
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	/**
 	* Replaces all ``@{...}'' tags.
 	 */
-	static String processInlineTags(String s, NUnidad n)
+	private static String processInlineTags(String str, NUnidad n)
 	{
-		StringBuffer sb = new StringBuffer();
-		int len = "@{".length();
-		int i, p = 0;
-		while ( (i = s.indexOf("@{", p)) >= 0 )
-		{
-			// keep first part:
-			sb.append(s.substring(p, i));
-
-			// find ending "}"
-			int e = s.indexOf("}", i + len);
-			if ( e < 0 )
-			{
-				// malformed inline tag!. Leave remaining as it came
-				p = i;
-				break;
-			}
-			String it = s.substring(i + len, e);
-			sb.append(replaceInlineTag(it, n));
-			p = e + 1;
-		}
-		sb.append(s.substring(p));
-		return sb.toString();
+		return Util.processInlineTags(str, n.obtNombreCompleto());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -332,7 +273,10 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		else
 		{
 			String l = a.getLiteralDescription();
-			return l != null ? processInlineTags(l, n) : tt(a.obtCadena());
+			return l != null 
+				? processInlineTags(l, n) 
+				: tt(Util.formatHtml(a.obtCadena()))
+			;
 		}
 	}
 

@@ -274,9 +274,10 @@ public final class Util
 	/**
 	 * Obtiene la direccion relativa (estilo recurso) dest de acuerdo con base.
 	 * Estrategia simple: siempre "retrocede" con "../" la misma cantidad de
-	 * deparadores de base; y al final va al destino, sin
+	 * separadores de base; y al final va al destino, sin
 	 * importar si se repite algo del recorrido.
 	 *
+	 * <p>
 	 * Ejs (El :: significa separacion entre elementos de arreglo):
 	 *
 	 * <pre>
@@ -288,13 +289,16 @@ public final class Util
 	 *  a::b::c::d   a::b       ../../../a/b
 	 *  a            b          b
 	 * </pre>
+	 * Por conveniencia, baseids puede ser null, en cuyo caso simplemente
+	 * se fabrica el resultado con separadores '/'.
 	 */
 	public static String getRelativeLocation(String[] baseids, String[] destids)
 	{
 		StringBuffer sb = new StringBuffer();
-		for ( int k = 0; k < baseids.length - 1; k++ )
+		if ( baseids != null )
 		{
-			sb.append("../");
+			for ( int k = 0; k < baseids.length - 1; k++ )
+				sb.append("../");
 		}
 
 		for ( int k = 0; k < destids.length; k++ )
@@ -312,7 +316,7 @@ public final class Util
 	///////////////////////////////////////////////////////////
 	/**
 	 * Obtiene la direccion relativa de dest de acuerdo con base.
-	 * Ver documentacion de getRelativeLocation(String[] baseids, String[] destids)
+	 * Ver documentacion de getRelativeLocation(String[] baseids, String[] destids).
 	 */
 	public static String getRelativeLocation(String[] baseids, String sdest)
 	//
@@ -322,9 +326,10 @@ public final class Util
 	//
 	{
 		StringBuffer sb = new StringBuffer();
-		for ( int k = 0; k < baseids.length - 1; k++ )
+		if ( baseids != null )
 		{
-			sb.append("../");
+			for ( int k = 0; k < baseids.length - 1; k++ )
+				sb.append("../");
 		}
 
 		StringTokenizer st = new StringTokenizer(sdest, ":");
@@ -627,4 +632,96 @@ public final class Util
         bis.read(buffer, 0, avail);
         os.write(buffer, 0, avail);
     }
+
+	//////////////////////////////////////////////////////////////////////////
+	/**
+	 * Process a string for HTML formatting:
+	 * <ul>
+	 * 	<li>Replaces ``&amp;'' for ``&amp;amp;''
+	 * 	<li>Replaces ``&lt;'' for ``&amp;lt;''
+	 * </ul>
+	 * 
+	 * @param s     La cadena a procesar.
+	 * @param qname Nombre de base para resolver enlaces relativos en 
+	 *              inline tags.
+	 */
+	public static String formatHtml(String str)
+	{
+		str = replace(str, "&", "&amp;");
+		str = replace(str, "<", "&lt;");
+		return str;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	/**
+	 * Replaces all ``@{...}'' tags.
+	 * 
+	 * @param s La cadena a procesar.
+	 * @param   qname Nombre de base para resolver enlaces relativos.
+	 */
+	public static String processInlineTags(String s, String[] qname)
+	{
+		StringBuffer sb = new StringBuffer();
+		int len = "@{".length();
+		int i, p = 0;
+		while ( (i = s.indexOf("@{", p)) >= 0 )
+		{
+			// keep first part:
+			sb.append(s.substring(p, i));
+
+			// find ending "}"
+			int e = s.indexOf("}", i + len);
+			if ( e < 0 )
+			{
+				// malformed inline tag!. Leave remaining as it came
+				p = i;
+				break;
+			}
+			String it = s.substring(i + len, e);
+			sb.append(replaceInlineTag(it, qname));
+			p = e + 1;
+		}
+		sb.append(s.substring(p));
+		return sb.toString();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	/**
+	 * Replaces an inline tag.
+	 * This is assumed to have the form:
+	 *	p::q::u.x
+	 * where x is one of:  i, o, c, e, a.
+	 */
+	private static String replaceInlineTag(String it, String[] qname)
+	{
+		if ( !it.endsWith(".i") 
+		&&   !it.endsWith(".o")
+		&&   !it.endsWith(".c")
+		&&   !it.endsWith(".e")
+		&&   !it.endsWith(".a") )
+		{
+			// don't change it:
+			return it;
+		}
+
+		int len = it.length();
+		String dest = it.substring(0, len - 2);
+		char x = it.charAt(len - 1);
+
+		String href = getRelativeLocation(qname, dest)
+			+ "." +x+ ".html"
+		;
+
+		// only show the simple name:
+		String simple = dest;
+		int i;
+		if ( (i = simple.lastIndexOf(":")) >= 0 )
+		{
+			simple = simple.substring(i + 1);
+		}
+
+		return "<a href=\"" +href+ "\"><code>" +simple+ "</code></a>";
+	}
+
+
 }
