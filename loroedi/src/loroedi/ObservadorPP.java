@@ -134,7 +134,7 @@ public class ObservadorPP implements IObservadorPP
 				public void save() {} 
 				public void closeWindow() {} 
 				public void compile() {}
-				public void execute() {} 
+				public void execute(boolean trace) {} 
 				public void reload() {} 
 				public void viewDoc() {}
 			});

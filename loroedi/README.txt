@@ -68,6 +68,12 @@ NOTAS
 
 Ejecución paso-a-paso
 
+	- Ahora UEditorListener.execute recibe boolean trace.
+	  Con esto UEditor agrega nueva opción ejecutar paso-a-paso.
+	  Actualizadas clases implementadoras de UEditorListener.
+	  
+	- MessageArea ahora con font "monospaced".
+
 	- Deshabilitación de botones "paso" y "continuar" mientras se lee
 	  una línea en InterpreterWindow.readLine(), que es el mecanismo
 	  utilizado para completar línea de ejecución ante entradas y/o
@@ -113,7 +119,7 @@ Ejecución paso-a-paso
 	
 	- Nueva preferencia SYMTAB_TRACE_RECT para la ventana de declaraciones
 	  del ámbito en curso.
-	
+	  
 ////////////////////////////////////////////////////////////////////////////
 2003-02-05 (0.8pre8)
 

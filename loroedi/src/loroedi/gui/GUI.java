@@ -1778,13 +1778,13 @@ public class GUI
 				save();
 				compileDemo();
 			}
-			public void execute() 
+			public void execute(boolean trace) 
 			{
 				if ( !editor.isSaved() )
 				{
 					save();
 				}
-				runDemo(false);
+				runDemo(trace);
 			}
 			public void reload() 
 			{
@@ -3029,10 +3029,10 @@ public class GUI
 		}
 	
 		/////////////////////////////////////////////////////////////////
-		public void execute() 
+		public void execute(boolean trace) 
 		{
 			if ( unit instanceof AlgorithmUnit )
-				executeAlgorithm((AlgorithmUnit) unit, false);
+				executeAlgorithm((AlgorithmUnit) unit, trace);
 		}
 
 		/////////////////////////////////////////////////////////////////

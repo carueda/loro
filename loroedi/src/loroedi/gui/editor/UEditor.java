@@ -45,8 +45,10 @@ public class UEditor implements EditorListener
 	 *
 	 * @param title Title
 	 * @param modifiable Is the contents modifiable?
-	 * @param executable Include "execute" action?
+	 * @param executable Include "execute" and "execute-trace" actions?
 	 * @param doc Include "view-unit-doc-from-editor" action?
+	 * @param include_toolbar
+	 * @param preferenceKey For window rect on screen.
 	 */
 	public UEditor(String title, boolean modifiable, boolean executable, boolean doc,
 		boolean include_toolbar, String preferenceKey
@@ -112,6 +114,7 @@ public class UEditor implements EditorListener
 		actions.put("save",     a=new SaveAction());     a.setEnabled(modifiable);
 		actions.put("compile",  a=new CompileAction());  a.setEnabled(modifiable);
 		actions.put("execute",  a=new ExecuteAction());  a.setEnabled(executable);
+		actions.put("execute-trace",  a=new ExecuteTraceAction());  a.setEnabled(executable);
 		actions.put("view-unit-doc-from-editor",  
 		                        a=new ViewDocFromEditorAction());  a.setEnabled(doc);
 		actions.put("reload",   a=new ReloadAction());   a.setEnabled(modifiable);
@@ -165,6 +168,7 @@ public class UEditor implements EditorListener
 		menu.add((Action) actions.get("save"));
 		menu.add((Action) actions.get("compile"));
 		menu.add((Action) actions.get("execute"));
+		menu.add((Action) actions.get("execute-trace"));
 		menu.add((Action) actions.get("view-unit-doc-from-editor"));
 		menu.addSeparator();
 		menu.add((Action) actions.get("reload"));
@@ -503,7 +507,26 @@ public class UEditor implements EditorListener
 		public void actionPerformed(ActionEvent e)
 		{
 			editor.traerAlFrente();
-			listener.execute();
+			listener.execute(false);
+		}
+	}
+
+	/////////////////////////////////////////////////////////
+	class ExecuteTraceAction extends AbstractAction
+	{
+		/////////////////////////////////////////////////////////
+		public ExecuteTraceAction()
+		{
+			super("Ejecutar paso-a-paso");
+			putValue(SHORT_DESCRIPTION, "Ejecuta este elemento paso-a-paso");
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.SHIFT_MASK));
+		}
+	
+		/////////////////////////////////////////////////////////
+		public void actionPerformed(ActionEvent e)
+		{
+			editor.traerAlFrente();
+			listener.execute(true);
 		}
 	}
 

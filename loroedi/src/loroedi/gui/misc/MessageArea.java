@@ -19,7 +19,7 @@ public class MessageArea extends JTextArea
 	{
 		super();
 		setBackground(new java.awt.Color(244,221,227));
-		setFont(new java.awt.Font("dialog", 0, 12));
+		setFont(new java.awt.Font("monospaced", 0, 12));
 		setEditable(false);
 	}
 	

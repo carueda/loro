@@ -213,7 +213,7 @@ public class Preferencias
 		{
 			Dimension s = new Dimension(300, 150);
 			Rectangle rect = new Rectangle(
-					350, 0,
+					400, 0,
 					s.width, s.height
 			);
 			ponRectangulo(SYMTAB_TRACE_RECT, rect);

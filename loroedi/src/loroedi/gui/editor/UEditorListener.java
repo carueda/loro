@@ -38,7 +38,7 @@ public interface UEditorListener
 	/**
 	 * UEditor llama este método cuando el usuario lanza la acción "execute".
 	 */
-	public void execute();
+	public void execute(boolean trace);
 
 	/////////////////////////////////////////////////////////////////
 	/**
