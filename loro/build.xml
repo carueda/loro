@@ -85,10 +85,12 @@
     </target>
 
     <target name="info"
-     description="Actualiza recurso de info">
-        <copy file="${src}/loro/info.properties" todir="${build}/classes/loro"/>
+     description="Actualiza recursos info y strings">
+		<copy todir="${build}/classes/loro/resource">
+			<fileset dir="${src}/loro/resource" includes="**/*.properties"/> 
+		</copy>
         <replace
-         file="${build}/classes/loro/info.properties">
+         file="${build}/classes/loro/resource/info.properties">
             <replacefilter token="@VERSION@" value="${VERSION}"/>
             <replacefilter token="@BUILD@" value="${DSTAMP}"/>
         </replace>

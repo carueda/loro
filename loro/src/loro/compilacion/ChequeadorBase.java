@@ -1,5 +1,6 @@
 package loro.compilacion;
 
+import loro.Loro.Str;
 import loro.visitante.IVisitante;
 import loro.visitante.VisitanteException;
 import loro.arbol.*;
@@ -184,7 +185,7 @@ abstract class ChequeadorBase implements IVisitante
 		catch(VisitanteException ex)
 		{
 			// Pero NO debe suceder.
-			throw new Error("No debe suceder: excepcion es VisitanteException");
+			throw new Error("Shouldn't happen: exception is VisitanteException");
 		}
 	}
 
@@ -293,7 +294,7 @@ abstract class ChequeadorBase implements IVisitante
 		{
 			throw new ChequeadorException(
 				n,
-				"No se encuentra '" +ex.obtNombre()+ "'"
+				Str.get("error.1_not_found", ex.obtNombre())
 			);
 		}
 
@@ -330,7 +331,7 @@ abstract class ChequeadorBase implements IVisitante
 				{
 					throw new ChequeadorException(
 						n,
-						"Posible conversión inválida de entero a caracter"
+						Str.get("error.Invalid_int_to_char_conversion")
 					);
 				}
 			}
@@ -365,14 +366,13 @@ abstract class ChequeadorBase implements IVisitante
 			if ( _buscarEtiqueta(image) != null )
 			{
 				throw new ChequeadorException(etq,
-					"La etiqueta ya esta definida: " +etq
+					Str.get("error.1_label_already_defined", etq)
 				);
 			}
 			if ( Util.esVarSemantica(image) )
 			{
 				throw new ChequeadorException(etq,
-					"Una etiqueta no puede ser en estilo de variable semántica: "
-					+etq
+					Str.get("error.1_label_cannot_be_semantic", etq)
 				);
 			}
 		}
@@ -390,15 +390,16 @@ abstract class ChequeadorBase implements IVisitante
 			if ( _buscarEtiqueta(etq.obtId()) == null )
 			{
 				throw new ChequeadorException(etq,
-					"La etiqueta no esta definida: " +etq
+					Str.get("error.1_undefined_label", etq)
 				);
 			}
 		}
 		else if ( labels.isEmpty() )
 		{
 			throw new ChequeadorException(u,
-				"Ubicacion invalida de una accion '" +
-				(termine ? "termine" : "continue")+ "'"
+				Str.get("error.1_invalid_place_for_sentence", 
+					(termine ? "termine" : "continue")
+				)
 			);
 		}
 	}
@@ -470,8 +471,8 @@ abstract class ChequeadorBase implements IVisitante
 			else
 			{
 				throw new RuntimeException(
-					"Anomalía: Se espera objeto, arreglo o cadena. "+
-					"(Encontrado " +tipo+ ")"
+					"Internal error: an object, array or string expected. "+
+					"(encountered " +tipo+ ")"
 				);
 			}
 		}
@@ -526,9 +527,9 @@ abstract class ChequeadorBase implements IVisitante
 		catch (java.io.IOException e)
 		{
 			throw new RuntimeException(
-				"Error al guardar compilado.\n"+
+				"An unexpected error ocurred while trying to save compiled unit.\n"+
 				"rutaBaseCompilado=[" +mu.obtDirGuardarCompilado()+ "]:\n" +
-				"Verifique directorio destino.\n" +
+				"Check permission on ta4rget directory.\n" +
 				"e.getMessage()=" +e.getMessage()
 			);
 		}
@@ -923,7 +924,7 @@ abstract class ChequeadorBase implements IVisitante
 			String nombre_super = ex.obtNombre();
 			throw new ChequeadorException(
 				n,
-				"No se encuentra la super clase '" +nombre_super+ "'"
+				Str.get("error.1_superclass_not_found", nombre_super)
 			);
 		}
 	}
@@ -968,7 +969,7 @@ abstract class ChequeadorBase implements IVisitante
 				{
 					throw new ChequeadorException(
 						n,
-						"No encontrada la interface " +interfs[i].obtCadena()
+						Str.get("error.1_interface_not_found", interfs[i].obtCadena())
 					);
 				}
 				
@@ -998,7 +999,7 @@ abstract class ChequeadorBase implements IVisitante
 	{
 		throw new ChequeadorException(
 			u,
-			"Operador " +op+ " no definido para (" +et+ "," +ft+ ")"
+			Str.get("error.3_binop_undefined", op, et, ft)
 		);
 	}
 	////////////////////////////////////////////////////////////////
@@ -1007,8 +1008,9 @@ abstract class ChequeadorBase implements IVisitante
 	{
 		throw new ChequeadorException(
 			u,
-			"Operador " +op+ " no definido para " +
-			(et.esNulo() ? "referencia nula" : et.toString())
+			Str.get("error.2_unop_undefined", op, 
+				(et.esNulo() ? Str.get("null_reference") : et.toString())
+			)
 		);
 	}
 	////////////////////////////////////////////////////////////////
@@ -1054,7 +1056,7 @@ abstract class ChequeadorBase implements IVisitante
 			}
 			else // uni instanceof NEspecificacion.
 			{
-				throw new RuntimeException("Esperado NAlgoritmo o NClase");
+				throw new RuntimeException("Expecting NAlgoritmo or NClase");
 				//pref = "e";
 				//n.ponTipo(new TipoEspecificacion((NEspecificacion) uni));
 			}
@@ -1083,8 +1085,8 @@ abstract class ChequeadorBase implements IVisitante
 		{
 			if ( ! et.obtAsignado() )
 			{
-				throw new ChequeadorException(id, 
-					"Variable '" +id+ "' no tiene asignacion"
+				throw new ChequeadorException(id,
+					Str.get("error.1_unassigned_variable", id)
 				);
 			}
 			n.ponTipo(et.obtTipo());
@@ -1276,15 +1278,16 @@ abstract class ChequeadorBase implements IVisitante
 	)
 	throws VisitanteException
 	{
-		String que = (interf != null ? "operación" : "especificación");
-		String ent_sal = (entrada ? "entrada" : "salida");
+		String que = (interf != null ? Str.get("operation") : Str.get("specification"));
+		String ent_sal = (entrada ? Str.get("input") : Str.get("output"));
 		String card = ent_sal + (qdec.length == 1 ? "" : "s");
 		
 		if ( pdec.length != qdec.length )
 		{
 			throw new ChequeadorException(
 				u,
-				"La " +que+ " indica " +qdec.length+ " " +card);
+				Str.get("error.3_no_params", que, ""+qdec.length, card)
+			);
 		}
 
 		//////////////////////////////////////////////////////////////////////
@@ -1305,7 +1308,7 @@ abstract class ChequeadorBase implements IVisitante
 				{
 					throw new ChequeadorException(
 						d.obtId(),
-						"Una salida no puede ser constante"
+						Str.get("error.output_cannot_be_constant")
 					);
 				}
 			}
@@ -1315,7 +1318,7 @@ abstract class ChequeadorBase implements IVisitante
 			{
 				throw new ChequeadorException(
 					d.obtId(),
-					"Inicialización en parametro " +d.obtId()+ " no es válida"
+					Str.get("error.1_invalid_init", d.obtId())
 				);
 			}
 

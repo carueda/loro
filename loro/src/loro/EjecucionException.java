@@ -28,9 +28,9 @@ import loro.ejecucion.PilaEjecucion;
  * </ul>
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
-public class EjecucionException extends AnalisisException
-{
+public class EjecucionException extends AnalisisException {
 	/** Codigo de la terminacion interna */
 	int codigoTerminacionInterna;
 	/** Es terminacion externa? */
@@ -44,9 +44,8 @@ public class EjecucionException extends AnalisisException
 	/**
 	 * Crea una excepcion de ejecucion por terminacion externa.
 	 */
-	public EjecucionException(PilaEjecucion pilaEjec, Rango rango)
-	{
-		super(rango, "Terminacion externa");
+	public EjecucionException(PilaEjecucion pilaEjec, Rango rango) {
+		super(rango, Loro.Str.get("Extern.termination"));
 		this.pilaEjec = pilaEjec;
 		this.esTerminacionExterna = true;
 	}
@@ -58,9 +57,8 @@ public class EjecucionException extends AnalisisException
 	public EjecucionException(
 		PilaEjecucion pilaEjec,
 		Rango rango, int codigoTerminacionInterna
-	)
-	{
-		super(rango, "Terminacion externa");
+	) {
+		super(rango, Loro.Str.get("Extern.termination"));
 		this.pilaEjec = pilaEjec;
 		this.esTerminacionInterna = true;
 		this.codigoTerminacionInterna = codigoTerminacionInterna;
@@ -71,11 +69,7 @@ public class EjecucionException extends AnalisisException
 	/**
 	 * Crea una excepcion de ejecucion.
 	 */
-	public EjecucionException(
-		PilaEjecucion pilaEjec,
-		Rango rango, String m
-	)
-	{
+	public EjecucionException(PilaEjecucion pilaEjec, Rango rango, String m) {
 		super(rango, m);
 		this.pilaEjec = pilaEjec;
 		this.esTerminacionExterna = false;
@@ -85,8 +79,7 @@ public class EjecucionException extends AnalisisException
 	/**
 	 * Es terminacion externa?
 	 */
-	public boolean esTerminacionExterna()
-	{
+	public boolean esTerminacionExterna() {
 		return esTerminacionExterna;
 	}
 
@@ -94,8 +87,7 @@ public class EjecucionException extends AnalisisException
 	/**
 	 * Es terminacion interna?
 	 */
-	public boolean esTerminacionInterna()
-	{
+	public boolean esTerminacionInterna() {
 		return esTerminacionInterna;
 	}
 
@@ -105,8 +97,7 @@ public class EjecucionException extends AnalisisException
 	 * Asegurese antes que efectivamente se trate de una
 	 * terminacion interna.
 	 */
-	public int obtCodigoTerminacionInterna()
-	{
+	public int obtCodigoTerminacionInterna() {
 		return codigoTerminacionInterna;
 	}
 
@@ -115,19 +106,15 @@ public class EjecucionException extends AnalisisException
 	 * Muestra el estado de la pila de ejecución de Loro en el momento
 	 * que se produjo esta excepción.
 	 */
-	public void printStackTrace()
-	{
-		if ( pilaEjec != null )
-		{
+	public void printStackTrace() {
+		if ( pilaEjec != null ) {
 			pilaEjec.mostrar();
 		}
 	}
 
 	/////////////////////////////////////////////////////////////////////
-	public void printStackTrace(java.io.PrintWriter pw)
-	{
-		if ( pilaEjec != null )
-		{
+	public void printStackTrace(java.io.PrintWriter pw) {
+		if ( pilaEjec != null ) {
 			pilaEjec.mostrar(pw);
 		}
 	}

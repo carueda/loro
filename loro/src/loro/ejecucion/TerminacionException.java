@@ -1,5 +1,6 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
 import loro.arbol.*;
 import loro.IUbicable;
 
@@ -9,9 +10,9 @@ import java.io.PrintWriter;
 /////////////////////////////////////////////////////////////////////
 /**
  * Exception que indica una terminacion sea interna o externa.
+ * @version $Id$
  */
-class TerminacionException extends EjecucionVisitanteException
-{
+class TerminacionException extends EjecucionVisitanteException {
 	boolean esInterna;
 	int codigoTerminacionInterna;
 
@@ -19,8 +20,7 @@ class TerminacionException extends EjecucionVisitanteException
 	/**
 	 * Dice si esta terminacion es interna.
 	 */
-	public boolean esInterna()
-	{
+	public boolean esInterna() {
 		return esInterna;
 	}
 	////////////////////////////////////////////////////////////////
@@ -28,8 +28,7 @@ class TerminacionException extends EjecucionVisitanteException
 	 * Obtiene el codigo de terminacion, que tiene sentido si
 	 * se trata efectivamente de una terminacion interna.
 	 */
-	public int obtCodigoTerminacionInterna()
-	{
+	public int obtCodigoTerminacionInterna() {
 		return codigoTerminacionInterna;
 	}
 
@@ -37,9 +36,8 @@ class TerminacionException extends EjecucionVisitanteException
 	/**
 	 * Crea una excepcion de terminacion externa.
 	 */
-	public TerminacionException(IUbicable u, PilaEjecucion pilaEjec)
-	{
-		super(u, pilaEjec, "Terminacion externa");
+	public TerminacionException(IUbicable u, PilaEjecucion pilaEjec) {
+		super(u, pilaEjec, Str.get("Extern.termination"));
 		this.esInterna = false;
 	}
 
@@ -47,9 +45,8 @@ class TerminacionException extends EjecucionVisitanteException
 	/**
 	 * Crea una excepcion de terminacion interna.
 	 */
-	public TerminacionException(IUbicable u, PilaEjecucion pilaEjec, int codigoTerminacionInterna)
-	{
-		super(u, pilaEjec, "Terminacion interna");
+	public TerminacionException(IUbicable u, PilaEjecucion pilaEjec, int codigoTerminacionInterna) {
+		super(u, pilaEjec, Str.get("Intern.termination"));
 		this.esInterna = true;
 		this.codigoTerminacionInterna = codigoTerminacionInterna;
 	}

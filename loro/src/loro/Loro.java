@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URLClassLoader;
 import java.io.*;
 import java.util.*;
+import java.util.ResourceBundle;
 
 //////////////////////////////////////////////////////////////
 /**
@@ -83,38 +84,93 @@ public final class Loro
 	// Se instancia solo para acceder al classloader.
 	private Loro() {}
 	
+	
+	private static ResourceBundle strings = null;
+	
+	/** Sets up the bundle loro.resource.strings */
+	static {
+		try {
+			strings = ResourceBundle.getBundle("loro.resource.strings");
+		}
+		catch(java.util.MissingResourceException ex) {
+			System.err.println(
+				"!!!!!! Warning:\n" +
+				"!!!!!! Cannot get bundle loro.resource.strings.\n" +
+				"!!!!!! The system has not been compiled properly.\n"
+			);
+		}
+	}
+
+	public static abstract class Str {
+		/** gets a string from the locale bundle. */
+		public static String get(String id)  {
+			if ( strings != null ) 
+				return strings.getString(id);
+			else
+				return id;
+		}
+		
+		/** gets a string from the locale bundle. */
+		public static String get(String id, Object arg0)  {
+			return get(id, new Object[] { arg0 });
+		}
+		
+		/** gets a string from the locale bundle. */
+		public static String get(String id, Object arg0, Object arg1)  {
+			return get(id, new Object[] { arg0, arg1 });
+		}
+		
+		/** gets a string from the locale bundle. */
+		public static String get(String id, Object arg0, Object arg1, Object arg2)  {
+			return get(id, new Object[] { arg0, arg1, arg2 });
+		}
+		
+		/** gets a string from the locale bundle. */
+		public static String get(String id, Object[] args)  {
+			String str = null;
+			if ( strings != null )
+				str = strings.getString(id);
+			if ( str != null ) {
+				for ( int i = 0; i < args.length; i++ ) {
+					String tag = "{" +i+ "}";
+					str = Util.replace(str, tag, args[i].toString());
+				}
+			}
+			else {
+				str = id+ ":args";
+				for ( int i = 0; i < args.length; i++ ) {
+					String tag = "{" +i+ "}";
+					str += ":" +tag+ "=" +args[i].toString();
+				}
+			}
+			return str;
+		}
+	}
+	
+	
 	////////////////////////////////////////////////////////
 	/**
-	 * Obtiene los datos del recurso loro/info.properties.
+	 * Obtiene los datos del recurso loro/resource/info.properties.
 	 * Este servicio no requiere que el núcleo haya sido iniciado.
 	 */
-	private static void _obtInfo() 
-	{
-		if ( nombre == null )
-		{
-			// valores por defecto:
+	private static void _obtInfo()  {
+		if ( nombre == null ) {
+			// default values:
 			nombre = "Loro";
 			version = "v";
 			
 			ClassLoader	cl = new Loro().getClass().getClassLoader();
 			Properties props = new Properties(); 
-			InputStream is = cl.getResourceAsStream("loro/info.properties");
-			if ( is == null )
-			{
-				System.err.println(
-					"!!!!!! Recurso loro/info.properties no encontrado.\n" +
-					"!!!!!! El sistema no ha sido compilado correctamente.\n"+
-					"!!!!!! Se dejan valores de informacion por defecto."
-				);
+			InputStream is = cl.getResourceAsStream("loro/resource/info.properties");
+			if ( is == null ) {
+				System.err.println(Str.get("info.props_not_found"));
 				return;
 			}
-			try
-			{
+			try {
 				props.load(is);
 				is.close();
 			}
-			catch(IOException ex)
-			{
+			catch(IOException ex) {
 				// ignore.
 			}
 			
@@ -219,9 +275,8 @@ public final class Loro
 	)
 	throws LoroException
 	{
-		if ( iniciado )
-		{
-			throw new IllegalStateException("El núcleo ya se encuentra iniciado!");
+		if ( iniciado ) {
+			throw new IllegalStateException(Str.get("Core_already_inited"));
 		}
 		
 		Logger.createLogger(obtNombre()+ " " +obtVersion()+ " (Build " +obtBuild()+ ")");
@@ -230,23 +285,20 @@ public final class Loro
 
 		logger = Logger.getLogger();
 		
-		log("  Extensiones      : " +ext_dir);
-		log("  Rutas adicionales: " +paths_dir);
+		log(Str.get("Extensions")+ ": " +ext_dir);
+		log(Str.get("Extended_paths")+  ": " +paths_dir);
 
 		_crearManejadorUnidades();
 		
-		if ( ext_dir != null )
-		{
+		if ( ext_dir != null ) {
 			// ponga el cargador de clases:
 			// este cargador sera utilizado para los ejecutores:
 			loroClassLoader = new LoroClassLoader();
-			try
-			{
+			try {
 				loroClassLoader.ponDirectorioExtensiones(ext_dir);
 			}
-			catch(MalformedURLException ex)
-			{
-				throw new LoroException("Error con el directorio de extensiones: "+
+			catch(MalformedURLException ex) {
+				throw new LoroException(Str.get("error.extension_directory")+ ": "+
 					ex.getMessage()
 				);
 			}
@@ -779,7 +831,7 @@ public final class Loro
 		NClase clase_raiz = mu.obtClaseRaiz();
 		if ( clase_raiz == null )
 		{
-			throw new LoroException("No se encuentra la clase raiz: " +
+			throw new LoroException(Str.get("error.Root_class_not_found")+ ": " +
 				mu.obtNombreClaseRaiz()+
 				"\n"
 			);
@@ -800,14 +852,12 @@ public final class Loro
 	 *			los archivos .oro que resultan incompatibles con
 	 *			la versión actual del núcleo.
 	 */
-	public static void verificarConfiguracion(List lars, List oros)
-	{
+	public static void verificarConfiguracion(List lars, List oros) {
 		_verificarIniciado();
-		
-		logger.log("%%%% INICIO verificación de configuración");
+		logger.log("%%%% " +Str.get("begin_verify_configuration"));
 		// PENDIENTE separar lars de oros...
 		mu.getOroLoaderManager().verify(oros);
-		logger.log("%%%% FINAL verificación de configuración");
+		logger.log("%%%% " +Str.get("end_verify_configuration"));
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -816,11 +866,9 @@ public final class Loro
 	 *
 	 * @throws IllegalStateException  Si el núcleo no se encuentra iniciado.
 	 */
-	private static void _verificarIniciado()
-	{
-		if ( !iniciado )
-		{
-			throw new IllegalStateException("El núcleo no se encuentra iniciado!");
+	private static void _verificarIniciado() {
+		if ( !iniciado ) {
+			throw new IllegalStateException(Str.get("Core_not_inited"));
 		}
 	}
 

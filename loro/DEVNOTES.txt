@@ -2,6 +2,14 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-06-21 Version 0.7.95
+	- Starting to localize strings by using ResourceBundle.
+	  See loro/resource/strings*.properties
+	  static class Loro.Str
+	- In progress: ChequeadorBase
+	- info.properties also moved to loro/resource/.
+
+////////////////////////////////////////////////////////////////////////////
 2004-03-30 Version 0.7.94
 	Este nuevo DEVNOTES.txt contiene lo que era el README.txt.
 	Ahora el README.txt es mas un tipico "readme" ;-)
