@@ -64,6 +64,22 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-05 (0.8pre8)
+
+Ejecución paso-a-paso
+
+	- Nueva clase loroedi.ObservadorPP (implements IObservadorPP) para atender
+	  los eventos asociados al seguimiento.
+	  
+	- Se abre ahora un editor (sólo visualización) para mostrar el código
+	  fuente de la unidad en seguimiento, con el resaltado del nodo siendo
+	  visitado.
+	  
+	- Se abre ahora un SymbolTableWindow para mostrar el estado de declaraciones
+	  de la unidad en seguimiento.
+	  (SymbolTableWindow dejó de ser "singleton" para este propósito.)
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-04 (0.8pre8)
 
 	- Manejo de IObservadorPP según adición en el núcleo.

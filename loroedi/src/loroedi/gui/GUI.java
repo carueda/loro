@@ -61,6 +61,8 @@ public class GUI
 	static Map demoEditors;
 	
 	
+	static SymbolTableWindow symbolTableWindow;
+	
 	/** Atiende items en el menu "Ventana" */
 	static ActionListener selectFromWindowMenu = new ActionListener() 
 	{
@@ -187,7 +189,7 @@ public class GUI
 		ICompilador compilador = Loro.obtCompilador();
 		compilador.ponDirectorioDestino(oro_dir);
 		
-		SymbolTableWindow.createInstance(Loro.getSymbolTable());
+		symbolTableWindow = new SymbolTableWindow(Loro.getSymbolTable());
 	}
 	
 	
@@ -326,7 +328,7 @@ public class GUI
 	 */
 	public static void showSymbolTable()
 	{
-		SymbolTableWindow.getInstance().show();
+		symbolTableWindow.show();
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -353,7 +355,7 @@ public class GUI
 	 */
 	public static void updateSymbolTable()
 	{
-		SymbolTableWindow.getInstance().update();
+		symbolTableWindow.update();
 	}
 	
 	

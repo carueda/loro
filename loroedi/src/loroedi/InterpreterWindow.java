@@ -78,16 +78,7 @@ implements ActionListener
 
 		IObservadorPP obspp = null;
 		if ( ejecutorpp )
-		{
-			obspp = new loro.IObservadorPP() 
-			{
-				public int ver(loro.arbol.IUbicable u)
-				{
-					System.out.println("u = " +u);
-					return 0;
-				}
-			};
-		}
+			obspp = new ObservadorPP(); 
 		
 		loroii = Loro.crearInterprete(br, pw, newSymTab, obspp);
 

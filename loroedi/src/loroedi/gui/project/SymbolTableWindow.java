@@ -21,45 +21,13 @@ import java.awt.*;
 
 /////////////////////////////////////////////////////////
 /**
- * Ventana para acceder a la tabla de símbolos común.
- * Esta es una "singleton".
- * createInstance crea la instancia.
- * getInstance obtiene la instancia.
+ * Ventana para acceder a una tabla de símbolos.
  *
  * @author Carlos Rueda
- * @version 2002-10-02
+ * @version 2003-02-05
  */
 public class SymbolTableWindow
 {
-	private static SymbolTableWindow instance;
-	
-	/////////////////////////////////////////////////////////
-	/**
-	 * Crea la instancia única de esta clase. 
-	 *
-	 * @param symTab La tabla de símbolos a visualizar.
-	 */
-	public static SymbolTableWindow createInstance(ISymbolTable symTab)
-	{
-		instance = new SymbolTableWindow(symTab);
-		return instance;
-	}
-	
-	/////////////////////////////////////////////////////////
-	/**
-	 * Obtiene la instancia de esta clase.
-	 *
-	 * @throws IllegalStateException si no se ha llamado promero createInstance.
-	 */
-	public static SymbolTableWindow getInstance()
-	{
-		if ( instance == null )
-		{
-			throw new IllegalStateException("SymbolTableWindow no creado");
-		}
-		return instance;
-	}
-	
 	private ISymbolTable symTab;
 	private JFrame frame = null;
 
@@ -68,7 +36,7 @@ public class SymbolTableWindow
 	private int selectedRow;
 
 	/////////////////////////////////////////////////////////
-	private SymbolTableWindow(ISymbolTable symTab)
+	public SymbolTableWindow(ISymbolTable symTab)
 	{
 		this.symTab = symTab;
 		frame = new JFrame("Declaraciones");
@@ -136,6 +104,13 @@ public class SymbolTableWindow
 		frame.setVisible(true);
 	}
 
+	/////////////////////////////////////////////////////////
+	public void setSymbolTable(ISymbolTable symTab)
+	{
+		this.symTab = symTab;
+		update();
+	}
+	
 	/////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el contenido de la ventana.
