@@ -16,8 +16,14 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-05 (0.8pre11)
 
-	- Bug: ejecucion demo no restablece editabilidad para permitir lectura
-	  de datos en comandos lanzados.
+	- Bug corregido: ejecucion demo no restablece editabilidad para permitir
+	  lectura de datos en comandos lanzados.
+	  Solucion: Las ventanas de ejecucion siempre son editables (se quita el
+	  argumento correspondiente recientemente agregado en el constructor de
+	  InterpreterWindow, pero que resulta innecesario). Lo que se hace es poner
+	  no editabilidad al jterm momentaneamente mientras se teclea un Enter en
+	  InterpreterWindow.interpret() cuando se hace manejo de "enter" para
+	  cada comando a ejecutar.
 	
 ////////////////////////////////////////////////////////////////////////////
 2003-05-04 (0.8pre11)

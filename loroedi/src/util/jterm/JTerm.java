@@ -42,11 +42,10 @@ public class JTerm
 	protected ITextArea ta;
 	
 	/**
-	 * Text area is originally editable? 
-	 * ta.setEditable() will not be called if !ta.isEditable() when 
-	 * this JTerm object is created. 
+	 * Is this jterm editable? 
+	 * If false, ta.setEditable() will not be called. 
 	 */
-	protected boolean taIsEditable;
+	protected boolean jtermIsEditable;
 
 	/** Has been ENTER typed? */
 	protected boolean enter;
@@ -117,7 +116,7 @@ public class JTerm
 		System.setProperty("line.separator", "\n");
 
 		this.ta = ta;
-		taIsEditable = ta.isEditable();
+		jtermIsEditable = true;
 		
 		ta.addKeyListener(new Key());
 		ta.setFont(new Font("monospaced", Font.PLAIN, 14));
@@ -138,7 +137,7 @@ public class JTerm
 				// Auxiliar method to mouse dispatching.
 				void aux()
 				{
-					if ( taIsEditable )
+					if ( jtermIsEditable )
 					{
 						ITextArea ta_ = JTerm.this.ta;
 						int pos_now = ta_.getCaretPosition();
@@ -159,6 +158,15 @@ public class JTerm
 
 	////////////////////////////////////////////////////////////////
 	/**
+	 * Sets is this jterm is editable. By default it is.
+	 */
+	public void setEditable(boolean jtermIsEditable)
+	{
+		this.jtermIsEditable = jtermIsEditable;
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
 	 */
 	public void addJTermListener(JTermListener listener)
 	{
@@ -174,7 +182,7 @@ public class JTerm
 	{
 		synchronized(lock)
 		{
-			if  ( taIsEditable && !reading )
+			if  ( jtermIsEditable && !reading )
 				ta.setText("");
 		}
 	}
@@ -733,7 +741,7 @@ public class JTerm
 		{
 			synchronized(lock)
 			{
-				if ( taIsEditable )
+				if ( jtermIsEditable )
 				{
 					if ( !reading )
 					{
@@ -777,7 +785,7 @@ public class JTerm
 						if ( e.getModifiers() != 0 )
 							break;
 						e.consume();
-						if ( taIsEditable )
+						if ( jtermIsEditable )
 							processHistory(key_code == KeyEvent.VK_UP);
 						break;
 
@@ -785,7 +793,7 @@ public class JTerm
 						e.consume();
 						if ( !reading )
 							break;
-						if ( taIsEditable )
+						if ( jtermIsEditable )
 							processEscape();
 						break;
 

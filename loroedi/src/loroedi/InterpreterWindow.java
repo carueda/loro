@@ -27,6 +27,7 @@ import java.net.URL;
  * Ventana para interpretación.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public abstract class InterpreterWindow extends Thread
 implements ActionListener, JTermListener
@@ -80,7 +81,7 @@ implements ActionListener, JTermListener
 			PROMPT,
 			PREFIX_SPECIAL,
 			PREFIX_INVALID,
-			false
+			false             // paintInvalid
 		);
 		
 		term = new JTerm((ITextArea) ta);
@@ -464,15 +465,15 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 
 		if ( ask_enter != null )
 		{
-			// don't let the user edit the text area:
-			ta.setEditable(false);
+			// don't let the user edit the jterm area:
+			term.setEditable(false);
 			try
 			{
 				readLine(ask_enter);
 			}
 			finally
 			{
-				ta.setEditable(true);
+				term.setEditable(true);
 			}
 		}
 		else
