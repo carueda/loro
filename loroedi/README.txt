@@ -14,6 +14,15 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-15 (0.8pre11)
+
+	- loroedi.Interprete: completada reimplementación con base en nuevo servicio
+	  del núcleo IInterprete.IInteractiveInterpreter.
+	  (La revisión justamente anterior es Interprete.java,v 1.9)
+	  Se hizo también algo de limpieza y se ajustaron los prefijos.
+	  Sigue: ajustar InterpreterWindow.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-14 (0.8pre11)
 
 	- Primeros ajustes a loroedi.Interprete de acuerdo con nuevo servicio
