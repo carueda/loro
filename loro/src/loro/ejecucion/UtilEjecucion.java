@@ -190,7 +190,7 @@ PREFIX+ " Tener en cuenta los tipos esperados para estas entradas.\n"
 						null		// obspp
 					);
 					
-					interp.eval(d_id+ " := " +expr, false);
+					interp.eval(d_id+ " := " +expr);
 				}
 			}
 			catch(AnalisisException ex)

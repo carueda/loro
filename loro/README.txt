@@ -12,6 +12,11 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-18 Version 0.7.91
+
+	- InterpreteImpl.eval(): simplificación y corrección en retorno de valor.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-17 Version 0.7.91
 
 	- InterpreteImpl.valorComillas eliminado. Funcionalidad disponible en

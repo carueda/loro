@@ -155,60 +155,56 @@ public class InterpreteImpl implements IInterprete
 	public String ejecutar(String text)
 	throws AnalisisException
 	{
-		return (String) eval(text, true);
+		return eval(text);
 	}
 	
 	///////////////////////////////////////////////////////////////////////
 	public String procesar(String text)
 	throws AnalisisException
 	{
-		return (String) eval(text, true);
+		return eval(text);
 	}
 	
 	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Ver UtilEjecucion._executeUsrAlgorithm() 
 	 */
-	public Object eval(String text, boolean comillas)
+	public String eval(String text)
 	throws AnalisisException
 	{
-		Object ret = null;
 		List list = _compilar(text);
 		if ( list == null || list.size() == 0 )
 			return null;   // un comentario.
 		
 		try
 		{
+			String ret = null;
 			for ( Iterator it = list.iterator(); it.hasNext(); )
 			{
+				ret = null;
 				Object obj = it.next();
 				if ( obj instanceof Nodo )
 				{
 					Nodo n = (Nodo) obj;
-			
-					if ( n instanceof NUtiliza )
-					{
-						ret = null;
-					}
-					else if ( execute )
+					if ( !(n instanceof NUtiliza)  &&  execute )
 					{
 						ui.setSourceCode(text);
 						ejecutor.reset(tabSimbBase, ui);
 						ejecutor.ejecutarNodo(n);
-						ret = ejecutor.obtRetorno();
-						if ( comillas && n instanceof NExpresion )
+						if ( n instanceof NExpresion )
 						{
 							Tipo tipo = ((NExpresion) n).obtTipo();
-							ret = UtilValor.valorComillasDeExpresion(tipo, ret);
+							ret = UtilValor.valorComillasDeExpresion(
+								tipo, 
+								ejecutor.obtRetorno()
+							);
 						}
 					}
 				}
 				else
 				{
 					String meta = (String) obj;
-					ret = base_ml.execute("." +meta);
-					pw.println(ret);
-					ret = null;
+					pw.println(base_ml.execute("." +meta));
 				}
 			}
 			
