@@ -16,6 +16,9 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-06 (0.8pre11)
 
+	- Actualizada ventana de declaraciones en cada comando ejecutado desde
+	  InterpreterWindow.procesar().  Nuevo ObservadorPP.getSymbolTableWindow().
+	  
 	- Bug corregido: ejecucion demo no restablece editabilidad para permitir
 	  lectura de datos en comandos lanzados.
 	  Solucion: Las ventanas de ejecucion siempre son editables (se quita el
@@ -24,6 +27,13 @@ NOTAS
 	  no editabilidad al jterm momentaneamente mientras se teclea un Enter en
 	  InterpreterWindow.interpret() cuando se hace manejo de "enter" para
 	  cada comando a ejecutar.
+	  
+	  JTerm ahora maneja su propio indicador de editabilidad: setEditable(boolean).
+	  Notese que como parte de su funcionalidad, se esta actualizando la
+	  editabilidad de la text area (de acuerdo a posicion del cursor), pero ahora
+	  esto solo se hace si el propio indicador del jterm es true; de otra manera
+	  nunca se invoca ta.setEditable. El nuevo metodo JTerm.setEditable(boolean)
+	  permite establecer este control.
 	  
 	- Bug corregido: ClassCastException al ejecutar pruebas (algoritmo o proyecto)
 	  debido a actualizacion incompleta de los nuevos elementos (ahora de tipo
