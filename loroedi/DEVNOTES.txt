@@ -2,6 +2,13 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-04-01 (0.8.4)
+	- Corregida la debida preparacion del archivo de configuracion que ya
+	  existiera ante nueva version del sistema.
+	- Puesta la licencia en espanol en el instalador.
+	- otros ajustes menores en documentacion.
+	
+////////////////////////////////////////////////////////////////////////////
 2004-03-30 (0.8.3)
 	Este nuevo DEVNOTES.txt contiene lo que era el README.txt.
 	Ahora el README.txt es mas un tipico "readme" ;-)
