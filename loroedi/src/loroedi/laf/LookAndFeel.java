@@ -31,7 +31,9 @@ public class LookAndFeel
 	/**
 	 * Pone el LookAndFeel de acuerdo con el valor de la la preferencia LOROEDI_PREF_LAF:
 	 * <ul>
-	 *	<li>Si este valor es nulo, se pone el L&amp;F de Kunststoff.
+	 *	<li>Si esta preferencia no esta definida, se intenta mirando como propiedad
+	 *      del sistema (System.getProperty).
+	 *	<li>Si la preferencia es nula, se pone el L&amp;F de Kunststoff.
 	 *	<li>Si es igual a IGNORE, no se hace nada. 
 	 *	<li>Se interpreta ahora como ruta de un tema para SkinLF; si no existe
 	 *		tal como se indica, se intenta finalmente anteponiendo el directorio
@@ -41,6 +43,10 @@ public class LookAndFeel
 	public static void setLookAndFeel()
 	{
 		String pref_laf = Preferencias.obtPreferencia(LOROEDI_PREF_LAF);
+		
+		if ( pref_laf.length() == 0 )  // no definida?
+			pref_laf = System.getProperty(LOROEDI_PREF_LAF, "");
+		
 		if ( pref_laf.length() == 0 )  // no definida?
 		{
 			// Se pone Kunststoff:

@@ -95,6 +95,8 @@ public class GUI
 
 		try
 		{		
+			Configuracion.load();
+			Preferencias.load();
 			LookAndFeel.setLookAndFeel();
 
 			ProjectFrame frame = new ProjectFrame(null);
@@ -192,10 +194,6 @@ public class GUI
 	throws Exception
 	{
 		splash = Splash.showSplash(frame);
-		splash.status("Leyendo configuración...");
-		Configuracion.load();
-		splash.status("Leyendo preferencias...");
-		Preferencias.load();
 		
 		if ( prs_dir == null )
 		{

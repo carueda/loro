@@ -76,9 +76,10 @@ Ajustes cosméticos.
 	  
 	- GUI: Se despliega un mensaje justo al abrirse un proyecto.
 	
-	- LoroControl: actualizado obtMensajeAPropositoDe().
-	
 	- Asociación de ícono (icon.jpg) a las diferentes ventanas.
+	
+	- GUI.init: Ahora se cargada configuración y preferencias antes 
+	  de procesar L&F y lo demás.
 	
 ////////////////////////////////////////////////////////////////////////////
 2003-02-11 (0.8pre8)

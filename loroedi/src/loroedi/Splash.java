@@ -67,7 +67,7 @@ public class Splash extends JWindow
 		fields.add(text_label);
 		
 		status_label = new JTextField("Iniciando...");
-		status_label.setFont(status_label.getFont().deriveFont(Font.ITALIC, 10f));
+		status_label.setFont(status_label.getFont().deriveFont(10f));
 		status_label.setHorizontalAlignment(JTextField.LEFT);
 		status_label.setBackground(Color.yellow);
 		status_label.setEditable(false);
