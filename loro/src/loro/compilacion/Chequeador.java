@@ -1544,25 +1544,31 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 
-		// 2003-05-13
-		// Por ahora se permitirá cualquier chequeo de es_instancia_de que
-		// sea válido hasta este punto.
+		boolean ok = true;
 		
-		if ( false )
+		// El siguiente fragmento deberá modificarse para hacer un chequeo
+		// más completo. PENDIENTE
+		if ( e_tipo instanceof TipoClase && tipoRevisado instanceof TipoClase )
 		{
-			
-			// El siguiente fragmento deberá modificarse para hacer un chequeo
-			// más completo. PENDIENTE
-			boolean ok = _aKindOf(n,  (TipoClase)tipoRevisado, (TipoClase)e_tipo)
-					  || _aKindOf(n,  (TipoClase)e_tipo, (TipoClase)tipoRevisado)
+			ok = _aKindOf(n,  (TipoClase)tipoRevisado, (TipoClase)e_tipo)
+			  || _aKindOf(n,  (TipoClase)e_tipo, (TipoClase)tipoRevisado)
 			;
-			if ( !ok )
-			{
-				throw new ChequeadorException(
-					e,
-					"Imposible que '" +e_tipo+ "' sea '" +tipoRevisado+ "'"
-				);
-			}
+		}
+		else
+		{
+			// OK.
+			// 2003-05-13
+			// Por ahora se permitirá cualquier chequeo de es_instancia_de que
+			// sea válido hasta este punto.
+			// pero están pendientes otros casos posibles que deberían chequearse.
+		}
+		
+		if ( !ok )
+		{
+			throw new ChequeadorException(
+				e,
+				"Imposible que '" +e_tipo+ "' sea '" +tipoRevisado+ "'"
+			);
 		}
 
 		n.ponTipo(Tipo.booleano);
