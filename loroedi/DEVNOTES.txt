@@ -2,6 +2,10 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-07-11 (0.9pre7)
+	- print diagram: testing 
+	
+////////////////////////////////////////////////////////////////////////////
 2004-07-07 (0.9pre6)
 	- Preference PRJ_EXTERN_LAST: now remembers the last location
 	  that was browsed (not the chosen .lar).

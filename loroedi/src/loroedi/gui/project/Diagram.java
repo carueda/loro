@@ -13,6 +13,10 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.List;
+import java.awt.print.Printable;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterJob;
+import java.awt.print.PrinterException;
 
 
 /**
@@ -542,72 +546,94 @@ public class Diagram extends JPanel
 		}
 	}
 	
+	public void print() throws Exception {
+		PrinterJob job = PrinterJob.getPrinterJob();
+		// PageFormat defaultpage = job.defaultPage();
+		// PageFormat format = job.pageDialog(defaultpage);
+		// if ( format != defaultpage ) 
+			// job.setPrintable((Printable) graph, format);
+		// else
+			job.setPrintable((Printable) graph);
+		job.print();
+	}
+	
 	/////////////////////////////////////////////////////////////////////
-	class DJGraph extends JGraph
-	{
-		/////////////////////////////////////////////////////////////////
-		DJGraph(GraphModel graphModel)
-		{
+	class DJGraph extends JGraph implements Printable {
+		DJGraph(GraphModel graphModel) {
 			super(graphModel);
 		}
 		
-		/////////////////////////////////////////////////////////////////
-		protected VertexView createVertexView(Object v, CellMapper cm)
-		{
-			if ( v instanceof DCell )
-			{
+		protected VertexView createVertexView(Object v, CellMapper cm) {
+			if ( v instanceof DCell ) {
 				return new DView(v, cm);
 			}
-			else
-			{
+			else {
 				return super.createVertexView(v, cm);
 			}
 		}
 	
-		/////////////////////////////////////////////////////////////////////
-		class DView extends VertexView
-		{
+		class DView extends VertexView {
 			// para memorizar mi posición vertical
 			int mem_y = -1;
 			
-			/////////////////////////////////////////////////////////////////
-			public DView(Object v, CellMapper cm)
-			{
+			public DView(Object v, CellMapper cm) {
 				super(v, DJGraph.this, cm);
 			}
 			
-			/////////////////////////////////////////////////////////////////
-			public CellViewRenderer getRenderer()
-			{
+			public CellViewRenderer getRenderer() {
 				return my_renderer;
 			}
 			
-			/////////////////////////////////////////////////////////////////
 			/**
 			 * Sobreescrito para restrigir posición vertical
 			 */
-			public void update() 
-			{
+			public void update()  {
 				super.update();
 				bounds = GraphConstants.getBounds(attributes);
 				
-				if ( bounds.y > 0 )
-				{
+				if ( bounds.y > 0 ) {
 					// bounds.y > 0 significa una asignación explícita.
-					
-					if ( mem_y < 0 )
-					{
+					if ( mem_y < 0 ) {
 						// memorizar mi posición.
 						mem_y = bounds.y;
 					}
-					else if ( bounds.y != mem_y )
-					{
+					else if ( bounds.y != mem_y ) {
 						// obligamos que la posición vertical se mantenga:
 						bounds.y = mem_y;
 						GraphConstants.setBounds(attributes, bounds);
 					}
 				}
 			}
+		}
+	
+		public int print(Graphics g, PageFormat pF, int page) throws PrinterException {
+			System.out.println("g=" +g);
+			System.out.println("pF=" +pF);
+			System.out.println("page=" +page);
+			try {
+				setDoubleBuffered(false);
+				int pw = (int) pF.getImageableWidth();
+				int ph = (int) pF.getImageableHeight();
+				int cols = (int) (this.getWidth() / pw) + 1;
+				int rows = (int) (this.getHeight() / ph) + 1;
+				int pageCount = cols * rows;
+				if (page >= pageCount) {
+					return NO_SUCH_PAGE;
+				}
+				int col = page % cols;
+				int row = page % rows;
+				g.translate(-col*pw, -row*ph);
+				g.setClip(col*pw, row*ph, pw, ph);
+				this.paint(g);
+				g.translate(col*pw, row*ph);
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+			finally {
+				setDoubleBuffered(true);
+			}
+			return PAGE_EXISTS;
 		}
 	}
 	

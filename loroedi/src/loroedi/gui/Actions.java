@@ -31,8 +31,7 @@ public class Actions {
 	protected Group help_group;
 	protected Map name_action;
 
-	public Actions()
-	{
+	public Actions() {
 		createActions();
 	}
 	
@@ -40,7 +39,7 @@ public class Actions {
 		Group g;
 		name_action = new HashMap();
 		String[] strs;
-		
+
 		strs = Str.get("gui.menu_project").split("\\|", 2);
 		project_group = new Group(strs[0], strs[1], new ArrayList());
 		addAction("new", new NewAction(), project_group.actions);
@@ -60,7 +59,6 @@ public class Actions {
 		addAction("close-project", new CloseProjectAction(), project_group.actions);
 		project_group.actions.add(null);
 		addAction("quit", new QuitAction(), project_group.actions);
-		//addAction("print", new PrintAction());
 
 		
 		strs = Str.get("gui.menu_dev").split("\\|", 2);
@@ -79,13 +77,13 @@ public class Actions {
 		develop_group.actions.add(null);
 		strs = Str.get("gui.menu_diagram").split("\\|", 2);
 		Group diag_g = new Group(strs[0], strs[1], new ArrayList());
+		//addAction("print-diagram", new PrintDiagramAction(), diag_g.actions);
 		develop_group.actions.add(diag_g);
 			strs = Str.get("gui.menu_diagram_size").split("\\|", 2);
 			g = new Group(strs[0], strs[1], new ArrayList());
 				addAction("zoom-in", new ZoomInAction(), g.actions);
 				addAction("zoom-out", new ZoomOutAction(), g.actions);
 				addAction("actual-size", new ActualSizeAction(), g.actions);
-				//addAction("print-diagram", new PrintDiagramAction(), g.actions);
 		diag_g.actions.add(g);
 		develop_group.actions.add(null);
 		addAction("edit-demo", new EditDemoAction(), develop_group.actions);
@@ -551,20 +549,16 @@ public class Actions {
 	}
 
 	/////////////////////////////////////////////////////////
-	class PrintDiagramAction extends AbstractAction
-	{
-		/////////////////////////////////////////////////////////
-		public PrintDiagramAction()
-		{
-			super("Print");
-			putValue(SHORT_DESCRIPTION, "Prints diagram");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
+	class PrintDiagramAction extends AbstractAction {
+		public PrintDiagramAction() {
+			super();
+			String[] strs = Str.get("gui.action_print_diagram").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK));
 		}
-	
-		/////////////////////////////////////////////////////////
-		public void actionPerformed(ActionEvent e)
-		{
-			System.out.println("PRINT DIAGRAM");
+		public void actionPerformed(ActionEvent e) {
+			GUI.printDiagram();
 		}
 	}
 
@@ -1045,5 +1039,4 @@ public class Actions {
 			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	}
-
 }

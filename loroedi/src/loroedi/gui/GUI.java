@@ -2572,6 +2572,25 @@ public class GUI
 		new Thread(run).start();
 	}
 	
+	public static void printDiagram() {
+		try {
+			focusedProject.getDiagram().print();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showOptionDialog(
+				focusedProject.getFrame(),
+				ex.getMessage(),
+				"Error occured while trying to install project",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.ERROR_MESSAGE,
+				null,
+				null,
+				null
+			);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////
 	/**
 	 * Permite al usuario instalar un proyecto, bien sea de los 
