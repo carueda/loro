@@ -2151,7 +2151,6 @@ public class JEditTextArea extends JComponent
 		{
 			setCaretVisible(visible);
 		}
-		
 	}
 
 	//////////////////////////////////////////////////////////
