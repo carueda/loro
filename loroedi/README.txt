@@ -65,6 +65,16 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-16 (0.8pre11)
+
+	- Bug 722895 corregido: Instalación de proyecto no sobreescribe pre-existente.
+	  Solución: Efectivamente sí se actualizaba el directorio correspondiente
+	  pero no se actualizaba la asociación nombre-prjm en el workspace y
+	  entonces se seguía accediendo al prjm viejo durante la misma sesión.
+	  Workspace.addProjectModelName(name) ahora siempre actualiza la
+	  asociación en name_prj para que el nombre refleje el proyecto cargado.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-04-15 (0.8pre11)
 
 	- Sólo cambio en build.properties para nueva versión y nuevo
