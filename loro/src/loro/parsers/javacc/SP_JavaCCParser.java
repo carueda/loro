@@ -18,12 +18,12 @@ import loro.Rango;
  * @author Carlos Rueda
  * @version $Id$
  */
-public class SP0_JavaCCParser extends BaseParser {
+public class SP_JavaCCParser extends BaseParser {
 	/** The "real" parser. */
 	private LoroIParser parser;
 
 	/** Creates a javacc-based parser for sp_0 lexical elements */
-	public SP0_JavaCCParser() {
+	public SP_JavaCCParser() {
 		super();
 		parser = new LoroIParser(new StringReader(""));
 	}
