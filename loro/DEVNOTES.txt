@@ -7,6 +7,7 @@ $Id$
 	- LoroEjecutor* ready.
 	- tabsimb/ ready.
 	- tipo/ ready.
+	- continue with: impl/*, doc/*
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 Version 0.7.95

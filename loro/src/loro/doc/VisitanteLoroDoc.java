@@ -206,9 +206,9 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		out.println(
 			"<html>\n" +
 			"<head>\n" +
-			"<!-- Generado por lorodoc en " +new java.util.Date()+ "-->\n" +
-			"<!-- Loro versión " +loro.Loro.obtVersion()+ "-->\n" +
-			"<!-- Fuente de esta unidad: " +n.obtNombreFuente()+ " -->\n"+
+			"<!-- Generated " +new java.util.Date()+ "-->\n" +
+			"<!-- Loro version " +loro.Loro.obtVersion()+ "-->\n" +
+			"<!-- Source: " +n.obtNombreFuente()+ " -->\n"+
 			"<!-- user.name: " +System.getProperty("user.name")+ " -->\n"+
 			"<title>\n" +
 			title +
@@ -428,18 +428,6 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		return sb.toString();
 	}
 
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 */
-	static String listAtrsAsTable(String label, NDeclDesc[] p, NUnidad n)
-	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
-		sb.append(listAtrsAsTable(label, p, n));
-		sb.append("</table>\n");
-		return sb.toString();
-	}
-	
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 */
