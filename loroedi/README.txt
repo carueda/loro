@@ -12,6 +12,12 @@ NOTAS
 	  build-ext.html del núcleo), pero se tiene generada en un directorio para
 	  ello.
 	  
+	  
+////////////////////////////////////////////////////////////////////////////
+2003-05-18 (0.8pre11)
+
+	- InterpreterWindow.readLine siempre hace butTerminar.setEnabled(true):
+	  no depende del modo de interpretación actual.
 
 ////////////////////////////////////////////////////////////////////////////
 2003-05-17 (0.8pre11)

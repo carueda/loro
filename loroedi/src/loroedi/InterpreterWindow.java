@@ -485,10 +485,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 			if ( loroii.getExecute() )
 			{
 				String res = loroii.ejecutar(text);
-				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
-				butTerminar.setEnabled(false);
-				enableTraceableButtons(false);
-				
 				if ( res != null )
 				{
 					term.setPrefix(PREFIX_EXPR);
@@ -534,7 +530,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 	throws Exception
 	{
 		term.setInitialStringToRead(s);
-		butTerminar.setEnabled(loroii.getExecute());
+		butTerminar.setEnabled(true);
 		// no queremos control de seguimiento mientras se lee:
 		enableTraceableButtons(false);
 		readingThread = Thread.currentThread();
