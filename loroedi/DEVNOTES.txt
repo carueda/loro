@@ -11,6 +11,7 @@ $Id$
 	  some metacommands (e.g., .delvars), it is possible that a script
 	  does not compile but does run succesfully (metacommands are
 	  ignored in compilation).
+	- Using core 0.8pre6
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-07-06 (0.9pre5)
@@ -20,7 +21,7 @@ $Id$
 	  determined by current locale:
 		- .loro/prs_en/ used if locale is not "es"
 		- .loro/prs/ continue to be used for "es" locale
-	- - Using core 0.8pre5
+	- Using core 0.8pre5
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-07-06 (0.9pre4)
