@@ -12,6 +12,7 @@ boolean=booleano
 string=cadena
 character=caracter
 integer=entero
+real=real
 
 algorithm=algoritmo
 algorithm_for=algoritmo para
@@ -24,24 +25,24 @@ info.props_not_found=!!!!!! Recurso loro/info.properties no encontrado.\n\
  !!!!!! El sistema no ha sido compilado correctamente.\n\
  !!!!!! Se dejan valores de informacion por defecto.
 					
-Core_already_inited=El núcleo ya se encuentra iniciado!
+core_already_inited=El núcleo ya se encuentra iniciado!
 
-Extensions=Extensiones
-Extended_paths=Rutas adicionales
+extensions=Extensiones
+extended_paths=Rutas adicionales
 
 error.extension_directory=Error con el directorio de extensiones
 
-error.Root_class_not_found=No se encuentra la clase raiz
+error.root_class_not_found=No se encuentra la clase raiz
 
 
 begin_verify_configuration=INICIO verificación de configuración
 end_verify_configuration=FINAL verificación de configuración
 
-Core_not_inited=El núcleo no se encuentra iniciado!
+core_not_inited=El núcleo no se encuentra iniciado!
 
 
-Extern.termination=Terminación externa
-Intern.termination=Terminación interna
+extern.termination=Terminación externa
+intern.termination=Terminación interna
 
 error.1_not_found=No se encuentra '{0}'
 error.Invalid_int_to_char_conversion=Posible conversión inválida de entero a caracter
@@ -123,6 +124,7 @@ error.1_expected_package=El paquete debe ser '{0}'
 
 error.1_undefined_algorithm=Algoritmo '{0}' no definido
 error.1_not_callable_type=No se puede invocar una expresión de tipo '{0}'
+
 error.unknown_spec=No se puede hacer una invocacion sin conocerse la especificacion correspondiente.\n\
  Hacer una conversion de tipo para precisar esto
 
@@ -156,6 +158,19 @@ algorithms=algoritmos
 classes=clases
 
 error.1_id_already_defined=Identificador '{0}' ya declarado
+
+error.1_only_spec_expected=Sólo se espera la definición de la especificación '{0}'
+error.1_only_algorithm_expected=Sólo se espera la definición del algoritmo '{0}'
+error.2_only_algorithm_expected_would_take=Se espera nombre '{0}'. Este algoritmo tomaria el nombre '{1}'
+error.1_algorithm_must_implement=El algoritmo debe implementar la especificación '{0}'
+error.1_only_class_expected=Sólo se espera la definición de la clase '{0}'
+error.id_is_semantic_var=Identificador no puede ser variable semántica
+error.name_contains_semantic_var=El nombre contiene variable semántica
+
+error.1_file_not_found='{0}' no encontrado
+error.1_compiled_ok='{0}' : HA COMPILADO BIEN!!!
+
+error.1_generating_doc=Error al generar documentacion: {0}
 
 # Runtime
 rt.1_exception_thrown=Se generó excepción: '{0}'
@@ -205,3 +220,90 @@ rt.error.null_algorithm_called=Invocacion sobre algoritmo nulo
 rt.error.1_name_not_found=Nombre '{0}' no encontrado
 
 rt.error.1_not_an_object=No es un objeto: '{0}'
+
+# Node descriptions
+node.to_string=Operación de conversión a cadena
+node.assert=Afirmación
+node.algorithm=Definición de un algoritmo
+node.assignment=Una asignación
+node.catch=Un segmento para atrapar una excepción
+node.cardinality=Operación que obtiene el tamaño de una arreglo o cadena
+node.case=Un segmento para atención de caso en una acción 'según'
+node.loop=Una iteración 'ciclo'
+node.class=Definición de una clase
+node.cond=Operación ternaria condicional
+node.constructor=Definición de un constructor
+node.continue=Una acción 'continúe'
+node.type_conversion=Conversión de tipo de una expresión
+node.right_shift=Operación de desplazamiento de bits a la derecha con signo
+node.right_right_shift=Operación de desplazamiento de bits a la derecha
+node.left_shift=Operación de desplazamiento de bits a la izquierda
+node.new_array=Operación de creación de un arreglo
+node.array_expression=Expresión arreglo
+node.new_array_fragment=Parte de la indicación para crear un arreglo
+node.new_instance=Operación de creación de una instancia
+node.quantified=Expresión booleana con cuantificador
+node.decision=Acción de decisión
+node.else_if=Alternativa en una acción de decisión
+node.switch=Acción de decisión de múltiples casos
+node.declaration=Declaración de variable(s)
+node.declaration_description=Declaración de variable incluyendo descripción
+node.doc_text=Texto para documentación
+node.not_equal=Operación relacional de verificación de no igualdad
+node.real_div=Operación de división real
+node.equiv=Operación relacional de verificación de equivalencia lógica
+node.instance_of=Operación de verificación del tipo de un objeto
+node.spec=Definición de una especificación
+node.this=Expresión 'éste' que referencia al objeto sobre el cual opera el método
+node.for_each=Una iteración 'para cada elemento en ...'
+node.source=Fuente completo sometido a compilación
+node.id=Un identificador
+node.equal=Operación relacional de verificación de igualdad
+node.implies=Operación relacional de verificación de implicación lógica
+node.try=Acción 'intente'
+node.interface=Definición de una interfaz
+node.call=Invocación
+node.throw=lanzamiento de una excepción
+node.1_boolean_literal=Literal booleana '{0}'
+node.1_string_literal=Literal cadena '{0}'
+node.1_char_literal=Literal caracter '{0}'
+node.1_int_literal=Literal entera '{0}'
+node.1_null_literal=Literal para referencia nula '{0}'
+node.1_real_literal=Literal real '{0}'
+node.bin_plus=Operación de suma-concatenación
+node.gt=Operación relacional de verificación de 'mayor que'
+node.ge=Operación relacional de verificación de 'mayor que o igual a'
+node.lt=Operación relacional de verificación de 'menor que'
+node.le=Operación relacional de verificación de 'menor que o igual a'
+node.bin_minus=Operación de resta
+node.while=Acción de iteración 'mientras'
+node.mod=Operación módulo división entera
+node.neg=Operación aritmética unaria -
+node.lnot=Operación de negación lógica
+node.anot=Operación de negación bit a bit
+node.name=Nombre cualificado
+node.or=Operación de verificación de 'O inclusiva' lógica
+node.aor=Operación 'O inclusiva' bit a bit
+node.xor=Operación de verificación de 'O exclusiva' lógica
+node.package=Definición de nombre de paquete
+node.for=Acción de iteración 'para'
+node.un_plus=Operación aritmética unaria +
+node.times=Operación aritmética de multiplicación
+node.repeat=Acción de iteración 'repita'
+node.return=Acción de retorno
+node.deref=Operación de acceso a atributo/método de un objeto
+node.subindex=Operación de acceso a campo de arreglo
+node.break=Acción de terminación de iteración
+node.uses=Indicación 'utiliza' para acceder a unidades
+node.and=Operación de verificación de 'Y' lógica
+node.aand=Operación 'Y' bit a bit
+node.array_type=Tipo arreglo
+node.boolean_type=Tipo 'booleano'
+node.string_type=Tipo 'cadena'
+node.char_type=Tipo 'caracter'
+node.class_type=Tipo 'clase'
+node.int_type=Tipo 'entero'
+node.spec_type=Tipo 'especificación'
+node.real_type=Tipo 'real'
+node.implements=Indicación de interfaces implementadas
+node.interface_type=Tipo 'interfaz'

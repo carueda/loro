@@ -2,31 +2,30 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-06-23 Version 0.7.95
-	- Continuing localizing strings.
-	- LoroEjecutor* ready.
-	- tabsimb/ ready.
-	- tipo/ ready.
-	- continue with: impl/*, doc/*
+2004-06-27 Version 0.7.95
+	- Localization scheme:
+		- loro/ ready.
+		- loro.compilacion/ ready.
+		- loro.ejecucion/ ready.
+		- loro.tabsimb/ ready.
+		- loro.tipo/ ready.
+		- loro.impl/ ready
+		- loro.util/ ready
+		- loro.visitante/ ok
+		- loro.doc/ ok
+	  Ajustes completados. Pendientes cambios con respecto a palabras
+	  reservadas del lenguaje.
 	
 ////////////////////////////////////////////////////////////////////////////
-2004-06-22 Version 0.7.95
-	- Continuing localizing strings.
+2004-06-20 Version 0.7.95
 	- LoroIParser.jj: unicode scape sequences for accents in reserved
 	  words and identifiers.
-	- CompiladorImpl._openReader() uses charset ISO-8859-1
-	
-	- loro.ejecucion: starting localization: 
-	  continue with LoroEjecutor* !!
-	
-////////////////////////////////////////////////////////////////////////////
-2004-06-21 Version 0.7.95
 	- Starting to localize strings by using ResourceBundle.
 	  See loro/resource/strings*.properties
 	  static class Loro.Str
-	- In progress: ChequeadorBase
 	- info.properties also moved to loro/resource/.
-
+	- CompiladorImpl._openReader() uses charset ISO-8859-1
+	
 ////////////////////////////////////////////////////////////////////////////
 2004-03-30 Version 0.7.94
 	Este nuevo DEVNOTES.txt contiene lo que era el README.txt.

@@ -44,11 +44,11 @@ class DirectoryOroLoader implements IOroLoader
 		try
 		{
 			in = new ObjectInputStream(new FileInputStream(file));
-			logger.log("Encontrado " +unitname+ " en " +directory);
+			logger.log("Found " +unitname+ " in " +directory);
 		}
 		catch(Exception e)
 		{
-			logger.log("No Encontrado " +unitname+ " en " +directory);
+			logger.log(unitname+ " not found in " +directory);
 		}
 
 		if ( in != null )
@@ -61,7 +61,8 @@ class DirectoryOroLoader implements IOroLoader
 			}
 			catch(Exception e)
 			{
-				logger.log("Leyendo unidad: " +unitname+ " de directory " +directory+ ": " +e.getMessage());
+				logger.log("error reading unit: " +unitname+ " from directory "
+					+directory+ ": " +e.getMessage());
 			}
 		}
 
@@ -77,7 +78,7 @@ class DirectoryOroLoader implements IOroLoader
 		try
 		{
 			src = readFile(file);
-			logger.log("Encontrado fuente " +unitname+ " en " +directory);
+			logger.log("Found source " +unitname+ " in " +directory);
 		}
 		catch(Exception e)
 		{
@@ -126,7 +127,7 @@ class DirectoryOroLoader implements IOroLoader
 		}
 		
 		if ( incSubpkgs )
-			throw new RuntimeException("No implementado aun");
+			throw new RuntimeException("Not implemented yet");
 
 		
 		if ( nombrePaquete.endsWith("::") )
@@ -136,7 +137,7 @@ class DirectoryOroLoader implements IOroLoader
 		File dir = new File(directory, Util.replace(nombrePaquete, "::", "/"));
 		if ( !dir.isDirectory() )
 		{
-			logger.log(dir+ " no es directorio");
+			logger.log(dir+ " not a directory");
 			return list;		
 		}
 

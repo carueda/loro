@@ -45,7 +45,7 @@ public class EjecucionException extends AnalisisException {
 	 * Crea una excepcion de ejecucion por terminacion externa.
 	 */
 	public EjecucionException(PilaEjecucion pilaEjec, Rango rango) {
-		super(rango, Loro.Str.get("Extern.termination"));
+		super(rango, Loro.Str.get("extern.termination"));
 		this.pilaEjec = pilaEjec;
 		this.esTerminacionExterna = true;
 	}
@@ -58,7 +58,7 @@ public class EjecucionException extends AnalisisException {
 		PilaEjecucion pilaEjec,
 		Rango rango, int codigoTerminacionInterna
 	) {
-		super(rango, Loro.Str.get("Extern.termination"));
+		super(rango, Loro.Str.get("extern.termination"));
 		this.pilaEjec = pilaEjec;
 		this.esTerminacionInterna = true;
 		this.codigoTerminacionInterna = codigoTerminacionInterna;

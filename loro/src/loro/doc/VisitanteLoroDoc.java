@@ -1,22 +1,22 @@
 package loro.doc;
 
+import loro.Loro.Str;
 import loro.arbol.*;
-
 import loro.util.Util;
 import loro.util.ManejadorUnidades;
 import loro.compilacion.ClaseNoEncontradaException;
-
-import java.io.*;
-
 import loro.visitante.VisitanteProfundidad;
 import loro.visitante.VisitanteException;
 import loro.tipo.*;
+
+import java.io.*;
 
 /////////////////////////////////////////////////////////////////////
 /**
  * Este visitante genera documentacion para unidades Loro.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class VisitanteLoroDoc extends VisitanteProfundidad
 {
@@ -43,7 +43,6 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		super();
 		this.dir = dir;
 		mu = ManejadorUnidades.obtManejadorUnidades();
-
 	}
 
 
@@ -196,7 +195,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		catch(IOException ex)
 		{
 			throw new DocumentadorException(
-				"Error al crear archivo " +filename+ ": "+
+				"Cannot create file " +filename+ ": "+
 				ex.getMessage()
 			);
 		}
@@ -219,8 +218,8 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 
 		out.println(
 			f("size=\"-1\"",
-				"Paquete: "
-				+tt(p_name == null ? i("an&oacute;nimo") : b(p_name))
+				Str.get("html.package")+ ": "
+				+tt(p_name == null ? i(Str.get("html.anonymous")) : b(p_name))
 			)
 		);
 	}
@@ -268,7 +267,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 	{
 		if ( a == null )
 		{
-			return tt("cierto");
+			return tt(Str.get("html.true"));
 		}
 		else
 		{
@@ -293,13 +292,13 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		String label;
 		if ( claseActual == null )
 		{
-			createFile(n, "Algoritmo " +name, ".a.html");
-			label = "algoritmo";
+			label = Str.get("html.algorithm");
+			createFile(n, label+ " " +name, ".a.html");
 		}
 		else
 		{
 			out.println(hr() +br());
-			label = "m&eacute;todo";
+			label = Str.get("html.method");
 		}
 
 		out.println("<table BORDER=0 BGCOLOR=\"#FFEEEE\">");
@@ -317,7 +316,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		{
 			out.println(br());
 			String sespec = Util.obtStringRuta(tespec);
-			out.print(" para la especificaci&oacute;n ");
+			out.print(" " +Str.get("html.for_spec")+ " ");
 			String href = Util.getRelativeLocation(n.obtNombreCompleto(), tespec) + ".e.html";
 			out.println("<a href=\"" +href+ "\">" +b(sespec)+ "</a>");
 		}
@@ -332,14 +331,13 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		{
 			String strat = pd(tstrat.obtCadena());
 			out.println(
-				//b("Estrategia:")+ br() +
 				processInlineTags(strat, n)
 			);
 		}
 		else
 		{
 			out.println(
-				"(" +i(label+ " implementado en " +n.obtLenguajeImplementacion())+ ")"
+				"(" +i(label+ " " +Str.get("html.implemented_in")+ " " +n.obtLenguajeImplementacion())+ ")"
 			);
 		}
 		out.println(unindent());
@@ -391,9 +389,9 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		sb.append(
 				td(i(label)) + 
 				td(tt(":")) +
-				td(i("Tipo")) +
+				td(i(Str.get("html.type"))) +
 				td(tt(":")) +
-				td(i("Descripci&oacute;n"))
+				td(i(Str.get("html.description")))
 		);
 		sb.append("</tr>\n");
 		if ( p.length > 0 )
@@ -422,7 +420,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		}
 		else
 		{
-			sb.append(tr(td(i("(No hay)"))));
+			sb.append(tr(td(i("-"))));
 		}
 
 		return sb.toString();
@@ -438,9 +436,9 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		sb.append(
 				td(i(label)) + 
 				td(tt(":")) +
-				td(i("Tipo")) +
+				td(i(Str.get("html.type"))) +
 				td(tt(":")) +
-				td(i("Descripci&oacute;n"))
+				td(i(Str.get("html.description")))
 		);
 		sb.append("</tr>\n");
 		for ( int i = 0; i < p.length; i++ )
@@ -474,13 +472,13 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		String label;
 		if ( interfaceActual == null )
 		{
-			createFile(n, "Especificaci&oacute;n " +name, ".e.html");
-			label = "especificaci&oacute;n";
+			label = Str.get("html.spec");
+			createFile(n, label+ " " +name, ".e.html");
 		}
 		else
 		{
 			out.println(hr() +br());
-			label = "operaci&oacute;n";
+			label = Str.get("html.operation");
 		}
 
 		out.println("<table BORDER=0 BGCOLOR=\"#FFEEEE\">");
@@ -510,14 +508,14 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 
 		// INPUT
 		NDescripcion[] dent = n.obtDescripcionesEntrada();
-		out.println(listArgsAsRows(u("Entrada"), pent, dent, n));
+		out.println(listArgsAsRows(u(Str.get("html.input")), pent, dent, n));
 
 		// vertical space
 		out.println("<tr bgcolor=\"#FFEEEE\"></tr>");
 		
 		// OUTPUT
 		NDescripcion[] dsal = n.obtDescripcionesSalida();
-		out.println(listArgsAsRows(u("Salida"), psal, dsal, n));
+		out.println(listArgsAsRows(u(Str.get("html.output")), psal, dsal, n));
 
 		out.println("</table>\n");
 		out.println("</td></tr>");
@@ -530,7 +528,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		out.println("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
 
 		out.println("<tr bgcolor=\"#FFCCCC\">");
-		out.println(td(u("Precondici&oacute;n:")));
+		out.println(td(u(Str.get("html.precondition"))));
 		out.println("</tr>");
 		out.println(tr(td(afir(pre, n))));
 
@@ -538,7 +536,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		out.println("<tr bgcolor=\"#FFEEEE\"></tr>");
 
 		out.println("<tr bgcolor=\"#FFCCCC\">");
-		out.println(td(u("Poscondici&oacute;n:")));
+		out.println(td(u(Str.get("html.postcondition"))));
 		out.println("</tr>");
 		out.println(tr(td(afir(pos, n))));
 		out.println("</table>\n");
@@ -560,14 +558,15 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		String name = n.obtNombreSimpleCadena();
 		NDeclDesc[] pent = n.obtParametrosEntrada();
 
-		createFile(n, "Clase " +name, ".c.html");
+		String label = Str.get("html.class");
+		createFile(n, label+ " " +name, ".c.html");
 
 		out.println("<table BORDER=0 BGCOLOR=\"#FFEEEE\">");
 		
 		out.println("<tr bgcolor=\"#FFCCCC\">");
 		out.println("<td>");
 		out.println("<code>");
-		out.println("clase " +b(name));
+		out.println(label+ " " +b(name));
 		try
 		{
 			NClase superClass = mu.obtSuperClase(n);
@@ -576,14 +575,14 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 				String[] text = superClass.obtNombreCompleto();
 				out.println(br());
 				String sext = Util.obtStringRuta(text);
-				out.print(" extiende ");
+				out.print(" " +Str.get("html.extends")+ " ");
 				String href = Util.getRelativeLocation(n.obtNombreCompleto(), sext) + ".c.html";
 				out.println("<a href=\"" +href+ "\">" +b(sext)+ "</a>");
 			}
 		}
 		catch (ClaseNoEncontradaException ex)
 		{
-			out.print(" !!superclase no encontrada!! ");
+			out.print(" !!superclass not found!! ");
 		}
 		out.println("</code>");
 		out.println("</td>");
@@ -602,14 +601,14 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		out.println("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
 
 		// ATTRIBUTES
-		out.println(listAtrsAsRows(u("Atributo"), pent, n));
+		out.println(listAtrsAsRows(u(Str.get("html.attribute")), pent, n));
 
 		out.println("</table>\n");
 		out.println("</td></tr>");
 
 		out.println("</table>\n");
 
-		// ... métodos:             P E N D I N G 
+		// ... methods:   P E N D I N G 
 		claseActual = n;
 		visitarLista(n.obtMetodosDeclarados());
 		claseActual = null;
@@ -625,10 +624,11 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 	{
 		String name = n.obtNombreSimpleCadena();
 
-		createFile(n, "Interface " +name, ".i.html");
+		String label = Str.get("html.interface");
+		createFile(n, label+ " " +name, ".i.html");
 
 		out.println("<code>");
-		out.println("interface " +b(name));
+		out.println(label+ " " +b(name));
 		out.println("</code>");
 
 		out.println(indent());

@@ -37,7 +37,7 @@ class TerminacionException extends EjecucionVisitanteException {
 	 * Crea una excepcion de terminacion externa.
 	 */
 	public TerminacionException(IUbicable u, PilaEjecucion pilaEjec) {
-		super(u, pilaEjec, Str.get("Extern.termination"));
+		super(u, pilaEjec, Str.get("extern.termination"));
 		this.esInterna = false;
 	}
 
@@ -46,7 +46,7 @@ class TerminacionException extends EjecucionVisitanteException {
 	 * Crea una excepcion de terminacion interna.
 	 */
 	public TerminacionException(IUbicable u, PilaEjecucion pilaEjec, int codigoTerminacionInterna) {
-		super(u, pilaEjec, Str.get("Intern.termination"));
+		super(u, pilaEjec, Str.get("intern.termination"));
 		this.esInterna = true;
 		this.codigoTerminacionInterna = codigoTerminacionInterna;
 	}

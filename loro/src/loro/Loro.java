@@ -281,7 +281,7 @@ public final class Loro
 	throws LoroException
 	{
 		if ( iniciado ) {
-			throw new IllegalStateException(Str.get("Core_already_inited"));
+			throw new IllegalStateException(Str.get("core_already_inited"));
 		}
 		
 		Logger.createLogger(obtNombre()+ " " +obtVersion()+ " (Build " +obtBuild()+ ")");
@@ -290,8 +290,8 @@ public final class Loro
 
 		logger = Logger.getLogger();
 		
-		log(Str.get("Extensions")+ ": " +ext_dir);
-		log(Str.get("Extended_paths")+  ": " +paths_dir);
+		log(Str.get("extensions")+ ": " +ext_dir);
+		log(Str.get("extended_paths")+  ": " +paths_dir);
 
 		_crearManejadorUnidades();
 		
@@ -836,7 +836,7 @@ public final class Loro
 		NClase clase_raiz = mu.obtClaseRaiz();
 		if ( clase_raiz == null )
 		{
-			throw new LoroException(Str.get("error.Root_class_not_found")+ ": " +
+			throw new LoroException(Str.get("error.root_class_not_found")+ ": " +
 				mu.obtNombreClaseRaiz()+
 				"\n"
 			);
@@ -873,7 +873,7 @@ public final class Loro
 	 */
 	private static void _verificarIniciado() {
 		if ( !iniciado ) {
-			throw new IllegalStateException(Str.get("Core_not_inited"));
+			throw new IllegalStateException(Str.get("core_not_inited"));
 		}
 	}
 

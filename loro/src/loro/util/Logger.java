@@ -54,19 +54,18 @@ public class Logger
 		catch(Exception e)
 		{
 			System.err.println(
-				"Advertencia: No se pudo abrir archivo para log: "
-				+nombre_log+
+				"Warning: couldn't open log file: " +nombre_log+
 				": " +e.getClass()+ ": " + e.getMessage()
 			);
 			return;
 		}
 
-		log("@@@@ INICIO " +prg+ " " +(new java.util.Date()));
+		log("@@@@ BEGIN " +prg+ " " +(new java.util.Date()));
 
-		log("***********Propiedades del sistema:");
+		log("***********System properties:");
 		Properties props = System.getProperties();
 		props.list(pw);
-		log("***********Fin propiedades del sistema");
+		log("***********End System properties");
 	}
 	/////////////////////////////////////////////////////////////
 	/**
@@ -77,7 +76,7 @@ public class Logger
 		if ( pw == null )
 			return;
 
-		log("@@@@ FIN " +prg+ " " +(new java.util.Date()));
+		log("@@@@ END " +prg+ " " +(new java.util.Date()));
 		pw.close();
 		pw = null;
 	}

@@ -54,7 +54,7 @@ class CoreOroLoader implements IOroLoader
 		unitnames = new ArrayList();
 		cache = new HashMap();
 		
-		logger.log("Abriendo recurso núcleo");
+		logger.log("Opening core resource");
 		try
 		{
 			ZipInputStream zis = _getZipInputStream();
@@ -70,7 +70,7 @@ class CoreOroLoader implements IOroLoader
 					nombre_original.length() - 4
 				);
 				
-				// intente leer la unidad:
+				// try to read unit:
 				NUnidad n = null;
 				ObjectInputStream ois = new ObjectInputStream(zis);
 				n = ManejadorUnidades.leerUnidad(ois);
@@ -96,9 +96,7 @@ class CoreOroLoader implements IOroLoader
 		}
 		catch(Exception ex)
 		{
-			String msg = "Advertencia: No se encuentra el recurso de apoyo "
-				+RESOURCE_PATH;
-			;
+			String msg = "Warning: core resource not found "+RESOURCE_PATH;
 			System.out.println(msg);
 			logger.log(msg);
 		}
@@ -114,7 +112,7 @@ class CoreOroLoader implements IOroLoader
 	/////////////////////////////////////////////////////////////////////
 	public NUnidad getUnit(String nombre)
 	{
-		logger.log("CoreOroLoader: buscando en cache : [" +nombre+ "]");
+		logger.log("CoreOroLoader: searching in cache : [" +nombre+ "]");
 		NUnidad n = (NUnidad) cache.get(nombre);
 		return n;
 	}
@@ -130,7 +128,7 @@ class CoreOroLoader implements IOroLoader
 			try
 			{
 				src = readInputStream(is);
-				logger.log("Encontrado fuente " +unitname+ " en " +getName());
+				logger.log("Found source " +unitname+ " in " +getName());
 				is.close();
 			}
 			catch(Exception e)
@@ -144,7 +142,7 @@ class CoreOroLoader implements IOroLoader
 	//////////////////////////////////////////////////////////////////////
 	public InputStream getResourceAsStream(String name)
 	{
-		logger.log("Buscando recurso " +name);
+		logger.log("Searching for resource " +name);
 		try
 		{
 			boolean found = false;

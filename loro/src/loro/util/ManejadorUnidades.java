@@ -57,9 +57,8 @@ public class ManejadorUnidades
 	 */
 	public static ManejadorUnidades crearManejadorUnidades(File[] files)
 	{
-		if ( mu != null )
-		{
-			throw new IllegalStateException("Ya existe un manejador de unidades!");
+		if ( mu != null ) {
+			throw new IllegalStateException("UnitManager already created!");
 		}
 
 		mu = new ManejadorUnidades(files);
@@ -82,11 +81,8 @@ public class ManejadorUnidades
 	 */
 	public static void destruirManejadorUnidades()
 	{
-		if ( mu == null )
-		{
-			throw new IllegalStateException(
-				"NO existe un manejador de unidades para destruir!"
-			);
+		if ( mu == null ) {
+			throw new IllegalStateException("No existing UnitManager!");
 		}
 
 		// invalidemos el objeto actual:
@@ -110,11 +106,8 @@ public class ManejadorUnidades
 	 */
 	public static ManejadorUnidades obtManejadorUnidades()
 	{
-		if ( mu == null )
-		{
-			throw new IllegalStateException(
-				"No se tiene un objeto válido creado a través de crearManejadorUnidades(File[])!"
-			);
+		if ( mu == null ) {
+			throw new IllegalStateException("No existing UnitManager!");
 		}
 
 		return mu;
@@ -256,11 +249,11 @@ public class ManejadorUnidades
 		n = (NUnidad) cache.get(nombre);
 		if ( n != null )
 		{
-			logger.log("... ENCONTRADO EN CACHE");
+			logger.log("... FOUND IN CACHE");
 			return n;
 		}
 
-		logger.log("... No encontrado en caches");
+		logger.log("... Not found in caches");
 
 		// intente cargar de disco:
 		return _cargarUnidad(nombre);
@@ -493,7 +486,7 @@ public class ManejadorUnidades
 	 */
 	public NUnidad obtUnidadDeArchivo(String nombreArchivo)
 	{
-		logger.log("Leyendo unidad de : " +nombreArchivo);
+		logger.log("Reading unit from : " +nombreArchivo);
 		
 		File file = new File(nombreArchivo);
 		if ( !file.isFile() )
@@ -519,7 +512,7 @@ public class ManejadorUnidades
 		}
 		catch(Exception ex)
 		{
-			logger.log("Error al leer unidad de: " +nombreArchivo+ ": " +ex.getMessage());
+			logger.log("Error reading unit from: " +nombreArchivo+ ": " +ex.getMessage());
 		}
 
 		return n;

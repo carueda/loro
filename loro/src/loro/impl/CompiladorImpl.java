@@ -1,5 +1,6 @@
 package loro.impl;
 
+import loro.Loro.Str;
 import loro.*;
 import loro.compilacion.*;
 import loro.derivacion.*;
@@ -55,7 +56,7 @@ public class CompiladorImpl implements ICompilador
 			IUnidad u2 = unidades[1];
 			Rango r = u2.obtRango();
 			throw new CompilacionException(r, 
-				"Sólo se espera la definición de la especificación '" +expected_unitname+ "'"
+				Str.get("error.1_only_spec_expected", expected_unitname)
 			);
 		}
 		
@@ -63,8 +64,8 @@ public class CompiladorImpl implements ICompilador
 		{
 			IUnidad u2 = unidades[0];
 			Rango r = u2.obtRango();
-			throw new CompilacionException(r, 
-				"Se espera la definición de la especificación '" +expected_unitname+ "'"
+			throw new CompilacionException(r,
+				Str.get("error.1_only_spec_expected", expected_unitname)
 			);
 		}
 		
@@ -77,7 +78,9 @@ public class CompiladorImpl implements ICompilador
 			String msg = "Se espera el nombre '" +expected_unitname+ "'";
 			TId id = unidad.obtId();
 			r = id.obtRango();
-			throw new CompilacionException(r, msg);
+			throw new CompilacionException(r, 
+				Str.get("error.1_only_spec_expected", expected_unitname)
+			);
 		}
 		
 		/////////////////////////////////////////////
@@ -112,7 +115,7 @@ public class CompiladorImpl implements ICompilador
 			IUnidad u2 = unidades[1];
 			Rango r = u2.obtRango();
 			throw new CompilacionException(r, 
-				"Sólo se espera la definición del algoritmo '" +expected_unitname+ "'"
+				Str.get("error.1_only_algorithm_expected", expected_unitname)
 			);
 		}
 		if ( !(unidades[0] instanceof NAlgoritmo) )
@@ -120,7 +123,7 @@ public class CompiladorImpl implements ICompilador
 			IUnidad u2 = unidades[0];
 			Rango r = u2.obtRango();
 			throw new CompilacionException(r, 
-				"Se espera la definición del algoritmo '" +expected_unitname+ "'"
+				Str.get("error.1_only_algorithm_expected", expected_unitname)
 			);
 		}
 		
@@ -130,22 +133,20 @@ public class CompiladorImpl implements ICompilador
 		if ( ! expected_unitname.equals(unitname) )
 		{
 			Rango r;
-			String msg = "Se espera el nombre '" +expected_unitname+ "'";
+			String msg;
 			TId id = unidad.obtId();
-			if ( id != null )
-			{
-				// el nombre del algoritmo aparce explícitamente dado.
+			if ( id != null ) {
+				// algorithm name explicitly given
 				r = id.obtRango();
+				msg = Str.get("error.1_only_algorithm_expected", expected_unitname);
 			}
-			else
-			{
-				// el nombre se toma del de la especificación
+			else {
+				// name to be taken from spec
 				NAlgoritmo nalg = (NAlgoritmo) unidad;
 				TNombre espec = nalg.obtTNombreEspecificacion();
 				TId[] ids = espec.obtIds();
 				r = ids[ids.length -1].obtRango();
-				// ya que ese sería el nombre que toma el algoritmo por defecto.
-				msg += " y este algoritmo tomaría el nombre '" +unitname+ "'";
+				msg = Str.get("error.2_only_algorithm_expected_would_take", expected_unitname, unitname);
 			}
 			
 			throw new CompilacionException(r, msg);
@@ -177,8 +178,7 @@ public class CompiladorImpl implements ICompilador
 			{
 				throw new CompilacionException(
 					espec.obtRango(),
-					"Se espera que el algoritmo sea para la especificación '" 
-						+expected_specname+ "'"
+					Str.get("error.1_algorithm_must_implement", expected_specname)
 				);
 			}
 		}
@@ -213,8 +213,8 @@ public class CompiladorImpl implements ICompilador
 		{
 			IUnidad u2 = unidades[1];
 			Rango r = u2.obtRango();
-			throw new CompilacionException(r, 
-				"Sólo se espera la definición de la clase '" +expected_unitname+ "'"
+			throw new CompilacionException(r,
+				Str.get("error.1_only_class_expected", expected_unitname)
 			);
 		}
 		
@@ -225,7 +225,7 @@ public class CompiladorImpl implements ICompilador
 			IUnidad u2 = unidades[0];
 			Rango r = u2.obtRango();
 			throw new CompilacionException(r, 
-				"Se espera la definición de la clase '" +expected_unitname+ "'"
+				Str.get("error.1_only_class_expected", expected_unitname)
 			);
 		}
 		
@@ -235,10 +235,11 @@ public class CompiladorImpl implements ICompilador
 		if ( ! expected_unitname.equals(unitname) )
 		{
 			Rango r;
-			String msg = "Se espera el nombre '" +expected_unitname+ "'";
 			TId id = unidad.obtId();
 			r = id.obtRango();
-			throw new CompilacionException(r, msg);
+			throw new CompilacionException(r, 
+				Str.get("error.1_only_class_expected", expected_unitname)
+			);
 		}
 		
 		/////////////////////////////////////////////
@@ -269,9 +270,10 @@ public class CompiladorImpl implements ICompilador
 	throws CompilacionException
 	{
 		TId tid = derivador.derivarId();
-		if ( Util.esVarSemantica(tid) )
-		{
-			throw new CompilacionException(tid.obtRango(), "variable semántica");
+		if ( Util.esVarSemantica(tid) ) {
+			throw new CompilacionException(tid.obtRango(), 
+				Str.get("error.id_is_semantic_var")
+			);
 		}
 	}
 
@@ -283,9 +285,10 @@ public class CompiladorImpl implements ICompilador
 		TId[] tids = tnombre.obtIds();
 		for ( int i = 0; i < tids.length; i++ )
 		{
-			if ( Util.esVarSemantica(tids[i]) )
-			{
-				throw new CompilacionException(tnombre.obtRango(), "contiene variable semántica");
+			if ( Util.esVarSemantica(tids[i]) ) {
+				throw new CompilacionException(tnombre.obtRango(), 
+					Str.get("error.name_contains_semantic_var")
+				);
 			}
 		}
 	}
@@ -424,7 +427,7 @@ public class CompiladorImpl implements ICompilador
 			}
 			catch(FileNotFoundException ex)
 			{
-				pwerr.println(nombre+ ": archivo no encontrado");
+				pwerr.println(Str.get("error.1_file_not_found", nombre));
 			}
 			catch(CompilacionException ex)
 			{
@@ -461,11 +464,11 @@ public class CompiladorImpl implements ICompilador
 				ponTextoFuente(reader);
 				ponNombreArchivo(nombre);
 				compilarFuente();
-				pwerr.println(nombre+ ": HA COMPILADO BIEN!!!");
+				pwerr.println(Str.get("error.1_compiled_ok", nombre));
 			}
 			catch(FileNotFoundException ex)
 			{
-				pwerr.println(nombre+ ": archivo no encontrado");
+				pwerr.println(Str.get("error.1_file_not_found", nombre));
 			}
 			catch(CompilacionException ex)
 			{

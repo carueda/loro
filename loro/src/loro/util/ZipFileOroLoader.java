@@ -55,7 +55,7 @@ public class ZipFileOroLoader implements IOroLoader
 		NUnidad n = (NUnidad) cache.get(nombre);
 		if ( n != null )
 		{
-			logger.log("........ Encontrado en cache zip");
+			logger.log("........ Found in zip cache");
 			return n;
 		}
 
@@ -94,7 +94,7 @@ public class ZipFileOroLoader implements IOroLoader
 			try
 			{
 				src = readInputStream(is);
-				logger.log("Encontrado fuente " +unitname+ " en " +getName());
+				logger.log("Found source " +unitname+ " in " +getName());
 				is.close();
 			}
 			catch(Exception e)

@@ -853,7 +853,7 @@ public class VisitanteProfundidad implements IVisitante
 	throws VisitanteException
 	{
 		n.obtExpresion().aceptar(this);
-		// PENDIETE   n.obtTipoRevisado() ....
+		// PENDIENTE   n.obtTipoRevisado() ....
 	}
 
 	/////////////////////////////////////////////////////////////////

@@ -1,5 +1,6 @@
 package loro.util;
 
+import loro.Loro.Str;
 import loro.arbol.*;
 import loro.Rango;
 import loro.IOroLoader;
@@ -234,7 +235,7 @@ public final class Util
 	 */
 	public static void format(Object o, int width, char fill, StringBuffer sb)
 	{
-		String s = o == null ? "nulo" : o.toString();
+		String s = o == null ? Str.get("null") : o.toString();
 		sb.append(s);
 
 		int len = s.length();
@@ -636,19 +637,13 @@ public final class Util
 	//////////////////////////////////////////////////////////////////////////
 	/**
 	 * Process a string for HTML formatting:
-	 * <ul>
-	 * 	<li>Replaces ``&amp;'' for ``&amp;amp;''
-	 * 	<li>Replaces ``&lt;'' for ``&amp;lt;''
-	 * </ul>
-	 * 
-	 * @param s     La cadena a procesar.
-	 * @param qname Nombre de base para resolver enlaces relativos en 
-	 *              inline tags.
 	 */
 	public static String formatHtml(String str)
 	{
 		str = replace(str, "&", "&amp;");
 		str = replace(str, "<", "&lt;");
+		str = replace(str, "«", "&laquo;");
+		str = replace(str, "»", "&raquo;");
 		return str;
 	}
 	
@@ -722,6 +717,4 @@ public final class Util
 
 		return "<a href=\"" +href+ "\"><code>" +simple+ "</code></a>";
 	}
-
-
 }

@@ -1,5 +1,6 @@
 package loro.visitante;
 
+import loro.Loro.Str;
 import loro.arbol.*;
 
 ////////////////////////////////////////////////////////////
@@ -16,6 +17,7 @@ import loro.arbol.*;
  * mecanismo de 'double-dispatch'.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class Descriptor
 {
@@ -60,513 +62,512 @@ public class Descriptor
 		public void visitar(NACadena n)
 		throws VisitanteException
 		{
-			description = "Operación de conversión a cadena";
+			description = Str.get("node.to_string");
 		}
 
 		public void visitar(NAfirmacion n)
 		throws VisitanteException
 		{
-			description = "Afirmación";
+			description = Str.get("node.assert");
 		}
 		
 		public void visitar(NAlgoritmo n)
 		throws VisitanteException
 		{
-			description = "Definición de un algoritmo";
+			description = Str.get("node.algorithm");
 		}
 		
 		public void visitar(NAsignacion n)
 		throws VisitanteException
 		{
-			description = "Una asignación";
+			description = Str.get("node.assignment");
 		}
 		
 		public void visitar(NAtrape n)
 		throws VisitanteException
 		{
-			description = "Un segmento para atrapar una excepción";
+			description = Str.get("node.catch");
 		}
 		
 		public void visitar(NCardinalidad n)
 		throws VisitanteException
 		{
-			description = "Operación que obtiene el tamaño de una arreglo o cadena";
+			description = Str.get("node.cardinality");
 		}
 		
 		public void visitar(NCaso n)
 		throws VisitanteException
 		{
-			description = "Un segmento para atención de caso en una acción 'según'";
+			description = Str.get("node.case");
 		}
 		
 		public void visitar(NCiclo n)
 		throws VisitanteException
 		{
-			description = "Una iteración 'ciclo'";
+			description = Str.get("node.loop");
 		}
 		
 		public void visitar(NClase n)
 		throws VisitanteException
 		{
-			description = "Definición de una clase";
+			description = Str.get("node.class");
 		}
 		
 		public void visitar(NCondicion n)
 		throws VisitanteException
 		{
-			description = "Operación ternaria condicional";
+			description = Str.get("node.cond");
 		}
 		
 		public void visitar(NConstructor n)
 		throws VisitanteException
 		{
-			description = "Definición de un constructor";
+			description = Str.get("node.constructor");
 		}
 		
 		public void visitar(NContinue n)
 		throws VisitanteException
 		{
-			description = "Una acción 'continúe'";
+			description = Str.get("node.continue");
 		}
 		
 		public void visitar(NConvertirTipo n)
 		throws VisitanteException
 		{
-			description = "Conversión de tipo de una expresión";
+			description = Str.get("node.type_conversion");
 		}
 		
 		public void visitar(NCorrDer n)
 		throws VisitanteException
 		{
-			description = "Operación de desplazamiento de bits a la derecha con signo";
+			description = Str.get("node.right_shift");
 		}
 		
 		public void visitar(NCorrDerDer n)
 		throws VisitanteException
 		{
-			description = "Operación de desplazamiento de bits a la derecha";
-			description = "Definición de un algoritmo";
+			description = Str.get("node.right_right_shift");
 		}
 		
 		public void visitar(NCorrIzq n)
 		throws VisitanteException
 		{
-			description = "Operación de desplazamiento de bits a la izquierda";
+			description = Str.get("node.left_shift");
 		}
 		
 		public void visitar(NCrearArreglo n)
 		throws VisitanteException
 		{
-			description = "Operación de creación de un arreglo";
+			description = Str.get("node.new_array");
 		}
 
 		public void visitar(NExpresionArreglo n)
 		throws VisitanteException
 		{
-			description = "Arreglo denotado explícitamente";
+			description = Str.get("node.array_expression");
 		}
 
 		public void visitar(NCrearArregloTipoBase n)
 		throws VisitanteException
 		{
-			description = "Parte de la indicación para crear un arreglo";
+			description = Str.get("node.new_array_fragment");
 		}
 
 		public void visitar(NCrearObjeto n)
 		throws VisitanteException
 		{
-			description = "Operación de creación de una instancia";
+			description = Str.get("node.new_instance");
 		}
 
 		public void visitar(NCuantificado n)
 		throws VisitanteException
 		{
-			description = "Expresión booleana con cuantificador";
+			description = Str.get("node.quantified");
 		}
 
 		public void visitar(NDecision n)
 		throws VisitanteException
 		{
-			description = "Acción de decisión";
+			description = Str.get("node.decision");
 		}
 
 		public void visitar(NDecisionSiNoSi n)
 		throws VisitanteException
 		{
-			description = "Alternativa en una acción de decisión";
+			description = Str.get("node.else_if");
 
 		}
 		public void visitar(NDecisionMultiple n)
 		throws VisitanteException
 		{
-			description = "Acción de decisión de múltiples casos";
+			description = Str.get("node.switch");
 		}
 		
 		public void visitar(NDeclaracion n)
 		throws VisitanteException
 		{
-			description = "Declaración de variable(s)";
+			description = Str.get("node.declaration");
 		}
 		
 		public void visitar(NDeclDesc n)
 		throws VisitanteException
 		{
-			description = "Declaración de variable incluyendo descripción";
+			description = Str.get("node.declaration_description");
 		}
 		
 		public void visitar(NDescripcion n)
 		throws VisitanteException
 		{
-			description = "Texto para documentación";
+			description = Str.get("node.doc_text");
 		}
 		
 		public void visitar(NDiferente n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de no igualdad";
+			description = Str.get("node.not_equal");
 		}
 		
 		public void visitar(NDivReal n)
 		throws VisitanteException
 		{
-			description = "Operación de división real";
+			description = Str.get("node.real_div");
 		}
 		
 		public void visitar(NEquivalencia n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de equivalencia lógica";
+			description = Str.get("node.equiv");
 		}
 		
 		public void visitar(NEsInstanciaDe n)
 		throws VisitanteException
 		{
-			description = "Operación de verificación del tipo de un objeto";
+			description = Str.get("node.instance_of");
 		}
 		
 		public void visitar(NEspecificacion n)
 		throws VisitanteException
 		{
-			description = "Definición de una especificación";
+			description = Str.get("node.spec");
 		}
 		
 		public void visitar(NEste n)
 		throws VisitanteException
 		{
-			description = "Expresión 'éste' que referencia al objeto sobre el cual opera el contructor o método";
+			description = Str.get("node.this");
 		}
 		
 		public void visitar(NForEach n)
 		throws VisitanteException
 		{
-			description = "Una iteración 'para cada elemento en ...'";
+			description = Str.get("node.for_each");
 		}
 		
 		public void visitar(NFuente n)
 		throws VisitanteException
 		{
-			description = "Fuente completo sometido a compilación";
+			description = Str.get("node.source");
 		}
 		
 		public void visitar(NId n)
 		throws VisitanteException
 		{
-			description = "Identificador";
+			description = Str.get("node.id");
 		}
 		
 		public void visitar(NIgual n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de igualdad";
+			description = Str.get("node.equal");
 		}
 		
 		public void visitar(NImplicacion n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de implicación lógica";
+			description = Str.get("node.implies");
 		}
 		
 		public void visitar(NIntente n)
 		throws VisitanteException
 		{
-			description = "Acción 'intente'";
+			description = Str.get("node.try");
 		}
 		
 		public void visitar(NInterface n)
 		throws VisitanteException
 		{
-			description = "Definición de una interfaz";
+			description = Str.get("node.interface");
 		}
 		
 		public void visitar(NInvocacion n)
 		throws VisitanteException
 		{
-			description = "Invocación de algoritmo";
+			description = Str.get("node.call");
 		}
 		
 		public void visitar(NLance n)
 		throws VisitanteException
 		{
-			description = "lanzamiento de una excepción";
+			description = Str.get("node.throw");
 		}
 		
 		public void visitar(NLiteralBooleano n)
 		throws VisitanteException
 		{
-			description = "Literal booleana '" +n.obtImagen()+ "'";
+			description = Str.get("node.1_boolean_literal", n.obtImagen());
 		}
 		
 		public void visitar(NLiteralCadena n)
 		throws VisitanteException
 		{
-			description = "Literal cadena '" +n.obtImagen()+ "'";
+			description = Str.get("node.1_string_literal", n.obtImagen());
 		}
 		
 		public void visitar(NLiteralCaracter n)
 		throws VisitanteException
 		{
-			description = "Literal caracter '" +n.obtImagen()+ "'";
+			description = Str.get("node.1_char_literal", n.obtImagen());
 		}
 		
 		public void visitar(NLiteralEntero n)
 		throws VisitanteException
 		{
-			description = "Literal entera '" +n.obtImagen()+ "'";
+			description = Str.get("node.1_int_literal", n.obtImagen());
 		}
 		
 		public void visitar(NLiteralNulo n)
 		throws VisitanteException
 		{
-			description = "Literal para referencia nula '" +n.obtImagen()+ "'";
+			description = Str.get("node.1_null_literal", n.obtImagen());
 		}
 		
 		public void visitar(NLiteralReal n)
 		throws VisitanteException
 		{
-			description = "Literal real '" +n.obtImagen()+ "'";
+			description = Str.get("node.1_real_literal", n.obtImagen());
 		}
 		
 		public void visitar(NMas n)
 		throws VisitanteException
 		{
-			description = "Operación de suma-concatenación";
+			description = Str.get("node.bin_plus");
 		}
 		
 		public void visitar(NMayor n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de 'mayor que'";
+			description = Str.get("node.gt");
 		}
 		
 		public void visitar(NMayorIgual n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de 'mayor que o igual a'";
+			description = Str.get("node.ge");
 		}
 		
 		public void visitar(NMenor n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de 'menor que'";
+			description = Str.get("node.lt");
 		}
 		
 		public void visitar(NMenorIgual n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de 'menor que o igual a'";
+			description = Str.get("node.le");
 		}
 		
 		public void visitar(NMenos n)
 		throws VisitanteException
 		{
-			description = "Operación de resta";
+			description = Str.get("node.bin_minus");
 		}
 		
 		public void visitar(NMientras n)
 		throws VisitanteException
 		{
-			description = "Acción de iteración 'mientras'";
+			description = Str.get("node.while");
 		}
 		
 		public void visitar(NMod n)
 		throws VisitanteException
 		{
-			description = "Operación módulo división entera";
+			description = Str.get("node.mod");
 		}
 		
 		public void visitar(NNeg n)
 		throws VisitanteException
 		{
-			description = "Operación aritmética unaria -";
+			description = Str.get("node.neg");
 		}
 		
 		public void visitar(NNo n)
 		throws VisitanteException
 		{
-			description = "Operación de negación lógica";
+			description = Str.get("node.lnot");
 		}
 		
 		public void visitar(NNoBit n)
 		throws VisitanteException
 		{
-			description = "Operación de negación bit a bit";
+			description = Str.get("node.anot");
 		}
 		
 		public void visitar(NNombre n)
 		throws VisitanteException
 		{
-			description = "Nombre cualificado";
+			description = Str.get("node.name");
 		}
 		
 		public void visitar(NO n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de 'O inclusiva' lógica";
+			description = Str.get("node.or");
 		}
 		
 		public void visitar(NOArit n)
 		throws VisitanteException
 		{
-			description = "Operación 'O inclusiva' bit a bit";
+			description = Str.get("node.aor");
 		}
 		
 		public void visitar(NOExc n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de 'O exclusiva' lógica";
+			description = Str.get("node.xor");
 		}
 		
 		public void visitar(NPaquete n)
 		throws VisitanteException
 		{
-			description = "Definición de nombre de paquete";
+			description = Str.get("node.package");
 		}
 		
 		public void visitar(NPara n)
 		throws VisitanteException
 		{
-			description = "Acción de iteración 'para'";
+			description = Str.get("node.for");
 		}
 		
 		public void visitar(NPlus n)
 		throws VisitanteException
 		{
-			description = "Operación aritmética unaria +";
+			description = Str.get("node.un_plus");
 		}
 		
 		public void visitar(NPor n)
 		throws VisitanteException
 		{
-			description = "Operación aritmética de multiplicación";
+			description = Str.get("node.times");
 		}
 		
 		public void visitar(NRepita n)
 		throws VisitanteException
 		{
-			description = "Acción de iteración 'repita'";
+			description = Str.get("node.repeat");
 		}
 		
 		public void visitar(NRetorne n)
 		throws VisitanteException
 		{
-			description = "Acción de retorno";
+			description = Str.get("node.return");
 		}
 		
 		public void visitar(NSubId n)
 		throws VisitanteException
 		{
-			description = "Operación de acceso a atributo/método de un objeto";
+			description = Str.get("node.deref");
 		}
 		
 		public void visitar(NSubindexacion n)
 		throws VisitanteException
 		{
-			description = "Operación de acceso a campo de arreglo";
+			description = Str.get("node.subindex");
 		}
 		
 		public void visitar(NTermine n)
 		throws VisitanteException
 		{
-			description = "Acción de terminación de iteración";
+			description = Str.get("node.break");
 		}
 		
 		public void visitar(NUtiliza n)
 		throws VisitanteException
 		{
-			description = "Indicación 'utiliza' para acceder a unidades";
+			description = Str.get("node.uses");
 		}
 		
 		public void visitar(NY n)
 		throws VisitanteException
 		{
-			description = "Operación relacional de verificación de 'Y' lógica";
+			description = Str.get("node.and");
 		}
 		
 		public void visitar(NYArit n)
 		throws VisitanteException
 		{
-			description = "Operación 'Y' bit a bit";
+			description = Str.get("node.aand");
 		}
 		
 	
 		public void visitar(NTipoArreglo n)
 		throws VisitanteException
 		{
-			description = "Tipo arreglo";
+			description = Str.get("node.array_type");
 		}
 		
 		public void visitar(NTipoBooleano n)
 		throws VisitanteException
 		{
-			description = "Tipo 'booleano'";
+			description = Str.get("node.boolean_type");
 		}
 		
 		public void visitar(NTipoCadena n)
 		throws VisitanteException
 		{
-			description = "Tipo 'cadena'";
+			description = Str.get("node.string_type");
 		}
 	
 		public void visitar(NTipoCaracter n)
 		throws VisitanteException
 		{
-			description = "Tipo 'caracter'";
+			description = Str.get("node.char_type");
 		}
 	
 		public void visitar(NTipoClase n)
 		throws VisitanteException
 		{
-			description = "Tipo 'clase'";
+			description = Str.get("node.class_type");
 		}
 	
 		public void visitar(NTipoEntero n)
 		throws VisitanteException
 		{
-			description = "Tipo 'entero'";
+			description = Str.get("node.int_type");
 		}
 	
 		public void visitar(NTipoEspecificacion n)
 		throws VisitanteException
 		{
-			description = "Tipo 'especificación'";
+			description = Str.get("node.spec_type");
 		}
 	
 		public void visitar(NTipoReal n)
 		throws VisitanteException
 		{
-			description = "Tipo 'real'";
+			description = Str.get("node.real_type");
 		}
 	
 		public void visitar(NImplementa n)
 		throws VisitanteException
 		{
-			description = "Indicación de interfaces implementadas";
+			description = Str.get("node.implements");
 		}
 	
 		public void visitar(NTipoInterface n)
 		throws VisitanteException
 		{
-			description = "Tipo 'interfaz'";
+			description = Str.get("node.interface_type");
 		}
 	}
 }

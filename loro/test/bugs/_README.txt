@@ -1,4 +1,4 @@
 test/bugs/
 
-	Programas que delatan bugs del sistema.
+	Programs that have suffer from bugs in the system
 	

@@ -1,6 +1,6 @@
 package loro.util;
 
-
+import loro.Loro.Str;
 import loro.ejecucion.ArregloBaseNoCero;
 import loro.compilacion.ClaseNoEncontradaException;
 import loro.tipo.Tipo;
@@ -68,7 +68,7 @@ public final class UtilValor
 	/**
 	 * Obtiene una version cadena del objeto dado.
 	 * Si es null, se retorna "nulo".
-	 * Si es un Boolean, se retorna "cierto" o "falso" de acuerdo con el valor.
+	 * Si es un Boolean, se retorna "true" or "false" de acuerdo con el valor.
 	 * Si es Objeto o arreglo, se tiene en cuenta posible recursión.
 	 * Si es Objeto, se tiene en cuenta el máximo nivel para ver el objetos.
 	 * Si es un arreglo, se tiene en cuenta la longitud para ver arreglos.
@@ -124,7 +124,7 @@ public final class UtilValor
 		else if ( o instanceof Boolean )
 		{
 			boolean b = ((Boolean)o).booleanValue();
-			return b ? "cierto" : "falso";
+			return b ? Str.get("true") : Str.get("false");
 		}
 		
 		String res;
@@ -262,7 +262,7 @@ public final class UtilValor
 			}
 			catch (ClaseNoEncontradaException ex)
 			{
-				sb.append("!!Clase no encontrada: '" +ex.obtNombre()+ "'");
+				sb.append("!!Class not found: '" +ex.obtNombre()+ "'");
 			}
 		}
 		sb.append("}");

@@ -1,5 +1,6 @@
 package loro.impl;
 
+import loro.Loro.Str;
 import loro.*;
 import loro.util.ManejadorUnidades;
 
@@ -17,7 +18,6 @@ import java.io.IOException;
  */
 public class DocumentadorImpl implements IDocumentador
 {
-	
 	//////////////////////////////////////////////////////
 	public void documentar(IUnidad u, String dir)
 	throws LoroException
@@ -32,7 +32,7 @@ public class DocumentadorImpl implements IDocumentador
 		catch ( Exception ex )
 		{
 			throw new LoroException(
-				"Error al generar documentacion: " +ex.getMessage()
+				Str.get("error.1_generating_doc", ex.getMessage())
 			);
 		}
 	}
