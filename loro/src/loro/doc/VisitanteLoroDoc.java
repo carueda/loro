@@ -4,6 +4,7 @@ import loro.arbol.*;
 
 import loro.util.Util;
 import loro.util.ManejadorUnidades;
+import loro.compilacion.ClaseNoEncontradaException;
 
 import java.io.*;
 
@@ -16,7 +17,6 @@ import loro.tipo.*;
  * Este visitante genera documentacion para unidades Loro.
  *
  * @author Carlos Rueda
- * @version 0.1 08/30/01
  */
 public class VisitanteLoroDoc extends VisitanteProfundidad
 {
@@ -166,6 +166,12 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	static String u(Object s)
+	{
+		return nest(s, "u");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	static String f(String font, Object s)
 	{
 		return "<font " +font+ ">" +s+ "</font>";
@@ -180,13 +186,13 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 	//////////////////////////////////////////////////////////////////////////
 	static String tr(Object s)
 	{
-		return "<tr valign=\"top\" nosave>" +s+ "</tr>";
+		return "<tr valign=\"top\">" +s+ "</tr>";
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	static String td(Object s)
 	{
-		return "<td nosave>" +s+ "</td>";
+		return "<td>" +s+ "</td>";
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -260,7 +266,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 			"<html>\n" +
 			"<head>\n" +
 			"<!-- Generado por lorodoc en " +new java.util.Date()+ "-->\n" +
-			"<!-- Loro version " +loro.Loro.obtVersion()+ "-->\n" +
+			"<!-- Loro versión " +loro.Loro.obtVersion()+ "-->\n" +
 			"<!-- Fuente de esta unidad: " +n.obtNombreFuente()+ " -->\n"+
 			"<!-- user.name: " +System.getProperty("user.name")+ " -->\n"+
 			"<title>\n" +
@@ -275,7 +281,6 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 				"Paquete: "
 				+tt(p_name == null ? i("an&oacute;nimo") : b(p_name))
 			)
-			+br()+br()
 		);
 	}
 
@@ -308,10 +313,10 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		}
 		else if ( t.esArreglo() )
 		{
-			return b("[]") + formatType(t.obtTipoElemento(), n);
+			return "[]" + formatType(t.obtTipoElemento(), n);
 		}
 
-		return b(t);
+		return t.toString();
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -327,7 +332,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		else
 		{
 			String l = a.getLiteralDescription();
-			return l != null ? i(processInlineTags(l, n)) : tt(a.obtCadena());
+			return l != null ? processInlineTags(l, n) : tt(a.obtCadena());
 		}
 	}
 
@@ -353,25 +358,30 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 			label = "m&eacute;todo";
 		}
 
+		out.println("<table BORDER=0 BGCOLOR=\"#FFEEEE\">");
+		
+		out.println("<tr bgcolor=\"#FFCCCC\">");
+		out.println("<td>");
 		out.println("<code>");
-		out.println(label+ " " +b(name)+ "(" +listArgNames(pent)+ ")");
+		out.println(label+ " " +b(name+ "(" +listArgNames(pent)+ ")"));
 		if ( psal.length > 0 )
 		{
-			out.print(" -> " +listArgNames(psal));
+			out.print(b(" -> " +listArgNames(psal)));
 		}
-		out.println("</code>" +br());
-
 		String[] tespec = n.obtNombreEspecificacion();
 		if ( tespec != null )
 		{
-			out.print("<code>");
+			out.println(br());
 			String sespec = Util.obtStringRuta(tespec);
 			out.print(" para la especificaci&oacute;n ");
 			String href = Util.getRelativeLocation(n.obtNombreCompleto(), tespec) + ".e.html";
-			out.println("<a href=\"" +href+ "\">" +b(sespec)+ "</a>" +br()+br());
-			out.print("</code>");
+			out.println("<a href=\"" +href+ "\">" +b(sespec)+ "</a>");
 		}
+		out.println("</code>");
+		out.println("</td>");
+		out.println("</tr>");
 
+		out.println("<tr><td>");
 		out.println(indent());
 		TCadenaDoc tstrat = n.obtEstrategia();
 		if ( tstrat != null )
@@ -379,21 +389,20 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 			String strat = pd(tstrat.obtCadena());
 			out.println(
 				//b("Estrategia:")+ br() +
-				processInlineTags(strat, n)+ br()
+				processInlineTags(strat, n)
 			);
 		}
 		else
 		{
 			out.println(
-				"(" +i(label+ " implementado en " +n.obtLenguajeImplementacion())+ ")" +br()
+				"(" +i(label+ " implementado en " +n.obtLenguajeImplementacion())+ ")"
 			);
 		}
 		out.println(unindent());
+		out.println("</td></tr>");
 
 		if ( claseActual == null )
-		{
 			close();
-		}
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -417,31 +426,58 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 */
-	static String listArgsAsTable(NDeclaracion[] p, NDescripcion[] d, NUnidad n)
+	static String listArgsAsTable(String label, NDeclaracion[] p, NDescripcion[] d, NUnidad n)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("<table border=\"0\" nosave>\n");
-		for ( int i = 0; i < p.length; i++ )
-		{
-			NDeclaracion dec = p[i];
-			String desc = "";
-			if ( d != null )
-			{
-				NDescripcion des = d[i];
-				desc = td(i(processInlineTags(pd(des.obtDescripcion().toString()), n)));
-			}
-
-			sb.append(
-				tr(
-					td(tt(s(4)))+
-					td(tt(dec.obtId())) + td(tt(":")) +
-					td(tt(formatType(dec.obtTipo(), n))) +
-					desc
-				)
-			);
-			sb.append("\n");
-		}
+		sb.append("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
+		sb.append(listArgsAsRows(label, p, d, n));
 		sb.append("</table>\n");
+		return sb.toString();
+	}
+	
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 */
+	static String listArgsAsRows(String label, NDeclaracion[] p, NDescripcion[] d, NUnidad n)
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("<tr bgcolor=\"#FFCCCC\">\n");
+		sb.append(
+				td(i(label)) + 
+				td(tt(":")) +
+				td(i("Tipo")) +
+				td(tt(":")) +
+				td(i("Descripci&oacute;n"))
+		);
+		sb.append("</tr>\n");
+		if ( p.length > 0 )
+		{
+			for ( int i = 0; i < p.length; i++ )
+			{
+				NDeclaracion dec = p[i];
+				String desc = "";
+				if ( d != null )
+				{
+					NDescripcion des = d[i];
+					desc = td(processInlineTags(pd(des.obtDescripcion().toString()), n));
+				}
+	
+				sb.append(
+					tr(
+						td(tt(b(dec.obtId()))) + 
+						td(tt(":")) +
+						td(tt(formatType(dec.obtTipo(), n))) +
+						td(tt(":")) +
+						desc
+					)
+				);
+				sb.append("\n");
+			}
+		}
+		else
+		{
+			sb.append(tr(td(i("(No hay)"))));
+		}
 
 		return sb.toString();
 	}
@@ -449,25 +485,44 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 */
-	static String listAtrsAsTable(NDeclDesc[] p, NUnidad n)
+	static String listAtrsAsTable(String label, NDeclDesc[] p, NUnidad n)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("<table border=\"0\" nosave>\n");
+		sb.append("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
+		sb.append(listAtrsAsTable(label, p, n));
+		sb.append("</table>\n");
+		return sb.toString();
+	}
+	
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 */
+	static String listAtrsAsRows(String label, NDeclDesc[] p, NUnidad n)
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("<tr bgcolor=\"#FFCCCC\">\n");
+		sb.append(
+				td(i(label)) + 
+				td(tt(":")) +
+				td(i("Tipo")) +
+				td(tt(":")) +
+				td(i("Descripci&oacute;n"))
+		);
+		sb.append("</tr>\n");
 		for ( int i = 0; i < p.length; i++ )
 		{
 			NDeclDesc d = p[i];
 			sb.append(
 				tr(
-					td(tt(s(4)))+
-					td(tt(d.obtId())) + td(tt(":")) +
+					td(tt(b(d.obtId()))) + 
+					td(tt(":")) +
 					td(tt(formatType(d.obtTipo(), n))) +
-					td(i(processInlineTags(pd(d.obtDescripcion().toString()), n)))
+					td(tt(":")) +
+					td(processInlineTags(pd(d.obtDescripcion().toString()), n))
 				)
 			);
 			sb.append("\n");
 		}
-		sb.append("</table>\n");
-
 		return sb.toString();
 	}
 	/////////////////////////////////////////////////////////////////////
@@ -479,6 +534,8 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		String name = n.obtNombreSimpleCadena();
 		NDeclaracion[] pent = n.obtParametrosEntrada();
 		NDeclaracion[] psal = n.obtParametrosSalida();
+		NAfirmacion pre = n.obtPrecondicion();
+		NAfirmacion pos = n.obtPoscondicion();
 
 		String label;
 		if ( interfaceActual == null )
@@ -492,62 +549,70 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 			label = "operaci&oacute;n";
 		}
 
-		String spc = s(4);
-
+		out.println("<table BORDER=0 BGCOLOR=\"#FFEEEE\">");
+		
+		out.println("<tr bgcolor=\"#FFCCCC\">");
+		out.println("<td>");
 		out.println("<code>");
-		out.println(label+ " " +b(name)+ "(" +listArgNames(pent)+ ")");
+		out.println(label+ " " +b(name+ "(" +listArgNames(pent)+ ")"));
 		if ( psal.length > 0 )
 		{
-			out.print(" -> " +listArgNames(psal));
+			out.print(b(" -> " +listArgNames(psal)));
 		}
-		out.println("</code>" +br());
-
+		out.println("</code>");
+		out.println("</td>");
+		out.println("</tr>");
+		
+		out.println("<tr><td>");
 		out.println(indent());
-
 		out.println(
-			//b("Descripci&oacute;n:") +br()+
 			processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
 		);
-
-		out.println(br());
-
-		out.println(b("Entradas:"));
-		if ( pent.length > 0 )
-		{
-			NDescripcion[] dent = n.obtDescripcionesEntrada();
-			out.println(listArgsAsTable(pent, dent, n));
-		}
-		else
-		{
-			out.println(br() +s(4)+ i("No hay entradas") +br());
-		}
-
-		out.println(br());
-
-		out.println(b("Salida:"));
-		if ( psal.length > 0 )
-		{
-			NDescripcion[] dsal = n.obtDescripcionesSalida();
-			out.println(listArgsAsTable(psal, dsal, n));
-		}
-		else
-		{
-			out.println(br() +s(4)+ i("No hay salida") +br());
-		}
-
-		out.println(br());
-
-		NAfirmacion pre = n.obtPrecondicion();
-		out.println(b("Precondici&oacute;n: ") +afir(pre, n)+ br());
-		NAfirmacion pos = n.obtPoscondicion();
-		out.println(b("Poscondici&oacute;n: ") +afir(pos, n)+ br());
-
 		out.println(unindent());
+		out.println("</td></tr>");
+
+		out.println("<tr><td>");
+		out.println("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
+
+		// INPUT
+		NDescripcion[] dent = n.obtDescripcionesEntrada();
+		out.println(listArgsAsRows(u("Entrada"), pent, dent, n));
+
+		// vertical space
+		out.println("<tr bgcolor=\"#FFEEEE\"></tr>");
+		
+		// OUTPUT
+		NDescripcion[] dsal = n.obtDescripcionesSalida();
+		out.println(listArgsAsRows(u("Salida"), psal, dsal, n));
+
+		out.println("</table>\n");
+		out.println("</td></tr>");
+
+		// vertical space
+		out.println("<tr bgcolor=\"#FFEEEE\"></tr>");
+
+		out.println("<tr><td>");
+
+		out.println("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
+
+		out.println("<tr bgcolor=\"#FFCCCC\">");
+		out.println(td(u("Precondici&oacute;n:")));
+		out.println("</tr>");
+		out.println(tr(td(afir(pre, n))));
+
+		// vertical space
+		out.println("<tr bgcolor=\"#FFEEEE\"></tr>");
+
+		out.println("<tr bgcolor=\"#FFCCCC\">");
+		out.println(td(u("Poscondici&oacute;n:")));
+		out.println("</tr>");
+		out.println(tr(td(afir(pos, n))));
+		out.println("</table>\n");
+
+		out.println("</td></tr>");
 
 		if ( interfaceActual == null )
-		{
 			close();
-		}
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -561,37 +626,55 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 
 		createFile(n, "Clase " +name, ".c.html");
 
+		out.println("<table BORDER=0 BGCOLOR=\"#FFEEEE\">");
+		
+		out.println("<tr bgcolor=\"#FFCCCC\">");
+		out.println("<td>");
 		out.println("<code>");
 		out.println("clase " +b(name));
+		try
+		{
+			NClase superClass = mu.obtSuperClase(n);
+			if ( superClass != null )
+			{
+				String[] text = superClass.obtNombreCompleto();
+				out.println(br());
+				String sext = Util.obtStringRuta(text);
+				out.print(" extiende ");
+				String href = Util.getRelativeLocation(n.obtNombreCompleto(), sext) + ".c.html";
+				out.println("<a href=\"" +href+ "\">" +b(sext)+ "</a>");
+			}
+		}
+		catch (ClaseNoEncontradaException ex)
+		{
+			out.print(" !!superclase no encontrada!! ");
+		}
 		out.println("</code>");
+		out.println("</td>");
+		out.println("</tr>");
 
+		out.println("<tr><td>");
 		out.println(indent());
 
 		out.println(
-			//b("Descripci&oacute;n:") +br()+
 			processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
 		);
+		out.println(unindent());
+		out.println("</td></tr>");
 
-		out.println(br());
+		out.println("<tr><td>");
+		out.println("<table border=\"0\" bgcolor=\"#FFDDDD\" width=\"100%\">\n");
 
-		out.println(b("Atributos:"));
-		if ( pent.length > 0 )
-		{
-			out.println(listAtrsAsTable(pent, n));
-		}
-		else
-		{
-			out.println(br() +s(4)+ i("No hay atributos") +br());
-		}
+		// ATTRIBUTES
+		out.println(listAtrsAsRows(u("Atributo"), pent, n));
 
-		out.println(br());
+		out.println("</table>\n");
+		out.println("</td></tr>");
 
-		// ... métodos:
+		// ... métodos:             P E N D I N G 
 		claseActual = n;
 		visitarLista(n.obtMetodosDeclarados());
 		claseActual = null;
-		
-		out.println(unindent());
 
 		close();
 	}

@@ -312,12 +312,12 @@ public final class Util
 	///////////////////////////////////////////////////////////
 	/**
 	 * Obtiene la direccion relativa de dest de acuerdo con base.
-	 * Ver documentacion de getRelativeLocation(Token[] base, Token[] dest).
+	 * Ver documentacion de getRelativeLocation(String[] baseids, String[] destids)
 	 */
 	public static String getRelativeLocation(String[] baseids, String sdest)
 	//
 	// Este metodo fue implementado siguiendo la misma estrategia de
-	// getRelativeLocation(Token[] base, Token[] dest), pero con ayuda
+	// getRelativeLocation(String[] baseids, String[] destids), pero con ayuda
 	// de un StringTokenizer para procesar sdest (que es String aqui).
 	//
 	{

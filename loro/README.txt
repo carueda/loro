@@ -26,6 +26,12 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-11 Version 0.7.8
+
+	- Mejoramiento de la apariencia de la documentación.
+	  Ver VisitanteLoroDoc.
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-02-25 Version 0.7.8
 
 	- LoroEjecutor.ejecutarAlgoritmoBsh ahora hace:
