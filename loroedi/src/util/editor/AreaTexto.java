@@ -84,6 +84,14 @@ public abstract class AreaTexto
 	 * paste
 	 */
 	public abstract void paste();
+	
+	
+	/////////////////////////////////////////////
+	/**
+	 * Pone el color de selección.
+	 */
+	public abstract void setSelectionColor(Color color);
+	
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Selecciona un trozo.

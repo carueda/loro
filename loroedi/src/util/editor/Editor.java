@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.awt.Component;
 
 import java.awt.Font;
+import java.awt.Color;
 
 //////////////////////////////////////////////////////////////////////
 /**
@@ -516,6 +517,12 @@ public class Editor
 		edListener.ponDirectorioFuentes(rutaBase);
 	}
 
+	/////////////////////////////////////////////
+	public void setSelectionColor(Color color)
+	{
+		textoArchivo.setSelectionColor(color);
+	}
+	
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Selecciona un trozo.
@@ -655,6 +662,13 @@ public class Editor
 		{
 			// IGNORADO
 		}
+		
+		/////////////////////////////////////////////
+		public void setSelectionColor(Color color)
+		{
+			// IGNORADO
+		}
+		
 		/////////////////////////////////////////////
 		public void select(int start, int end)
 		{

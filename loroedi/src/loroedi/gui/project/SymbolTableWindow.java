@@ -200,16 +200,26 @@ public class SymbolTableWindow
 		public Object getValueAt(int row, int col)
 		{
 			String[] vars = symTab.getVariableNames();
-			switch ( col )
+			try
 			{
-				case 0:
-					return vars[row];
-				case 1:
-					return symTab.getTypeString(vars[row]);
-				case 2:
-					return symTab.getValueString(vars[row]);
+				switch ( col )
+				{
+					case 0:
+						return vars[row];
+					case 1:
+						return symTab.getTypeString(vars[row]);
+					case 2:
+						return symTab.getValueString(vars[row]);
+				}
+				throw new InternalError("col=" +col);
 			}
-			throw new InternalError("col=" +col);
+			catch(ArrayIndexOutOfBoundsException ex)
+			{
+				// IGNORE
+				// (sucede algunas veces.
+				//  bug de Java?, problema de sincronizacion?)
+				return null;
+			}
 		}
 
 		/////////////////////////////////////////////////////////

@@ -12,6 +12,7 @@ import util.editor.Editor;
 import util.editor.AreaTexto;
 
 import java.awt.Font;
+import java.awt.Color;
 
 ////////////////////////////////////////////////////////
 /**
@@ -71,6 +72,12 @@ public class AreaTexto_jedit extends AreaTexto
 		je.paste();
 	}
 
+	/////////////////////////////////////////////
+	public void setSelectionColor(Color color)
+	{
+		je.getPainter().setSelectionColor(color);
+	}
+	
 	/////////////////////////////////////////////////////////////////
 	public void select(int start, int end)
 	{

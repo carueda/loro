@@ -2,13 +2,15 @@ package loroedi;
 
 import loro.IObservadorPP;
 import loro.ISymbolTable;
+import loro.IUnidad;
 import loro.Rango;
-import loro.arbol.IUbicable;
+import loro.arbol.INodo;
 
 import loroedi.gui.editor.UEditor;
 import loroedi.gui.editor.UEditorListener;
 import loroedi.gui.project.SymbolTableWindow;
 
+import java.awt.Color;
 
 /////////////////////////////////////////////////////////////////////
 /**
@@ -21,32 +23,56 @@ public class ObservadorPP implements IObservadorPP
 	static final String PREFIX = "[Paso-a-Paso] ";
 	UEditor editor;
 	SymbolTableWindow symbolTableWindow;
+	static final Color enterColor = new Color(0xccffcc);
+	static final Color exitColor  = new Color(0xffcccc);
 	
 	//////////////////////////////////////////////////////////////////////
-	public int enter(IUbicable u, ISymbolTable symbTab, String src)
+	public int enter(INodo n, ISymbolTable symbTab, String src)
 	{
 		setup(symbTab);
-		editor.setTitle(PREFIX + u.getClass());
-		editor.getMessageArea().println("[->] " +u);
+		editor.setTitle(PREFIX + n.getClass());
+		editor.getMessageArea().println("[->] " +n);
 		if ( src != null )
 		{
 			editor.setText(src);
-			Rango r = u.obtRango();
+			Rango r = n.obtRango();
 			if ( r != null )
 				editor.select(r.obtPosIni(), r.obtPosFin());
 			else
 				editor.selectAll();
 		}
+		editor.setSelectionColor(enterColor);
 		symbolTableWindow.setSymbolTable(symbTab);
 		
 		return 0;
 	}
 	
 	//////////////////////////////////////////////////////////////////////
-	public int exit(IUbicable u, ISymbolTable symbTab, String src)
+	public int exit(INodo n, ISymbolTable symbTab, String src)
 	{
-		editor.setTitle(PREFIX + u.getClass());
-		editor.getMessageArea().println("[<-] " +u);
+		editor.setTitle(PREFIX + n.getClass());
+		editor.getMessageArea().println("[<-] " +n);
+		if ( src != null )
+		{
+			editor.setText(src);
+			Rango r = n.obtRango();
+			if ( r != null )
+				editor.select(r.obtPosIni(), r.obtPosFin());
+			else
+				editor.selectAll();
+		}
+		editor.setSelectionColor(exitColor);
+		symbolTableWindow.setSymbolTable(symbTab);
+		
+		return 0;
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	public int push(IUnidad u, ISymbolTable symbTab, String src)
+	{
+		setup(symbTab);
+		editor.setTitle(PREFIX + u);
+		editor.getMessageArea().println("Entrando a " +u);
 		if ( src != null )
 		{
 			editor.setText(src);
@@ -56,6 +82,27 @@ public class ObservadorPP implements IObservadorPP
 			else
 				editor.selectAll();
 		}
+		editor.setSelectionColor(enterColor);
+		symbolTableWindow.setSymbolTable(symbTab);
+		
+		return 0;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	public int pop(IUnidad u, ISymbolTable symbTab, String src)
+	{
+		editor.setTitle(PREFIX + u);
+		editor.getMessageArea().println("Regresando a " +u);
+		if ( src != null )
+		{
+			editor.setText(src);
+			Rango r = u.obtRango();
+			if ( r != null )
+				editor.select(r.obtPosIni(), r.obtPosFin());
+			else
+				editor.selectAll();
+		}
+		editor.setSelectionColor(exitColor);
 		symbolTableWindow.setSymbolTable(symbTab);
 		
 		return 0;

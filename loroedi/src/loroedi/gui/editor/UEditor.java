@@ -401,6 +401,11 @@ public class UEditor implements EditorListener
 		editor.setCaretPosition(pos);
 	}
 
+	/////////////////////////////////////////////
+	public void setSelectionColor(Color color)
+	{
+		editor.setSelectionColor(color);
+	}
 
 	/////////////////////////////////////////////////////////
 	class CloseAction extends AbstractAction
