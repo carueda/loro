@@ -1,40 +1,40 @@
-Loro Project README
--------------------
+Loro Project - http://loro.sf.net
+---------------------------------
 Carlos A. Rueda
 $Id$
 
-El proyecto Loro se compone de los siguientes módulos principales:
-	loro             Núcleo del lenguaje
-	loroedi          Entorno Integrado
+The Loro Project comprises the following main modules:
+	loro             Language core
+	loroedi          Integrated programming environment
 	
-Directorio de elementos "generados":
-	Los diferentes build.properties definen la propiedad 'generated.dir' 
-	para designar el directorio ../_GENERATED/ (relativo a la ubicación
-	de este README.txt)	como base para poner todos los archivos generados.
+Generated directory:
+	The various build.properties define 'generated.dir' 
+	to designate the directory ../_GENERATED/ (relative to this
+	README.txt). All generated files are put under this directory.
 	
-Directorio lib/
-	El directorio lib/ contiene los archivos foráneos de
-	los cuales depende el proyecto Loro. Actualmente:
-		nic.jar (no mas requerido, ver mas abajo)
-		bsh-core-1.2b6.jar
-		jgraph.jar
-		kunststoff.jar
-		skinlf.jar	
+lib/ directory
+	Contains required third-part libraries. Currently:
+		bsh-core-1.2b6.jar    (BeanShell)
+		jgraph.jar            (JGraph)
+		kunststoff.jar        (look and feel--optional)
+		skinlf.jar	          (look and feel--optional)
+		nic.jar (not required any more, see below)
 
-Sobre compilación completa del proyecto y otras notas, consultar
-los respectivos README.txt bajo los subdirectorios loro/ y loroedi/
+About compilation and other information, please refer to other
+README files under this directory.
 
-Componentes viejos
-	Los siguientes son modulos viejos utilizados anteriormente pero que
-	ya no son requeridos.
+loroprjs/ directory
+	Contains some demo projects in Loro and documents
+	for http://loro.sf.net/projects/
+
+Old components
+	These modules are not longer maintained or used:
 	
-	nanoinstaller - Creador simple del instalador utilizado por LoroEDI
-		Compilacion:
+	nanoinstaller - A very simple installer creator
 		$ cd nanoinstaller/src
-		$ ant          # genera nic.jar
-	simpledi - Viejo entorno de desarrollo
-		Compilacion:
+		$ ant          # generates nic.jar
+	simpledi - Old development environment
 		$ cd simpledi
-		$ ant              # genera el simpledi.jar. Ver README.txt.
+		$ ant              # generates simpledi.jar
 		
 
