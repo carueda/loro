@@ -117,17 +117,15 @@
 			<fileset dir="${src}" includes="loroedi/**/*.properties"/> 
 		</copy>
 		
-		<!-- actualizar manifest (ojo: un poco truculento por los cambios
-		     de linea para el echo: lineas en blanco hacen fallar el jar) -->
-		<echo message="Main-class: loroedi.gui.Main" 
-			file="${build}/loroedi.manifest">
-Class-path: ${bsh.jar} ../lib/${nucleo.jar} ${kunststoff.jar} ${looks.jar} ${skinlf.jar} ${jgraph.jar}</echo>
-		
         <jar jarfile="${dist}/loroedi.jar" 
-			manifest="${build}/loroedi.manifest"
          	basedir="${build}/classes"
-			includes="**"
-		/>
+			includes="**">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+				<attribute name="Main-class" value="loroedi.gui.Main"/>
+				<attribute name="Class-path" value="../lib/${nucleo.jar} ${bsh.jar} ${kunststoff.jar} ${looks.jar} ${skinlf.jar} ${jgraph.jar}"/>
+			</manifest>
+		</jar>
     </target>
 
     <target name="compileedi" depends="init, compileSkinLF, info"
