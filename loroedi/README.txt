@@ -63,6 +63,16 @@ NOTAS
 	  build-ext.html del núcleo), pero se tiene generada en un directorio para
 	  ello.
 	  
+	  
+////////////////////////////////////////////////////////////////////////////
+2003-03-15 (0.8pre9)
+
+	- Bug corregido: Al tratar de instalar un proyecto externo no
+	  existente se generaba un NPE.
+	  Ver en GUI._installProject() el chequeo del valor de retorno
+	  de installFromURL().
+	  GUI._installProject(): quitado printStackTrace innecesario.
+	
 ////////////////////////////////////////////////////////////////////////////
 2003-03-14 (0.8pre9)
 

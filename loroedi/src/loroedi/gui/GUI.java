@@ -2281,9 +2281,8 @@ public class GUI
 		{
 			in = new DataInputStream(url.openStream());
 		}
-		catch(Exception ex)
+		catch(IOException ex)
 		{
-			ex.printStackTrace();
 			JOptionPane.showOptionDialog(
 				focusedProject.getFrame(),
 				"Error al tratar de leer el archivo indicado.\n"
@@ -2369,7 +2368,8 @@ public class GUI
 	
 	////////////////////////////////////////////////////////////////
 	/**
-	 * Permite al usuario instalar un proyecto de los incluidos en el sistema.
+	 * Permite al usuario instalar un proyecto, bien sea de los 
+	 * incluidos en el sistema, o de proveniencia externa.
 	 */
 	private static void _installProject()
 	{
@@ -2716,6 +2716,8 @@ public class GUI
 				
 				File outfile = new File(new File(prs_dir), to_name+ ".lar");
 				File dir = installFromURL(url, outfile);
+				if ( dir == null )
+					return;
 				
 				from_name = dir.getName(); 
 			}
