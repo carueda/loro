@@ -14,7 +14,7 @@ PENDIENTES (más o menos en orden de prioridad)
 	  particular.
 	  Un guión (digamos, script.lsh) no está asociado a ningún paquete
 	  en particular y no puede incluir la definición de ninguna unidad;
-	  sólo acepta las acciones aceptas por un intérprete.
+	  sólo acepta las acciones aceptadas por un intérprete.
 	  
   	- InstallProject() ahora solo considera 'directorios' bajo una
 	  cierta localización en la distribución del sistema.
@@ -69,6 +69,23 @@ PENDIENTES (más o menos en orden de prioridad)
 	  fuente leyendo lastModified del archivo, y la unidad compilada
 	  leyendo su "millis"
 
+	  
+////////////////////////////////////////////////////////////////////////////
+2002-10-23 (0.8pre5)
+
+	- Modificado TextAreaPainter.nextTabStop para verificar tabSize > 0
+	  antes de dividir. Por alguna razón (quizá sincronización) a veces
+	  tabSize llegaba en cero al invocarse este método produciéndose un
+	  ArithmeticException. 
+	  
+	- Nueva opción "Editar demo" complementaria de "Ejecutar demo".
+	  Ahora se guarda el código en prj.demo.lsh bajo el directorio
+	  del proyecto correspondiente.
+	  Este código se edita a través de un UEditor.
+	  Esto ya es funcional pero queda pendiente:
+	  	- compilación
+		- quitar action "view doc"
+		- atender "reload"
 	  
 ////////////////////////////////////////////////////////////////////////////
 2002-10-22 (0.8pre5)

@@ -81,6 +81,19 @@ public interface IProjectModel
 		 * Establece la descripción de este proyecto.
 		 */
 		public void setDescription(String description);
+		
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Obtiene el código de demostración de este proyecto.
+		 */
+		public String getDemoScript();
+
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Establece el código de demostración de este proyecto.
+		 */
+		public void setDemoScript(String src);
+
 	}
 
 	//////////////////////////////////////////////////

@@ -83,6 +83,8 @@ public class Actions
 				addAction("actual-size", new ActualSizeAction(), g.actions);
 				//addAction("print-diagram", new PrintDiagramAction(), g.actions);
 		diag_g.actions.add(g);
+		develop_group.actions.add(null);
+		addAction("edit-demo", new EditDemoAction(), develop_group.actions);
 
 		execution_group = new Group("Ejecución", KeyEvent.VK_E, new ArrayList());
 		addAction("show-ii", new ShowIIAction(), execution_group.actions);
@@ -809,6 +811,25 @@ public class Actions
 		public void actionPerformed(ActionEvent e)
 		{
 			GUI.testProject();
+		}
+	}
+
+	
+	/////////////////////////////////////////////////////////
+	class EditDemoAction extends AbstractAction
+	{
+		/////////////////////////////////////////////////////////
+		public EditDemoAction()
+		{
+			super("Editar demo");
+			putValue(SHORT_DESCRIPTION, "Edición del guión de demostración de este proyecto");
+			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_M));
+		}
+	
+		/////////////////////////////////////////////////////////
+		public void actionPerformed(ActionEvent e)
+		{
+			GUI.editDemo();
 		}
 	}
 

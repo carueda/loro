@@ -40,6 +40,8 @@ public class ProjectModel implements IProjectModel
 	/** Descripción de este proyecto. */
 	protected String description;
 	
+	/** Código de demostración de este proyecto. */
+	protected String demoSrc;
 	
 	/** Mis paquetes. */
 	protected List pkgs;
@@ -172,6 +174,18 @@ public class ProjectModel implements IProjectModel
 		public void setDescription(String description)
 		{
 			ProjectModel.this.description = description;
+		}
+		
+		/////////////////////////////////////////////////////////////////
+		public String getDemoScript()
+		{
+			return demoSrc;
+		}
+		
+		/////////////////////////////////////////////////////////////////
+		public void setDemoScript(String src)
+		{
+			ProjectModel.this.demoSrc = src;
 		}
 	}
 	

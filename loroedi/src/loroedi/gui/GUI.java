@@ -57,6 +57,10 @@ public class GUI
 	/** Mapping from names to ProjectFrame's. */
 	static Map openFrames;
 	
+	/** Mapping from names to UEditor's de scripts de demostración. */
+	static Map demoEditors;
+	
+	
 	/** Atiende items en el menu "Ventana" */
 	static ActionListener selectFromWindowMenu = new ActionListener() 
 	{
@@ -83,6 +87,7 @@ public class GUI
 		
 		actions = new Actions();
 		openFrames = new HashMap();
+		demoEditors = new HashMap();
 
 		try
 		{		
@@ -1421,6 +1426,51 @@ public class GUI
 
 	/////////////////////////////////////////////////////////////////
 	/**
+	 * Edita el guión de demostración.
+	 */
+	public static void editDemo()
+	{
+		String name = focusedProject.getModel().getInfo().getName();
+		UEditor pre_editor = (UEditor) demoEditors.get(name);
+		if ( pre_editor == null )
+		{
+			final IProjectModel prjm = focusedProject.getModel();
+			IProjectModel.IInfo info = prjm.getInfo();
+			String src = info.getDemoScript();
+			boolean modifiable = focusedProject.getModel().getControlInfo().isModifiable();
+			final UEditor editor = new UEditor(name, modifiable);
+			editor.setText(src);
+			editor.setCaretPosition(0);
+			// el editor-listener puesto después para no recibir .changed():
+			editor.setEditorListener(new UEditorListener()
+			{
+				public void changed() 
+				{
+					editor.setSaved(false);
+				}
+				public void save() 
+				{
+					IProjectModel.IInfo info = prjm.getInfo();
+					info.setDemoScript(editor.getText());
+					workspace.saveDemoScript(prjm);
+					editor.setSaved(true);
+				}
+				public void closeWindow() 
+				{
+					editor.getFrame().setVisible(false);
+				}
+				public void compile() {}
+				public void reload() {}
+				public void viewDoc() {}
+			});
+			demoEditors.put(name, editor);
+			pre_editor = editor;
+		}
+		pre_editor.display();
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
 	 * Ejecuta un guión de demostración.
 	 */
 	public static void runDemo()
@@ -1433,45 +1483,36 @@ public class GUI
 				prj_msg.clear();
 				prj_msg.print("Ejecutando demo...\n");
 				IProjectModel model = focusedProject.getModel();
-				String descr = model.getInfo().getDescription();
-				BufferedReader br = new BufferedReader(new StringReader(descr));
+				String src = model.getInfo().getDemoScript();
+				if ( src == null )
+				{
+					prj_msg.print("No hay código de demo definido\n");
+					return;
+				}
+				BufferedReader br = new BufferedReader(new StringReader(src));
 				String line;
-				boolean in_demo = false;
 				StringBuffer cmd = null;
 				List cmds = new ArrayList();
 				try
 				{
 					while ( (line = br.readLine()) != null )
 					{
-						if ( in_demo )
+						if ( line.trim().length() == 0 )
 						{
-							if ( line.trim().length() == 0 )
+							// linea en blanco agrega comando acumulado:
+							if ( cmd != null )
 							{
-								// linea en blanco agrega comando acumulado:
-								if ( cmd != null )
-								{
-									cmds.add(cmd.toString());
-									cmd = null;
-								}
-							}
-							else if ( line.startsWith(".fin") )
-							{
-								if ( cmd != null )
-									cmds.add(cmd.toString());
-								break;
-							}
-							else
-							{
-								// linea normal:
-								if ( cmd == null )
-									cmd = new StringBuffer(line);
-								else
-									cmd.append("\n" +line);
+								cmds.add(cmd.toString());
+								cmd = null;
 							}
 						}
-						else if ( line.startsWith(".inicio") )
+						else
 						{
-							in_demo = true;
+							// linea normal:
+							if ( cmd == null )
+								cmd = new StringBuffer(line);
+							else
+								cmd.append("\n" +line);
 						}
 					}
 				}
@@ -1480,6 +1521,9 @@ public class GUI
 					// ignore
 				}
 
+				if ( cmd != null )
+					cmds.add(cmd.toString());
+				
 				workspace.executeCommands(
 					"Ejecutando demo",
 					null,

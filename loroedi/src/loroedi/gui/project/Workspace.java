@@ -281,6 +281,20 @@ public final class Workspace
 			}
 			
 		}
+		file = new File(prj_dir, "prj.demo.lsh");
+		if ( file.exists() )
+		{
+			try
+			{
+				String demo_src = loroedi.Util.readFile(file);
+				prjm.getInfo().setDemoScript(demo_src);
+			}
+			catch(IOException ex)
+			{
+				System.err.println(ex.getMessage());
+			}
+			
+		}
 		
 		// get packages:
 		File pkgs_dir = prj_dir;
@@ -877,6 +891,9 @@ public final class Workspace
 		loroedi.Util.writeFile(new File(prj_dir, "prj.description"), 
 			info.getDescription()
 		);
+		loroedi.Util.writeFile(new File(prj_dir, "prj.demo.lsh"), 
+			info.getDemoScript()
+		);
 		
 		if ( include_pkgs )
 		{
@@ -1188,6 +1205,27 @@ public final class Workspace
 
 	/////////////////////////////////////////////////////////////////
 	/**
+	 * Salvaguarda el script de demostración.
+	 * El código fuente a guardar es el que tenga asociado el proyecto.
+	 */
+	public void saveDemoScript(IProjectModel prjm)
+	{
+		String prjname = prjm.getInfo().getName();
+		File prj_dir = new File(prs_dir, prjname);
+		try
+		{
+			loroedi.Util.writeFile(new File(prj_dir, "prj.demo.lsh"), 
+				prjm.getInfo().getDemoScript()
+			);
+		}
+		catch(Exception ex)
+		{
+			Logger.getLogger().log("Error al actualizar demo script: " +ex.getMessage());
+		}
+	}
+		
+	/////////////////////////////////////////////////////////////////
+	/**
 	 * Ejecuta una unidad.
 	 */
 	public void executeAlgorithm(final AlgorithmUnit alg, Object[] args)
@@ -1327,6 +1365,7 @@ public final class Workspace
 		String name;
 		Properties props;
 		String description;
+		String demoSrc;
 		IOroLoader oroLoader;
 		
 		//////////////////////////////////////////////////////////////////////
@@ -1341,6 +1380,7 @@ public final class Workspace
 		 *	<li> "modifiable" = "false"
 		 * </ul>
 		 * La descripción se carga del recurso "prj.description".
+		 * El demo se carga del recurso "prj.demo.lsh".
 		 */
 		Extension(IOroLoader oroLoader)
 		throws IOException
@@ -1378,6 +1418,21 @@ public final class Workspace
 				is.close();
 				description = sb.toString();
 			}
+
+			demoSrc = "";
+			is = oroLoader.getResourceAsStream("prj.demo.lsh");
+			if ( is != null )
+			{
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				StringBuffer sb = new StringBuffer();
+				String line;
+				while ( (line = br.readLine()) != null )
+				{
+					sb.append(line + "\n");
+				}
+				is.close();
+				demoSrc = sb.toString();
+			}
 		}
 		
 		//////////////////////////////////////////////////////////////////////
@@ -1396,6 +1451,12 @@ public final class Workspace
 		public String getDescription()
 		{
 			return description;
+		}
+		
+		//////////////////////////////////////////////////////////////////////
+		public String getDemoScript()
+		{
+			return demoSrc;
 		}
 		
 		//////////////////////////////////////////////////////////////////////
