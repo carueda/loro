@@ -132,7 +132,7 @@ public interface IInterprete
 	/**
 	 * Interfaz para objetos interesados en ejecutar meta-comandos.
 	 */
-	public static interface IMetaListener
+	public interface IMetaListener
 	{
 		///////////////////////////////////////////////////////////////////////
 		/**
@@ -160,7 +160,7 @@ public interface IInterprete
 	 * Interfaz para el objeto retornado por getInteractiveInterpreter.
 	 * (No es para ser implementada por el cliente.)
 	 */
-	public static interface IInteractiveInterpreter extends Runnable
+	public interface IInteractiveInterpreter extends Runnable
 	{
 		///////////////////////////////////////////////////////////////////////
 		/**
@@ -171,15 +171,22 @@ public interface IInterprete
 
 		///////////////////////////////////////////////////////////////////////
 		/**
-		 * Pone el objeto para atender interacción.
+		 * Pone el objeto para atender interacción. 
+		 * Por defecto, se ofrece un manejo básico.
 		 */
 		public void setManager(IManager mgr);
 		
 		///////////////////////////////////////////////////////////////////////
 		/**
+		 * Obtiene el objeto asociado para atender interacción. 
+		 */
+		public IManager getManager();
+
+		///////////////////////////////////////////////////////////////////////
+		/**
 		 * Interfaz para objetos interesados en atender interacción.
 		 */
-		public static interface IManager
+		public interface IManager
 		{
 			///////////////////////////////////////////////////////////////////////
 			/**
@@ -196,9 +203,15 @@ public interface IInterprete
 
 			///////////////////////////////////////////////////////////////////////
 			/**
-			 * Llamado para imprimir un mensaje de error.
+			 * Llamado para atender una exception.
 			 */
-			public void exception(String msg);
+			public void handleException(Exception exc);
+			
+			///////////////////////////////////////////////////////////////////////
+			/**
+			 * Llamado para obtener el mensaje completo asociado a una exception.
+			 */
+			public String formatException(Exception exc);
 		}
 	}
 }

@@ -196,8 +196,11 @@ public class InterpreteImpl implements IInterprete
 						ejecutor.reset(tabSimbBase, ui);
 						ejecutor.ejecutarNodo(n);
 						ret = ejecutor.obtRetorno();
-						if ( comillas )
-							ret = valorComillas(n, ret);
+						if ( comillas && n instanceof NExpresion )
+						{
+							Tipo tipo = ((NExpresion) n).obtTipo();
+							ret = UtilValor.valorComillasDeExpresion(tipo, ret);
+						}
 					}
 				}
 				else
@@ -227,10 +230,6 @@ public class InterpreteImpl implements IInterprete
 		{
 			throw new EjecucionException(null, null, ex.getMessage());
 		}
-		catch(LException ex)
-		{
-			throw new EjecucionException(null, null, ex.getMessage());
-		}
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -252,45 +251,6 @@ public class InterpreteImpl implements IInterprete
 		ejecutor.terminarExternamente();
 	}
 	
-	///////////////////////////////////////////////////////////////////////
-	String valorComillas(Nodo n, Object o)
-	throws LException
-	{
-		String res = null;
-
-		if ( n instanceof NExpresion )
-		{
-			Tipo tipo = ((NExpresion) n).obtTipo();
-
-			if ( o != null )
-			{
-				res = UtilValor.comoCadena(o);
-
-				// mire si hay que poner ``quotes'':
-
-				char q = 0;
-				if ( tipo.esCaracter() || o instanceof Character )
-					q = '\'';
-				else if ( tipo.esCadena() || o instanceof String )
-					q = '\"';
-
-				if ( q != 0 )
-					res = Util.quote(q, res);
-			}
-			else if ( tipo.esUnit() )
-			{
-				// no imprimir nada. Ok
-			}
-			else
-			{
-				// muestre este nulo:
-				res = UtilValor.comoCadena(null);
-			}
-		}
-
-		return res;
-	}
-
 	///////////////////////////////////////////////////////////////////////
 	public void ponAsignado(boolean asignado)
 	{
@@ -512,12 +472,63 @@ public class InterpreteImpl implements IInterprete
 			}
 
 			///////////////////////////////////////////////////////////////////////
-			public void exception(String msg)
+			public void handleException(Exception exc)
 			{
+				String msg = formatException(exc);
 				pw.println(" ! " +msg.replaceAll("\n", "\n ! "));
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////
+			public String formatException(Exception exc)
+			{
+				String msg = null;
+				try
+				{
+					throw exc;
+				}
+				catch(EjecucionException ex)
+				{
+					if ( ex.esTerminacionInterna() )
+					{
+						msg = "Ejecución terminada. Código de terminación = " 
+							+ex.obtCodigoTerminacionInterna()
+						;
+					}
+					else
+					{
+						StringWriter sw = new StringWriter();
+						ex.printStackTrace(new PrintWriter(sw));
+						msg = ex.getMessage() + "\n" +sw.toString();
+					}
+				}
+				catch(CompilacionException ex)
+				{
+					msg = ex.getMessage();
+				}
+				catch(InterruptedIOException ex)
+				{
+					msg = "Ejecución interrumpida en operación de entrada/salida.";
+				}
+				catch(Exception ex)
+				{
+					StringWriter sw = new StringWriter();
+					PrintWriter psw = new PrintWriter(sw);
+					psw.println("INESPERADO");
+					ex.printStackTrace(psw);
+					psw.println("Esta es una anomalía del sistema.");
+					msg = sw.toString();
+				}
+				return msg;
 			}
 		}
 		
+		///////////////////////////////////////////////////////////////////////
+		public IManager getManager()
+		{
+			return mgr;
+		}
+
 		///////////////////////////////////////////////////////////////////////
 		public void setManager(IManager mgr)
 		{
@@ -535,8 +546,6 @@ public class InterpreteImpl implements IInterprete
 		{
 			while ( interactive )
 			{
-				String msg = null; // for exception
-				
 				try
 				{
 					String text = mgr.prompt();
@@ -549,46 +558,12 @@ public class InterpreteImpl implements IInterprete
 	
 					String res = procesar(text);
 					if ( res != null )
-					{
 						mgr.expression(res);
-						continue;
-					}
 				}
-				catch ( EjecucionException ex )
+				catch ( Exception ex )
 				{
-					if ( ex.esTerminacionInterna() )
-					{
-						msg = "Ejecución terminada. Código de terminación = " 
-							+ex.obtCodigoTerminacionInterna()
-						;
-					}
-					else
-					{
-						StringWriter sw = new StringWriter();
-						ex.printStackTrace(new PrintWriter(sw));
-						msg = ex.getMessage() + "\n" +sw.toString();
-					}
+					mgr.handleException(ex);
 				}
-				catch(CompilacionException ex)
-				{
-					msg = ex.getMessage() + "\n";
-				}
-				catch ( InterruptedIOException ex )
-				{
-					// ignore
-				}
-				catch(Exception ex)
-				{
-					StringWriter sw = new StringWriter();
-					PrintWriter psw = new PrintWriter(sw);
-					psw.println("INESPERADO");
-					ex.printStackTrace(psw);
-					psw.println("Esta es una anomalía del sistema.");
-					msg = sw.toString();
-				}
-	
-				if ( msg != null )
-					mgr.exception(msg);
 			}
 		}
 	}
