@@ -1,0 +1,8 @@
+package loro
+
+algorithm readString for readString()->v:string
+implementation "bsh"
+{%
+	return $amb.obtManejadorEntradaSalida().leerCadena();
+%}
+end algorithm

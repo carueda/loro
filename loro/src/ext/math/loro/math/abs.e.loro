@@ -1,0 +1,8 @@
+package loro::math
+
+specification abs(v: real) -> r: real
+    ''Absolute value''
+    input v: ''input value.''
+    output r: ''Absolute value of r.''
+    post { (v < 0 => r = -v) && (v >= 0 => r = v) }
+end specification

@@ -1,0 +1,27 @@
+#Package properties
+#Tue Jul 06 18:42:47 PDT 2004
+alg.9=getAlgorithm, loro\:\:getAlgorithm
+alg.8=charToLowerCase, loro\:\:charToLowerCase
+alg.7=exit, loro\:\:exit
+alg.6=print, loro\:\:print
+alg.5=sleep, loro\:\:sleep
+spec.11=readString
+alg.4=charToUpperCase, loro\:\:charToUpperCase
+spec.10=readBoolean
+alg.3=readCharacter, loro\:\:readCharacter
+spec.9=getAlgorithm
+alg.2=println, loro\:\:println
+spec.8=charToLowerCase
+alg.1=readInteger, loro\:\:readInteger
+spec.7=exit
+alg.0=readReal, loro\:\:readReal
+spec.6=print
+class.0=Object
+spec.5=sleep
+spec.4=charToUpperCase
+spec.3=readCharacter
+spec.2=println
+spec.1=readReal
+spec.0=readInteger
+alg.11=readString, loro\:\:readString
+alg.10=readBoolean, loro\:\:readBoolean

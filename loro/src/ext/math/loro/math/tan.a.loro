@@ -1,0 +1,8 @@
+package loro::math
+
+algorithm tan for tan(v:real)->r:real
+implementation "bsh" 
+{%
+	return Math.tan(v);
+%}
+end algorithm

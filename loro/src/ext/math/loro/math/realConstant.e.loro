@@ -1,0 +1,6 @@
+package loro::math
+
+specification realConstant() -> k: real
+    ''Real constants in this package satisfy this specification.''
+    output k: ''The constant value.''
+end specification

@@ -1,0 +1,9 @@
+package loro::math
+
+algorithm PI for realConstant()->k:real
+	''The ratio of the circumference of a circle to its diameter.''
+implementation "bsh" 
+{%
+	return Math.PI;
+%}
+end algorithm

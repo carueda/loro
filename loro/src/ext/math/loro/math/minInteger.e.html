@@ -1,0 +1,65 @@
+<html>
+<head>
+<!-- Generated Tue Jul 06 19:21:21 PDT 2004-->
+<!-- Loro version 0.8pre4-->
+<!-- Source:  -->
+<!-- user.name: carueda -->
+<title>
+specification minInteger</title>
+</head>
+<body>
+
+<font size="-1">package: <code><b>loro::math</b></code></font>
+<table BORDER=0 BGCOLOR="#FFEEEE">
+<tr bgcolor="#FFCCCC">
+<td>
+<code>
+specification <b>minInteger(v1, v2)</b>
+<b> -> min</b></code>
+</td>
+</tr>
+<tr><td>
+<blockquote>
+
+The smaller of two integer values.<br>
+
+</blockquote>
+
+</td></tr>
+<tr><td>
+<table border="0" bgcolor="#FFDDDD" width="100%">
+
+<tr bgcolor="#FFCCCC">
+<td><i><u>input</u></i></td><td><code>:</code></td><td><i>type</i></td><td><code>:</code></td><td><i>description</i></td></tr>
+<tr valign="top"><td><code><b>v1</b></code></td><td><code>:</code></td><td><code>int</code></td><td><code>:</code></td><td>one argument.</td></tr>
+<tr valign="top"><td><code><b>v2</b></code></td><td><code>:</code></td><td><code>int</code></td><td><code>:</code></td><td>other argument.</td></tr>
+
+<tr bgcolor="#FFEEEE"></tr>
+<tr bgcolor="#FFCCCC">
+<td><i><u>output</u></i></td><td><code>:</code></td><td><i>type</i></td><td><code>:</code></td><td><i>description</i></td></tr>
+<tr valign="top"><td><code><b>min</b></code></td><td><code>:</code></td><td><code>int</code></td><td><code>:</code></td><td>the smaller value.</td></tr>
+
+</table>
+
+</td></tr>
+<tr bgcolor="#FFEEEE"></tr>
+<tr><td>
+<table border="0" bgcolor="#FFDDDD" width="100%">
+
+<tr bgcolor="#FFCCCC">
+<td><u>Precondition</u></td>
+</tr>
+<tr valign="top"><td><code>true</code></td></tr>
+<tr bgcolor="#FFEEEE"></tr>
+<tr bgcolor="#FFCCCC">
+<td><u>Postcondition</u></td>
+</tr>
+<tr valign="top"><td><code>{ (v1 &lt;= v2 => min = v1) &amp;&amp; (v1 > v2 => min = v2) }</code></td></tr>
+</table>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+

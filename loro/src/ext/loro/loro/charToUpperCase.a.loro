@@ -1,0 +1,8 @@
+package loro
+
+algorithm for charToUpperCase(c:char)->u:char
+implementation "bsh" 
+{%
+	return Character.toUpperCase(c);
+%}
+end algorithm

@@ -1,0 +1,8 @@
+package loro
+
+algorithm readInteger for readInteger()->v:int
+implementation "bsh"
+{%
+	return $amb.obtManejadorEntradaSalida().leerEntero();
+%}
+end algorithm

@@ -1,0 +1,8 @@
+package loro::math
+
+specification round(v: real) -> r: real
+    ''Returns the closest integer (as real) to the argument.''
+    input v: ''the input value.''
+    output r: ''the rounded value.''
+    post { r = r' }
+end specification

@@ -1,0 +1,8 @@
+package loro::math
+
+algorithm ceil for ceil(v:real)->r:real
+implementation "bsh" 
+{%
+	return Math.ceil(v);
+%}
+end algorithm
