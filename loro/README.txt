@@ -14,6 +14,8 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-14 Version 0.7.91
 
+	- Avances en interfaz para interpretación interactiva.
+	
 	- Eliminado manejo de prefix (PrefixWriter) en 
 	  InterpreteImpl.InteractiveInterpreter.
 
