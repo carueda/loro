@@ -2,7 +2,7 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-07-06 Version 0.8pre4
+2004-07-06 Version 0.8pre5
 	- strings for special operations on arrays: length, inf, sup
 	- ILanguageInfo now provides information about automatic package name
 	  and names of basic units. In particular, ``loroI::sistema'' continue
