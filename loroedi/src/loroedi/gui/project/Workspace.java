@@ -33,7 +33,7 @@ import java.io.*;
  * "Mi Proyecto".
  *
  * @author Carlos Rueda
- * @version 2002-10-06
+ * @version $Id$
  */
 public final class Workspace
 {

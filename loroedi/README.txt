@@ -14,7 +14,7 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
-2003-05-05 (0.8pre11)
+2003-05-06 (0.8pre11)
 
 	- Bug corregido: ejecucion demo no restablece editabilidad para permitir
 	  lectura de datos en comandos lanzados.
@@ -24,6 +24,12 @@ NOTAS
 	  no editabilidad al jterm momentaneamente mientras se teclea un Enter en
 	  InterpreterWindow.interpret() cuando se hace manejo de "enter" para
 	  cada comando a ejecutar.
+	  
+	- Bug corregido: ClassCastException al ejecutar pruebas (algoritmo o proyecto)
+	  debido a actualizacion incompleta de los nuevos elementos (ahora de tipo
+	  CmdSource) en lista de comandos para Workspace.executeCommands().
+	  Solucion: corregidos GUI.test{Algorithm,Project}().
+	  (Aqui es donde uno quisiera tipos parametrizados en Java :-)
 	
 ////////////////////////////////////////////////////////////////////////////
 2003-05-04 (0.8pre11)

@@ -1895,9 +1895,10 @@ public class GUI
 						String cmd = getTestExecutionCmd(tested_alg, false);
 						if ( cmd != null )
 						{
-							cmds.add(
-								"// Probando " +tested_alg+ "\n"+
-								cmd
+							cmds.add(new CmdSource(0,
+									"// Probando " +tested_alg+ "\n"+
+									cmd
+								)
 							);
 						}
 					}
@@ -1905,7 +1906,10 @@ public class GUI
 				if ( cmds.size() > 0 )
 				{
 					prj_msg.print("Lanzando ventana para ejecución de pruebas...\n");
-					cmds.add("// Pruebas terminadas exitosamente.");
+					cmds.add(new CmdSource(0,
+							"// Pruebas terminadas exitosamente."
+						)
+					);
 					workspace.executeCommands(
 						"Probando proyecto " +focusedProject.getModel().getInfo().getName(),
 						"Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba.\n",
@@ -2257,11 +2261,15 @@ public class GUI
 		if ( cmd != null )
 		{
 			List cmds = new ArrayList();
-			cmds.add(
-				"// Probando " +tested_alg+ "\n"+
-				cmd
+			cmds.add(new CmdSource(0,
+					"// Probando " +tested_alg+ "\n"+
+					cmd
+				)
 			);
-			cmds.add("// Prueba terminada exitosamente.");
+			cmds.add(new CmdSource(0,
+					"// Prueba terminada exitosamente."
+				)
+			);
 			workspace.executeCommands(
 				"Probando " +tested_alg.getIUnidad(),
 				null,
