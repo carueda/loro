@@ -57,6 +57,13 @@ PENDIENTES (más o menos en orden de prioridad)
 
 	  
 ////////////////////////////////////////////////////////////////////////////
+2002-10-20 (0.8pre5)
+
+	- Bug corregido: No se estaba agregando el listener del workspace a un
+	  proyecto recién creado. Por lo tanto, no se guardaban adecuadamente
+	  paquetes creados. Ver Workspace.getNewProjectModel().
+	
+////////////////////////////////////////////////////////////////////////////
 2002-10-09 (0.8pre4)
 
 	- Bug corregido: Al crear un algoritmo para una especificacion en el

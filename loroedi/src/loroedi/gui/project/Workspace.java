@@ -567,6 +567,7 @@ public final class Workspace
 	public IProjectModel getNewProjectModel()
 	{
 		IProjectModel prjm = new ProjectModel("");
+		prjm.addProjectModelListener(pmlistener);
 		return prjm;
 	}
 
