@@ -3,21 +3,41 @@
    <title>{{title}}</title>
 </head>
 <body>
-<h2>
-{{prjname}} - {{title}}</h2>
 
-<hr WIDTH="100%">
+<font size="-1">Proyecto: <code><b>{{prjname}}</b></code></font>
+<table BORDER="0" BGCOLOR="#FFEEEE" width="100%">
+
+<tr><td>
+<table BORDER="0" bgcolor="#FFCCCC" width="100%">
+<tr>
+	<td> <b>{{title}}</b> </td> 
+</tr>
+<tr>
+	<td> Versi&oacute;n/fecha: <b>{{version}}</b> </td> 
+</tr>
+<tr>
+	<td> Autor(es): <b>{{authors}}</b> </td> 
+</tr>
+</table>
+</td></tr>
+
+<tr><td>
 <blockquote>
-<pre>
-{{description}}
-</pre>
+	{{description}}
 </blockquote>
+</td></tr>
+</table>
 
-<hr WIDTH="100%">
-<b>Versi&oacute;n/fecha:</b> {{version}}
-<br>
-<b>Autor(es):</b> {{authors}}
-<br>
+<table BORDER="0" BGCOLOR="#FFEEEE" width="100%">
+
+<tr><td>
+<table BORDER="0" bgcolor="#FFEEEE" width="100%">
+{{packages}}
+</table>
+</td></tr>
+
+
+</table>
 
 </body>
 </html>

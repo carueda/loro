@@ -64,6 +64,19 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-03-11 (0.8pre9)
+
+  Documentación HTML:
+  
+	- La página para documentación de cada proyecto ahora incluye
+	  la lista de paquetes (y sus contenidos).
+	  Ver GUI._saveProjectDoc() y nuevo método GUI._getPackagesDoc().
+	  
+	- GUI.showProjectDocumentation() ahora hace _saveProjectDoc, de tal
+	  manera que el comando de documentación del proyecto le permite
+	  al usuario actualizar completamente la página del proyecto.
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-03-10 (0.8pre9)
 
 	- UEditor: cambio menor para más consistencia con el patrón 

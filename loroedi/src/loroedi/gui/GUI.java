@@ -488,6 +488,8 @@ public class GUI
 	 */
 	public static void showProjectDocumentation()
 	{
+		// actualice por posibles adiciones/borrados de elementos:
+		_saveProjectDoc(focusedProject.getModel(), null);
 		String prjname = focusedProject.getModel().getInfo().getName();
 		showDocumentation(prjname+ ".prj");
 	}
@@ -844,6 +846,56 @@ public class GUI
 		_updateWindowMenu();
 	}
 	
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene la cadena HTML de documentacion de los paquetes de
+	 * un proyecto.
+	 */
+	private static String _getPackagesDoc(IProjectModel prjm)
+	{
+		StringBuffer sb = new StringBuffer();
+		
+		for ( Iterator it = prjm.getPackages().iterator(); it.hasNext(); )
+		{
+			IPackageModel pkgm = (IPackageModel) it.next();
+			
+			String pkgname = pkgm.getName();
+			if ( pkgname.length() == 0 )
+				pkgname = "<i>an&oacute;nimo</i>";
+			else
+				pkgname = "<code><b>" +pkgname+ "</b></code>";
+			
+			sb.append("<tr bgcolor=\"#FFCCCC\">\n");
+			sb.append("<td>\n");
+			sb.append("paquete: " +pkgname+ "\n");
+			sb.append("</td>\n");
+			sb.append("</tr>\n");
+			
+			for ( Iterator itt = pkgm.getUnits().iterator(); itt.hasNext(); )
+			{
+				IProjectUnit unit = (IProjectUnit) itt.next();
+				String qname = loro.util.Util.replace(
+					unit.getQualifiedName(), "::", "/"
+				);
+				String code = unit.getCode();
+				String href = qname+ "." +code+ ".html";
+
+				sb.append("<tr>\n");
+				sb.append("<td>\n");
+
+				sb.append("&nbsp;&nbsp;<a href=\"" +href+ "\">" +
+					"<code>" +unit.getStereotype()+ " " +unit.getName()+ "</code>" + 
+					"</a>\n"
+				);
+				sb.append("</td>\n");
+				sb.append("</tr>\n");
+			}
+		}
+		return sb.toString();
+	}
+	
+	
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Salvaguarda la documentación básica de un proyecto en doc_dir.
@@ -858,6 +910,7 @@ public class GUI
 		String authors = info.getAuthors();
 		String version = info.getVersion();
 		String description = info.getDescription();
+		String pkgDoc = _getPackagesDoc(model);
 		try
 		{
 			String dir = Configuracion.getProperty(Configuracion.DIR);
@@ -873,6 +926,7 @@ public class GUI
 					"{{authors}}", authors,
 					"{{version}}", version,
 					"{{description}}", description,
+					"{{packages}}", pkgDoc,
 				};
 				for ( int i = 0; i < reps.length; i += 2 )
 				{
@@ -1343,6 +1397,7 @@ public class GUI
 	{
 		_saveProjectDoc(prjm, null);
 		
+		// Actualizador documentación de cada unidad:
 		IDocumentador documentador = Loro.obtDocumentador();
 		for ( Iterator it = prjm.getPackages().iterator(); it.hasNext(); )
 		{
