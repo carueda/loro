@@ -27,6 +27,26 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2003-02-09 Version 0.7.7
+
+Ejecución paso-a-paso
+
+	- Nuevo visitante Seguidor que extiende LoroEjecutor con el fin
+	  de proporcionar notificaciones al entrar-a y salir-de cada nodo
+	  visitado. Ahora EjecutorTerminable extiende Seguidor.
+	  EjecutorPP (que extiende EjecutorTerminable) desde luego también
+	  hace uso de este esquema.
+	  
+	- En DerivadorJavaCC.derivarFuente() corregida la asociación de 
+	  código fuente para cada unidad. (Antes se ponía sólo el fragmento
+	  propio de la unidad, pero debe ponerse todo el código fuente
+	  de donde proviene.)
+	  
+	- ControlPP.setActive(boolean active) no estaba llamando notifyAll().
+	  Corregido. (Este bug hacia congelar la ejecución cuando se
+	  invocaba ejecutor.resume().)
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-06 Version 0.7.7
 
 Ejecución paso-a-paso

@@ -1,7 +1,7 @@
 package loro;
 
 import loro.ISymbolTable;
-import loro.arbol.IUbicable;
+import loro.arbol.INodo;
 
 ///////////////////////////////////////////////////////////
 /**
@@ -11,16 +11,28 @@ public interface IObservadorPP
 {
 	//////////////////////////////////////////////////////////////
 	/**
-	 * Llamado cuando esta por ingresarse al elemento ubicable dado.
+	 * Llamado cuando esta por ingresarse al nodo dado.
 	 */
-	public int enter(IUbicable u, ISymbolTable symbTab, String src);
+	public int enter(INodo n, ISymbolTable symbTab, String src);
 
 	//////////////////////////////////////////////////////////////
 	/**
-	 * Llamado cuando justo se finaliza la visita al elemento ubicable dado.
+	 * Llamado cuando justo se finaliza la visita a nodo dado.
 	 */
-	public int exit(IUbicable u, ISymbolTable symbTab, String src);
+	public int exit(INodo n, ISymbolTable symbTab, String src);
 	
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Llamado cuando acaba de ingresarse a un ámbito de unidad.
+	 */
+	public int push(IUnidad n, ISymbolTable symbTab, String src);
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Llamado cuando acaba de salirse de un ámbito de unidad.
+	 */
+	public int pop(IUnidad n, ISymbolTable symbTab, String src);
+
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Llamado cuando el seguimiento termina.

@@ -14,6 +14,7 @@ public class ControlPP
 	public synchronized void setActive(boolean active)
 	{
 		this.active = active;
+		notifyAll();
 	}
 	
 	//////////////////////////////////////////////////

@@ -78,26 +78,53 @@ public class EjecutorPP extends EjecutorTerminable
 
 
 	//////////////////////////////////////////////////
-	protected void _chequearTerminacionExterna(IUbicable u)
+	protected int _obtSenalPP(IUbicable u)
 	throws VisitanteException
 	{
-		super._chequearTerminacionExterna(u);
 		try
 		{
-			int senal = controlpp.obtSenal();
+			return controlpp.obtSenal();
 		}
 		catch(InterruptedException ex)
 		{
 			throw new TerminacionExternaException(u, pilaEjec);
 		}
-		
+	}
+	
+	////////////////////////////////////////////////////////////
+	/**
+	 * Llama super._enter(n), pide una señal de control de
+	 * seguimiento paso-a-paso, e notifica al observador.
+	 */
+	protected void _enter(INodo n)
+	throws VisitanteException
+	{
+		super._enter(n);
+		int senal = _obtSenalPP(n);
 		if ( obspp != null )
 		{
 			String src = unidadActual.getSourceCode();
-			obspp.enter(u, tabSimb, src);
+			obspp.enter(n, tabSimb, src);
 		}				
 	}
-
+	
+	////////////////////////////////////////////////////////////
+	/**
+	 * Llama super._exit(n), pide una señal de control de
+	 * seguimiento paso-a-paso, e notifica al observador.
+	 */
+	protected void _exit(INodo n)
+	throws VisitanteException
+	{
+		super._exit(n);
+		int senal = _obtSenalPP(n);
+		if ( obspp != null )
+		{
+			String src = unidadActual.getSourceCode();
+			obspp.exit(n, tabSimb, src);
+		}				
+	}
+	
 	///////////////////////////////////////////////////////////////////
 	protected void _visitarCondicionEnEspecificacion(NEspecificacion n, int contexto)
 	throws VisitanteException
@@ -108,21 +135,24 @@ public class EjecutorPP extends EjecutorTerminable
 	
 	//////////////////////////////////////////////////////////////////////
 	protected void _pushEvent()
+	throws VisitanteException
 	{
 		if ( obspp != null )
 		{
 			String src = unidadActual.getSourceCode();
-			obspp.enter(unidadActual, tabSimb, src);
+			obspp.push(unidadActual, tabSimb, src);
 		}				
 	}
 	
 	//////////////////////////////////////////////////////////////////////
 	protected void _popEvent()
+	throws VisitanteException
 	{
+		int senal = _obtSenalPP(null);
 		if ( obspp != null )
 		{
 			String src = unidadActual.getSourceCode();
-			obspp.exit(unidadActual, tabSimb, src);
+			obspp.pop(unidadActual, tabSimb, src);
 		}				
 	}
 

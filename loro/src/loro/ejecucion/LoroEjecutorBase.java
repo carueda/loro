@@ -707,6 +707,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	 * Se crea alli una nueva tabla de simbolos.
 	 */
 	protected void _pushAlgoritmo(NAlgoritmo uni)
+	throws VisitanteException
 	{
 		pilaEjec.pushAlgoritmo(uni);
 		tabSimb = pilaEjec.obtTablaSimbolos();
@@ -721,6 +722,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	 * Se crea alli una nueva tabla de simbolos.
 	 */
 	protected void _pushClase(NClase uni)
+	throws VisitanteException
 	{
 		pilaEjec.pushClase(uni);
 		tabSimb = pilaEjec.obtTablaSimbolos();
@@ -734,6 +736,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	 * la especificacion dada.
 	 */
 	protected void _pushEspecificacion(NEspecificacion uni)
+	throws VisitanteException
 	{
 		pilaEjec.pushEspecificacion(uni);
 		tabSimb = pilaEjec.obtTablaSimbolos();
@@ -747,6 +750,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	 * En esta clase no se hace nada.
 	 */
 	protected void _pushEvent()
+	throws VisitanteException
 	{
 	}
 	
@@ -758,6 +762,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	 * si la pila queda vacia.
 	 */
 	protected void _pop()
+	throws VisitanteException
 	{
 		pilaEjec.pop();
 		if ( pilaEjec.empty() )
@@ -782,6 +787,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	 * En esta clase no se hace nada.
 	 */
 	protected void _popEvent()
+	throws VisitanteException
 	{
 	}
 	

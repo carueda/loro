@@ -88,10 +88,16 @@ public class DerivadorJavaCC implements IDerivador
 			NUnidad[] unidades = (NUnidad[]) nodo.obtUnidades();
 			for ( int i = 0; i < unidades.length; i++ )
 			{
-				Rango r = unidades[i].obtRango();
-				int start = r.obtPosIni();
-				int end   = r.obtPosFin() + 1;
-				unidades[i].setSourceCode(texto.substring(start, end));
+				// Asociar a cada unidad el código fuente de donde proviene:
+				unidades[i].setSourceCode(texto);
+
+// Nota (2003-02-09)				
+// código anterior erróneo; se deja por un tiempo para hacer pruebas de 
+// dependencias no advertidas en este momento.
+//				Rango r = unidades[i].obtRango();
+//				int start = r.obtPosIni();
+//				int end   = r.obtPosFin() + 1;
+//				unidades[i].setSourceCode(texto.substring(start, end));
 			}
 		}
 		catch ( ParseException e )
