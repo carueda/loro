@@ -3532,7 +3532,8 @@ public class GUI
 	
 	////////////////////////////////////////////////////////////////
 	/**
-	 * Ejecuta una tarea
+	 * The version that has been used for quite some time.  
+	 * See below for a SwingWorker-based implementation.
 	 */
 	public static void progressRun__BAK(Window owner, final String msg, final Runnable runnable)
 	{
@@ -3575,6 +3576,11 @@ public class GUI
 		});
 	}
 
+	/** An attempt to improve the responsiveness of the gui
+	 * by using the SwingWorker class.
+	 * UNDER TESTING
+	 * Maybe someone out there would be willing to help out!
+	 */
 	public static void progressRun(Window owner, final String msg, final Runnable runnable)
 	{
 		final JProgressBar progressBar = new JProgressBar();
@@ -3601,7 +3607,6 @@ public class GUI
 				dialog.setVisible(true);
 			}
 		});
-		
 		
 		final SwingWorker worker = new SwingWorker() {
 			public Object construct() {

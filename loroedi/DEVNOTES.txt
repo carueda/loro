@@ -2,7 +2,7 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-06-29 (0.9pre1)
+2004-06-30 (0.9pre1)
 	- Localization scheme:
 		loroedi/ .. ok
 			Configuracion .. ok
@@ -45,6 +45,9 @@ $Id$
 	- izinstall: now includes langpack iso3="eng"
 	- build.xml: loroc now with locale="es" since test programs are in spanish.
 	- localized mnemonic for menus (pending for actions)
+	- GUI.progressRun() uses SwingWorker 
+	  (from http://java.sun.com/docs/books/tutorial/uiswing/misc/threads.html).
+	  I'm still struggling to provide a more responsive gui. 
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 (0.8.7)
