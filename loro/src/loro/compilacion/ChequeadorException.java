@@ -3,10 +3,12 @@ package loro.compilacion;
 import loro.arbol.*;
 import loro.visitante.VisitanteException;
 import loro.Rango;
+import loro.IUbicable;
 
-//////////////////////////////////////////////////////////////
 /**
  * Excepción para errores semánticos.
+ * @author Carlos Rueda
+ * @version $Id$
  */
 public class ChequeadorException extends VisitanteException 
 {

@@ -580,10 +580,10 @@ public final class Loro
 	 *
 	 * @return La descripción concisa del tipo del nodo dado.
 	 */
-	public static String getNodeDescription(INodo n)
+	public static String getNodeDescription(INode n)
 	{
 		_verificarIniciado();
-		return Descriptor.getDescription(n);
+		return Descriptor.getDescription((INodo) n);
 	}
 		
 	//////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,7 @@
 package loro.ejecucion;
 
 import loro.arbol.*;
+import loro.IUbicable;
 
 import java.io.PrintWriter;
 
@@ -13,8 +14,6 @@ class TerminacionException extends EjecucionVisitanteException
 {
 	boolean esInterna;
 	int codigoTerminacionInterna;
-
-
 
 	////////////////////////////////////////////////////////////////
 	/**

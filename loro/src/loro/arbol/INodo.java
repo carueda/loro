@@ -1,14 +1,15 @@
 package loro.arbol;
 
-import loro.visitante.IVisitante;
-import loro.visitante.VisitanteException;
+import loro.INode;
 
-////////////////////////////////////////////////////////////////
+import java.io.Serializable;
+
 /**
  * Interface que todo nodo del árbol sintáctico implementa.
+ * Esta es la interface especifica para el lenguaje Loro.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
-public interface INodo extends IUbicable, IVisitable, java.io.Serializable
-{
+public interface INodo extends INode, IVisitable, Serializable {
 }

@@ -1,12 +1,11 @@
 package loro.arbol;
 
-
-
 import loro.Rango;
 
-////////////////////////////////////////////////////////////////
 /**
  * Todo nodo del arbol de derivacion es subclase de esta clase.
+ * @author Carlos Rueda
+ * @version $Id$
  */
 public abstract class Nodo implements INodo
 {

@@ -5,9 +5,8 @@ import loro.arbol.*;
 import loro.util.Util;
 import loro.tabsimb.*;
 import loro.tipo.*;
+import loro.IUbicable;
 
-
-/////////////////////////////////////////////////////////////////////
 /**
  * Visitante encargado de hacer la compilación.
  * Aquí se implementan propiamente las operaciones visitar(*) de la
@@ -17,6 +16,7 @@ import loro.tipo.*;
  * auxiliares para la tarea.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class Chequeador extends ChequeadorBase
 {

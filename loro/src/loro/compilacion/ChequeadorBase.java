@@ -8,11 +8,10 @@ import loro.util.Util;
 import loro.tabsimb.*;
 import loro.tipo.*;
 import loro.Rango;
-
+import loro.IUbicable;
 
 import java.util.*;
 
-/////////////////////////////////////////////////////////////////////
 /**
  * Servicios de base para el visitante chequeador.
  *

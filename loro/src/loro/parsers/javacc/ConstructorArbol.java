@@ -4,6 +4,7 @@ import loro.derivacion.*;
 import loro.arbol.*;
 import loro.util.Util;
 import loro.Rango;
+import loro.IUbicable;
 
 import java.io.*;
 import java.util.*;

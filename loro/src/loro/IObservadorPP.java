@@ -1,11 +1,12 @@
 package loro;
 
 import loro.ISymbolTable;
-import loro.arbol.INodo;
 
 ///////////////////////////////////////////////////////////
 /**
  * Observador de seguimiento paso-a-paso.
+ * @author Carlos Rueda
+ * @version $Id$
  */
 public interface IObservadorPP
 {
@@ -13,7 +14,7 @@ public interface IObservadorPP
 	/**
 	 * Llamado cuando se está por ingresar al nodo dado.
 	 */
-	public int enter(INodo n, ISymbolTable symbTab, String src)
+	public int enter(INode n, ISymbolTable symbTab, String src)
 	throws InterruptedException;
 
 	//////////////////////////////////////////////////////////////
@@ -23,7 +24,7 @@ public interface IObservadorPP
 	 * parámetro result contiene una versión imprimible del resultado
 	 * de la expresión. En otro caso, result será null.
 	 */
-	public int exit(INodo n, ISymbolTable symbTab, String src, String result)
+	public int exit(INode n, ISymbolTable symbTab, String src, String result)
 	throws InterruptedException;
 	
 	//////////////////////////////////////////////////////////////
@@ -37,7 +38,7 @@ public interface IObservadorPP
 	/**
 	 * Llamado cuando acaba de salirse de un ámbito de unidad.
 	 */
-	public int pop(IUnidad u, INodo n, ISymbolTable symbTab, String src)
+	public int pop(IUnidad u, INode n, ISymbolTable symbTab, String src)
 	throws InterruptedException;
 
 	//////////////////////////////////////////////////////////////

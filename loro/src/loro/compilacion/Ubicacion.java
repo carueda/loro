@@ -1,6 +1,6 @@
 package loro.compilacion;
 
-import loro.arbol.IUbicable;
+import loro.IUbicable;
 import loro.Rango;
 
 ////////////////////////////////////////////////////////////////

@@ -2,6 +2,14 @@ Loro README
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-01-14 Version 0.7.94
+
+Algo de refactoring buscando facilitar una mejor generalizacion.
+
+	- Nueva loro.INode como interface externa hacia clientes.
+	- Movida IUbicable de loro.arbol/ a loro/
+
+////////////////////////////////////////////////////////////////////////////
 2004-01-07 Version 0.7.93
 
 	- Charset : ISO8859_1

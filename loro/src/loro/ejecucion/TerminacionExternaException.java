@@ -1,6 +1,7 @@
 package loro.ejecucion;
 
 import loro.arbol.*;
+import loro.IUbicable;
 
 ///////////////////////////////////////////////////////////
 /**
@@ -9,8 +10,6 @@ import loro.arbol.*;
  */
 class TerminacionExternaException extends TerminacionException
 {
-
-
 	///////////////////////////////////////////////////////////
 	/**
 	 * Crea una TerminacionExternaException.

@@ -3,6 +3,7 @@ package loro.ejecucion;
 import loro.arbol.*;
 import loro.visitante.VisitanteException;
 import loro.Rango;
+import loro.IUbicable;
 
 import java.io.PrintWriter;
 

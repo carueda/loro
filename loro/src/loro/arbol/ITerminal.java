@@ -1,19 +1,14 @@
 package loro.arbol;
 
+import loro.IUbicable;
 
+import java.io.Serializable;
 
-
-
-
-
-////////////////////////////////////////////////////////////////////////
 /**
  * Interface que todo elemento terminal de árbol debe implementar.
  *
  * @author Carlos Rueda
- * @version 2002-01-08
+ * @version $Id$
  */
-public interface ITerminal extends IUbicable, java.io.Serializable
-{
-
+public interface ITerminal extends IUbicable, Serializable {
 }
