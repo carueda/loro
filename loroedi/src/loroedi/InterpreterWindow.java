@@ -453,6 +453,10 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		{
 			procesarLoro(text);
 		}
+		if ( obspp != null )
+		{
+			obspp.getSymbolTableWindow().update();
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////

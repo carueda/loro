@@ -44,6 +44,12 @@ public class ObservadorPP implements IObservadorPP
         {
 			this.iw = iw;
 		}
+
+        ///////////////////////////////////////////////////////////////////////
+        public SymbolTableWindow getSymbolTableWindow()
+        {
+			return symbolTableWindow;
+		}
 		
         ///////////////////////////////////////////////////////////////////////
         public void nextStep(boolean stepInto)

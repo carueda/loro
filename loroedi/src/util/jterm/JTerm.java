@@ -163,6 +163,7 @@ public class JTerm
 	public void setEditable(boolean jtermIsEditable)
 	{
 		this.jtermIsEditable = jtermIsEditable;
+		ta.setEditable(jtermIsEditable);
 	}
 	
 	////////////////////////////////////////////////////////////////
