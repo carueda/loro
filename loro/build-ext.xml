@@ -12,42 +12,32 @@
 	<taskdef name="loroc" classname="loro.misc.ant.LoroCompilerTask"
 	 classpath="${build}/classes"/>
 	
-    <target name="ext" depends="mat.lar, entsal.lar"
-     description="Hace mat.lar, entsal.lar">
+    <target name="ext" description="Hace extensiones .lar">
+	 	<antcall target="prj">
+			<param name="basename" value="ext/mat"/>
+			<param name="includes" value="loroI/mat/**/*.loro"/>
+		</antcall>
+		
+	 	<antcall target="prj">
+			<param name="basename" value="ext/entsal"/>
+			<param name="includes" value="loroI/entsal/**/*.loro"/>
+		</antcall>
     </target>
 
-	<!-- mat .................................................. -->
-    <target name="mat.lar" depends="compile-mat"
-     description="Hace extensión mat.lar">
-		<mkdir dir="${build}/ext/mat"/>
-		<copy todir="${build}/ext/mat">
-			<fileset dir="${src}/ext/mat"/> 
+
+	<!-- prj .................................................. -->
+    <target name="prj">
+		<mkdir dir="${build}/${basename}"/>
+        <loroc srcdir="${src}/${basename}" 
+		       destdir="${build}/${basename}" 
+			   includes="${includes}"
+			   excludes="${excludes}"
+		/>
+		<copy todir="${build}/${basename}">
+			<fileset dir="${src}/${basename}"/> 
 		</copy>
-        <zip zipfile="${dist}/ext/mat.lar" 
-		 basedir="${build}/ext/mat"
-		/>
-    </target>
-
-    <target name="compile-mat">
-        <loroc srcdir="${src}/ext/mat" destdir="${build}/ext/mat" includes="loroI/mat/**/*.loro"
-		/>
-    </target>
-
-
-	<!-- entsal .................................................. -->
-    <target name="entsal.lar" depends="compile-entsal"
-     description="Hace extensión entsal.lar">
-		<mkdir dir="${build}/ext/entsal"/>
-		<copy todir="${build}/ext/entsal">
-			<fileset dir="${src}/ext/entsal"/> 
-		</copy>
-        <zip zipfile="${dist}/ext/entsal.lar" 
-		 basedir="${build}/ext/entsal"
-		/>
-    </target>
-
-    <target name="compile-entsal">
-        <loroc srcdir="${src}/ext/entsal" destdir="${build}/ext/entsal" includes="loroI/entsal/**/*.loro"
+        <zip zipfile="${dist}/${basename}.lar" 
+		     basedir="${build}/${basename}"
 		/>
     </target>
 
