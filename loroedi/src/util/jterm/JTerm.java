@@ -82,6 +82,9 @@ public class JTerm
 
 	/** Prefix. */
 	protected String prefix;
+	
+	/** Effective last line. */
+	protected String effectiveLastLine;
 
 	private static Pattern lf_pattern = Pattern.compile("\n");
 
@@ -100,6 +103,7 @@ public class JTerm
 		System.setProperty("line.separator", "\n");
 
 		prefix = "";
+		effectiveLastLine = "";
 		
 		this.ta = ta;
 		jtermIsEditable = true;
@@ -256,7 +260,8 @@ public class JTerm
 
 		ta_append_lf();
 
-		pos += new_cmd.length();
+		pos = ta.getText().length();
+		//pos += new_cmd.length();
 
 		// Notify the ENTER
 		notifyAll();
@@ -443,9 +448,8 @@ public class JTerm
 	private void ta_append_lf()
 	{
 		ta.append("\n" + prefix);
-		String text = ta.getText();
-		int len = text.length();
-		ta.setCaretPosition(len);
+		ta.setCaretPosition(ta.getText().length());
+		effectiveLastLine = "";
 	}
 	
 	////////////////////////////////////////////////////////////////
@@ -463,72 +467,6 @@ public class JTerm
 	
 	///////////////////////////////////////////////////
 	/**
-	 * Writes a string to the text area.
-	 * Called by JTermWriter.write()
-	 */
-	private void writeString(String s)
-	{
-		synchronized(lock)
-		{
-			String[] lines = lf_pattern.split(s, -1);
-			boolean append = ! reading
-				||   pos >= ta.getText().length() -1
-			;
-			
-			if ( append )
-			{
-				String text = ta.getText();
-				int idx = 1 + text.lastIndexOf('\n');
-				String lastLine = text.substring(idx);
-				if ( lastLine.startsWith(prefix) )
-				{
-					idx += prefix.length();
-					lastLine = lastLine.substring(prefix.length());
-				}
-				
-				// process first line in affected area:
-				lines[0] = process_br(lastLine + lines[0]);
-
-				// process \b,\r for remaining lines:
-				for ( int i = 1; i < lines.length; i++ )
-					lines[i] = process_br(lines[i]);
-				
-				// process prefixes and get resulting area:
-				s = process_prefix(lines);
-				
-				// replace after idx:
-				ta.replaceRange(s, idx, text.length());
-			}
-			else
-			{
-				// Only process prefixes (NO \b,\r processing):
-				s = process_prefix(lines);
-				ta.insert(s, pos);
-			}
-
-			ta.setCaretPosition(ta.getText().length());
-			
-			pos += s.length();
-		}
-	}
-
-	///////////////////////////////////////////////////
-	/**
-	 * Process lines for possible prefixes.
-	 */
-	private String process_prefix(String[] lines)
-	{
-		StringBuffer sb = new StringBuffer(lines[0]);
-		for ( int i = 1; i < lines.length; i++ )
-		{
-			lines[i] = prefix + lines[i];
-			sb.append("\n" +lines[i]);
-		}
-		return sb.toString();
-	}
-
-	///////////////////////////////////////////////////
-	/**
 	 * \b and \r processing.
 	 * No prefix management at all.
 	 */
@@ -543,34 +481,87 @@ public class JTerm
 			line = line2.replaceAll("[^\b]\b", "");
 		
 		} while ( !line.equals(line2) ) ;
-		
+
+		// drop out isolated \b 		
 		line = line.replaceAll("\b", "");
+		
+		if ( line.indexOf('\r') >= 0 || line.indexOf('\b') >= 0 )
+			throw new RuntimeException(line);
 		
 		return line;
 	}
 	
 	///////////////////////////////////////////////////
 	/**
+	 * Writes a line to the text area.
+	 * Called by writeString().
+	 * Returns the new caret position.
+	 */
+	private int writeStringToCurrentLine(String s)
+	{
+		effectiveLastLine = process_br(effectiveLastLine + s);
+		
+		String text = ta.getText();
+		int idx = 1 + text.lastIndexOf('\n');
+		String taLastLine = text.substring(idx);
+		if ( taLastLine.startsWith(prefix) )
+		{
+			idx += prefix.length();
+			taLastLine = taLastLine.substring(prefix.length());
+		}
+		
+		if ( effectiveLastLine.length() <= taLastLine.length() )
+			ta.replaceRange(effectiveLastLine, idx, idx + effectiveLastLine.length());
+		else
+			ta.replaceRange(effectiveLastLine, idx, text.length());
+		
+		return idx + effectiveLastLine.length();
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 * Writes a string to the text area.
+	 * Called by JTermWriter.write()
+	 */
+	private void writeString(String s)
+	{
+		synchronized(lock)
+		{
+			int caret = 0;
+			String[] lines = lf_pattern.split(s, -1);
+			for ( int i = 0; i < lines.length; i++ )
+			{
+				if ( i > 0 )
+					ta_append_lf();
+				caret = writeStringToCurrentLine(lines[i]);
+			}
+			ta.setCaretPosition(caret);
+			pos = caret;
+		}
+	}
+
+	///////////////////////////////////////////////////
+	/**
 	 * Sets the prefix to include in every line output.
 	 *
-	 * @param prefix The prefix. If != null, this is put after
-	 *      each \n in every string written to the JTerm, and also in
-	 *      front of the very first string written.
-	 *      If null, no prefix inclusion is performed.
+	 * @param prefix The prefix.
 	 */
 	public void setPrefix(String prefix)
 	{
+		effectiveLastLine = "";
+		
 		String old_prefix = this.prefix;
 		this.prefix = prefix = prefix != null ? prefix : "";
 		
 		String text = ta.getText();
 		int idx = 1 + text.lastIndexOf('\n');
-		String lastLine = text.substring(idx);
-		if ( lastLine.equals(old_prefix) )
-			//replace last line with new prefix:
+		String taLastLine = text.substring(idx);
+		if ( taLastLine.equals(old_prefix) )
 			ta.replaceRange(prefix, idx, text.length());
 		else
-			ta.append("\n" +prefix);
+			ta_append_lf();
+		
+		pos = ta.getText().length();
 	}
 
 	///////////////////////////////////////////////////
