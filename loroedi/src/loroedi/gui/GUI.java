@@ -1805,13 +1805,10 @@ public class GUI
 	/**
 	 * Compila el proyecto enfocado.
 	 */
-	public static void compileProject()
-	{
-		Runnable run = new Runnable() 
-		{
-			public void run() 
-			{
-				_compileProject();
+	public static void compileProject() {
+		Runnable run = new Runnable() {
+			public void run() {
+				_compileProject(false);
 			}
 		};
 		new Thread(run).start();
@@ -1821,14 +1818,12 @@ public class GUI
 	/**
 	 * Auxiliar para compilar el proyecto enfocado.
 	 */
-	private static void _compileProject()
-	{
+	private static void _compileProject(boolean compile_demo) {
 		MessageArea prj_msg = focusedProject.getMessageArea();
 		prj_msg.clear();
 		prj_msg.println(Str.get("gui.1_msg_compiling_prj", ""));
 		IProjectModel model = focusedProject.getModel();
-		try
-		{
+		try {
 			prj_msg.print("  " +Str.get("gui.1_msg_compiling_prj_units")+ ": ");
 			workspace.compileProjectModel(model);
 			prj_msg.println(Str.get("gui.msg_compiling_ok"));
@@ -1840,13 +1835,14 @@ public class GUI
 				doc2_dir = new File(prs_dir +File.separator+ model.getInfo().getName());
 			_saveProjectDoc(model, doc2_dir);
 			
-			// ahora compile el demo: (allí se abre el editor en caso de error.)
-			boolean demo_ok = _compileProjectDemo();
-			if ( demo_ok )
-				message(focusedProject.getFrame(), Str.get("gui.msg_compiling_ok"));
+			if ( compile_demo ) {
+				// ahora compile el demo: (allí se abre el editor en caso de error.)
+				boolean demo_ok = _compileProjectDemo();
+				if ( demo_ok )
+					message(focusedProject.getFrame(), Str.get("gui.msg_compiling_ok"));
+			}
 		}
-		catch(UnitCompilationException ex)
-		{
+		catch(UnitCompilationException ex) {
 			CompilacionException ce = ex.getCompilacionException();
 			Rango rango = ce.obtRango();
 
@@ -1861,21 +1857,18 @@ public class GUI
 			
 			UEditor editor = (UEditor) unit.getUserObject();
 			
-			if ( editor == null )
-			{
+			if ( editor == null ) {
 				// aquí necesitamos el editor para mostrar el problema:
 				editor = editUnit(unit, null);
 			}
 			
-			if ( editor != null )
-			{
+			if ( editor != null ) {
 				if ( rango != null )
 					editor.select(rango.obtPosIni(), rango.obtPosFin());
 				editor.display();
 				editor.getMessageArea().setText(res);
 			}
-			else
-			{
+			else {
 				// pero no debería suceder.
 				JOptionPane.showOptionDialog(
 					null,
@@ -1889,8 +1882,7 @@ public class GUI
 				);
 			}
 		}
-		catch(Exception ex)
-		{
+		catch(Exception ex) {
 			//ex.printStackTrace();
 			JOptionPane.showOptionDialog(
 				focusedProject.getFrame(),
@@ -2887,7 +2879,6 @@ public class GUI
 				URL url;
 				
 				String lar = f_lar.getText().trim();
-				Preferencias.ponPreferencia(Preferencias.PRJ_EXTERN_LAST, lar);
 				if ( lar.toLowerCase().startsWith("http:")
 				||   lar.toLowerCase().startsWith("ftp:") 
 				||   lar.toLowerCase().startsWith("file:") ) {
@@ -2944,8 +2935,7 @@ public class GUI
 	 * @return El URL del proyecto seleccionado por el usuario en 
 	 * navegación de página web.
 	 */
-	private static String _chooseProjectInPage(JFrame frame, String lar)
-	{
+	private static String _chooseProjectInPage(JFrame frame, String lar) {
 		if ( lar.length() == 0 )
 			return null;
 
@@ -2959,15 +2949,14 @@ public class GUI
 			return null;
 			
 		URL page;
-		try
-		{
+		try {
 			page = new URL(lar);
 		}
-		catch (MalformedURLException ex)
-		{
+		catch (MalformedURLException ex) {
 			return null;
 		}
 		
+		Preferencias.ponPreferencia(Preferencias.PRJ_EXTERN_LAST, lar);
 		
         final JTextField f_name = new JTextField(50);
 		f_name.setEditable(false);
@@ -2980,13 +2969,10 @@ public class GUI
 		BrowserPanel prj_browser = new BrowserPanel(null, null);
 		prj_browser.setPage(page);
 		prj_browser.setLocationEditable(false);
-		prj_browser.setClickListener(new BrowserPanel.IClickListener()
-		{
-			public boolean click(URL hyperlink)
-			{
+		prj_browser.setClickListener(new BrowserPanel.IClickListener() {
+			public boolean click(URL hyperlink) {
 				String lar = hyperlink.toString();
-				if ( lar.endsWith(".lar") )
-				{
+				if ( lar.endsWith(".lar") ) {
 					f_name.setText(lar);
 					return true;
 				}
@@ -3001,15 +2987,12 @@ public class GUI
 			status
 		};
 		
-        final ProjectDialog form = new ProjectDialog(frame, Str.get("gui.install_choose_link"), array)
-		{
-			public boolean dataOk()
-			{
+        final ProjectDialog form = new ProjectDialog(frame, Str.get("gui.install_choose_link"), array) {
+			public boolean dataOk() {
 				String msg = null;
 				boolean ret = true;
 				String lar = f_name.getText();
-				if ( lar.length() == 0 )
-				{
+				if ( lar.length() == 0 ) {
 					msg = Str.get("gui.install_choose_link");
 					ret = false;
 				}
@@ -3024,8 +3007,7 @@ public class GUI
 		Preferencias.Util.updateRect(form, Preferencias.PRJ_CHOOSE_RECT);
 		form.activate();
 		form.setVisible(true);
-		if ( form.accepted() )
-		{
+		if ( form.accepted() ) {
 			return f_name.getText();
 		}
 		return null;

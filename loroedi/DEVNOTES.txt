@@ -2,6 +2,17 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-07-07 (0.9pre6)
+	- Preference PRJ_EXTERN_LAST: now remembers the last location
+	  that was browsed (not the chosen .lar).
+	- Demo script is no longer included when compiling a project.
+	  (rationale: in general, scripts are more thought to be executed
+	  immediately rather than compiled first. In fact, since there are
+	  some metacommands (e.g., .delvars), it is possible that a script
+	  does not compile but does run succesfully (metacommands are
+	  ignored in compilation).
+	
+////////////////////////////////////////////////////////////////////////////
 2004-07-06 (0.9pre5)
 	- installer: license according to chosen language.
 	- chosen language in installation also determines the locale.
