@@ -2035,14 +2035,14 @@ public class GUI
 		prj_msg.clear();
 		IProjectModel model = focusedProject.getModel();
 		String src = model.getInfo().getDemoScript();
-		if ( src != null )
+		if ( src != null && src.trim().length() > 0 )
 		{
 			String title = "Ejecución demo '" +model.getInfo().getName()+ "'";
 			prj_msg.print(title+ " ...\n");
 			runDemo(src, title, ejecutorpp);
 		}
 		else
-			prj_msg.print("No hay código de demo definido\n");
+			prj_msg.print("No hay código de demostración para ejecutar.");
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -3562,9 +3562,14 @@ public class GUI
 		{
 			if ( !editor.isSaved() )
 				save();
-			String title = "Ejecutando";
-			editor.getMessageArea().setText(title+ " ...\n");
-			runDemo(saved, title, trace);
+			if ( saved.trim().length() > 0 )
+			{
+				String title = "Ejecutando";
+				editor.getMessageArea().setText(title+ " ...\n");
+				runDemo(saved, title, trace);
+			}
+			else
+				editor.getMessageArea().setText("No hay código para ejecutar.");
 		}
 		public void reload() 
 		{
