@@ -89,6 +89,17 @@ public class Configuracion
 		File conf_file = new File(loro_conf_name);
 		if ( !conf_file.exists() ) {
 			try {
+				File conf_dir = new File(confDirectory);
+				if ( !conf_dir.exists() ) {
+					conf_dir.mkdirs();
+					if ( !conf_dir.isDirectory() ) {
+						throw new Exception(
+							"No se pudo crear el directorio para las propiedades de Loro:\n" +
+							"  " +conf_dir+ "\n" +
+							"\n"
+						);
+					}
+				}
 				// creacion solo con header
 				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(conf_file));
 				props.store(out, header);
