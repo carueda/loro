@@ -9,6 +9,7 @@ $Id$
 	  determined by current locale:
 		- .loro/prs_en/ used if locale is not "es"
 		- .loro/prs/ continue to be used for "es" locale
+	- - Using core 0.8pre5
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-07-06 (0.9pre4)
