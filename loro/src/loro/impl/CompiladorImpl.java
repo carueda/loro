@@ -476,11 +476,12 @@ public class CompiladorImpl implements ICompilador
 		return anticompilados;
 	}
 
+	private static Charset charset = Charset.forName("ISO-8859-1");
+	
 	private static Reader _openReader(String filename) 
 	throws FileNotFoundException, CompilacionException {
 		FileInputStream fis = new FileInputStream(filename);
-		Charset cs = Charset.forName("ISO-8859-1");
-		InputStreamReader is = new InputStreamReader(fis, cs);
+		InputStreamReader is = new InputStreamReader(fis, charset);
 		return new BufferedReader(is);
 	}
 }

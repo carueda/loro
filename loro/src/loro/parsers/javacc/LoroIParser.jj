@@ -6,33 +6,20 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2003-05-05
+// FECHA ULTIMA ACTUALIZACION   : 2004-06-22
+//
+// $Id$
 //
 // COMPILACIÓN
-//  con JavaCC Versión 2.1: Ver build.xml.
-//
-// NOTAS:
-//  Observación tomada de jshell:
-//      OJO: Se vio que el Simple1 (ASCII_CharStream) cerraba
-//      la entrada! y claro! esto estropeaba el resto de la
-//      operación del shell. Lo que hice fue eliminar esta
-//      intrucción en el método FillBuff de ASCII_CharStream.
-//      ** Tener esto en cuenta para LORO: en donde no se ha
-//      ** hecho este cambio.
-//
-//  Al compilar se genera el siguiente warning:  
-//             [ojo: mensaje con version vieja de javacc]
-//  Reading from file LoroIParser.jj . . .
-//  Warning: Line 249, Column 9: The generated CharStream class cannot handle 16 bit
-//  characters. Please set the JAVA_UNICODE_ESCAPE option or the UNICODE_INPUT opti
-//  on to true so that a CharStream class that can handle 16 bit characters is gener
-//  ated.
-// Pero el funcionamiento con ASCII_CharStream aparentemente es correcto hasta ahora.
-// PENDIENTE hacer una revisión sobre este aspecto.
+//  con JavaCC Versión 3.2: Ver build.xml.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2004-06-22
+//		- unicode scape sequences for accents in reserved
+//		  words and identifiers.
 //
 //		2003-05-05
 //		- En e_prefijoPrimaria() se probó posibilidad de explicitar el tipo
@@ -425,16 +412,16 @@ TOKEN : // otras palabras reservadas
   | < COMO: "como" >
   | < CONSTANTE: "constante">
   | < CONSTRUCTOR: "constructor">
-  | < CONTINUE: "continue" | "continúe">
+  | < CONTINUE: "continue" | "continúe" | "contin\u00fae" >
   | < CREAR: "crear">
   | < DESDE: "desde" >
-  | < DESCRIPCION: "descripcion" | "descripción">
+  | < DESCRIPCION: "descripcion" | "descripción" | "descripci\u00f3n" >
   | < EN: "en">
   | < ENTONCES: "entonces" >
   | < ENTRADA: "entrada">
   | < ES: "es_instancia_de">
-  | < ESPECIFICACION: "especificacion" | "especificación" >
-  | < ESTE: "este" | "éste" >
+  | < ESPECIFICACION: "especificacion" | "especificación" | "especificaci\u00f3n" >
+  | < ESTE: "este" | "éste" | "\u00e9ste" >
   | < ESTRATEGIA: "estrategia">
   | < EXISTE: "existe">
   | < EXTIENDE: "extiende">
@@ -443,18 +430,18 @@ TOKEN : // otras palabras reservadas
   | < GLOBAL: "global" >
   | < HAGA: "haga">
   | < HASTA: "hasta">
-  | < IMPLEMENTACION: "implementacion" | "implementación">
+  | < IMPLEMENTACION: "implementacion" | "implementación" | "implementaci\u00f3n" >
   | < INICIO: "inicio">
   | < IMPLEMENTA: "implementa">
   | < INTENTE: "intente">
   | < INTERFACE: "interfaz" | "interface">
   | < LANCE: "lance">
-  | < METODO: "metodo" | "método">
+  | < METODO: "metodo" | "método" | "m\u00e9todo" >
   | < MIENTRAS: "mientras" >
   | < NADA: "nada">
   | < NULO: "nulo">
   | < OBJETO: "objeto">
-  | < OPERACION: "operacion" | "operación">
+  | < OPERACION: "operacion" | "operación" | "operaci\u00f3n" >
   | < PAQUETE: "paquete">
   | < PARA: "para">
   | < PARA_TODO: "para_todo">
@@ -464,12 +451,12 @@ TOKEN : // otras palabras reservadas
   | < REPITA: "repita">
   | < RETORNE: "retorne">
   | < SALIDA: "salida">
-  | < SEGUN: "segun" | "según">
+  | < SEGUN: "segun" | "según" | "seg\u00fan" >
   | < SI: "si" >
   | < SI_NO: "si_no" >
   | < SI_NO_si: "si_no_si" >
   | < SIEMPRE: "siempre" >
-  | < SUPER: "super" | "súper" >
+  | < SUPER: "super" | "súper" | "s\u00faper" >
   | < TERMINE: "termine" >
   | < UTILIZA: "utiliza" >
 }
@@ -524,6 +511,7 @@ TOKEN : // Identificadores
   |
   < #LETRA:
 	  [
+	   "á", "é", "í", "ó", "ú", "ñ", 
 	   "\u0024",
 	   "\u0041"-"\u005a",
 	   "\u005f",
@@ -658,21 +646,21 @@ NPaquete paquete() :
 NUtiliza utiliza() :
 {
 	Token tini;
-	Token que;
+	String what;
 	TNombre nom;
 }
 {
 	tini="utiliza"
 	(
-		que=<ESPECIFICACION>
+		<ESPECIFICACION> { what = "specification"; }
 	  |
-		que="algoritmo"
+		"algoritmo"      { what = "algorithm"; }
 	  |
-		que="clase"
+		"clase"          { what = "class"; }
 	)
 	nom=tnombre()
 	{
-		return ConstructorArbol.crearNUtiliza(tini, que, nom);
+		return ConstructorArbol.crearNUtiliza(tini, what, nom);
 	}
 }
 

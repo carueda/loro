@@ -16,6 +16,7 @@ import java.util.*;
  * arbol de derivacion.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 class ConstructorArbol
 {
@@ -940,10 +941,10 @@ class ConstructorArbol
 	}
 
 	//////////////////////////////////////////////////////////////////
-	static NUtiliza crearNUtiliza(Token tini, Token que, TNombre nom)
+	static NUtiliza crearNUtiliza(Token tini, String what, TNombre nom)
 	{
 		Rango rango = obtRango(tini, nom);
-		return new NUtiliza(rango, que.image, nom);
+		return new NUtiliza(rango, what, nom);
 	}
 
 	//////////////////////////////////////////////////////////////////

@@ -578,7 +578,7 @@ abstract class ChequeadorBase implements IVisitante
 		if ( nombreCompuesto == null )
 		{
 			// Intente por los 'utiliza':
-			nombreCompuesto = (String) utiliza.get('a' + id.obtId());
+			nombreCompuesto = (String) utiliza.get("algorithm"+ ":" +id.obtId());
 			if ( nombreCompuesto == null )
 			{
 				// Intente por el paquete actual:
@@ -645,7 +645,7 @@ abstract class ChequeadorBase implements IVisitante
 		if ( nombreCompuesto == null )
 		{
 			// Intente por los 'utiliza':
-			nombreCompuesto = (String) utiliza.get('c' + id.obtId());
+			nombreCompuesto = (String) utiliza.get("class"+ ":" +id.obtId());
 			if ( nombreCompuesto == null )
 			{
 				// Intente por el paquete actual:
@@ -717,7 +717,7 @@ abstract class ChequeadorBase implements IVisitante
 		if ( nombreCompuesto == null )
 		{
 			// Intente por los 'utiliza':
-			nombreCompuesto = (String) utiliza.get('e' + id);
+			nombreCompuesto = (String) utiliza.get("specification"+ ":" +id);
 			if ( nombreCompuesto == null )
 			{
 				// Intente por el paquete actual:
@@ -766,7 +766,7 @@ abstract class ChequeadorBase implements IVisitante
 		if ( nombreCompuesto == null )
 		{
 			// Intente por los 'utiliza':
-			nombreCompuesto = (String) utiliza.get('e' + id.obtId());
+			nombreCompuesto = (String) utiliza.get("specification"+ ":" +id.obtId());
 			if ( nombreCompuesto == null )
 			{
 				// Intente por el paquete actual:
@@ -859,7 +859,7 @@ abstract class ChequeadorBase implements IVisitante
 		if ( nombreCompuesto == null )
 		{
 			// Intente por los 'utiliza':
-			nombreCompuesto = (String) utiliza.get('i' + id.obtId());
+			nombreCompuesto = (String) utiliza.get("interface"+ ":" +id.obtId());
 			if ( nombreCompuesto == null )
 			{
 				// Intente por el paquete actual:
@@ -1266,7 +1266,7 @@ abstract class ChequeadorBase implements IVisitante
 	 * @param u           Ubicacion para posible error.
 	 * @param pdec        Declaraciones en algoritmo/metodo
 	 * @param qdec        Declaraciones en especificacion/operacion
-	 * @param operacion   true si es operacion; si no, especificacion
+	 * @param interf      null  if a spec
 	 * @param entrada     true si es entrada; si no, salida
 	 */
 	protected void _chequearConcordanciaParametros(
@@ -1318,41 +1318,60 @@ abstract class ChequeadorBase implements IVisitante
 			{
 				throw new ChequeadorException(
 					d.obtId(),
-					Str.get("error.1_invalid_init", d.obtId())
+					Str.get("error.1_invalid_param_init", d.obtId())
 				);
 			}
 
 			// revise que el tipo sea igual al especificado
-			if ( !d.obtTipo().igual(qdec[i].obtTipo()) )
-			{
-				throw new ChequeadorException(d.obtId(),
-					ent_sal+ " '" +d.obtId()+ "' no es del tipo especificado " +
-					"'" +qdec[i].obtTipo()+ "'" +
-					(interf == null ? "" : " en la interface " +interf.obtNombreCompletoCadena())
-				);
+			if ( !d.obtTipo().igual(qdec[i].obtTipo()) ) {
+				String str;
+				if ( interf == null ) {
+					str = Str.get("error.3_not_of_specified_type", 
+						ent_sal, d.obtId(), qdec[i].obtTipo()
+					);
+				}
+				else {
+					str = Str.get("error.4_not_of_specified_type_in_interface", 
+						ent_sal, d.obtId(), qdec[i].obtTipo(),
+						interf.obtNombreCompletoCadena()
+					);
+				}
+				throw new ChequeadorException(d.obtId(), str);
 			}
 
 			// revise que el nombre sea igual al especificado
-			if ( !d.obtId().obtId().equals(qdec[i].obtId().obtId()) )
-			{
-				throw new ChequeadorException(d.obtId(),
-					ent_sal+ " '" +d.obtId()+ "' debe tener el mismo nombre especificado " +
-					"'" +qdec[i].obtId()+ "'" +
-					(interf == null ? "" : " en la interface " +interf.obtNombreCompletoCadena())
-				);
+			if ( !d.obtId().obtId().equals(qdec[i].obtId().obtId()) ) {
+				String str;
+				if ( interf == null ) {
+					str = Str.get("error.3_not_of_specified_name", 
+						ent_sal, d.obtId(), qdec[i].obtId()
+					);
+				}
+				else {
+					str = Str.get("error.4_not_of_specified_name_in_interface", 
+						ent_sal, d.obtId(), qdec[i].obtId(),
+						interf.obtNombreCompletoCadena()
+					);
+				}
+				throw new ChequeadorException(d.obtId(), str);
 			}
 
-			if ( entrada )
-			{
+			if ( entrada ) {
 				// revise el caracter de constante segun lo especificado
-				if ( d.esConstante() ^ qdec[i].esConstante() )
-				{
-					throw new ChequeadorException(pdec[i].obtId(),
-						ent_sal+ " '" +d.obtId()+ "' " +
-						(qdec[i].esConstante() ? "" : "no ") +
-						"debe ser constante según indica la " +que+
-						(interf == null ? "" : " en la interface " +interf.obtNombreCompletoCadena())
-					);
+				if ( d.esConstante() ^ qdec[i].esConstante() ) {
+					String str;
+					if ( interf == null ) {
+						str = Str.get("error.2_different_const_attribute", 
+							ent_sal, d.obtId()
+						);
+					}
+					else {
+						str = Str.get("error.3_different_const_attribute_in_interface", 
+							ent_sal, d.obtId(),
+							interf.obtNombreCompletoCadena()
+						);
+					}
+					throw new ChequeadorException(pdec[i].obtId(), str);
 				}
 			}
 		}
@@ -1517,18 +1536,15 @@ abstract class ChequeadorBase implements IVisitante
 	{
 		NInterface interf = mu.obtInterface(ti.obtNombreCompletoString());
 		
-		try
-		{
+		try {
 			return mu.obtSuperInterfaces(interf);
 		}
-		catch ( ClaseNoEncontradaException ex )
-		{
+		catch ( ClaseNoEncontradaException ex ) {
 			String nombre_super = ex.obtNombre();
 			throw new ChequeadorException(
 				n,
-				"No se encuentra la super interface '" +nombre_super+ "'"
+				Str.get("error.1_superinterface_not_found", nombre_super)
 			);
 		}
 	}
-
 }

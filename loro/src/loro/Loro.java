@@ -126,6 +126,11 @@ public final class Loro
 		}
 		
 		/** gets a string from the locale bundle. */
+		public static String get(String id, Object arg0, Object arg1, Object arg2, Object arg3)  {
+			return get(id, new Object[] { arg0, arg1, arg2, arg3 });
+		}
+		
+		/** gets a string from the locale bundle. */
 		public static String get(String id, Object[] args)  {
 			String str = null;
 			if ( strings != null )
