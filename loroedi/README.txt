@@ -67,14 +67,19 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-03-19 (0.8pre10)
 
-	- Mejorada inicialización de código en creación de algoritmo.
+	- GUI._saveProjectDoc: verificación de valores null en campos de 
+	  descripción.
+	  
+	- Workspace.compileProjectModel(): si no hay unidades, se retorna
+	  inmediatamente.
+	  Pendiente: generar un aviso al usuario "no hay unidades definidas
+	  en este proyecto" (ahora se obtiene "compilación bien!).
 	
+	- Mejorada inicialización de código en creación de algoritmo.
 	  - Se simplifican nombres cuando el algoritmo está en mismo paquete
 	    de la especificación.
-	    
 	  - Incluye corrección de bug 701386 que generaba:
 	  	utiliza especificación <nombre-simple-de-unidad-en-paquete-automático>
-		
 	  Ver MUtil.setSourceCodeTemplate().
 	
 ////////////////////////////////////////////////////////////////////////////

@@ -912,6 +912,15 @@ public class GUI
 		String version = info.getVersion();
 		String description = info.getDescription();
 		String pkgDoc = _getPackagesDoc(model);
+
+		if ( title == null )
+			title = "(no hay)";
+		if ( authors == null )
+			authors = "(no hay)";
+		if ( version == null )
+			version = "(no hay)";
+		if ( description == null )
+			description = "(no hay)";
 		
 		// process inline tags in description:
 		description = loro.util.Util.processInlineTags(description, null);

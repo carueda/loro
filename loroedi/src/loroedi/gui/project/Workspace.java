@@ -796,7 +796,12 @@ public final class Workspace
 		{
 			units.add((IProjectUnit) it.next());
 		}
-		
+
+		if ( units.size() == 0 )
+		{
+			// nada que hacer:
+			return;
+		}
 		
 		// Algunos preparativos:
 		for ( Iterator it = units.iterator(); it.hasNext(); )
