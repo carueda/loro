@@ -1224,7 +1224,9 @@ public class GUI
 				return null;
 			}
 			boolean modifiable = pkg.getModel().getControlInfo().isModifiable();
-			editor = new UEditor(name, modifiable, unit instanceof AlgorithmUnit, true, true);
+			editor = new UEditor(name, modifiable, unit instanceof AlgorithmUnit, true, true,
+				Preferencias.EDITOR_RECT
+			);
 			editor.setText(src);
 			editor.setEditable(unit.isEditable());
 			editor.setCaretPosition(0);
@@ -1739,7 +1741,10 @@ public class GUI
 		String name = info.getName();
 		String src = info.getDemoScript();
 		boolean modifiable = prjm.getControlInfo().isModifiable();
-		final UEditor editor = new UEditor("Demo '" +name+ "'", modifiable, true, false, true);
+		final UEditor editor = new UEditor(
+			"Demo '" +name+ "'", modifiable, true, false, true,
+			Preferencias.DEMO_RECT
+		);
 		editor.setText(src);
 		editor.setCaretPosition(0);
 		// el editor-listener puesto después para no recibir .changed():

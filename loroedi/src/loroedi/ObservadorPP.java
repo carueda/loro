@@ -9,6 +9,7 @@ import loro.arbol.INodo;
 import loroedi.gui.editor.UEditor;
 import loroedi.gui.editor.UEditorListener;
 import loroedi.gui.project.SymbolTableWindow;
+import loroedi.Preferencias;
 
 import java.awt.Color;
 
@@ -21,10 +22,10 @@ import java.awt.Color;
 public class ObservadorPP implements IObservadorPP
 {
 	static final String PREFIX = "[Paso-a-Paso] ";
-	UEditor editor;
-	SymbolTableWindow symbolTableWindow;
 	static final Color enterColor = new Color(0xccffcc);
 	static final Color exitColor  = new Color(0xffcccc);
+	private UEditor editor;
+	private SymbolTableWindow symbolTableWindow;
 	
 	//////////////////////////////////////////////////////////////////////
 	public int enter(INodo n, ISymbolTable symbTab, String src)
@@ -111,8 +112,11 @@ public class ObservadorPP implements IObservadorPP
 	//////////////////////////////////////////////////////////////////////
 	public int end()
 	{
-		editor.getFrame().dispose();
-		symbolTableWindow.getFrame().dispose();
+		if ( editor != null )
+		{
+			editor.getFrame().dispose();
+			symbolTableWindow.getFrame().dispose();
+		}
 		return 0;
 	}
 	
@@ -121,7 +125,9 @@ public class ObservadorPP implements IObservadorPP
 	{
 		if ( editor == null )
 		{
-			editor = new UEditor(PREFIX, false, false, false, false);
+			editor = new UEditor(PREFIX, false, false, false, false,
+				Preferencias.SOURCE_TRACE_RECT
+			);
 			editor.setEditorListener(new UEditorListener()
 			{
 				public void changed() {} 

@@ -41,7 +41,7 @@ public class SymbolTableWindow
 	public SymbolTableWindow(
 		String title,
 		ISymbolTable symTab,
-		boolean closeable, boolean delVar, final String preferenceKey)
+		boolean closeable, boolean delVar, String preferenceKey)
 	{
 		this.symTab = symTab;
 		this.closeable = closeable;
@@ -93,19 +93,7 @@ public class SymbolTableWindow
 			buttons.add(b);
 		}
 
-		Rectangle rect = Preferencias.obtRectangulo(preferenceKey);
-		frame.setLocation(rect.x, rect.y);
-		frame.setSize(rect.width, rect.height);
-		frame.addComponentListener(new ComponentAdapter()
-		{
-			void common()
-			{
-				Rectangle rect_ = new Rectangle(frame.getLocationOnScreen(), frame.getSize());
-				Preferencias.ponRectangulo(preferenceKey, rect_);
-			}
-			public void componentResized(ComponentEvent e){common();}
-			public void componentMoved(ComponentEvent e){common();}
-		});
+		Preferencias.Util.updateRect(frame, preferenceKey);
 	
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new java.awt.event.WindowAdapter()

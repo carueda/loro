@@ -90,6 +90,24 @@ Ejecución paso-a-paso
 
 Ejecución paso-a-paso
 
+	- Deshabilitación de botones "paso" y "continuar" mientras se lee
+	  una línea en InterpreterWindow.readLine(), que es el mecanismo
+	  utilizado para completar línea de ejecución ante entradas y/o
+	  salidas del algoritmo. (Como estaba antes, se producía un 
+	  congelamiento del controlpp cuando se hacía loroii.nextStep(),
+	  o sea, se presionaba "paso".)
+	  
+	- Reasignación de rectángulos por defecto para organizar disposición
+	  de las diferentes ventanas. Se definieron nuevas preferencias
+	  para ventanas: edicion de fuente en seguimiento y edición del
+	  código de demostración.
+	  
+	
+////////////////////////////////////////////////////////////////////////////
+2003-02-09 (0.8pre8)
+
+Ejecución paso-a-paso
+
 	- Agregada funcionalidad de cambio de color de selección en los
 	  editores, que ObservadorPP utiliza para distinguir entre la
 	  entrada y la salida de un nodo en el seguimiento.

@@ -9,6 +9,10 @@ import java.awt.Point;
 import java.util.Properties;
 import java.io.*;
 
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
 /////////////////////////////////////////////////////////////////////
 /**
  * Manejador de preferencias.
@@ -38,6 +42,15 @@ public class Preferencias
 
 	/** Rectangle for the Interpreter window. */
 	public static final String II_RECT = "loroedi.pref.ii.rect";
+
+	/** Rectangle for the demo editor. */
+	public static final String DEMO_RECT = "loroedi.pref.demo.rect";
+
+	/** Rectangle for the source trace editor. */
+	public static final String SOURCE_TRACE_RECT = "loroedi.pref.srctrace.rect";
+
+	/** Tamano del font en el editor. */
+	public static final String EDITOR_FONT_SIZE = "loroedi.pref.editor.fontsize";
 
 	////////////////////////////////////////////////////////////////////
 	//       preferencias agregadas para nuevo entorno integrado
@@ -136,7 +149,7 @@ public class Preferencias
 		// EDITOR_RECT
 		if ( props.getProperty(EDITOR_RECT) == null )
 		{
-			Dimension s = new Dimension(800, 600);
+			Dimension s = new Dimension(700, 500);
 			Rectangle rect = new Rectangle(
 					(d.width - s.width) / 2, (d.height - s.height) / 2,
 					s.width, s.height
@@ -148,17 +161,6 @@ public class Preferencias
 		if ( props.getProperty(EDITOR_FONT_SIZE) == null )
 		{
 			props.setProperty(EDITOR_FONT_SIZE, "14");
-		}
-		
-		// II_RECT
-		if ( props.getProperty(II_RECT) == null )
-		{
-			Dimension s = new Dimension(650, 500);
-			Rectangle rect = new Rectangle(
-					0, 0,
-					s.width, s.height
-			);
-			ponRectangulo(II_RECT, rect);
 		}
 		
 		// HELP_RECT
@@ -187,7 +189,7 @@ public class Preferencias
 		// PRJ_RECT
 		if ( props.getProperty(PRJ_RECT) == null )
 		{
-			Dimension s = new Dimension(800, 600);
+			Dimension s = new Dimension(600, 400);
 			Rectangle rect = new Rectangle(
 					(d.width - s.width) / 2, (d.height - s.height) / 2,
 					s.width, s.height
@@ -211,10 +213,43 @@ public class Preferencias
 		{
 			Dimension s = new Dimension(300, 150);
 			Rectangle rect = new Rectangle(
-					(d.width - s.width) / 2 + 20, (d.height - s.height) / 2 + 20,
+					350, 0,
 					s.width, s.height
 			);
 			ponRectangulo(SYMTAB_TRACE_RECT, rect);
+		}
+		
+		// SOURCE_TRACE_RECT
+		if ( props.getProperty(SOURCE_TRACE_RECT) == null )
+		{
+			Dimension s = new Dimension(600, 350);
+			Rectangle rect = new Rectangle(
+					0, 0,
+					s.width, s.height
+			);
+			ponRectangulo(SOURCE_TRACE_RECT, rect);
+		}
+		
+		// II_RECT
+		if ( props.getProperty(II_RECT) == null )
+		{
+			Dimension s = new Dimension(600, 300);
+			Rectangle rect = new Rectangle(
+					0, 350,
+					s.width, s.height
+			);
+			ponRectangulo(II_RECT, rect);
+		}
+		
+		// DEMO_RECT
+		if ( props.getProperty(DEMO_RECT) == null )
+		{
+			Dimension s = new Dimension(500, 400);
+			Rectangle rect = new Rectangle(
+					10, 100,
+					s.width, s.height
+			);
+			ponRectangulo(DEMO_RECT, rect);
 		}
 
 		// PRS_DIR:
@@ -311,6 +346,32 @@ public class Preferencias
 		props.setProperty(key, rect.x+ "," +rect.y+ "," +rect.width+ "," +rect.height);
 	}
 
-	/** Tamano del font en el editor. */
-	public static final String EDITOR_FONT_SIZE = "loroedi.pref.editor.fontsize";
+	//////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Convenience methods to manage preferences.
+	 */
+	public static class Util
+	{
+		
+		//////////////////////////////////////////////////////////////////////////////
+		/**
+		 * Updates a frame rect preference according to location and size events.
+		 */
+		public static void updateRect(final JFrame frame, final String preferenceKey)
+		{
+			Rectangle rect = Preferencias.obtRectangulo(preferenceKey);
+			frame.setLocation(rect.x, rect.y);
+			frame.setSize(rect.width, rect.height);
+			frame.addComponentListener(new ComponentAdapter()
+			{
+				void common()
+				{
+					Rectangle rect_ = new Rectangle(frame.getLocationOnScreen(), frame.getSize());
+					Preferencias.ponRectangulo(preferenceKey, rect_);
+				}
+				public void componentResized(ComponentEvent e){common();}
+				public void componentMoved(ComponentEvent e){common();}
+			});
+		}
+	}
 }

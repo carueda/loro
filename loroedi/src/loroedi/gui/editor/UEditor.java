@@ -49,7 +49,7 @@ public class UEditor implements EditorListener
 	 * @param doc Include "view-unit-doc-from-editor" action?
 	 */
 	public UEditor(String title, boolean modifiable, boolean executable, boolean doc,
-		boolean include_toolbar
+		boolean include_toolbar, String preferenceKey
 	)
 	{
 		this.title = title;
@@ -98,6 +98,7 @@ public class UEditor implements EditorListener
 
 		frame.getContentPane().add(split);
 		frame.setSize(700, 500);
+		Preferencias.Util.updateRect(frame, preferenceKey);
 
 		createActions(modifiable, executable, doc);
 		createMenuBarAndToolBar(include_toolbar);

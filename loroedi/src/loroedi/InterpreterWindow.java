@@ -470,8 +470,9 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		butTerminar.setEnabled(execute);
 		if ( loroii.isTraceable() )
 		{
-			butStep.setEnabled(execute);
-			butResume.setEnabled(execute);
+			// no queremos control de seguimiento mientras se lee:
+			butStep.setEnabled(false);
+			butResume.setEnabled(false);
 		}
 		readingThread = Thread.currentThread();
 		try
@@ -480,6 +481,11 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		}
 		finally
 		{
+			if ( loroii.isTraceable() )
+			{
+				butStep.setEnabled(execute);
+				butResume.setEnabled(execute);
+			}
 			readingThread = null;
 		}
 	}
