@@ -1,5 +1,6 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
 import loro.util.ManejadorUnidades;
 import loro.util.Util;
 import loro.visitante.IVisitante;
@@ -35,7 +36,7 @@ import java.util.*;
  * auxiliares para la tarea.
  *
  * @author Carlos Rueda
- * @version 2002-03-27
+ * @version $Id$
  */
 public class LoroEjecutor extends LoroEjecutorBase
 {
@@ -81,7 +82,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		if ( !alg.implementadoEnLenguaje("java") )
 		{
 				throw _crearEjecucionException(alg,
-					"Algoritmo '" +id+ "' no implementado en Java"
+					"Algorithm '" +id+ "' not implemented in Java"
 				);
 		}
 
@@ -89,7 +90,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		if ( clase_java == null )
 		{
 			throw _crearEjecucionException(alg,
-				"No se ha indicado la clase para ejecutar método Java"
+				"Missing class name to execute Java method"
 			);
 		}
 		
@@ -111,8 +112,8 @@ public class LoroEjecutor extends LoroEjecutorBase
 			if ( m == null )
 			{
 				throw _crearEjecucionException(alg,
-					"Clase Java '" +clase_java+
-					"' no contiene metodo esperado: " +id
+					"Java class '" +clase_java+
+					"' does not contain expected method: " +id
 				);
 			}
 
@@ -132,13 +133,13 @@ public class LoroEjecutor extends LoroEjecutorBase
 		catch(ClassNotFoundException ex)
 		{
 			throw _crearEjecucionException(alg,
-				"Clase Java no encontrada: " +clase_java
+				"Java class not found: " +clase_java
 			);
 		}
 		catch(IllegalAccessException ex)
 		{
 			throw _crearEjecucionException(alg,
-				"Error al ejecutar metodo Java '"
+				"An error ocurred while trying to execute Java method '"
 				+clase_java+ ". " +id+ "'"
 			);
 		}
@@ -175,8 +176,8 @@ public class LoroEjecutor extends LoroEjecutorBase
 			{
 				ex.printStackTrace();
 				return _crearEjecucionException(alg,
-						"Metodo Java '"
-						+clase_java+ "." +id+ "' genero excepcion:\n"
+						"Java method '"
+						+clase_java+ "." +id+ "' threw exception:\n"
 						+thr.getClass()+ ": " +thr.getMessage()
 				);
 			}
@@ -204,7 +205,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		if ( !alg.implementadoEnLenguaje("bsh") )
 		{
 				throw _crearEjecucionException(alg,
-					"Algoritmo '" +id+ "' no implementado en BeanShell"
+					"Algorithm '" +id+ "' not implemented in BeanShell"
 				);
 		}
 
@@ -215,7 +216,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		if ( src  == null )
 		{
 			throw _crearEjecucionException(alg,
-				"No se ha indicado el código del script"
+				"Missing script source"
 			);
 		}
 		bsh.Interpreter bsh = new bsh.Interpreter();
@@ -225,6 +226,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		{
 			bsh.set("$amb", this);
 			bsh.set("$este", este);
+			bsh.set("$this", este);       // should be only this one  PENDING
 			
 			for (int i = 0; i < args.length; i++)
 			{
@@ -255,7 +257,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		catch ( bsh.EvalError ex )
 		{
 			throw _crearEjecucionException(alg,
-				"Error en ejecución de script:\n"+
+				"Error while ejecuting script:\n"+
 				"line: " +ex.getErrorLineNumber()+ "\n"+
 				"error text: " +ex.getErrorText()+ "\n"+
 				"message: " +ex.getMessage()+ "\n"
@@ -283,7 +285,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		if ( info != null )
 		{
 			throw _crearEjecucionException(alg,
-				"No se espera información adicional en algoritmo con implementación 'usr'"
+				"No info required for 'usr' implemented algorithm"
 			);
 		}
 		UtilEjecucion._executeUsrAlgorithm(
@@ -384,7 +386,9 @@ public class LoroEjecutor extends LoroEjecutorBase
 					UtilEjecucion._showAlgorithmOutput(alg, res, mu, mes);
 				}
 				mes.escribir(
-					UtilEjecucion.PREFIX+ " Ejecución completada " +UtilEjecucion.PREFIX+ "\n"
+					UtilEjecucion.PREFIX+ 
+					Str.get("msg.execution_completed")+
+					UtilEjecucion.PREFIX+ "\n"
 				);
 			}
 
@@ -426,8 +430,8 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 		catch(VisitanteException ex)
 		{
-			throw new RuntimeException("Imposible: " +
-				"VisitanteException no es EjecucionException"
+			throw new RuntimeException("Internal error: " +
+				"VisitanteException is not EjecucionException"
 			);
 		}
 	}
@@ -482,7 +486,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 				if ( cadArgs.length != pent.length )
 				{
 					throw _crearEjecucionException(id,
-						id+ " espera " +pent.length+ " argumento(s)"
+						Str.get("rt.2_expected_args", id, ""+pent.length)
 					);
 				}
 			}
@@ -509,7 +513,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 				}
 				else if ( tipo.esBooleano() )
 				{
-					val = new Boolean(cad.equals("cierto"));
+					val = new Boolean(cad.equals(Str.get("true")));
 				}
 				else if ( pent[i].obtTipo().esCadena() )
 				{
@@ -521,7 +525,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 					if ( a == null )
 					{
 						throw _crearEjecucionException(id,
-							"No se encuentra algoritmo para '" +cad+ "'"
+							Str.get("error.1_algorithm_not_found", cad)
 						);
 					}
 					val = a;
@@ -529,7 +533,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 				else
 				{
 					throw _crearEjecucionException(id,
-						"Lo siento, el tipo " +tipo+ " no puede leerse desde teclado"
+						"Type '" +tipo+ "' cannot be read from standard input"
 					);
 				}
 
@@ -546,7 +550,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		catch ( NumberFormatException nfex )
 		{
 			EjecucionVisitanteException ex = _crearEjecucionException(null, 
-				"Entrada inválida: " +nfex.getMessage()
+				Str.get("rt.error.1_invalid_input", nfex.getMessage())
 			);
 			throw new EjecucionException(
 				ex.obtPilaEjecucion(), 
@@ -560,24 +564,13 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 
 	////////////////////////////////////////////////////////
-	public LAlgoritmo obtAlgoritmo(String nombre)
-	//throws LException
-	{
+	public LAlgoritmo obtAlgoritmo(String nombre) {
 		NAlgoritmo alg = mu.obtAlgoritmo(nombre);
 		if ( alg != null )
 			return new LAlgoritmoImp(this, alg);
 		else
 			return null;
-
-		/*
-		throw new LException("Error al obtener algoritmo de nombre '"
-			+nombre+ "'"
-		);
-		*/
 	}
-
-
-
 
 
 	////////////////////////////////////////////////////////
@@ -616,17 +609,12 @@ public class LoroEjecutor extends LoroEjecutorBase
 		{
 			String a =
 				contextoAfirmacion == A_PRECONDICION ?
-					"Precondición"
+					Str.get("rt.error.precondition_failed")
 				: contextoAfirmacion == A_POSCONDICION ?
-					"Poscondición"
-				:	"Afirmación"
+					Str.get("rt.error.postcondition_failed")
+				:	Str.get("rt.error.assertion_failed")
 			;
-
-			throw _crearEjecucionException(
-				expresion,
-				a+ " no satisfecha: "
-				+n.obtCadena()
-			);
+			throw _crearEjecucionException(expresion, a+ ": "+n.obtCadena());
 		}
 	}
 	//////////////////////////////////////////////////////////////////////
@@ -658,7 +646,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		{
 			if ( argsParaAlgoritmo == null )
 			{
-				throw new RuntimeException("Uy! argsParaAlgoritmo == null");
+				throw new RuntimeException("Internal error: argsParaAlgoritmo == null");
 			}
 
 			// Tome nota de los argumentos:
@@ -674,13 +662,13 @@ public class LoroEjecutor extends LoroEjecutorBase
 			else
 			{
 				//
-				// PENDIENTE: Implementación bajo ajustes!
+				// PENDING: Implementación bajo ajustes!
 				//
 				
 				String nombreMetodo = alg.obtNombreSimpleCadena();
 				
 				if ( !(objInvocado instanceof Objeto) )
-					throw new RuntimeException("PENDIENTE: !(objInvocado instanceof Objeto)");
+					throw new RuntimeException("PENDING: !(objInvocado instanceof Objeto)");
 				
 				clase = ((Objeto) objInvocado).obtNClase();
 				
@@ -688,7 +676,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 				// ciclo para mirar superclase si es necesario:
 				try
 				{
-search:
+					search:
 					while ( klase != null )
 					{
 						TNombre[] interfs = klase.obtInterfacesDeclaradas();
@@ -706,7 +694,7 @@ search:
 							if ( ni == null )
 							{
 								throw _crearEjecucionException(alg,
-									"No encontrada la interface " +interfs[i].obtCadena()
+									Str.get("error.1_interface_not_found", interfs[i].obtCadena())
 								);
 							}
 
@@ -728,7 +716,7 @@ search:
 				catch(ClaseNoEncontradaException ex)
 				{
 					throw _crearEjecucionException(alg,
-						"No encontrado '" +ex.obtNombre()+ "' en invocación de método"
+						Str.get("error.1_class_not_found", ex.obtNombre())
 					);
 				}
 			}
@@ -736,45 +724,9 @@ search:
 			if ( espec == null )
 			{
 				throw _crearEjecucionException(alg,
-					"No encontrada la especificación"
+					Str.get("error.1_spec_not_found", "")
 				);
 			}
-
-			
-/* -------
-   Esta sección hacia las declaraciones de los atributos en la tabla
-   de simbolos. Ahora no se hace puesto que estos atributos deben
-   accederse a traves de "éste".
-   
-			if ( clase != null )
-			{
-				// Se trata de método.
-			
-				List decl_atrs = null;
-				
-				try
-				{
-					decl_atrs = _obtDeclaracionesAtributos(clase);
-				}
-				catch(ClaseNoEncontradaException ex)
-				{
-					throw _crearEjecucionException(alg,
-						"No encontrado '" +ex.obtNombre()+ "' en invocación de método"
-					);
-				}
-		
-				for ( Iterator it = decl_atrs.iterator(); it.hasNext(); )
-				{
-					NDeclDesc d = (NDeclDesc) it.next();
-					TId d_id = d.obtId();
-					String atr = d_id.obtId();
-					Object val = _obtValorDeObjeto(objInvocado, atr, alg);
-					EntradaTabla et = new EntradaTabla(atr, d.obtTipo());
-					et.ponValor(val);
-					_insertarEnTablaSimbolos(et, d_id);
-				}
-			}
------ */
 
 			TId id = alg.obtId();
 
@@ -795,8 +747,7 @@ search:
 					if ( !tipo.esAsignableValor(valor) )
 					{
 						throw _crearEjecucionException(alg,
-							"No puede darse un valor '" +UtilValor.comoCadena(valor)+ "' "+
-							"para esta entrada de tipo '" +tipo+ "'"
+							Str.get("rt.error.2_cannot_convert_value", UtilValor.comoCadena(valor), tipo)
 						);
 					}
 					EntradaTabla et = new EntradaTabla(d_id.obtId(), tipo);
@@ -873,8 +824,7 @@ search:
 						if ( !tabSimb.obtAsignado(d.obtId().obtId()) )
 						{
 							throw _crearEjecucionException(alg,
-								"Retorno sin asignacion de valor " +
-								"a variable de salida: " +d.obtId()
+								Str.get("rt.error.1_output_var_not_assigned", d.obtId())
 							);
 						}
 						
@@ -892,8 +842,7 @@ search:
 					&&   ! Tipos.esReferencia(psal[0].obtTipo()) )
 					{
 						throw _crearEjecucionException(alg,
-							"Retorno sin asignacion de valor " +
-							"a variable de salida: " +psal[0].obtId()
+							Str.get("rt.error.1_output_var_not_assigned", psal[0].obtId())
 						);
 					}
 					res[0] = obj;
@@ -917,8 +866,7 @@ search:
 					&&   ! Tipos.esReferencia(psal[0].obtTipo()) )
 					{
 						throw _crearEjecucionException(alg,
-							"Retorno sin asignacion de valor " +
-							"a variable de salida: " +psal[0].obtId()
+							Str.get("rt.error.1_output_var_not_assigned", psal[0].obtId())
 						);
 					}
 					res[0] = obj;
@@ -942,8 +890,7 @@ search:
 					if ( !tabSimb.obtAsignado(d.obtId().obtId()) )
 					{
 						throw _crearEjecucionException(alg,
-							"Retorno sin asignacion de valor " +
-							"a variable de salida: " +d.obtId()
+							Str.get("rt.error.1_output_var_not_assigned", d.obtId())
 						);
 					}
 					res[0] = tabSimb.obtValor(d.obtId().obtId());
@@ -982,7 +929,9 @@ search:
 			// normalmente, los "Error" de Java no son para ser manejados;
 			// sin embargo, esta es la forma en que actualmente detectamos el
 			// desbordamiento de pila.
-			throw _crearEjecucionException(alg, "Pila de ejecución desbordada");
+			throw _crearEjecucionException(alg, 
+				Str.get("rt.error.stack_overflow")
+			);
 		}
 	}
 	
@@ -1048,7 +997,7 @@ search:
 		if ( obj == null )
 		{
 			throw _crearEjecucionException(n,
-				"Operación de cardinalidad sobre objeto nulo"
+				Str.get("rt.error.null_pointer")
 			);
 
 		}
@@ -1074,7 +1023,7 @@ search:
 		}
 		else
 		{
-			throw new RuntimeException("Imposible " +e_tipo);
+			throw new RuntimeException("Internal error: " +e_tipo);
 		}
 
 		retorno = new Integer(res);
@@ -1142,7 +1091,7 @@ search:
 	public void visitar(NClase n)
 	throws VisitanteException
 	{
-		throw new RuntimeException("Uy! Ejecutor.visitar(NClase) llamado");
+		throw new RuntimeException("Internal eror: Ejecutor.visitar(NClase) called");
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -1152,7 +1101,7 @@ search:
 	public void visitar(NInterface n)
 	throws VisitanteException
 	{
-		throw new RuntimeException("Uy! Ejecutor.visitar(NInterface) llamado");
+		throw new RuntimeException("Internal eror: Ejecutor.visitar(NInterface) called");
 	}
 	
 	/**
@@ -1187,7 +1136,7 @@ search:
 	throws VisitanteException
 	{
 		if ( argsParaAlgoritmo == null )
-			throw new RuntimeException("Uy! argsParaAlgoritmo == null");
+			throw new RuntimeException("Internal error: argsParaAlgoritmo == null");
 
 		// Tome nota de los argumentos:
 		Object[] val_args = argsParaAlgoritmo;
@@ -1203,7 +1152,7 @@ search:
 		catch(ClaseNoEncontradaException ex)
 		{
 			throw _crearEjecucionException(n,
-				"No encontrado '" +ex.obtNombre()+ "' para creacion de instancia"
+				Str.get("error.1_class_not_found", ex.obtNombre())
 			);
 		}
 
@@ -1269,7 +1218,7 @@ search:
 		}
 		catch (loro.compilacion.ChequeadorException ex)
 		{
-			throw new RuntimeException("Imposible: " +ex);
+			throw new RuntimeException("Internal error: " +ex);
 		}
 		finally
 		{
@@ -1403,8 +1352,8 @@ search:
 		
 		if ( size < 0 )
 		{
-			throw _crearEjecucionException(n, 
-				"Tamaño negativo para creación de arreglo: " +size
+			throw _crearEjecucionException(n,
+				Str.get("rt.error.negative_size", ""+size)
 			);
 		}
 		
@@ -1532,7 +1481,7 @@ search:
 	public void visitar(NDecisionSiNoSi n)
 	throws VisitanteException
 	{
-		throw new RuntimeException("visitar(NDecisionSiNoSi) llamado!");
+		throw new RuntimeException("Internal error: visitar(NDecisionSiNoSi) called");
 	}
 	
 	
@@ -1684,7 +1633,7 @@ search:
 		}
 		catch (ArithmeticException ex)
 		{
-			throw _crearEjecucionException(n, "Error en operacion aritmetica");
+			throw _crearEjecucionException(n, Str.get("rt.error.arithmetic"));
 		}
 	}
 	/**
@@ -1716,7 +1665,7 @@ search:
 		catch(ClaseNoEncontradaException exc)
 		{
 			throw _crearEjecucionException(n,
-				"Clase no encontrada durante revisión de 'es_instancia_de': '" +exc.obtNombre()+ "'"
+				Str.get("error.1_class_not_found", exc.obtNombre())
 			);
 		}
 	}
@@ -1729,7 +1678,7 @@ search:
 	throws VisitanteException
 	{
 		throw new RuntimeException(
-			"Uy! Ejecutor.visitar(NEspecificacion) llamado"
+			"Internal error: Ejecutor.visitar(NEspecificacion) called"
 		);
 	}
 
@@ -1749,7 +1698,9 @@ search:
 	public void visitar(NFuente n)
 	throws VisitanteException
 	{
-		throw new RuntimeException("Uy! Ejecutor.visitar(NFuente) llamado");
+		throw new RuntimeException(
+			"Internal error: Ejecutor.visitar(NFuente) called"
+		);
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -1777,8 +1728,7 @@ search:
 					{
 						// Solo por especificion: problema!
 						throw _crearEjecucionException(n,
-							"Inesperado: '" +n.obtId()+ 
-							"' es una especificacion!"
+							"Unexpected: '" +n.obtId()+ "' is a specification!"
 						);
 					}
 				}
@@ -1791,7 +1741,7 @@ search:
 			{
 				// problema:
 				throw _crearEjecucionException(n,
-					"No se encuentra algoritmo para '" +n.obtId()+ "'"
+					Str.get("error.1_algorithm_not_found", n.obtId())
 				);
 			}
 		}
@@ -1806,7 +1756,7 @@ search:
 			{
 				// problema:
 				throw _crearEjecucionException(n,
-					"No se encuentra definicion de '" +n.obtId()+ "'"
+					Str.get("error.1_id_undefined", n.obtId())
 				);
 			}
 		}
@@ -2016,7 +1966,7 @@ search:
 			catch(LException ex)
 			{
 				throw _crearEjecucionException(expr,
-					"Error al ejecutar LAlgoritmo: " +ex.getMessage()
+					"Error executing LAlgoritmo: " +ex.getMessage()
 				);
 			}
 		}
@@ -2034,20 +1984,20 @@ search:
 			catch(LException ex)
 			{
 				throw _crearEjecucionException(expr,
-					"Error al ejecutar LMethod: " +ex.getMessage()
+					"Error invoking LMethod: " +ex.getMessage()
 				);
 			}
 		}
 		else if ( invoc == null )
 		{
 			throw _crearEjecucionException(n,
-				"Invocacion sobre algoritmo nulo"
+				Str.get("rt.error.null_algorithm_called")
 			);
 		}
 		else
 		{
 			throw new RuntimeException(
-				"Uy! invoc es " +invoc.getClass().toString()
+				"Internal error: invoc is " +invoc.getClass().toString()
 					+ "\ninvoc.toString()= " +invoc
 			);
 		}
@@ -2155,7 +2105,7 @@ search:
 		else if ( e_tipo.esCadena() )
 			res = ((String)ev).compareTo((String)fv) > 0;
 		else
-			throw new RuntimeException("Imposible " +e_tipo);
+			throw new RuntimeException("Internal error: " +e_tipo);
 
 		retorno = new Boolean(res);
 	}
@@ -2187,7 +2137,7 @@ search:
 		else if ( e_tipo.esCadena() )
 			res = ((String)ev).compareTo((String)fv) >= 0;
 		else
-			throw new RuntimeException("Imposible " +e_tipo);
+			throw new RuntimeException("Internal error: " +e_tipo);
 
 		retorno = new Boolean(res);
 	}
@@ -2219,7 +2169,7 @@ search:
 		else if ( e_tipo.esCadena() )
 			res = ((String)ev).compareTo((String)fv) < 0;
 		else
-			throw new RuntimeException("Imposible " +e_tipo);
+			throw new RuntimeException("Internal error: " +e_tipo);
 
 		retorno = new Boolean(res);
 	}
@@ -2251,7 +2201,7 @@ search:
 		else if ( e_tipo.esCadena() )
 			res = ((String)ev).compareTo((String)fv) <= 0;
 		else
-			throw new RuntimeException("Imposible " +e_tipo);
+			throw new RuntimeException("Internal error: " +e_tipo);
 
 		retorno = new Boolean(res);
 	}
@@ -2371,7 +2321,7 @@ search:
 		if ( alg == null )
 		{
 			throw _crearEjecucionException(n,
-				"Nombre '" +nom+ "' no encontrado"
+				Str.get("rt.error.1_name_not_found", nom)
 			);
 		}
 		retorno = alg;
@@ -2438,7 +2388,7 @@ search:
 	public void visitar(NPaquete n)
 	throws VisitanteException
 	{
-		throw new RuntimeException("Ejecutor.visitar(NPaquete) llamado!");
+		throw new RuntimeException("Internal error: visitar(NPaquete) called");
 	}
 
 	//////////////////////////////////////////////////////////////
@@ -2617,8 +2567,6 @@ search:
 							{
 								// Nada que hacer.
 								// Simplemente vaya y actualice variable de control.
-								
-								// Anteriormente se hacia un 'continue' ERRONEAMENTE
 							}
 						}
 						else
@@ -2780,7 +2728,7 @@ search:
 			catch (ClaseNoEncontradaException exc)
 			{
 				throw _crearEjecucionException(n,
-					"Clase no encontrada durante resolución de opción 'atrape': '" +exc.obtNombre()+ "'"
+					Str.get("error.1_class_not_found", exc.obtNombre())
 				);
 			}
 			
@@ -2843,8 +2791,11 @@ search:
 	{
 		NExpresion e = n.obtExpresion();
 		Object o = _ejecutarExpresion(e);
-		if ( o == null )
-			throw _crearEjecucionException(e, "Referencia nula");
+		if ( o == null ) {
+			throw _crearEjecucionException(e,
+				Str.get("rt.error.null_pointer")
+			);
+		}
 
 		TId id = n.obtId();
 		
@@ -2899,14 +2850,14 @@ search:
 			{
 				// pero debería controlarse desde compilación
 				throw _crearEjecucionException(e,
-					"Operacion no reconocida para arreglos: " +oper
+					Str.get("error.1_invalid_operation", oper)
 				);
 			}
 		}
 		else
 		{
 			throw _crearEjecucionException(e,
-				"No es un objeto para acceder a campo: " +id.obtId()
+				Str.get("rt.error.1_not_an_object", id.obtId())
 			);
 		}
 	}
@@ -2959,7 +2910,7 @@ search:
 	public void visitar(NUtiliza n)
 	throws VisitanteException
 	{
-		throw new RuntimeException("Uy! Ejecutor.visitar(NUtiliza) llamado");
+		throw new RuntimeException("Internal error: Ejecutor.visitar(NUtiliza) called");
 	}
 	/**
 	 * PENDIENTE
@@ -3054,7 +3005,7 @@ search:
 		if ( clase == null )
 		{
 			throw _crearEjecucionException(n,
-				"Clase '" +nombre+ "' no se encuentra"
+				Str.get("error.1_class_not_found", nombre)
 			);
 		}
 		Tipo tipo = Tipo.clase(clase.obtNombreCompleto());
@@ -3092,7 +3043,7 @@ search:
 			{
 				String s = nombre.obtCadena();
 				throw _crearEjecucionException(n,
-					"Especificación '" +s+ "' no se encuentra"
+					Str.get("error.1_spec_not_found", s)
 				);
 			}
 		}
@@ -3135,7 +3086,7 @@ search:
 			if ( alg == null )
 			{
 				throw _crearEjecucionException(e,
-					"Referencia nula al revisar 'implementa'"
+					Str.get("rt.error.null_pointer")
 				);
 			}
 			
@@ -3157,13 +3108,13 @@ search:
 			catch (ClaseNoEncontradaException ex)
 			{
 				throw _crearEjecucionException(n,
-					"Clase no encontrada durante resolución de pregunta 'implementa': '" +ex.obtNombre()+ "'"
+					Str.get("error.1_class_not_found", ex.obtNombre())
 				);
 			}
 		}
 		else
 		{
-			Util._assert(false, "Unexpected type: " +tipo.getClass());
+			Util._assert(false, "Internal error: Unexpected type: " +tipo.getClass());
 		}
 
 	}
@@ -3181,11 +3132,10 @@ search:
 		if ( interf == null )
 		{
 			throw _crearEjecucionException(n,
-				"Interface '" +nombre+ "' no se encuentra"
+				Str.get("error.1_interface_not_found", nombre)
 			);
 		}
 		Tipo tipo = Tipo.interface_(interf.obtNombreCompleto());
 		n.ponTipo(tipo);
 	}
-
 }

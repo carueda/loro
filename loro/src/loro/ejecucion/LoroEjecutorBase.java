@@ -1,5 +1,6 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
 import loro.util.ManejadorUnidades;
 import loro.util.Util;
 import loro.visitante.IVisitante;
@@ -217,7 +218,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 		}
 		catch (loro.compilacion.ChequeadorException ex)
 		{
-			throw new RuntimeException("Imposible: " +ex);
+			throw new RuntimeException("Impossible: " +ex);
 		}
 
 		// Cree y arme objeto con los valores asociados en la
@@ -373,7 +374,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 					if ( !alg.esParaEspecificacion(nomEspec) )
 					{
 						throw _crearEjecucionException(u,
-							alg+ " no puede convertirse a " +tipoEsperado
+							Str.get("rt.error.2_cannot_convert", alg, tipoEsperado) 
 						);
 					}
 				}
@@ -400,7 +401,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 				else
 				{
 					throw new RuntimeException(
-						"Uy! val es " +(val==null? "null" : val.getClass().toString())
+						"Internal error: val is " +(val==null? "null" : val.getClass().toString())
 					);
 				}
 
@@ -604,21 +605,21 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 		if ( obj == null )
 		{
 			throw _crearEjecucionException(u,
-				"Arreglo o cadena es nulo en subindización"
+				Str.get("rt.error.array_or_string_null")
 			);
 		}
 
 		if ( obj instanceof String )
 		{
-			try
-			{
-				String s = (String) obj;
+			String s = (String) obj;
+			try {
 				return new Character(s.charAt(index));
 			}
-			catch(StringIndexOutOfBoundsException ex)
-			{
+			catch(StringIndexOutOfBoundsException ex) {
 				throw _crearEjecucionException(u,
-					"Indice en cadena fuera de rango: " +index
+					Str.get("rt.error.3_out_of_bounds", 
+						""+index, "0", ""+(s.length()-1)
+					)
 				);
 			}
 		}
@@ -639,7 +640,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 		else
 		{
 			throw _crearEjecucionException(u,
-				"No es un arreglo que pueda subindizarse"
+				Str.get("rt.error.not_an_array")
 			);
 		}
 
@@ -653,15 +654,15 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 			{
 				// arreglo vacio:
 				throw _crearEjecucionException(u,
-					"Indice en arreglo fuera de rango: " +index+ "\n"+
-					"Este es un arreglo vacío."
+					Str.get("rt.error.1_out_of_bounds_empty", ""+index)
 				);
 			} 
 			else 
 			{
 				throw _crearEjecucionException(u,
-					"Indice en arreglo fuera de rango: " +index+ "\n"+
-					"Indices válidos son: " +base+ " .. " +(base + ev.length - 1)
+					Str.get("rt.error.3_out_of_bounds", 
+						""+index, ""+base, ""+(base + ev.length - 1)
+					)
 				);
 			}
 		}
@@ -674,10 +675,9 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	protected void _ponValorAArreglo(Object obj, int index, Object val, IUbicable u)
 	throws VisitanteException
 	{
-		if ( obj == null )
-		{
+		if ( obj == null ) {
 			throw _crearEjecucionException(u,
-				"Arreglo o cadena es nulo en subindización"
+				Str.get("rt.error.array_or_string_null")
 			);
 		}
 
@@ -697,7 +697,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 		else
 		{
 			throw _crearEjecucionException(u,
-				"No es un arreglo que pueda subindizarse"
+				Str.get("rt.error.not_an_array")
 			);
 		}
 
@@ -711,15 +711,15 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 			{
 				// arreglo vacio:
 				throw _crearEjecucionException(u,
-					"Indice en arreglo fuera de rango: " +index+ "\n"+
-					"Este es un arreglo vacío."
+					Str.get("rt.error.1_out_of_bounds_empty", ""+index)
 				);
 			} 
 			else 
 			{
 				throw _crearEjecucionException(u,
-					"Indice en arreglo fuera de rango: " +index+ "\n"+
-					"Indices válidos son: " +base+ " .. " +(base + ev.length - 1)
+					Str.get("rt.error.3_out_of_bounds", 
+						""+index, ""+base, ""+(base + ev.length - 1)
+					)
 				);
 			}
 		}
@@ -897,7 +897,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 			if ( ! et.obtAsignado() )
 			{
 				throw _crearEjecucionException(n,
-					"Variable sin asignacion de valor: '"+id+ "'"
+					Str.get("error.1_unassigned_variable", id) 
 				);
 			}
 			retorno = et.obtValor();
@@ -966,7 +966,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 			return new LClaseImp(clase);
 		}
 
-		throw new LException("Error al obtener clase '"	+nombre+ "'");
+		throw new LException("Loro class '" +nombre+ "' not found");
 	}
 	/////////////////////////////////////////////////////////////////
 	/**

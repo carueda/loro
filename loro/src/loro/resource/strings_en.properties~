@@ -27,8 +27,8 @@ error.1_label_already_defined='{0}' label already defined
 error.1_label_cannot_be_semantic='{0}' label cannot be semantic
 error.1_undefined_label='{0}' undefined label
 error.1_invalid_place_for_sentence=Invalid place for a sentence '{0}'
-error.1_superclass_not_found='{0}' : super class not found
-error.1_interface_not_found='{0}' : interface not found
+error.1_superclass_not_found='{0}' super class not found
+error.1_interface_not_found='{0}' interface not found
 error.3_binop_undefined=Binary operator '{0}' undefined on ({1}, {2})
 null_reference=null reference
 error.2_unop_undefined=Unary operador '{0}' undefined on {1}
@@ -46,7 +46,7 @@ error.3_not_of_specified_name={0} '{1}' should have the same name '{2}' as speci
 error.4_not_of_specified_name_in_interface={0} '{1}' should have the same name '{2}' as specified in interface '{3}'
 error.2_different_const_attribute={0} '{1}' : different specified constant attribute
 error.3_different_const_attribute_in_interface={0} '{1}' : different specified constant attribute in operation in interface '{2}'
-error.1_superinterface_not_found='{0}' : super interface not found
+error.1_superinterface_not_found='{0}' super interface not found
 
 error.not_boolean_assert=Assertion is not boolean
 error.1_algorithm_redefined=Algorithm '{0}' redefined in this source
@@ -150,7 +150,6 @@ rt.error.unexpected_eof=Unexpected end-of-file
 rt.error.invalid_char_value=Invalid character value
 rt.error.invalid_integer_value=Invalid integer value
 rt.error.invalid_real_value=Invalid real value
-rt.error.1_invalid_input=Invalid input value: {0}
 rt.stack_at=at
 rt.exit_code=Exit code
 rt.running=Running
@@ -163,35 +162,3 @@ rt.begin_usr_dispatch=BEGIN dispatching 'usr' implementation
 rt.end_usr_dispatch=END dispatching 'usr' implementation
 rt.has_been_called_with=has been called with
 rt.expression_to_assign=Expression to assign to output variable
-
-rt.error.2_cannot_convert='{0}' cannot be converted to '{1}'
-rt.error.array_or_string_null=Array or string is null
-rt.error.3_out_of_bounds=Index out of bounds: {0}. Valid indices are: {1} .. {2}
-rt.error.not_an_array=Not an array
-rt.error.1_out_of_bounds_empty=Index out of bounds: {0}. This is an empty array.
-
-msg.execution_completed=Execution completed
-
-rt.2_expected_args='{0}' expects {1} argument(s)
-
-error.1_algorithm_not_found='{0}' : algorithm  not found
-
-precondition=precondition
-postcondition=postcondition
-assertion=assertion
-
-rt.error.precondition_failed=Precondition failed
-rt.error.postcondition_failed=Postcondition failed
-rt.error.assertion_failed=Assertion failed
-
-rt.error.2_cannot_convert_value=Value '{0}' cannot be converted to type '{1}'
-rt.error.1_output_var_not_assigned=Output variable '{0}' not assigned
-rt.error.stack_overflow=Stack overflow
-rt.error.null_pointer=Null reference
-rt.error.negative_size=Negative size: {0}
-rt.error.arithmetic=Arithmetic error
-
-rt.error.null_algorithm_called=Null algorithm called
-rt.error.1_name_not_found=Name '{0}' not found
-
-rt.error.1_not_an_object=Not an object: '{0}'

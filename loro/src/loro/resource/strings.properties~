@@ -149,7 +149,6 @@ rt.error.unexpected_eof=Fin de archivo inesperado
 rt.error.invalid_char_value=Valor caracter inválido
 rt.error.invalid_integer_value=Valor entero inválido
 rt.error.invalid_real_value=Valor real inválido
-rt.error.1_invalid_input=Valor de entrada inválido: {0}
 rt.stack_at=en
 rt.exit_code=Código terminación
 rt.running=Ejecutando
@@ -162,35 +161,3 @@ rt.begin_usr_dispatch=INICIO despacho implementación 'usr'
 rt.end_usr_dispatch=FIN despacho implementación 'usr'
 rt.has_been_called_with=ha sido llamado con
 rt.expression_to_assign=Expresión para asignar valor a la variable de salida
-
-rt.error.2_cannot_convert='{0}' no puede convertirse a '{1}'
-rt.error.array_or_string_null=Arreglo o cadena es nulo
-rt.error.3_out_of_bounds=Indice fuera de rango: {0}. Indices válidos son: {1} .. {2}
-rt.error.not_an_array=No es arreglo
-rt.error.1_out_of_bounds_empty=Indice fuera de rango: {0}. Este es un arreglo vacío.
-
-msg.execution_completed=Ejecución completada
-
-rt.2_expected_args='{0}' espera {1} argumento(s)
-
-error.1_algorithm_not_found=No se encuentra algoritmo '{0}'
-
-precondition=precondición
-postcondition=poscondición
-assertion=afirmación
-
-rt.error.precondition_failed=Precondición no satisfecha
-rt.error.postcondition_failed=Poscondición no satisfecha
-rt.error.assertion_failed=Afirmación no satisfecha
-
-rt.error.2_cannot_convert_value=Valor '{0}' no puede convertirse a tipo '{1}'
-rt.error.1_output_var_not_assigned=Variable de salida '{0}' no asignada
-rt.error.stack_overflow=Pila de ejecución desbordada
-rt.error.null_pointer=Reference nula
-rt.error.negative_size=Tamaño negativo: {0}
-rt.error.arithmetic=Error en operacion aritmetica
-
-rt.error.null_algorithm_called=Invocacion sobre algoritmo nulo
-rt.error.1_name_not_found=Nombre '{0}' no encontrado
-
-rt.error.1_not_an_object=No es un objeto: '{0}'
