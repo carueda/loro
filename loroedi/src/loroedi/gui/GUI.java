@@ -916,13 +916,24 @@ public class GUI
 	public static void exportProject()
 	{
 		IProjectModel model = focusedProject.getModel();
+		
+		String prjname = model.getInfo().getName();
 		JFrame frame = focusedProject.getFrame();
 
-        final JTextField f_name = new JTextField(50);
+		if ( prjname.endsWith(".lar") )
+		{
+			// PENDING to export an extension.
+			message(frame, "Exportación de extensión (.lar) aún no implementada");
+			return;
+		}
+		
+		
+        final JTextField f_name = new JTextField(30);
 		f_name.setEditable(false);
-        final JTextField f_title = new JTextField(50);
+        final JTextField f_title = new JTextField(30);
 		f_title.setEditable(false);
-        final JTextField f_directory = new JTextField(50);
+        final JTextField f_directory = new JTextField(30);
+        final JTextField f_extension = new JTextField(30);
 		final JLabel status = new JLabel();
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
 		
@@ -932,17 +943,57 @@ public class GUI
 		// borders:		
 		f_name.setBorder(createTitledBorder("Código del proyecto"));
 		f_title.setBorder(createTitledBorder("Título"));
-		JPanel panel_directory = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel_directory.add(f_directory);
-		JButton choose_dir = new JButton("Escoger");
-		choose_dir.setMnemonic(KeyEvent.VK_E);
-		panel_directory.add(choose_dir);
-		panel_directory.setBorder(createTitledBorder("Directorio"));
 		
+		JPanel panel_target = new JPanel(new GridLayout(0, 1));
+		panel_target.setBorder(createTitledBorder("Destino"));
+		
+		final JPanel panel_extension = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		final JRadioButton radio_extension = new JRadioButton("Proyecto");
+		radio_extension.setMnemonic(KeyEvent.VK_P);
+		radio_extension.setSelected(true);
+		panel_extension.add(radio_extension);
+		panel_extension.add(f_extension);
+		JButton choose_ext = new JButton("...");
+		panel_extension.add(choose_ext);
+		
+		panel_target.add(panel_extension);
+
+		final JPanel panel_directory = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		final JRadioButton radio_directory = new JRadioButton("Directorio");
+		radio_directory.setMnemonic(KeyEvent.VK_D);
+		radio_directory.setSelected(false);
+		panel_directory.add(radio_directory);
+		panel_directory.add(f_directory);
+		JButton choose_dir = new JButton("...");
+		panel_directory.add(choose_dir);
+		
+		panel_target.add(panel_directory);
+		
+		ButtonGroup group = new ButtonGroup();
+        group.add(radio_directory);
+        group.add(radio_extension);
+		
+		JPanel panel_include = new JPanel(new GridLayout(0, 1));
+		panel_include.setBorder(createTitledBorder("Incluir en la exportación"));
+		
+		final JCheckBox check_source = new JCheckBox("Código fuente (*.loro)", true);
+		check_source.setMnemonic(KeyEvent.VK_F);
+		panel_include.add(check_source);
+		
+		final JCheckBox check_compiled = new JCheckBox("Código compilado (*.oro)", true);
+		check_compiled.setMnemonic(KeyEvent.VK_C);
+		check_compiled.setDisplayedMnemonicIndex(7);
+		panel_include.add(check_compiled);
+
+		final JCheckBox check_html = new JCheckBox("Documentación (*.html)", true);
+		check_html.setMnemonic(KeyEvent.VK_M);
+		panel_include.add(check_html);
+
         Object[] array = {
 			f_name,
 			f_title,
-			panel_directory,
+			panel_target,
+			panel_include,
 			status
 		};
 		
@@ -952,9 +1003,38 @@ public class GUI
 			public boolean dataOk()
 			{
 				String msg = null;
-				if ( f_directory.getText().trim().length() == 0 )
+				if ( radio_directory.isSelected() )
 				{
-					msg = "Falta indicar un directorio absoluto de destino";
+					String dir = f_directory.getText().trim();
+					if ( dir.length() == 0 )
+					{
+						msg = "Falta indicar un directorio absoluto de destino";
+					}
+					else 
+					{
+						File file = new File(dir);
+						if ( !file.isDirectory() ||  !file.isAbsolute() )
+						{
+							msg = "Debe indicarse un directorio absoluto";
+						}
+					}
+				}
+				else if ( radio_extension.isSelected() )
+				{
+					String ext = f_extension.getText().trim();
+					if ( ext.length() == 0 )
+					{
+						msg = "Falta indicar el nombre del archivo proyecto de destino";
+					}
+				}
+				
+				if ( msg == null )
+				{
+					if ( !check_source.isSelected() && !check_compiled.isSelected()
+					&&   !check_html.isSelected() )
+					{
+						msg = "Nada para incluir en la exportación";
+					}
 				}
 				
 				if ( msg == null )
@@ -975,9 +1055,10 @@ public class GUI
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				radio_directory.setSelected(true);
 				String dir = Util.selectDirectory(
 					focusedProject.getFrame(),
-					"Indica el directorio de destino"
+					"Directorio de destino"
 				);
 				if ( dir != null )
 				{
@@ -986,18 +1067,77 @@ public class GUI
 			}
 		});
 		
+		choose_ext.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				radio_extension.setSelected(true);
+				String ext = Util.selectSaveFile(
+					focusedProject.getFrame(),
+					"Archivo de extensión de destino",
+					JFileChooser.FILES_ONLY
+				);
+				if ( ext != null )
+				{
+					if ( !ext.endsWith(".lar") )
+						ext += ".lar";
+					f_extension.setText(ext);
+				}
+			}
+		});
+		
+		ActionListener target_radio_listener = new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				boolean b = e.getSource() == radio_extension;
+				panel_extension.setEnabled(b);
+				panel_directory.setEnabled(!b);
+				form.notifyUpdate(); 
+			}
+		};
+		radio_extension.addActionListener(target_radio_listener);
+		radio_directory.addActionListener(target_radio_listener);
+
+
+		ActionListener target_check_listener = new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				form.notifyUpdate(); 
+			}
+		};
+		check_source.addActionListener(target_check_listener);
+		check_compiled.addActionListener(target_check_listener);
+		check_html.addActionListener(target_check_listener);
+
+
 		form.activate();
         form.pack();
 		form.setLocationRelativeTo(frame);
 		form.setVisible(true);
 		if ( form.accepted() )
 		{
-			String directory = f_directory.getText().trim();
+			String dest;
+			if ( radio_directory.isSelected() )
+			{
+				dest = f_directory.getText().trim();
+			}
+			else // ( radio_extension.isSelected() )
+			{
+				dest = f_extension.getText().trim();
+				if ( !dest.endsWith(".lar") )
+					dest += ".lar";
+			}
+				
 			try
 			{
 				workspace.exportProjectModel(
-					focusedProject.getModel(),
-					directory
+					focusedProject.getModel(), 
+					dest,
+					check_source.isSelected(),
+					check_compiled.isSelected(),
+					check_html.isSelected()
 				);
 			}
 			catch(Exception ex)

@@ -13,6 +13,7 @@ import loro.*;
 import loro.util.Logger;
 
 import java.util.*;
+import java.util.zip.ZipOutputStream;
 import java.io.*;
 
 //////////////////////////////////////////////////
@@ -589,35 +590,94 @@ public final class Workspace
 	/**
 	 * Exporta un proyecto.
 	 *
-	 * @throws Exception
+	 * @param prjm El modelo del proyecto a exportar.
+	 * @param dest Nombre del destino de la exportación. 
+	 *             Si este nombre termina en ".lar", entonces la exportación
+	 *             es un archivo de extensión Loro. En otro caso, se interpreta
+	 *             como el nombre de un directorio.
+	 * @param source Incluir código fuente?
+	 * @param compiled Incluir código compilado?
+	 * @param html Incluir documentación?
+	 *
+	 * @throws Exception Si algún problema surge.
 	 */
-	public void exportProjectModel(IProjectModel prjm, String directory)
+	public void exportProjectModel(
+		IProjectModel prjm, 
+		String dest,
+		final boolean source,
+		final boolean compiled,
+		final boolean html
+	)
 	throws Exception
 	{
-		File dir = new File(directory);
-		if ( dir.isAbsolute() )
+		File file = new File(dest);
+
+		String prjname = prjm.getInfo().getName();
+		if ( prjname.endsWith(".lar") )
 		{
-			_saveProjectModel(prjm, dir, true);
-			
-			// verificar si la copia ha sido en el directorio prs_dir,
-			// en cuyo caso, se actualiza la lista de proyectos
-			// disponibles si es necesario
-			File parent = dir.getParentFile();
-			if ( prs_dir.equals(parent) )
-			{
-				String name = dir.getName();
-				if ( ! existsProjectModel(name) )
-				{
-					prjnames.add(name);
-					IProjectModel prjm2 = _loadProjectModelDirectory(name);
-					name_prj.put(name.toLowerCase(), prjm2);
-				}
-			}
-			
+			// PENDING to export an extension.
+			throw new Exception("PENDING to export an extension.");
 		}
 		else
 		{
-			throw new Exception("Debe indicarse un directorio absoluto");
+			// it's a project on a "directory".
+		
+			if ( dest.endsWith(".lar") )
+			{
+				// export to an extension archive.
+				
+				File prj_dir = new File(prs_dir, prjname);
+				BufferedOutputStream bos = new BufferedOutputStream(
+					new FileOutputStream(dest)
+				);
+				ZipOutputStream zos = new ZipOutputStream(bos);
+				zos.setLevel(9);
+				loro.util.Util.copyDirectoryToZip(prj_dir, zos,
+					new FilenameFilter()
+					{
+						public boolean accept(File dir, String name)
+						{
+							if ( !source && (name.endsWith(".loro") || name.endsWith(".lsh")) )
+								return false;
+							if ( !compiled && name.endsWith(".oro") )
+								return false;
+							if ( !html && name.endsWith(".html") )
+								return false;
+							return true;
+						}
+					}
+				);
+				zos.close();
+			}
+			else
+			{
+				// export to a directory.
+				
+				File dir = file;
+				if ( !dir.isAbsolute() )
+					throw new Exception("Debe indicarse un directorio absoluto: " +dest);
+
+				
+				// por ahora, con _saveProjectModel,  pero debería cambiarse
+				// a una simple copia de directorio similar como se hace
+				// hacia una extensión.  PENDING.
+				_saveProjectModel(prjm, dir, true);
+				
+				// verificar si la copia ha sido en el directorio prs_dir,
+				// en cuyo caso, se actualiza la lista de proyectos
+				// disponibles si es necesario
+				File parent = dir.getParentFile();
+				if ( prs_dir.equals(parent) )
+				{
+					String name = dir.getName();
+					if ( ! existsProjectModel(name) )
+					{
+						prjnames.add(name);
+						IProjectModel prjm2 = _loadProjectModelDirectory(name);
+						name_prj.put(name.toLowerCase(), prjm2);
+					}
+				}
+			}
 		}
 	}
 	

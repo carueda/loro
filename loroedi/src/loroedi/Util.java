@@ -373,7 +373,8 @@ public final class Util
 	{
 		if ( currentDirectoryPath == null )
 		{
-			currentDirectoryPath = Preferencias.obtPreferencia(Preferencias.PRS_DIR);
+			currentDirectoryPath = System.getProperty("user.home");
+			//currentDirectoryPath = Preferencias.obtPreferencia(Preferencias.PRS_DIR);
 		}
 	}
 

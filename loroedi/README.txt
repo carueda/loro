@@ -34,19 +34,6 @@ PENDIENTES (más o menos en orden de prioridad)
 	
   	- Abrir editor ante error de ejecución 
 	
-	- Exportación:  Ahora sólo a directorio.
-	  Pendiente algo como:
-		Destino:
-				( ) Directorio  
-				( ) Archivo extensión  
-				( ) Archivo Proyecto
-		Guardar:
-				( ) Proyecto completo
-				( ) Escoger:
-					[ ] Fuentes (*.loro)
-					[ ] Compilados (*.oro)
-					[ ] Documentación (*.html)
-
 	- imprimir diagrama, código fuente.
 	  
 	- Hacer más flexible manejo de oro-loaders:
@@ -70,6 +57,28 @@ PENDIENTES (más o menos en orden de prioridad)
 	  leyendo su "millis"
 
 	  
+////////////////////////////////////////////////////////////////////////////
+2002-10-30 (0.8pre5)
+
+Avances en opción "exportar proyecto"
+	
+	- GUI.exportProject() ahora ofrece un diálogo del siguiente estilo:
+		Destino:
+				(x) Archivo Proyecto    (o sea, a .lar)
+				( ) Directorio  
+		Incluir en la exportación:
+				[x] Fuentes (*.loro)
+				[x] Compilados (*.oro)
+				[x] Documentación (*.html)
+				
+	- Workspace.exportProjectModel() actualizado para operar hacia archivo
+	  extensión (.lar) o a directorio.
+	  Pendiente completarlo: por ejemplo, sólo opera si el proyecto a
+	  exportarse viene de directorio (no de extension).
+	  
+	- loroedi.Util._managePreference() pone System.getProperty("user.home")
+	  como directorio inicial para diálogos de elección de archivos/dirs.
+	
 ////////////////////////////////////////////////////////////////////////////
 2002-10-25 (0.8pre5)
 
