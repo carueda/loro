@@ -20,7 +20,6 @@ import java.util.*;
 /**
  * Punto de entrada principal al núcleo Loro.
  *
- * @version 2002-10-20
  * @author Carlos Rueda
  */
 public final class Loro 
@@ -64,7 +63,6 @@ public final class Loro
 	
 	/** 
 	 * Lista de todos los archivos lar de extensión.
-	 * @since 0.8pre1
 	 */
 	private static List extensionFiles;
 	
@@ -208,7 +206,7 @@ public final class Loro
 	 * @param ext_dir Directorio de extensiones de donde se leen archivos *.jar y *.lar.
 	 *                Puede ser null.
 	 *
-	 * @param paths_dir Directorio con subdirectorios de búsqueda.
+	 * @param paths_dir Directorio con subdirectorios y archivos .lar de búsqueda.
 	 *
 	 * @throws LoroException  Si la inicialización falla.
 	 *
@@ -222,7 +220,7 @@ public final class Loro
 	{
 		if ( iniciado )
 		{
-			throw new IllegalStateException("El núcleo no se encuentra iniciado!");
+			throw new IllegalStateException("El núcleo ya se encuentra iniciado!");
 		}
 		
 		Logger.createLogger(obtNombre()+ " " +obtVersion()+ " (Build " +obtBuild()+ ")");
@@ -261,17 +259,103 @@ public final class Loro
 
 	/////////////////////////////////////////////////////////////////
 	/**
+	 * Extrae el archivo dado xxx.lar en xxx/ 
+	 *
+	 * @param file El archivo extensión. 
+	 * @param force true para obligar la expansión aunque xxx/ ya exista. 
+	 * @return El directorio asociado.
+	 * @throws Exception En caso de problemas.
+	 * @throws RuntimeException Si el nombre del archivo no termina en .lar
+	 */
+	public static File expandExtensionFile(File file, boolean force)
+	throws Exception
+	{
+		String fullname = file.getAbsolutePath();
+		if ( fullname.toLowerCase().endsWith(".lar") )
+		{
+			File dir = new File(fullname.substring(0, fullname.length() - 4));
+			if ( force || !dir.exists() )
+			{
+				// extract file into dir:
+				IOroLoader oroLoader = new ZipFileOroLoader(file);
+				Util.copyExtensionToDirectory(oroLoader, dir, null);
+			}
+			return dir;
+		}
+		else
+		{
+			throw new RuntimeException("expandExtensionFile: Not a .lar file");
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Extrae cada archivo paths_dir/xxx.lar en paths_dir/xxx/ en caso
+	 * que paths_dir/xxx/ no exista.
+	 * Este es un preparativo preliminar en _crearManejadorUnidades(). 
+	 */
+	private static void _expandExtensions()
+	{
+		if ( paths_dir != null )
+		{
+			File dir_file = new File(paths_dir);
+			File[] files = dir_file.listFiles();
+			if ( files != null )
+			{
+				for (int i = 0; i < files.length; i++)
+				{
+					File file = files[i];
+					if ( file.getName().toLowerCase().endsWith(".lar") )
+					{
+						try
+						{
+							expandExtensionFile(file, false);
+						}
+						catch(Exception ex)
+						{
+							log(file+ ": " +ex.getMessage());
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
 	 * Se encarga de crear el ManejadorUnidades único con todos los
-	 * archivos ext_dir/*.lar y todos los directorios paths_dir/* como 
-	 * ruta de búsqueda de unidades compiladas.
+	 * todos los directorios y archivos *.lar bajo paths_dir/* como 
+	 * ruta de búsqueda de unidades compiladas. Los archivo *.lar
+	 * son primero expandidos.
+	 * También se agregan al final todos los archivos ext_dir/*.lar.
 	 */
 	private static void _crearManejadorUnidades()
 	{
+		_expandExtensions();
+		
 		// lista completa de extensiones y directorios de búsqueda:
 		List list = new ArrayList();
 		
-		// Para el arreglo con todos los ext_dir/*.lar ...
+		// Agregar todos los directorios en paths_dir/* ...
+		if ( paths_dir != null )
+		{
+			File dir_file = new File(paths_dir);
+			File[] files = dir_file.listFiles();
+			if ( files != null )
+			{
+				for (int i = 0; i < files.length; i++)
+				{
+					File file = files[i];
+					if ( file.isDirectory() )
+						list.add(file);
+				}
+			}
+		}
+
+		// lista de todos los archivos lar de extensión.
 		extensionFiles = new ArrayList();
+
+		// Se agregan al final los ext_dir/*.lar ...
 		if ( ext_dir != null )
 		{
 			File dir_file = new File(ext_dir);
@@ -290,23 +374,7 @@ public final class Loro
 			}
 		}
 
-		// Agregar todos los directorios paths_dir/* ...
-		if ( paths_dir != null )
-		{
-			File dir_file = new File(paths_dir);
-			File[] files = dir_file.listFiles();
-			if ( files != null )
-			{
-				for (int i = 0; i < files.length; i++)
-				{
-					File file = files[i];
-					if ( file.isDirectory() )
-					{
-						list.add(file);
-					}
-				}
-			}
-		}
+
 		File[] files = (File[]) list.toArray(EMPTY_FILE_ARRAY);
 
 		// ... para crear el manejador de unidades:
@@ -741,8 +809,6 @@ public final class Loro
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Carga una unidad dado su nombre de archivo completo.
-	 *
-	 * @since 0.8pre1 (2002-08-20)
 	 */
 	public static NUnidad obtUnidadDeArchivo(String nombreArchivo)
 	{
@@ -752,8 +818,6 @@ public final class Loro
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene el cargador del núcleo.
-	 *
-	 * @since 0.8pre1
 	 *
 	 * @return el cargador del núcleo.
 	 *
@@ -773,8 +837,6 @@ public final class Loro
 	 * (Nota: En esta lista NO está incluido el cargador del núcleo (apoyo).
 	 *  <code>getCoreLoader()</code> lo obtiene.)
 	 *
-	 * @since 0.8pre1
-	 *
 	 * @return Lista con elementos de tipo IOroLoader.
 	 *
 	 * @throws IllegalStateException  Si el núcleo no se encuentra iniciado.
@@ -789,8 +851,6 @@ public final class Loro
 	/**
 	 * Obtiene los objetos File de los cargadores tomados como extensiones.
 	 *
-	 * @since 0.8pre1
-	 *
 	 * @return Lista con elementos de tipo File.
 	 */
 	public static List getExtensionFiles()
@@ -803,8 +863,6 @@ public final class Loro
 	/**
 	 * Adiciona una directorio a la ruta de búsqueda.
 	 *
-	 * @since 0.8pre1
-	 *
 	 * @param dir El directorio a incluir.
 	 *
 	 * @throws IllegalStateException  Si el núcleo no se encuentra iniciado.
@@ -815,5 +873,19 @@ public final class Loro
 		mu.addDirectoryToPath(dir);
 	}
 
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Adiciona un archivo zip a la ruta de búsqueda.
+	 *
+	 * @param file El archivo zip a incluir.
+	 * @return El cargador asociado.
+	 *
+	 * @throws IllegalStateException  Si el núcleo no se encuentra iniciado.
+	 */
+	public static IOroLoader addExtensionToPath(File file)
+	{
+		_verificarIniciado();
+		return mu.addExtensionToPath(file);
+	}
 
 }

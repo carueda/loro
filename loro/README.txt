@@ -27,6 +27,40 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2002-11-18 Version 0.7.5
+
+	- Nuevo Loro.expandExtensionFile(File file)
+	  
+	- Nuevo Loro._expandExtensions() que expande cada archivo paths_dir/xxx.lar
+	  en paths_dir/xxx/ en caso que paths_dir/xxx/ no exista.
+	  La idea es sólo referenciar subdirectorios de búsqueda bajo paths_dir
+	  (y no *.lar). En la inicialización de _crearManejadorUnidades() sólo se 
+	  mantienen para búsqueda los *.lar encontrados bajo ext_dir/.
+
+	- En Loro._crearManejadorUnidades() se entonces el siguiente preparativo
+	  relacionado con los archivos *.lar y directorios de búsqueda:
+	  
+	    - Se invoca primero _expandExtensions()
+		
+	  	- Se tienen en cuenta sólo los directorios encontrados bajo el directorio
+		  indicado en configurar().
+		  
+		- Se agregan los *.lar encontrados bajo ext_dir pero estos van después en
+		  la lista de búsqueda para que tengan menos prioridad.
+		  
+		- NOTA: los posibles archivos *.jar (java) se siguen buscando sólo
+		  bajo ext_dir.  PENDIENTE unificar este manejo.
+		
+	  
+////////////////////////////////////////////////////////////////////////////
+2002-11-17 Version 0.7.5
+
+	- Ajustes menores a OroLoaderManager.java y Loro.java
+	
+	- Nuevo ManejadorUnidades.addExtensionToPath(File file)
+	- Nuevo Loro.addExtensionToPath(File file)
+	
+////////////////////////////////////////////////////////////////////////////
 2002-11-07 Version 0.7.4
 
 	- Nueva operación IOroLoader.getFilenames() para obtener lista completa

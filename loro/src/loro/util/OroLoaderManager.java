@@ -16,8 +16,6 @@ import java.io.*;
 /**
  * Maneja una lista de objetos IOroLoader.
  *
- * @since 0.8pre1
- * @version 2002-08-25
  * @author Carlos Rueda
  */
 public class OroLoaderManager
@@ -51,20 +49,13 @@ public class OroLoaderManager
 		for ( int i = 0; i < files.length; i++ )
 		{
 			File file = files[i];
-			try
+			if ( file.isDirectory() )
 			{
-				if ( file.isFile() )
-				{
-					addExtensionToPath(file);
-				}
-				else if ( file.isDirectory() )
-				{
-					addDirectoryToPath(file);
-				}
+				addDirectoryToPath(file);
 			}
-			catch(Exception ex)
+			else if ( file.isFile() )
 			{
-				logger.log(file+ ": " +ex.getMessage());
+				addExtensionToPath(file);
 			}
 		}
 	}
@@ -72,8 +63,6 @@ public class OroLoaderManager
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Adiciona una directorio a la ruta de búsqueda.
-	 *
-	 * @since 0.8pre1
 	 *
 	 * @param dir El directorio a incluir.
 	 */
@@ -89,17 +78,25 @@ public class OroLoaderManager
 	/**
 	 * Adiciona un archivo zip a la ruta de búsqueda.
 	 *
-	 * @since 0.8pre1
-	 *
 	 * @param file El archivo zip a incluir.
+	 * @return El cargador asociado. null si hay error.
 	 */
-	public void addExtensionToPath(File file)
-	throws IOException
+	public IOroLoader addExtensionToPath(File file)
 	{
-		extensionFiles.add(file);
-		IOroLoader ol = new ZipFileOroLoader(file);
-		extensionLoaders.add(ol);
-		loaders.add(ol);
+		IOroLoader ol = null;
+		try
+		{
+			ol = new ZipFileOroLoader(file);
+			extensionFiles.add(file);
+			extensionLoaders.add(ol);
+			loaders.add(ol);
+			logger.log("OroLoaderManager: added archive: " +file);
+		}
+		catch(IOException ex)
+		{
+			logger.log(file+ ": " +ex.getMessage());
+		}
+		return ol;
 	}
 
 	/////////////////////////////////////////////////////////////////

@@ -241,6 +241,18 @@ public class ManejadorUnidades
 		oroLoaderMan.addDirectoryToPath(dir);
 	}
 
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Adiciona un archivo zip a la ruta de búsqueda.
+	 *
+	 * @param file El archivo zip a incluir.
+	 * @return El cargador asociado.
+	 */
+	public IOroLoader addExtensionToPath(File file)
+	{
+		return oroLoaderMan.addExtensionToPath(file);
+	}
+
 
 	/////////////////////////////////////////////////////////////////////
 	/**
