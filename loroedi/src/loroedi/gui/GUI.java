@@ -7,7 +7,6 @@ import loroedi.gui.editor.*;
 import loroedi.gui.misc.MessageArea;
 
 import loroedi.LoroEDI;
-import loroedi.HiloAlgoritmo;
 import loroedi.Util;
 import loroedi.Configuracion;
 import loroedi.Preferencias;

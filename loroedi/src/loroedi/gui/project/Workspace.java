@@ -1,7 +1,6 @@
 package loroedi.gui.project;
 
 import loroedi.gui.GUI;
-import loroedi.HiloAlgoritmo;
 import loroedi.gui.project.model.*;
 import loroedi.gui.project.unit.*;
 import loroedi.gui.editor.UEditor;
@@ -1379,9 +1378,6 @@ public final class Workspace
 		ICompilador compiler = Loro.obtCompilador();
 		compiler.ponDirectorioDestino(prj_dir.getAbsolutePath());
 		
-//		HiloAlgoritmo ha = new HiloAlgoritmo(u, args);
-//		ha.start();
-	
 		InterpreterWindow iw = 
 			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp)
 		{

@@ -67,6 +67,9 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-04-16 (0.8pre11)
 
+	- Algo de limpieza en GUI.java, Workspace.java: import de HiloAlgoritmo
+	  ya no usados allí.
+	
 	- Bug 722895 corregido: Instalación de proyecto no sobreescribe pre-existente.
 	  Solución: Efectivamente sí se actualizaba el directorio correspondiente
 	  pero no se actualizaba la asociación nombre-prjm en el workspace y
