@@ -67,7 +67,7 @@ public final class UtilValor
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene una version cadena del objeto dado.
-	 * Si es null, se retorna "nulo".
+	 * Si es null, se retorna "null".
 	 * Si es un Boolean, se retorna "true" or "false" de acuerdo con el valor.
 	 * Si es Objeto o arreglo, se tiene en cuenta posible recursión.
 	 * Si es Objeto, se tiene en cuenta el máximo nivel para ver el objetos.
@@ -105,7 +105,7 @@ public final class UtilValor
 		else
 		{
 			// muestre este nulo:
-			res = "nulo";
+			res = Str.get("null");
 		}
 
 		return res;
@@ -119,7 +119,7 @@ public final class UtilValor
 	{
 		if ( o == null )
 		{
-			return "nulo";
+			return Str.get("null");
 		}
 		else if ( o instanceof Boolean )
 		{

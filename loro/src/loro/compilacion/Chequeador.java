@@ -1418,7 +1418,7 @@ public class Chequeador extends ChequeadorBase
 		ntipoRevisado.aceptar(this);
 		Tipo tipoRevisado = ntipoRevisado.obtTipo();
 
-		if ( e_tipo.esNulo() ) {    // no puede ser "nulo"
+		if ( e_tipo.esNulo() ) {    // no puede ser "null"
 			throw new ChequeadorException(
 				e,
 				Str.get("error.null_instance")

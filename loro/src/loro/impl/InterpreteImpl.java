@@ -281,8 +281,8 @@ public class InterpreteImpl implements IInterprete
 	///////////////////////////////////////////////////////////////////////
 	static String obtModo(boolean execute)
 	{
-		return execute ? "Interpretación completa con ejecución"
-		               : "Interpretación sin ejecucion (sólo chequeo)"
+		return execute ? Str.get("ii.run_mode")
+		               : Str.get("ii.check_mode")
 		;
 	}
 
@@ -306,27 +306,7 @@ public class InterpreteImpl implements IInterprete
 		/** Client listener. */
 		IMetaListener client = null;
 		
-		String info =
-"El Intérprete Interactivo permite ejecutar instrucciones en el lenguaje\n"+
-"Loro de manera inmediata. Escribe una instrucción a continuación del\n"+
-"indicador y presiona Intro.\n" +
-"\n"+
-"Los siguientes son algunos comandos especiales para el propio intérprete\n"+
-"reconocidos porque empiezan con punto (.):\n"+
-"\n"+
-".?            - Muestra esta ayuda\n" +
-".vars         - Muestra las variables declaradas actualmente\n" +
-".borrar ID    - Borra la declaración de la variable indicada\n" +
-".borrarvars   - Borra todas las variables declaradas\n" +
-".verobj nivel - Pone máximo nivel para visualizar objetos\n"+
-".verarr long  - Pone máxima longitud para visualizar arreglos\n" +
-".modo         - Muestra el modo de interpretación actual.\n" +
-"                Hay dos modos de operación:\n" +
-"                  - ejecución completa (por defecto)\n" +
-"                  - sólo compilación (usar con cuidado)\n" +
-".cambiarmodo  - Intercambia el modo de interpretación\n"+
-".gc           - Recicla memoria"
-		;
+		String info = Str.get("ii.help_msg");
 		
 		///////////////////////////////////////////////////////////////////////
 		public String getInfo()
@@ -350,51 +330,50 @@ public class InterpreteImpl implements IInterprete
 			{
 				// procesado por cliente meta-listener.
 			}
-			else if ( text.equals(".?") )
+			else if ( text.equals(Str.get("ii.help")) )
 			{
 				msg = getInfo();
 			}
-			else if ( text.equals(".vars") )
+			else if ( text.equals(Str.get("ii.who")) )
 			{
 				msg = tabSimbBase.toString();
 			}
-			else if ( text.equals(".modo") )
+			else if ( text.equals(Str.get("ii.mode")) )
 			{
 				msg = obtModo(execute);
 			}
-			else if ( text.equals(".borrarvars") )
+			else if ( text.equals(Str.get("ii.del_vars")) )
 			{
 				reiniciar();
 				msg = tabSimbBase.toString();
 			}
-			else if ( text.startsWith(".borrar") )
+			else if ( text.startsWith(Str.get("ii.del")) )
 			{
-				StringTokenizer st = new StringTokenizer(text.substring(".borrar".length()));
-				try
-				{
+				String cmd_del = Str.get("ii.del");
+				StringTokenizer st = new StringTokenizer(text.substring(cmd_del.length()));
+				try {
 					String id = st.nextToken();
-					msg = id+ " " +(quitarID(id)
-						? "borrado" 
-						: "no declarado"
-					);
+					if ( quitarID(id) )
+						msg = Str.get("ii.1_id_deleted", id);
+					else
+						msg = Str.get("error.1_id_undefined", id);
 				}
-				catch ( Exception ex )
-				{
-					msg = "Indique un nombre de variable";
+				catch ( Exception ex ) {
+					msg = Str.get("ii.id_expected");
 				}
 			}
-			else if ( text.equals(".cambiarmodo") )
+			else if ( text.equals(Str.get("ii.toggle_mode")) )
 			{
 				execute = !execute;
-				if ( execute )
-				{
+				if ( execute ) {
 					// se acaba de pasar de "solo compilacion" a "ejecucion".
 					// Hacer que todas las variables figuren como sin asignacion:
 					ponAsignado(false);
 				}
-				msg = "Modo cambiado a: " +obtModo(execute);
+				msg = Str.get("ii.1_new_mode", obtModo(execute));
 			}
-			else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )
+			else if ( text.startsWith(Str.get("ii.object_level")) 
+			||        text.startsWith(Str.get("ii.array_level")) )
 			{
 				StringTokenizer st = new StringTokenizer(text);
 				try
@@ -410,20 +389,19 @@ public class InterpreteImpl implements IInterprete
 				}
 				catch ( Exception ex )
 				{
-					msg = "Indique un valor numérico";
+					msg = Str.get("ii.number_expected");
 				}
 			}
 			else if ( text.equals(".gc") )
 			{
-				System.gc();
-				msg = "free memory = " +Runtime.getRuntime().freeMemory()+ "  " +
-					  "total memory = " +Runtime.getRuntime().totalMemory()
+				Runtime rt = Runtime.getRuntime();
+				rt.gc();
+				msg = "free memory = " +rt.freeMemory()+ "  " +
+					  "total memory = " +rt.totalMemory()
 				;
 			}
-			else
-			{
-				msg = text+ ": meta-comando no entendido.\n" +
-					  "Escribe .? para obtener una ayuda\n";
+			else {
+				msg = Str.get("ii.1_unrecognized_cmd", text)+ "\n"; 
 			}
 	
 			return msg;
@@ -486,14 +464,10 @@ public class InterpreteImpl implements IInterprete
 				}
 				catch(EjecucionException ex)
 				{
-					if ( ex.esTerminacionInterna() )
-					{
-						msg = "Ejecución terminada. Código de terminación = " 
-							+ex.obtCodigoTerminacionInterna()
-						;
+					if ( ex.esTerminacionInterna() ) {
+						msg = Str.get("ii.1_exit_code", ""+ex.obtCodigoTerminacionInterna()); 
 					}
-					else
-					{
+					else {
 						StringWriter sw = new StringWriter();
 						ex.printStackTrace(new PrintWriter(sw));
 						msg = ex.getMessage() + "\n" +sw.toString();
@@ -505,15 +479,15 @@ public class InterpreteImpl implements IInterprete
 				}
 				catch(InterruptedIOException ex)
 				{
-					msg = "Ejecución interrumpida en operación de entrada/salida.";
+					msg = Str.get("ii.interrupted_io");
 				}
 				catch(Exception ex)
 				{
 					StringWriter sw = new StringWriter();
 					PrintWriter psw = new PrintWriter(sw);
-					psw.println("INESPERADO");
+					psw.println("UNEXPECTED");
 					ex.printStackTrace(psw);
-					psw.println("Esta es una anomalía del sistema.");
+					psw.println("This is a BUG!!");
 					msg = sw.toString();
 				}
 				return msg;

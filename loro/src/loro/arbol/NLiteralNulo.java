@@ -1,10 +1,8 @@
 package loro.arbol;
 
-
-
+import loro.Loro.Str;
 import loro.visitante.IVisitante;
 import loro.visitante.VisitanteException;
-
 import loro.Rango;
 
 /**
@@ -12,8 +10,6 @@ import loro.Rango;
  */
 public class NLiteralNulo extends NLiteral
 {
-
-
 	/**
 	 * Acepta al visitante.
 	 */
@@ -22,14 +18,12 @@ public class NLiteralNulo extends NLiteral
 	{
 		v.visitar(this);
 	}
+
 	public String toString()
 	{
-		return "nulo";
+		return Str.get("null");
 	}
 
-	/**
-	 *
-	 */
 	public NLiteralNulo(Rango rango, String imagen)
 	{
 		super(rango, imagen);

@@ -12,7 +12,7 @@ $Id$
 		- loro.util/ ready
 		- loro.visitante/ ok
 		- loro.doc/ ok
-		- loro.impl/ ..  !!
+		- loro.impl/ ok
 	  Pendientes cambios con respecto a palabras reservadas del lenguaje.
 	
 ////////////////////////////////////////////////////////////////////////////

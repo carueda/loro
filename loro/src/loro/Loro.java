@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
  */
 public final class Loro 
 {
+	private static final String INFO_PROPS_PATH = "loro/resource/info.properties";
+	
 	/** para toArray. */
 	private static final File[] EMPTY_FILE_ARRAY = new File[0];
 
@@ -166,9 +168,9 @@ public final class Loro
 			
 			ClassLoader	cl = new Loro().getClass().getClassLoader();
 			Properties props = new Properties(); 
-			InputStream is = cl.getResourceAsStream("loro/resource/info.properties");
+			InputStream is = cl.getResourceAsStream(INFO_PROPS_PATH);
 			if ( is == null ) {
-				System.err.println(Str.get("info.props_not_found"));
+				System.err.println("resource " +INFO_PROPS_PATH+ " NOT FOUND!");
 				return;
 			}
 			try {
@@ -281,7 +283,7 @@ public final class Loro
 	throws LoroException
 	{
 		if ( iniciado ) {
-			throw new IllegalStateException(Str.get("core_already_inited"));
+			throw new IllegalStateException("core already inited!");
 		}
 		
 		Logger.createLogger(obtNombre()+ " " +obtVersion()+ " (Build " +obtBuild()+ ")");
@@ -290,8 +292,8 @@ public final class Loro
 
 		logger = Logger.getLogger();
 		
-		log(Str.get("extensions")+ ": " +ext_dir);
-		log(Str.get("extended_paths")+  ": " +paths_dir);
+		log("extensions: " +ext_dir);
+		log("extended paths: " +paths_dir);
 
 		_crearManejadorUnidades();
 		
@@ -303,9 +305,7 @@ public final class Loro
 				loroClassLoader.ponDirectorioExtensiones(ext_dir);
 			}
 			catch(MalformedURLException ex) {
-				throw new LoroException(Str.get("error.extension_directory")+ ": "+
-					ex.getMessage()
-				);
+				throw new LoroException("error extension directory: "+ex.getMessage());
 			}
 		}
 
@@ -873,7 +873,7 @@ public final class Loro
 	 */
 	private static void _verificarIniciado() {
 		if ( !iniciado ) {
-			throw new IllegalStateException(Str.get("core_not_inited"));
+			throw new IllegalStateException("Core not yet inited!");
 		}
 	}
 

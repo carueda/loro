@@ -331,17 +331,16 @@ abstract class ChequeadorBase implements IVisitante
 				{
 					throw new ChequeadorException(
 						n,
-						Str.get("error.Invalid_int_to_char_conversion")
+						Str.get("error.invalid_int_to_char_conversion")
 					);
 				}
 			}
 		}
 		
-		if ( !asignable )
-		{
+		if ( !asignable ) {
 			throw new ChequeadorException(
 				n,
-				"No se puede convertir '" +expr_tipo+ "' a '" +var_tipo+ "'"
+				Str.get("error.2_incompatible_types", expr_tipo, var_tipo)
 			);
 		}
 	}
@@ -385,8 +384,7 @@ abstract class ChequeadorBase implements IVisitante
 	protected void _chequearEtiqueta(boolean termine, TId etq, IUbicable u)
 	throws VisitanteException
 	{
-		if ( etq != null )
-		{
+		if ( etq != null ) {
 			if ( _buscarEtiqueta(etq.obtId()) == null )
 			{
 				throw new ChequeadorException(etq,
@@ -394,11 +392,10 @@ abstract class ChequeadorBase implements IVisitante
 				);
 			}
 		}
-		else if ( labels.isEmpty() )
-		{
+		else if ( labels.isEmpty() ) {
 			throw new ChequeadorException(u,
 				Str.get("error.1_invalid_place_for_sentence", 
-					(termine ? "termine" : "continue")
+					(termine ? Str.get("break") : Str.get("continue"))
 				)
 			);
 		}

@@ -239,12 +239,12 @@ public class TablaSimbolos implements ISymbolTable
 	{
 		int size = tabla.size();
 		if ( size == 0 )
-			return "No hay declaraciones";
+			return Str.get("ns.empty");
 
 		// obtenga maximos anchos para las columnas:
 
 		// anchos para las columnas:
-		String[] header = new String[] { "Variable", "Tipo", "Valor" };
+		String[] header = new String[] { Str.get("ns.id"), Str.get("ns.type"), Str.get("ns.value") };
 		int[] lens = new int[header.length];
 		for ( int k = 0; k < lens.length; k++ )
 			lens[k] = header[k].length();

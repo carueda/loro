@@ -1,3 +1,5 @@
+# $Id$
+
 operation=operación
 specification=especificación
 input=entrada
@@ -307,3 +309,25 @@ node.spec_type=Tipo 'especificación'
 node.real_type=Tipo 'real'
 node.implements=Indicación de interfaces implementadas
 node.interface_type=Tipo 'interfaz'
+
+# HTML texts
+
+html.package=Paquete
+html.anonymous=an&oacute;nimo
+html.true=cierto
+html.algorithm=algoritmo
+html.method=m&eacute;todo
+html.for_spec=para la especificaci&oacute;n
+html.implemented_in=implementado en
+html.type=tipo
+html.description=descripci&oacute;n
+html.spec=especificaci&oacute;n
+html.operation=operaci&oacute;n
+html.input=entrada
+html.output=salida
+html.precondition=Precondici&oacute;n
+html.postcondition=Poscondici&oacute;n
+html.class=clase
+html.extends=extiende
+html.attribute=atributo
+html.interface=interfaz

@@ -18,13 +18,13 @@ public interface LManejadorES
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Escribe una cadena por la salida estandar.
-	 * Si este argumento es null, se imprime "nulo".
+	 * Si este argumento es null, se imprime "null".
 	 */
 	public void escribir(String s);
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Escribe una cadena por la salida con cambio de linea al final.
-	 * Si este argumento es null, se imprime "nulo".
+	 * Si este argumento es null, se imprime "null".
 	 */
 	public void escribirln(String s);
 	//////////////////////////////////////////////////////////////
