@@ -5,7 +5,7 @@ import loro.IObservadorPP;
 import loro.ISymbolTable;
 import loro.IUnidad;
 import loro.Rango;
-import loro.arbol.INodo;
+import loro.INode;
 
 import loroedi.gui.editor.UEditor;
 import loroedi.gui.editor.UEditorListener;
@@ -14,11 +14,11 @@ import loroedi.Preferencias;
 
 import java.awt.Color;
 
-/////////////////////////////////////////////////////////////////////
 /**
  * Atiende eventos de ejecución paso-a-paso.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class ObservadorPP implements IObservadorPP
 {
@@ -33,8 +33,8 @@ public class ObservadorPP implements IObservadorPP
         private int level = 0;
         
         /** Para control step-over un elemento. */
-        private INodo nodeToReturn = null;
-        private INodo currentNode = null;
+        private INode nodeToReturn = null;
+        private INode currentNode = null;
         private boolean onExit = false;
         
         private PPControl ppcontrol = new PPControl();
@@ -85,7 +85,7 @@ public class ObservadorPP implements IObservadorPP
         }
         
         //////////////////////////////////////////////////////////////////////
-        public int enter(INodo n, ISymbolTable symbTab, String src)
+        public int enter(INode n, ISymbolTable symbTab, String src)
         throws InterruptedException
         {
 
@@ -129,7 +129,7 @@ public class ObservadorPP implements IObservadorPP
         }
         
         //////////////////////////////////////////////////////////////////////
-        public int exit(INodo n, ISymbolTable symbTab, String src, String result)
+        public int exit(INode n, ISymbolTable symbTab, String src, String result)
         throws InterruptedException
         {
 
@@ -208,7 +208,7 @@ public class ObservadorPP implements IObservadorPP
         }
 
         //////////////////////////////////////////////////////////////////////
-		public int pop(IUnidad u, INodo n, ISymbolTable symbTab, String src)
+		public int pop(IUnidad u, INode n, ISymbolTable symbTab, String src)
         throws InterruptedException
         {
                 if ( currentNode == nodeToReturn )
