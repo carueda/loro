@@ -1,6 +1,5 @@
 algoritmo para pertenece(a: []entero constante, n: entero) 
 		-> esta: booleano
-estrategia
 	''Para comenzar, se asume que n no está en el arreglo; luego se 
 	recorre el arreglo mediante un ciclo revisando si algún valor es 
 	igual a n; si es así, se corrige la suposición y se termina el ciclo.

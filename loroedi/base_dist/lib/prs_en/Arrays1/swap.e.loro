@@ -1,0 +1,20 @@
+specification swap(array: []int, i, j: int)
+	''Swaps contents of locations i and j in an int array.''
+
+	input
+		array: ''The array of integers.''
+		i: ''Index of one position in array.''
+		j: ''Index of the other position in array.''
+
+	pre { array.inf <= i && i <= array.sup && 
+	      array.inf <= j && j <= array.sup && 
+	      array[i] = ai' && array[j] = aj' }
+
+	post { array[i] = aj' && array[j] = ai' }
+	
+	// Exercise:
+	// This postcondition is incomplete. Write an algorithm
+	// that "passes" this postcondition but breaks the
+	// intended "contract."
+	   
+end specification

@@ -1,5 +1,5 @@
 especificacion maximo3(m, n, p: entero) -> max: entero
-	descripcion ''Obtiene el maximo de tres numeros dados.''
+	''Obtiene el maximo de tres numeros dados.''
 	entrada 
 		m : ''Uno de los numeros a revisar.''
 		n : ''Otro de los numeros a revisar.''

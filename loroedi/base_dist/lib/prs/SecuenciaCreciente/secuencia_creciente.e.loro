@@ -1,5 +1,4 @@
 especificacion secuencia_creciente(secuencia: []entero) -> res: booleano
-	descripcion 
 	''Dice si los elementos en una secuencia estan en orden creciente.
 	Por ejemplo, las siguientes secuencias son crecientes:
 	<ul>

@@ -1,5 +1,4 @@
 algoritmo para demoPersona()
-descripción
 	''Simple creacion de algunas persona utilizando @{crearPersona.a};
 	Se visualizan sus datos con @{verPersona} y tambien con el
 	mecanismo proporcionado por defecto por Loro.''

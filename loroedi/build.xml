@@ -220,7 +220,7 @@
 			<replacefilter token="@BUILD@"   value="${DSTAMP}"/>
 		</replace>
 
-		<replace file="${dir.installer}/doc/index.html">
+		<replace dir="${dir.installer}/doc">
 			<replacefilter token="@VERSION@" value="${VERSION}"/>
 			<replacefilter token="@BUILD@"   value="${DSTAMP}"/>
 		</replace>

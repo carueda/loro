@@ -217,7 +217,8 @@ public class BrowserPanel extends JPanel
 		else {
 			back.setEnabled(true);
 			URL url = (URL) stack_back.peek();
-			back.setToolTipText(url.getFile());
+			if ( url != null )
+				back.setToolTipText(url.getFile());
 		}
 		if ( stack_forward.empty() ) {
 			forward.setEnabled(false);
@@ -226,7 +227,8 @@ public class BrowserPanel extends JPanel
 		else {
 			forward.setEnabled(true);
 			URL url = (URL) stack_forward.peek();
-			forward.setToolTipText(url.getFile());
+			if ( url != null )
+				forward.setToolTipText(url.getFile());
 
 		}
 	}
@@ -332,8 +334,10 @@ public class BrowserPanel extends JPanel
 				return;
 			}
 
-			setPageSimple(url);
-			location.setText(url.toString());
+			if ( url != null ) {
+				setPageSimple(url);
+				location.setText(url.toString());
+			}
 
 			updateButtons();
 		}

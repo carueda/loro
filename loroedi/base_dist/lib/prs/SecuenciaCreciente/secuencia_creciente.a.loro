@@ -1,5 +1,4 @@
 algoritmo para secuencia_creciente(secuencia: []entero) -> res: booleano
-descripcion
 	''Se hace un recorrido de izquierda a derecha revisando pares 
 	consecutivos de numeros. Para cada par consecutivo (a, b) se
 	debe verificar que a <= b. Si un par no lo cumple, se

@@ -1,5 +1,5 @@
 algoritmo fiboRecur para fibo(n: entero) -> fibo: entero
-estrategia ''Recursiva directa.''
+ ''Recursiva directa.''
 inicio
 	si n < 3 entonces
 		retorne 1;

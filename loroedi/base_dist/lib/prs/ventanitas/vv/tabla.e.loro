@@ -1,8 +1,7 @@
 paquete vv;
 
 especificación tabla(titcols: []cadena, valcols: [][]cadena)
-    descripción
-           ''Despliega una tabla.''
+   ''Despliega una tabla.''
     entrada
         titcols: ''Titulos para las columnas''
         valcols: ''Arreglo de valores para las columnas''

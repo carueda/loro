@@ -1,5 +1,4 @@
 algoritmo para maximo3(m, n, p: entero) -> max: entero
-descripcion
 	''Estrategia: se utiliza una decision con elementos 'si_no_si'
 	para decidir cual es el numero mas grande. En cada condicion
 	se hacen dos comparaciones al tiempo.

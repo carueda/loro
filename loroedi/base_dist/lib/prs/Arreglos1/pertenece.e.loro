@@ -1,8 +1,7 @@
 especificación pertenece(a: []entero constante, n: entero) 
 		-> esta: booleano
-	descripción
-		''Este proceso informa si un número está en 
-		un arreglo de números.''
+	''Este proceso informa si un número está en 
+	un arreglo de números.''
 	entrada
 		a : ''El arreglo de números.''
 		n : ''El número a buscar en el arreglo.''
@@ -10,7 +9,5 @@ especificación pertenece(a: []entero constante, n: entero)
 		esta : ''El resultado de la búsqueda.
 		        cierto si n esta en a; falso en caso contrario.''
 	pre { a != nulo }
-	pos { esta = cierto <=>
-	  (existe i:entero, 0 <= i && i < #a: (n = a[i]))
-	}
+	pos { esta <=> (existe i:entero, 0 <= i && i < #a: (n = a[i])) }
 fin especificación

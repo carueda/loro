@@ -1,5 +1,5 @@
 algoritmo fiboIter para fibo(n: entero) -> fibo: entero
-estrategia ''Una versión iterativa sencilla.''
+ ''Una versión iterativa sencilla.''
 inicio
 	si n < 3 entonces
 		retorne 1;

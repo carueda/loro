@@ -1,5 +1,5 @@
 algoritmo demopd para PRUEBA()
-descripcion ''Prueba simple de @{pcm.a}.''
+''Prueba simple de @{pcm.a}.''
 inicio
 	// Prueba con 4 matrices.
 

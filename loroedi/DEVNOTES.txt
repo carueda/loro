@@ -2,9 +2,18 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-07-03 (0.9pre3)
-	- Using core 0.8pre3
-	- some more strings
+2004-07-06 (0.9pre4)
+	- Using core 0.8pre4
+	- New base_dist/lib/prs_en/ with demo projects in english:
+		Arrays1
+		simplegui
+	  prs_en/ is used when locale is "en". 
+	
+////////////////////////////////////////////////////////////////////////////
+2004-07-05 (0.9pre3)
+	- Enabled English documentation (doc/en/) if locale is not "es".
+	- Using core 0.8pre3 which brings changes in language rules.
+	- some more strings.
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-07-01 (0.9pre2)

@@ -1,5 +1,4 @@
 algoritmo demo1 para demo()
-estrategia 
 	''Una demostracion que le permite al usuario elegir cual
 	algoritmo utilizar para obtener un cierto numero de la
 	secuencia de Fibonacci.

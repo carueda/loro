@@ -1,5 +1,4 @@
 algoritmo maquina para adivinador()
-    descripción
 	''Algoritmo en el que la maquina hace de adivinador.
 	Se le pide al usuario que piense un numero en un
 	determinado rango y se procede a una interaccion de

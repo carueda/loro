@@ -1,5 +1,5 @@
 especificación verPersona(p: Persona constante)
-descripción ''Muestra los datos de una persona por salida estandar.''
+''Muestra los datos de una persona por salida estandar.''
 entrada
 	p: ''La persona cuyos datos se van a mostrar.''
 pre { p != nulo }

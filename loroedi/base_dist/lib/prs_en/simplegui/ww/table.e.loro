@@ -1,0 +1,11 @@
+package ww;
+
+specification table(titles: []string, values: [][]string)
+   ''Shows a table.''
+    input
+        titles: ''Titles for columns''
+        values: ''Array of values for columns''
+    pre { titles != null && values != null && 
+          titles.length = values[0].length }
+    post { ''a window with the table'' }
+end specification

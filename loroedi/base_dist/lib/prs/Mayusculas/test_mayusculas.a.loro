@@ -1,5 +1,5 @@
 algoritmo para test_mayusculas(alg: algoritmo para mayusculas)
-descripcion ''Unas cuantas afirmaciones de igualdad con resultados esperados,
+	''Unas cuantas afirmaciones de igualdad con resultados esperados,
 	por ejemplo, para indicar que la versión en mayúsculas de "Hola Mundo"
 	es "HOLA MUNDO", se escribe la afirmación:
 	<pre>

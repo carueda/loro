@@ -1,8 +1,7 @@
 especificación adivinador()
-    descripción 
 	''Especificación simple para algoritmos que hacen alguna
 	tarea de adivinación. 
 	En particular, se tienen dos algoritmos: uno en el que
 	el usuario es quien hace el papel de adivinador, y otro
 	en donde la maquina es quien debe adivinar.''
-fin especificación
+fin

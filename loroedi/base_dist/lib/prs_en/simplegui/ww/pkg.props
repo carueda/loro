@@ -1,0 +1,8 @@
+spec.2=table
+spec.1=prompt
+spec.0=message
+alg.3=confirm, ww\:\:confirm
+alg.2=table, ww\:\:table
+alg.1=prompt, ww\:\:prompt
+alg.0=message, ww\:\:message
+spec.3=confirm

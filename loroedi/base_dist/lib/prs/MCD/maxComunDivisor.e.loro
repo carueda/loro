@@ -1,5 +1,4 @@
 especificación maxComunDivisor(n, m: entero) -> mcd : entero
-	descripción
 		''Dados dos enteros, el proceso responde con
 		su máximo común divisor.''
 	entrada

@@ -1,5 +1,4 @@
 algoritmo evalPolDirecto para evalPol(a: []real, x: real) -> val: real
-estrategia 
 	''Sumatoria directa de los terminos del polinomio.
 	En cada termino se evalua la potencia de x (lo cual requiere un
 	ciclo interno a su vez) y se multiplica por el coeficiente

@@ -1,9 +1,8 @@
 paquete vv;
 
 especificación ingresar(m: cadena) -> c: cadena
-    descripción
-           ''Muestra una ventana con mensaje y espera
-		una entrada  del usuario.''
+    ''Muestra una ventana con mensaje y espera
+	una entrada  del usuario.''
     entrada
         m: ''El mensaje a desplegar.''
     salida

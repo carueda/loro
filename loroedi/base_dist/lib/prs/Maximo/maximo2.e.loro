@@ -1,5 +1,5 @@
 especificacion maximo2(m, n: entero) -> max: entero
-	descripcion ''Obtiene el maximo de dos numeros dados.''
+	''Obtiene el maximo de dos numeros dados.''
 	entrada 
 		m : ''Uno de los numeros a revisar.''
 		n : ''El otro numero a revisar.''

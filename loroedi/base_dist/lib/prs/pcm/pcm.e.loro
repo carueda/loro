@@ -1,5 +1,4 @@
 especificación pcm(p: []entero constante, m, s: [][]entero)
-	descripción
 	''Obtiene las tablas m y s para el producto eficiente
 	de una cadena de matrices.
 	Véase 'Introduction to Algorithms' de Cormen et at.''

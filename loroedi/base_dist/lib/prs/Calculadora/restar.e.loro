@@ -1,5 +1,4 @@
 especificacion restar(a: entero, b: entero) -> resultado: entero
-	descripcion
 		''Obtiene el resultado de restar b de a.''
 	entrada
 		a: ''Primer numero''

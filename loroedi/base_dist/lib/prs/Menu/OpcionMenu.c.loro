@@ -1,5 +1,4 @@
 clase OpcionMenu
-	descripcion 
 	''Una opcion de menu tiene un texto que lo
 	identifica y un algoritmo que se ejecuta cuando
 	la opcion es elegida.

@@ -1,0 +1,8 @@
+algorithm for swap(array: []int, i, j: int)
+''We use a temporary variable.''
+begin
+	temp: int;
+	temp := array[i];
+	array[i] := array[j];
+	array[j] := temp;
+end algorithm

@@ -1,5 +1,4 @@
 algoritmo para restarppal()
-estrategia
 	''Despliega un mensaje de explicacion, solicita el valor de a,
 	 solicita el valor de b y despliega el resultado de la resta''
 inicio

@@ -1,0 +1,5 @@
+Examples with arrays
+
+ - swap: to swap two locations in an array.
+   Note the use of variables ending with (') in the specification. 
+

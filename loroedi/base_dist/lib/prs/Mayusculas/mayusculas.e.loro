@@ -1,5 +1,5 @@
 especificacion mayusculas(texto: cadena) -> mayusc: cadena
-	descripcion ''Obtiene la version en mayusculas de una cadena.''
+	''Obtiene la version en mayusculas de una cadena.''
 	entrada 
 		texto : ''El texto a convertir.''
 	salida

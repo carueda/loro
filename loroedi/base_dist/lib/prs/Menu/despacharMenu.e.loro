@@ -1,5 +1,4 @@
 especificación despacharMenu(titulo: cadena, menu: []OpcionMenu)
-	descripcion 
 		''Despliega el titulo y los textos de las opciones
 		interactuando con el usuario para que elija
 		una de las opciones del menu dado. Hecha una

@@ -945,7 +945,14 @@ public class GUI
 		try
 		{
 			String dir = Configuracion.getProperty(Configuracion.DIR);
-			String templ_filename = dir+ "/doc/templprj.html";
+			String templ_filename = dir;
+
+			Locale locale = Loro.getLocale();
+			if ( locale.getLanguage().equals("es") )		
+				templ_filename += "/doc/templprj.html";
+			else //if ( locale.getLanguage().equals("en") )		
+				templ_filename += "/doc/en/templprj.html";
+
 			File file = new File(templ_filename);
 			String content;
 			if ( file.exists() )
@@ -2550,19 +2557,21 @@ public class GUI
 	 * Permite al usuario instalar un proyecto, bien sea de los 
 	 * incluidos en el sistema, o de proveniencia externa.
 	 */
-	private static void _installProject()
-	{
-		String private_prs_directory = Configuracion.getProperty(Configuracion.DIR)+ "/lib/prs/";
+	private static void _installProject() {
+		String private_prs_directory = Configuracion.getProperty(Configuracion.DIR);
+		Locale locale = Loro.getLocale();
+		if ( locale.getLanguage().equals("es") )		
+			private_prs_directory += "/lib/prs/";
+		else //if ( locale.getLanguage().equals("en") )		
+			private_prs_directory += "/lib/prs_en/";
+		
 		List prjnames = new ArrayList();
 
 		File private_prs_dir = new File(private_prs_directory);
-		if ( private_prs_dir.isDirectory() )
-		{
+		if ( private_prs_dir.isDirectory() ) {
 			File[] files = private_prs_dir.listFiles();
-			for ( int i = 0; i < files.length; i++ )
-			{
-				if ( files[i].isDirectory() )
-				{
+			for ( int i = 0; i < files.length; i++ ) {
+				if ( files[i].isDirectory() ) {
 					String name = files[i].getName(); 
 					prjnames.add(name);
 				}
@@ -2588,7 +2597,8 @@ public class GUI
 		
 		JScrollPane sp = new JScrollPane(cb_prjs);
 		f_name.setBorder(createTitledBorder(Str.get("gui.msg_install_prj_with_name")));
-		f_name.setText((String) cb_prjs.getSelectedValue());
+		if ( cb_prjs.getModel().getSize() > 0 )
+			f_name.setText((String) cb_prjs.getSelectedValue());
 
 		final JPanel panel_inc = new JPanel();
 		panel_inc.setLayout(new BoxLayout(panel_inc, BoxLayout.Y_AXIS));
@@ -2601,10 +2611,8 @@ public class GUI
 		sp.setAlignmentX(0f);
 		panel_inc.add(sp);
 
-		cb_prjs.addListSelectionListener(new ListSelectionListener()
-		{
-			public void valueChanged(ListSelectionEvent e)
-			{
+		cb_prjs.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
 				f_name.setText((String) cb_prjs.getSelectedValue());
 				cb_prjs.ensureIndexIsVisible(cb_prjs.getSelectedIndex());
 				radio_inc.setSelected(true);
@@ -2656,19 +2664,15 @@ public class GUI
 
 				if ( lar.toLowerCase().startsWith("http:")
 				||   lar.toLowerCase().startsWith("ftp:")
-				||   lar.toLowerCase().startsWith("file:") )
-				{
-					try
-					{
+				||   lar.toLowerCase().startsWith("file:") ) {
+					try {
 						URL url = new URL(lar);
 						name = new File(url.getPath()).getName();
 					}
-					catch (MalformedURLException ex)
-					{
+					catch (MalformedURLException ex) {
 					}
 				}
-				else
-				{
+				else {
 					// Se asume como archivo local.
 					
 					File file = new File(lar);
@@ -2702,85 +2706,70 @@ public class GUI
 			status
 		};
 		
-        final ProjectDialog form = new ProjectDialog(focusedProject.getFrame(), Str.get("gui.tit_install_prj"), array)
-		{
-			public boolean dataOk()
-			{
+        final ProjectDialog form = new ProjectDialog(focusedProject.getFrame(), Str.get("gui.tit_install_prj"), array) {
+			public boolean dataOk() {
 				String prjname = f_name.getText();
 				String msg = null;
 				boolean ret = true;
 				
-				if ( radio_inc.isSelected() )
-				{
-					String from_name = (String) cb_prjs.getSelectedValue();
+				if ( radio_inc.isSelected() ) {
+					String from_name = null;
+					if ( cb_prjs.getModel().getSize() > 0 )
+						from_name = (String) cb_prjs.getSelectedValue();
 					
-					if ( from_name == null || from_name.trim().length() == 0 )
-					{
+					if ( from_name == null || from_name.trim().length() == 0 ) {
 						msg = Str.get("gui.install_missing_prj_name"); 
 						ret = false;
 					}
 				}
-				else if ( radio_lar.isSelected() )
-				{
+				else if ( radio_lar.isSelected() ) {
 					String lar = f_lar.getText().trim();
-					if ( lar.length() == 0 )
-					{
+					if ( lar.length() == 0 ) {
 						msg = Str.get("gui.install_missing_file"); 
 						ret = false;
 					}
 					else if ( lar.toLowerCase().startsWith("http:")
 					||   lar.toLowerCase().startsWith("ftp:")
-					||   lar.toLowerCase().startsWith("file:") )
-					{
-						try
-						{
+					||   lar.toLowerCase().startsWith("file:") ) {
+						try {
 							URL url = new URL(lar);
 						}
-						catch (MalformedURLException ex)
-						{
+						catch (MalformedURLException ex) {
 							msg = Str.get("gui.install_malformed_url");
 							ret = false;
 						}
 					}
-					else
-					{
+					else {
 						// Se asume como archivo local.
 						
 						File file = new File(lar);
-						if ( !file.exists() )
-						{
+						if ( !file.exists() ) {
 							msg = Str.get("gui.install_file_not_found");
 							ret = false;
 						}
 					}
 				}
 				
-				if ( msg == null )
-				{
-					if ( prjname.trim().length() == 0 )
-					{
+				if ( msg == null ) {
+					if ( prjname.trim().length() == 0 ) {
 						msg = Str.get("gui.install_missing_prj_name");
 						ret = false;
 					}
-					else if ( alreadyOpen(prjname) )
-					{
+					else if ( alreadyOpen(prjname) ) {
 						msg = Str.get("gui.1_install_prj_open", prjname);
 						ret = false;
 					}
-					else if ( new File(new File(prs_dir), prjname).exists() )
-					{
+					else if ( new File(new File(prs_dir), prjname).exists() ) {
 						msg = Str.get("gui.1_install_prj_overwrite", prjname);
 						setAcceptText(Str.get("gui.install_overwrite"));
 					}
-					else
-					{
+					else {
 						setAcceptText(Str.get("gui.install_ok"));
 					}
 				}
 				
 				status.setForeground(ret ? Color.gray : Color.red);
-				if ( msg == null )
-				{
+				if ( msg == null ) {
 					msg = Str.get("gui.install_ok");
 				}
 				status.setText(msg);
@@ -2788,27 +2777,22 @@ public class GUI
 			}
 		};
 		
-		choose_lar.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
+		choose_lar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				String lar = Util.selectFile(
 					focusedProject.getFrame(),
 					Str.get("gui.tit_install_prj"),
 					JFileChooser.FILES_ONLY
 				);
-				if ( lar != null )
-				{
+				if ( lar != null ) {
 					f_lar.setText(lar);
 					radio_lar.setSelected(true);
 				}
 			}
 		});
 
-		browse_for_lar.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
+		browse_for_lar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				radio_lar.setSelected(true);
 				String lar = f_lar.getText().trim();
 				
@@ -2821,10 +2805,8 @@ public class GUI
 			}
 		});
 
-		ActionListener radio_listener = new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
+		ActionListener radio_listener = new ActionListener() {
+			public void actionPerformed(ActionEvent e)  {
 				boolean b = e.getSource() == radio_inc;
 				panel_inc.setEnabled(b);
 				panel_lar.setEnabled(!b);
@@ -2839,20 +2821,17 @@ public class GUI
         form.pack();
 		form.setLocationRelativeTo(focusedProject.getFrame());
 		form.setVisible(true);
-		if ( form.accepted() )
-		{
+		if ( form.accepted() ) {
 			String to_name = f_name.getText();
 			String from_name;
 			
-			if ( radio_inc.isSelected() )
-			{
+			if ( radio_inc.isSelected() ) {
 				// haga copia del directorio:
 				from_name = (String) cb_prjs.getSelectedValue();
 				File private_prj_dir = new File(private_prs_directory, from_name);
 				
 				File prj_dir = new File(new File(prs_dir), to_name);
-				try
-				{
+				try {
 					prj_dir.mkdirs();
 					loroedi.Util.copyDirectory(private_prj_dir, "", prj_dir, true);
 					workspace.addProjectModelName(to_name);
@@ -2861,8 +2840,7 @@ public class GUI
 					// ahora copy documentación:
 					loroedi.Util.copyDirectory(private_prj_dir, ".html", new File(doc_dir), true);
 				}
-				catch(Exception ex)
-				{
+				catch(Exception ex) {
 					ex.printStackTrace();
 					JOptionPane.showOptionDialog(
 						focusedProject.getFrame(),
@@ -2878,35 +2856,28 @@ public class GUI
 				}
 				
 			}
-			else if ( radio_lar.isSelected() )
-			{
+			else if ( radio_lar.isSelected() ) {
 				URL url;
 				
 				String lar = f_lar.getText().trim();
 				Preferencias.ponPreferencia(Preferencias.PRJ_EXTERN_LAST, lar);
 				if ( lar.toLowerCase().startsWith("http:")
 				||   lar.toLowerCase().startsWith("ftp:") 
-				||   lar.toLowerCase().startsWith("file:") )
-				{
-					try
-					{
+				||   lar.toLowerCase().startsWith("file:") ) {
+					try {
 						url = new URL(lar);
 					}
-					catch (MalformedURLException ex)
-					{
+					catch (MalformedURLException ex) {
 						// But shouldn't happen.
 						return;
 					}
 				}
-				else
-				{
+				else {
 					File file = new File(lar);
-					try
-					{
+					try {
 						url = file.toURL();
 					}
-					catch (MalformedURLException ex)
-					{
+					catch (MalformedURLException ex) {
 						// But shouldn't happen.
 						return;
 					}
@@ -2919,21 +2890,18 @@ public class GUI
 				
 				from_name = dir.getName(); 
 			}
-			else
-			{
+			else {
 				throw new RuntimeException("Impossible");
 			}
 			
 			String msg; 
 			boolean compile_project = false;
-			if ( chk_open.isSelected() )
-			{
+			if ( chk_open.isSelected() ) {
 				_openProject(to_name);
 				msg = Str.get("gui.2_install_completed_compile", from_name, to_name)+ "\n\n";
 				compile_project = true;
 			}
-			else
-			{
+			else {
 				msg = Str.get("gui.2_install_completed", from_name, to_name)+ "\n\n";
 			}
 			message(focusedProject.getFrame(), msg);

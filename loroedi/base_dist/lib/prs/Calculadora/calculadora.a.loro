@@ -1,5 +1,4 @@
 algoritmo para calculadora()
-estrategia
 	''Despliega el menu de opciones como esta especificado;
 	 Lee la opcion del usuario y con un esquema de si-entonces
 	 anidados despacha la operacion deseada. En caso de una

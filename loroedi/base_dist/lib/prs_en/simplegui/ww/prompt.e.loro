@@ -1,0 +1,11 @@
+package ww;
+
+specification prompt(m: string) -> c: string
+    ''Shows a window with a message and waits input from the user.''
+    input
+        m: ''The message to be confirmed.''
+    output
+        c: ''String given by the user. null if cancelled.''
+    pre { m != null }
+    post { true }
+end specification

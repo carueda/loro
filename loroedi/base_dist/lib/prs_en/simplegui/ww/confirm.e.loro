@@ -1,0 +1,11 @@
+package ww;
+
+specification confirm(m: string) -> b: boolean
+    ''Shows a window with a message and waits response from the user.''
+    input
+        m: ''The message to be confirmed.''
+    output
+        b: ''true if the user has accepted the message.''
+    pre { m != null }
+    post { ''b = true if the user has accepted the message.'' }
+end specification

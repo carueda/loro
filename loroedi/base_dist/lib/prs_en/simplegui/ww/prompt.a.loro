@@ -1,0 +1,8 @@
+package ww;
+
+algorithm for prompt(m: string) -> c: string
+implementation "bsh" 
+{%
+	return JOptionPane.showInputDialog(null, m);
+%}
+end algorithm

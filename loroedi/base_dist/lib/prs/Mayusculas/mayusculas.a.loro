@@ -1,5 +1,4 @@
 algoritmo para mayusculas(texto: cadena) -> mayusc: cadena
-descripcion
 	''Recorrido haciendo conversion caracter por caracter.''
 inicio
 	mayusc := "";

@@ -1,6 +1,5 @@
 algoritmo para test_secuencia_creciente(alg: algoritmo para secuencia_creciente)
-    descripción
-           ''Contiene código para probar el algoritmo pasado como argumento''
+''Contiene código para probar el algoritmo pasado como argumento''
 inicio
 	// caso de frontera
 	arr: []entero := crear[0] entero;  // arreglo vacio

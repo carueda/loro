@@ -1,10 +1,9 @@
 paquete vv;
 
 especificación mensaje(m: cadena)
-    descripción
-       ''Muestra una ventana de mensaje.
-        <p>Ejemplo:
-        <p><code>  vv::mensaje("Hola! :-)");  </code> ''
+   ''Muestra una ventana de mensaje.
+	<p>Ejemplo:
+	<p><code>  vv::mensaje("Hola! :-)");  </code> ''
     entrada
         m: ''El mensaje a desplegar.''
     pre { m != nulo }

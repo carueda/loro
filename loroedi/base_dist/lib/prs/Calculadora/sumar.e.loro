@@ -1,5 +1,4 @@
 especificacion sumar(a: entero, b: entero) -> resultado: entero
-	descripcion
 		''Obtiene el resultado de sumar a y b.''
 	entrada
 		a: ''Primer numero''

@@ -1,5 +1,5 @@
 algoritmo para pcm(p: []entero constante, m, s: [][]entero)
-descripción ''...''
+''(ver 'Introduction to Algorithms' de Cormen et at.)''
 inicio
 	n, q, j: entero;
 	n := #m;

@@ -1,10 +1,10 @@
 especificación crearPersona(n:cadena, e:entero) -> p: Persona
-descripción ''Crea un objeto persona.''
-entrada
-	n: ''Nombre para la persona.''
-	e: ''Edad para la persona.''
-salida
-	p: ''El objeto creado.''
-pre { n != nulo && e >= 0 }
-pos { p.nombre = n && p.edad = e }
+	''Crea un objeto persona.''
+	entrada
+		n: ''Nombre para la persona.''
+		e: ''Edad para la persona.''
+	salida
+		p: ''El objeto creado.''
+	pre { n != nulo && e >= 0 }
+	pos { p.nombre = n && p.edad = e }
 fin especificación

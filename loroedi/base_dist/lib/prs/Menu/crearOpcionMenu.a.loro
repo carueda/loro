@@ -1,7 +1,6 @@
 algoritmo para crearOpcionMenu(t: cadena, a: algoritmo para opcionMenu)
 		-> om: OpcionMenu
-descripción 
-	''Se crea una instancia de OpcionMenu y se asignan los atributos.''
+''Se crea una instancia de OpcionMenu y se asignan los atributos.''
 inicio
 	om := crear OpcionMenu;
 	om.texto := t;

@@ -1,0 +1,13 @@
+package ww;
+
+algorithm for message(m: string)
+implementation "bsh" 
+{%
+	JOptionPane.showMessageDialog(
+		null,
+		m,
+		"Message",
+		JOptionPane.WARNING_MESSAGE
+	);
+%}
+end algorithm

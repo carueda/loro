@@ -1,5 +1,5 @@
 algoritmo para intercambiar(arreglo: []entero, i, j: entero)
-estrategia ''Con ayuda de una variable temporal.''
+''Nos ayudamos de una variable temporal.''
 inicio
 	temp: entero;
 	temp := arreglo[i];

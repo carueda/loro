@@ -1,5 +1,5 @@
 algoritmo para verPersona(p: Persona constante)
-descripción ''Simple uso de @{loroI::sistema::escribirln.a}.''
+''Simple uso de @{loroI::sistema::escribirln.a}.''
 inicio
 	escribirln("Datos de persona:");
 	escribirln("  Nombre: " +p.nombre);

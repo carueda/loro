@@ -1,0 +1,26 @@
+package ww;
+
+algorithm for table(titles: []string, values: [][]string)
+implementation "bsh" 
+{%
+	dataModel = new javax.swing.table.TableModel() {
+		getColumnClass(int columnIndex) { return String.class; }
+		getColumnName(int col) { return titles[col]; }
+		getColumnCount() { return titles.length; }
+		getRowCount() { return values.length; }
+		Object getValueAt(int row, int col) { return values[row][col]; }
+		isCellEditable(int rowIndex, int columnIndex) { return false; }
+		setValueAt(Object aValue, int rowIndex, int columnIndex) { }
+		addTableModelListener(TableModelListener l) {}
+		removeTableModelListener(TableModelListener l) {}
+	};
+	table = new JTable(dataModel);
+	scrollpane = new JScrollPane(table);
+	
+	frame = new JFrame("A table");
+	frame.getContentPane().add(scrollpane);
+	frame.setLocation(100, 100);
+	frame.setSize(500, 100);
+	frame.setVisible(true);
+%}
+end algorithm

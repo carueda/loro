@@ -1,0 +1,7 @@
+Simple window components for GUI.
+
+<p> NOTE: This is esentially a test of the implementation
+of Loro specs using the Java language via BeanShell.
+
+<p> Main package is: ww
+<p> A demo is included. (Ctrl-M)

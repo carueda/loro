@@ -57,7 +57,12 @@ public class HelpManager {
 	protected HelpManager() throws Exception {
 		home_url = null;
 		String dir = Configuracion.getProperty(Configuracion.DIR);
-		String page = "file:" +dir+ "/doc/index.html";
+		String page = "file:" +dir;
+		Locale locale = Loro.getLocale();
+		if ( locale.getLanguage().equals("es") )		
+			page += "/doc/index.html";
+		else //if ( locale.getLanguage().equals("en") )		
+			page += "/doc/en/index.html";
 		home_url = new URL(page);
 
 		frame = new JFrame(Str.get("gui.help_title"));

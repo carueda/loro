@@ -1,5 +1,4 @@
 algoritmo para restar(a: entero, b: entero) -> resultado: entero
-estrategia
 	''Se resta b de a y se asigna a resultado.''
 inicio
 	resultado := a - b;

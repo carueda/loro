@@ -1,5 +1,5 @@
 algoritmo fiboBinet para fibo(n: entero) -> fibo: entero
-estrategia ''Versión de Binet.''
+ ''Versión de Binet.''
 inicio
 	r5, res: real;
 	r5 := 2.23606797749979;  // raiz cuadrada de 5 aprox.

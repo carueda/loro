@@ -1,5 +1,4 @@
 algoritmo para despacharMenu(titulo: cadena, menu: []OpcionMenu)
-descripción
 	''Se hace un ciclo principal para mostrar el menu y despachar
 	opcion del usuario. Para mostrar el menu se hace un ciclo
 	para desplegar los textos de las opciones; cada texto se

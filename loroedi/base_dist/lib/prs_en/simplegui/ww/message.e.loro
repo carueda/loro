@@ -1,0 +1,10 @@
+package ww;
+
+specification message(m: string)
+   ''Shows a window with a message.
+	<p>Example:
+	<p><code>  ww::message("Hello! :-)");  </code> ''
+    input
+        m: ''The message to be displayed.''
+    pre { m != null }
+end specification

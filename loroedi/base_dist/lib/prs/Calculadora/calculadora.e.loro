@@ -1,5 +1,4 @@
 especificacion calculadora()
-	descripcion
 		''Despliega un menu de opciones numericas asi:
 		 1 invoca la funcion de sumar dos numeros.
 		 2 invoca la funcion de restar dos numeros.

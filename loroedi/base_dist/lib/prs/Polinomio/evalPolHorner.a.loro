@@ -1,8 +1,7 @@
 algoritmo evalPolHorner para evalPol(a: []real, x: real) -> val: real
-estrategia 
 	''Se aplica la regla de Horner, la cual es mucho mas eficiente
 	que la evaluacion directa de la sumatoria que define al
-	polinomio. Para la regla de Horner basta solo un ciclo,
+	polinomio. Para la regla de Horner basta con solo un ciclo,
 	mientras que en @{evalPolDirecto.a} se requiere un ciclo
 	anidado dentro de otro.''
 inicio

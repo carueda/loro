@@ -1,5 +1,4 @@
 especificación opcionMenu()
-	descripcion 
 		''Proceso que despacha una opcion de menu. 
 		Lo mas general es que esta sea una operacion que no requiere
 		parametros y que no retorna ningun resultado.''

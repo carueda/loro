@@ -1,0 +1,13 @@
+// show a table
+ww::table(
+   [ "Language",  "Comment",              "web"  ],
+   [ ["Loro",     "very interesting",  "http://loro.sf.net" ], 
+     ["Ruby",     "interesting",       "http://ruby-lang.org" ],
+     ["Python",   "interesting",       "http://python.org"]  ]
+);
+
+// a dialog
+name: string := ww::prompt("What's your name?");
+if name != null then
+	ww::message("Hello " + name); 
+end if;

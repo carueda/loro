@@ -1,5 +1,4 @@
 especificación fibo(n: entero) -> fibo: entero
-	descripción
 		''Obtiene un número de la sucesión de Fibonacci.''
 	entrada
 		n : ''El índice en la sucesión. n = 1 para el primero.''

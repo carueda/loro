@@ -1,0 +1,8 @@
+package ww;
+
+algorithm for confirm(m: string) -> b: boolean
+implementation "bsh" 
+{%
+	return 0 == JOptionPane.showConfirmDialog(null,	m);
+%}
+end algorithm
