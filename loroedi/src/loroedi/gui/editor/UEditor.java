@@ -39,7 +39,7 @@ public class UEditor implements EditorListener
 	protected MessageArea msgArea;
 	protected JToolBar tb;
 	
-	/** Un UEditorListener que no hace nada. */
+	/** Un UEditorListener que no hace nada (null object pattern). */
 	protected static UEditorListener nullEditorListener = new UEditorListener()
 		{
 				public void changed() {} 
@@ -157,7 +157,7 @@ public class UEditor implements EditorListener
 	 */
 	public void setEditorListener(UEditorListener listener)
 	{
-		this.listener = listener;
+		this.listener = listener != null ? listener : nullEditorListener;
 		frame.addWindowListener(new java.awt.event.WindowAdapter()
 		{
 			public void windowClosing(java.awt.event.WindowEvent _)
@@ -375,14 +375,10 @@ public class UEditor implements EditorListener
 	/** 
 	 * Implementación para EditorListener.
 	 * Notifica al UEditorListener en caso de que exista.
-	 * No hace nada si no hay un listener registrado.
 	 */
 	public void estaModificado()
 	{
-		if ( listener != null  )
-		{
-			listener.changed();
-		}
+		listener.changed();
 	}
 
 	////////////////////////////////////////////////////////////////////////

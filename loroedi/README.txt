@@ -64,6 +64,12 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-03-10 (0.8pre9)
+
+	- UEditor: cambio menor para más consistencia con el patrón 
+	  "null object" para el UEditorListener. 
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-15 (0.8pre8)
 
 	- Nueva preferencia I_RECT para ventana de interpretación destinada 

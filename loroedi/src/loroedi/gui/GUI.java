@@ -32,9 +32,6 @@ import java.net.URL;
 //////////////////////////////////////////////////
 /**
  * Controlador general del entorno integrado.
- *
- * @author Carlos Rueda
- * @version 2002-10-06
  */
 public class GUI
 {
