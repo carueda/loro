@@ -25,7 +25,6 @@ import javax.swing.*;
  * Ventana para interpretación.
  *
  * @author Carlos Rueda
- * @version 2002-10-02
  */
 public abstract class InterpreterWindow extends Thread
 implements ActionListener
@@ -39,6 +38,8 @@ implements ActionListener
 
 	JButton butTerminar;
 	JButton butCerrar;
+	JButton butStep;
+	JButton butResume;
 
 	JEditTextArea ta;
 	protected JTerm term;
@@ -107,16 +108,35 @@ implements ActionListener
 		);
 		javax.swing.JButton but;
 		butCerrar = but = new javax.swing.JButton("Cerrar");
-		butCerrar.setToolTipText("Cierra esta ventana");
-		butCerrar.setEnabled(false);
+		but.setToolTipText("Cierra esta ventana");
+		but.setEnabled(false);
 		but.addActionListener(this);
 		pan.add(but);
+		
 		pan.add(new javax.swing.JLabel("        "));
 		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
-		butTerminar.setToolTipText("Termina abruptamente la ejecución en curso");
+		but.setToolTipText("Termina abruptamente la ejecución en curso");
 		but.addActionListener(this);
-		butTerminar.setEnabled(false);
+		but.setEnabled(false);
 		pan.add(but);
+		
+		if ( loroii.isTraceable() )
+		{
+			pan.add(new javax.swing.JLabel("        "));
+			butStep = but = new javax.swing.JButton("Paso");
+			but.setToolTipText("Siguiente paso en la ejecución");
+			but.addActionListener(this);
+			but.setEnabled(true);
+			pan.add(but);
+			
+			pan.add(new javax.swing.JLabel("        "));
+			butResume = but = new javax.swing.JButton("Continuar");
+			but.setToolTipText("Continúa la ejecución");
+			but.addActionListener(this);
+			but.setEnabled(true);
+			pan.add(but);
+		}
+		
 		content_pane.add(pan, "South");
 
 		Rectangle rect = Preferencias.obtRectangulo(Preferencias.II_RECT);
@@ -212,6 +232,11 @@ implements ActionListener
 		{
 			butCerrar.setEnabled(true);
 			butTerminar.setEnabled(false);
+			if ( loroii.isTraceable() )
+			{
+				butStep.setEnabled(true);
+				butResume.setEnabled(true);
+			}
 			GUI.updateSymbolTable();
 		}
 	}
@@ -230,6 +255,24 @@ implements ActionListener
 			if ( readingThread != null && readingThread != Thread.currentThread() )
 			{
 				readingThread.interrupt();
+			}
+		}
+		else if ( cmd.equalsIgnoreCase("continuar") )
+		{
+			loroii.resume();
+		}
+		else if ( cmd.equalsIgnoreCase("paso") )
+		{
+			try
+			{
+				loroii.nextStep();
+			}
+			catch(InterruptedException ex)
+			{
+				if ( readingThread != null && readingThread != Thread.currentThread() )
+				{
+					readingThread.interrupt();
+				}
 			}
 		}
 
@@ -419,6 +462,11 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	{
 		term.setInitialStringToRead(s);
 		butTerminar.setEnabled(execute);
+		if ( loroii.isTraceable() )
+		{
+			butStep.setEnabled(execute);
+			butResume.setEnabled(execute);
+		}
 		readingThread = Thread.currentThread();
 		try
 		{
@@ -443,12 +491,22 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 
 			// habilite el boton de terminacion si el modo es ejecucion:
 			butTerminar.setEnabled(execute);
+			if ( loroii.isTraceable() )
+			{
+				butStep.setEnabled(execute);
+				butResume.setEnabled(execute);
+			}
 			
 			if ( execute )
 			{
 				String res = loroii.ejecutar(text);
 				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 				butTerminar.setEnabled(false);
+				if ( loroii.isTraceable() )
+				{
+					butStep.setEnabled(false);
+					butResume.setEnabled(false);
+				}
 				
 				if ( term.somethingWritten() )
 				{
@@ -479,6 +537,11 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 				pw.println();
 			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 			butTerminar.setEnabled(false);
+			if ( loroii.isTraceable() )
+			{
+				butStep.setEnabled(false);
+				butResume.setEnabled(false);
+			}
 		}
 	}
 	
@@ -487,7 +550,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	static String obtModo(boolean execute)
 	{
 		return execute ? "Interpretación completa con ejecución"
-					   : "Interpretación sin ejecucion (sólo chequeo)"
+		               : "Interpretación sin ejecucion (sólo chequeo)"
 		;
 	}
 

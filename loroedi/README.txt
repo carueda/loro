@@ -64,6 +64,12 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2002-12-05 (0.8pre8)
+
+	- InterpreterWindow: Nuevos comandos para ejecución dependiendo de si 
+	  loroii.isTraceable(). En construcción. 
+	
+////////////////////////////////////////////////////////////////////////////
 2002-11-27 (0.8pre8) Enlazando con nuevo núcleo 0.7.7
 
 	- Resaltado de: "interfaz".  Ver LoroTokenMarker.java.
