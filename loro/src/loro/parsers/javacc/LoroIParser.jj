@@ -36,6 +36,10 @@
 //
 //		2002-11-27
 //		- Nueva producción e_este()
+//		- Nuevo palabra reservada "interfaz", que es la palabra correcta
+//		  según la RAE.  Por ahora se deja también "interface".
+//		- Se pone opcional palabra "estrategia" en constructor (la sintaxis
+//		  de los constructores está por revisarse en general).
 //
 //		2002-11-21
 //		- Nuevas palabras reservadas y sintaxis correspondiente para:
@@ -419,7 +423,7 @@ TOKEN : // otras palabras reservadas
   | < INICIO: "inicio">
   | < IMPLEMENTA: "implementa">
   | < INTENTE: "intente">
-  | < INTERFACE: "interface">
+  | < INTERFACE: "interfaz" | "interface">
   | < LANCE: "lance">
   | < METODO: "metodo" | "método">
   | < MIENTRAS: "mientras" >
@@ -593,7 +597,7 @@ NInterface interface_() :
 	NEspecificacion op;
 }
 {
-	tini="interface" i=tid()
+	tini=<INTERFACE> i=tid()
 	[
 		"extiende" inter=tnombre() { interfaces.addElement(inter); }
 		         ( "," inter=tnombre() { interfaces.addElement(inter); } )*
@@ -602,7 +606,7 @@ NInterface interface_() :
 		(
 			op=especificacion()     { opers.add(op); }
 		)*
-	"fin" tfin="interface"
+	"fin" tfin=<INTERFACE>
 	{
 		TNombre[] inters = new TNombre[interfaces.size()];
 		interfaces.copyInto(inters);
@@ -763,7 +767,7 @@ NConstructor constructor() :
 	   [    "entrada" ( "nada" | dent=descripciones() )  ]
 	   [    "pre" pre=afirmacion()  ]
 	   [    "pos" pos=afirmacion()  ]
-	"estrategia" e=tdoc()
+	[ <DESCRIPCION> | "estrategia" ] e=tdoc()
 	"inicio"
 		a=acciones()
 	"fin" tfin="constructor"
@@ -993,8 +997,8 @@ NTipo ntipo() :
 		ti="[" "]" t=ntipo()    
 		{ t = ConstructorArbol.crearNTipoArreglo(ti, t); }
 	  |
-	    // por ahora obliga palabra clave "interface", mientras se completa manejo. 2002-05-24
-		ti="interface" nom=tnombre()  
+	    // por ahora obliga palabra clave <INTERFACE>, mientras se completa manejo. 2002-05-24
+		ti=<INTERFACE> nom=tnombre()  
 		{ t = ConstructorArbol.crearNTipoInterface(ti, nom); }
 	  |
 		ti="algoritmo"	[ "para" nom=tnombre() ]

@@ -32,6 +32,19 @@ public interface LAmbiente
 	 */
 	public LObjeto crearInstancia(LClase c)
 	throws LException;
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene el objeto "éste" cuando el algoritmo es un método
+	 * de instancia.
+	 *
+	 * @return			El objeto "éste".  null si el algoritmo
+	 *                  no es un método.
+	 * @throws			LException Si se presenta algun error.
+	 */
+	public LObjeto obtEste()
+	throws LException;
+
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene un algoritmo Loro por su nombre completo.

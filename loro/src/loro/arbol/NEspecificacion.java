@@ -198,4 +198,20 @@ public class NEspecificacion extends NUnidad implements IUnidad.IEspecificacion
 	{
 		return interf;
 	}
+
+	////////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene el nombre compuesto asociado a un nombre simple.
+	 * Si no hay asociacion en mi propia lista de asociaciones,
+	 * se intenta con la interface en caso que yo sea una operación.
+	 */
+	public String obtNombreCompuesto(String simple)
+	{
+		String ncomp = super.obtNombreCompuesto(simple);
+
+		if ( ncomp == null && interf != null )
+			ncomp = interf.obtNombreCompuesto(simple);
+		
+		return ncomp;
+	}
 }

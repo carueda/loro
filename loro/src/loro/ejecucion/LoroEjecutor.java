@@ -205,7 +205,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		
 		String src = alg.obtInfoImplementacion();
 		bsh.Interpreter bsh = new bsh.Interpreter();
-//bsh.getNameSpace().importClass("loro.ejecucion.ArregloBaseNoCero");
+		bsh.getNameSpace().importPackage("loro.ijava");
 		Object res = null;
 		try
 		{
@@ -281,6 +281,13 @@ public class LoroEjecutor extends LoroEjecutorBase
 		{
 			throw new LException(ex.getMessage());
 		}
+	}
+
+	//////////////////////////////////////////////////////////////
+	public LObjeto obtEste()
+	throws LException
+	{
+		return este;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -614,7 +621,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 			else
 			{
 				//
-				// PENDIENTE: Implementación incompleta!
+				// PENDIENTE: Implementación bajo ajustes!
 				//
 				
 				String nombreMetodo = alg.obtNombreSimpleCadena();
@@ -633,10 +640,19 @@ search:
 							NInterface ni = mu.obtInterface(interfs[i].obtCadena());
 							if ( ni == null )
 							{
+								// intente nombre compuesto:
+								String nombreCompuesto = unidadActual.obtNombreCompuesto("i" +interfs[i].obtCadena());
+								if ( nombreCompuesto != null )
+									ni = mu.obtInterface(nombreCompuesto);
+							}
+						
+							if ( ni == null )
+							{
 								throw _crearEjecucionException(alg,
 									"No encontrada la interface " +interfs[i].obtCadena()
 								);
 							}
+
 							NEspecificacion[] opers = ni.obtOperacionesDeclaradas();
 							for ( int j = 0; j < opers.length; j++ )
 							{
@@ -667,6 +683,12 @@ search:
 				);
 			}
 
+			
+/* -------
+   Esta sección hacia las declaraciones de los atributos en la tabla
+   de simbolos. Ahora no se hace puesto que estos atributos deben
+   accederse a traves de "éste".
+   
 			if ( clase != null )
 			{
 				// Se trata de método.
@@ -695,7 +717,7 @@ search:
 					_insertarEnTablaSimbolos(et, d_id);
 				}
 			}
-			
+----- */
 
 			TId id = alg.obtId();
 
@@ -1078,10 +1100,6 @@ search:
 		NClase clase = n.obtClase();
 		_pushClase(clase);
 
-		// Cree objeto a retornar y actualice "éste":
-		Objeto obj = new Objeto(clase);
-		este = obj;
-
 		List decl_atrs = null;
 		try
 		{
@@ -1094,8 +1112,14 @@ search:
 			);
 		}
 
+		// Cree objeto a retornar y actualice "éste":
+		Objeto obj = new Objeto(clase);
+		Objeto save_este = este;
+		este = obj;
+
 		try
 		{
+			int marca = tabSimb.marcar();
 			for ( Iterator it = decl_atrs.iterator(); it.hasNext(); )
 			{
 				NDeclDesc d = (NDeclDesc) it.next();
@@ -1116,11 +1140,18 @@ search:
 				String atr = d_id.obtId();
 				
 				_ponValorAObjeto(obj, atr, val, n);
-			
+
+
+				// Se hacen las declaraciones de los atributos para dar soporte
+   				// a las posibles expresiones de inicialización.
 				EntradaTabla et = new EntradaTabla(atr, d_tipo);
 				et.ponValor(val);
 				_insertarEnTablaSimbolos(et, d_id);
 			}
+			
+			// Se deshacen las declaraciones de atributos: 
+			tabSimb.irAMarca(marca);
+			
 
 			// Enlace parámetros reales para el constructor:
 			NDeclaracion[] n_pent = n.obtParametrosEntrada();
@@ -1144,6 +1175,10 @@ search:
 		catch (loro.compilacion.ChequeadorException ex)
 		{
 			throw new RuntimeException("Imposible: " +ex);
+		}
+		finally
+		{
+			este = save_este;
 		}
 
 		_pop();
@@ -1838,6 +1873,8 @@ search:
 			a[i] = _ejecutarExpresion(args[i]);
 		}
 
+		Objeto save_este = este;
+
 		// ejecute la expresión que se va a invocar:
 		objInvocado = null;
 		enInvocacion = expr instanceof NId || expr instanceof NSubId;
@@ -1861,14 +1898,19 @@ search:
 				);
 			}
 
-			Objeto save_este = este;
 			
+			este = objInvocado;
 			argsParaAlgoritmo = a;
 
 			// todo listo para ejecutar el algoritmo:
-			alg.aceptar(this);
-			
-			este = save_este;
+			try
+			{
+				alg.aceptar(this);
+			}
+			finally
+			{
+				este = save_este;
+			}
 		}
 		else if ( invoc instanceof LAlgoritmo )
 		{
@@ -2309,12 +2351,13 @@ search:
 		int hv = ((Integer)_ejecutarExpresion(hasta)).intValue();
 
 		String ident;
+		int marca = 0;  // cualquier inicializacion
 
 		NDeclaracion dec = n.obtDeclaracion();
 		if ( dec != null )		// Declaración interna
 		{
 			// Marcar la tabla;
-			tabSimb.marcar();
+			marca = tabSimb.marcar();
 			dec.aceptar(this);
 			ident = dec.obtId().obtId();
 		}
@@ -2329,66 +2372,70 @@ search:
 		// ponga el valor inicial para ident:
 		tabSimb.ponValor(ident, new Integer(dv));
 
-		while ( true )
+		try
 		{
-			// consulte valor actual de la variable de control:
-			int i = ((Integer) tabSimb.obtValor(ident)).intValue();
-
-			// verifique condicion de continuacion en el ciclo:
-			if (  bajando && i >= hv   ||   !bajando && i <= hv )
+			while ( true )
 			{
-				// ejecute las acciones:
-				try
+				// consulte valor actual de la variable de control:
+				int i = ((Integer) tabSimb.obtValor(ident)).intValue();
+	
+				// verifique condicion de continuacion en el ciclo:
+				if (  bajando && i >= hv   ||   !bajando && i <= hv )
 				{
-					_visitarAccionesIteracion(n, acciones);
-				}
-				catch ( ControlInteracionException ex )
-				{
-					TId etq_ex = ex.obtEtiqueta();
-
-					// Esta exception es para este ciclo si su
-					// etiqueta es nula, o si las dos etiquetas
-					// son iguales:
-					if ( etq_ex == null
-					||  (etq_ciclo != null && etq_ex.obtId().equals(etq_ciclo.obtId())) )
+					// ejecute las acciones:
+					try
 					{
-						// es para este ciclo.
-						if ( ex.esTermine() )
+						_visitarAccionesIteracion(n, acciones);
+					}
+					catch ( ControlInteracionException ex )
+					{
+						TId etq_ex = ex.obtEtiqueta();
+	
+						// Esta exception es para este ciclo si su
+						// etiqueta es nula, o si las dos etiquetas
+						// son iguales:
+						if ( etq_ex == null
+						||  (etq_ciclo != null && etq_ex.obtId().equals(etq_ciclo.obtId())) )
 						{
-							break;
+							// es para este ciclo.
+							if ( ex.esTermine() )
+							{
+								break;
+							}
+							else
+							{
+								// Nada que hacer.
+								// Simplemente vaya y actualice variable de control.
+								
+								// Anteriormente se hacia un 'continue' ERRONEAMENTE
+							}
 						}
 						else
 						{
-							// Nada que hacer.
-							// Simplemente vaya y actualice variable de control.
-							
-							// Anteriormente se hacia un 'continue' ERRONEAMENTE
+							// NO es para este ciclo; relance la exception:
+							throw ex;
 						}
 					}
-					else
-					{
-						// NO es para este ciclo; relance la exception:
-						throw ex;
-					}
+	
+					// haga la actualizacion de la variable de control:
+					i = ((Integer) tabSimb.obtValor(ident)).intValue();
+					i = bajando ? i - pv : i + pv;
+	
+					// pongalo en la tabla de simbolos:
+					tabSimb.ponValor(ident, new Integer(i));
 				}
-
-				// haga la actualizacion de la variable de control:
-				i = ((Integer) tabSimb.obtValor(ident)).intValue();
-				i = bajando ? i - pv : i + pv;
-
-				// pongalo en la tabla de simbolos:
-				tabSimb.ponValor(ident, new Integer(i));
-			}
-			else
-			{
-				break;
+				else
+				{
+					break;
+				}
 			}
 		}
-
-		if ( dec != null )		// Declaración interna
+		finally
 		{
-			// Desmarcar la tabla;
-			tabSimb.desmarcar();
+			if ( dec != null )		// Declaración interna
+			{
+				tabSimb.irAMarca(marca);
+			}
 		}
 	}
 	/**
@@ -2488,6 +2535,8 @@ search:
 	public void visitar(NIntente n)
 	throws VisitanteException
 	{
+		int marca = tabSimb.marcar();
+		
 		try
 		{
 			Nodo[] acciones = n.obtAcciones();
@@ -2526,7 +2575,7 @@ search:
 			
 			if ( c != null )   // si hubo un atrape adecuado
 			{
-				tabSimb.marcar();
+				int marcax = tabSimb.marcar();
 				try
 				{
 					NDeclaracion d = c.obtDeclaracion();
@@ -2538,7 +2587,7 @@ search:
 				}
 				finally
 				{
-					tabSimb.desmarcar();
+					tabSimb.irAMarca(marcax);
 				}
 			}
 			else
@@ -2546,12 +2595,21 @@ search:
 		}
 		finally
 		{
+			tabSimb.irAMarca(marca);
 			NAtrape f = n.obtSiempre();
 			if ( f != null )
 			{
-				Nodo[] cacciones = f.obtAcciones();
-				for ( int i = 0; i < cacciones.length; i++ )
-					cacciones[i].aceptar(this);
+				int marcax = tabSimb.marcar();
+				try
+				{
+					Nodo[] cacciones = f.obtAcciones();
+					for ( int i = 0; i < cacciones.length; i++ )
+						cacciones[i].aceptar(this);
+				}
+				finally
+				{
+					tabSimb.irAMarca(marcax);
+				}
 			}
 		}
 	}

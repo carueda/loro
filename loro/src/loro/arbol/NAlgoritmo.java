@@ -327,4 +327,21 @@ public class NAlgoritmo extends NUnidad implements IUnidad.IAlgoritmo
 	{
 		return clase == null ? super.obtNombreFuente() : clase.obtNombreFuente();
 	}
+
+	////////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene el nombre compuesto asociado a un nombre simple.
+	 * Si no hay asociacion en mi propia lista de asociaciones,
+	 * se intenta con la clase en caso que yo sea un método.
+	 */
+	public String obtNombreCompuesto(String simple)
+	{
+		String ncomp = super.obtNombreCompuesto(simple);
+
+		if ( ncomp == null && clase != null )
+			ncomp = clase.obtNombreCompuesto(simple);
+		
+		return ncomp;
+	}
+
 }

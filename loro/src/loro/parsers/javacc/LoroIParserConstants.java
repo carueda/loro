@@ -147,7 +147,7 @@ public interface LoroIParserConstants {
     "\"inicio\"",
     "\"implementa\"",
     "\"intente\"",
-    "\"interface\"",
+    "<INTERFACE>",
     "\"lance\"",
     "<METODO>",
     "\"mientras\"",

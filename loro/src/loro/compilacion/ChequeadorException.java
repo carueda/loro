@@ -35,6 +35,8 @@ public class ChequeadorException extends VisitanteException
 	{
 		super(s);
 		this.u = u;
+		if ( u == null )
+			printStackTrace();
 	}
 
 	//////////////////////////////////////////////////////////////

@@ -398,8 +398,10 @@ class ConstructorArbol
 			rango = obtRango(ti, tf);
 		else if ( a.length > 0 )
 			rango = obtRango(ti, a[a.length - 1]);
-		else
+		else if ( d != null )
 			rango = obtRango(ti, d);
+		else
+			rango = obtRango(ti);
 			
 		return new NAtrape(rango, d, a);
 	}

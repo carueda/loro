@@ -441,7 +441,7 @@ public class Chequeador extends ChequeadorBase
 			}
 		}
 
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		try
 		{
 			Nodo[] acciones = n.obtAcciones();
@@ -449,7 +449,7 @@ public class Chequeador extends ChequeadorBase
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 		}
 	}
 
@@ -462,17 +462,15 @@ public class Chequeador extends ChequeadorBase
 	{
 		TId etq = n.obtEtiqueta();
 		String label = _chequearDefinicionEtiqueta(etq);
+		labels.push(label);
+		int marca = tabSimb.marcar();
 		try
 		{
-			labels.push(label);
-			tabSimb.marcar();
-	
-			Nodo[] acciones = n.obtAcciones();
-			visitarAcciones(acciones);
+			visitarAcciones(n.obtAcciones());
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 			labels.pop();
 		}
 	}
@@ -599,8 +597,18 @@ public class Chequeador extends ChequeadorBase
 				if ( interface_ == null )
 				{
 					throw new ChequeadorException(
-						interface_,
+						interfaces[i],
 						"Interface no encontrada: " +interfaces[i].obtCadena()
+					);
+				}
+				
+				// si la interface es un nombre simple correspondiente a un nombre
+				// compuesto, entonces hacer la asociación correspondiente:
+				if ( interfaces[i].obtIds().length == 1
+				&&   interface_.obtNombreCompleto().length > 1 )
+				{
+					n.ponNombreCompuesto("i" +interfaces[i].obtCadena(), 
+						interface_.obtNombreCompletoCadena()
 					);
 				}
 			}
@@ -849,87 +857,91 @@ public class Chequeador extends ChequeadorBase
 
 
 		// Marcar la tabla;
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 
-		// verifique cantidades de descripciones:
-		if ( dent.length != pent.length )
+		try
 		{
-			IUbicable u = dent.length > 0 ? new Ubicacion(dent) : new Ubicacion(pent);
-			throw new ChequeadorException(
-				u,
-				"Número de descripciones para entradas no corresponde"
-			);
-		}
-
-		// Enlazar atributos
-		for ( int i = 0; i < pent.length; i++ )
-		{
-			if ( pent[i].tieneInicializacion() )
+			// verifique cantidades de descripciones:
+			if ( dent.length != pent.length )
 			{
+				IUbicable u = dent.length > 0 ? new Ubicacion(dent) : new Ubicacion(pent);
 				throw new ChequeadorException(
-					pent[i].obtId(),
-					"Inicializacion en parametro " +pent[i].obtId()+ " no es válida"
+					u,
+					"Número de descripciones para entradas no corresponde"
 				);
 			}
-
-			pent[i].aceptar(this);
-			// Ponga que ha habido asignacion. Vea NId.aceptar(this):
-			tabSimb.ponAsignado(pent[i].obtId().obtId(), true);
-
-			// Vea que la descripción correspondiente sea para el nombre:
-			if ( !dent[i].obtId().obtId().equals(pent[i].obtId().obtId()) )
+	
+			// Enlazar atributos
+			for ( int i = 0; i < pent.length; i++ )
 			{
-				throw new ChequeadorException(
-					dent[i].obtId(),
-					"Se espera descripcion para entrada " +pent[i].obtId()
-				);
-			}
-		}
-
-		// Chequear precondicion:
-		NAfirmacion pre = n.obtPrecondicion();
-		if ( pre == null )
-		{
-			if ( pent.length > 0 )
-			{
-				throw new ChequeadorException(
-					new Ubicacion(pent),
-					"Debe escribir precondición para la entrada"
-				);
-			}
-		}
-		else
-		{
-			pre.aceptar(this);
-		}
-
-		// Chequear poscondicion:
-		NAfirmacion pos = n.obtPoscondicion();
-		if ( pos != null )
-		{
-			pos.aceptar(this);
-		}
-
-
-		// Chequear acciones:
-		for ( int i = 0; i < acciones.length; i++ )
-		{
-			if ( acciones[i] instanceof NDeclaracion )
-			{
-				NDeclaracion d = (NDeclaracion) acciones[i];
-				if ( d.esConstante() && !d.tieneInicializacion() )
+				if ( pent[i].tieneInicializacion() )
 				{
 					throw new ChequeadorException(
-						d,
-						"Debe indicar un valor inicial constante."
+						pent[i].obtId(),
+						"Inicializacion en parametro " +pent[i].obtId()+ " no es válida"
+					);
+				}
+	
+				pent[i].aceptar(this);
+				// Ponga que ha habido asignacion. Vea NId.aceptar(this):
+				tabSimb.ponAsignado(pent[i].obtId().obtId(), true);
+	
+				// Vea que la descripción correspondiente sea para el nombre:
+				if ( !dent[i].obtId().obtId().equals(pent[i].obtId().obtId()) )
+				{
+					throw new ChequeadorException(
+						dent[i].obtId(),
+						"Se espera descripcion para entrada " +pent[i].obtId()
 					);
 				}
 			}
-			visitarAccion(acciones[i]);
+	
+			// Chequear precondicion:
+			NAfirmacion pre = n.obtPrecondicion();
+			if ( pre == null )
+			{
+				if ( pent.length > 0 )
+				{
+					throw new ChequeadorException(
+						new Ubicacion(pent),
+						"Debe escribir precondición para la entrada"
+					);
+				}
+			}
+			else
+			{
+				pre.aceptar(this);
+			}
+	
+			// Chequear poscondicion:
+			NAfirmacion pos = n.obtPoscondicion();
+			if ( pos != null )
+			{
+				pos.aceptar(this);
+			}
+	
+	
+			// Chequear acciones:
+			for ( int i = 0; i < acciones.length; i++ )
+			{
+				if ( acciones[i] instanceof NDeclaracion )
+				{
+					NDeclaracion d = (NDeclaracion) acciones[i];
+					if ( d.esConstante() && !d.tieneInicializacion() )
+					{
+						throw new ChequeadorException(
+							d,
+							"Debe indicar un valor inicial constante."
+						);
+					}
+				}
+				visitarAccion(acciones[i]);
+			}
 		}
-
-		// Desmarcar la tabla;
-		tabSimb.desmarcar();
+		finally
+		{
+			tabSimb.irAMarca(marca);
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -1170,7 +1182,7 @@ public class Chequeador extends ChequeadorBase
 		NDeclaracion[] d = n.obtDeclaraciones();
 
 		// Marcar la tabla;
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 
 		try
 		{
@@ -1208,7 +1220,7 @@ public class Chequeador extends ChequeadorBase
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 		}
 
 		n.ponTipo(Tipo.booleano);
@@ -1232,7 +1244,7 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		try
 		{
 			Nodo[] as = n.obtAccionesCierto();
@@ -1240,7 +1252,7 @@ public class Chequeador extends ChequeadorBase
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 		}
 
 		NDecisionSiNoSi[] sinosis = n.obtSiNoSis();
@@ -1252,14 +1264,14 @@ public class Chequeador extends ChequeadorBase
 		Nodo[] an = n.obtAccionesFalso();
 		if ( an != null )
 		{
-			tabSimb.marcar();
+			marca = tabSimb.marcar();
 			try
 			{
 				visitarAcciones(an);
 			}
 			finally
 			{
-				tabSimb.desmarcar();
+				tabSimb.irAMarca(marca);
 			}
 		}
 	}
@@ -1282,7 +1294,7 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		try
 		{
 			Nodo[] as = n.obtAcciones();
@@ -1290,7 +1302,7 @@ public class Chequeador extends ChequeadorBase
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 		}
 	}
 
@@ -2353,16 +2365,15 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		labels.push(label);
 		try
 		{
-			Nodo[] acciones = n.obtAcciones();
-			visitarAcciones(acciones);
+			visitarAcciones(n.obtAcciones());
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 			labels.pop();
 		}
 	}
@@ -2645,7 +2656,7 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 
-		tabSimb.marcar();	// marcar nuevo ambito
+		int marca = tabSimb.marcar();	// marcar nuevo ambito
 		labels.push(label);
 
 		try
@@ -2674,7 +2685,7 @@ public class Chequeador extends ChequeadorBase
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 			labels.pop();
 		}
 	}
@@ -2720,7 +2731,7 @@ public class Chequeador extends ChequeadorBase
 	{
 		TId etq = n.obtEtiqueta();
 		String label = _chequearDefinicionEtiqueta(etq);
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		labels.push(label);
 		try
 		{
@@ -2740,7 +2751,7 @@ public class Chequeador extends ChequeadorBase
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 			labels.pop();
 		}
 	}
@@ -2830,14 +2841,14 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 		
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		try
 		{
 			visitarAcciones(acciones);
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 		}
 		
 		visitarAcciones(cc);
@@ -2852,7 +2863,7 @@ public class Chequeador extends ChequeadorBase
 	public void visitar(NAtrape n)
 	throws VisitanteException
 	{
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		try
 		{
 			NDeclaracion d = n.obtDeclaracion();
@@ -2865,7 +2876,7 @@ public class Chequeador extends ChequeadorBase
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 		}
 	}
 	

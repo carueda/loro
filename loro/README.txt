@@ -29,6 +29,17 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2002-11-27 Version 0.7.7
 
+	- TablaSimbolos: Quitado el manejo basado en stack de marcas. Este manejo
+	  se hace ahora sólo en el estilo:
+	  	int marca = tabSimb.marcar();
+		try ...
+		finally { tabSimb.irAMarca(marca); }
+	  Esto da más claridad para garantizar el debido empilamiento con base
+	  en el implícito empilamiento de la ejecución Java.
+	  
+	- Nuevo palabra reservada "interfaz", que es la palabra correcta
+	  según la RAE.  Por ahora se deja también como sinónimo "interface".
+	
 Algunos avances en manejo de métodos, pero aún incompleto.
 
 	- Manejo de "éste" como expresión.  Ver LoroIParser.jj.
@@ -44,6 +55,11 @@ Algunos avances en manejo de métodos, pero aún incompleto.
 	  Este cambio parece interesante por disciplina para enseñanza pero
 	  hay que someterlo a más consideración.
 	  
+	- Nueva operación LAmbiente.obtEste() para permitirle a código Java
+	  acceder al objeto en implementación de métodos. Su implementación, como
+	  otros, está en LoroEjecutor.
+	  Pendiente acceso a métodos desde la interfaz en loro.ijava.
+	
 	- Siguen más pruebas para decidir hasta donde dejar este manejo para
 	  una primera versión aunque no completa.  
 	  

@@ -11,16 +11,11 @@ import java.util.Stack;
 /**
  * Esta clase representa una tabla de símbolos.
  * Cada elemento de esta tabla es una EntradaTabla.
- *
- * @version 2002-10-01
  */
 public class TablaSimbolos implements ISymbolTable
 {
 	/** Guardamos las entradas en un Vector. */
 	private Vector tabla;
-
-	/** Pila de marcas para bloques. */
-	private Stack marcas;
 
 	//////////////////////////////////////////////////////////////
 	/**
@@ -29,8 +24,8 @@ public class TablaSimbolos implements ISymbolTable
 	public TablaSimbolos()
 	{
 		tabla = new Vector();
-		marcas = new Stack();
 	}
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Busca un símbolo en toda esta tabla de símbolos empezando
@@ -42,16 +37,7 @@ public class TablaSimbolos implements ISymbolTable
 	{
 		return buscar(simbolo, 0);
 	}
-	//////////////////////////////////////////////////////////////
-	/**
-	 * Regresa la tabla al tamaño que tenia cuando se puso la
-	 * ultima marca.
-	 */
-	public void desmarcar()
-	{
-		int size = ((Integer) marcas.pop()).intValue();
-		tabla.setSize(size);
-	}
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Agrega una entrada en esta tabla de símbolos.
@@ -71,39 +57,26 @@ public class TablaSimbolos implements ISymbolTable
 		}
 		tabla.addElement(et);
 	}
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 */
 	public void irAMarca(int marca)
 	{
 		int size = tabla.size();
-		while ( size > marca )
-		{
-			size = ((Integer) marcas.pop()).intValue();
-		} 
-
-		tabla.setSize(marca);
-
-//
-//old version
-//		int size;
-//		do
-//		{
-//			size = ((Integer) marcas.pop()).intValue();
-//
-//		} while ( size > marca ) ;
-//
-//		tabla.setSize(marca);
+		if ( marca < size )
+			tabla.setSize(marca);
 	}
+
 	//////////////////////////////////////////////////////////////
 	/**
 	 */
 	public int marcar()
 	{
 		int size = tabla.size();
-		marcas.push(new Integer(size));
 		return size;
 	}
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 */

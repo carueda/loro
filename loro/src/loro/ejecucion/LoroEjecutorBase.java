@@ -408,6 +408,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	 */
 	protected EjecucionVisitanteException _crearEjecucionException(IUbicable u, String s)
 	{
+		new Exception().printStackTrace();
 		return new EjecucionVisitanteException(u, pilaEjec, s);
 	}
 	////////////////////////////////////////////////////////////////////////////////
@@ -1145,7 +1146,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	protected void _visitarAcciones(Nodo[] acciones)
 	throws VisitanteException
 	{
-		tabSimb.marcar();
+		int marca = tabSimb.marcar();
 		try
 		{
 			for ( int i = 0; i < acciones.length; i++ )
@@ -1155,7 +1156,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 		}
 		finally
 		{
-			tabSimb.desmarcar();
+			tabSimb.irAMarca(marca);
 		}
 	}
 

@@ -932,6 +932,21 @@ abstract class ChequeadorBase implements IVisitante
 			for ( int i = 0; i < interfs.length; i++ )
 			{
 				NInterface ni = mu.obtInterface(interfs[i].obtCadena());
+				if ( ni == null )
+				{
+					// intente nombre compuesto:
+					String nombreCompuesto = clase.obtNombreCompuesto("i" +interfs[i].obtCadena());
+					if ( nombreCompuesto != null )
+						ni = mu.obtInterface(nombreCompuesto);
+				}
+				if ( ni == null )
+				{
+					throw new ChequeadorException(
+						n,
+						"No encontrada la interface " +interfs[i].obtCadena()
+					);
+				}
+				
 				NEspecificacion[] opers = ni.obtOperacionesDeclaradas();
 				for ( int j = 0; j < opers.length; j++ )
 				{
