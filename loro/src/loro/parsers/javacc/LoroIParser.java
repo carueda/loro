@@ -5,7 +5,7 @@
         class LoroIParser implements LoroIParserConstants {
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NFuente fuente() throws ParseException {
+  final public NFuente fuente() throws ParseException {
         NPaquete pq = null;
         NUtiliza utz;
         Vector v_utz = new Vector();
@@ -69,7 +69,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NUnidad unidad() throws ParseException {
+  final public NUnidad unidad() throws ParseException {
         NUnidad n;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ESPECIFICACION:
@@ -97,7 +97,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NInterface interface_() throws ParseException {
+  final public NInterface interface_() throws ParseException {
         Token tini;
         Token tfin;
         TId i;
@@ -169,7 +169,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NPaquete paquete() throws ParseException {
+  final public NPaquete paquete() throws ParseException {
         Token tini;
         TNombre nom;
     tini = jj_consume_token(PAQUETE);
@@ -187,7 +187,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NUtiliza utiliza() throws ParseException {
+  final public NUtiliza utiliza() throws ParseException {
         Token tini;
         String what;
         TNombre nom;
@@ -216,7 +216,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NClase clase() throws ParseException {
+  final public NClase clase() throws ParseException {
         Token tini;
         Token tfin;
         TId i;
@@ -350,7 +350,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDeclDesc[] declDescs() throws ParseException {
+  final public NDeclDesc[] declDescs() throws ParseException {
         Vector v = new Vector();
         NDeclDesc d;
     d = declDesc();
@@ -391,7 +391,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDeclDesc declDesc() throws ParseException {
+  final public NDeclDesc declDesc() throws ParseException {
         TId i;
         NTipo t;
         TCadenaDoc d;
@@ -446,7 +446,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NConstructor constructor() throws ParseException {
+  final public NConstructor constructor() throws ParseException {
         Token tini;
         Token tfin;
         TCadenaDoc d;
@@ -545,7 +545,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NEspecificacion especificacion() throws ParseException {
+  final public NEspecificacion especificacion() throws ParseException {
         Token tini;
         Token tfin;
         TId i;
@@ -677,7 +677,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDescripcion[] descripciones() throws ParseException {
+  final public NDescripcion[] descripciones() throws ParseException {
         Vector v = new Vector();
         NDescripcion d;
     label_9:
@@ -700,7 +700,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDescripcion descripcion() throws ParseException {
+  final public NDescripcion descripcion() throws ParseException {
         TId i;
         TCadenaDoc d;
     i = tid();
@@ -719,7 +719,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NAlgoritmo algoritmo() throws ParseException {
+  final public NAlgoritmo algoritmo() throws ParseException {
         Token ti, tf;
         TId id = null;
         TNombre esp;
@@ -848,7 +848,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDeclaracion[] declaraciones() throws ParseException {
+  final public NDeclaracion[] declaraciones() throws ParseException {
         Vector v = new Vector();
         NDeclaracion[] d;
         int tot = 0;
@@ -880,7 +880,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDeclaracion declaracion() throws ParseException {
+  final public NDeclaracion declaracion() throws ParseException {
         TId i;
         NTipo t;
     i = tid();
@@ -891,7 +891,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDeclaracion[] declaraciones1Tipo() throws ParseException {
+  final public NDeclaracion[] declaraciones1Tipo() throws ParseException {
         TId[] i;
         NTipo t;
         boolean esConstante = false;
@@ -942,7 +942,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDeclaracion declaracion1Tipo() throws ParseException {
+  final public NDeclaracion declaracion1Tipo() throws ParseException {
         TId[] i;
         NTipo t;
         boolean esConstante = false;
@@ -987,7 +987,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NTipo ntipo() throws ParseException {
+  final public NTipo ntipo() throws ParseException {
         NTipo t;
         TNombre nom = null;
         Token ti = null;
@@ -1047,7 +1047,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NTipo ntipobasico() throws ParseException {
+  final public NTipo ntipobasico() throws ParseException {
         Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ENTERO:
@@ -1075,7 +1075,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public Nodo[] acciones() throws ParseException {
+  final public Nodo[] acciones() throws ParseException {
         Vector v = new Vector();
         Nodo a;
     label_11:
@@ -1131,7 +1131,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public Nodo accion() throws ParseException {
+  final public Nodo accion() throws ParseException {
         Nodo n;
     if (jj_2_2(2)) {
       n = declaracion1Tipo();
@@ -1207,7 +1207,7 @@
  * un ";" al final.  EOF obligatorio.
  * Tambien vacio es posible para permitir linea de comentario solamente.
  */
-  static final public List accionesInterprete() throws ParseException {
+  final public List accionesInterprete() throws ParseException {
         List list = new ArrayList();
         Object n = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1286,7 +1286,7 @@
  * EOF obligatorio.
  * Tambien vacio es posible para permitir linea de comentario solamente.
  */
-  static final public Object accionInterprete() throws ParseException {
+  final public Object accionInterprete() throws ParseException {
         Object n = null;
         Token t, s = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1359,7 +1359,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public Nodo iteracion() throws ParseException {
+  final public Nodo iteracion() throws ParseException {
         Nodo n;
     if (jj_2_4(2)) {
       n = mientras();
@@ -1385,7 +1385,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NAfirmacion afirmacion() throws ParseException {
+  final public NAfirmacion afirmacion() throws ParseException {
         Token ti, tf;
         Token tdoc = null;
         NExpresion e = null;
@@ -1431,7 +1431,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDecision decision() throws ParseException {
+  final public NDecision decision() throws ParseException {
         Token ti, tf;
         NExpresion e;
         Nodo[] as;
@@ -1473,7 +1473,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDecisionSiNoSi decision_si_no_si() throws ParseException {
+  final public NDecisionSiNoSi decision_si_no_si() throws ParseException {
         Token ti;
         NExpresion e;
         Nodo[] as;
@@ -1486,7 +1486,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NDecisionMultiple decisionMultiple() throws ParseException {
+  final public NDecisionMultiple decisionMultiple() throws ParseException {
         Token ti, tf;
         Token cti, ctf = null;
 
@@ -1575,7 +1575,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NMientras mientras() throws ParseException {
+  final public NMientras mientras() throws ParseException {
         Token ti, tf;
         TId etq = null;
         NExpresion e;
@@ -1601,7 +1601,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NIteracion para() throws ParseException {
+  final public NIteracion para() throws ParseException {
         Token ti, tf;
         TId etq = null;
         TId i = null;
@@ -1696,7 +1696,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NRepita repita() throws ParseException {
+  final public NRepita repita() throws ParseException {
         Token ti;
         TId etq = null;
         Nodo[] a;
@@ -1720,7 +1720,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NCiclo ciclo() throws ParseException {
+  final public NCiclo ciclo() throws ParseException {
         Token ti, tf;
         TId etq = null;
         Nodo[] a;
@@ -1743,7 +1743,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NRetorne retorne() throws ParseException {
+  final public NRetorne retorne() throws ParseException {
         NExpresion[] es = null;
         Token t;
     t = jj_consume_token(RETORNE);
@@ -1783,7 +1783,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NTermine termine() throws ParseException {
+  final public NTermine termine() throws ParseException {
         Token t;
         TId etq = null;
         NExpresion e = null;
@@ -1812,7 +1812,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NContinue _continue() throws ParseException {
+  final public NContinue _continue() throws ParseException {
         Token t;
         TId etq = null;
         NExpresion e = null;
@@ -1841,7 +1841,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NIntente intente() throws ParseException {
+  final public NIntente intente() throws ParseException {
         Token ti, tf;
         Token ti2, tf2 = null;
         NDeclaracion d;
@@ -1893,7 +1893,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NLance lance() throws ParseException {
+  final public NLance lance() throws ParseException {
         NExpresion e;
         Token t;
     t = jj_consume_token(LANCE);
@@ -1903,7 +1903,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion[] expresiones() throws ParseException {
+  final public NExpresion[] expresiones() throws ParseException {
         Vector es = new Vector();
         NExpresion e;
     e = expresion();
@@ -1933,7 +1933,7 @@
 //
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion expresion() throws ParseException {
+  final public NExpresion expresion() throws ParseException {
         NExpresion e, f;
     e = e_cond();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1951,7 +1951,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_cond() throws ParseException {
+  final public NExpresion e_cond() throws ParseException {
         NExpresion e, f = null, g = null;
     e = e_implic();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1971,7 +1971,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_implic() throws ParseException {
+  final public NExpresion e_implic() throws ParseException {
         NExpresion e, f;
     e = e_o();
     label_17:
@@ -2007,7 +2007,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_o() throws ParseException {
+  final public NExpresion e_o() throws ParseException {
         NExpresion e, f;
     e = e_y();
     label_18:
@@ -2029,7 +2029,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_y() throws ParseException {
+  final public NExpresion e_y() throws ParseException {
         NExpresion e, f;
     e = e_oarit();
     label_19:
@@ -2051,7 +2051,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_oarit() throws ParseException {
+  final public NExpresion e_oarit() throws ParseException {
         NExpresion e, f;
     e = e_oexc();
     label_20:
@@ -2073,7 +2073,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_oexc() throws ParseException {
+  final public NExpresion e_oexc() throws ParseException {
         NExpresion e, f;
     e = e_yarit();
     label_21:
@@ -2095,7 +2095,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_yarit() throws ParseException {
+  final public NExpresion e_yarit() throws ParseException {
         NExpresion e, f;
     e = e_igual();
     label_22:
@@ -2117,7 +2117,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_igual() throws ParseException {
+  final public NExpresion e_igual() throws ParseException {
         NExpresion e, f;
     e = e_instancia();
     label_23:
@@ -2153,7 +2153,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_instancia() throws ParseException {
+  final public NExpresion e_instancia() throws ParseException {
         NExpresion e;
         NTipo t;
     e = e_rel();
@@ -2192,7 +2192,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_rel() throws ParseException {
+  final public NExpresion e_rel() throws ParseException {
         NExpresion e, f;
     e = e_corr();
     label_24:
@@ -2240,7 +2240,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_corr() throws ParseException {
+  final public NExpresion e_corr() throws ParseException {
         NExpresion e, f;
     e = e_sum();
     label_25:
@@ -2282,7 +2282,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_sum() throws ParseException {
+  final public NExpresion e_sum() throws ParseException {
         NExpresion e, f;
     e = e_mul();
     label_26:
@@ -2318,7 +2318,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_mul() throws ParseException {
+  final public NExpresion e_mul() throws ParseException {
         NExpresion e, f;
     e = e_unaria();
     label_27:
@@ -2360,7 +2360,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_unaria() throws ParseException {
+  final public NExpresion e_unaria() throws ParseException {
         Token ti;
         NExpresion e;
         NDeclaracion[] d;
@@ -2449,7 +2449,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_primaria() throws ParseException {
+  final public NExpresion e_primaria() throws ParseException {
         Token tf;
         NExpresion e, f;
         NExpresion[] args = null;
@@ -2525,7 +2525,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_prefijoPrimaria() throws ParseException {
+  final public NExpresion e_prefijoPrimaria() throws ParseException {
         Token ti, tf;
         NTipo t;
         NExpresion e;
@@ -2598,7 +2598,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_crear() throws ParseException {
+  final public NExpresion e_crear() throws ParseException {
         Token ti, tf = null;
         NExpresion e, f, g = null;
         TNombre c;
@@ -2674,7 +2674,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion tamanoArreglo() throws ParseException {
+  final public NExpresion tamanoArreglo() throws ParseException {
         Token ti;
         NExpresion e, f, g = null;
         NTipo t;
@@ -2711,7 +2711,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_const() throws ParseException {
+  final public NExpresion e_const() throws ParseException {
         NExpresion e;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LITERAL_ENTERO:
@@ -2744,7 +2744,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NEste e_este() throws ParseException {
+  final public NEste e_este() throws ParseException {
         Token t;
     t = jj_consume_token(ESTE);
                 {if (true) return ConstructorArbol.crearNEste(t);}
@@ -2752,7 +2752,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_literalNulo() throws ParseException {
+  final public NExpresion e_literalNulo() throws ParseException {
         Token t;
     t = jj_consume_token(NULO);
                 {if (true) return ConstructorArbol.crearNLiteralNulo(t);}
@@ -2760,7 +2760,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_literalEntero() throws ParseException {
+  final public NExpresion e_literalEntero() throws ParseException {
         Token t;
     t = jj_consume_token(LITERAL_ENTERO);
                 {if (true) return ConstructorArbol.crearNLiteralEntero(t);}
@@ -2768,7 +2768,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_literalReal() throws ParseException {
+  final public NExpresion e_literalReal() throws ParseException {
         Token t;
     t = jj_consume_token(LITERAL_REAL);
                 {if (true) return ConstructorArbol.crearNLiteralReal(t);}
@@ -2776,7 +2776,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_literalBooleano() throws ParseException {
+  final public NExpresion e_literalBooleano() throws ParseException {
         Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CIERTO:
@@ -2798,7 +2798,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_literalCadena() throws ParseException {
+  final public NExpresion e_literalCadena() throws ParseException {
         Token t;
     t = jj_consume_token(LITERAL_CADENA);
                 {if (true) return ConstructorArbol.crearNLiteralCadena(t);}
@@ -2806,7 +2806,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_literalCaracter() throws ParseException {
+  final public NExpresion e_literalCaracter() throws ParseException {
         Token t;
     t = jj_consume_token(LITERAL_CARACTER);
                 {if (true) return ConstructorArbol.crearNLiteralCaracter(t);}
@@ -2814,7 +2814,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_id() throws ParseException {
+  final public NExpresion e_id() throws ParseException {
         TId i;
     i = tid();
                 {if (true) return ConstructorArbol.crearNId(i);}
@@ -2822,7 +2822,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public NExpresion e_nombre() throws ParseException {
+  final public NExpresion e_nombre() throws ParseException {
         Vector v = new Vector();
         TId t;
     t = tid();
@@ -2849,7 +2849,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public TId tid() throws ParseException {
+  final public TId tid() throws ParseException {
         Token t;
     t = jj_consume_token(ID);
                 {if (true) return ConstructorArbol.crearTId(t);}
@@ -2857,7 +2857,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public TId tidEOF() throws ParseException {
+  final public TId tidEOF() throws ParseException {
         TId tid;
     tid = tid();
     jj_consume_token(0);
@@ -2866,7 +2866,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public TId[] tids() throws ParseException {
+  final public TId[] tids() throws ParseException {
         Vector v = new Vector();
         TId t;
     t = tid();
@@ -2892,7 +2892,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public TNombre tnombre() throws ParseException {
+  final public TNombre tnombre() throws ParseException {
         Vector v = new Vector();
         TId t;
     t = tid();
@@ -2913,7 +2913,7 @@
   }
 
 //////////////////////////////////////////////////////////////////////////
-  static final public TNombre tnombreEOF() throws ParseException {
+  final public TNombre tnombreEOF() throws ParseException {
         TNombre tnombre;
     tnombre = tnombre();
     jj_consume_token(0);
@@ -2923,7 +2923,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 // Literal cadena para info de implementaci?n
-  static final public TCadena timpl() throws ParseException {
+  final public TCadena timpl() throws ParseException {
         Token t;
         String str;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2946,7 +2946,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 // Cadena de documentacion
-  static final public TCadenaDoc tdoc() throws ParseException {
+  final public TCadenaDoc tdoc() throws ParseException {
         Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TEXT_DOC:
@@ -2964,109 +2964,98 @@
     throw new Error("Missing return statement in function");
   }
 
-  static final private boolean jj_2_1(int xla) {
+  final private boolean jj_2_1(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_1(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
   }
 
-  static final private boolean jj_2_2(int xla) {
+  final private boolean jj_2_2(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_2(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(1, xla); }
   }
 
-  static final private boolean jj_2_3(int xla) {
+  final private boolean jj_2_3(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_3(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(2, xla); }
   }
 
-  static final private boolean jj_2_4(int xla) {
+  final private boolean jj_2_4(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_4(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(3, xla); }
   }
 
-  static final private boolean jj_2_5(int xla) {
+  final private boolean jj_2_5(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_5(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(4, xla); }
   }
 
-  static final private boolean jj_2_6(int xla) {
+  final private boolean jj_2_6(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_6(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(5, xla); }
   }
 
-  static final private boolean jj_2_7(int xla) {
+  final private boolean jj_2_7(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_7(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(6, xla); }
   }
 
-  static final private boolean jj_2_8(int xla) {
+  final private boolean jj_2_8(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_8(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(7, xla); }
   }
 
-  static final private boolean jj_2_9(int xla) {
+  final private boolean jj_2_9(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_9(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(8, xla); }
   }
 
-  static final private boolean jj_2_10(int xla) {
+  final private boolean jj_2_10(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_10(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(9, xla); }
   }
 
-  static final private boolean jj_2_11(int xla) {
+  final private boolean jj_2_11(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_11(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(10, xla); }
   }
 
-  static final private boolean jj_2_12(int xla) {
+  final private boolean jj_2_12(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_12(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(11, xla); }
   }
 
-  static final private boolean jj_2_13(int xla) {
+  final private boolean jj_2_13(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_13(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(12, xla); }
   }
 
-  static final private boolean jj_3R_33() {
-    if (jj_3R_42()) return true;
-    if (jj_scan_token(92)) return true;
-    return false;
-  }
-
-  static final private boolean jj_3R_89() {
-    if (jj_scan_token(REPITA)) return true;
-    return false;
-  }
-
-  static final private boolean jj_3R_35() {
+  final private boolean jj_3R_35() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_43()) {
@@ -3085,49 +3074,49 @@
     return false;
   }
 
-  static final private boolean jj_3R_59() {
+  final private boolean jj_3R_59() {
     if (jj_3R_73()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_129() {
+  final private boolean jj_3R_129() {
     if (jj_scan_token(LITERAL_CARACTER)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_111() {
+  final private boolean jj_3R_111() {
     if (jj_3R_117()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_37() {
+  final private boolean jj_3R_37() {
     if (jj_3R_41()) return true;
     if (jj_scan_token(92)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_112() {
+  final private boolean jj_3R_112() {
     if (jj_scan_token(98)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_110() {
+  final private boolean jj_3R_110() {
     if (jj_3R_116()) return true;
     return false;
   }
 
-  static final private boolean jj_3_3() {
+  final private boolean jj_3_3() {
     if (jj_scan_token(90)) return true;
     if (jj_3R_35()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_130() {
+  final private boolean jj_3R_130() {
     if (jj_scan_token(LITERAL_CADENA)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_109() {
+  final private boolean jj_3R_109() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_110()) {
@@ -3149,28 +3138,28 @@
     return false;
   }
 
-  static final private boolean jj_3R_49() {
+  final private boolean jj_3R_49() {
     if (jj_3R_59()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_95() {
+  final private boolean jj_3R_95() {
     if (jj_3R_96()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_88() {
+  final private boolean jj_3R_88() {
     if (jj_scan_token(PARA)) return true;
     return false;
   }
 
-  static final private boolean jj_3_1() {
+  final private boolean jj_3_1() {
     if (jj_scan_token(91)) return true;
     if (jj_3R_33()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_127() {
+  final private boolean jj_3R_127() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(29)) {
@@ -3183,42 +3172,42 @@
     return false;
   }
 
-  static final private boolean jj_3R_48() {
+  final private boolean jj_3R_48() {
     if (jj_scan_token(105)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_38() {
+  final private boolean jj_3R_38() {
     if (jj_3R_49()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_128() {
+  final private boolean jj_3R_128() {
     if (jj_scan_token(LITERAL_REAL)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_72() {
+  final private boolean jj_3R_72() {
     if (jj_3R_82()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_71() {
+  final private boolean jj_3R_71() {
     if (jj_3R_81()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_70() {
+  final private boolean jj_3R_70() {
     if (jj_3R_80()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_69() {
+  final private boolean jj_3R_69() {
     if (jj_3R_79()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_36() {
+  final private boolean jj_3R_36() {
     if (jj_scan_token(MIENTRAS)) return true;
     Token xsp;
     xsp = jj_scanpos;
@@ -3227,79 +3216,79 @@
     return false;
   }
 
-  static final private boolean jj_3R_68() {
+  final private boolean jj_3R_68() {
     if (jj_3R_78()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_67() {
+  final private boolean jj_3R_67() {
     if (jj_3R_77()) return true;
     return false;
   }
 
-  static final private boolean jj_3_6() {
+  final private boolean jj_3_6() {
     if (jj_scan_token(FIN)) return true;
     if (jj_scan_token(CASO)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_126() {
+  final private boolean jj_3R_126() {
     if (jj_scan_token(LITERAL_ENTERO)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_66() {
+  final private boolean jj_3R_66() {
     if (jj_3R_76()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_94() {
+  final private boolean jj_3R_94() {
     if (jj_3R_95()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_65() {
+  final private boolean jj_3R_65() {
     if (jj_3R_75()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_64() {
+  final private boolean jj_3R_64() {
     if (jj_3R_74()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_108() {
+  final private boolean jj_3R_108() {
     if (jj_3R_109()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_50() {
+  final private boolean jj_3R_50() {
     if (jj_3R_38()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_63() {
+  final private boolean jj_3R_63() {
     if (jj_3R_38()) return true;
     return false;
   }
 
-  static final private boolean jj_3_2() {
+  final private boolean jj_3_2() {
     if (jj_3R_34()) return true;
     return false;
   }
 
-  static final private boolean jj_3_5() {
+  final private boolean jj_3_5() {
     if (jj_scan_token(FIN)) return true;
     if (jj_scan_token(CASO)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_131() {
+  final private boolean jj_3R_131() {
     if (jj_scan_token(NULO)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_57() {
+  final private boolean jj_3R_57() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_2()) {
@@ -3336,12 +3325,12 @@
     return false;
   }
 
-  static final private boolean jj_3R_79() {
+  final private boolean jj_3R_79() {
     if (jj_scan_token(LANCE)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_107() {
+  final private boolean jj_3R_107() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(45)) {
@@ -3351,103 +3340,103 @@
     return false;
   }
 
-  static final private boolean jj_3R_117() {
+  final private boolean jj_3R_117() {
     if (jj_scan_token(ESTE)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_106() {
+  final private boolean jj_3R_106() {
     if (jj_3R_108()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_93() {
+  final private boolean jj_3R_93() {
     if (jj_3R_94()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_105() {
+  final private boolean jj_3R_105() {
     if (jj_scan_token(129)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_104() {
+  final private boolean jj_3R_104() {
     if (jj_scan_token(128)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_125() {
+  final private boolean jj_3R_125() {
     if (jj_3R_131()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_103() {
+  final private boolean jj_3R_103() {
     if (jj_scan_token(127)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_75() {
+  final private boolean jj_3R_75() {
     if (jj_scan_token(SEGUN)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_124() {
+  final private boolean jj_3R_124() {
     if (jj_3R_130()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_102() {
+  final private boolean jj_3R_102() {
     if (jj_scan_token(122)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_123() {
+  final private boolean jj_3R_123() {
     if (jj_3R_129()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_101() {
+  final private boolean jj_3R_101() {
     if (jj_scan_token(123)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_122() {
+  final private boolean jj_3R_122() {
     if (jj_3R_128()) return true;
     return false;
   }
 
-  static final private boolean jj_3_8() {
+  final private boolean jj_3_8() {
     if (jj_scan_token(FIN)) return true;
     if (jj_scan_token(ATRAPE)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_100() {
+  final private boolean jj_3R_100() {
     if (jj_scan_token(126)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_121() {
+  final private boolean jj_3R_121() {
     if (jj_3R_127()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_120() {
+  final private boolean jj_3R_120() {
     if (jj_3R_126()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_62() {
+  final private boolean jj_3R_62() {
     if (jj_scan_token(PARA)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_92() {
+  final private boolean jj_3R_92() {
     if (jj_3R_93()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_99() {
+  final private boolean jj_3R_99() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_100()) {
@@ -3475,12 +3464,12 @@
     return false;
   }
 
-  static final private boolean jj_3R_58() {
+  final private boolean jj_3R_58() {
     if (jj_scan_token(UTILIZA)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_116() {
+  final private boolean jj_3R_116() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_120()) {
@@ -3502,7 +3491,7 @@
     return false;
   }
 
-  static final private boolean jj_3R_60() {
+  final private boolean jj_3R_60() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(22)) {
@@ -3521,18 +3510,18 @@
     return false;
   }
 
-  static final private boolean jj_3R_78() {
+  final private boolean jj_3R_78() {
     if (jj_scan_token(INTENTE)) return true;
     return false;
   }
 
-  static final private boolean jj_3_13() {
+  final private boolean jj_3_13() {
     if (jj_scan_token(131)) return true;
     if (jj_3R_41()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_55() {
+  final private boolean jj_3R_55() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(30)) jj_scanpos = xsp;
@@ -3540,7 +3529,7 @@
     return false;
   }
 
-  static final private boolean jj_3R_61() {
+  final private boolean jj_3R_61() {
     if (jj_3R_41()) return true;
     Token xsp;
     while (true) {
@@ -3550,7 +3539,7 @@
     return false;
   }
 
-  static final private boolean jj_3R_54() {
+  final private boolean jj_3R_54() {
     if (jj_scan_token(ALGORITMO)) return true;
     Token xsp;
     xsp = jj_scanpos;
@@ -3558,54 +3547,54 @@
     return false;
   }
 
-  static final private boolean jj_3R_91() {
+  final private boolean jj_3R_91() {
     if (jj_3R_92()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_53() {
+  final private boolean jj_3R_53() {
     if (jj_scan_token(INTERFACE)) return true;
     if (jj_3R_61()) return true;
     return false;
   }
 
-  static final private boolean jj_3_11() {
+  final private boolean jj_3_11() {
     if (jj_3R_40()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_52() {
+  final private boolean jj_3R_52() {
     if (jj_scan_token(98)) return true;
     if (jj_scan_token(99)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_39() {
+  final private boolean jj_3R_39() {
     if (jj_3R_50()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_51() {
+  final private boolean jj_3R_51() {
     if (jj_3R_60()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_82() {
+  final private boolean jj_3R_82() {
     if (jj_scan_token(CONTINUE)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_74() {
+  final private boolean jj_3R_74() {
     if (jj_scan_token(SI)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_56() {
+  final private boolean jj_3R_56() {
     if (jj_scan_token(91)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_42() {
+  final private boolean jj_3R_42() {
     if (jj_3R_41()) return true;
     Token xsp;
     while (true) {
@@ -3615,7 +3604,7 @@
     return false;
   }
 
-  static final private boolean jj_3R_40() {
+  final private boolean jj_3R_40() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_51()) {
@@ -3634,22 +3623,22 @@
     return false;
   }
 
-  static final private boolean jj_3R_98() {
+  final private boolean jj_3R_98() {
     if (jj_3R_99()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_87() {
+  final private boolean jj_3R_87() {
     if (jj_3R_91()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_81() {
+  final private boolean jj_3R_81() {
     if (jj_scan_token(TERMINE)) return true;
     return false;
   }
 
-  static final private boolean jj_3_10() {
+  final private boolean jj_3_10() {
     if (jj_scan_token(95)) return true;
     Token xsp;
     xsp = jj_scanpos;
@@ -3658,73 +3647,73 @@
     return false;
   }
 
-  static final private boolean jj_3R_80() {
+  final private boolean jj_3R_80() {
     if (jj_scan_token(103)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_83() {
+  final private boolean jj_3R_83() {
     if (jj_3R_87()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_86() {
+  final private boolean jj_3R_86() {
     if (jj_3R_90()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_41() {
+  final private boolean jj_3R_41() {
     if (jj_scan_token(ID)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_34() {
+  final private boolean jj_3R_34() {
     if (jj_3R_42()) return true;
     if (jj_scan_token(92)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_85() {
+  final private boolean jj_3R_85() {
     if (jj_3R_89()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_77() {
+  final private boolean jj_3R_77() {
     if (jj_scan_token(RETORNE)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_97() {
+  final private boolean jj_3R_97() {
     if (jj_3R_98()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_84() {
+  final private boolean jj_3R_84() {
     if (jj_3R_88()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_119() {
+  final private boolean jj_3R_119() {
     if (jj_scan_token(CREAR)) return true;
     return false;
   }
 
-  static final private boolean jj_3_4() {
+  final private boolean jj_3_4() {
     if (jj_3R_36()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_115() {
+  final private boolean jj_3R_115() {
     if (jj_3R_119()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_114() {
+  final private boolean jj_3R_114() {
     if (jj_scan_token(95)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_76() {
+  final private boolean jj_3R_76() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_4()) {
@@ -3740,84 +3729,94 @@
     return false;
   }
 
-  static final private boolean jj_3R_90() {
+  final private boolean jj_3R_90() {
     if (jj_scan_token(CICLO)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_73() {
+  final private boolean jj_3R_73() {
     if (jj_3R_83()) return true;
     return false;
   }
 
-  static final private boolean jj_3_12() {
+  final private boolean jj_3_12() {
     if (jj_scan_token(131)) return true;
     if (jj_3R_41()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_118() {
+  final private boolean jj_3R_118() {
     if (jj_3R_41()) return true;
     return false;
   }
 
-  static final private boolean jj_3_9() {
+  final private boolean jj_3_9() {
     if (jj_scan_token(91)) return true;
     if (jj_3R_38()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_113() {
+  final private boolean jj_3R_113() {
     if (jj_3R_118()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_47() {
+  final private boolean jj_3R_47() {
     if (jj_scan_token(102)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_46() {
+  final private boolean jj_3R_46() {
     if (jj_scan_token(101)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_44() {
+  final private boolean jj_3R_44() {
     if (jj_3R_58()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_45() {
+  final private boolean jj_3R_45() {
     if (jj_scan_token(100)) return true;
     return false;
   }
 
-  static final private boolean jj_3R_43() {
+  final private boolean jj_3R_43() {
     if (jj_3R_57()) return true;
     return false;
   }
 
-  static final private boolean jj_3_7() {
+  final private boolean jj_3_7() {
     if (jj_3R_37()) return true;
     return false;
   }
 
-  static final private boolean jj_3R_96() {
+  final private boolean jj_3R_96() {
     if (jj_3R_97()) return true;
     return false;
   }
 
-  static private boolean jj_initialized_once = false;
-  static public LoroIParserTokenManager token_source;
-  static SimpleCharStream jj_input_stream;
-  static public Token token, jj_nt;
-  static private int jj_ntk;
-  static private Token jj_scanpos, jj_lastpos;
-  static private int jj_la;
-  static public boolean lookingAhead = false;
-  static private boolean jj_semLA;
-  static private int jj_gen;
-  static final private int[] jj_la1 = new int[139];
+  final private boolean jj_3R_33() {
+    if (jj_3R_42()) return true;
+    if (jj_scan_token(92)) return true;
+    return false;
+  }
+
+  final private boolean jj_3R_89() {
+    if (jj_scan_token(REPITA)) return true;
+    return false;
+  }
+
+  public LoroIParserTokenManager token_source;
+  SimpleCharStream jj_input_stream;
+  public Token token, jj_nt;
+  private int jj_ntk;
+  private Token jj_scanpos, jj_lastpos;
+  private int jj_la;
+  public boolean lookingAhead = false;
+  private boolean jj_semLA;
+  private int jj_gen;
+  final private int[] jj_la1 = new int[139];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -3845,18 +3844,11 @@
    private static void jj_la1_4() {
       jj_la1_4 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3,0x3,0x0,0x3,0x0,0x3,0x0,0x3,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3,0x0,0x3,0x0,0x0,0x0,0x4,0x3,0x0,0x4,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
-  static final private JJCalls[] jj_2_rtns = new JJCalls[13];
-  static private boolean jj_rescan = false;
-  static private int jj_gc = 0;
+  final private JJCalls[] jj_2_rtns = new JJCalls[13];
+  private boolean jj_rescan = false;
+  private int jj_gc = 0;
 
   public LoroIParser(java.io.InputStream stream) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  You must");
-      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     jj_input_stream = new SimpleCharStream(stream, 1, 1);
     token_source = new LoroIParserTokenManager(jj_input_stream);
     token = new Token();
@@ -3866,7 +3858,7 @@
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  static public void ReInit(java.io.InputStream stream) {
+  public void ReInit(java.io.InputStream stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
@@ -3877,13 +3869,6 @@
   }
 
   public LoroIParser(java.io.Reader stream) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  You must");
-      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     jj_input_stream = new SimpleCharStream(stream, 1, 1);
     token_source = new LoroIParserTokenManager(jj_input_stream);
     token = new Token();
@@ -3893,7 +3878,7 @@
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  static public void ReInit(java.io.Reader stream) {
+  public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
@@ -3904,13 +3889,6 @@
   }
 
   public LoroIParser(LoroIParserTokenManager tm) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  You must");
-      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
@@ -3928,7 +3906,7 @@
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  static final private Token jj_consume_token(int kind) throws ParseException {
+  final private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
@@ -3953,8 +3931,8 @@
   }
 
   static private final class LookaheadSuccess extends java.lang.Error { }
-  static final private LookaheadSuccess jj_ls = new LookaheadSuccess();
-  static final private boolean jj_scan_token(int kind) {
+  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+  final private boolean jj_scan_token(int kind) {
     if (jj_scanpos == jj_lastpos) {
       jj_la--;
       if (jj_scanpos.next == null) {
@@ -3975,7 +3953,7 @@
     return false;
   }
 
-  static final public Token getNextToken() {
+  final public Token getNextToken() {
     if (token.next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
@@ -3983,7 +3961,7 @@
     return token;
   }
 
-  static final public Token getToken(int index) {
+  final public Token getToken(int index) {
     Token t = lookingAhead ? jj_scanpos : token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -3992,20 +3970,20 @@
     return t;
   }
 
-  static final private int jj_ntk() {
+  final private int jj_ntk() {
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private java.util.Vector jj_expentries = new java.util.Vector();
-  static private int[] jj_expentry;
-  static private int jj_kind = -1;
-  static private int[] jj_lasttokens = new int[100];
-  static private int jj_endpos;
+  private java.util.Vector jj_expentries = new java.util.Vector();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
+  private int[] jj_lasttokens = new int[100];
+  private int jj_endpos;
 
-  static private void jj_add_error_token(int kind, int pos) {
+  private void jj_add_error_token(int kind, int pos) {
     if (pos >= 100) return;
     if (pos == jj_endpos + 1) {
       jj_lasttokens[jj_endpos++] = kind;
@@ -4033,7 +4011,7 @@
     }
   }
 
-  static public ParseException generateParseException() {
+  public ParseException generateParseException() {
     jj_expentries.removeAllElements();
     boolean[] la1tokens = new boolean[132];
     for (int i = 0; i < 132; i++) {
@@ -4081,13 +4059,13 @@
     return new ParseException(token, exptokseq, tokenImage);
   }
 
-  static final public void enable_tracing() {
+  final public void enable_tracing() {
   }
 
-  static final public void disable_tracing() {
+  final public void disable_tracing() {
   }
 
-  static final private void jj_rescan_token() {
+  final private void jj_rescan_token() {
     jj_rescan = true;
     for (int i = 0; i < 13; i++) {
       JJCalls p = jj_2_rtns[i];
@@ -4116,7 +4094,7 @@
     jj_rescan = false;
   }
 
-  static final private void jj_save(int index, int xla) {
+  final private void jj_save(int index, int xla) {
     JJCalls p = jj_2_rtns[index];
     while (p.gen > jj_gen) {
       if (p.next == null) { p = p.next = new JJCalls(); break; }

@@ -16,6 +16,7 @@ import java.net.URLClassLoader;
 import java.io.*;
 import java.util.*;
 import java.util.ResourceBundle;
+import java.util.Locale;
 
 //////////////////////////////////////////////////////////////
 /**
@@ -87,20 +88,41 @@ public final class Loro
 	private Loro() {}
 	
 	
+	private static Locale locale = null;
 	private static ResourceBundle strings = null;
 	
-	/** Sets up the bundle loro.resource.strings */
-	static {
+	/** Returns the locale used by the Loro system. */
+	public static Locale getLocale() {
+		return locale;
+	}
+	
+	/** Sets the locale. 
+	 This method can be called at any time (before or after initialization). 
+	 The lexeme set of the language is also affected. */
+	public static void setLocale(Locale locale_) {
 		try {
-			strings = ResourceBundle.getBundle("loro.resource.strings");
+			strings = ResourceBundle.getBundle("loro.resource.strings", locale_);
+			locale = locale_;
+			if ( locale.toString().startsWith("es") )
+				ParserFactory.setCurrentCode(ParserFactory.SP_0);
+			else
+				ParserFactory.setCurrentCode(ParserFactory.EN_0);
+			log("Locale set to: " +locale);
 		}
 		catch(java.util.MissingResourceException ex) {
 			System.err.println(
 				"!!!!!! Warning:\n" +
 				"!!!!!! Cannot get bundle loro.resource.strings.\n" +
-				"!!!!!! The system has not been compiled properly.\n"
+				"!!!!!! The system has not been compiled properly.\n"+
+				"!!!!!! locale = " +locale_+ "\n"
 			);
 		}
+	}
+
+	/** Sets the locale.
+	 Only makes the call <code>setLocale(new Locale(slocale))</code> */
+	public static void setLocale(String slocale) {
+		setLocale(new Locale(slocale));
 	}
 
 	public static abstract class Str {
@@ -273,20 +295,21 @@ public final class Loro
 	 * @param paths_dir Directorio con subdirectorios y archivos .lar de búsqueda.
 	 *
 	 * @throws LoroException  Si la inicialización falla.
-	 *
 	 * @throws IllegalStateException  Si el núcleo ya se encuentra iniciado.
 	 */
-	public static void configurar(
-		String ext_dir_,
-		String paths_dir_
-	)
-	throws LoroException
-	{
+	public static void configurar(String ext_dir_, String paths_dir_) throws LoroException {
 		if ( iniciado ) {
 			throw new IllegalStateException("core already inited!");
 		}
 		
 		Logger.createLogger(obtNombre()+ " " +obtVersion()+ " (Build " +obtBuild()+ ")");
+
+		if ( ParserFactory.getCurrentCode() == null ) {
+			// setLocale has not been called previously. 
+			// Then set language according to default locale:
+			setLocale(Locale.getDefault());
+		}
+		
 		ext_dir = ext_dir_;
 		paths_dir = paths_dir_;
 

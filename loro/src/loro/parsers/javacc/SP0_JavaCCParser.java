@@ -12,7 +12,7 @@ import loro.Rango;
 
 //////////////////////////////////////////////////////////////////////
 /**
- * JavaCC-based implementation of IDerivador.
+ * Spanish JavaCC-based implementation of IDerivador.
  *
  * @author Carlos Rueda
  * @version $Id$
@@ -22,7 +22,7 @@ public class SP0_JavaCCParser extends BaseParser {
 	private LoroIParser parser;
 
 	/** Creates a javacc-based parser for sp_0 lexical elements */
-	public DerivadorJavaCC() {
+	public SP0_JavaCCParser() {
 		super();
 		parser = new LoroIParser(new StringReader(""));
 	}
@@ -132,6 +132,7 @@ public class SP0_JavaCCParser extends BaseParser {
 		fuente += "\n";
 		texto = fuente;
 		parser.ReInit(new StringReader(texto));
+		//parser = new LoroIParser(new StringReader(texto));
 		ConstructorArbol.ponTexto(texto);
 		return this;
 	}

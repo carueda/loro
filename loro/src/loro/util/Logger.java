@@ -6,53 +6,39 @@ import java.io.EOFException;
 import java.io.File;
 import java.util.Properties;
 
-
-///////////////////////////////////////////////////////////////
 /**
- * Registro de seguimiento
- *
+ * Logger
  * @author Carlos Rueda
  */
-public class Logger
-{
+public class Logger {
 	/** La unica instancia de esta clase. */
 	private static Logger logger = null;
 
 	/** En donde se escriben los mensajes. */
 	private PrintWriter pw;
-	/////////////////////////////////////////////////////////////
-	/**
-	 * Crea un manejador para seguimiento.
-	 */
-	private Logger(String prg)
-	{
+	
+	/** Crea un manejador para seguimiento. */
+	private Logger(String prg) {
 		this.prg = prg;
 		pw = null;
-
 		String nombre_log = System.getProperty("loro.log");
 		if ( nombre_log == null || nombre_log.length() == 0 )
 			return;
 
-		// Intente abrir el archivo para log:
-		try
-		{
-			if ( nombre_log.equals("System.out") )
-			{
+		try {
+			if ( nombre_log.equals("System.out") ) {
 				pw = new PrintWriter(System.out);
 			}
-			else if ( nombre_log.equals("System.err") )
-			{
+			else if ( nombre_log.equals("System.err") ) {
 				pw = new PrintWriter(System.err);
 			}
-			else
-			{
+			else {
 				pw = new PrintWriter(
 					new FileOutputStream(nombre_log), true
 				);
 			}
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
 			System.err.println(
 				"Warning: couldn't open log file: " +nombre_log+
 				": " +e.getClass()+ ": " + e.getMessage()
@@ -67,12 +53,9 @@ public class Logger
 		props.list(pw);
 		log("***********End System properties");
 	}
-	/////////////////////////////////////////////////////////////
-	/**
-	 * Cierra el archivo de registro.
-	 */
-	public void close()
-	{
+	
+	/** Cierra el archivo de registro. */
+	public void close() {
 		if ( pw == null )
 			return;
 
@@ -80,39 +63,30 @@ public class Logger
 		pw.close();
 		pw = null;
 	}
-	/////////////////////////////////////////////////////////////
-	/**
-	 * Crea el manejador de log para esta ejecucion.
-	 */
-	public static Logger createLogger(String prg)
-	{
+	
+	/** Crea el manejador de log para esta ejecucion. */
+	public static Logger createLogger(String prg) {
 		if ( logger == null )
 			logger = new Logger(prg);
 
 		return logger;
 	}
-	/////////////////////////////////////////////////////////////
+	
 	/**
 	 * Obtiene el manejador de log para esta ejecucion.
 	 * Debe llamarse despues de crearLogger(String prg) para saber ya
 	 * el nombre del programa en ejecucion.
 	 */
-	public static Logger getLogger()
-	{
+	public static Logger getLogger() {
 		if ( logger == null )
 			logger = new Logger("??");
-
 		return logger;
 	}
-	/////////////////////////////////////////////////////////////
-	/**
-	 * Escribe un mensaje en archivo de registro.
-	 */
-	public void log(String m)
-	{
+	
+	/** Escribe un mensaje en archivo de registro. */
+	public void log(String m) {
 		if ( pw == null )
 			return;
-
 		//pw.println("[" +new java.util.Date().+ "] " +m);
 		pw.println(m);
 		pw.flush();
@@ -121,3 +95,4 @@ public class Logger
 	/** Nombre del programa en ejecucion. */
 	private String prg;
 }
+

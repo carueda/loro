@@ -35,7 +35,7 @@ public class LoroTraductorAJava
 			return;
 		}
 
-		IDerivador derivador = ManejadorDerivacion.obtDerivador();
+		IDerivador derivador = ParserFactory.getParser();
 
 		System.setErr(System.out);
 

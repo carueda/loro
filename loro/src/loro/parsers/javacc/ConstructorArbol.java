@@ -1,5 +1,6 @@
 package loro.parsers.javacc;
 
+import loro.Loro.Str;
 import loro.derivacion.*;
 import loro.arbol.*;
 import loro.util.Util;
@@ -518,7 +519,7 @@ class ConstructorArbol
 		Token tf
 	)
 	{
-		boolean defineObjeto = ti.toString().equals("objeto");
+		boolean defineObjeto = ti.toString().equals(Str.get("object"));
 		Rango rango = obtRango(ti, tf);
 		return new NClase(
 			rango,
@@ -627,7 +628,7 @@ class ConstructorArbol
 		NDeclaracion[] d, NExpresion con, NExpresion e
 	)
 	{
-		boolean para_todo = ti.image.equals("para_todo");
+		boolean para_todo = ti.image.equals(Str.get("forall"));
 		Rango rango = obtRango(ti, e);
 		
 		return new NCuantificado(
@@ -891,27 +892,22 @@ class ConstructorArbol
 		Rango rango = obtRango(t, t);
 		String nombre = t.image;
 		
-		if ( nombre.equals("entero") )
-		{
+		if ( nombre.equals(Str.get("integer")) ) {
 			return new NTipoEntero(rango);
 		}
-		else if ( nombre.equals("booleano") )
-		{
+		else if ( nombre.equals(Str.get("boolean")) ) {
 			return new NTipoBooleano(rango);
 		}
-		else if ( nombre.equals("caracter") )
-		{
+		else if ( nombre.equals(Str.get("character")) ) {
 			return new NTipoCaracter(rango);
 		}
-		else if ( nombre.equals("real") )
-		{
+		else if ( nombre.equals(Str.get("real")) ) {
 			return new NTipoReal(rango);
 		}
-		else if ( nombre.equals("cadena") )
-		{
+		else if ( nombre.equals(Str.get("string")) ) {
 			return new NTipoCadena(rango);
 		}
-		throw new Error("Tipo " +nombre+ " no esperado!");
+		throw new Error("Unexpected type '" +nombre+ "'");
 	}
 
 	//////////////////////////////////////////////////////////////////
@@ -1149,7 +1145,7 @@ El siguiente codigo funcionaba bastante bien pero NO en algunos casos:
 	/**
 	 * Obtiene el rango de un token con respecto a un texto.
 	 * Note que la visibilidad de este servicio es "package"
-	 * ya que es utilizado por el DerivadorJavaCC.
+	 * ya que es utilizado por los BaseParser's.
 	 */
 	static Rango obtRango(String texto, Token t)
 	{
@@ -1167,7 +1163,7 @@ El siguiente codigo funcionaba bastante bien pero NO en algunos casos:
 	 * Obtiene el rango entre un token inicial y un token final
 	 * con respecto a un texto dado.
 	 * Note que la visibilidad de este servicio es "package"
-	 * ya que es utilizado por el DerivadorJavaCC.
+	 * ya que es utilizado por los BaseParser's.
 	 */
 	static Rango obtRango(Token tini, Token tfin, String texto)
 	{

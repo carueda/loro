@@ -32,6 +32,7 @@ import java.io.File;
  * <li>shownames (optional, default=false").
  * <li>includes (optional)
  * <li>excludes (optional)
+ * <li>locale (optional, locale language).
  * </ul>
  *
  * <p>When this task executes, it will recursively scan the srcdir looking for
@@ -42,8 +43,8 @@ import java.io.File;
  *
  * <p>
  * Specify anticompile="true" if you want to "anticompile" the given files.
- * An anticompile of a file will succeed only if a normal compile fails, and
- * vice versa. Use this to test the Loro system against programs known
+ * Anticompilation of a file will succeed only if a normal compilation fails, 
+ * and vice versa. Use this to test the Loro system against programs known
  * to be invalid.
  * <p>
  * Specify save="false" for testing purposes.
@@ -51,8 +52,7 @@ import java.io.File;
  * @author Carlos Rueda <a href="mailto:carueda@users.sf.net">carueda@users.sf.net</a>
  * @version $Id$
  */
-public class LoroCompilerTask extends MatchingTask
-{
+public class LoroCompilerTask extends MatchingTask {
 	/** The main Loro class. */
 	private static final String loroClassName = "loro.Loro";
 	
@@ -80,76 +80,50 @@ public class LoroCompilerTask extends MatchingTask
 	private List compileList;
 
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	  * Sets the destination directory to put the compiled files.
-	  */
-	public void setDestdir(String destDirName)
-	{
+	/** Sets the destination directory to put the compiled files. */
+	public void setDestdir(String destDirName) {
 		destDir = project.resolveFile(destDirName);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	  * Sets the directory to read extension packages.
-	  */
-	public void setExtdir(String extDirName)
-	{
+	/** Sets the directory to read extension packages. */
+	public void setExtdir(String extDirName) {
 		extDir = project.resolveFile(extDirName);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Sets the source dir to find the source Loro files.
-	 */
-	public void setSrcDir(String srcDirName)
-	{
+	/** Sets the source dir to find the source Loro files. */
+	public void setSrcDir(String srcDirName) {
 		srcDir = project.resolveFile(srcDirName);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Sets the anticompile flag.
-	 */
-	public void setAnticompile(boolean anticompile)
-	{
+	/** Sets the anticompile flag. */
+	public void setAnticompile(boolean anticompile) {
 		this.anticompile = anticompile;
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Sets the save flag.
-	 */
-	public void setSave(boolean save)
-	{
+	/** Sets the save flag. */
+	public void setSave(boolean save) {
 		this.save = save;
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Sets the "loro.log" property.
-	 */
-	public void setLog(String loro_log)
-	{
+	/** Sets the "loro.log" property. */
+	public void setLog(String loro_log) {
 		this.loro_log = loro_log;
 		log("property 'log' set to '" +loro_log+ "'");
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Sets the shownames flag.
-	 */
-	public void setShownames(boolean shownames)
-	{
+	/** Sets the "user.language" system property. */
+	public void setLocale(String locale) {
+		Loro.setLocale(locale);
+		log("Locale set to '" +locale+ "'");
+	}
+
+	/** Sets the shownames flag. */
+	public void setShownames(boolean shownames) {
 		this.shownames = shownames;
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Scans the source directory looking for source Loro files to be compiled.
-	 */
-	private void scanDir(File srcDir, String[] files)
-	{
+	/** Scans the source directory looking for source Loro files to be compiled. */
+	private void scanDir(File srcDir, String[] files) {
 		for (int i = 0; i < files.length; i++) {
 			File srcFile = new File(srcDir, files[i]);
 			String filename = files[i];
@@ -159,30 +133,21 @@ public class LoroCompilerTask extends MatchingTask
 		}
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Executes the task, i.e. does the actual compiler call
-	 */
-	public void execute() throws BuildException
-	{
-		if (srcDir == null)
-		{
+	/** Executes the task, i.e. does the actual compiler call */
+	public void execute() throws BuildException {
+		if (srcDir == null) {
 			throw new BuildException("srcdir attribute must be set!");
 		}
-		if (!srcDir.exists())
-		{
+		if (!srcDir.exists()) {
 			throw new BuildException("srcdir does not exist: " +srcDir);
 		}
-		if (!srcDir.isDirectory())
-		{
+		if (!srcDir.isDirectory()) {
 			throw new BuildException("srcdir is not a directory: " +srcDir);
 		}
-		try
-		{
+		try {
 			Class.forName(loroClassName);
 		}
-		catch ( Exception ex )
-		{
+		catch ( Exception ex ) {
 			throw new BuildException(loroClassName+ " not found. Check your classpath");
 		}
 
@@ -198,18 +163,15 @@ public class LoroCompilerTask extends MatchingTask
 		log((anticompile ? "Anticompiling " : "Compiling ") +size+ " source file"
 			+ (size == 1 ? "" : "s") + " to " + destDir
 		);
-		if ( ! save )
-		{
+		if ( ! save ) {
 			log("Not saving units ");
 		}
 		
-		if ( loro_log != null )
-		{
+		if ( loro_log != null ) {
 			System.setProperty("loro.log", loro_log);
 		}
 		
-		if ( size > 0 )
-		{
+		if ( size > 0 ) {
 			if ( shownames ) {
 				log("Files to compile:");
 				for ( Iterator it = compileList.iterator(); it.hasNext(); ) {
@@ -221,26 +183,19 @@ public class LoroCompilerTask extends MatchingTask
 		}
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	/**
-	 * Peforms a compile using the Loro compiler.
-	 */
-	private void doLoroCompile() throws BuildException
-	{
+	/** Peforms a compile using the Loro compiler. */
+	private void doLoroCompile() throws BuildException {
 		log("Using Loro " +Loro.obtVersion());
 		int status = 0;
-		try
-		{
-			if ( anticompile )
-			{
+		try {
+			if ( anticompile ) {
 				status = LoroCompilador.anticompilar(
 					compileList,
 					destDir.getAbsolutePath(),
 					extDir != null ? extDir.getAbsolutePath() : null
 				);
 			}
-			else
-			{
+			else {
 				status = LoroCompilador.compilar(
 					compileList,
 					destDir.getAbsolutePath(),
@@ -249,14 +204,11 @@ public class LoroCompilerTask extends MatchingTask
 				);
 			}
 		}
-		catch (LoroException ex )
-		{
+		catch (LoroException ex ) {
 			throw new BuildException("Nested exception was: " +ex.getMessage());
 		}
-		if ( status != 0 )
-		{
+		if ( status != 0 ) {
 			throw new BuildException("loroc: Compile failed, messages should have been provided.");
 		}
 	}
-
 }

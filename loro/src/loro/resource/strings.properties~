@@ -24,6 +24,7 @@ break=termine
 continue=continúe
 package=package
 uses=utiliza
+anonymous=anónimo
 
 algorithm=algoritmo
 algorithm_for=algoritmo para
@@ -46,7 +47,7 @@ error.invalid_int_to_char_conversion=Posible conversión inválida de entero a car
 error.1_label_already_defined=La etiqueta ya esta definida: '{0}'
 error.1_label_cannot_be_semantic=Una etiqueta no puede ser en estilo de variable semántica: '{0}'
 error.1_undefined_label=Una etiqueta no está definida: '{0}'
-error.1_invalid_place_for_sentence=Ubicacion invalida de una accion '{0}'
+error.1_invalid_place_for_sentence=Ubicacion inválida de una accion '{0}'
 error.1_superclass_not_found=No se encuentra la super clase '{0}'
 error.1_interface_not_found=No se encuentra la interface '{0}'
 error.3_binop_undefined=Operador binario '{0}' no definido para ({1}, {2})
@@ -102,7 +103,7 @@ error.integer_expression_expected=Se espera expresión de tipo entero
 error.1_constructor_not_found='{0}' no tiene constructor compatible con los argumentos
 error.1_invalid_expression_type_switch=segun no definido para '{0}'
 error.1_repeated_case=Caso '{0}' repetido
-error.1_invalid_declaration=Declaracion invalida '{0}'
+error.1_invalid_declaration=Declaracion inválida '{0}'
 error.null_instance=La referencia nula no es instancia de ninguna clase
 error.not_object_instanceof=La expresion no se refiere a un objeto
 error.1_not_a_class=El tipo '{0}' no es clase
@@ -127,7 +128,7 @@ error.unknown_spec=No se puede hacer una invocacion sin conocerse la especificac
 
 error.1_expected_arguments=Se esperan {0} argumentos
 error.cannot_represent_integer=Numero correcto pero no puede representarse con un tipo entero
- 
+
 error.1_cannot_use_class_as_value=No se puede usar clase '{0}' como un valor
 error.1_cannot_use_unit_as_value=No se puede usar posible unidad '{0}' como un valor
 
@@ -142,7 +143,7 @@ error.try_with_no_catch_finally=Por lo menos se debe indicar un 'atrape' o un 's
 error.cannot_access_attrs_through_interface=A traves de interfaces no se accede a atributos
 error.2_no_operation_in_interface="Interface '{0}' no tiene operacion '{1}'
 error.2_no_member='{0}' no tiene '{1}'
-error.1_invalid_operation=Operacion invalida '{0}'
+error.1_invalid_operation=Operacion inválida '{0}'
 error.1_cannot_be_dereferenced='{0}' no puede dereferenciarse
 error.not_an_algorithm=Expresion no corresponde a un algoritmo
 error.not_a_spec=Expresion no corresponde a una especificación

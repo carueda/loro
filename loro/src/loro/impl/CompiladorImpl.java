@@ -36,7 +36,7 @@ public class CompiladorImpl implements ICompilador
 	 */
 	public CompiladorImpl()
 	{
-		derivador = ManejadorDerivacion.obtDerivador();
+		derivador = ParserFactory.getParser();
 		chequeador = new Chequeador();
 	}
 

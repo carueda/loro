@@ -64,7 +64,7 @@ public class InterpreteImpl implements IInterprete
 	{
 		super();
 
-		derivador = ManejadorDerivacion.obtDerivador();
+		derivador = ParserFactory.getParser();
 
 		this.tabSimbBase = tabSimbBase;
 		ui = new NUnidadInterprete();

@@ -35,6 +35,9 @@
 	<property name="src" value="src"/>
 	<property name="recurso.apoyo" value="${build}/classes/recurso/loroI.lar"/>
 
+	<!-- All supporting and test sources are in spanish -->
+	<property name="locale" value="es"/>
+
     <target name="init">
 		<tstamp/>		
 		<mkdir dir="${build}/classes"/>

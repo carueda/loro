@@ -29,6 +29,7 @@
 			includes="**/**.loro"
 			excludes="**/*LEAME.loro, **/*README.loro"
 			save="false"
+			locale="${locale}"
 		/>
 	<!--   log="System.out"	/>  -->
 	</target>
@@ -41,6 +42,7 @@
 			includes="**/**.loro"
 			excludes="**/*LEAME.loro, **/*README.loro"
 			save="true"
+			locale="${locale}"
 		/>
 	</target>
 
@@ -52,6 +54,7 @@
 			includes="**/**.loro"
 			excludes="**/*LEAME.loro, **/*README.loro"
 			anticompile="true"
+			locale="${locale}"
 		/>
 		<echo message="Invalid programs OK"/>
 	</target>
