@@ -962,7 +962,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")\n" +
 "esperanza que sea útil, pero sin ningún tipo\n"+
 "de garantía. Por favor, lea la licencia de uso.\n"+
 " \n" +
-"Copyright© 1999-2003 Carlos A. Rueda\n" +
+"Copyright© 1999-2004 Carlos A. Rueda\n" +
 "Universidad Autónoma de Manizales\n" +
 "Manizales - Colombia\n" +
 " \n"
