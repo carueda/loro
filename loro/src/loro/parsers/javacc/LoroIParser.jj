@@ -1103,7 +1103,7 @@ Nodo accion() :
 List accionesInterprete() :
 {
 	List list = new ArrayList();
-	Nodo n = null;
+	Object n = null;
 }
 {
 	[
@@ -1129,15 +1129,22 @@ List accionesInterprete() :
  * EOF obligatorio.
  * Tambien vacio es posible para permitir linea de comentario solamente.
  */
-Nodo accionInterprete() :
+Object accionInterprete() :
 {
-	Nodo n = null;
+	Object n = null;
+	Token t, s = null;
 }
 {
 	(
 		n=accion()
 	 |
 		n=utiliza()
+	 |
+	    ".?"     { n = "?"; }
+	 |
+	    ".??"    { n = "??"; }
+	 |
+	    "." t=<ID> [ s=<ID> ] { n = t.image + (s != null ? " " + s.image : ""); }  
 	)
 	{
 		return n;

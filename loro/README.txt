@@ -26,6 +26,21 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-23 Version 0.7.91
+
+Reorganización de interpretación: Se busca unificar el manejo de meta-comandos
+desde el mismo núcleo.
+
+	- Complementada producción accionInterprete en LoroIParser.jj para
+	  permitir meta-comandos, por lo menos en el estilo que se han
+	  manejado hasta ahora.
+	- InterpreteImpl: inicio de modificaciones para atender meta-comandos.
+	  Incompleto.
+	  Ver eval(), metaProcesar().
+	  Pendiente: definición de interfaz con clientes que deseen atender
+	  meta-comandos no entendidos por el núcleo (como .limpiar).
+	
+////////////////////////////////////////////////////////////////////////////
 2003-04-16 Version 0.7.91
 
 	- LAlgoritmoImp.ejecutar():  Ajustes en proceso para definir nueva

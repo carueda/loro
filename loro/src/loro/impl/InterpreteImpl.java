@@ -36,6 +36,8 @@ public class InterpreteImpl implements IInterprete
 	boolean execute = true;
 
 	IDerivador derivador;
+	
+	PrintWriter pw = null;
 
 
 	/////////////////////////////////////////////////////////////////////
@@ -78,7 +80,10 @@ public class InterpreteImpl implements IInterprete
 		if ( r != null )
 			ejecutor.ponEntradaEstandar(new BufferedReader(r));
 		if ( w != null )
-			ejecutor.ponSalidaEstandar(new PrintWriter(w));
+		{
+			pw = new PrintWriter(w);
+			ejecutor.ponSalidaEstandar(pw);
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -98,17 +103,23 @@ public class InterpreteImpl implements IInterprete
 		{
 			for ( Iterator it = list.iterator(); it.hasNext(); )
 			{
-				Nodo n = (Nodo) it.next();
-			
-				try
+				Object obj = it.next();
+				
+				if ( obj instanceof Nodo )
 				{
-					////////////////////
-					// fase semantica:
-					chequeador.chequear(n);
+					Nodo n = (Nodo) obj;
+					try
+					{
+						chequeador.chequear(n);
+					}
+					catch ( ChequeadorException se )
+					{
+						throw new CompilacionException(se.obtRango(), se.getMessage());
+					}
 				}
-				catch ( ChequeadorException se )
+				else
 				{
-					throw new CompilacionException(se.obtRango(), se.getMessage());
+					// metacomando.
 				}
 			}
 		}
@@ -149,22 +160,33 @@ public class InterpreteImpl implements IInterprete
 		{
 			for ( Iterator it = list.iterator(); it.hasNext(); )
 			{
-				Nodo n = (Nodo) it.next();
-			
-				if ( n instanceof NUtiliza )
+				Object obj = it.next();
+				if ( obj instanceof Nodo )
 				{
-					ret = null;
+					Nodo n = (Nodo) obj;
+			
+					if ( n instanceof NUtiliza )
+					{
+						ret = null;
+					}
+					else
+					{
+						////////////////////
+						// fase ejecucion:
+						ui.setSourceCode(text);
+						ejecutor.reset(tabSimbBase, ui);
+						n.aceptar(ejecutor);
+						ret = ejecutor.obtRetorno();
+						if ( comillas )
+							ret = valorComillas(n, ret);
+					}
 				}
 				else
 				{
-					////////////////////
-					// fase ejecucion:
-					ui.setSourceCode(text);
-					ejecutor.reset(tabSimbBase, ui);
-					n.aceptar(ejecutor);
-					ret = ejecutor.obtRetorno();
-					if ( comillas )
-						ret = valorComillas(n, ret);
+					// metacomando.
+					String meta = (String) obj;
+					System.out.println("meta=" +meta);
+					metaProcesar("." +meta);
 				}
 			}
 			
@@ -273,4 +295,145 @@ public class InterpreteImpl implements IInterprete
 	{
 		UtilValor.ponLongitudVerArreglo(longitudVerArreglo);
 	}
+
+
+	///////////////////////////////////////////////////////////////////////
+	private void metaProcesar(String text)
+	{
+		String msg;
+
+		if ( text.equals(".?") )
+		{
+			msg =
+"El Intérprete Interactivo permite ejecutar instrucciones de\n"+
+"manera inmediata. Escribe una instrucción a continuación del\n"+
+"indicador y presiona Entrar.\n" +
+"\n"+
+"Hay algunos comandos especiales para el propio intérprete\n"+
+"reconocidos porque empiezan con punto (.):\n"+
+"\n"+
+"   .?            - Muestra esta ayuda\n" +
+"   .limpiar      - Limpia la ventana\n"+
+"   .vars         - Muestra las variables declaradas actualmente\n" +
+"   .borrar ID    - Borra la declaración de la variable indicada\n" +
+"   .borrarvars   - Borra todas las variables declaradas\n" +
+"   .verobj nivel - Pone máximo nivel para visualizar objetos\n"+
+"   .verarr long  - Pone máxima longitud para visualizar arreglos\n" +
+"   .version      - Muestra información general sobre versión del sistema\n" +
+"   .??           - Muestra otros comandos avanzados"
+			;
+		}
+		else if ( text.equals(".??") )
+		{
+			msg =
+"Comandos avanzados:\n"+
+"   .modo         - Muestra el modo de interpretación actual.\n" +
+"                   Hay dos modos de operación:\n" +
+"                     - ejecución completa (por defecto)\n" +
+"                     - sólo compilación (usar con cuidado)\n" +
+"   .cambiarmodo  - Intercambia el modo de interpretación\n"+
+"   .gc           - Reciclar memoria\n"
+			;
+		}
+		else if ( text.equals(".vars") )
+		{
+			msg = tabSimbBase.toString();
+			//msg = Loro.getSymbolTable().toString();
+		}
+		else if ( text.equals(".modo") )
+		{
+			msg = obtModo(execute);
+		}
+		else if ( text.equals(".borrarvars") )
+		{
+			this.reiniciar();
+			msg = Loro.getSymbolTable().toString();
+		}
+		else if ( text.startsWith(".borrar") )
+		{
+			StringTokenizer st = new StringTokenizer(text.substring(".borrar".length()));
+			try
+			{
+				String id = st.nextToken();
+				msg = id+ " " +(this.quitarID(id)
+					? "borrado" 
+					: "no declarado"
+				);
+			}
+			catch ( Exception ex )
+			{
+				msg = "Indique un nombre de variable";
+			}
+		}
+		else if ( text.equals(".cambiarmodo") )
+		{
+			execute = !execute;
+			if ( execute )
+			{
+				// se acaba de pasar de "solo compilacion" a "ejecucion".
+				// Hacer que todas las variables figuren como sin asignacion:
+				this.ponAsignado(false);
+			}
+			msg = "Modo cambiado a: " +obtModo(execute);
+		}
+		else if ( text.equals(".limpiar") )
+		{
+			//ta.setText("");
+			msg = "no se como limpiar";
+		}
+		else if ( text.equals(".version") )
+		{
+			msg =
+"Loro - Sistema Didáctico de Programación\n"+
+//Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
+Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
+			;
+		}
+		else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )
+		{
+			StringTokenizer st = new StringTokenizer(text);
+			try
+			{
+				st.nextToken(); // ignore comando
+				int num = Integer.parseInt(st.nextToken());
+				if ( text.startsWith(".verobj") )
+				{
+					this.ponNivelVerObjeto(num);
+				}
+				else
+				{
+					this.ponLongitudVerArreglo(num);
+				}
+				msg = "";
+			}
+			catch ( Exception ex )
+			{
+				msg = "Indique un valor numérico";
+			}
+		}
+		else if ( text.equals(".gc") )
+		{
+			System.gc();
+			msg = "free memory = " +Runtime.getRuntime().freeMemory()+ "  " +
+			      "total memory = " +Runtime.getRuntime().totalMemory()
+			;
+		}
+		else
+		{
+			msg = text+ ": comando no entendido.    .? para obtener ayuda.";
+		}
+
+		if ( pw != null )
+			pw.println(msg);
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	static String obtModo(boolean execute)
+	{
+		return execute ? "Interpretación completa con ejecución"
+		               : "Interpretación sin ejecucion (sólo chequeo)"
+		;
+	}
+
+
 }
