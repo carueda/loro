@@ -52,6 +52,7 @@ public class LoroTokenMarker extends CTokenMarker
 		{
 			keywords = new KeywordMap(false);
 			keywords.add("clase",Token.KEYWORD1);
+			keywords.add("interfaz",Token.KEYWORD1);
 			keywords.add("interface",Token.KEYWORD1);
 			keywords.add("objeto",Token.KEYWORD1);
 			keywords.add("especificacion",Token.KEYWORD1);

@@ -64,16 +64,15 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
-2002-11-27 (0.8pre8)
+2002-11-27 (0.8pre8) Enlazando con nuevo núcleo 0.7.7
 
-	- Unicamente enlazando con nuevo núcleo 0.7.7
+	- Resaltado de: "interfaz".  Ver LoroTokenMarker.java.
 	
 ////////////////////////////////////////////////////////////////////////////
 2002-11-21 (0.8pre7)
 
-	- Resaltado de: lance, intente, atrape, siempre de acuerdo con adiciones
-	  al núcleo 0.7.6.
-	  Ver LoroTokenMarker.java.
+	- Resaltado de: "lance", "intente", "atrape", "siempre" de acuerdo con adiciones
+	  al núcleo 0.7.6.  Ver LoroTokenMarker.java.
 	
 	- Bug corregido: Un proyecto nuevo no se estaba agregando a la lista de
 	  proyectos disponibles al actualizarse en disco. 
@@ -82,7 +81,7 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2002-11-18 (0.8pre6)
 
-	- Complementando opción "instalar demo" para incluir proveniencia
+	- Complementando opción "instalar proyecto" para incluir proveniencia
 	  externa: web o sistema local de archivos.
 	  Ver GUI.installProject()
 	  

@@ -19,7 +19,83 @@ ir&aacute;n agregando las caracter&iacute;sticas deseadas y que permitir&aacute;
 llevar a cabo las pruebas pertinentes.</blockquote>
 
 <hr WIDTH="100%">
-<br><b><tt>0.8pre3&nbsp; - 2002-10-08</tt></b>
+<br><b><tt>0.8pre4-0.8pre8&nbsp; - 2002-11-27</tt></b>
+<ul>
+<li>
+<b>Sobre nuevo entorno</b>:</li>
+
+<ul>
+<li>
+Nuevo concepto de "demostraci&oacute;n" asociado a un proyecto. Una demostraci&oacute;n
+es un "gui&oacute;n" de c&oacute;digo Loro tratado como un cuerpo integral.
+Se tienen las nuevas opciones "editar demo" y "ejecutar demo" (Ctrl-M).</li>
+
+<li>
+Complementada opci&oacute;n "Exportar proyecto". Ahora se puede exportar
+a un directorio o a un archivo proyecto. Este archivo proyecto (extensi&oacute;n
+.lar) puede cargarse ("instalarse") f&aacute;cilmente desde en otro sistema
+Loro.</li>
+
+<li>
+Complementada opci&oacute;n "instalar proyecto" para incluir, adem&aacute;s
+de proyectos incluidos con el sistema, otros de proveniencia externa, es
+decir, desde la web o desde el sistema local de archivos.</li>
+</ul>
+
+<li>
+<b>N&uacute;cleo del lenguaje</b></li>
+
+<ul>
+<li>
+Permitida ahora una lista de acciones como entrada para interpretaci&oacute;n
+interactiva (antes s&oacute;lo una acci&oacute;n era permitida). Ej:</li>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp; $ cad: cadena := "hola "; cad := cad + "mundo";
+escribir(cad); cad
+<li>
+Algunos avances en manejo de m&eacute;todos y otras caracter&iacute;sticas
+orientadas a objetos, pero a&uacute;n incompleto. Luego se notificar&aacute;n
+oficialmente.</li>
+
+<li>
+Agregada posibilidad de implementar algoritmos utilizando Java a trav&eacute;s
+de BeanShell.</li>
+</ul>
+
+<li>
+<b>Sobre Compatibilidad</b></li>
+
+<ul>
+<li>
+<b>A nivel de fuentes</b>:</li>
+
+<ol>
+<li>
+Hay nuevas palabras reservadas para manejo de excepciones: "lance", "intente",
+"atrape", "siempre". Tambi&eacute;n se ha agregado "interfaz" que es la
+palabra correcta seg&uacute;n la RAE.&nbsp; Por ahora se deja tambi&eacute;n
+como sin&oacute;nimo "interface".</li>
+
+<li>
+Ahora todo acceso a los atributos de una clase se debe hacer a trav&eacute;s
+de la palabra reservad <b>&eacute;ste</b>, tanto en constructores como
+en m&eacute;todos. Anteriormente las declaraciones de los atributos segu&iacute;an
+vigentes tanto en los contructores como en los m&eacute;todos. Un efecto
+de este cambio es que ahora es posible declarar par&aacute;metros repitiendo
+nombres de atributos.</li>
+</ol>
+
+<li>
+<b>A nivel de binarios</b>: Hay cambios internos. Para actualizar un proyecto,
+revisar primero posibles incompatibilidades a nivel de fuentes (seg&uacute;n
+punto anterior) y luego dar el comando <b>F9</b> (compilar).</li>
+</ul>
+
+<li>
+Diversas anomal&iacute;as corregidas.</li>
+</ul>
+
+<hr WIDTH="100%"><b><tt>0.8pre3&nbsp; - 2002-10-08</tt></b>
 <ul>
 <li>
 <b>Sobre nuevo entorno</b>:</li>
