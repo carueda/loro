@@ -277,9 +277,9 @@ public class InterpreteImpl implements IInterprete
 				// mire si hay que poner ``quotes'':
 
 				char q = 0;
-				if ( tipo.esCaracter() )
+				if ( tipo.esCaracter() || o instanceof Character )
 					q = '\'';
-				else if ( tipo.esCadena() )
+				else if ( tipo.esCadena() || o instanceof String )
 					q = '\"';
 
 				if ( q != 0 )

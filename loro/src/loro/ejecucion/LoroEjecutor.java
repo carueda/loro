@@ -1705,33 +1705,22 @@ search:
 	throws VisitanteException
 	{
 		NExpresion e = n.obtExpresion();
-		Objeto obj = (Objeto)_ejecutarExpresion(e);
+		Object object = _ejecutarExpresion(e);
+		Tipo e_tipo = e.obtTipo();
+		Tipo trev = n.obtNTipoRevisado().obtTipo();
 
-		if ( obj == null )
+		try
 		{
-			// asi opera tambien Java:
-			retorno = Boolean.FALSE;
+			retorno = new Boolean(Tipos.isInstanceOf(object, e_tipo, trev));
 		}
-		else
+		catch(ClaseNoEncontradaException exc)
 		{
-			// Hay que obtener la clase concreta a la que esta asociado obj
-			// y mirar si es la misma que la de tipoRevisado, o es subclase
-			// de la de tipoRevisado.
-			NClase clase = obj.obtNClase();
-
-			TipoClase tcrev = (TipoClase) n.obtNTipoRevisado().obtTipo();
-			try
-			{
-				retorno = new Boolean(Tipos.aKindOf(clase, tcrev));
-			}
-			catch(ClaseNoEncontradaException exc)
-			{
-				throw _crearEjecucionException(n,
-					"Clase no encontrada durante revisión de 'es_instancia_de': '" +exc.obtNombre()+ "'"
-				);
-			}
+			throw _crearEjecucionException(n,
+				"Clase no encontrada durante revisión de 'es_instancia_de': '" +exc.obtNombre()+ "'"
+			);
 		}
 	}
+	
 	///////////////////////////////////////////////////////////////////
 	/**
 	 * NO SE USA. Vea _visitarCondicion(NEspecificacion, int).

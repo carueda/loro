@@ -1516,10 +1516,15 @@ public class Chequeador extends ChequeadorBase
 		ntipoRevisado.aceptar(this);
 		Tipo tipoRevisado = ntipoRevisado.obtTipo();
 
-		// e debe ser un objeto:
-		if ( e_tipo.esNulo()    // no puede ser "nulo"
-		||  !e_tipo.esClase()   // tipo debe ser de clase
-		)
+		if ( e_tipo.esNulo() )    // no puede ser "nulo"
+		{
+			throw new ChequeadorException(
+				e,
+				"La referencia nula no es instancia de ninguna clase."
+			);
+		}
+		
+		if ( !e_tipo.esObjeto() )
 		{
 			throw new ChequeadorException(
 				e,
@@ -1528,8 +1533,8 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 
-		// tipo revisado debe ser clase:
-		if ( !tipoRevisado.esClase() )
+		// tipo revisado debe ser objeto:
+		if ( !tipoRevisado.esObjeto() )
 		{
 			throw new ChequeadorException
 			(
@@ -1539,16 +1544,25 @@ public class Chequeador extends ChequeadorBase
 			);
 		}
 
-		boolean ok = _aKindOf(n,  (TipoClase)tipoRevisado, (TipoClase)e_tipo)
-				  || _aKindOf(n,  (TipoClase)e_tipo, (TipoClase)tipoRevisado)
-		;
-
-		if ( !ok )
+		// 2003-05-13
+		// Por ahora se permitirá cualquier chequeo de es_instancia_de que
+		// sea válido hasta este punto.
+		
+		if ( false )
 		{
-			throw new ChequeadorException(
-				e,
-				"Imposible que '" +e_tipo+ "' sea '" +tipoRevisado+ "'"
-			);
+			
+			// El siguiente fragmento deberá modificarse para hacer un chequeo
+			// más completo. PENDIENTE
+			boolean ok = _aKindOf(n,  (TipoClase)tipoRevisado, (TipoClase)e_tipo)
+					  || _aKindOf(n,  (TipoClase)e_tipo, (TipoClase)tipoRevisado)
+			;
+			if ( !ok )
+			{
+				throw new ChequeadorException(
+					e,
+					"Imposible que '" +e_tipo+ "' sea '" +tipoRevisado+ "'"
+				);
+			}
 		}
 
 		n.ponTipo(Tipo.booleano);

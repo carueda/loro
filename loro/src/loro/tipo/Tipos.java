@@ -86,6 +86,64 @@ public class Tipos
 		return false;
 	}
 
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Dice si un objeto es instancia de un tipo.
+	 *
+	 * @param object Object chequeado.
+	 * @param e_tipo Tipo declarado del objeto
+	 * @param tipo Tipo confrontado
+	 */
+	public static boolean isInstanceOf(Object object, Tipo e_tipo, Tipo tipo)
+	throws ClaseNoEncontradaException
+	{
+		if ( object == null )
+			return false;        // como en Java:
+		
+		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
+
+		String t2 = tipo.toString();
+		
+		if ( object instanceof Objeto )
+		{
+			// tipo tiene que ser TipoClase:
+			if ( !(tipo instanceof TipoClase) )
+				return false;
+			
+			// tome el nombre de la super clase:
+			TipoClase tc2 = (TipoClase) tipo;
+			
+			Objeto obj = (Objeto) object;
+			NClase c2 = mu.obtClase(t2);
+			NClase clase = obj.obtNClase();
+			while ( clase != null )
+			{
+				// tome el nombre de la clase base:
+				String t1 = clase.obtNombreCompletoCadena();
+				
+				if ( t1.equals(t2) )
+					return true;
+	
+				// intente por super clase:
+				clase = mu.obtSuperClase(clase);
+			}
+			return false;
+		}
+		else if ( object instanceof String )
+		{
+			// t2 tiene que ser "cadena" o el nombre de la clase raiz:
+			return Tipo.cadena.toString().equals(t2)
+			    || mu.obtNombreClaseRaiz().equals(t2);
+		}
+		else if ( object instanceof Object[] )
+		{
+			// tienen que ser iguales e_tipo y tipo:
+			return e_tipo.igual(tipo);
+		}
+		else
+			throw new Error("Tipo.isInstanceOf: Imposible");
+	}
+	
 	//////////////////////////////////////////////////////////
 	/**
 	 * Dice si una clase implementa la interface dada.

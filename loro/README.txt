@@ -12,8 +12,13 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
-2003-05-08 Version 0.7.91
+2003-05-13 Version 0.7.91
 
+	- InterpreteImpl.valorComillas: chequea si ``o instanceof String'' o
+	  ``o instanceof Character''.
+	  
+	- Otros ajustes sobre es_instancia_de.
+	
 	- Bug 737350 corregido:
 	  ``obj es_instancia_de Clase'' resulta en falso cuando obj es
 	  instancia de una subclase de Clase.
