@@ -9,9 +9,6 @@
     <info>
         <appname>LoroEDI</appname>
         <appversion>@VERSION@</appversion>
-        <authors>
-            <author name="Carlos A. Rueda" email="carueda@users.sf.net"/>
-        </authors>
         <url>http://loro.sf.net</url>
     </info>
     
@@ -19,18 +16,17 @@
     
     <locale> 
 		<langpack iso3="spa"/> 
-		<langpack iso3="eng"/> 
 	</locale>
     
     <resources>
 		<res id="Installer.image" src="doc/images/splash.jpg" />
-        <res id="LicencePanel.licence" src="doc/COPYING.txt"/>
+        <res id="HTMLLicencePanel.licence" src="doc/LICENCIA.html"/>
 		<res id="shortcutSpec.xml" src="lib/izshortcut.xml"/>
     </resources>
     
     <panels>
         <panel classname="HelloPanel"/>
-        <panel classname="LicencePanel"/>
+        <panel classname="HTMLLicencePanel"/>
         <panel classname="TargetPanel"/>
         <panel classname="InstallPanel"/>
 		<panel classname="ShortcutPanel"/>
