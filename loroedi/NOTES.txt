@@ -1,0 +1,12 @@
+LoroEDI NOTES
+$Id$
+
+	- Puede crearse la siguiente confusión cuando se exporta una extensión
+	  de la cual se está visualizando su documentación normalmente:
+	  Haberse indicado "incluir documentación (*.html)" y sin embargo no haberse
+	  exportado dicha documentación. Lo que sucede ahora es que generalmente 
+	  esta documentación no se está incluyendo en las extensiones creadas
+	  externamente, particularmente desde los builds*.xml (ver por ejemplo el
+	  build-ext.html del núcleo), pero se tiene generada en un directorio para
+	  ello.
+
