@@ -14,7 +14,7 @@ import java.net.URL;
  */
 public class Splash extends JWindow
 {
-	private JTextField status_label;
+	private JLabel status_label;
 	
 	//////////////////////////////////////////////////////////////////////////////
 	/**
@@ -38,6 +38,8 @@ public class Splash extends JWindow
 	public Splash(String text, URL icon_url, Frame f, int waitTime)
 	{
 		super(f);
+		getContentPane().setBackground(Color.yellow);
+
 		ImageIcon ii = null;
 		if ( icon_url != null )
 			ii = new ImageIcon(icon_url);
@@ -53,24 +55,25 @@ public class Splash extends JWindow
 		addMouseListener(ml);
 		
 		JLabel label = new JLabel(ii, JLabel.CENTER);
+		label.setIconTextGap(100);
 		getContentPane().add(label, BorderLayout.CENTER);
 
 		JPanel fields = new JPanel(new GridLayout(2, 1)); 
 		getContentPane().add(fields, BorderLayout.SOUTH);
 		
-		JTextField text_label = new JTextField(text);
+		JLabel text_label = new JLabel(text);
 		text_label.setFont(text_label.getFont().deriveFont(Font.BOLD));
-		text_label.setHorizontalAlignment(JTextField.RIGHT);
+		text_label.setHorizontalAlignment(JLabel.RIGHT);
 		text_label.setBackground(Color.yellow);
-		text_label.setEditable(false);
+		text_label.setOpaque(true);
 		text_label.addMouseListener(ml);
 		fields.add(text_label);
 		
-		status_label = new JTextField("Iniciando...");
+		status_label = new JLabel("Iniciando...");
 		status_label.setFont(status_label.getFont().deriveFont(10f));
-		status_label.setHorizontalAlignment(JTextField.LEFT);
+		status_label.setHorizontalAlignment(JLabel.LEFT);
 		status_label.setBackground(Color.yellow);
-		status_label.setEditable(false);
+		status_label.setOpaque(true);
 		status_label.addMouseListener(ml);
 		fields.add(status_label);
 

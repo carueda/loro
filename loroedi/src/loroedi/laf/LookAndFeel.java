@@ -5,6 +5,7 @@ import loroedi.Configuracion;
 import loro.Loro;
 
 import java.io.File;
+import javax.swing.UIManager;
 
 /////////////////////////////////////////////////////////////////////
 /**
@@ -52,21 +53,9 @@ public class LookAndFeel
 			// Se pone Kunststoff:
 			try
 			{
-				javax.swing.LookAndFeel laf =
-					new com.incors.plaf.kunststoff.KunststoffLookAndFeel()
-				;
-//				org.compiere.plaf.CompiereLookAndFeel laf = 
-//					new org.compiere.plaf.CompiereLookAndFeel()
-//				;
-				
-				javax.swing.UIManager.setLookAndFeel(laf);
-
-//				org.compiere.plaf.CompierePanelUI.setDefaultBackground(
-//					new org.compiere.plaf.CompiereColor(
-//						new java.awt.Color(200, 255, 200),
-//						new java.awt.Color(200, 200, 255)
-//					)
-//				);
+				// sigo prefiriendo Kunststoff :-)
+				UIManager.setLookAndFeel("com.incors.plaf.kunststoff.KunststoffLookAndFeel");
+//				UIManager.setLookAndFeel("org.compiere.plaf.CompiereLookAndFeel");
 			}
 			catch(Exception e)
 			{

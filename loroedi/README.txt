@@ -64,6 +64,11 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-13 (0.8pre8)
+
+	- Más ajustes menores en GUI.init() y en el splash.
+
+////////////////////////////////////////////////////////////////////////////
 2003-02-12 (0.8pre8)
 
 Ajustes cosméticos.
@@ -83,6 +88,7 @@ Ajustes cosméticos.
 	  
 	- Primeras pruebas con CompiereLookAndFeel (compiere.org) que
 	  se ve interesante. Queda entre comentarios. Pendiente.
+	  Pero por ahora sigo prefiriendo Kunststoff :-).
 	
 ////////////////////////////////////////////////////////////////////////////
 2003-02-11 (0.8pre8)

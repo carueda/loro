@@ -95,17 +95,17 @@ public class GUI
 
 		try
 		{		
+			ProjectFrame frame = new ProjectFrame();
+			splash = Splash.showSplash(frame);
+		
 			Configuracion.load();
 			Preferencias.load();
 			LookAndFeel.setLookAndFeel();
 
-			ProjectFrame frame = new ProjectFrame(null);
-			
-			_initCore(frame);
+			_initCore();
 			
 			Rectangle rect = Preferencias.obtRectangulo(Preferencias.PRJ_RECT);
-			frame.setLocation(rect.x, rect.y);
-			frame.setSize(rect.width, rect.height);
+			frame.init(rect);
 
 			doc_dir = Preferencias.obtPreferencia(Preferencias.DOC_DIR);
 			new File(doc_dir).mkdirs();
@@ -190,11 +190,9 @@ public class GUI
 	 *
 	 * @throws Exception Si se presenta algún problema de inicio.
 	 */
-	static void _initCore(JFrame frame)
+	static void _initCore()
 	throws Exception
 	{
-		splash = Splash.showSplash(frame);
-		
 		if ( prs_dir == null )
 		{
 			prs_dir = Preferencias.obtPreferencia(Preferencias.PRS_DIR);
@@ -2955,10 +2953,33 @@ public class GUI
 		Project project;
 		JMenu windowMenu;
 	
-		/////////////////////////////////////////////////////////////////	
-		ProjectFrame(Rectangle rect)
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Constructor básico; ninguna inicialización; debe llamarse
+		 * obj.init() para hace la instancia obj útil.
+		 */
+		ProjectFrame()
 		{
 			super();
+		}
+		
+		/////////////////////////////////////////////////////////////////	
+		/**
+		 * Constructor general.
+		 */
+		ProjectFrame(Rectangle rect)
+		{
+			this();
+			init(rect);
+		}
+		
+		/////////////////////////////////////////////////////////////////	
+		/**
+		 * Método pensado exclusivamente para ser llamado sobre una
+		 * instancia creada con el constructor básico.
+		 */
+		void init(Rectangle rect)
+		{
 			addWindowListener(new WindowAdapter()
 			{
 				public void windowClosing(WindowEvent _)
