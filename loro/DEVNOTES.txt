@@ -2,6 +2,15 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-07-05 Version 0.8pre3
+	- Language changes:
+		- Pre-/post-conditions are not required
+		- Documentation elements are not required
+	  ChequeadorBase: see flags required*
+	  These flags are now fixed but later there will be public
+	  services to allow for configuration.
+	
+////////////////////////////////////////////////////////////////////////////
 2004-07-03 Version 0.8pre3
 	- more strings
 	

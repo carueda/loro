@@ -188,7 +188,7 @@ public class NEspecificacion extends NUnidad implements IUnidad.IEspecificacion
 	 */
 	public String obtDescripcion()
 	{
-		return descripcion.obtCadena();
+		return descripcion == null ? null : descripcion.obtCadena();
 	}
 
 	////////////////////////////////////////////////////////////////////

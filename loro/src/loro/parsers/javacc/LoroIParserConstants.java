@@ -10,77 +10,77 @@ public interface LoroIParserConstants {
   int TEXT_DOC = 16;
   int GUIDE = 17;
   int IMPL = 18;
-  int BOOLEANO = 19;
-  int CADENA = 20;
-  int CARACTER = 21;
-  int ENTERO = 22;
+  int BOOLEAN = 19;
+  int STRING = 20;
+  int CHAR = 21;
+  int INT = 22;
   int REAL = 23;
-  int ALGORITMO = 24;
-  int ATRAPE = 25;
-  int BAJANDO = 26;
-  int CASO = 27;
-  int CICLO = 28;
-  int CIERTO = 29;
-  int CLASE = 30;
-  int COMO = 31;
-  int CONSTANTE = 32;
+  int ALGORITHM = 24;
+  int CATCH = 25;
+  int DOWNTO = 26;
+  int CASE = 27;
+  int LOOP = 28;
+  int TRUE = 29;
+  int CLASS = 30;
+  int AS = 31;
+  int CONSTANT = 32;
   int CONSTRUCTOR = 33;
   int CONTINUE = 34;
-  int CREAR = 35;
-  int DESDE = 36;
-  int DESCRIPCION = 37;
-  int EN = 38;
-  int ENTONCES = 39;
-  int ENTRADA = 40;
-  int ES = 41;
-  int ESPECIFICACION = 42;
-  int ESTE = 43;
-  int ESTRATEGIA = 44;
-  int EXISTE = 45;
-  int EXTIENDE = 46;
-  int FALSO = 47;
-  int FIN = 48;
+  int NEW = 35;
+  int FROM = 36;
+  int DESCRIPTION = 37;
+  int IN = 38;
+  int THEN = 39;
+  int INPUT = 40;
+  int INSTANCEOF = 41;
+  int SPECIFICATION = 42;
+  int THIS = 43;
+  int STRATEGY = 44;
+  int EXISTS = 45;
+  int EXTENDS = 46;
+  int FALSE = 47;
+  int END = 48;
   int GLOBAL = 49;
-  int HAGA = 50;
-  int HASTA = 51;
-  int IMPLEMENTACION = 52;
-  int INICIO = 53;
-  int IMPLEMENTA = 54;
-  int INTENTE = 55;
+  int DO = 50;
+  int UNTIL = 51;
+  int IMPLEMENTATION = 52;
+  int BEGIN = 53;
+  int IMPLEMENTS = 54;
+  int TRY = 55;
   int INTERFACE = 56;
-  int LANCE = 57;
-  int METODO = 58;
-  int MIENTRAS = 59;
+  int THROW = 57;
+  int METHOD = 58;
+  int WHILE = 59;
   int NADA = 60;
-  int NULO = 61;
-  int OBJETO = 62;
-  int OPERACION = 63;
-  int PAQUETE = 64;
-  int PARA = 65;
-  int PARA_TODO = 66;
-  int PASO = 67;
-  int POS = 68;
+  int NULL = 61;
+  int OBJECT = 62;
+  int OPERATION = 63;
+  int PACKAGE = 64;
+  int FOR = 65;
+  int FORALL = 66;
+  int STEP = 67;
+  int POST = 68;
   int PRE = 69;
-  int REPITA = 70;
-  int RETORNE = 71;
-  int SALIDA = 72;
-  int SEGUN = 73;
-  int SI = 74;
-  int SI_NO = 75;
-  int SI_NO_si = 76;
-  int SIEMPRE = 77;
+  int REPEAT = 70;
+  int RETURN = 71;
+  int OUTPUT = 72;
+  int SWITCH = 73;
+  int IF = 74;
+  int ELSE = 75;
+  int ELSEIF = 76;
+  int FINALLY = 77;
   int SUPER = 78;
-  int TERMINE = 79;
-  int UTILIZA = 80;
-  int LITERAL_ENTERO = 81;
-  int LITERAL_REAL = 82;
-  int EXPONENTE = 83;
+  int BREAK = 79;
+  int USES = 80;
+  int INT_LITERAL = 81;
+  int REAL_LITERAL = 82;
+  int EXPONENT = 83;
   int HEXA = 84;
-  int LITERAL_CARACTER = 85;
-  int LITERAL_CADENA = 86;
+  int CHAR_LITERAL = 85;
+  int STRING_LITERAL = 86;
   int ID = 87;
   int LETRA = 88;
-  int DIGITO = 89;
+  int DIGIT = 89;
 
   int DEFAULT = 0;
   int IN_SINGLE_LINE_COMMENT = 1;
@@ -128,13 +128,13 @@ public interface LoroIParserConstants {
     "<CONTINUE>",
     "\"crear\"",
     "\"desde\"",
-    "<DESCRIPCION>",
+    "<DESCRIPTION>",
     "\"en\"",
     "\"entonces\"",
     "\"entrada\"",
     "\"es_instancia_de\"",
-    "<ESPECIFICACION>",
-    "<ESTE>",
+    "<SPECIFICATION>",
+    "<THIS>",
     "\"estrategia\"",
     "\"existe\"",
     "\"extiende\"",
@@ -143,18 +143,18 @@ public interface LoroIParserConstants {
     "\"global\"",
     "\"haga\"",
     "\"hasta\"",
-    "<IMPLEMENTACION>",
+    "<IMPLEMENTATION>",
     "\"inicio\"",
     "\"implementa\"",
     "\"intente\"",
     "<INTERFACE>",
     "\"lance\"",
-    "<METODO>",
+    "<METHOD>",
     "\"mientras\"",
     "\"nada\"",
     "\"nulo\"",
     "\"objeto\"",
-    "<OPERACION>",
+    "<OPERATION>",
     "\"paquete\"",
     "\"para\"",
     "\"para_todo\"",
@@ -164,7 +164,7 @@ public interface LoroIParserConstants {
     "\"repita\"",
     "\"retorne\"",
     "\"salida\"",
-    "<SEGUN>",
+    "<SWITCH>",
     "\"si\"",
     "\"si_no\"",
     "\"si_no_si\"",
@@ -172,15 +172,15 @@ public interface LoroIParserConstants {
     "<SUPER>",
     "\"termine\"",
     "\"utiliza\"",
-    "<LITERAL_ENTERO>",
-    "<LITERAL_REAL>",
-    "<EXPONENTE>",
+    "<INT_LITERAL>",
+    "<REAL_LITERAL>",
+    "<EXPONENT>",
     "<HEXA>",
-    "<LITERAL_CARACTER>",
-    "<LITERAL_CADENA>",
+    "<CHAR_LITERAL>",
+    "<STRING_LITERAL>",
     "<ID>",
     "<LETRA>",
-    "<DIGITO>",
+    "<DIGIT>",
     "\";\"",
     "\",\"",
     "\":\"",

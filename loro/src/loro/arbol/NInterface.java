@@ -77,7 +77,7 @@ public class NInterface extends NUnidad
 	////////////////////////////////////////////////////////////////
 	public String obtDescripcion()
 	{
-		return descripcion.obtCadena();
+		return descripcion == null ? null : descripcion.obtCadena();
 	}
 
 	////////////////////////////////////////////////////////////////

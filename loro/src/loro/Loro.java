@@ -98,7 +98,7 @@ public final class Loro
 	
 	/** Sets the locale. 
 	 This method can be called at any time (before or after initialization). 
-	 The lexeme set of the language is also affected. */
+	 The language keyword set is also affected. */
 	public static void setLocale(Locale locale_) {
 		try {
 			strings = ResourceBundle.getBundle("loro.resource.strings", locale_);
@@ -652,9 +652,9 @@ public final class Loro
 			String[] nespec = alg.obtNombreEspecificacion();
 			String sespec = loro.util.Util.obtStringRuta(nespec);
 			NEspecificacion espec = mu.obtEspecificacion(sespec);
-			if ( espec != null )
-			{
-				return espec.obtDescripcion();
+			if ( espec != null ) {
+				String s = espec.obtDescripcion();
+				return s == null ? "" : s;
 			}
 		}
 

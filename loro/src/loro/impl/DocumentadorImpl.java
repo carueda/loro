@@ -19,20 +19,20 @@ import java.io.IOException;
 public class DocumentadorImpl implements IDocumentador
 {
 	//////////////////////////////////////////////////////
-	public void documentar(IUnidad u, String dir)
-	throws LoroException
-	{
+	public void documentar(IUnidad u, String dir) throws LoroException {
 		loro.arbol.NUnidad n = (loro.arbol.NUnidad) u;
 		
-		try
-		{
+		try {
 			loro.visitante.IVisitante doc = new loro.doc.VisitanteLoroDoc(dir);
 			n.aceptar(doc);
 		}
-		catch ( Exception ex )
-		{
+		catch ( Exception ex ) {
+			ex.printStackTrace();
+			String m = ex.getMessage();
+			if ( m == null )
+				m = "(null message)";
 			throw new LoroException(
-				Str.get("error.1_generating_doc", ex.getMessage())
+				Str.get("error.1_generating_doc", m)
 			);
 		}
 	}

@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2004-06-22
+// FECHA ULTIMA ACTUALIZACION   : 2004-07-05
 //
 // $Id$
 //
@@ -15,6 +15,25 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2004-07-05
+//		- Algunas reglas se han hecho menos estrictas:
+//			- Elementos de documentacion ahora son opcionales
+//			- PRE/POST ahora son opcionales
+//			- Tag para cerrar ambitos son ahora opcionales en
+//			  la mayor parte de las construcciones: Ejemplo:
+//			     clase
+//			        ...
+//			     fin
+//			    
+//		- loro.jj es la especificacion para el idioma ingles:
+//		  La gramatica es exactamente la misma EXCEPTO:
+//			- conjunto de palabras reservadas (seccion de lexico)
+//			- produccion para() utiliza aqui token <UNTIL>
+//			  pero loro.jj utiliza el token <TO>.
+//			  Esto es necesario por las idiosincracias entre los
+//			  dos idiomas (ademas esta es una solucion no definitiva
+//			  para manejar multiples idiomas).
 //
 //		2004-06-22
 //		- unicode scape sequences for accents in reserved
@@ -158,7 +177,7 @@
 //      2001-09-25
 //              - Reformada gramatica para clases: ahora hay que agregar una
 //                cadena de documentacion para cada atributo:
-//                    id : tipo : LITERAL_CADENA
+//                    id : tipo : STRING_LITERAL
 //
 //      2001-02-04
 //              - Nuevas palabras reservadas: "ciclo", "termine", "continúe"
@@ -388,90 +407,91 @@ TOKEN :
 
 TOKEN : // tipos básicos
 {
-	< BOOLEANO: "booleano" >
-  | < CADENA: "cadena" >
-  | < CARACTER: "caracter" >
-  | < ENTERO: "entero" >
+	< BOOLEAN: "booleano" >
+  | < STRING: "cadena" >
+  | < CHAR: "caracter" >
+  | < INT: "entero" >
   | < REAL: "real" >
 }
 
 TOKEN : // otras palabras reservadas
 {
-	< ALGORITMO: "algoritmo">
-  | < ATRAPE: "atrape">
-  | < BAJANDO: "bajando">
-  | < CASO: "caso" >
-  | < CICLO: "ciclo" >
-  | < CIERTO: "cierto" >
-  | < CLASE: "clase" >
-  | < COMO: "como" >
-  | < CONSTANTE: "constante">
+	< ALGORITHM: "algoritmo">
+  | < CATCH: "atrape">
+  | < DOWNTO: "bajando">
+  | < CASE: "caso" >
+  | < LOOP: "ciclo" >
+  | < TRUE: "cierto" >
+  | < CLASS: "clase" >
+  | < AS: "como" >
+  | < CONSTANT: "constante">
   | < CONSTRUCTOR: "constructor">
   | < CONTINUE: "continue" | "continúe" | "contin\u00fae" >
-  | < CREAR: "crear">
-  | < DESDE: "desde" >
-  | < DESCRIPCION: "descripcion" | "descripción" | "descripci\u00f3n" >
-  | < EN: "en">
-  | < ENTONCES: "entonces" >
-  | < ENTRADA: "entrada">
-  | < ES: "es_instancia_de">
-  | < ESPECIFICACION: "especificacion" | "especificación" | "especificaci\u00f3n" >
-  | < ESTE: "este" | "éste" | "\u00e9ste" >
-  | < ESTRATEGIA: "estrategia">
-  | < EXISTE: "existe">
-  | < EXTIENDE: "extiende">
-  | < FALSO: "falso" >
-  | < FIN: "fin" >
+  | < NEW: "crear">
+  | < FROM: "desde" >
+//  | < TO: "to" >   NOT USED, See para()
+  | < DESCRIPTION: "descripcion" | "descripción" | "descripci\u00f3n" >
+  | < IN: "en">
+  | < THEN: "entonces" >
+  | < INPUT: "entrada">
+  | < INSTANCEOF: "es_instancia_de">
+  | < SPECIFICATION: "especificacion" | "especificación" | "especificaci\u00f3n" >
+  | < THIS: "este" | "éste" | "\u00e9ste" >
+  | < STRATEGY: "estrategia">
+  | < EXISTS: "existe">
+  | < EXTENDS: "extiende">
+  | < FALSE: "falso" >
+  | < END: "fin" >
   | < GLOBAL: "global" >
-  | < HAGA: "haga">
-  | < HASTA: "hasta">
-  | < IMPLEMENTACION: "implementacion" | "implementación" | "implementaci\u00f3n" >
-  | < INICIO: "inicio">
-  | < IMPLEMENTA: "implementa">
-  | < INTENTE: "intente">
+  | < DO: "haga">
+  | < UNTIL: "hasta">
+  | < IMPLEMENTATION: "implementacion" | "implementación" | "implementaci\u00f3n" >
+  | < BEGIN: "inicio">
+  | < IMPLEMENTS: "implementa">
+  | < TRY: "intente">
   | < INTERFACE: "interfaz" | "interface">
-  | < LANCE: "lance">
-  | < METODO: "metodo" | "método" | "m\u00e9todo" >
-  | < MIENTRAS: "mientras" >
+  | < THROW: "lance">
+  | < METHOD: "metodo" | "método" | "m\u00e9todo" >
+  | < WHILE: "mientras" >
   | < NADA: "nada">
-  | < NULO: "nulo">
-  | < OBJETO: "objeto">
-  | < OPERACION: "operacion" | "operación" | "operaci\u00f3n" >
-  | < PAQUETE: "paquete">
-  | < PARA: "para">
-  | < PARA_TODO: "para_todo">
-  | < PASO: "paso" >
-  | < POS: "pos">
+  | < NULL: "nulo">
+  | < OBJECT: "objeto">
+  | < OPERATION: "operacion" | "operación" | "operaci\u00f3n" >
+  | < PACKAGE: "paquete">
+  | < FOR: "para">
+  | < FORALL: "para_todo">
+  | < STEP: "paso" >
+  | < POST: "pos">
   | < PRE: "pre">
-  | < REPITA: "repita">
-  | < RETORNE: "retorne">
-  | < SALIDA: "salida">
-  | < SEGUN: "segun" | "según" | "seg\u00fan" >
-  | < SI: "si" >
-  | < SI_NO: "si_no" >
-  | < SI_NO_si: "si_no_si" >
-  | < SIEMPRE: "siempre" >
+  | < REPEAT: "repita">
+  | < RETURN: "retorne">
+  | < OUTPUT: "salida">
+  | < SWITCH: "segun" | "según" | "seg\u00fan" >
+  | < IF: "si" >
+  | < ELSE: "si_no" >
+  | < ELSEIF: "si_no_si" >
+  | < FINALLY: "siempre" >
   | < SUPER: "super" | "súper" | "s\u00faper" >
-  | < TERMINE: "termine" >
-  | < UTILIZA: "utiliza" >
+  | < BREAK: "termine" >
+  | < USES: "utiliza" >
 }
 
 TOKEN : // Literales
 {
-	< LITERAL_ENTERO: (<DIGITO>)+ >
+	< INT_LITERAL: (<DIGIT>)+ >
   |
-	< LITERAL_REAL:
-		(["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENTE>)?
-	 |  "." (["0"-"9"])+ (<EXPONENTE>)?
-	 |  (["0"-"9"])+ <EXPONENTE>
-	 |  (["0"-"9"])+ (<EXPONENTE>)?
+	< REAL_LITERAL:
+		(["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)?
+	 |  "." (["0"-"9"])+ (<EXPONENT>)?
+	 |  (["0"-"9"])+ <EXPONENT>
+	 |  (["0"-"9"])+ (<EXPONENT>)?
 	>
   |
-	< #EXPONENTE: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+	< #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
   |
 	< #HEXA: ["0"-"9","a"-"f","A"-"F"] >
   |
-	< LITERAL_CARACTER:
+	< CHAR_LITERAL:
 		  "'"
 		  (   (~["'","\\","\n","\r"])
 		| ("\\"
@@ -485,7 +505,7 @@ TOKEN : // Literales
 		  "'"
 	>
   |
-	< LITERAL_CADENA:   // se permite que cubra varias líneas
+	< STRING_LITERAL:   // se permite que cubra varias líneas
 	  "\""
 	  (   (~["\"","\\"])    //(~["\"","\\","\n","\r"])
 	| ("\\"
@@ -502,7 +522,7 @@ TOKEN : // Literales
 
 TOKEN : // Identificadores
 {
-	< ID: <LETRA> (<LETRA>|<DIGITO>)* ("'")?>
+	< ID: <LETRA> (<LETRA>|<DIGIT>)* ("'")?>
   |
   < #LETRA:
 	  [
@@ -523,7 +543,7 @@ TOKEN : // Identificadores
 	  ]
   >
 |
-  < #DIGITO:
+  < #DIGIT:
 	  [
 	   "\u0030"-"\u0039",
 	   "\u0660"-"\u0669",
@@ -543,6 +563,9 @@ TOKEN : // Identificadores
 	  ]
   >
 }
+
+/////////////// Grammar stats here /////////////////////////
+
 
 //////////////////////////////////////////////////////////////////////////
 NFuente fuente() :
@@ -593,7 +616,7 @@ NInterface interface_() :
 	Token tini;
 	Token tfin;
 	TId i;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	
 	Vector interfaces = new Vector();
 	TNombre inter;
@@ -606,14 +629,14 @@ NInterface interface_() :
 {
 	tini=<INTERFACE> i=tid()
 	[
-		"extiende" inter=tnombre() { interfaces.addElement(inter); }
+		<EXTENDS> inter=tnombre() { interfaces.addElement(inter); }
 		         ( "," inter=tnombre() { interfaces.addElement(inter); } )*
 	]
-		[ <DESCRIPCION> ] d=tdoc()
+		[ [ <DESCRIPTION> ] d=tdoc() ]
 		(
 			op=especificacion()     { opers.add(op); }
 		)*
-	"fin" tfin=<INTERFACE>
+	tfin=<END> [ LOOKAHEAD(2) tfin=<INTERFACE> ]
 	{
 		TNombre[] inters = new TNombre[interfaces.size()];
 		interfaces.copyInto(inters);
@@ -631,7 +654,7 @@ NPaquete paquete() :
 	TNombre nom;
 }
 {
-	tini="paquete" nom=tnombre() [";"]
+	tini=<PACKAGE> nom=tnombre() [";"]
 	{
 		return ConstructorArbol.crearNPaquete(tini, nom);
 	}
@@ -645,13 +668,13 @@ NUtiliza utiliza() :
 	TNombre nom;
 }
 {
-	tini="utiliza"
+	tini=<USES>
 	(
-		<ESPECIFICACION> { what = "specification"; }
+		<SPECIFICATION> { what = "specification"; }
 	  |
-		"algoritmo"      { what = "algorithm"; }
+		<ALGORITHM>      { what = "algorithm"; }
 	  |
-		"clase"          { what = "class"; }
+		<CLASS>          { what = "class"; }
 	)
 	nom=tnombre()
 	{
@@ -665,7 +688,7 @@ NClase clase() :
 	Token tini;
 	Token tfin;
 	TId i;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	TNombre x = null;
 
 	NDeclDesc[] atrs = null;
@@ -680,14 +703,14 @@ NClase clase() :
 	NAlgoritmo m;
 }
 {
-	( tini="clase" | tini="objeto" ) 
+	( tini=<CLASS> | tini=<OBJECT> ) 
 	i=tid() 
-	[ "extiende" x=tnombre() ]
+	[ <EXTENDS> x=tnombre() ]
 	[
-		"para" inter=tnombre() { interfaces.addElement(inter); }
+		<FOR> inter=tnombre() { interfaces.addElement(inter); }
 		      (","  inter=tnombre() { interfaces.addElement(inter); } )*
 	]
-		[ <DESCRIPCION> ] d=tdoc()
+		[ [ <DESCRIPTION> ] d=tdoc() ]
 		[ atrs=declDescs() ]
 		(
 			c=constructor()     { cs.addElement(c); }
@@ -695,7 +718,7 @@ NClase clase() :
 		(
 			m=algoritmo()     { mets.addElement(m); }
 		)*
-	"fin" ( tfin="clase" | tfin="objeto" )
+	tfin=<END> [ LOOKAHEAD(2) ( tfin=<CLASS> | tfin=<OBJECT> ) ]
 	{
 		TNombre[] inters = new TNombre[interfaces.size()];
 		interfaces.copyInto(inters);
@@ -732,7 +755,7 @@ NDeclDesc declDesc() :
 {
 	TId i;
 	NTipo t;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	boolean esConstante = false;
 	NExpresion e = null;
 	Token c = null;
@@ -743,10 +766,10 @@ NDeclDesc declDesc() :
 		(
 			":="  e=expresion()
 		  |
-			c="constante" [ "=" e=expresion() ]  { esConstante = true; }
+			c=<CONSTANT> [ "=" e=expresion() ]  { esConstante = true; }
 		)
 	]
-	[":"]  d=tdoc()
+	[ [":"]  d=tdoc() ]
 	{
 		return ConstructorArbol.crearNDeclDesc(i, t, d, esConstante, e, c);
 	}
@@ -759,8 +782,8 @@ NConstructor constructor() :
 {
 	Token tini;
 	Token tfin;
-	TCadenaDoc d;
-	TCadenaDoc e;
+	TCadenaDoc d = null;
+	TCadenaDoc e = null;
 	NDeclaracion[] ent = null;
 	NDeclaracion[] sal = null;
 	NDescripcion[] dent = null;
@@ -769,15 +792,15 @@ NConstructor constructor() :
 	Nodo[] a = null;
 }
 {
-	tini="constructor" "(" [ ent=declaraciones() ]  ")"
-	   [ <DESCRIPCION> ] d=tdoc()
-	   [    "entrada" ( "nada" | dent=descripciones() )  ]
-	   [    "pre" pre=afirmacion()  ]
-	   [    "pos" pos=afirmacion()  ]
-	[ <DESCRIPCION> | "estrategia" ] e=tdoc()
-	"inicio"
+	tini=<CONSTRUCTOR> "(" [ ent=declaraciones() ]  ")"
+	   [ LOOKAHEAD(2) [ <DESCRIPTION> ] d=tdoc() ]
+	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
+	   [    <PRE>  pre=afirmacion()  ]
+	   [    <POST> pos=afirmacion()  ]
+	[ [ <DESCRIPTION> | <STRATEGY> ] e=tdoc() ]
+	<BEGIN>
 		a=acciones()
-	"fin" tfin="constructor"
+	tfin=<END> [ LOOKAHEAD(2) tfin=<CONSTRUCTOR> ]
 	{
 		return ConstructorArbol.crearNConstructor(tini, d, ent, dent, pre, pos, e, a, tfin);
 	}
@@ -790,7 +813,7 @@ NEspecificacion especificacion() :
 	Token tini;
 	Token tfin;
 	TId i;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	NDeclaracion[] ent = null;
 	NDeclaracion[] sal = null;
 	NDescripcion[] dent = null;
@@ -799,15 +822,15 @@ NEspecificacion especificacion() :
 	NAfirmacion pos = null;
 }
 {
-	( tini=<ESPECIFICACION> | tini=<OPERACION> )
+	( tini=<SPECIFICATION> | tini=<OPERATION> )
 		i=tid() "(" ( ent=declaraciones() )?  ")"
 			( "->" sal=declaraciones() )?
-		[ <DESCRIPCION> ] d=tdoc()
-	   [    "entrada" ( "nada" | dent=descripciones() )  ]
-	   [    "salida"  ( "nada" | dsal=descripciones() )  ]
-	   [    "pre" pre=afirmacion()  ]
-	   [    "pos" pos=afirmacion()  ]
-	"fin" ( tfin=<ESPECIFICACION> | tfin=<OPERACION> )
+		[ [ <DESCRIPTION> ] d=tdoc() ]
+	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
+	   [    <OUTPUT>  ( "nada" | dsal=descripciones() )  ]
+	   [    <PRE>  pre=afirmacion()  ]
+	   [    <POST> pos=afirmacion()  ]
+	tfin=<END> [ LOOKAHEAD(2) ( tfin=<SPECIFICATION> | tfin=<OPERATION> ) ]
 	{
 		return ConstructorArbol.crearNEspecificacion(
 			tini, 
@@ -859,17 +882,17 @@ NAlgoritmo algoritmo() :
 	TCadena lengAdic = null;
 }
 {
-	( ti="algoritmo" | ti=<METODO> )
-	[id=tid()] "para" esp=tnombre() "(" [ent=declaraciones()]  ")"
+	( ti=<ALGORITHM> | ti=<METHOD> )
+	[id=tid()] <FOR> esp=tnombre() "(" [ent=declaraciones()]  ")"
 			[ "->" sal=declaraciones() ]
 	(
-		[ <DESCRIPCION> | "estrategia" ] d=tdoc()
-		"inicio"
+		[ [ <DESCRIPTION> | <STRATEGY> ] d=tdoc() ]
+		<BEGIN>
 			a=acciones()
 	  |
-		<IMPLEMENTACION> leng=timpl() [ lengAdic=timpl() ] [";"]
+		<IMPLEMENTATION> leng=timpl() [ lengAdic=timpl() ] [";"]
 	)
-	"fin" ( tf="algoritmo" | tf=<METODO> )
+	tf=<END> [ LOOKAHEAD(2) ( tf=<ALGORITHM> | tf=<METHOD> ) ]
 	{
 		return ConstructorArbol.crearNAlgoritmo(
 			ti,
@@ -950,7 +973,7 @@ NDeclaracion[] declaraciones1Tipo() :
 		(
 			":="  e=expresion()
 		  |
-			c="constante" [ "=" e=expresion() ]
+			c=<CONSTANT> [ "=" e=expresion() ]
 			{ esConstante = true; }
 		)
 	]
@@ -980,7 +1003,7 @@ NDeclaracion declaracion1Tipo() :
 		(
 			":="  e=expresion()
 		  |
-			c="constante" [ "=" e=expresion() ]
+			c=<CONSTANT> [ "=" e=expresion() ]
 			{ esConstante = true; }
 		)
 	]
@@ -1008,10 +1031,10 @@ NTipo ntipo() :
 		ti=<INTERFACE> nom=tnombre()  
 		{ t = ConstructorArbol.crearNTipoInterface(ti, nom); }
 	  |
-		ti="algoritmo"	[ "para" nom=tnombre() ]
+		ti=<ALGORITHM>	[ <FOR> nom=tnombre() ]
 		{ t = ConstructorArbol.crearNTipoEspecificacion(ti, nom); }
 	  |
-		[ti="clase"] nom=tnombre()  
+		[ti=<CLASS>] nom=tnombre()  
 		{ t = ConstructorArbol.crearNTipoClase(ti, nom); }
 	)
 	{
@@ -1025,11 +1048,11 @@ NTipo ntipobasico() :
 	Token t;
 }
 {
-	(   t="entero"        
-	  | t="booleano"
-	  | t="caracter"
-	  | t="real"    
-	  | t="cadena"  
+	(   t=<INT>        
+	  | t=<BOOLEAN>
+	  | t=<CHAR>
+	  | t=<REAL>    
+	  | t=<STRING>  
 	)
 	{
 		return ConstructorArbol.crearNTipoBasico(t);
@@ -1196,10 +1219,10 @@ NDecision decision() :
 	Nodo[] an = null;
 }
 {
-	ti="si" e=expresion() "entonces" as=acciones()
+	ti=<IF> e=expresion() <THEN> as=acciones()
 	( sinosi=decision_si_no_si() { sinosis.addElement(sinosi); } )*
-	[ "si_no" an=acciones() ]
-	"fin" tf="si"
+	[ <ELSE> an=acciones() ]
+	tf=<END> [ LOOKAHEAD(2) tf=<IF> ]
 	{
 		NDecisionSiNoSi[] asinosis = new NDecisionSiNoSi[sinosis.size()];
 		sinosis.copyInto(asinosis);
@@ -1215,7 +1238,7 @@ NDecisionSiNoSi decision_si_no_si() :
 	Nodo[] as;
 }
 {
-	ti="si_no_si" e=expresion() "entonces" as=acciones() 
+	ti=<ELSEIF> e=expresion() <THEN> as=acciones() 
 	{
 		return ConstructorArbol.crearNDecisionSiNoSi(ti, e, as);
 	}
@@ -1235,11 +1258,11 @@ NDecisionMultiple decisionMultiple() :
 	NCaso caso_sino = null;
 }
 {
-	ti=<SEGUN> e_segun=expresion() "haga"
+	ti=<SWITCH> e_segun=expresion() <DO>
 		(
-			cti="caso" e_caso=expresion() ":"
+			cti=<CASE> e_caso=expresion() ":"
 				a_caso=acciones()
-			( LOOKAHEAD(2) "fin" ctf="caso" [";"] { con_fin_caso = true; } )?
+			( LOOKAHEAD(2) <END> ctf=<CASE> [";"] { con_fin_caso = true; } )?
 			{
 				casos.addElement(
 					ConstructorArbol.crearNCaso(cti, e_caso, a_caso, con_fin_caso, ctf)
@@ -1248,14 +1271,14 @@ NDecisionMultiple decisionMultiple() :
 				ctf = null;
 			}
 		)*
-		(   cti="si_no" [":"]
+		(   cti=<ELSE> [":"]
 				a_caso=acciones()
-			( LOOKAHEAD(2) "fin" ctf="caso" [";"])?
+			( LOOKAHEAD(2) <END> ctf=<CASE> [";"])?
 			{
 				caso_sino = ConstructorArbol.crearNCaso(cti, null, a_caso, true, ctf);
 			}
 		)?
-	"fin" tf=<SEGUN>
+	tf=<END> [ LOOKAHEAD(2) tf=<SWITCH> ]
 	{
 		NCaso[] css = new NCaso[casos.size()];
 		casos.copyInto(css);
@@ -1272,9 +1295,9 @@ NMientras mientras() :
 	Nodo[] a;
 }
 {
-	ti="mientras" [ "/" etq=tid() "/" ] e=expresion() "haga"
+	ti=<WHILE> [ "/" etq=tid() "/" ] e=expresion() <DO>
 		a=acciones()
-	"fin" tf="mientras"
+	tf=<END> [ LOOKAHEAD(2) tf=<WHILE> ]
 	{
 		return ConstructorArbol.crearNMientras(ti, etq, e, a, tf);
 	}
@@ -1295,22 +1318,22 @@ NIteracion para() :
 	Nodo[] a;
 }
 {
-	ti="para" [ "/" etq=tid() "/" ] ( LOOKAHEAD(2) d=declaracion() | i=tid() )
+	ti=<FOR> [ "/" etq=tid() "/" ] ( LOOKAHEAD(2) d=declaracion() | i=tid() )
 	(
-		("desde" | ":=") ed=expresion()     ("bajando" { b = true; } )?
-		("paso" ep=expresion())?
-		"hasta" eh=expresion()
-		"haga"
+		(<FROM> | ":=") ed=expresion()     (<DOWNTO> { b = true; } )?
+		(<STEP> ep=expresion())?
+		<UNTIL> eh=expresion()
+		<DO>
 			a=acciones()
-		"fin" tf="para"
+		tf=<END> [ LOOKAHEAD(2) tf=<FOR> ]
 		{
 			return ConstructorArbol.crearNPara(ti, etq, i, d, ed, b, ep, eh, a, tf);
 		}
 	  |
-		"en" en=expresion()
-		"haga"
+		<IN> en=expresion()
+		<DO>
 			a=acciones()
-		"fin" tf="para"
+		tf=<END> [ LOOKAHEAD(2) tf=<FOR> ]
 		{
 			return ConstructorArbol.crearNForEach(ti, etq, i, d, en, a, tf);
 		}
@@ -1326,9 +1349,9 @@ NRepita repita() :
 	NExpresion e;
 }
 {
-	ti="repita" [ "/" etq=tid() "/" ]
+	ti=<REPEAT> [ "/" etq=tid() "/" ]
 		a=acciones()
-	"hasta" e=expresion()
+	<UNTIL> e=expresion()
 	{
 		return ConstructorArbol.crearNRepita(ti, etq, a, e);
 	}
@@ -1342,9 +1365,9 @@ NCiclo ciclo() :
 	Nodo[] a;
 }
 {
-	ti="ciclo" [ "/" etq=tid() "/" ]
+	ti=<LOOP> [ "/" etq=tid() "/" ]
 		a=acciones()
-	"fin" tf="ciclo"
+	tf=<END> [ LOOKAHEAD(2) tf=<LOOP> ]
 	{
 		return ConstructorArbol.crearNCiclo(ti, etq, a, tf);
 	}
@@ -1357,7 +1380,7 @@ NRetorne retorne() :
 	Token t;
 }
 {
-	t="retorne" [ es=expresiones() ]
+	t=<RETURN> [ es=expresiones() ]
 	{
 		if ( es == null )
 			es = new NExpresion[0];
@@ -1374,7 +1397,7 @@ NTermine termine() :
 	NExpresion e = null;
 }
 {
-	t="termine" [ "/" etq=tid() "/" ]  [ "si"  e=expresion() ]
+	t=<BREAK> [ "/" etq=tid() "/" ]  [ <IF>  e=expresion() ]
 	{
 		return ConstructorArbol.crearNTermine(t, etq, e);
 	}
@@ -1388,7 +1411,7 @@ NContinue _continue() :
 	NExpresion e = null;
 }
 {
-	t=<CONTINUE> [ "/" etq=tid() "/" ]  [ "si"  e=expresion() ]
+	t=<CONTINUE> [ "/" etq=tid() "/" ]  [ <IF>  e=expresion() ]
 	{
 		return ConstructorArbol.crearNContinue(t, etq, e);
 	}
@@ -1406,25 +1429,25 @@ NIntente intente() :
 	List clist = new ArrayList();
 }
 {
-	ti="intente"
+	ti=<TRY>
 		a=acciones()
 	(
-		ti2="atrape" "(" d=declaracion() ")"
+		ti2=<CATCH> "(" d=declaracion() ")"
 			ca=acciones()
-		[ LOOKAHEAD(2) "fin" tf2="atrape" ]
+		[ LOOKAHEAD(2) <END> tf2=<CATCH> ]
 		{
 			clist.add(ConstructorArbol.crearNAtrape(ti2, d, ca, tf2));
 			tf2 = null;
 		}
 	)*
 	[
-		ti2="siempre"
+		ti2=<FINALLY>
 			ca=acciones()
 		{
 			f = ConstructorArbol.crearNAtrape(ti2, null, ca, null);
 		}
 	]
-	"fin" tf="intente"
+	tf=<END> [ LOOKAHEAD(2) tf=<TRY> ]
 	{
 		NAtrape[] cc = (NAtrape[]) clist.toArray(new NAtrape[clist.size()]); 
 		return ConstructorArbol.crearNIntente(ti, a, cc, f, tf);
@@ -1439,7 +1462,7 @@ NLance lance() :
 	Token t;
 }
 {
-	t="lance" e=expresion()
+	t=<THROW> e=expresion()
 	{
 		return ConstructorArbol.crearNLance(t, e);
 	}
@@ -1650,17 +1673,17 @@ NExpresion e_instancia() :
 	e=e_rel()
 	[
 		(
-			<IMPLEMENTA> t=ntipo()
+			<IMPLEMENTS> t=ntipo()
 			{
 				e = ConstructorArbol.crearNImplementa(e, t);
 			}
 		 |
-		    <COMO> t=ntipo()        // conversión 
+		    <AS> t=ntipo()        // conversión 
 			{
 				e = ConstructorArbol.crearNConvertirTipo(e, t);
 			}
 		 |
-			"es_instancia_de" t=ntipo()
+			<INSTANCEOF> t=ntipo()
 			{
 				e = ConstructorArbol.crearNEsInstanciaDe(e, t);
 			}
@@ -1809,7 +1832,7 @@ NExpresion e_unaria() :
 		e=e_primaria()
 	  |
 		(
-			ti="existe"  |  ti="para_todo"
+			ti=<EXISTS>  |  ti=<FORALL>
 		)
 		d=declaraciones()   // ver LOOKAHEAD allí
 		[
@@ -1919,7 +1942,7 @@ NExpresion e_crear() :
 	NExpresion[] args = null;
 }
 {
-	ti="crear"
+	ti=<NEW>
 	(
 		"[" e=expresion() [ ".." g=expresion() ] "]" f=tamanoArreglo()
 		{
@@ -1998,7 +2021,7 @@ NEste e_este() :
 	Token t;
 }
 {
-	t=<ESTE>
+	t=<THIS>
 	{
 		return ConstructorArbol.crearNEste(t);
 	}
@@ -2010,7 +2033,7 @@ NExpresion e_literalNulo() :
 	Token t;
 }
 {
-	t="nulo"
+	t=<NULL>
 	{
 		return ConstructorArbol.crearNLiteralNulo(t);
 	}
@@ -2022,7 +2045,7 @@ NExpresion e_literalEntero() :
 	Token t;
 }
 {
-	t=<LITERAL_ENTERO>
+	t=<INT_LITERAL>
 	{
 		return ConstructorArbol.crearNLiteralEntero(t);
 	}
@@ -2034,7 +2057,7 @@ NExpresion e_literalReal() :
 	Token t;
 }
 {
-	t=<LITERAL_REAL>
+	t=<REAL_LITERAL>
 	{
 		return ConstructorArbol.crearNLiteralReal(t);
 	}
@@ -2046,7 +2069,7 @@ NExpresion e_literalBooleano() :
 	Token t;
 }
 {
-	( t="cierto"  |  t="falso" |  t="pre" )
+	( t=<TRUE>  |  t=<FALSE> |  t=<PRE> )
 	{
 		return ConstructorArbol.crearNLiteralBooleano(t);
 	}
@@ -2058,7 +2081,7 @@ NExpresion e_literalCadena() :
 	Token t;
 }
 {
-	t=<LITERAL_CADENA>
+	t=<STRING_LITERAL>
 	{
 		return ConstructorArbol.crearNLiteralCadena(t);
 	}
@@ -2070,7 +2093,7 @@ NExpresion e_literalCaracter() :
 	Token t;
 }
 {
-	t=<LITERAL_CARACTER>
+	t=<CHAR_LITERAL>
 	{
 		return ConstructorArbol.crearNLiteralCaracter(t);
 	}
@@ -2118,9 +2141,9 @@ NExpresion e_qualified_nombre() : // unittype id1::id2::id3
 }
 {
 	(
-		ti=<ALGORITMO>    { what = "algorithm"; }
+		ti=<ALGORITHM>    { what = "algorithm"; }
 	  |
-		ti=<OBJETO>    { what = "object"; }
+		ti=<OBJECT>    { what = "object"; }
 	)
 	t=tid()              { v.addElement(t); }
 	( LOOKAHEAD(2) "::" t=tid()  { v.addElement(t); } )*
@@ -2212,7 +2235,7 @@ TCadena timpl() :
 	( 
 	   t=<IMPL>            { str = t.image.substring(2, t.image.length() -2); }
 	 |
-	   t=<LITERAL_CADENA>  { str = t.image.substring(1, t.image.length() -1); }
+	   t=<STRING_LITERAL>  { str = t.image.substring(1, t.image.length() -1); }
 	)
 	{
 		return ConstructorArbol.crearTCadena(t, str);
@@ -2228,7 +2251,7 @@ TCadenaDoc tdoc() :
 	Token t;
 }
 {
-	(  t=<TEXT_DOC>  |  t=<LITERAL_CADENA> )
+	(  t=<TEXT_DOC>  |  t=<STRING_LITERAL> )
 	{
 		return ConstructorArbol.crearTCadenaDoc(t);
 	}

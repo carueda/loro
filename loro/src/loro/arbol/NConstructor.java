@@ -195,6 +195,6 @@ public class NConstructor extends Nodo
 	////////////////////////////////////////////////////////////////
 	public String obtDescripcion()
 	{
-		return descripcion.obtCadena();
+		return descripcion == null ? null : descripcion.obtCadena();
 	}
 }

@@ -120,10 +120,13 @@ final class UtilEjecucion
 			}
 			
 			for ( int i = 0; i < n; i++ ) {
-				if ( dent != null )
-				{
-					NDescripcion des = dent[i];
-					mes.escribir(UtilValor.comoCadena(des.obtDescripcion())+ " ");
+				if ( dent != null ) {
+					for ( int j = 0; j < dent.length; j++ ) {
+						if ( dent[j].obtId().obtId().equals(pent[i].obtId().obtId()) ) {
+							NDescripcion des = dent[j];
+							mes.escribir(UtilValor.comoCadena(des.obtDescripcion())+ " ");
+						}
+					}
 				}
 
 				NDeclaracion dec = pent[i];

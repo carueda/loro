@@ -334,8 +334,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 				processInlineTags(strat, n)
 			);
 		}
-		else
-		{
+		if ( !n.implementadoEnLoro() ) {
 			out.println(
 				"(" +i(label+ " " +Str.get("html.implemented_in")+ " " +n.obtLenguajeImplementacion())+ ")"
 			);
@@ -400,11 +399,16 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 			{
 				NDeclaracion dec = p[i];
 				String desc = "";
-				if ( d != null )
-				{
-					NDescripcion des = d[i];
-					desc = td(processInlineTags(pd(des.obtDescripcion().toString()), n));
+				if ( d != null ) {
+					for ( int j = 0; j < d.length; j++ ) {
+						NDescripcion des = d[j];
+						if ( dec.obtId().obtId().equals(des.obtId().obtId()) ) {
+							desc = des.obtDescripcion().toString();
+							break;
+						}
+					}
 				}
+				desc = td(processInlineTags(pd(desc), n));
 	
 				sb.append(
 					tr(
@@ -497,9 +501,11 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		
 		out.println("<tr><td>");
 		out.println(indent());
-		out.println(
-			processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
-		);
+		if ( n.obtDescripcion() != null ) {
+			out.println(
+				processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
+			);
+		}
 		out.println(unindent());
 		out.println("</td></tr>");
 
@@ -591,9 +597,11 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		out.println("<tr><td>");
 		out.println(indent());
 
-		out.println(
-			processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
-		);
+		if ( n.obtDescripcion() != null ) {
+			out.println(
+				processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
+			);
+		}
 		out.println(unindent());
 		out.println("</td></tr>");
 
@@ -633,10 +641,12 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 
 		out.println(indent());
 
-		out.println(
-			//b("Descripci&oacute;n:") +br()+
-			processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
-		);
+		if ( n.obtDescripcion() != null ) {
+			out.println(
+				//b("Descripci&oacute;n:") +br()+
+				processInlineTags(pd(n.obtDescripcion().toString()), n)+ br()
+			);
+		}
 
 		out.println(br());
 

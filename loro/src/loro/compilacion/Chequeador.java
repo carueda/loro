@@ -1536,14 +1536,14 @@ public class Chequeador extends ChequeadorBase
 			marca_tabla = tabSimb.marcar();
 
 			// verifique cantidades de descripciones:
-			if ( dent.length != pent.length ) {
+			if ( dent.length != pent.length && requiredDescription ) {
 				IUbicable u = dent.length > 0 ? new Ubicacion(dent) : new Ubicacion(pent);
 				throw new ChequeadorException(
 					u,
 					Str.get("error.different_number_input_descriptions")
 				);
 			}
-			if ( dsal.length != psal.length ) {
+			if ( dsal.length != psal.length && requiredDescription ) {
 				IUbicable u = dsal.length > 0 ? new Ubicacion(dsal) : new Ubicacion(psal);
 				throw new ChequeadorException(
 					u,
@@ -1565,12 +1565,24 @@ public class Chequeador extends ChequeadorBase
 
 				// Ponga que ha habido asignacion. Vea NId.aceptar(this):
 				tabSimb.ponAsignado(pent[i].obtId().obtId(), true);
-
-				// Vea que la descripción correspondiente sea para el nombre:
-				if ( !dent[i].obtId().obtId().equals(pent[i].obtId().obtId()) ) {	
+			}
+			
+			// check descriptions
+			for ( int i = 0; i < dent.length; i++ ) {
+				// Vea que la descripción sea para un nombre de entrada:
+				String idd = dent[i].obtId().obtId();
+				boolean ok = false;
+				for ( int j = 0; j < pent.length; j++ ) {
+					String idp = pent[j].obtId().obtId();
+					if ( idd.equals(idp) ) {
+						ok = true;
+						break;
+					}
+				}
+				if ( !ok ) {	
 					throw new ChequeadorException(
 						dent[i].obtId(),
-						Str.get("error.1_expected_input_description", pent[i].obtId())
+						Str.get("error.1_unexpected_description", idd)
 					);
 				}
 			}
@@ -1596,24 +1608,28 @@ public class Chequeador extends ChequeadorBase
 
 				psal[i].aceptar(this);
 
-				// Vea que la descripción correspondiente sea para el nombre:
-				if ( !dsal[i].obtId().obtId().equals(psal[i].obtId().obtId()) ) {	
-					throw new ChequeadorException(
-						dsal[i].obtId(),
-						Str.get("error.1_expected_output_description", psal[i].obtId())
-					);
-				}
-				
 				tabSimb.ponAsignado(psal[i].obtId().obtId(), false);
 			}
+			
+			if ( dsal.length > 0 && psal.length > 0 ) {
+				// Vea que la descripción correspondiente sea para el nombre:
+				if ( !dsal[0].obtId().obtId().equals(psal[0].obtId().obtId()) ) {	
+					throw new ChequeadorException(
+						dsal[0].obtId(),
+						Str.get("error.1_expected_output_description", psal[0].obtId())
+					);
+				}
+			}
 
+			
+			
 			// Notese que en lo anterior la variable de salida se deja con estado
 			// de asignacion falso para prevenir que en la PRE se utilice:
 				
 			// Chequear precondicion:
 			NAfirmacion pre = n.obtPrecondicion();
 			if ( pre == null ) {
-				if ( pent.length > 0 ) {
+				if ( pent.length > 0 && requiredPrePost ) {
 					throw new ChequeadorException(
 						new Ubicacion(pent),
 						Str.get("error.expected_input_precond")
@@ -1634,7 +1650,7 @@ public class Chequeador extends ChequeadorBase
 			
 			NAfirmacion pos = n.obtPoscondicion();
 			if ( pos == null ) {
-				if ( psal.length > 0 ) {
+				if ( psal.length > 0 && requiredPrePost ) {
 					throw new ChequeadorException(
 						new Ubicacion(psal),
 						Str.get("error.expected_output_postcond")

@@ -240,6 +240,9 @@ TOKEN : // Identifiers
   >
 }
 
+/////////////// Grammar stats here /////////////////////////
+
+
 //////////////////////////////////////////////////////////////////////////
 NFuente fuente() :
 {
@@ -289,7 +292,7 @@ NInterface interface_() :
 	Token tini;
 	Token tfin;
 	TId i;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	
 	Vector interfaces = new Vector();
 	TNombre inter;
@@ -305,11 +308,11 @@ NInterface interface_() :
 		<EXTENDS> inter=tnombre() { interfaces.addElement(inter); }
 		         ( "," inter=tnombre() { interfaces.addElement(inter); } )*
 	]
-		[ <DESCRIPTION> ] d=tdoc()
+		[ [ <DESCRIPTION> ] d=tdoc() ]
 		(
 			op=especificacion()     { opers.add(op); }
 		)*
-	<END> tfin=<INTERFACE>
+	tfin=<END> [ LOOKAHEAD(2) tfin=<INTERFACE> ]
 	{
 		TNombre[] inters = new TNombre[interfaces.size()];
 		interfaces.copyInto(inters);
@@ -361,7 +364,7 @@ NClase clase() :
 	Token tini;
 	Token tfin;
 	TId i;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	TNombre x = null;
 
 	NDeclDesc[] atrs = null;
@@ -383,7 +386,7 @@ NClase clase() :
 		<FOR> inter=tnombre() { interfaces.addElement(inter); }
 		      (","  inter=tnombre() { interfaces.addElement(inter); } )*
 	]
-		[ <DESCRIPTION> ] d=tdoc()
+		[ [ <DESCRIPTION> ] d=tdoc() ]
 		[ atrs=declDescs() ]
 		(
 			c=constructor()     { cs.addElement(c); }
@@ -391,7 +394,7 @@ NClase clase() :
 		(
 			m=algoritmo()     { mets.addElement(m); }
 		)*
-	<END> ( tfin=<CLASS> | tfin=<OBJECT> )
+	tfin=<END> [ LOOKAHEAD(2) ( tfin=<CLASS> | tfin=<OBJECT> ) ]
 	{
 		TNombre[] inters = new TNombre[interfaces.size()];
 		interfaces.copyInto(inters);
@@ -428,7 +431,7 @@ NDeclDesc declDesc() :
 {
 	TId i;
 	NTipo t;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	boolean esConstante = false;
 	NExpresion e = null;
 	Token c = null;
@@ -442,7 +445,7 @@ NDeclDesc declDesc() :
 			c=<CONSTANT> [ "=" e=expresion() ]  { esConstante = true; }
 		)
 	]
-	[":"]  d=tdoc()
+	[ [":"]  d=tdoc() ]
 	{
 		return ConstructorArbol.crearNDeclDesc(i, t, d, esConstante, e, c);
 	}
@@ -455,8 +458,8 @@ NConstructor constructor() :
 {
 	Token tini;
 	Token tfin;
-	TCadenaDoc d;
-	TCadenaDoc e;
+	TCadenaDoc d = null;
+	TCadenaDoc e = null;
 	NDeclaracion[] ent = null;
 	NDeclaracion[] sal = null;
 	NDescripcion[] dent = null;
@@ -466,14 +469,14 @@ NConstructor constructor() :
 }
 {
 	tini=<CONSTRUCTOR> "(" [ ent=declaraciones() ]  ")"
-	   [ <DESCRIPTION> ] d=tdoc()
+	   [ LOOKAHEAD(2) [ <DESCRIPTION> ] d=tdoc() ]
 	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
 	   [    <PRE>  pre=afirmacion()  ]
 	   [    <POST> pos=afirmacion()  ]
-	[ <DESCRIPTION> | <STRATEGY> ] e=tdoc()
+	[ [ <DESCRIPTION> | <STRATEGY> ] e=tdoc() ]
 	<BEGIN>
 		a=acciones()
-	<END> tfin=<CONSTRUCTOR>
+	tfin=<END> [ LOOKAHEAD(2) tfin=<CONSTRUCTOR> ]
 	{
 		return ConstructorArbol.crearNConstructor(tini, d, ent, dent, pre, pos, e, a, tfin);
 	}
@@ -486,7 +489,7 @@ NEspecificacion especificacion() :
 	Token tini;
 	Token tfin;
 	TId i;
-	TCadenaDoc d;
+	TCadenaDoc d = null;
 	NDeclaracion[] ent = null;
 	NDeclaracion[] sal = null;
 	NDescripcion[] dent = null;
@@ -498,12 +501,12 @@ NEspecificacion especificacion() :
 	( tini=<SPECIFICATION> | tini=<OPERATION> )
 		i=tid() "(" ( ent=declaraciones() )?  ")"
 			( "->" sal=declaraciones() )?
-		[ <DESCRIPTION> ] d=tdoc()
+		[ [ <DESCRIPTION> ] d=tdoc() ]
 	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
 	   [    <OUTPUT>  ( "nada" | dsal=descripciones() )  ]
 	   [    <PRE>  pre=afirmacion()  ]
 	   [    <POST> pos=afirmacion()  ]
-	<END> ( tfin=<SPECIFICATION> | tfin=<OPERATION> )
+	tfin=<END> [ LOOKAHEAD(2) ( tfin=<SPECIFICATION> | tfin=<OPERATION> ) ]
 	{
 		return ConstructorArbol.crearNEspecificacion(
 			tini, 
@@ -559,13 +562,13 @@ NAlgoritmo algoritmo() :
 	[id=tid()] <FOR> esp=tnombre() "(" [ent=declaraciones()]  ")"
 			[ "->" sal=declaraciones() ]
 	(
-		[ <DESCRIPTION> | <STRATEGY> ] d=tdoc()
+		[ [ <DESCRIPTION> | <STRATEGY> ] d=tdoc() ]
 		<BEGIN>
 			a=acciones()
 	  |
 		<IMPLEMENTATION> leng=timpl() [ lengAdic=timpl() ] [";"]
 	)
-	<END> ( tf=<ALGORITHM> | tf=<METHOD> )
+	tf=<END> [ LOOKAHEAD(2) ( tf=<ALGORITHM> | tf=<METHOD> ) ]
 	{
 		return ConstructorArbol.crearNAlgoritmo(
 			ti,
@@ -895,7 +898,7 @@ NDecision decision() :
 	ti=<IF> e=expresion() <THEN> as=acciones()
 	( sinosi=decision_si_no_si() { sinosis.addElement(sinosi); } )*
 	[ <ELSE> an=acciones() ]
-	<END> tf=<IF>
+	tf=<END> [ LOOKAHEAD(2) tf=<IF> ]
 	{
 		NDecisionSiNoSi[] asinosis = new NDecisionSiNoSi[sinosis.size()];
 		sinosis.copyInto(asinosis);
@@ -951,7 +954,7 @@ NDecisionMultiple decisionMultiple() :
 				caso_sino = ConstructorArbol.crearNCaso(cti, null, a_caso, true, ctf);
 			}
 		)?
-	<END> tf=<SWITCH>
+	tf=<END> [ LOOKAHEAD(2) tf=<SWITCH> ]
 	{
 		NCaso[] css = new NCaso[casos.size()];
 		casos.copyInto(css);
@@ -970,7 +973,7 @@ NMientras mientras() :
 {
 	ti=<WHILE> [ "/" etq=tid() "/" ] e=expresion() <DO>
 		a=acciones()
-	<END> tf=<WHILE>
+	tf=<END> [ LOOKAHEAD(2) tf=<WHILE> ]
 	{
 		return ConstructorArbol.crearNMientras(ti, etq, e, a, tf);
 	}
@@ -998,7 +1001,7 @@ NIteracion para() :
 		<TO> eh=expresion()
 		<DO>
 			a=acciones()
-		<END> tf=<FOR>
+		tf=<END> [ LOOKAHEAD(2) tf=<FOR> ]
 		{
 			return ConstructorArbol.crearNPara(ti, etq, i, d, ed, b, ep, eh, a, tf);
 		}
@@ -1006,7 +1009,7 @@ NIteracion para() :
 		<IN> en=expresion()
 		<DO>
 			a=acciones()
-		<END> tf=<FOR>
+		tf=<END> [ LOOKAHEAD(2) tf=<FOR> ]
 		{
 			return ConstructorArbol.crearNForEach(ti, etq, i, d, en, a, tf);
 		}
@@ -1040,7 +1043,7 @@ NCiclo ciclo() :
 {
 	ti=<LOOP> [ "/" etq=tid() "/" ]
 		a=acciones()
-	<END> tf=<LOOP>
+	tf=<END> [ LOOKAHEAD(2) tf=<LOOP> ]
 	{
 		return ConstructorArbol.crearNCiclo(ti, etq, a, tf);
 	}
@@ -1120,7 +1123,7 @@ NIntente intente() :
 			f = ConstructorArbol.crearNAtrape(ti2, null, ca, null);
 		}
 	]
-	<END> tf=<TRY>
+	tf=<END> [ LOOKAHEAD(2) tf=<TRY> ]
 	{
 		NAtrape[] cc = (NAtrape[]) clist.toArray(new NAtrape[clist.size()]); 
 		return ConstructorArbol.crearNIntente(ti, a, cc, f, tf);

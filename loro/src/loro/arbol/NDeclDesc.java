@@ -27,7 +27,7 @@ public class NDeclDesc extends NDeclaracionBase
 	////////////////////////////////////////////////////////////////
 	public String toString() {
 		String constant = " " +Str.get("constant");
-		return id+ ":" +obtTipo() + (esConstante() ? constant : "")+ " " +descripcion;
+		return id+ ":" +obtTipo() + (esConstante() ? constant : "")+ " " +obtDescripcion();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ public class NDeclDesc extends NDeclaracionBase
 	 */
 	public String obtDescripcion()
 	{
-		return descripcion.obtCadena();
+		return descripcion == null ? "" : descripcion.obtCadena();
 	}
 
 	////////////////////////////////////////////////////////////////

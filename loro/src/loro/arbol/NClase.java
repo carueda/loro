@@ -262,7 +262,7 @@ public class NClase extends NUnidad implements IUnidad.IClase
 	////////////////////////////////////////////////////////////////
 	public String obtDescripcion()
 	{
-		return descripcion.obtCadena();
+		return descripcion == null ? null : descripcion.obtCadena();
 	}
 
 	////////////////////////////////////////////////////////////////

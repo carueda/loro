@@ -114,7 +114,7 @@ public class VisitanteTraductorAJava
 	{
 		out.println("/**");
 		spc.updateSpc(+1);
-		out.println(spc.spc + pd(n.obtDescripcion()));
+		out.println(spc.spc + pd(n.obtDescripcion() == null ? "" :n.obtDescripcion()));
 		spc.updateSpc(-1);
 		out.println("*/");
 		out.println("public class " +n.obtId()+ " {\n");
@@ -149,7 +149,7 @@ public class VisitanteTraductorAJava
 		String id = n.obtClase().obtId().toString();
 		out.println("/**");
 		spc.updateSpc(+1);
-		out.println(spc.spc + n.obtDescripcion());
+		out.println(spc.spc + (n.obtDescripcion() == null ? "" : n.obtDescripcion()) );
 		spc.updateSpc(-1);
 		out.println(spc.spc + "*/");
 		out.print(spc.spc + "public " +id+ "(");
@@ -260,7 +260,7 @@ public class VisitanteTraductorAJava
 
 		out.println(spc+ "/**");
 		spc.updateSpc(+1);
-		out.println(spc.spc + pd(n.obtDescripcion()));
+		out.println(spc.spc + pd(n.obtDescripcion() == null ? "" : n.obtDescripcion()));
 		out.print("\n" +spc);
 		descrEntrada = true;
 		visitarLista(n.obtDescripcionesEntrada(), "\n" +spc);

@@ -121,6 +121,15 @@ abstract class ChequeadorBase implements IVisitante
 	 * excepción IdIndefinido.
 	 */
 	boolean permitirIdIndefinido;
+	
+	
+	////////  check options  //////////
+	
+	/** Descriptions are required? */
+	boolean requiredDescription = false;
+
+	/** Pre-, post-conditions are required? */
+	boolean requiredPrePost = false;
 
 	///////////////////////////////////////////////////////////////
 	/**
