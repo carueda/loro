@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
  */
 public final class Info
 {
+	private static final String INFO_PROPS_PATH = "loroedi/resource/info.properties";
+	
 	private static String name = null;
 	private static String version;
 	private static String build;
@@ -35,7 +37,7 @@ public final class Info
 			Properties props = new Properties(); 
 			InputStream is = cl.getResourceAsStream("loroedi/resource/info.properties");
 			if ( is == null ) {
-				System.err.println(Str.get("info.props_not_found"));
+				System.err.println("resource " +INFO_PROPS_PATH+ " NOT FOUND!");
 				return;
 			}
 			try

@@ -258,15 +258,15 @@ implements ActionListener, JTermListener
 		}
 		catch(InterruptedIOException ex)
 		{
-			msg = "Ejecución interrumpida en operación de entrada/salida.";
+			msg = Loro.Str.get("ii.interrupted_io");
 		}
 		catch(Exception ex)
 		{
 			StringWriter sw = new StringWriter();
 			PrintWriter psw = new PrintWriter(sw);
-			psw.println("INESPERADO");
+			psw.println("UNEXPECTED");
 			ex.printStackTrace(psw);
-			psw.println("Esta es una anomalía del sistema.");
+			psw.println("This is a BUG!!");
 			msg = sw.toString();
 		}
 		return msg;
