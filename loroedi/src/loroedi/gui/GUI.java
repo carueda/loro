@@ -999,8 +999,58 @@ public class GUI
 				ex.getMessage()
 			);
 		}
+		
+		// provisionalmente aquí, para pruebas iniciales.
+		_saveMainIndexForProjects();
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Actualiza el index.html principal bajo doc_dir con la lista de
+	 * proyectos en el espacio de trabajo.
+	 * PRIMERA VERSION.
+	 */
+	private static void _saveMainIndexForProjects()
+	{
+		StringBuffer sb = new StringBuffer(
+			"<html>\n" +
+			"<head>\n" +
+			"<title>Proyectos Loro</title>\n" +
+			"</head>\n" +
+			"<body>\n"
+		);
+		
+		sb.append("<b>Proyectos Loro</b>\n");
+		
+		sb.append("<table>\n");
+		for ( Iterator it = workspace.getAvailableProjects().iterator(); it.hasNext(); )
+		{
+			String prjname = (String) it.next();
+			IProjectModel prjm = workspace.getProjectModel(prjname);
+			sb.append("<tr>\n");
+			sb.append("<td bgcolor=\"#FFCCCC\">\n");
+			sb.append("  <a href=\"" +prjname+ ".prj.html"+ "\">" +prjname+ "</a>\n");
+			sb.append("</td>\n");
+			sb.append("<td bgcolor=\"#FFEEEE\">\n");
+			sb.append("  " +prjm.getInfo().getTitle()+ "\n");
+			sb.append("</td>\n");
+			sb.append("</tr>\n");
+		}
+		sb.append("</table>\n");
+		try
+		{
+			// guarde bajo doc_dir:
+			Util.writeFile(new File(doc_dir, "index.html"), sb.toString());
+		}
+		catch(Exception ex)
+		{
+			System.out.println(
+				"Error al guardar index.html principal.\n" +
+				ex.getMessage()
+			);
+		}
+	}
+			
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Salvaguarda el proyecto enfocado. 

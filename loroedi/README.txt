@@ -65,6 +65,15 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-25 (0.8pre10)
+
+	- Nuevo método GUI._saveMainIndexForProjects() que genera el index.html
+	  principal con la lista de proyectos en el espacio de trabajo.
+	  Externamente aún no se notifica al usuario sobre esto (pendiente
+	  definir manejo). Este index.html lo uso ahora para el enlace
+	  http://loro.sf.net/apiloro/
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-03-21 (0.8pre10)
 
 	- Ahora se puede indicar si la descripción de un proyecto contiene o no
