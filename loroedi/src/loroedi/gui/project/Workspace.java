@@ -1026,9 +1026,8 @@ public final class Workspace
 		loroedi.Util.writeFile(new File(prj_dir, "prj.description"), 
 			info.getDescription()
 		);
-		loroedi.Util.writeFile(new File(prj_dir, "prj.demo.lsh"), 
-			info.getDemoScript()
-		);
+		
+		saveDemoScript(prjm);
 		
 		if ( include_pkgs )
 		{
@@ -1162,23 +1161,20 @@ public final class Workspace
 		String pkgname = fuente.getPackageName();
 		IFuente.IUtiliza[] uses = fuente.obtUtilizas();
 		
-		// prepare "header" para cada fuente de unidad:
+		// prepare "primeras líneas" para cada fuente de unidad:
 		StringBuffer sbheader = new StringBuffer();
 		if ( pkgname != null )
-		{
-			sbheader.append("paquete " +pkgname+ ";\n");
-		}
+			sbheader.append("paquete " +pkgname+ "\n");
 		for ( int i = 0; i < uses.length; i++ )
 		{
 			IFuente.IUtiliza use = uses[i];
-			sbheader.append("utiliza " +use.obtQue()+ " " +use.getName()+ ";\n");
+			sbheader.append("utiliza " +use.obtQue()+ " " +use.getName()+ "\n");
 		}
 		String header = sbheader.toString();
 		
 		if ( pkgname == null )
-		{
 			pkgname = "";
-		}
+
 		IPackageModel pkgm = prjm.addPackage(pkgname);
 		IUnidad[] unids = fuente.obtUnidades();
 		
@@ -1340,22 +1336,25 @@ public final class Workspace
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Salvaguarda el script de demostración.
+	 * Salvaguarda el script de demostración, si existe.
 	 * El código fuente a guardar es el que tenga asociado el proyecto.
 	 */
 	public void saveDemoScript(IProjectModel prjm)
 	{
-		String prjname = prjm.getInfo().getName();
-		File prj_dir = new File(prs_dir, prjname);
-		try
+		IProjectModel.IInfo info = prjm.getInfo();
+		String demo_script = info.getDemoScript();
+		if ( demo_script != null )
 		{
-			loroedi.Util.writeFile(new File(prj_dir, "prj.demo.lsh"), 
-				prjm.getInfo().getDemoScript()
-			);
-		}
-		catch(Exception ex)
-		{
-			Logger.getLogger().log("Error al actualizar demo script: " +ex.getMessage());
+			String prjname = info.getName();
+			File prj_dir = new File(prs_dir, prjname);
+			try
+			{
+				loroedi.Util.writeFile(new File(prj_dir, "prj.demo.lsh"), demo_script);
+			}
+			catch(Exception ex)
+			{
+				Logger.getLogger().log("Error al actualizar demo script: " +ex.getMessage());
+			}
 		}
 	}
 		

@@ -65,6 +65,15 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-31 (0.8pre10)
+
+	- bug descrito en 2003-03-13 aún seguía ;-)
+	  Workspace.saveDemoScript() ahora verifica que exista el código demo.
+	  Corregido.
+	
+	- Revisión de Workspace.importSource()
+	
+////////////////////////////////////////////////////////////////////////////
 2003-03-25 (0.8pre10)
 
 	- Nuevo método GUI._saveMainIndexForProjects() que genera el index.html
