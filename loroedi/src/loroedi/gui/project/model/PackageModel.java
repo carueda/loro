@@ -1,6 +1,7 @@
 package loroedi.gui.project.model;
 
 import loroedi.gui.project.unit.*;
+import loroedi.Info.Str;
 
 import loro.*;
 
@@ -10,7 +11,7 @@ import java.util.*;
 
 //////////////////////////////////////////////////
 /**
- * Implementación de modelo de paquete.
+ * Package model implementation.
  *
  * @author Carlos Rueda
  * @version $Id$
@@ -24,12 +25,12 @@ public class PackageModel implements IPackageModel
 	Map algorithms;
 	Map classes;
 	
-	/** Mi proyecto. */
+	/** My project. */
 	IProjectModel model;
 	
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Crea un paquete para el modelo dado.
+	 * Creates a package model for given project.
 	 */
 	public PackageModel(IProjectModel model, String pkgname)
 	{
@@ -42,8 +43,7 @@ public class PackageModel implements IPackageModel
 	
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Retorna lo mismo que <code>model.getControlInfo().isModifiable()</code>, donde
-	 * <code>model</code> es el argumento con que se creo este objeto.
+	 * Returns <code>mymodel.getControlInfo().isModifiable()</code>.
 	 */
 	public boolean isModifiable()
 	{
@@ -183,9 +183,9 @@ public class PackageModel implements IPackageModel
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * En esta clase se verifica:
-	 * - nombre no vacío y sin espacios intermedios.
-	 * - nombre no repetido.
+	 * Verifies that:
+	 * - name is nonempty and has no spaces.
+	 * - name is not used.
 	 */
 	public String validateNewSpecificationName(String name)
 	{
@@ -194,7 +194,7 @@ public class PackageModel implements IPackageModel
 			return val;
 		
 		if ( specs.keySet().contains(name) )
-			return "Nombre de especificación ya existe en este paquete";
+			return Str.get("model.pkg_spec_exists");
 		
 		return null;
 	}
@@ -212,7 +212,7 @@ public class PackageModel implements IPackageModel
 			return val;
 
 		if ( algorithms.keySet().contains(name) )
-			return "Nombre de algoritmo ya existe en este paquete";
+			return Str.get("model.pkg_algorithm_exists");
 		
 		return null;
 	}
@@ -230,7 +230,7 @@ public class PackageModel implements IPackageModel
 			return val;
 
 		if ( classes.keySet().contains(name) )
-			return "Nombre de clase ya existe en este paquete";
+			return Str.get("model.pkg_class_exists");
 		
 		return null;
 	}
@@ -240,10 +240,10 @@ public class PackageModel implements IPackageModel
 	{
 		id = id.trim();
 		if ( id.length() == 0 )
-			return "Nombre vacío";
+			return Str.get("model.pkg_empty_name");
 		
 		if ( id.indexOf('/') >= 0 )  // posible comentario
-			return "Error sintáctico: identificador mal formado.";
+			return Str.get("model.pkg_malformed_id");
 		
 		ICompilador compilador = Loro.obtCompilador();
 		compilador.ponTextoFuente(id);
@@ -253,7 +253,7 @@ public class PackageModel implements IPackageModel
 		}
 		catch(CompilacionException ex)
 		{
-			return "Error sintáctico: identificador mal formado.";
+			return Str.get("model.pkg_malformed_id");
 		}
 		return null;
 	}
@@ -266,6 +266,6 @@ public class PackageModel implements IPackageModel
 	public String toString()
 	{
 		String pkgname = getName();
-		return pkgname.length() > 0 ? pkgname : "(anónimo)";
+		return pkgname.length() > 0 ? pkgname : "(" +Loro.Str.get("anonymous")+ ")";
 	}
 }

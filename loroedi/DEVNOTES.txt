@@ -15,7 +15,10 @@ $Id$
 		loroedi/laf/  not necessary
 		loroedi/gui/misc/  not necessary
 		loroedi/gui/project/unit/ .. ok 
-		loroedi/gui/project/model/ .. 
+		loroedi/gui/project/model/ ..
+			MUtil .. ok
+			PackageModel .. ok
+			Projectmodel ..
 		loroedi/gui/project/ .. 
 		loroedi/help/doc/ .. 
 		loroedi/help/ .. 
