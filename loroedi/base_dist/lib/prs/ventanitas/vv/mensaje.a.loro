@@ -1,0 +1,13 @@
+paquete vv;
+
+algoritmo mensaje para mensaje(m:cadena)
+implementacion "bsh" 
+{%
+	JOptionPane.showMessageDialog(
+		null,
+		m,
+		"Mensaje",
+		JOptionPane.WARNING_MESSAGE
+	);
+%}
+fin algoritmo

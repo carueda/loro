@@ -1,0 +1,10 @@
+#Propiedades de paquete
+#Fri Mar 21 22:32:13 PST 2003
+spec.2=tabla
+spec.1=ingresar
+spec.0=mensaje
+alg.3=confirmar, vv\:\:confirmar
+alg.2=tabla, vv\:\:tabla
+alg.1=ingresar, vv\:\:ingresar
+alg.0=mensaje, vv\:\:mensaje
+spec.3=confirmar

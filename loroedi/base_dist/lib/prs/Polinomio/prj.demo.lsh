@@ -1,0 +1,16 @@
+escribir("Grado del polinomio:");
+n: entero := leerEntero();
+
+n := n + 1;
+a: []real := crear [n]real;
+para i:entero desde 0 hasta n-1 haga
+	escribir("Coeficiente a_" +i+ " para x^" +i+ " = ");
+	a[i] := leerReal();
+fin para;
+
+escribir("Punto a evaluar x = ");
+x: real := leerReal();
+
+// muestre evaluaciones con los algoritmos
+escribirln("evalPolDirecto = " +evalPolDirecto(a, x));
+escribirln("evalPolHorner  = " +evalPolHorner(a, x));

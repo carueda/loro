@@ -1,0 +1,8 @@
+paquete vv;
+
+algoritmo ingresar para ingresar(m:cadena)->c:cadena
+implementacion "bsh" 
+{%
+	return JOptionPane.showInputDialog(null, m);
+%}
+fin algoritmo

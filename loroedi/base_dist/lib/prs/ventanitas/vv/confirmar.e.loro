@@ -1,0 +1,13 @@
+paquete vv;
+
+especificación confirmar(m: cadena) -> b: booleano
+    descripción
+           ''Muestra una ventana con mensaje y espera
+		respuesta del usuario.''
+    entrada
+        m: ''El mensaje a desplegar.''
+    salida
+        b: ''cierto si el usuario acepta.''
+    pre { m != nulo }
+    pos { ''b = cierto solo si el usuario acepta'' }
+fin especificación

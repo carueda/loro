@@ -1,0 +1,12 @@
+paquete vv;
+
+especificación tabla(titcols: []cadena, valcols: [][]cadena)
+    descripción
+           ''Despliega una tabla.''
+    entrada
+        titcols: ''Titulos para las columnas''
+        valcols: ''Arreglo de valores para las columnas''
+    pre { titcols != nulo && valcols != nulo && 
+          titcols.longitud = valcols[0].longitud }
+    pos { ''ventana desplegada con la tabla'' }
+fin especificación

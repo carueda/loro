@@ -1,0 +1,13 @@
+// desplegar una tabla:
+vv::tabla(
+   [ "Lenguaje",  "Comentario",                "web"  ],
+   [ ["Loro",     "excelente para aprender!",  "http://loro.sf.net" ], 
+     ["Ruby",     "interesante",               "http://ruby-lang.org" ],
+     ["Python",   "interesante",               "http://python.org"]  ]
+);
+
+// un pequenio dialogo:
+nombre: cadena := vv::ingresar("Dime tu nombre");
+si nombre != nulo entonces
+	vv::mensaje("Hola " + nombre); 
+fin si;

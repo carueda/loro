@@ -1,0 +1,11 @@
+// pide al usuario dos numeros y muestra su MCD segun los
+// dos algoritmos incluidos (los resultados deben ser iguales).
+escribirln("Programa para hallar el MCD de dos números");
+escribir("Ingrese número n: ");
+n: entero := leerEntero();
+escribir("Ingrese número m: ");
+m: entero := leerEntero();
+escribirln("Utilizando el algoritmo de Euclides con restas:");
+escribirln("    MCD(" +n+ "," +m+ ") = " +Euclides(n, m));
+escribirln("Utilizando el algoritmo de Euclides con modulo:");
+escribirln("    MCD(" +n+ "," +m+ ") = " +EuclidesMod(n, m));

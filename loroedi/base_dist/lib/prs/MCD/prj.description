@@ -1,6 +1,11 @@
 En este proyecto se ataca el problema de hallar el 
 Máximo Común Divisor (MCD) de dos números enteros.
 
-Se incluyen dos posibles soluciones (algoritmos),
-y un algoritmo de demostración que invoca ambas
-soluciones.
+<p>
+Se incluyen los algoritmos @{Euclides.a} y 
+@{EuclidesMod.a} para la especificación del problema
+correspondiente @{maxComunDivisor.e}.
+
+<p>
+La demostracion incluida pide al usuario los dos números 
+y muestra las respuestas dadas por los dos algoritmos.

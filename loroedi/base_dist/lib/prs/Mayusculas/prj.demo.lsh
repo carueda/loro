@@ -1,0 +1,3 @@
+para cad:cadena en ["Hola Mundo", "minusculas", "0123456789"] haga
+	escribirln(cad + " --> " + mayusculas(cad));
+fin para

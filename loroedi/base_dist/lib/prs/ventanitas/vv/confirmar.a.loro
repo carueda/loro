@@ -1,0 +1,8 @@
+paquete vv;
+
+algoritmo confirmar para confirmar(m:cadena)->b:booleano
+implementacion "bsh" 
+{%
+	return 0 == JOptionPane.showConfirmDialog(null,	m);
+%}
+fin algoritmo

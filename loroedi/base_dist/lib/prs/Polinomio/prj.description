@@ -1,7 +1,4 @@
 En este proyecto se ataca el problema de evaluar un polinomio
-en un punto dado.
+en un punto dado. Se incluyen dos algoritmos.
 
-	evalPol            especificación
-	evalPolDirecto     algoritmo directo
-	evalPolHorner      algoritmo regla de Horner
-	demoPol            algoritmo demo completo
+Demostracion incluida.

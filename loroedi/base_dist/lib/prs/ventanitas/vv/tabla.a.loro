@@ -1,0 +1,26 @@
+paquete vv;
+
+algoritmo para tabla(titcols:[]cadena,valcols:[][]cadena)
+implementacion "bsh" 
+{%
+	dataModel = new javax.swing.table.TableModel() {
+		getColumnClass(int columnIndex) { return String.class; }
+		getColumnName(int col) { return titcols[col]; }
+		getColumnCount() { return titcols.length; }
+		getRowCount() { return valcols.length; }
+		Object getValueAt(int row, int col) { return valcols[row][col]; }
+		isCellEditable(int rowIndex, int columnIndex) { return false; }
+		setValueAt(Object aValue, int rowIndex, int columnIndex) { }
+		addTableModelListener(TableModelListener l) {}
+		removeTableModelListener(TableModelListener l) {}
+	};
+	table = new JTable(dataModel);
+	scrollpane = new JScrollPane(table);
+	
+	frame = new JFrame("tablita");
+	frame.getContentPane().add(scrollpane);
+	frame.setLocation(100, 100);
+	frame.setSize(500, 100);
+	frame.setVisible(true);
+%}
+fin algoritmo

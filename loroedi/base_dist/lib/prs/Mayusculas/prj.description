@@ -1,3 +1,8 @@
 Conversión a mayúsculas de una cadena de caracteres.
+
 Se incluye un algoritmo para "probar" un algoritmo que
-implemente la especificación.
+implemente la especificación. Este esquema de pruebas
+fue generado automaticamente con la opcion "Generar
+esquema para pruebas" asociada a la especificacion mayusculas.
+
+Demostracion incluida.

@@ -1,0 +1,13 @@
+paquete vv;
+
+especificación ingresar(m: cadena) -> c: cadena
+    descripción
+           ''Muestra una ventana con mensaje y espera
+		una entrada  del usuario.''
+    entrada
+        m: ''El mensaje a desplegar.''
+    salida
+        c: ''la cadena ingresada por el usuario. nulo si cancela.''
+    pre { m != nulo }
+    pos { cierto }
+fin especificación
