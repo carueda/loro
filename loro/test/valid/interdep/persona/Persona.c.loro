@@ -19,13 +19,13 @@ clase Persona
 			n: "El nombre para la persona."
 			e: "La edad para la persona."
 		pre { n != nulo && e >= 0 }
-		pos { nombre = n && edad = e && nulo = sgte}
+		pos { este.nombre = n && este.edad = e && nulo = este.sgte}
 
 		estrategia "Simple asignación."
 	inicio
-		nombre := n != nulo ? n : "NN";
-		edad := e;
-		sgte := nulo;
+		este.nombre := n != nulo ? n : "NN";
+		este.edad := e;
+		este.sgte := nulo;
 	fin constructor
 
 
@@ -38,13 +38,13 @@ clase Persona
 			e: "La edad para la persona."
 			s: "Siguiente persona."
 		pre { n != nulo && e >= 0 }
-		pos { nombre = n && edad = e && s = sgte}
+		pos { este.nombre = n && este.edad = e && s = este.sgte}
 
 		estrategia "Simple asignación."
 	inicio
-		nombre := n;
-		edad := e;
-		sgte := s;
+		este.nombre := n;
+		este.edad := e;
+		este.sgte := s;
 	fin constructor
 
 fin clase
