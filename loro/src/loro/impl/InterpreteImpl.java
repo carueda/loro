@@ -11,7 +11,7 @@ import loro.ejecucion.*;
 import loro.util.Util;
 
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import loro.tabsimb.*;
 import loro.tipo.Tipo;
@@ -26,7 +26,7 @@ import loro.util.UtilValor;
  * Interprete para acciones.
  *
  * @author Carlos Rueda
- * @version 2002-01-28
+ * @version 2002-10-22
  */
 public class InterpreteImpl implements IInterprete
 {
@@ -75,26 +75,31 @@ public class InterpreteImpl implements IInterprete
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	private Nodo _compilar(String text)
+	private List _compilar(String text)
 	throws CompilacionException
 	{
 		////////////////////
 		// fase sintactica
-		Nodo n = derivador.ponTextoFuente(text).derivarAccionInterprete();
-		if ( n != null )
+		List list = derivador.ponTextoFuente(text).derivarAccionesInterprete();
+		if ( list != null )
 		{
 			try
 			{
-				////////////////////
-				// fase semantica:
-				n.aceptar(chequeador);
+				for ( Iterator it = list.iterator(); it.hasNext(); )
+				{
+					Nodo n = (Nodo) it.next();
+				
+					////////////////////
+					// fase semantica:
+					n.aceptar(chequeador);
+				}
 			}
 			catch(VisitanteException ex)
 			{
 				throw new CompilacionException(null, ex.getMessage());
 			}
 		}
-		return n;
+		return list;
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -108,28 +113,37 @@ public class InterpreteImpl implements IInterprete
 	public String ejecutar(String text)
 	throws AnalisisException
 	{
-		Nodo n = _compilar(text);
-		
-		if ( n == null )
+		String ret = null;
+		List list = _compilar(text);
+		if ( list == null || list.size() == 0 )
 		{
 			// un comentario.
 			return null;
 		}
-
-		if ( n instanceof NUtiliza )
-		{
-			return null;
-		}
-			
+		
+		
 		try
 		{
-			////////////////////
-			// fase ejecucion:
-			ejecutor.reset(tabSimbBase, ui);
-			n.aceptar(ejecutor);
-			Object o = ejecutor.obtRetorno();
-
-			return valorComillas(n, o);
+			for ( Iterator it = list.iterator(); it.hasNext(); )
+			{
+				Nodo n = (Nodo) it.next();
+			
+				if ( n instanceof NUtiliza )
+				{
+					ret = null;
+				}
+				else
+				{
+					////////////////////
+					// fase ejecucion:
+					ejecutor.reset(tabSimbBase, ui);
+					n.aceptar(ejecutor);
+					Object o = ejecutor.obtRetorno();
+					ret = valorComillas(n, o);
+				}
+			}
+			
+			return ret;
 		}
 		catch(EjecucionVisitanteException ex)
 		{

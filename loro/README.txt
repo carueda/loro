@@ -27,6 +27,37 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2002-10-22 Version 0.7.4
+	
+	- Bug 621638 corregido: No se hacía asociación simple/compuesto para
+	  el nombre de la superclase (extiende) en la definición de una clase.
+	  Esto provocaba errores de "(super)clase no encontrada" tanto en
+	  compilación como en ejecución.
+	  Ver: Chequeador.visitar(NClase n).
+	  
+	- En declaración de atributo de clase ahora es opcional el ":" antes
+	  de la cadena de documentación. Ver LoroIParser.jj
+
+	- Permitida ahora una lista de acciones como entrada para interpretación
+	  interactiva (antes sólo una acción era permitida). Ej:
+	    $ cad: cadena := "hola "; cad := cad + "mundo"; escribir(cad); cad
+	  que es equivalente a:
+	    $ cad: cadena := "blah blah";
+		$ cad = cad + "mundo";
+	    $ escribir(cad);
+	    $ cad
+	  SALVO que sólo se muestra el valor de la última acción si aplica.
+	  El ";" es obligado como separador pero es opcional al final de la lista.
+	  Ver:
+		LoroIParser.jj
+		DerivadorJavaCC.java
+		IDerivador.java
+		InterpreteImpl.java
+		
+	- Loro.crearInterprete ahora recibe también un parámetro que indica si se
+	  crea una nueva tabla de símbolos o bien se comparte una común.
+	  
+////////////////////////////////////////////////////////////////////////////
 2002-10-09 Version 0.7.3
 
 	- Agregada posibilidad de implementar algoritmos utilizando BeanShell.

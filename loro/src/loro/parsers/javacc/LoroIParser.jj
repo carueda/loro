@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2002-10-09
+// FECHA ULTIMA ACTUALIZACION   : 2002-10-22
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2002-10-22
+//			- Nuevo accionesInterprete()
+//          - En declDesc() ahora es opcional ":" antes de tdoc()
 //
 //		2002-10-09
 //			- Agregado elemento léxico IMPL:  {%texto%} para info o código
@@ -716,7 +720,7 @@ NDeclDesc declDesc() :
 			c="constante" [ "=" e=expresion() ]  { esConstante = true; }
 		)
 	]
-	":" d=tdoc()
+	[":"]  d=tdoc()
 	{
 		return ConstructorArbol.crearNDeclDesc(i, t, d, esConstante, e, c);
 	}
@@ -1056,6 +1060,35 @@ Nodo accion() :
 //////////////////////////////////////////////////////////////////////////
 /**
  * Esta es la produccion para las lineas ingresadas en el Interprete.
+ * Es una lista de accionInterprete() separadas por ";" y opcionalmente
+ * un ";" al final.  EOF obligatorio.
+ * Tambien vacio es posible para permitir linea de comentario solamente.
+ */
+List accionesInterprete() :
+{
+	List list = new ArrayList();
+	Nodo n = null;
+}
+{
+	[
+	    n=accionInterprete()      { list.add(n); }
+		(
+			LOOKAHEAD(2)   // for optional final ";"
+		    ";"
+			n=accionInterprete()  { list.add(n); }
+		)*
+		[ ";" ]
+	]
+	<EOF>
+	{
+		return list;
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+/**
+ * Esta es la produccion para las lineas ingresadas en el Interprete.
  * Basicamente es accion() o utiliza() finalizando con ";" opcional y
  * EOF obligatorio.
  * Tambien vacio es posible para permitir linea de comentario solamente.
@@ -1065,15 +1098,11 @@ Nodo accionInterprete() :
 	Nodo n = null;
 }
 {
-	[
-		(
-			n=accion()
-		 |
-			n=utiliza()
-		)
-		[ ";" ]
-	]
-	<EOF>
+	(
+		n=accion()
+	 |
+		n=utiliza()
+	)
 	{
 		return n;
 	}

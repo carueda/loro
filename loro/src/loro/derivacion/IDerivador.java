@@ -4,14 +4,15 @@ import loro.DerivacionException;
 import loro.arbol.*;
 
 import java.io.Reader;
+import java.util.List;
 
 //////////////////////////////////////////////////////////////////////
 /**
  * Interface para interactuar con un analizador sintáctico.
  *
  * Un derivador permite construir el árbol sintáctico correspondiente
- * a un programa fuente, a una accion para interpretacion interactiva, o
- * simplemente derivar un nombre para facilitar su revision desde
+ * a un programa fuente, a una lista de acciones para interpretación
+ * interactiva, o simplemente derivar un nombre para facilitar su revision desde
  * interfaces interactivas con el usuario.
  *
  * @author Carlos Rueda
@@ -20,14 +21,14 @@ public interface IDerivador
 {
 	///////////////////////////////////////////////////////////////////////
 	/**
-	 * Deriva un arbol sintactico para accion de interprete.
+	 * Deriva un arbol sintactico para lista de acciones de interprete.
 	 *
-	 * @return 			El arbol resultante.
+	 * @return 	La lista de nodos.
 	 *
 	 * @exception DerivacionException
 	 *		Si se presenta algún error en la derivación.
 	 */
-	public Nodo derivarAccionInterprete()
+	public List derivarAccionesInterprete()
 	throws DerivacionException;
 
 	///////////////////////////////////////////////////////////////////////

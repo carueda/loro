@@ -99,7 +99,7 @@ public class InterpreteInteractivo
 		pw = new PrintWriter(System.out, true);
 		br = new BufferedReader(new InputStreamReader(System.in));
 
-		loroii = Loro.crearInterprete(br, pw);
+		loroii = Loro.crearInterprete(br, pw, false);
 
 		pw.println(
 			Loro.obtNombre()+ " " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")\n" +

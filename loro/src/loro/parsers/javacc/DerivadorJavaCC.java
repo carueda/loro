@@ -6,6 +6,7 @@ import loro.arbol.*;
 import loro.util.Util;
 
 import java.io.*;
+import java.util.*;
 
 
 import loro.Rango;
@@ -39,15 +40,16 @@ public class DerivadorJavaCC implements IDerivador
 		texto = "";
 		parser = new LoroIParser(new StringReader(""));
 	}
+	
 	///////////////////////////////////////////////////////////////////////
-	public Nodo derivarAccionInterprete()
+	public List derivarAccionesInterprete()
 	throws DerivacionException
 	{
-		Nodo nodo = null;
+		List list = null;
 		
 		try
 		{
-			nodo = parser.accionInterprete();
+			list = parser.accionesInterprete();
 		}
 		catch ( ParseException e )
 		{
@@ -71,8 +73,9 @@ public class DerivadorJavaCC implements IDerivador
 			);
 		}
 
-		return nodo;
+		return list;
 	}
+	
 	///////////////////////////////////////////////////////////////////////
 	public NFuente derivarFuente()
 	throws DerivacionException

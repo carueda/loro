@@ -404,7 +404,14 @@ class LoroIParser implements LoroIParserConstants {
       jj_la1[21] = jj_gen;
       ;
     }
-    jj_consume_token(88);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 88:
+      jj_consume_token(88);
+      break;
+    default:
+      jj_la1[22] = jj_gen;
+      ;
+    }
     d = tdoc();
                 {if (true) return ConstructorArbol.crearNDeclDesc(i, t, d, esConstante, e, c);}
     throw new Error("Missing return statement in function");
@@ -429,7 +436,7 @@ class LoroIParser implements LoroIParserConstants {
       ent = declaraciones();
       break;
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[23] = jj_gen;
       ;
     }
     jj_consume_token(92);
@@ -438,7 +445,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(DESCRIPCION);
       break;
     default:
-      jj_la1[23] = jj_gen;
+      jj_la1[24] = jj_gen;
       ;
     }
     d = tdoc();
@@ -453,13 +460,13 @@ class LoroIParser implements LoroIParserConstants {
         dent = descripciones();
         break;
       default:
-        jj_la1[24] = jj_gen;
+        jj_la1[25] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[25] = jj_gen;
+      jj_la1[26] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -468,7 +475,7 @@ class LoroIParser implements LoroIParserConstants {
       pre = afirmacion();
       break;
     default:
-      jj_la1[26] = jj_gen;
+      jj_la1[27] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -477,7 +484,7 @@ class LoroIParser implements LoroIParserConstants {
       pos = afirmacion();
       break;
     default:
-      jj_la1[27] = jj_gen;
+      jj_la1[28] = jj_gen;
       ;
     }
     jj_consume_token(ESTRATEGIA);
@@ -510,7 +517,7 @@ class LoroIParser implements LoroIParserConstants {
       tini = jj_consume_token(OPERACION);
       break;
     default:
-      jj_la1[28] = jj_gen;
+      jj_la1[29] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -521,7 +528,7 @@ class LoroIParser implements LoroIParserConstants {
       ent = declaraciones();
       break;
     default:
-      jj_la1[29] = jj_gen;
+      jj_la1[30] = jj_gen;
       ;
     }
     jj_consume_token(92);
@@ -531,7 +538,7 @@ class LoroIParser implements LoroIParserConstants {
       sal = declaraciones();
       break;
     default:
-      jj_la1[30] = jj_gen;
+      jj_la1[31] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -539,7 +546,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(DESCRIPCION);
       break;
     default:
-      jj_la1[31] = jj_gen;
+      jj_la1[32] = jj_gen;
       ;
     }
     d = tdoc();
@@ -554,13 +561,13 @@ class LoroIParser implements LoroIParserConstants {
         dent = descripciones();
         break;
       default:
-        jj_la1[32] = jj_gen;
+        jj_la1[33] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[33] = jj_gen;
+      jj_la1[34] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -574,13 +581,13 @@ class LoroIParser implements LoroIParserConstants {
         dsal = descripciones();
         break;
       default:
-        jj_la1[34] = jj_gen;
+        jj_la1[35] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[35] = jj_gen;
+      jj_la1[36] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -589,7 +596,7 @@ class LoroIParser implements LoroIParserConstants {
       pre = afirmacion();
       break;
     default:
-      jj_la1[36] = jj_gen;
+      jj_la1[37] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -598,7 +605,7 @@ class LoroIParser implements LoroIParserConstants {
       pos = afirmacion();
       break;
     default:
-      jj_la1[37] = jj_gen;
+      jj_la1[38] = jj_gen;
       ;
     }
     jj_consume_token(FIN);
@@ -610,7 +617,7 @@ class LoroIParser implements LoroIParserConstants {
       tfin = jj_consume_token(OPERACION);
       break;
     default:
-      jj_la1[38] = jj_gen;
+      jj_la1[39] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -635,7 +642,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[39] = jj_gen;
+        jj_la1[40] = jj_gen;
         break label_9;
       }
     }
@@ -657,7 +664,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(86);
       break;
     default:
-      jj_la1[40] = jj_gen;
+      jj_la1[41] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNDescripcion(i, d);}
@@ -683,7 +690,7 @@ class LoroIParser implements LoroIParserConstants {
       ti = jj_consume_token(METODO);
       break;
     default:
-      jj_la1[41] = jj_gen;
+      jj_la1[42] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -692,7 +699,7 @@ class LoroIParser implements LoroIParserConstants {
       id = tid();
       break;
     default:
-      jj_la1[42] = jj_gen;
+      jj_la1[43] = jj_gen;
       ;
     }
     jj_consume_token(PARA);
@@ -703,7 +710,7 @@ class LoroIParser implements LoroIParserConstants {
       ent = declaraciones();
       break;
     default:
-      jj_la1[43] = jj_gen;
+      jj_la1[44] = jj_gen;
       ;
     }
     jj_consume_token(92);
@@ -713,7 +720,7 @@ class LoroIParser implements LoroIParserConstants {
       sal = declaraciones();
       break;
     default:
-      jj_la1[44] = jj_gen;
+      jj_la1[45] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -732,13 +739,13 @@ class LoroIParser implements LoroIParserConstants {
           jj_consume_token(ESTRATEGIA);
           break;
         default:
-          jj_la1[45] = jj_gen;
+          jj_la1[46] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[46] = jj_gen;
+        jj_la1[47] = jj_gen;
         ;
       }
       d = tdoc();
@@ -754,12 +761,12 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(86);
         break;
       default:
-        jj_la1[47] = jj_gen;
+        jj_la1[48] = jj_gen;
         ;
       }
       break;
     default:
-      jj_la1[48] = jj_gen;
+      jj_la1[49] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -772,7 +779,7 @@ class LoroIParser implements LoroIParserConstants {
       tf = jj_consume_token(METODO);
       break;
     default:
-      jj_la1[49] = jj_gen;
+      jj_la1[50] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -854,19 +861,19 @@ class LoroIParser implements LoroIParserConstants {
           e = expresion();
           break;
         default:
-          jj_la1[50] = jj_gen;
+          jj_la1[51] = jj_gen;
           ;
         }
                           esConstante = true;
         break;
       default:
-        jj_la1[51] = jj_gen;
+        jj_la1[52] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[52] = jj_gen;
+      jj_la1[53] = jj_gen;
       ;
     }
                 NDeclaracion[] decl = new NDeclaracion[i.length];
@@ -905,19 +912,19 @@ class LoroIParser implements LoroIParserConstants {
           e = expresion();
           break;
         default:
-          jj_la1[53] = jj_gen;
+          jj_la1[54] = jj_gen;
           ;
         }
                           esConstante = true;
         break;
       default:
-        jj_la1[54] = jj_gen;
+        jj_la1[55] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[55] = jj_gen;
+      jj_la1[56] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNDeclaracion(i, t, esConstante, e, c);}
@@ -957,7 +964,7 @@ class LoroIParser implements LoroIParserConstants {
         nom = tnombre();
         break;
       default:
-        jj_la1[56] = jj_gen;
+        jj_la1[57] = jj_gen;
         ;
       }
                   t = ConstructorArbol.crearNTipoEspecificacion(ti, nom);
@@ -969,14 +976,14 @@ class LoroIParser implements LoroIParserConstants {
         ti = jj_consume_token(CLASE);
         break;
       default:
-        jj_la1[57] = jj_gen;
+        jj_la1[58] = jj_gen;
         ;
       }
       nom = tnombre();
                   t = ConstructorArbol.crearNTipoClase(ti, nom);
       break;
     default:
-      jj_la1[58] = jj_gen;
+      jj_la1[59] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1004,7 +1011,7 @@ class LoroIParser implements LoroIParserConstants {
       t = jj_consume_token(CADENA);
       break;
     default:
-      jj_la1[59] = jj_gen;
+      jj_la1[60] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1052,7 +1059,7 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[60] = jj_gen;
+        jj_la1[61] = jj_gen;
         break label_11;
       }
       a = accion();
@@ -1119,7 +1126,7 @@ class LoroIParser implements LoroIParserConstants {
         n = _continue();
         break;
       default:
-        jj_la1[61] = jj_gen;
+        jj_la1[62] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1131,11 +1138,12 @@ class LoroIParser implements LoroIParserConstants {
 //////////////////////////////////////////////////////////////////////////
 /**
  * Esta es la produccion para las lineas ingresadas en el Interprete.
- * Basicamente es accion() o utiliza() finalizando con ";" opcional y
- * EOF obligatorio.
+ * Es una lista de accionInterprete() separadas por ";" y opcionalmente
+ * un ";" al final.  EOF obligatorio.
  * Tambien vacio es posible para permitir linea de comentario solamente.
  */
-  static final public Nodo accionInterprete() throws ParseException {
+  static final public List accionesInterprete() throws ParseException {
+        List list = new ArrayList();
         Nodo n = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CICLO:
@@ -1169,46 +1177,18 @@ class LoroIParser implements LoroIParserConstants {
     case 120:
     case 121:
     case 122:
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case CICLO:
-      case CIERTO:
-      case CONTINUE:
-      case CREAR:
-      case EXISTE:
-      case FALSO:
-      case MIENTRAS:
-      case NULO:
-      case PARA:
-      case PARA_TODO:
-      case PRE:
-      case REPITA:
-      case RETORNE:
-      case SEGUN:
-      case SI:
-      case TERMINE:
-      case LITERAL_ENTERO:
-      case LITERAL_REAL:
-      case LITERAL_CARACTER:
-      case LITERAL_CADENA:
-      case ID:
-      case 91:
-      case 94:
-      case 96:
-      case 115:
-      case 116:
-      case 119:
-      case 120:
-      case 121:
-      case 122:
-        n = accion();
-        break;
-      case UTILIZA:
-        n = utiliza();
-        break;
-      default:
-        jj_la1[62] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      n = accionInterprete();
+                                        list.add(n);
+      label_12:
+      while (true) {
+        if (jj_2_3(2)) {
+          ;
+        } else {
+          break label_12;
+        }
+        jj_consume_token(86);
+        n = accionInterprete();
+                                                list.add(n);
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 86:
@@ -1224,6 +1204,60 @@ class LoroIParser implements LoroIParserConstants {
       ;
     }
     jj_consume_token(0);
+                {if (true) return list;}
+    throw new Error("Missing return statement in function");
+  }
+
+//////////////////////////////////////////////////////////////////////////
+/**
+ * Esta es la produccion para las lineas ingresadas en el Interprete.
+ * Basicamente es accion() o utiliza() finalizando con ";" opcional y
+ * EOF obligatorio.
+ * Tambien vacio es posible para permitir linea de comentario solamente.
+ */
+  static final public Nodo accionInterprete() throws ParseException {
+        Nodo n = null;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case CICLO:
+    case CIERTO:
+    case CONTINUE:
+    case CREAR:
+    case EXISTE:
+    case FALSO:
+    case MIENTRAS:
+    case NULO:
+    case PARA:
+    case PARA_TODO:
+    case PRE:
+    case REPITA:
+    case RETORNE:
+    case SEGUN:
+    case SI:
+    case TERMINE:
+    case LITERAL_ENTERO:
+    case LITERAL_REAL:
+    case LITERAL_CARACTER:
+    case LITERAL_CADENA:
+    case ID:
+    case 91:
+    case 94:
+    case 96:
+    case 115:
+    case 116:
+    case 119:
+    case 120:
+    case 121:
+    case 122:
+      n = accion();
+      break;
+    case UTILIZA:
+      n = utiliza();
+      break;
+    default:
+      jj_la1[65] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
                 {if (true) return n;}
     throw new Error("Missing return statement in function");
   }
@@ -1231,7 +1265,7 @@ class LoroIParser implements LoroIParserConstants {
 //////////////////////////////////////////////////////////////////////////
   static final public Nodo iteracion() throws ParseException {
         Nodo n;
-    if (jj_2_3(2)) {
+    if (jj_2_4(2)) {
       n = mientras();
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1245,7 +1279,7 @@ class LoroIParser implements LoroIParserConstants {
         n = ciclo();
         break;
       default:
-        jj_la1[65] = jj_gen;
+        jj_la1[66] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1287,7 +1321,7 @@ class LoroIParser implements LoroIParserConstants {
       tdoc = jj_consume_token(TEXT_DOC);
       break;
     default:
-      jj_la1[66] = jj_gen;
+      jj_la1[67] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1311,15 +1345,15 @@ class LoroIParser implements LoroIParserConstants {
     e = expresion();
     jj_consume_token(ENTONCES);
     as = acciones();
-    label_12:
+    label_13:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case SI_NO_si:
         ;
         break;
       default:
-        jj_la1[67] = jj_gen;
-        break label_12;
+        jj_la1[68] = jj_gen;
+        break label_13;
       }
       sinosi = decision_si_no_si();
                                        sinosis.addElement(sinosi);
@@ -1330,7 +1364,7 @@ class LoroIParser implements LoroIParserConstants {
       an = acciones();
       break;
     default:
-      jj_la1[68] = jj_gen;
+      jj_la1[69] = jj_gen;
       ;
     }
     jj_consume_token(FIN);
@@ -1368,21 +1402,21 @@ class LoroIParser implements LoroIParserConstants {
     ti = jj_consume_token(SEGUN);
     e_segun = expresion();
     jj_consume_token(HAGA);
-    label_13:
+    label_14:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case CASO:
         ;
         break;
       default:
-        jj_la1[69] = jj_gen;
-        break label_13;
+        jj_la1[70] = jj_gen;
+        break label_14;
       }
       cti = jj_consume_token(CASO);
       e_caso = expresion();
       jj_consume_token(88);
       a_caso = acciones();
-      if (jj_2_4(2)) {
+      if (jj_2_5(2)) {
         jj_consume_token(FIN);
         ctf = jj_consume_token(CASO);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1390,7 +1424,7 @@ class LoroIParser implements LoroIParserConstants {
           jj_consume_token(86);
           break;
         default:
-          jj_la1[70] = jj_gen;
+          jj_la1[71] = jj_gen;
           ;
         }
                                                                 con_fin_caso = true;
@@ -1411,11 +1445,11 @@ class LoroIParser implements LoroIParserConstants {
         jj_consume_token(88);
         break;
       default:
-        jj_la1[71] = jj_gen;
+        jj_la1[72] = jj_gen;
         ;
       }
       a_caso = acciones();
-      if (jj_2_5(2)) {
+      if (jj_2_6(2)) {
         jj_consume_token(FIN);
         ctf = jj_consume_token(CASO);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1423,7 +1457,7 @@ class LoroIParser implements LoroIParserConstants {
           jj_consume_token(86);
           break;
         default:
-          jj_la1[72] = jj_gen;
+          jj_la1[73] = jj_gen;
           ;
         }
       } else {
@@ -1432,7 +1466,7 @@ class LoroIParser implements LoroIParserConstants {
                                 caso_sino = ConstructorArbol.crearNCaso(cti, null, a_caso, true, ctf);
       break;
     default:
-      jj_la1[73] = jj_gen;
+      jj_la1[74] = jj_gen;
       ;
     }
     jj_consume_token(FIN);
@@ -1457,7 +1491,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(98);
       break;
     default:
-      jj_la1[74] = jj_gen;
+      jj_la1[75] = jj_gen;
       ;
     }
     e = expresion();
@@ -1488,10 +1522,10 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(98);
       break;
     default:
-      jj_la1[75] = jj_gen;
+      jj_la1[76] = jj_gen;
       ;
     }
-    if (jj_2_6(2)) {
+    if (jj_2_7(2)) {
       d = declaracion();
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1499,7 +1533,7 @@ class LoroIParser implements LoroIParserConstants {
         i = tid();
         break;
       default:
-        jj_la1[76] = jj_gen;
+        jj_la1[77] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1512,7 +1546,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(89);
       break;
     default:
-      jj_la1[77] = jj_gen;
+      jj_la1[78] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1523,7 +1557,7 @@ class LoroIParser implements LoroIParserConstants {
                                                          b = true;
       break;
     default:
-      jj_la1[78] = jj_gen;
+      jj_la1[79] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1532,7 +1566,7 @@ class LoroIParser implements LoroIParserConstants {
       ep = expresion();
       break;
     default:
-      jj_la1[79] = jj_gen;
+      jj_la1[80] = jj_gen;
       ;
     }
     jj_consume_token(HASTA);
@@ -1559,7 +1593,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(98);
       break;
     default:
-      jj_la1[80] = jj_gen;
+      jj_la1[81] = jj_gen;
       ;
     }
     a = acciones();
@@ -1582,7 +1616,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(98);
       break;
     default:
-      jj_la1[81] = jj_gen;
+      jj_la1[82] = jj_gen;
       ;
     }
     a = acciones();
@@ -1621,7 +1655,7 @@ class LoroIParser implements LoroIParserConstants {
       es = expresiones();
       break;
     default:
-      jj_la1[82] = jj_gen;
+      jj_la1[83] = jj_gen;
       ;
     }
                 if ( es == null )
@@ -1644,7 +1678,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(98);
       break;
     default:
-      jj_la1[83] = jj_gen;
+      jj_la1[84] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1653,7 +1687,7 @@ class LoroIParser implements LoroIParserConstants {
       e = expresion();
       break;
     default:
-      jj_la1[84] = jj_gen;
+      jj_la1[85] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNTermine(t, etq, e);}
@@ -1673,7 +1707,7 @@ class LoroIParser implements LoroIParserConstants {
       jj_consume_token(98);
       break;
     default:
-      jj_la1[85] = jj_gen;
+      jj_la1[86] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1682,7 +1716,7 @@ class LoroIParser implements LoroIParserConstants {
       e = expresion();
       break;
     default:
-      jj_la1[86] = jj_gen;
+      jj_la1[87] = jj_gen;
       ;
     }
                 {if (true) return ConstructorArbol.crearNContinue(t, etq, e);}
@@ -1695,15 +1729,15 @@ class LoroIParser implements LoroIParserConstants {
         NExpresion e;
     e = expresion();
                         es.addElement(e);
-    label_14:
+    label_15:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 87:
         ;
         break;
       default:
-        jj_la1[87] = jj_gen;
-        break label_14;
+        jj_la1[88] = jj_gen;
+        break label_15;
       }
       jj_consume_token(87);
       e = expresion();
@@ -1730,7 +1764,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNAsignacion(e, f);
       break;
     default:
-      jj_la1[88] = jj_gen;
+      jj_la1[89] = jj_gen;
       ;
     }
                 {if (true) return e;}
@@ -1750,7 +1784,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCondicion(e, f, g);
       break;
     default:
-      jj_la1[89] = jj_gen;
+      jj_la1[90] = jj_gen;
       ;
     }
                 {if (true) return e;}
@@ -1761,7 +1795,7 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_implic() throws ParseException {
         NExpresion e, f;
     e = e_o();
-    label_15:
+    label_16:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 100:
@@ -1769,8 +1803,8 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[90] = jj_gen;
-        break label_15;
+        jj_la1[91] = jj_gen;
+        break label_16;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 100:
@@ -1784,7 +1818,7 @@ class LoroIParser implements LoroIParserConstants {
                                 e = ConstructorArbol.crearNImplicacion(e, f);
         break;
       default:
-        jj_la1[91] = jj_gen;
+        jj_la1[92] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1797,15 +1831,15 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_o() throws ParseException {
         NExpresion e, f;
     e = e_y();
-    label_16:
+    label_17:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 102:
         ;
         break;
       default:
-        jj_la1[92] = jj_gen;
-        break label_16;
+        jj_la1[93] = jj_gen;
+        break label_17;
       }
       jj_consume_token(102);
       f = e_y();
@@ -1819,15 +1853,15 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_y() throws ParseException {
         NExpresion e, f;
     e = e_oarit();
-    label_17:
+    label_18:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 103:
         ;
         break;
       default:
-        jj_la1[93] = jj_gen;
-        break label_17;
+        jj_la1[94] = jj_gen;
+        break label_18;
       }
       jj_consume_token(103);
       f = e_oarit();
@@ -1841,15 +1875,15 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_oarit() throws ParseException {
         NExpresion e, f;
     e = e_oexc();
-    label_18:
+    label_19:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 104:
         ;
         break;
       default:
-        jj_la1[94] = jj_gen;
-        break label_18;
+        jj_la1[95] = jj_gen;
+        break label_19;
       }
       jj_consume_token(104);
       f = e_oexc();
@@ -1863,15 +1897,15 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_oexc() throws ParseException {
         NExpresion e, f;
     e = e_yarit();
-    label_19:
+    label_20:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 105:
         ;
         break;
       default:
-        jj_la1[95] = jj_gen;
-        break label_19;
+        jj_la1[96] = jj_gen;
+        break label_20;
       }
       jj_consume_token(105);
       f = e_yarit();
@@ -1885,15 +1919,15 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_yarit() throws ParseException {
         NExpresion e, f;
     e = e_igual();
-    label_20:
+    label_21:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 106:
         ;
         break;
       default:
-        jj_la1[96] = jj_gen;
-        break label_20;
+        jj_la1[97] = jj_gen;
+        break label_21;
       }
       jj_consume_token(106);
       f = e_igual();
@@ -1907,7 +1941,7 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_igual() throws ParseException {
         NExpresion e, f;
     e = e_instancia();
-    label_21:
+    label_22:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 90:
@@ -1915,8 +1949,8 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[97] = jj_gen;
-        break label_21;
+        jj_la1[98] = jj_gen;
+        break label_22;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 90:
@@ -1930,7 +1964,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNDiferente(e, f);
         break;
       default:
-        jj_la1[98] = jj_gen;
+        jj_la1[99] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1965,13 +1999,13 @@ class LoroIParser implements LoroIParserConstants {
                                 e = ConstructorArbol.crearNEsInstanciaDe(e, t);
         break;
       default:
-        jj_la1[99] = jj_gen;
+        jj_la1[100] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[100] = jj_gen;
+      jj_la1[101] = jj_gen;
       ;
     }
                 {if (true) return e;}
@@ -1982,7 +2016,7 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_rel() throws ParseException {
         NExpresion e, f;
     e = e_corr();
-    label_22:
+    label_23:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 108:
@@ -1992,8 +2026,8 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[101] = jj_gen;
-        break label_22;
+        jj_la1[102] = jj_gen;
+        break label_23;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 108:
@@ -2017,7 +2051,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNMayorIgual(e, f);
         break;
       default:
-        jj_la1[102] = jj_gen;
+        jj_la1[103] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2030,7 +2064,7 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_corr() throws ParseException {
         NExpresion e, f;
     e = e_sum();
-    label_23:
+    label_24:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 112:
@@ -2039,8 +2073,8 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[103] = jj_gen;
-        break label_23;
+        jj_la1[104] = jj_gen;
+        break label_24;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 112:
@@ -2059,7 +2093,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCorrDerDer(e, f);
         break;
       default:
-        jj_la1[104] = jj_gen;
+        jj_la1[105] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2072,7 +2106,7 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_sum() throws ParseException {
         NExpresion e, f;
     e = e_mul();
-    label_24:
+    label_25:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 115:
@@ -2080,8 +2114,8 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[105] = jj_gen;
-        break label_24;
+        jj_la1[106] = jj_gen;
+        break label_25;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 115:
@@ -2095,7 +2129,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNMenos(e, f);
         break;
       default:
-        jj_la1[106] = jj_gen;
+        jj_la1[107] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2108,7 +2142,7 @@ class LoroIParser implements LoroIParserConstants {
   static final public NExpresion e_mul() throws ParseException {
         NExpresion e, f;
     e = e_unaria();
-    label_25:
+    label_26:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 98:
@@ -2117,8 +2151,8 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[107] = jj_gen;
-        break label_25;
+        jj_la1[108] = jj_gen;
+        break label_26;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 117:
@@ -2137,7 +2171,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNMod(e, f);
         break;
       default:
-        jj_la1[108] = jj_gen;
+        jj_la1[109] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2207,7 +2241,7 @@ class LoroIParser implements LoroIParserConstants {
         ti = jj_consume_token(PARA_TODO);
         break;
       default:
-        jj_la1[109] = jj_gen;
+        jj_la1[110] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2218,7 +2252,7 @@ class LoroIParser implements LoroIParserConstants {
         con = expresion();
         break;
       default:
-        jj_la1[110] = jj_gen;
+        jj_la1[111] = jj_gen;
         ;
       }
       jj_consume_token(88);
@@ -2226,7 +2260,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCuantificado(ti, d, con, e);
       break;
     default:
-      jj_la1[111] = jj_gen;
+      jj_la1[112] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2241,7 +2275,7 @@ class LoroIParser implements LoroIParserConstants {
         NExpresion[] args = null;
         TId i;
     e = e_prefijoPrimaria();
-    label_26:
+    label_27:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 91:
@@ -2250,8 +2284,8 @@ class LoroIParser implements LoroIParserConstants {
         ;
         break;
       default:
-        jj_la1[112] = jj_gen;
-        break label_26;
+        jj_la1[113] = jj_gen;
+        break label_27;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 123:
@@ -2291,7 +2325,7 @@ class LoroIParser implements LoroIParserConstants {
           args = expresiones();
           break;
         default:
-          jj_la1[113] = jj_gen;
+          jj_la1[114] = jj_gen;
           ;
         }
         tf = jj_consume_token(92);
@@ -2300,7 +2334,7 @@ class LoroIParser implements LoroIParserConstants {
                                 e = ConstructorArbol.crearNInvocacion(e, args, tf);
         break;
       default:
-        jj_la1[114] = jj_gen;
+        jj_la1[115] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2330,15 +2364,15 @@ class LoroIParser implements LoroIParserConstants {
       ti = jj_consume_token(94);
       e = expresion();
                                           list.add(e);
-      label_27:
+      label_28:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case 87:
           ;
           break;
         default:
-          jj_la1[115] = jj_gen;
-          break label_27;
+          jj_la1[116] = jj_gen;
+          break label_28;
         }
         jj_consume_token(87);
         e = expresion();
@@ -2360,7 +2394,7 @@ class LoroIParser implements LoroIParserConstants {
       e = e_crear();
       break;
     default:
-      jj_la1[116] = jj_gen;
+      jj_la1[117] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2385,7 +2419,7 @@ class LoroIParser implements LoroIParserConstants {
         g = expresion();
         break;
       default:
-        jj_la1[117] = jj_gen;
+        jj_la1[118] = jj_gen;
         ;
       }
       jj_consume_token(95);
@@ -2394,7 +2428,7 @@ class LoroIParser implements LoroIParserConstants {
       break;
     case ID:
       c = tnombre();
-      if (jj_2_7(2)) {
+      if (jj_2_8(2)) {
         jj_consume_token(91);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case CIERTO:
@@ -2420,7 +2454,7 @@ class LoroIParser implements LoroIParserConstants {
           args = expresiones();
           break;
         default:
-          jj_la1[118] = jj_gen;
+          jj_la1[119] = jj_gen;
           ;
         }
         tf = jj_consume_token(92);
@@ -2435,7 +2469,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCrearObjeto(ti, c, args, tf);
       break;
     default:
-      jj_la1[119] = jj_gen;
+      jj_la1[120] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2448,7 +2482,7 @@ class LoroIParser implements LoroIParserConstants {
         Token ti;
         NExpresion e, f, g = null;
         NTipo t;
-    if (jj_2_8(2)) {
+    if (jj_2_9(2)) {
       // tipo puede comenzar con "["
                       t = ntipo();
                         e = ConstructorArbol.crearNCrearArregloTipoBase(t);
@@ -2463,7 +2497,7 @@ class LoroIParser implements LoroIParserConstants {
           g = expresion();
           break;
         default:
-          jj_la1[120] = jj_gen;
+          jj_la1[121] = jj_gen;
           ;
         }
         jj_consume_token(95);
@@ -2471,7 +2505,7 @@ class LoroIParser implements LoroIParserConstants {
                         e = ConstructorArbol.crearNCrearArreglo(ti, e, g, f);
         break;
       default:
-        jj_la1[121] = jj_gen;
+        jj_la1[122] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2505,7 +2539,7 @@ class LoroIParser implements LoroIParserConstants {
       e = e_literalNulo();
       break;
     default:
-      jj_la1[122] = jj_gen;
+      jj_la1[123] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2551,7 +2585,7 @@ class LoroIParser implements LoroIParserConstants {
       t = jj_consume_token(PRE);
       break;
     default:
-      jj_la1[123] = jj_gen;
+      jj_la1[124] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2589,12 +2623,12 @@ class LoroIParser implements LoroIParserConstants {
         TId t;
     t = tid();
                                v.addElement(t);
-    label_28:
+    label_29:
     while (true) {
-      if (jj_2_9(2)) {
+      if (jj_2_10(2)) {
         ;
       } else {
-        break label_28;
+        break label_29;
       }
       jj_consume_token(125);
       t = tid();
@@ -2633,15 +2667,15 @@ class LoroIParser implements LoroIParserConstants {
         TId t;
     t = tid();
                    v.addElement(t);
-    label_29:
+    label_30:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 87:
         ;
         break;
       default:
-        jj_la1[124] = jj_gen;
-        break label_29;
+        jj_la1[125] = jj_gen;
+        break label_30;
       }
       jj_consume_token(87);
       t = tid();
@@ -2659,12 +2693,12 @@ class LoroIParser implements LoroIParserConstants {
         TId t;
     t = tid();
                                v.addElement(t);
-    label_30:
+    label_31:
     while (true) {
-      if (jj_2_10(2)) {
+      if (jj_2_11(2)) {
         ;
       } else {
-        break label_30;
+        break label_31;
       }
       jj_consume_token(125);
       t = tid();
@@ -2698,7 +2732,7 @@ class LoroIParser implements LoroIParserConstants {
                                  str = t.image.substring(1, t.image.length() -1);
       break;
     default:
-      jj_la1[125] = jj_gen;
+      jj_la1[126] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2718,7 +2752,7 @@ class LoroIParser implements LoroIParserConstants {
       t = jj_consume_token(LITERAL_CADENA);
       break;
     default:
-      jj_la1[126] = jj_gen;
+      jj_la1[127] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2796,151 +2830,91 @@ class LoroIParser implements LoroIParserConstants {
     return retval;
   }
 
-  static final private boolean jj_3R_41() {
-    if (jj_3R_40()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_79() {
-    if (jj_3R_82()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
+  static final private boolean jj_2_11(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    boolean retval = !jj_3_11();
+    jj_save(10, xla);
+    return retval;
   }
 
   static final private boolean jj_3R_99() {
-    if (jj_scan_token(LITERAL_REAL)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_80() {
-    if (jj_scan_token(EXISTE)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_78() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_80()) {
-    jj_scanpos = xsp;
-    if (jj_3R_81()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_64() {
-    if (jj_3R_65()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_77() {
-    if (jj_3R_79()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_97() {
-    if (jj_scan_token(LITERAL_ENTERO)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_76() {
-    if (jj_scan_token(122)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_75() {
-    if (jj_scan_token(121)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_74() {
-    if (jj_scan_token(120)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_31() {
-    if (jj_3R_38()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_scan_token(88)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_73() {
-    if (jj_scan_token(115)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_72() {
     if (jj_scan_token(116)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_71() {
+  static final private boolean jj_3R_83() {
+    if (jj_3R_87()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_98() {
     if (jj_scan_token(119)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_102() {
+  static final private boolean jj_3R_129() {
     if (jj_scan_token(NULO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_96() {
-    if (jj_3R_102()) return true;
+  static final private boolean jj_3R_82() {
+    if (jj_3R_86()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3_3() {
-    if (jj_3R_33()) return true;
+  static final private boolean jj_3R_81() {
+    if (jj_3R_85()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_63() {
-    if (jj_3R_64()) return true;
+  static final private boolean jj_3R_123() {
+    if (jj_3R_129()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_95() {
-    if (jj_3R_101()) return true;
+  static final private boolean jj_3_4() {
+    if (jj_3R_35()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_70() {
+  static final private boolean jj_3R_90() {
+    if (jj_3R_91()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_122() {
+    if (jj_3R_128()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_97() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_71()) {
+    if (jj_3R_98()) {
     jj_scanpos = xsp;
-    if (jj_3R_72()) {
+    if (jj_3R_99()) {
     jj_scanpos = xsp;
-    if (jj_3R_73()) {
+    if (jj_3R_100()) {
     jj_scanpos = xsp;
-    if (jj_3R_74()) {
+    if (jj_3R_101()) {
     jj_scanpos = xsp;
-    if (jj_3R_75()) {
+    if (jj_3R_102()) {
     jj_scanpos = xsp;
-    if (jj_3R_76()) {
+    if (jj_3R_103()) {
     jj_scanpos = xsp;
-    if (jj_3R_77()) {
+    if (jj_3R_104()) {
     jj_scanpos = xsp;
-    if (jj_3R_78()) return true;
+    if (jj_3R_105()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -2952,217 +2926,397 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_94() {
-    if (jj_3R_100()) return true;
+  static final private boolean jj_3R_121() {
+    if (jj_3R_127()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_34() {
-    if (jj_3R_37()) return true;
+  static final private boolean jj_3R_120() {
+    if (jj_3R_126()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_76() {
+    if (jj_scan_token(RETORNE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_119() {
+    if (jj_3R_125()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_75() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_4()) {
+    jj_scanpos = xsp;
+    if (jj_3R_81()) {
+    jj_scanpos = xsp;
+    if (jj_3R_82()) {
+    jj_scanpos = xsp;
+    if (jj_3R_83()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_118() {
+    if (jj_3R_124()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_32() {
+    if (jj_3R_40()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_scan_token(88)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_93() {
-    if (jj_3R_99()) return true;
+  static final private boolean jj_3R_42() {
+    if (jj_3R_53()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_92() {
-    if (jj_3R_98()) return true;
+  static final private boolean jj_3R_41() {
+    if (jj_3R_52()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_91() {
+  static final private boolean jj_3R_89() {
+    if (jj_3R_90()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_115() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_118()) {
+    jj_scanpos = xsp;
+    if (jj_3R_119()) {
+    jj_scanpos = xsp;
+    if (jj_3R_120()) {
+    jj_scanpos = xsp;
+    if (jj_3R_121()) {
+    jj_scanpos = xsp;
+    if (jj_3R_122()) {
+    jj_scanpos = xsp;
+    if (jj_3R_123()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_87() {
+    if (jj_scan_token(CICLO)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_7() {
+    if (jj_3R_36()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_34() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_41()) {
+    jj_scanpos = xsp;
+    if (jj_3R_42()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_36() {
+    if (jj_3R_39()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_scan_token(88)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_9() {
+    if (jj_3R_38()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_96() {
     if (jj_3R_97()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_62() {
-    if (jj_3R_63()) return true;
+  static final private boolean jj_3_3() {
+    if (jj_scan_token(86)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_34()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
   static final private boolean jj_3R_88() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_91()) {
-    jj_scanpos = xsp;
-    if (jj_3R_92()) {
-    jj_scanpos = xsp;
-    if (jj_3R_93()) {
-    jj_scanpos = xsp;
-    if (jj_3R_94()) {
-    jj_scanpos = xsp;
-    if (jj_3R_95()) {
-    jj_scanpos = xsp;
-    if (jj_3R_96()) return true;
+    if (jj_3R_89()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_37() {
+    if (jj_3R_45()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_11() {
+    if (jj_scan_token(125)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_39()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_86() {
+    if (jj_scan_token(REPITA)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_56() {
+    if (jj_3R_39()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_11()) { jj_scanpos = xsp; break; }
+      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    }
     return false;
   }
 
   static final private boolean jj_3_1() {
     if (jj_scan_token(87)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_31()) return true;
+    if (jj_3R_32()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3_6() {
-    if (jj_3R_34()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3_8() {
-    if (jj_3R_36()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_69() {
-    if (jj_3R_70()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_61() {
-    if (jj_3R_62()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_35() {
-    if (jj_3R_41()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3_10() {
-    if (jj_scan_token(125)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_37()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_50() {
-    if (jj_3R_37()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_10()) { jj_scanpos = xsp; break; }
-      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    }
-    return false;
-  }
-
-  static final private boolean jj_3R_47() {
+  static final private boolean jj_3R_51() {
     if (jj_scan_token(87)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_60() {
-    if (jj_3R_61()) return true;
+  static final private boolean jj_3R_84() {
+    if (jj_3R_88()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3_7() {
+  static final private boolean jj_3_8() {
     if (jj_scan_token(91)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_35()) jj_scanpos = xsp;
+    if (jj_3R_37()) jj_scanpos = xsp;
     else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_scan_token(92)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_38() {
-    if (jj_3R_37()) return true;
+  static final private boolean jj_3R_40() {
+    if (jj_3R_39()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_47()) { jj_scanpos = xsp; break; }
+      if (jj_3R_51()) { jj_scanpos = xsp; break; }
       if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     }
     return false;
   }
 
-  static final private boolean jj_3R_68() {
-    if (jj_3R_69()) return true;
+  static final private boolean jj_3R_95() {
+    if (jj_3R_96()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3_2() {
-    if (jj_3R_32()) return true;
+  static final private boolean jj_3R_85() {
+    if (jj_scan_token(PARA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_39() {
+  static final private boolean jj_3R_43() {
     if (jj_scan_token(98)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_59() {
-    if (jj_3R_60()) return true;
+  static final private boolean jj_3R_66() {
+    if (jj_3R_79()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_90() {
+  static final private boolean jj_3R_65() {
+    if (jj_3R_78()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_64() {
+    if (jj_3R_77()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_80() {
+    if (jj_3R_84()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_117() {
     if (jj_scan_token(CREAR)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_33() {
+  static final private boolean jj_3R_63() {
+    if (jj_3R_76()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_62() {
+    if (jj_3R_75()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_61() {
+    if (jj_3R_74()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_60() {
+    if (jj_3R_73()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_35() {
     if (jj_scan_token(MIENTRAS)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_39()) jj_scanpos = xsp;
+    if (jj_3R_43()) jj_scanpos = xsp;
     else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_40()) return true;
+    if (jj_3R_44()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_87() {
-    if (jj_3R_90()) return true;
+  static final private boolean jj_3R_114() {
+    if (jj_3R_117()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_37() {
+  static final private boolean jj_3R_59() {
+    if (jj_3R_44()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_39() {
     if (jj_scan_token(ID)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_86() {
+  static final private boolean jj_3R_113() {
     if (jj_scan_token(91)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_2() {
+    if (jj_3R_33()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_6() {
+    if (jj_scan_token(FIN)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_scan_token(CASO)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_94() {
+    if (jj_3R_95()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_52() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_2()) {
+    jj_scanpos = xsp;
+    if (jj_3R_59()) {
+    jj_scanpos = xsp;
+    if (jj_3R_60()) {
+    jj_scanpos = xsp;
+    if (jj_3R_61()) {
+    jj_scanpos = xsp;
+    if (jj_3R_62()) {
+    jj_scanpos = xsp;
+    if (jj_3R_63()) {
+    jj_scanpos = xsp;
+    if (jj_3R_64()) {
+    jj_scanpos = xsp;
+    if (jj_3R_65()) {
+    jj_scanpos = xsp;
+    if (jj_3R_66()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_112() {
+    if (jj_3R_116()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3176,87 +3330,135 @@ class LoroIParser implements LoroIParserConstants {
   }
 
   static final private boolean jj_3R_67() {
-    if (jj_3R_68()) return true;
+    if (jj_3R_80()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_51() {
+  static final private boolean jj_3_10() {
+    if (jj_scan_token(125)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_39()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_116() {
+    if (jj_3R_39()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_110() {
+    if (jj_3R_115()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_111() {
+    if (jj_scan_token(94)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_109() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_110()) {
+    jj_scanpos = xsp;
+    if (jj_3R_111()) {
+    jj_scanpos = xsp;
+    if (jj_3R_112()) {
+    jj_scanpos = xsp;
+    if (jj_3R_113()) {
+    jj_scanpos = xsp;
+    if (jj_3R_114()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_57() {
     if (jj_scan_token(PARA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_58() {
+  static final private boolean jj_3R_54() {
+    if (jj_3R_67()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_72() {
     if (jj_scan_token(CADENA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_57() {
+  static final private boolean jj_3R_74() {
+    if (jj_scan_token(SEGUN)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_71() {
     if (jj_scan_token(REAL)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_56() {
+  static final private boolean jj_3R_93() {
+    if (jj_3R_94()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_70() {
     if (jj_scan_token(CARACTER)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_85() {
-    if (jj_3R_89()) return true;
+  static final private boolean jj_3R_132() {
+    if (jj_scan_token(PRE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_55() {
+  static final private boolean jj_3R_69() {
     if (jj_scan_token(BOOLEANO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3_4() {
-    if (jj_scan_token(FIN)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_scan_token(CASO)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_54() {
+  static final private boolean jj_3R_68() {
     if (jj_scan_token(ENTERO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
   static final private boolean jj_3R_53() {
-    if (jj_3R_59()) return true;
+    if (jj_scan_token(UTILIZA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3_9() {
-    if (jj_scan_token(125)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_37()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_49() {
+  static final private boolean jj_3R_55() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_54()) {
+    if (jj_3R_68()) {
     jj_scanpos = xsp;
-    if (jj_3R_55()) {
+    if (jj_3R_69()) {
     jj_scanpos = xsp;
-    if (jj_3R_56()) {
+    if (jj_3R_70()) {
     jj_scanpos = xsp;
-    if (jj_3R_57()) {
+    if (jj_3R_71()) {
     jj_scanpos = xsp;
-    if (jj_3R_58()) return true;
+    if (jj_3R_72()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3265,79 +3467,65 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_89() {
-    if (jj_3R_37()) return true;
+  static final private boolean jj_3R_127() {
+    if (jj_scan_token(LITERAL_CARACTER)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_83() {
-    if (jj_3R_88()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_52() {
+  static final private boolean jj_3R_58() {
     if (jj_scan_token(CLASE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_46() {
+  static final private boolean jj_3R_50() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_52()) jj_scanpos = xsp;
+    if (jj_3R_58()) jj_scanpos = xsp;
     else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_50()) return true;
+    if (jj_3R_56()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_84() {
-    if (jj_scan_token(94)) return true;
+  static final private boolean jj_3R_131() {
+    if (jj_scan_token(FALSO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_45() {
+  static final private boolean jj_3R_49() {
     if (jj_scan_token(ALGORITMO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_51()) jj_scanpos = xsp;
+    if (jj_3R_57()) jj_scanpos = xsp;
     else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
   static final private boolean jj_3R_44() {
+    if (jj_3R_54()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_48() {
     if (jj_scan_token(INTERFACE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_50()) return true;
+    if (jj_3R_56()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_82() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_83()) {
-    jj_scanpos = xsp;
-    if (jj_3R_84()) {
-    jj_scanpos = xsp;
-    if (jj_3R_85()) {
-    jj_scanpos = xsp;
-    if (jj_3R_86()) {
-    jj_scanpos = xsp;
-    if (jj_3R_87()) return true;
+  static final private boolean jj_3R_128() {
+    if (jj_scan_token(LITERAL_CADENA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_43() {
+  static final private boolean jj_3R_47() {
     if (jj_scan_token(94)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_scan_token(95)) return true;
@@ -3345,110 +3533,169 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_48() {
-    if (jj_3R_53()) return true;
+  static final private boolean jj_3R_46() {
+    if (jj_3R_55()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_42() {
-    if (jj_3R_49()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_66() {
-    if (jj_3R_67()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_105() {
-    if (jj_scan_token(PRE)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_100() {
-    if (jj_scan_token(LITERAL_CARACTER)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_36() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_42()) {
-    jj_scanpos = xsp;
-    if (jj_3R_43()) {
-    jj_scanpos = xsp;
-    if (jj_3R_44()) {
-    jj_scanpos = xsp;
-    if (jj_3R_45()) {
-    jj_scanpos = xsp;
-    if (jj_3R_46()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_104() {
-    if (jj_scan_token(FALSO)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_40() {
-    if (jj_3R_48()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_101() {
-    if (jj_scan_token(LITERAL_CADENA)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_81() {
+  static final private boolean jj_3R_108() {
     if (jj_scan_token(PARA_TODO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_103() {
+  static final private boolean jj_3R_130() {
     if (jj_scan_token(CIERTO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_65() {
-    if (jj_3R_66()) return true;
+  static final private boolean jj_3R_92() {
+    if (jj_3R_93()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_98() {
+  static final private boolean jj_3R_125() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_103()) {
+    if (jj_3R_130()) {
     jj_scanpos = xsp;
-    if (jj_3R_104()) {
+    if (jj_3R_131()) {
     jj_scanpos = xsp;
-    if (jj_3R_105()) return true;
+    if (jj_3R_132()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_32() {
-    if (jj_3R_38()) return true;
+  static final private boolean jj_3R_38() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_46()) {
+    jj_scanpos = xsp;
+    if (jj_3R_47()) {
+    jj_scanpos = xsp;
+    if (jj_3R_48()) {
+    jj_scanpos = xsp;
+    if (jj_3R_49()) {
+    jj_scanpos = xsp;
+    if (jj_3R_50()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_106() {
+    if (jj_3R_109()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_45() {
+    if (jj_3R_44()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_73() {
+    if (jj_scan_token(SI)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_126() {
+    if (jj_scan_token(LITERAL_REAL)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_107() {
+    if (jj_scan_token(EXISTE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_79() {
+    if (jj_scan_token(CONTINUE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_105() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_107()) {
+    jj_scanpos = xsp;
+    if (jj_3R_108()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_104() {
+    if (jj_3R_106()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_91() {
+    if (jj_3R_92()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_124() {
+    if (jj_scan_token(LITERAL_ENTERO)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_103() {
+    if (jj_scan_token(122)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_33() {
+    if (jj_3R_40()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_scan_token(88)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_102() {
+    if (jj_scan_token(121)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_77() {
+    if (jj_scan_token(96)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_101() {
+    if (jj_scan_token(120)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_78() {
+    if (jj_scan_token(TERMINE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_100() {
+    if (jj_scan_token(115)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3463,12 +3710,12 @@ class LoroIParser implements LoroIParserConstants {
   static public boolean lookingAhead = false;
   static private boolean jj_semLA;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[127];
-  static final private int[] jj_la1_0 = {0x0,0x0,0x21000000,0x21000000,0x0,0x0,0x0,0x0,0x21000000,0x20000000,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x20000000,0x0,0x0,0x80000000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x0,0x0,0x0,0x0,0x0,0x0,0x10000,0x1000000,0x0,0x80000000,0x80000000,0x0,0x80000000,0x80000000,0x0,0x20000000,0x21f80000,0xf80000,0x18000000,0x18000000,0x18000000,0x0,0x18000000,0x8000000,0x10010000,0x0,0x0,0x4000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2000000,0x0,0x0,0x0,0x10000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x10000000,0x0,0x10000000,0x0,0x0,0x10000000,0x0,0x10000000,0x0,0x0,0x0,0x10000000,0x10000000,0x0,0x40000,0x10000,};
-  static final private int[] jj_la1_1 = {0x20000000,0x0,0x18c00200,0x18c00200,0x0,0x2000,0x10,0x10000200,0x200,0x8000000,0x2000,0x0,0x40000000,0x10,0x0,0x1,0x800000,0x8000000,0x0,0x0,0x0,0x0,0x0,0x10,0x2000000,0x80,0x0,0x0,0x10000200,0x0,0x0,0x10,0x2000000,0x80,0x2000000,0x0,0x0,0x0,0x10000200,0x0,0x0,0x800000,0x0,0x0,0x0,0x810,0x810,0x0,0x80810,0x800000,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x0,0x400000,0x0,0xc5005006,0xc5005006,0xc5005006,0x0,0xc5005006,0x40000000,0x84005004,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x0,0x0,0x84005004,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x200100,0x200100,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x80001000,0x0,0x84005004,0x0,0x84005004,0x0,0x0,0x4004004,0x0,0x84005004,0x0,0x0,0x0,0x4004000,0x4000,0x0,0x0,0x0,};
-  static final private int[] jj_la1_2 = {0x0,0x1000,0x0,0x0,0x800000,0x0,0x0,0x0,0x0,0x0,0x0,0x800000,0x0,0x0,0x80000,0x0,0x0,0x0,0x80000,0x4000000,0x2000000,0x2000000,0x80000,0x0,0x80000,0x0,0x4,0x2,0x0,0x80000,0x20000000,0x0,0x80000,0x0,0x80000,0x20,0x4,0x2,0x0,0x80000,0x400000,0x0,0x80000,0x80000,0x20000000,0x0,0x0,0x400000,0x40000,0x0,0x4000000,0x2000000,0x2000000,0x4000000,0x2000000,0x2000000,0x0,0x0,0x40080000,0x0,0x480e68dc,0x480e68dc,0x480e78dc,0x400000,0x480e78dc,0x8,0x480e6004,0x200,0x100,0x0,0x400000,0x1000000,0x400000,0x100,0x0,0x0,0x80000,0x2000000,0x0,0x1,0x0,0x0,0x480e6004,0x0,0x80,0x0,0x80,0x800000,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4000000,0x4000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x800000,0x480e6004,0x48000000,0x480e6004,0x48000000,0x800000,0x480e6004,0x0,0x480e6004,0x40080000,0x0,0x40000000,0x66004,0x4,0x800000,0x40000,0x40000,};
-  static final private int[] jj_la1_3 = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x7980001,0x7980001,0x7980001,0x0,0x7980001,0x0,0x7980000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x4,0x0,0x0,0x0,0x0,0x4,0x4,0x7980000,0x4,0x0,0x4,0x0,0x0,0x0,0x8,0x30,0x30,0x40,0x80,0x100,0x200,0x400,0x800,0x800,0x0,0x0,0xf000,0xf000,0x70000,0x70000,0x180000,0x180000,0x600004,0x600004,0x0,0x0,0x7980000,0x8000000,0x7980000,0x8000000,0x0,0x0,0x10000000,0x7980000,0x0,0x10000000,0x0,0x0,0x0,0x0,0x0,0x0,};
-  static final private JJCalls[] jj_2_rtns = new JJCalls[10];
+  static final private int[] jj_la1 = new int[128];
+  static final private int[] jj_la1_0 = {0x0,0x0,0x21000000,0x21000000,0x0,0x0,0x0,0x0,0x21000000,0x20000000,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x20000000,0x0,0x0,0x80000000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x0,0x0,0x0,0x0,0x0,0x0,0x10000,0x1000000,0x0,0x80000000,0x80000000,0x0,0x80000000,0x80000000,0x0,0x20000000,0x21f80000,0xf80000,0x18000000,0x18000000,0x0,0x18000000,0x18000000,0x8000000,0x10010000,0x0,0x0,0x4000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2000000,0x0,0x0,0x0,0x10000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x10000000,0x0,0x10000000,0x0,0x0,0x10000000,0x0,0x10000000,0x0,0x0,0x0,0x10000000,0x10000000,0x0,0x40000,0x10000,};
+  static final private int[] jj_la1_1 = {0x20000000,0x0,0x18c00200,0x18c00200,0x0,0x2000,0x10,0x10000200,0x200,0x8000000,0x2000,0x0,0x40000000,0x10,0x0,0x1,0x800000,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x10,0x2000000,0x80,0x0,0x0,0x10000200,0x0,0x0,0x10,0x2000000,0x80,0x2000000,0x0,0x0,0x0,0x10000200,0x0,0x0,0x800000,0x0,0x0,0x0,0x810,0x810,0x0,0x80810,0x800000,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x0,0x400000,0x0,0xc5005006,0xc5005006,0x0,0xc5005006,0xc5005006,0x40000000,0x84005004,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x0,0x0,0x84005004,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x200100,0x200100,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x80001000,0x0,0x84005004,0x0,0x84005004,0x0,0x0,0x4004004,0x0,0x84005004,0x0,0x0,0x0,0x4004000,0x4000,0x0,0x0,0x0,};
+  static final private int[] jj_la1_2 = {0x0,0x1000,0x0,0x0,0x800000,0x0,0x0,0x0,0x0,0x0,0x0,0x800000,0x0,0x0,0x80000,0x0,0x0,0x0,0x80000,0x4000000,0x2000000,0x2000000,0x1000000,0x80000,0x0,0x80000,0x0,0x4,0x2,0x0,0x80000,0x20000000,0x0,0x80000,0x0,0x80000,0x20,0x4,0x2,0x0,0x80000,0x400000,0x0,0x80000,0x80000,0x20000000,0x0,0x0,0x400000,0x40000,0x0,0x4000000,0x2000000,0x2000000,0x4000000,0x2000000,0x2000000,0x0,0x0,0x40080000,0x0,0x480e68dc,0x480e68dc,0x400000,0x480e78dc,0x480e78dc,0x8,0x480e6004,0x200,0x100,0x0,0x400000,0x1000000,0x400000,0x100,0x0,0x0,0x80000,0x2000000,0x0,0x1,0x0,0x0,0x480e6004,0x0,0x80,0x0,0x80,0x800000,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4000000,0x4000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x800000,0x480e6004,0x48000000,0x480e6004,0x48000000,0x800000,0x480e6004,0x0,0x480e6004,0x40080000,0x0,0x40000000,0x66004,0x4,0x800000,0x40000,0x40000,};
+  static final private int[] jj_la1_3 = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x7980001,0x7980001,0x0,0x7980001,0x7980001,0x0,0x7980000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x4,0x0,0x0,0x0,0x0,0x4,0x4,0x7980000,0x4,0x0,0x4,0x0,0x0,0x0,0x8,0x30,0x30,0x40,0x80,0x100,0x200,0x400,0x800,0x800,0x0,0x0,0xf000,0xf000,0x70000,0x70000,0x180000,0x180000,0x600004,0x600004,0x0,0x0,0x7980000,0x8000000,0x7980000,0x8000000,0x0,0x0,0x10000000,0x7980000,0x0,0x10000000,0x0,0x0,0x0,0x0,0x0,0x0,};
+  static final private JJCalls[] jj_2_rtns = new JJCalls[11];
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
 
@@ -3485,7 +3732,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 127; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 128; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3495,7 +3742,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 127; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 128; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3512,7 +3759,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 127; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 128; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3522,7 +3769,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 127; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 128; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3538,7 +3785,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 127; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 128; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3547,7 +3794,7 @@ class LoroIParser implements LoroIParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 127; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 128; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -3662,7 +3909,7 @@ class LoroIParser implements LoroIParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 127; i++) {
+    for (int i = 0; i < 128; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -3705,7 +3952,7 @@ class LoroIParser implements LoroIParserConstants {
 
   static final private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 11; i++) {
       JJCalls p = jj_2_rtns[i];
       do {
         if (p.gen > jj_gen) {
@@ -3721,6 +3968,7 @@ class LoroIParser implements LoroIParserConstants {
             case 7: jj_3_8(); break;
             case 8: jj_3_9(); break;
             case 9: jj_3_10(); break;
+            case 10: jj_3_11(); break;
           }
         }
         p = p.next;
