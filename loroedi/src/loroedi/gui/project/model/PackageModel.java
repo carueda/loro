@@ -9,11 +9,11 @@ import java.awt.event.*;
 import java.util.*;
 
 //////////////////////////////////////////////////
-/** ~!~
- * Implementación de modelo de paquete,
+/**
+ * Implementación de modelo de paquete.
  *
  * @author Carlos Rueda
- * @version 2002-07-13
+ * @version $Id$
  */
 public class PackageModel implements IPackageModel
 {
@@ -191,14 +191,10 @@ public class PackageModel implements IPackageModel
 	{
 		String val = validateId(name);
 		if ( val != null )
-		{
 			return val;
-		}
 		
 		if ( specs.keySet().contains(name) )
-		{
 			return "Nombre de especificación ya existe en este paquete";
-		}
 		
 		return null;
 	}
@@ -206,19 +202,17 @@ public class PackageModel implements IPackageModel
 	////////////////////////////////////////////////////////////////
 	/**
 	 * En esta clase se verifica:
-	 * - (pendiente)
+	 * - nombre válido
+	 * - nombre no repetido.
 	 */
 	public String validateNewAlgorithmName(String name)
 	{
 		String val = validateId(name);
 		if ( val != null )
-		{
 			return val;
-		}
+
 		if ( algorithms.keySet().contains(name) )
-		{
 			return "Nombre de algoritmo ya existe en este paquete";
-		}
 		
 		return null;
 	}
@@ -233,14 +227,10 @@ public class PackageModel implements IPackageModel
 	{
 		String val = validateId(name);
 		if ( val != null )
-		{
 			return val;
-		}
 
 		if ( classes.keySet().contains(name) )
-		{
 			return "Nombre de clase ya existe en este paquete";
-		}
 		
 		return null;
 	}
@@ -264,9 +254,6 @@ public class PackageModel implements IPackageModel
 		catch(CompilacionException ex)
 		{
 			return "Error sintáctico: identificador mal formado.";
-			
-			// No es necesario mostrar todo el mensaje:
-			//return ex.getMessage();
 		}
 		return null;
 	}
