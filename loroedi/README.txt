@@ -65,6 +65,12 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-08 (0.8pre10)
+
+	- Nueva preferencia PRJ_EXTERN_LAST para recordar el último proyecto
+	  externo instalado.
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-03-31 (0.8pre10)
 
 	- bug descrito en 2003-03-13 aún seguía ;-)

@@ -2532,6 +2532,7 @@ public class GUI
 		final JPanel panel_lar2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel_lar2.setAlignmentX(0f);
         final JTextField f_lar = new JTextField(30);
+		f_lar.setText(Preferencias.obtPreferencia(Preferencias.PRJ_EXTERN_LAST));
 		panel_lar2.add(f_lar);
 		radio_lar.setMnemonic(KeyEvent.VK_E);
 		
@@ -2793,6 +2794,7 @@ public class GUI
 				URL url;
 				
 				String lar = f_lar.getText().trim();
+				Preferencias.ponPreferencia(Preferencias.PRJ_EXTERN_LAST, lar);
 				if ( lar.toLowerCase().startsWith("http:")
 				||   lar.toLowerCase().startsWith("ftp:") 
 				||   lar.toLowerCase().startsWith("file:") )

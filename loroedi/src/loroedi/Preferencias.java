@@ -78,6 +78,9 @@ public class Preferencias
 	/** Rectangle for dialog window to choose a .lar project. */
 	public static final String PRJ_CHOOSE_RECT = "loroedi.pref.prj.choose.rect";
 
+	/** Rectangle for dialog window to choose a .lar project. */
+	public static final String PRJ_EXTERN_LAST = "loroedi.pref.prj.extern.last";
+	
 	////////////////////////////////////////////////////////////////////
 	
 	
