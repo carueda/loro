@@ -1,13 +1,14 @@
 Loro Project README
 -------------------
-Carlos Rueda - 2002-10-20
+Carlos A. Rueda
+$Id$
 
 El proyecto Loro se compone actualmente de los siguientes módulos:
 
 	loro             Núcleo del lenguaje
 	loroedi          Entorno Integrado
 	nanoinstaller    Creador simple del instalador utilizado por LoroEDI
-
+	simpledi         VIEJO entorno de desarrollo (no requerido)
 
 Directorio de elementos "generados"
 	Los diferentes build.properties definen la propiedad 'generated.dir' 
@@ -57,6 +58,9 @@ Compilación completa del proyecto
 		$ ant instalador   # crea el instalador para el usuario final
 		$ cd ..            # listo		
 		
-
+	VIEJO Entorno integrado:
+		NO es requerido.
+		$ cd simpledi
+		$ ant              # genera el simpledi.jar. Ver README.txt.
 
 
