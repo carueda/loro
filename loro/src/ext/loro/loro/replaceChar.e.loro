@@ -1,0 +1,14 @@
+package loro
+
+specification replaceChar(s: string, oldChar, newChar: char) -> t: string
+    ''Returns a new string resulting from replacing 
+    all occurrences of oldChar in this string with newChar.''
+    input
+        s: ''a string''
+        oldChar: ''character to be replaced.''
+        newChar: ''new character.''
+    output
+        t: ''resulting string''
+    pre  { s != null }
+    post { ''t = s with all oldChar's replaced by newChar'' }
+end specification

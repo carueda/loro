@@ -1,0 +1,8 @@
+package loro
+
+algorithm replaceChar for replaceChar(s:string,oldChar:char,newChar:char)->t:string
+implementation "bsh" 
+{%
+	return s.replace(oldChar, newChar);
+%}
+end algorithm
