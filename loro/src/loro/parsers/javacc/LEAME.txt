@@ -1,0 +1,314 @@
+Especificación JavaCC para Loro
+Carlos Rueda
+FECHA ORIGINAL      : 1998-01-28
+ULTIMA ACTUALIZACION: 2004-07-05
+$Id$
+
+	loro_es.jj : especificación para español
+	loro_en.jj : especificación para ingles
+	
+COMPILACIÓN: Ver build.xml.
+
+ACTUALIZACIONES:
+
+		2004-07-05
+		- Algunas reglas se han hecho menos estrictas:
+			- Elementos de documentacion ahora son opcionales
+			- PRE/POST ahora son opcionales
+			- Tag para cerrar ambitos son ahora opcionales en
+			  la mayor parte de las construcciones: Ejemplo:
+			     clase
+			        ...
+			     fin
+			    
+		- loro.jj es la especificacion para el idioma ingles:
+		  La gramatica es exactamente la misma EXCEPTO:
+			- conjunto de palabras reservadas (seccion de lexico)
+			- produccion para()
+			  Esto es necesario por las idiosincracias entre los
+			  dos idiomas.
+
+		2004-06-22
+		- unicode scape sequences for accents in reserved
+		  words and identifiers.
+
+		2003-05-05
+		- En e_prefijoPrimaria() se probó posibilidad de explicitar el tipo
+		  de los elementos de una expresión arreglo, ej:
+				[entero 45, 'c']
+		  lo que permitiría indicar un arreglo vacío, ej:
+				[entero]
+		  pero se deja entre comentarios por ahora.
+ 
+		2003-04-23
+		- accionInterprete() incluye meta-comandos
+
+		2003-03-18
+		- ";" opcional al final de:
+			- indicación de paquete
+			- indicación utiliza
+			- cada atributo en definición de clase
+
+		2003-03-14
+		- Incluida variante "foreach"  ("para" .. "en" expresion ..)
+
+		2003-02-15
+		- Segunda cadena para "implementación" es ahora opcional:
+			<IMPLEMENTACION> leng=timpl() [ lengAdic=timpl() ] [";"]
+
+		2002-11-27
+		- Nueva producción e_este()
+		- Nuevo palabra reservada "interfaz", que es la palabra correcta
+		  según la RAE.  Por ahora se deja también "interface".
+		- Se pone opcional palabra "estrategia" en constructor (la sintaxis
+		  de los constructores está por revisarse en general).
+
+		2002-11-21
+		- Nuevas palabras reservadas y sintaxis correspondiente para:
+			lance, intente, atrape, siempre.
+
+		2002-10-25
+			- Modificada gramatica para aceptar coma "," al final de la lista de
+			  expresiones en definición de arreglo enumerado.
+
+		2002-10-22
+			- Nuevo accionesInterprete()
+          - En declDesc() ahora es opcional ":" antes de tdoc()
+
+		2002-10-09
+			- Agregado elemento léxico IMPL:  {%texto%} para info o código
+			  en implementación usando otro lenguaje. No terminal: timpl
+
+		2002-10-06
+			- Permitido TEXT_DOC en afirmacion()
+			- Ahora se acepta sólo una comilla sencilla (') al final de un ID
+
+		2002-09-16
+			- Agregados: tidEOF y tnombreEOF()
+
+		2002-08-26
+			- Agregado elemento léxico TEXT_DOC: ''texto'' para cadenas de documentación.
+			  Este se usa en la producción tdoc().
+
+			- Agregado elemento léxico GUIDE:  {{texto}}
+			que no se referencia en ninguna parte de la sintaxis pero permite
+			indicar puntos que deben ser reemplazados por código válido en
+			plantillas.
+
+		2002-05-24
+			Nueva forma de indicar tipo:
+				"interface" tnombre()
+  
+		2002-05-05
+      	- Nueva producción interface_()
+      	- Nueva producción unidad() para las alternativas de unidad.
+			- Alternativa "especificación" | "operación" para especificacion()
+			- Alternativa "algoritmo" | "método" para algoritmo()
+
+		2002-04-03
+		- Nuevas palabras clave "operacion", "metodo", "objeto"
+
+		2002-03-27
+		- Nueva palabra clave "como" para conversion de tipo:
+			expresion "como" ntipo
+		  YA no se acepta la sintaxis:
+			ntipo "(" expresion ")"
+		- Aumentada gramatica para aceptar expresiones arreglo, ej:
+			[1,3,6,2]
+		  El arreglo debe tener por lo menos una expresion.
+
+		2002-03-19
+		- Agregados elementos "si_no_si" opcionales en una decision.
+		- Ahora son opcionales la palabras "descripcion" y "estrategia"
+        que van antes de la cadena correspondiente.
+      - Ahora un algoritmo puede tener la palabra "descripcion" para su
+        descripcion a cambio de "estrategia". 
+
+		2002-02-13
+              - Se cambia de nuevo indicacion de etiqueta:
+                  de   : etiqueta     en declaracion (ciclo)
+                       etiqueta       en uso (termine, continue).
+			  a    /etiqueta/ tanto en declaracion como en referencia.
+
+		2002-01-07 -> 2002-01-10
+			Creacion de nodos con ConstructorArbol.
+			
+		2002-01-05
+			- Se ha resuelto el asunto de ``crear[10..15]'', haciendo
+			  que un literal real obligue a tener algun digito despues
+			  del punto; es decir, ahora ``6.'' NO es literal real valido;
+			  no creo que esta exigencia vaya en contra de la filosofia
+			  de Loro, en cambio hace mas comoda la escritura de rangos
+			  con literales enteros.
+
+		2001-12-12
+			- Mecanismo adicional para crear arreglos:
+					crear [m .. n] <tipo>
+			Pendiente: resolver casos ``crear[10..15]'' ya que se toma
+			primero el literal real ``10.'', por lo que ahora se requiere
+			que haya espacio antes de ``..''
+
+      2001-11-05
+		   - aparece:  interface
+
+      2001-10-25
+              - Se cambia indicacion de etiqueta:
+                  de:  <etiqueta>
+                  a:   : etiqueta     en declaracion (ciclo)
+                       etiqueta       en uso (termine, continue).
+
+      2001-10-18
+              - Se quita id para constructor.
+
+      2001-10-07
+              - Reaparece palabra reservada "es_instancia_de" (a cambio de "es" que desaparece).
+
+      2001-10-01
+              - Nueva produccion: Nodo accionInterprete() para las lineas ingresadas
+                en el Interprete.
+
+      2001-09-25
+              - Reformada gramatica para clases: ahora hay que agregar una
+                cadena de documentacion para cada atributo:
+                    id : tipo : STRING_LITERAL
+
+      2001-02-04
+              - Nuevas palabras reservadas: "ciclo", "termine", "continúe"
+              - Nuevas acciones NCiclo, NTermine, NContinue.
+              - Nuevas palabras reservadas: "éste", "super".
+
+      2000-08-05
+              - Se deja opcional la palabra "clase" en tipo().
+
+  2000-08-04
+      - Desaparecen palabras reservadas:
+          escriba
+          leerAlgoritmo
+          leerBooleano
+          leerCadena
+          leerCaracter
+          leerEntero
+          leerReal
+        y las producciones escriba() y e_leer()
+
+        Ahora estos procesos Loro se especifican en loro con implementaciones
+        en Java.
+
+  2000-07-15
+      - Desaparecen palabras reservadas "nativo" y "java".
+        Para lograr el mecanismo de implementacion en otro lenguaje,
+        se define mejor la nueva palabra reservada "implementacion";
+        a continuacion de esta palabra se deben indicar dos literales
+        cadena: la primera se supone que indicando el lenguaje en que
+        se implementa el algoritmo, y la segunda indicando cualquier
+        tipo de informacion adicional que requiera el implementador.
+        Desde luego, aunque parece bastante general, esto esta pensado
+        mas para Java, por lo que es posible que esto se cambie en un
+        futuro.
+
+      - Desaparece palabra reservada "es_instancia_de" y aparece "es".
+
+  2000-06-29
+      - Nueva palabra reservada "global", pero sin ningun
+        tratamiento adicional. PENDIENTE
+
+      - Nuevo separador "::" para paquetes.
+        Vea nombre(), e_nombre() y claseJava().
+        claseJava() se definio para que siga siendo
+        con "." siguiendo las especificaciones de Java.
+
+  2000-06-27
+      - package loro.loro.nucleo;
+
+  2000-06-23
+      - Se cambio id() por nombre() en algunos sitios:
+          - "algoritmo" [id()] "para" nombre() ...
+          - "algoritmo" "para" nombre() ...       (tipo)
+          - "clase" nombre()              (tipo)
+          - "leerAlgoritmo" "(" nombre() ")"
+
+  2000-06-22
+      - Se renombra:
+          NUnidad  unidad() ...
+        a
+          NFuente fuente() ...
+
+  2000-06-20
+      - Aparecen nuevas palabras reservadas:
+          "extiende", "es_instancia_de"
+
+      - Aparece nueva producción e_instancia()
+
+      - Se agrega mecanismo "extiende" a declaración de clase.
+
+  2000-06-17
+      - Se importa el nuevo paquete de nodos:
+          import loro.arbol.*;
+
+      - Aparece nuevas palabras reservadas:
+          "paquete", "nativo", "java"
+
+      - Aparecen nuevas construcciones (estilo Java) para
+        declarar "paquete" y "utiliza"r (import) otros
+        elementos.
+
+      - Desaparece mecanismo "utiliza id/id" dentro de algoritmo.
+
+      - Aparece posibilidad de indicar que un algoritmo está
+        implementado de manera nativa (Java).
+        En prueba inicial.
+
+
+  May/03/1999
+      - Manejo de "constante" e inicialización de variables.
+      - Mejoramiento del chequeo de los constructores.
+  May/02/1999
+      - Inicio de ajustes para operadores más "a la Java".
+      - Se quita palabra reservada "con" para las
+        expresiones "cuantificadas"; se usa la coma ",".
+      - El operador ^ no es más para potenciación sino
+        para XOR
+      - Se incluyen >>>, &, |, ?:
+
+  Abr/30/1999
+      - Mejoramiento general de las producciones
+
+  Abr/29/1999
+      - Se inicia manejo de clases, objetos y constructores
+
+  Abr/28/1999
+      - Se permiten tildes en palabras reservadas
+
+  Abr/27/1999
+      - Se inicia manejo de variables semánticas
+
+  Abr/24/1999
+      - Se agrega acción afirmacion()
+      - desaparecen palabras reservadas: lectura, escritura
+
+  Abr/24/1999
+      - Se mejora gramática para asignación.
+      - Para cuando se presenta TokenMgrError, se ha modificado el
+        fuente TokenMgrError.java:
+          Se agregan dos atributos:  int lin, col;
+          En el constructor apropiado se agrega:
+              lin = errorLine;
+              col = errorColumn;
+        Estos campos los usa LoroITraductor para convertir el error en
+        una TraduccionException. Abr/24/1999.
+        Se ponen los mensajes en español.
+      - También se ha ajustado ParseException.java
+        para poner los mensajes en español.
+
+  Abr/22/1999
+      - Múltiple declaración: a, b, c: entero
+      - Asignación como expresión: a := b := c:= 0
+  Abr/19/1999
+      - Se deja leerAlgoritmo(ID) y se eliminan
+          leer algoritmo para ID
+          leerAlgoritmo(expr)
+  Abr/13/1999
+      - "o", "y" dejan de ser palabras reservadas
+      - Se opta por los operadores: &&, ||
+      - El operador de concatenación es +, como en Java.
+
