@@ -95,7 +95,6 @@ TOKEN : // other reserved words
 {
 	< ALGORITHM: "algorithm">
   | < CATCH: "catch">
-  | < DOWNTO: "downto">
   | < CASE: "case" >
   | < LOOP: "loop" >
   | < TRUE: "true" >
@@ -114,7 +113,6 @@ TOKEN : // other reserved words
   | < INSTANCEOF: "instanceof">
   | < SPECIFICATION: "specification">
   | < THIS: "this">
-  | < STRATEGY: "strategy">
   | < EXISTS: "exists">
   | < EXTENDS: "extends">
   | < FALSE: "false" >
@@ -130,14 +128,14 @@ TOKEN : // other reserved words
   | < THROW: "throw">
   | < METHOD: "method">
   | < WHILE: "while" >
-  | < NADA: "nada">        // <<<<<<<<--------------------
   | < NULL: "null">
   | < OBJECT: "object">
   | < OPERATION: "operation">
   | < PACKAGE: "package">
   | < FOR: "for">
+  | < DOWNTO: "downto">
+  | < BY: "by" >
   | < FORALL: "forall">
-  | < STEP: "step" >
   | < POST: "post">
   | < PRE: "pre">
   | < REPEAT: "repeat">
@@ -470,10 +468,10 @@ NConstructor constructor() :
 {
 	tini=<CONSTRUCTOR> "(" [ ent=declaraciones() ]  ")"
 	   [ LOOKAHEAD(2) [ <DESCRIPTION> ] d=tdoc() ]
-	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
+	   [    <INPUT> dent=descripciones()  ]
 	   [    <PRE>  pre=afirmacion()  ]
 	   [    <POST> pos=afirmacion()  ]
-	[ [ <DESCRIPTION> | <STRATEGY> ] e=tdoc() ]
+	[ [ <DESCRIPTION> ] e=tdoc() ]
 	<BEGIN>
 		a=acciones()
 	tfin=<END> [ LOOKAHEAD(2) tfin=<CONSTRUCTOR> ]
@@ -502,8 +500,8 @@ NEspecificacion especificacion() :
 		i=tid() "(" ( ent=declaraciones() )?  ")"
 			( "->" sal=declaraciones() )?
 		[ [ <DESCRIPTION> ] d=tdoc() ]
-	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
-	   [    <OUTPUT>  ( "nada" | dsal=descripciones() )  ]
+	   [    <INPUT> dent=descripciones()  ]
+	   [    <OUTPUT>  dsal=descripciones() ]
 	   [    <PRE>  pre=afirmacion()  ]
 	   [    <POST> pos=afirmacion()  ]
 	tfin=<END> [ LOOKAHEAD(2) ( tfin=<SPECIFICATION> | tfin=<OPERATION> ) ]
@@ -562,7 +560,7 @@ NAlgoritmo algoritmo() :
 	[id=tid()] <FOR> esp=tnombre() "(" [ent=declaraciones()]  ")"
 			[ "->" sal=declaraciones() ]
 	(
-		[ [ <DESCRIPTION> | <STRATEGY> ] d=tdoc() ]
+		[ [ <DESCRIPTION> ] d=tdoc() ]
 		<BEGIN>
 			a=acciones()
 	  |
@@ -996,9 +994,9 @@ NIteracion para() :
 {
 	ti=<FOR> [ "/" etq=tid() "/" ] ( LOOKAHEAD(2) d=declaracion() | i=tid() )
 	(
-		(<FROM> | ":=") ed=expresion()     (<DOWNTO> { b = true; } )?
-		(<STEP> ep=expresion())?
-		<TO> eh=expresion()
+		(<FROM> | ":=") ed=expresion()     
+		( <TO>   |  <DOWNTO> { b = true; } ) eh=expresion()
+		[ <BY> ep=expresion() ]
 		<DO>
 			a=acciones()
 		tf=<END> [ LOOKAHEAD(2) tf=<FOR> ]
