@@ -5,6 +5,7 @@ $Id$
 2004-06-23 Version 0.7.95
 	- Continuing localizing strings.
 	- LoroEjecutor* ready.
+	- tabsimb/ ready.
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 Version 0.7.95

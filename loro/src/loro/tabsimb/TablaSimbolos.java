@@ -1,5 +1,6 @@
 package loro.tabsimb;
 
+import loro.Loro.Str;
 import loro.ISymbolTable;
 import loro.util.Util;
 import loro.util.UtilValor;
@@ -11,6 +12,8 @@ import java.util.Stack;
 /**
  * Esta clase representa una tabla de símbolos.
  * Cada elemento de esta tabla es una EntradaTabla.
+ *
+ * @version $Id$
  */
 public class TablaSimbolos implements ISymbolTable
 {
@@ -52,7 +55,7 @@ public class TablaSimbolos implements ISymbolTable
 		if ( prev != null )
 		{
 			throw new TSException(
-				"Identificador '" +id+ "' ya declarado"
+				Str.get("error.1_id_already_defined", id)
 			);
 		}
 		tabla.addElement(et);

@@ -1,5 +1,7 @@
 package loro.tipo;
 
+import loro.Loro.Str;
+
 ///////////////////////////////////////////////////////////
 /**
  * Tipo caracter.
@@ -38,7 +40,7 @@ class TipoCaracter extends TipoBasico
 	//////////////////////////////////////////////////////////////////////
 	public String toString()
 	{
-		return "caracter";
+		return Str.get("character");
 	}
 
 	/** Valor por defecto para un caracter Loro: '\u0000' */

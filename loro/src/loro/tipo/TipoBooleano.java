@@ -1,5 +1,8 @@
 package loro.tipo;
 
+import loro.Loro.Str;
+
+
 ///////////////////////////////////////////////////////////
 /**
  * Tipo booleano.
@@ -31,7 +34,7 @@ class TipoBooleano extends TipoBasico
 	//////////////////////////////////////////////////////////////////////
 	public String toString()
 	{
-		return "booleano";
+		return Str.get("boolean");
 	}
 
 	/** Valor por defecto para un booleano Loro: falso */

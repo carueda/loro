@@ -1,8 +1,6 @@
 package loro.tabsimb;
 
-
-
-
+import loro.Loro.Str;
 import loro.tipo.Tipo;
 
 /////////////////////////////////////////////////////////////////////
@@ -86,10 +84,10 @@ public class EntradaTabla
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("id=" +id+ "; ");
-		sb.append("tipo=" +tipo+ "; ");
-		sb.append("asignado=" +asignado+ "; ");
-		sb.append("valor=" +(valor==null? "" : valor.toString())+ "; ");
-		sb.append(esConstante ? " Constante" : "" );
+		sb.append("typw=" +tipo+ "; ");
+		sb.append("assigned=" +asignado+ "; ");
+		sb.append("value=" +(valor==null? "" : valor.toString())+ "; ");
+		sb.append(esConstante ? " Constant" : "" );
 		sb.append("\n" );
 		return sb.toString();
 	}

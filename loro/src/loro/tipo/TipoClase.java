@@ -124,13 +124,13 @@ public class TipoClase extends TipoUnidad
 	 * Retorna una descripcion breve de este tipo en uno de los estilos:
 	 *
 	 *		baz::Foo    nombre conocido
-	 *		&lt;clase?&gt;    si no hay nombre (no deberia suceder)
+	 *		&lt;class?&gt;    si no hay nombre (no deberia suceder)
 	 *
 	 * pendiente: REVISAR ESTO!
 	 */
 	public String toString()
 	{
-		return nombre != null ? Util.obtStringRuta(nombre) : "<clase?>";
+		return nombre != null ? Util.obtStringRuta(nombre) : "<class?>";
 	}
 
 

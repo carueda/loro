@@ -1,5 +1,7 @@
 package loro.tipo;
 
+import loro.Loro.Str;
+
 ///////////////////////////////////////////////////////////
 /**
  * Tipo entero.
@@ -52,7 +54,7 @@ class TipoEntero extends TipoBasico
 	//////////////////////////////////////////////////////////////////////
 	public String toString()
 	{
-		return "entero";
+		return Str.get("integer");
 	}
 
 	/** Valor por defecto para un entero Loro: 0 */

@@ -1,5 +1,6 @@
 package loro.tipo;
 
+import loro.Loro.Str;
 import loro.ijava.LAlgoritmo;
 import loro.java.LAlgoritmoImp;
 import loro.arbol.NAlgoritmo;
@@ -56,7 +57,7 @@ public class TipoEspecificacion extends TipoUnidad
 			return true;	// PENDIENTE: Faltan funcionalidades para LAlgoritmo
 		}
 
-		throw new RuntimeException("Uy! TipoEspecificacion.esAsignableValor con " +val.getClass());
+		throw new RuntimeException("Internal error: TipoEspecificacion.esAsignableValor " +val.getClass());
 	}
 
 
@@ -123,13 +124,11 @@ public class TipoEspecificacion extends TipoUnidad
 	/////////////////////////////////////////////////////////////////////
 	public String toString()
 	{
-		if ( nombre != null )
-		{
-			return "algoritmo para " +loro.util.Util.obtStringRuta(nombre);
+		if ( nombre != null ) {
+			return Str.get("algorithm_for")+ " " +loro.util.Util.obtStringRuta(nombre);
 		}
-		else
-		{
-			return "algoritmo";
+		else {
+			return Str.get("algorithm");
 		}
 	}
 
