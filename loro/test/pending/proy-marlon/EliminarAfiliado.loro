@@ -1,0 +1,48 @@
+especificacion eliminarAfiliado(afiliado:[]persona)
+    descripcion "Mostrar y ejecutar el contenido de eliminar afiliado"
+	entrada
+	afiliado:"socio del video"    
+	pre{"codigo afiliado valido"}
+    pos{"afiliado eliminado"}
+fin especificacion
+
+algoritmo para eliminarAfiliado(afiliado:[]persona)
+    estrategia"	1.declarar variables 
+               	2. inicializa codigo en 0
+		3. leer el codigo"
+    
+
+	inicio
+	codigo:entero;
+	op1,i,j:entero;
+	op1 := 0;
+	mientras(op1 = 0)haga
+		escribir("\nIngrese el codigo del afiliado: ");
+		codigo := leerEntero();	
+		para i desde 0 hasta 19 haga
+			si(afiliado[i].codigo = codigo)entonces
+				j := 0;
+				op1 := 0;
+			si_no
+				j := 1;
+				op1 := 1;
+			fin si;
+		fin para;
+		si (j = 1)entonces
+			escribir("\nEl codigo no existe...");
+		fin si;
+	fin mientras;
+	para i desde 0 hasta 19 haga
+		si(afiliado[i].codigo = codigo)entonces
+			j := i;			
+			afiliado[i].nombre := "*";
+			afiliado[i].cedula := "*";
+			afiliado[i].direccion := "*";
+			afiliado[i].telefono:= "*";
+			afiliado[i].refNombre := "*";
+			afiliado[i].refTelefono := "*";			
+		fin si;
+	fin para;
+	afiliado[j].codigo := -1;
+fin algoritmo
+

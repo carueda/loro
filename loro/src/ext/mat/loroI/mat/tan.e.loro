@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación tan(val: real) -> res: real
+	descripción
+		''Obtiene la tangente de un angulo.''
+	entrada
+		val: ''Angulo en radianes.''
+	salida
+		res : ''La tangente del angulo.''
+	pre { cierto }
+	pos { res = tangente' }
+fin especificación

@@ -1,0 +1,35 @@
+//
+// Demostración de llamada un algoritmo Loro implementado
+// en Java que a su vez invoca una algoritmo Loro.
+//
+
+/////////////////////////////////////////////////////////////////
+especificación ejecutarAlgoritmoLoro(nombre: cadena)
+descripción "Ejecuta el algoritmo de nombre dado."
+entrada nombre: "Nombre del algoritmo a ejecutar."
+pre { nombre != nulo }
+fin especificación
+
+/////////////////////////////////////////////////////////////////
+algoritmo para ejecutarAlgoritmoLoro(nombre: cadena)
+implementacion "java" "loro.java.loroI.Prueba"
+fin algoritmo
+
+/////////////////////////////////////////////////////////////////
+especificación demoJava()
+	descripcion ""
+fin especificación
+
+/////////////////////////////////////////////////////////////////
+algoritmo para demoJava()
+estrategia "Simple"
+inicio
+	escribir("Introduzca el nombre de un algoritmo Loro\n" +
+	  "(Deje en blanco para usar loroI::mat::obtRealAleatorio): ");
+	nombre: cadena := leerCadena();
+	si nombre.longitud = 0 entonces
+		nombre := "loroI::mat::obtRealAleatorio";
+	fin si;
+	escribirln("-----Invocando " +nombre+ "-----");
+	ejecutarAlgoritmoLoro(nombre);
+fin algoritmo

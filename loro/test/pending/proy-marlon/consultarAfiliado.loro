@@ -1,0 +1,37 @@
+especificacion consultarAfiliado(afiliado:[]persona)
+    descripcion "Mostrar y ejecutar el contenido de consultar afiliado"
+	entrada
+	afiliado:"socio del video"
+    pre{"codigo afiliado"}
+    pos{"datos del afiliado"}
+fin especificacion
+
+algoritmo para consultarAfiliado(afiliado:[]persona)
+    estrategia"1.declarar variables 
+               2."
+    
+
+	inicio
+	codigo,op1,i:entero;
+	op1 := 1;
+	mientras(op1 = 1)haga
+		escribir("Escriba el codigo del afiliado: ");
+		codigo := leerEntero();
+		para i desde 0 hasta 19 haga
+			si(afiliado[codigo].codigo = i	)entonces
+				escribir("\nNombre: "+afiliado[codigo].nombre);
+				escribir("\nCedula: "+afiliado[codigo].cedula);
+				escribir("\nDireccion: "+afiliado[codigo].direccion);
+				escribir("\nTelefono: "+afiliado[codigo].telefono);
+				escribir("\nCodigo: "+afiliado[codigo].codigo);
+				escribir("\nReferencia Nombre: "+afiliado[codigo].refNombre);
+				escribir("\nReferencia Telefono: "+afiliado[codigo].refTelefono);
+				op1 := 0;
+			si_no
+				escribir("\nCodigo errado...");
+				op1 :=1;
+			fin si;
+		fin para;
+	fin mientras;	
+fin algoritmo
+

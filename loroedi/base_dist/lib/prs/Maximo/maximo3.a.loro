@@ -1,0 +1,18 @@
+algoritmo para maximo3(m, n, p: entero) -> max: entero
+descripcion
+	''Estrategia: se utiliza una decision con elementos 'si_no_si'
+	para decidir cual es el numero mas grande. En cada condicion
+	se hacen dos comparaciones al tiempo.
+
+	Hay muchas otras maneras de solucionar este problema. 
+	Por ejemplo solo haciendo UNA comparacion en cada
+	condicion (posiblemente requiriendo mas condiciones).''
+inicio
+	si m >= n && m >= p entonces
+		max := m;
+	si_no_si n >= m && n >= p entonces
+		max := n;
+	si_no
+		max := p;
+	fin si;
+fin algoritmo

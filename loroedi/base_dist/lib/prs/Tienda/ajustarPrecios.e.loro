@@ -1,0 +1,17 @@
+
+
+especificacion ajustarPrecios(codigo: []entero, precio: []real, num_articulos: entero, porcentaje: entero)
+	descripcion
+		"Ajusta los precios de todos los articulos de la tienda en el porcentaje
+		 especificado"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+		porcentaje: "Porcentaje de ajuste de precio"
+	pre
+		{ cierto }
+	pos
+		{ para_todo i: entero, 0 <= i && i < num_articulos: 
+		  (precio[i] = precio[i] * porcentaje / 100.0) }
+fin especificacion

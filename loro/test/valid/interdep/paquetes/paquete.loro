@@ -1,0 +1,5 @@
+paquete misc;
+
+especificacion espec()
+descripcion ""
+fin especificacion

@@ -1,0 +1,12 @@
+
+especificación crearAS(fuente: cadena) -> as: AS
+	descripción 
+		''Crea un objeto para control del análisis sintáctico
+		sobre la cadena fuente dada.''
+	entrada 
+		fuente: ''La cadena de entrada.''
+	salida
+		as: ''El objeto de control.''
+	pre { fuente != nulo }
+	pos { as != nulo }
+fin especificación

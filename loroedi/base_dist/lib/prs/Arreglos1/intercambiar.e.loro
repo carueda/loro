@@ -1,0 +1,22 @@
+especificacion intercambiar(arreglo: []entero, i, j: entero)
+	descripcion 
+	''Intercambia los contenidos de las posiciones i y j
+	de un arreglo de enteros.''
+
+	entrada 
+		arreglo: ''El arreglo de números enteros.''
+		i: ''Indice de una posición dentro de a.''
+		j: ''Indice de otra posición dentro de a.''
+
+	pre { arreglo.inf <= i && i <= arreglo.sup && 
+	      arreglo.inf <= j && j <= arreglo.sup && 
+	      arreglo[i] = ai' && arreglo[j] = aj' }
+
+	pos { arreglo[i] = aj' && arreglo[j] = ai' }
+	
+// Ejercicio:
+// Esta poscondición está incompleta. Escriba un algoritmo
+// que rompa el supuesto contrato y sin embargo "pase"
+// esta poscondicion.
+	   
+fin especificacion

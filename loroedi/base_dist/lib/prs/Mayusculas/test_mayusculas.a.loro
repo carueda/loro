@@ -1,0 +1,9 @@
+algoritmo para test_mayusculas(alg: algoritmo para mayusculas)
+descripcion ''Unas cuantas afirmaciones de igualdad con resultados esperados,
+	por ejemplo, { alg("Hola Mundo") = "HOLA MUNDO" };''
+inicio
+	{ alg("") = "" };
+	{ alg("Hola Mundo") = "HOLA MUNDO" };
+	{ alg("esto esta en minusculas") = "ESTO ESTA EN MINUSCULAS" };
+	{ alg("0123456789") = "0123456789" };
+fin algoritmo

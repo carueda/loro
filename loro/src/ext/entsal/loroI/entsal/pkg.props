@@ -1,0 +1,8 @@
+#Propiedades de paquete
+#Mon Oct 07 01:07:21 PDT 2002
+spec.2=esDirectorio
+spec.1=obtDirectorio
+spec.0=esArchivo
+alg.2=esDirectorio, loroI\:\:entsal\:\:esDirectorio
+alg.1=obtDirectorio, loroI\:\:entsal\:\:obtDirectorio
+alg.0=esArchivo, loroI\:\:entsal\:\:esArchivo

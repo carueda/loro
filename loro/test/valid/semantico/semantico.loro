@@ -1,0 +1,11 @@
+
+especificacion semantico(n, v: entero) -> a: []entero
+descripcion ""
+entrada
+	n: ""
+	v: ""
+salida
+	a: ""
+pre { n = n' && n' >= 0 && v = v'}
+pos { cierto }
+fin especificacion

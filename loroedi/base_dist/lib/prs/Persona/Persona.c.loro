@@ -1,0 +1,7 @@
+clase Persona
+	descripción 
+	   ''Una persona es una entidad con un nombre y una edad.''
+
+	nombre: cadena := "NN"  : ''Nombre de la persona.'';
+	edad: entero := 33      : ''Edad de la persona.'';
+fin clase

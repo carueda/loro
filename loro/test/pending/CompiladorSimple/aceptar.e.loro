@@ -1,0 +1,13 @@
+
+especificación aceptar(as: AS, t: caracter)
+	descripción 
+		''Intenta aceptar el token dado.
+		Si éste coincide con el lookahead, la aceptación
+		se da y se actualiza lookahead con el siguiente
+		token de la entrada. Si no, se reporta un error 
+		de sintaxis.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+		t: ''El token a tratar de aceptar.''
+	pre { as != nulo }
+fin especificación

@@ -1,0 +1,14 @@
+
+
+especificacion realizarCompraPpal(codigo: []entero, precio: []real,
+					num_articulos: entero) 
+	descripcion 
+		"Despliega los mensajes de solicitud de articulos a comprar y la 
+		 cantidad de cada uno de ellos e imprime el monto de  la compra"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+	pre
+		{ cierto }
+fin especificacion

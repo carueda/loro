@@ -1,0 +1,20 @@
+paquete loroI::mat;
+
+algoritmo potDC para pot(base:real, n:entero) -> res:real
+	estrategia ''Potenciacion con dividir y conquistar.''
+inicio
+	si n = 0 entonces
+		retorne 1.0;
+	fin si;
+
+	// se soluciona el problema de tamano la mitad:
+	res := potDC(base, n/2);
+
+	// esta solucion se eleva al cuadrado
+	res := res * res;
+
+	// si n es impar, falta multiplicar una base mas:
+	si n % 2 = 1 entonces
+		res := res * base;
+	fin si;
+fin algoritmo

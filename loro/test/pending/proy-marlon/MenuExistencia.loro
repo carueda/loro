@@ -1,0 +1,109 @@
+especificacion menuExistencia(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+	descripcion "Mostrar y ejecutar el contenido de menu existencia"
+	entrada
+	afiliado:"socio del video"
+	peliculas:"Elemento que presta el video"
+	alquiler:"servicio que presta el video"
+	pre{"nombre"}
+	pos{"si el video esta disponible o no"}
+fin especificacion
+
+algoritmo para menuExistencia(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    estrategia"1.declarar variables 
+               2.leer las variables"
+
+    inicio
+	op,op1,i,j,codigo,index:entero;
+	genero:cadena;
+	nombre:cadena;
+	op := 0; 
+	mientras(op = 0)haga
+		escribirln("VIDEO VARIEDADES");
+		escribirln("Menu Existencia");
+		escribirln("1. Buscar video");
+		escribirln("2. Ingresar video");
+		escribirln("3. eliminar video");
+		escribirln("4. Volver");
+		op := leerEntero();
+		si(op = 1)entonces
+			op1 := 1;
+			mientras(op1 = 1)haga
+				escribir("Escriba el codigo de la pelicula");
+				codigo := leerEntero();
+				para i desde 0 hasta 99 haga
+					si(peliculas[codigo].codigo = i)entonces
+						escribir("\nNombre: "+peliculas[codigo].nombre);
+						escribir("\nGenero: "+peliculas[codigo].genero);
+						escribir("\nEstado: "+peliculas[codigo].estado);
+						escribir("\nCodigo: "+peliculas[codigo].codigo);
+						op1 := 0;
+					si_no
+						escribir("\nCodigo errado...");
+						op1 :=1;
+					fin si;
+				fin para;
+			fin mientras;	
+			op := 0;
+		fin si;
+		si(op = 2)entonces
+			op1 := 0;
+			mientras(op1 = 0)haga
+				escribir("\nIngrese el nombre de la pelicula: ");
+				nombre := leerCadena();	
+				para i desde 0 hasta 99 haga
+					si(peliculas[i].nombre = nombre)entonces
+						escribir("\nLa pelicula ya existe...");
+						op1 := 0;
+					si_no
+						op1 := 1;
+					fin si;
+				fin para;
+			fin mientras;
+			para i desde 0 hasta 99 haga
+				si(peliculas[i].codigo = -1)entonces
+					index := i;
+				fin si;
+			fin para;
+			escribir("\nIngrese el genero: ");
+			genero := leerCadena();	
+			peliculas[index].genero := genero;
+			peliculas[index].codigo := index;
+			peliculas[index].estado := "disponible";
+			op := 0;
+		fin si;
+		si(op = 3)entonces
+			op1 := 0;
+			mientras(op1 = 0)haga
+				escribir("\nIngrese el codigo de la pelicula: ");
+				codigo := leerEntero();	
+				para i desde 0 hasta 99 haga
+					si(peliculas[i].codigo = codigo)entonces
+						j := 0;
+						op1 := 0;
+					si_no
+						j := 1;
+						op1 := 1;
+					fin si;
+				fin para;
+				si (j = 1)entonces
+					escribir("\nEl codigo no existe...");
+				fin si;
+			fin mientras;
+			para i desde 0 hasta 99 haga
+				si(peliculas[i].codigo = codigo)entonces
+					j := i;			
+					peliculas[i].nombre := "*";
+					peliculas[i].genero := "*";
+					peliculas[i].estado := "*";
+				fin si;
+			fin para;
+			peliculas[j].codigo := -1;
+			op := 0;
+		fin si;
+		si(op = 4)entonces
+			menuPrincipal(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+	fin mientras;
+fin algoritmo
+

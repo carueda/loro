@@ -1,0 +1,23 @@
+/*
+	Compilacion interactiva:
+	(revision con algoritmo recursivo. Ver pru2.loro).
+*/
+
+///////////////////////////////////////////////////
+especificacion baz(n: entero)
+descripcion ""
+entrada n: "un numero"
+pre { cierto }
+fin especificacion
+
+///////////////////////////////////////////////////
+algoritmo para baz(n: entero)
+estrategia "..."
+inicio
+	escribirln("n = " +n);
+	si n > 0 entonces
+		escribir("Entre un numero (<= 0 para terminar): ");
+		m: entero := leerEntero();
+		baz(m);
+	fin si;
+fin algoritmo

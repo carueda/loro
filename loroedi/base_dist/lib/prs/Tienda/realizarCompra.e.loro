@@ -1,0 +1,23 @@
+
+
+especificacion realizarCompra(codigo: []entero, precio: []real, num_articulos: entero,
+				codigos_compra: []entero, cantidades_articulo: []entero) -> monto: real 
+	descripcion 
+		"Dado un arreglo de articulos a comprar, acompañado por un arreglo de
+		 las cantidades de cada ariticulo a comprar, retorna el monto de 
+		 la compra"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos en la tienda"
+		codigos_compra: "Codigos de los articulos a adquirir"
+		cantidades_articulo: "Cantidad de unidades por cada articulo a adquirir"
+	salida
+		monto: "Monto total de la compra"
+	pre
+		{ para_todo i: entero, 0 <= i && i <= #codigos_compra:
+		  (existeArticulo(codigo,num_articulos,codigos_compra[i]) &&
+		   cantidades_articulo[i] >= 0) }
+	pos
+		{ cierto /* Pendiente */ }
+fin especificacion

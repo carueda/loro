@@ -1,0 +1,8 @@
+///////////////////////////////////////////////////////////////
+algoritmo lvalue para PRUEBA()
+	descripcion ""
+inicio
+	a: cadena := "";
+	a.inf := 5;  // error
+	
+fin algoritmo

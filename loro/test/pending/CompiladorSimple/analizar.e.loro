@@ -1,0 +1,8 @@
+
+especificación analizar(fuente: cadena)
+	descripción 
+		''Efectúa el análisis sintáctico de la cadena dada.''
+	entrada 
+		fuente: ''La cadena de entrada.''
+	pre { fuente != nulo }
+fin especificación

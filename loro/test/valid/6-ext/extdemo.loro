@@ -1,0 +1,8 @@
+/////////////////////////////////////////////////////////////
+algoritmo extdemo para PRUEBA()
+descripcion 
+	"Prueba de extension. Se invoca el algoritmo ext::ext()
+	que esta implementado en Java."
+inicio
+	ext::ext();
+fin algoritmo

@@ -1,0 +1,16 @@
+
+
+algoritmo para eliminarArticuloPpal(codigo: []entero, precio: []real, 
+					num_articulos: entero) -> elimino: booleano
+estrategia 
+	"Se solicita el codigo del articulo a eliminar y se retorna
+	 el resultado de invocar a eliminarArticulo"
+inicio
+	art_codigo : entero;
+	art_precio : entero;
+
+	escribir("\nDigite el codigo del articulo: ");
+	art_codigo := leerEntero();
+
+	retorne eliminarArticulo(codigo,precio,num_articulos,art_codigo);	
+fin algoritmo

@@ -1,0 +1,6 @@
+////////////////////////////////////////////////////////////////
+algoritmo retorne_nulo para leerCadena()->v:cadena
+"probar retorno de nulo"
+inicio
+	retorne nulo;
+fin algoritmo

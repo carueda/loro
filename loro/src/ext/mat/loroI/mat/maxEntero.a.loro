@@ -1,0 +1,5 @@
+paquete loroI::mat;
+
+algoritmo para maxEntero(v1, v2: entero) -> max: entero
+	implementacion "java" "loro.java.loroI.Mat";
+fin algoritmo

@@ -1,0 +1,32 @@
+/*
+	BUG:           406436 
+	REPORTADO POR: Marlon J. Manrique
+	CORREGIDO POR: Carlos Rueda
+	FECHA:         2001-08-11
+	
+	- No es posible asignar nulo a una variable de tipo 
+	algoritmo. 
+	- No es posible comparar una variable de tipo algoritmo 
+	con el valor nulo. 
+*/
+
+especificacion bugsAlgoritmos() 
+	descripcion "Bugs en el uso de algoritmos" 
+fin especificacion 
+
+algoritmo para bugsAlgoritmos() 
+	estrategia "" 
+inicio 
+	alg : algoritmo; 
+
+	// Asignacion a variable de tipo algoritmo con valor nulo 
+	// no es posible 
+	alg := nulo; 		// YA LO ES
+
+	// Comparacion alg con valor nulo no es posible 
+	si alg = nulo entonces 		// YA LO ES
+		escribirln("alg = nulo"); 
+	si_no
+		escribirln("alg = " +alg); 
+	fin si; 
+fin algoritmo 

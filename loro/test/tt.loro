@@ -1,0 +1,7 @@
+clase A descripcion "A"
+	e: entero : "un entero";
+fin clase
+
+clase B extiende A descripcion "B"
+	ee: entero : "un entero";
+fin clase

@@ -1,0 +1,85 @@
+
+
+
+algoritmo para tienda()
+estrategia
+	"Se crean los arreglos que alojaran los codigos y precios, con un tamaño dado
+	 por la constante maximo_articulos, se incializa el contador de articulos y se
+	 se entra a desplegar el menu, lo que se hace mientras la opcion que se lea
+	 sea diferente de 10, por cada opcion pedida se invoca la repectiva funcion
+	 o si la opcion no es valida se imprime un mensaje"
+inicio
+	maximo_articulos: entero constante = 20;
+
+	codigo: []entero := crear [maximo_articulos]entero;
+	precio: []real := crear [maximo_articulos]real;
+
+	num_articulos: entero := 0;
+
+	opcion :entero;
+	salir: booleano := falso;
+
+	repita
+		escribir("\n\nMenu\n");
+		escribir("1. Adicionar Articulo.\n");
+		escribir("2. Eliminar Articulo.\n");
+		escribir("3. Numero de articulos.\n");
+		escribir("4. Mostrar precios repetidos.\n");
+		escribir("5. Comprar articulos.\n");
+		escribir("6. Ajustar precio articulo.\n");
+		escribir("7. Ajustar precios.\n");
+		escribir("8. Listar articulos.\n");
+		escribir("\n");
+		escribir("10. Salir");
+
+		escribir("\nEntre una opcion : ");
+
+		opcion := leerEntero();
+
+		segun opcion haga
+			caso 1 : 
+				si adicionarArticuloPpal(codigo,precio,num_articulos) entonces
+					num_articulos := num_articulos + 1; 
+				fin si;
+			fin caso;
+
+			caso 2 : 
+				si eliminarArticuloPpal(codigo,precio,num_articulos) entonces
+					num_articulos := num_articulos - 1; 
+				fin si;
+			fin caso;
+
+			caso 3 : 
+				escribir("\nTipos de Articulos en la tienda: " + num_articulos + "\n");
+			fin caso;
+			
+			caso 4 : 
+				mostrarPreciosRepetidos(codigo,precio,num_articulos);
+			fin caso;
+
+			caso 5 : 
+				realizarCompraPpal(codigo,precio,num_articulos);
+			fin caso;
+
+			caso 6 : 
+				ajustarPrecioPpal(codigo,precio,num_articulos);
+			fin caso;
+
+			caso 7 : 
+				ajustarPreciosPpal(codigo,precio,num_articulos);
+			fin caso;
+			
+			caso 8 : 
+				mostrarArticulos(codigo,precio,num_articulos);
+			fin caso;
+
+			caso 10 : 
+				salir := cierto;
+			fin caso;
+
+			si_no  : 
+				escribir("Opcion (" + opcion + ") NO Valida\n");
+			fin caso;
+		fin segun;
+	hasta salir;
+fin algoritmo

@@ -1,0 +1,13 @@
+paquete loroI::mat;
+
+especificación maxEntero(v1, v2: entero) -> max: entero
+	descripción
+		''Obtiene el maximo de dos numeros enteros.''
+	entrada
+		v1: ''Uno de los valores a comparar.''
+		v2: ''Otro de los valores a comparar.''
+	salida
+		max : ''El maximo de los numeros dados.''
+	pre { cierto }
+	pos { (v1 >= v2 => max = v1) && (v1 < v2 => max = v2) }
+fin especificación

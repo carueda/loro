@@ -1,0 +1,9 @@
+
+especificación nextToken(as: AS)
+	descripción 
+		''Actualiza el objeto de control con el
+		siguiente token de la entrada fuente.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación

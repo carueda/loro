@@ -1,0 +1,63 @@
+algoritmo demo1 para demo()
+estrategia 
+	''Una demostracion que le permite al usuario elegir cual
+	algoritmo utilizar para obtener un cierto numero de la
+	secuencia de Fibonacci.
+
+	Se declara una variable fib de tipo algoritmo para
+	la especificacion fibo. Se presenta un menu para permitirle
+	al usuario que escoja entre ciertos algoritmos o bien
+	que introduzca el nombre completo del algoritmo que desee.''
+inicio
+	// para poner el algoritmo que elija el usuario:
+	fib : algoritmo para fibo;
+
+	// en donde se leera el numero de posicion en la secuencia
+	// que el usuario desea:
+	n : entero;
+
+	escribirln("Los números de Fibonacci");
+	escribirln("Este programa encuentra el n-esimo numero de Fibonacci");
+
+	// ciclo para interactuar con el usuario varias veces
+	// hasta que se desee:
+	ciclo
+		// despliegue un menu de algoritmos para escoger:
+		escribirln("Escoja el algoritmo para fibo: ");
+		escribirln("  i-terativo");
+		escribirln("  r-ecursivo");
+		escribirln("  b-inet ");
+		escribirln("  o-tro");
+		escribir(  "Su eleccion: ");
+		según leerCaracter() haga
+
+			caso 'i':
+				fib := fiboIter;
+			fin caso;
+
+			caso 'r':
+				fib := fiboRecur;
+			fin caso;
+
+			caso 'b':
+				fib := fiboBinet;
+			fin caso;
+
+			si_no:
+				escribir("Nombre de algoritmo: ");
+				alg: algoritmo;
+				alg := obtAlgoritmo(leerCadena());
+				fib := alg como algoritmo para fibo;
+			fin caso;
+		fin según;
+
+		escribir("Introduzca el valor de n: ");
+		n := leerEntero();
+		escribirln("El " +n+ "-esimo Fibonacci es " +fib(n));
+
+		escribir("Desea otra prueba (escriba no para terminar): ");
+		res: cadena := leerCadena();
+		termine si res = "no";
+	fin ciclo;
+	escribirln("Hasta la próxima!");
+fin algoritmo

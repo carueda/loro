@@ -1,0 +1,14 @@
+
+algoritmo para aceptar(as: AS, t: caracter)
+	estrategia ''...''
+inicio
+	si as.lookahead = t entonces
+		nextToken(as);
+	si_no
+		error(as, "
+Error de sintaxis: 
+	Esperado  : " +t+ "
+	Encontrado: " +as.lookahead
+		);
+	fin si;
+fin algoritmo

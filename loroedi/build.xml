@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<!--
+    Build para el entorno LoroEDI
+	2002-10-18 - carueda
+	
+	Consultar primero build.properties
+	
+	Para compilar todo el proyecto:
+		$ ant
+	esto deja los archivos finales en ${dist}
+	
+	Para probar la compilación de fuentes de demostración:
+		$ ant test
+		
+	Para continuar pruebas de la compilación de fuentes de demostración
+	por posibles dependencias sin resolver:
+		$ ant test2
+		
+	Para crear el instalador:
+		$ ant instalador
+		
+	Para lanzar el instalador (como prueba):
+		$ ant instalar
+		
+	Para eliminar archivos intermedios:
+		$ ant clean
+	
+	para eliminar todo lo generado, incluyendo ${dist}:
+		$ ant clean-dist
+			
+	Para empaquetar todos los fuentes del proyecto:
+		$ ant src
+-->
+
+
+<project name="LoroEDI" default="loroedi.jar">
+	<property file="build.properties"/>
+	
+	<!-- Directorio de fuentes -->
+	<property name="src" value="src"/>
+	
+	<!-- 
+	  Directorio imagen para el usuario (docs, demos, etc.)
+	  Este se copia como ${dir.installer} como parte de la creacion
+	  del instalador.
+	-->
+	<property name="base.dist" value="base_dist"/>
+	
+	<!-- Directorio de base para generacion del instalador completo  -->
+	<property name="dir.installer" value="${dist}/base_instalador"/>
+	
+	<!-- Archivo de propiedades para el instalador (plantilla) -->
+	<property name="ni.properties" value="ni.properties"/>
+
+    <!-- Creado a partir de ${ni.properties} para creacion del instalador. -->
+    <property name="tmp.properties" value="__TMP_.PROPS"/>
+	
+	<!-- El archivo de instalacion a crear -->
+	<property name="i.jar" value="instalar-loro-${VERSION}.jar"/>
+	
+	<!-- Para hacer pruebas de compilacion de fuentes Loro -->
+	<taskdef name="loroc" classname="loro.misc.ant.LoroCompilerTask">
+		<classpath>
+			<pathelement location="${loro.dist}/${nucleo.jar}"/>
+		</classpath>
+	</taskdef>
+	
+	
+    <target name="init">
+		<tstamp/>
+
+		<echo message="VERSION = ${VERSION}"/>
+		<echo message="Usando núcleo ${loro.dist}/${nucleo.jar}"/>
+		<echo message="kunststoff.jar = ${kunststoff.jar}"/>
+		<echo message="jgraph.jar     = ${jgraph.jar}"/>
+		<echo message="skinlf.jar     = ${skinlf.jar}"/>
+		
+		<mkdir dir="${build}"/>
+		<mkdir dir="${build}/classes"/>
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${build}/oro"/>
+		
+		<!-- Los .class de LoroEDI dependen del núcleo de Loro -->
+		<dependset>
+            <srcfilelist dir="${loro.dist}" files="${nucleo.jar}"/>
+            <targetfileset dir="${build}/classes" includes="**/*.class"/>
+        </dependset>
+		
+		<!-- recurso info.properties depende de build.properties 
+		     y de ${src}/loroedi/info.properties -->
+		<dependset>
+            <srcfileset dir="." includes="build.properties"/>
+            <srcfileset dir="${src}" includes="loroedi/info.properties"/>
+            <targetfileset dir="${build}/classes" includes="loroedi/info.properties"/>
+        </dependset>
+
+		<available file="${i.nic.jar}" property="nic.presente"/>
+
+		<!-- instalador ${i.jar} depende de ${dir.installer}, ${ni.properties} --> 
+		<dependset>
+            <srcfileset dir="base_dist" includes="**"/>
+            <srcfileset dir="." includes="${ni.properties}"/>
+            <targetfileset dir="${dist}" includes="${i.jar}"/>
+        </dependset>
+    </target>
+
+	<target name="verifique.nic" unless="nic.presente">
+		<fail message="Compilador de nanoInstaller no encontrado: ${i.nic.jar}"/>
+	</target>
+	
+    <target name="loroedi.jar" depends="init, compileedi, img"
+     description="Hace ejecutable loroedi.jar">
+		<copy todir="${build}/classes">
+			<fileset dir="${src}" includes="loroedi/**/*.properties"/> 
+		</copy>
+		
+		<!-- actualizar manifest (ojo: un poco truculento por los cambios
+		     de linea para el echo: lineas en blanco hacen fallar el jar) -->
+		<echo message="Main-class: loroedi.gui.Main" 
+			file="${build}/loroedi.manifest">
+Class-path: ../lib/bsh-core-1.2b6.jar ../lib/${nucleo.jar} ../lib/kunststoff.jar ../lib/skinlf.jar ../lib/jgraph.jar</echo>
+		
+        <jar jarfile="${dist}/loroedi.jar" 
+			manifest="${build}/loroedi.manifest"
+         	basedir="${build}/classes"
+			includes="**"
+		/>
+    </target>
+
+    <target name="compileedi" depends="init, compileSkinLF, info"
+     description="Compila fuentes Java de LoroEDI (no dependientes de SkinLF)">
+	 	<antcall target="info"/>
+		<javac srcdir="${src}" destdir="${build}/classes"
+        	includes="loroedi/**/**.java, util/**/**.java, loroedi/**/*.properties"
+			excludes="**/LookAndFeel_SkinLF.java"
+			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${jgraph.jar}"
+			debug="on"
+		/>
+    </target>
+
+    <target name="compileSkinLF" depends="init" if="skinlf.jar"
+     description="Compila solo los fuentes dependientes de SkinLF">
+       <javac srcdir="${src}" destdir="${build}/classes"
+        	includes="loroedi/laf/LookAndFeel_SkinLF.java"
+			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${jgraph.jar}:${skinlf.jar}"
+			debug="on"
+       />
+    </target>
+
+    <target name="img" depends="init"
+     description="copia ${src}/img/* a ${build}/classes/img">
+        <copy todir="${build}/classes/img">
+            <fileset dir="${src}/img"/>
+        </copy>
+    </target>
+
+    <target name="info"
+     description="Actualiza recurso de info">
+        <copy file="${src}/loroedi/info.properties" todir="${build}/classes/loroedi"/>
+        <replace
+         file="${build}/classes/loroedi/info.properties">
+            <replacefilter token="@VERSION@" value="${VERSION}"/>
+            <replacefilter token="@BUILD@" value="${DSTAMP}"/>
+        </replace>
+    </target>
+
+<!-- .......... Creacion del instalador .................. -->
+
+    <target name="instalador"  depends="loroedi.jar, verifique.nic, prepare-inst, nanoproperties"
+     description="Crea el instalador de LoroEDI">
+	   <java jar="${i.nic.jar}" fork="true">
+            <arg value="-lang"/>
+			<arg value="spa"/>
+            <arg value="${dist}/${tmp.properties}"/>
+			<arg value="${dir.installer}"/>
+			<arg value="${dist}/${i.jar}"/>
+       </java>	
+    </target>
+
+    <target name="prepare-inst"  depends="loroedi.jar"
+     description="Crea y prepara ${dir.installer} para creacion del instalador">
+		<copy todir="${dir.installer}">
+			<fileset dir="base_dist"/> 
+		</copy>
+        <copy todir="${dir.installer}/bin"      file="${dist}/loroedi.jar"/>
+		<copy todir="${dir.installer}/lib"      file="${loro.dist}/${nucleo.jar}"/>
+		<copy todir="${dir.installer}/lib"      file="${kunststoff.jar}"/>
+		<copy todir="${dir.installer}/lib"      file="${jgraph.jar}"/>
+		<copy todir="${dir.installer}/lib"      file="${bsh.jar}"/>
+		<copy todir="${dir.installer}/lib"      file="${skinlf.jar}"/>
+		<copy todir="${dir.installer}/lib/ext">
+			<fileset dir="${loro.dist}/ext"/> 
+		</copy>
+    </target>
+
+  <target name="nanoproperties" depends="init"
+   description="Actualiza las propiedades para hacer el instalador">
+   		<delete file="${dist}/${tmp.properties}"/>
+        <copy file="${ni.properties}" tofile="${dist}/${tmp.properties}"/>
+		<replace file="${dist}/${tmp.properties}">
+			<replacefilter token="@VERSION@" value="${VERSION}"/>
+			<replacefilter token="@BUILD@"   value="${DSTAMP}"/>
+		</replace>
+  </target>
+  
+<!-- .......... Pruebas .................. -->
+
+	<!-- borra primero -->
+	<target name="test" depends="clean-test, test2">
+	</target>
+
+	<!-- para "segundas pasadas" -->
+	<target name="test2" depends="test-demos">
+	</target>
+	
+	<target name="test-demos" depends="loroedi.jar"
+	 description="Compila fuentes Loro de demostracion incluidos en distribucion">
+		<echo message="Compilando fuentes de demostracion..."/>
+		<echo message="***NOTA: Hacer 'ant test2' para pasadas adicionales en caso de errores***"/>
+        <loroc 
+		 srcdir="${base.dist}/lib/prs" 
+		 extdir="${loro.dist}/ext" 
+		 destdir="${build}/oro"
+		 includes="*/*.loro"
+		 excludes="**/*LEAME.loro, **/*README.loro"
+		/>
+	</target>
+
+	<!-- clean-test borra todo los compilados de prueba -->
+    <target name="clean-test"
+     description="Borra ${build}/oro para iniciar prueba completa">
+		<delete dir="${build}/oro"/>
+    </target>
+	
+<!-- .......... Varios .................. -->
+
+	<target name="instalar" depends="instalador"
+	 description="Prueba de lanzamiento del instalador">
+   		<echo message="Lanzando ${dist}/${i.jar}"/>
+		<java jar="${dist}/${i.jar}" fork="true"/>
+	</target>
+
+    <target name="clean"
+     description="Borra ${build}">
+		<delete dir="${build}"/>
+    </target>
+
+    <target name="clean-dist" depends="clean"
+     description="Borra ${build} y ${dist}">
+		<delete dir="${dist}"/>
+    </target>
+
+    <target name="src"  description="Hace backup del proyecto">
+		<tstamp/>
+        <zip zipfile="${dist}/loroedi-src-${VERSION}-${DSTAMP}.zip"
+         	basedir="${basedir}"
+			includes="**"
+			excludes="${build}/**, ${dist}/**, **/*~"
+		/>
+    </target>
+
+<!-- .......... Documentacion API .................. -->
+
+	<target name="api" depends="loroedi.jar">
+		<mkdir dir="${dist}/docs/api"/>
+		<javadoc packagenames="loroedi.*, util.*"
+				sourcepath="${src}"
+				defaultexcludes="yes"
+				destdir="${dist}/docs/api"
+				author="false"
+				version="true"
+				use="true"
+				windowtitle="LoroEDI ${VERSION} (Build ${DSTAMP})"
+				notree="yes"
+				noindex="yes">
+			<doctitle><![CDATA[<h1>LoroEDI ${VERSION} (Build ${DSTAMP})</h1>]]></doctitle>
+			<bottom><![CDATA[<font size="-2"><i>&#169; 2002 Carlos Rueda.</i></font>]]></bottom>
+			<link offline="true" href="" packagelistLoc=""/>
+			<link href="http://loro.sf.net"/>
+		</javadoc>
+	</target>
+
+</project>
+

@@ -1,0 +1,74 @@
+especificacion nuevoAfiliado(afiliado:[]persona)
+    descripcion "Mostrar y ejecutar el contenido de nuevo afiliado"
+    entrada
+	afiliado:"socio del video"
+	
+    pre{"nombre"}
+    pos{"codigo de afiliacion"}
+fin especificacion
+
+algoritmo para nuevoAfiliado(afiliado:[]persona)
+    estrategia"	1.declarar variables 
+               	2.inicializar op en 0
+		3.hacer un ciclo
+			inicio op=0
+			salida op!=0
+			cambio al leer op
+		3.1 hacer un ciclo
+			inicio 0
+			salida 99
+			cambio de 1 en 1
+		3.1.1 Si el nombre del afiliado ya existe notificar
+		3.1.2 Si no a op llevarle 1 
+		4. hacer un ciclo
+			inicio 0
+			salida 99
+			cambio de 1 en 1  "
+    
+
+	inicio
+	i,op,index:entero;
+	nombre:cadena;
+	direccion:cadena;
+	telefono:cadena;
+	cedula:cadena;
+	refNombre:cadena;
+	refTelefono:cadena;
+	op := 0;
+	mientras(op = 0)haga
+		escribir("\nIngrese el nombre: ");
+		nombre := leerCadena();	
+		para i desde 0 hasta 19 haga
+			si(afiliado[i].nombre = nombre)entonces
+				escribir("\nEl afiliado ya existe...");
+				op := 0;
+			si_no
+				op := 1;
+			fin si;
+		fin para;
+	fin mientras;
+	para i desde 0 hasta 19 haga
+		si(afiliado[i].codigo = -1)entonces
+			index := i;
+		fin si;
+	fin para;
+	escribir("\nIngrese la direccion: ");
+	direccion := leerCadena();	
+	escribir("\nIngrese el telefono: ");
+	telefono := leerCadena();	
+	escribir("\nIngrese el # de cedula: ");
+	cedula := leerCadena();	
+	escribir("\nEscriba el nombre de una referencia: ");
+	refNombre := leerCadena();
+	escribir("\nEscriba el telefono de una referencia: ");
+	refTelefono := leerCadena();
+	afiliado[index].nombre := nombre;
+	afiliado[index].cedula := cedula;
+	afiliado[index].codigo := index;
+	afiliado[index].direccion := direccion;
+	afiliado[index].telefono:= telefono;
+	afiliado[index].refNombre := refNombre;
+	afiliado[index].refTelefono := refNombre;
+fin algoritmo
+
+

@@ -1,0 +1,29 @@
+////////////////////////////////////////////////////////////////////
+algoritmo var_vs_epsec para PRUEBA()
+descripcion
+	"Problema resolucion de nombres, conflicto namespaces
+	Este provoca el intento de invocar una especificacion
+	en tiempo de ejecucion!"
+inicio
+	// declaracion bien:
+	espec : algoritmo para espec := alg;
+
+	// espec se resuelve por la tabla simbolos (porque no hay
+	// algoritmo de nombre espec), siendo valida esta invocacion:
+	espec();    
+	// pero en ejecucion se produce "invocacion de una especificacion"
+
+	// de esta manera se obligaria por tabla simbolos:
+	(espec como algoritmo para espec)();
+
+fin algoritmo
+
+especificacion espec()
+descripcion ""
+fin especificacion
+
+algoritmo alg para espec()
+descripcion ""
+inicio
+	escribirln("alg");
+fin algoritmo

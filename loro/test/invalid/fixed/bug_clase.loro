@@ -1,0 +1,17 @@
+/**
+ Inválido:
+ Acceder a un atributo a través de clase cuyo nombre está SIN paquete. 
+*/
+
+clase MiClase
+descripcion "Una clase"
+ atributo : entero : "Un atributo";
+fin clase
+
+algoritmo bug_clase para PRUEBA()
+estrategia ""
+inicio
+ obj : MiClase := crear MiClase;
+ obj.atributo := 0;  // <- OK
+ MiClase.atributo := 0;  // <- error
+fin algoritmo

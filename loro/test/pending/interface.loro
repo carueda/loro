@@ -1,0 +1,12 @@
+
+interface IFoo extiende IMat
+	descripción "interface IFoo: proveedor de enteros consecutivos"
+
+	especificacion obtEntero() -> val: entero
+		descripcion "Obtiene el siguiente entero"
+		salida val: "El entero."
+		pos { val > 0 }
+	fin especificacion
+
+fin interface // IFoo
+

@@ -1,0 +1,42 @@
+//
+// Demostración de manejo de una clase y de
+// algunas facilidades incorporadas en Loro 
+// que permiten vizualizar la composicion de 
+// objetos.
+//
+
+///////////////////////////////////////////////////////////////
+clase Persona
+	descripción 
+	   "Una persona es una entidad con un nombre y una edad."
+
+	nombre: cadena := "NN" : "nombre";
+	edad: entero : "edad";
+fin clase
+
+/////////////////////////////////////////////////////////////////
+especificación crearPersonaDesdeJava() -> p: Persona
+descripción "Crea un objeto persona desde codigo Java."
+salida
+	p: "El objeto creado."
+pos { p = p' }
+fin especificación
+
+/////////////////////////////////////////////////////////////////
+algoritmo para crearPersonaDesdeJava() -> p: Persona
+implementacion "java" "loro.java.loroI.Prueba"
+fin algoritmo
+
+/////////////////////////////////////////////////////////////////
+especificación demoPersonaJava()
+	descripcion
+		"Demostración de creacion de objeto desde Java."
+fin especificación
+
+/////////////////////////////////////////////////////////////////
+algoritmo para demoPersonaJava()
+estrategia "Simple"
+inicio
+	p : Persona := crearPersonaDesdeJava();
+	escribirln("p = " +p);
+fin algoritmo

@@ -1,0 +1,13 @@
+algoritmo para mayusculas(texto: cadena) -> mayusc: cadena
+descripcion
+	''Recorrido haciendo conversion caracter por caracter.''
+inicio
+	mayusc := "";
+	i: entero := texto.inf;
+	ciclo /conversion/
+		termine /conversion/ si i > texto.sup;
+		mayusc := mayusc + caracterAMayuscula(texto[i]);
+		i := i + 1;
+	fin ciclo;
+	retorne mayusc;
+fin algoritmo

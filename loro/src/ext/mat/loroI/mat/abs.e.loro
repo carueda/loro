@@ -1,0 +1,13 @@
+paquete loroI::mat;
+
+especificación abs(val: real) -> res: real
+	descripción
+		''Obtiene el valor absoluto de un valor.''
+	entrada
+		val: ''El valor a procesar.''
+	salida
+		res: ''El valor absoluto.''
+		
+	pre { cierto }
+	pos { (val < 0 => res = -val) && (val >= 0 => res = val) }
+fin especificación

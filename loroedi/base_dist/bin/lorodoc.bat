@@ -1,0 +1,2 @@
+@echo off
+java -cp "${DIR}\lib\loro.jar" loro.tools.LoroDocumentador %1 %2 %3 %4 %5 %6 %7 %8 %9

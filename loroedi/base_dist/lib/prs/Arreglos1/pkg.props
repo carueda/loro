@@ -1,0 +1,7 @@
+#Propiedades de paquete
+#Thu Aug 29 22:02:26 PDT 2002
+spec.1=pertenece
+spec.0=intercambiar
+alg.2=pertenece, pertenece
+alg.1=intercambiar, intercambiar
+alg.0=demoIntercambiar, loroI\:\:sistema\:\:PRUEBA

@@ -1,0 +1,13 @@
+especificacion multiplicar(a: entero, b: entero) -> resultado: entero
+	descripcion
+		''Obtiene el resultado de multiplicar a por b.''
+	entrada
+		a: ''Primer numero''
+		b: ''Segundo numero''
+	salida
+		resultado: ''a * b''
+	pre
+		{ cierto }
+	pos
+		{ resultado = a * b }
+fin especificacion

@@ -1,0 +1,6 @@
+algoritmo para sumar(a: entero, b: entero) -> resultado: entero
+estrategia
+	''Se suma a y b y se asigna a resultado.''
+inicio
+	resultado := a + b;
+fin algoritmo

@@ -1,0 +1,24 @@
+interface IMat
+	descripción "Algunas operaciones matematicas."
+
+	operación pot(base: real, n: entero) -> res: real
+		descripción
+			"Eleva un número a una potencia entera."
+		entrada
+			base: "La base."
+			n: "La potencia."
+		salida
+			res : "El resultado de elevar la base a la potencia."
+		pre { n >= 0 }
+		pos { res = pot' }
+	fin operación
+
+	operación aleatorio() -> res: real
+		descripción
+			"Obtiene un valor aleatorio en [0, 1)."
+		salida
+			res : "El valor aleatorio."
+		pos { res = A' }
+	fin operación
+
+fin interface // IMat

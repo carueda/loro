@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación techo(val: real) -> res: real
+	descripción
+		''Obtiene el techo de un valor.''
+	entrada
+		val: ''Valor a operar.''
+	salida
+		res : ''El techo del valor.''
+	pre { cierto }
+	pos { res = techo' }
+fin especificación

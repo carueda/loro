@@ -1,0 +1,29 @@
+///////////////////////////////////////////////////////////////
+especificacion intjava(a: []cadena)
+descripcion "."
+entrada a: "";
+pre { a != nulo }
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para intjava(a: []cadena)
+implementacion "java" "loro.java.loroI.Prueba"
+fin algoritmo
+
+///////////////////////////////////////////////////////////////
+especificacion demoIntJava()
+descripcion "Programa de demostracion manejo de arreglo."
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para demoIntJava()
+estrategia "simple."
+inicio
+	a: []cadena := crear [4]cadena;
+	a[0] := "0";
+	a[1] := nulo;
+	a[2] := "20";
+	a[3] := nulo;
+
+	intjava(a);
+fin algoritmo

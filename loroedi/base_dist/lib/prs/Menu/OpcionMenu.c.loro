@@ -1,0 +1,14 @@
+clase OpcionMenu
+	descripcion 
+	''Una opcion de menu tiene un texto que lo
+	identifica y un algoritmo que se ejecuta cuando
+	la opcion es elegida.
+	<p>
+	Para crear instancias de esta clase, vea @{crearOpcionMenu.a}''
+
+	texto: cadena	: ''El texto para identificar esta opcion.'';
+
+	alg: algoritmo para opcionMenu :
+		''El algoritmo a ejecutar cuando se elige esta opcion.'';
+
+fin clase

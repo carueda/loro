@@ -1,0 +1,21 @@
+
+
+especificacion eliminarArticuloPpal(codigo: []entero, precio: []real,
+					num_articulos: entero) -> elimino: booleano
+	descripcion 
+		"Descpliega los mensajes de solicitud de codigo del articulo
+		 a eliminar, lee este y elimina el articulo,
+		 si no es posible eliminar el articulo se debe mostra un mensaje
+		 que explique la situacion"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos en la tienda"
+	salida
+		elimino: "cierto si se pudo eliminar el articulo"
+	pre
+		{ cierto }
+	pos
+		{ existe art_codigo : entero, cierto:
+		  (elimino = eliminarArticulo(codigo,precio,num_articulos,art_codigo)) }
+fin especificacion

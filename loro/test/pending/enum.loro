@@ -1,0 +1,18 @@
+paquete loro::mat;
+
+enumeracion Const
+descripcion ""
+	
+	PI: real = 3.14159;
+
+	E: real = 2.71;
+
+fin enumeracion
+
+....
+
+utiliza enumeracion loro::mat::Const;
+
+
+...
+	x + Const.PI

@@ -1,0 +1,15 @@
+paquete loroI::sistema;
+
+///////////////////////////////////////////////////////////////////////
+clase Objeto para IObjeto
+	descripción
+	"Esta es la raiz de la jerarquia de clases de Loro.
+	Todo objeto de Loro es instancia de esta clase.
+	Ofrece una implementacion de base para la interface IObjeto."
+
+	metodo para comoCadena() -> c: cadena
+		descripción "Implementación basica."
+	inicio
+		retorne "<<objeto>>";   // PENDIENTE
+	fin metodo
+fin clase

@@ -1,0 +1,5 @@
+algoritmo escribirBeca para opcionMenu()
+descripción ''Esta opcion de menu simplemente escribe B E C A.''
+inicio
+	escribir("B E C A");
+fin algoritmo

@@ -1,0 +1,21 @@
+// produce stack overflow que es interpretado como
+// "pila e ejecucion desbordada" PENDIENTE CORRECCION
+
+clase ClaseConArreglo
+	descripción ""
+
+	nombre: cadena := "NN" : "el nombre de esta persona";
+
+	arr: [] ClaseConArreglo : "enlace a la siguiente persona";
+fin clase
+
+///////////////////////////////////////////////////////////////
+algoritmo obj_arr para PRUEBA()
+descripcion "."
+inicio
+	p: ClaseConArreglo := crear ClaseConArreglo;
+	p.arr := [ p ];
+
+	escribirln("p: " +p); 	// stack overflow
+
+fin algoritmo

@@ -1,0 +1,6 @@
+especificacion test_mayusculas(alg: algoritmo para mayusculas)
+	descripcion ''Hace tests a un algoritmo para mayusculas.''
+	entrada 
+		alg : ''El algoritmo a probar.''
+	pre { alg != nulo }
+fin especificacion

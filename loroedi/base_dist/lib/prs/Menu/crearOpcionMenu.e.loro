@@ -1,0 +1,12 @@
+especificacion crearOpcionMenu(t: cadena, a: algoritmo para opcionMenu)
+		-> om: OpcionMenu
+	descripción 
+		''Crea un objeto OpcionMenu con atributos dados.''
+	entrada
+		t: ''Nombre de la opcion.''
+		a: ''Algoritmo a ejecutar.''
+	salida
+		om: ''El objeto creado.''
+	pre { t != nulo && a != nulo }
+	pos { om.texto = t && om.alg = a }
+fin especificacion

@@ -1,0 +1,17 @@
+paquete loroI::sistema;
+
+especificación PRUEBA()
+descripción
+	''Es una especificaci&oacute;n facilitadora como <i>comod&iacute;n</i>
+	para codificar <i>algoritmos de prueba</i> . <p>
+
+	<b>NOTA:</b><p>
+
+	Por <i>algoritmo de prueba</i> se entiende aquel que ser&aacute;
+	ejecutado principalmente por el mismo programador como facilidad para 
+	revisar otro c&oacute;digo que est&aacute; desarrollando (por 
+	ejemplo, otros algoritmos), o bien para sencillos programas
+	de demostracion para el usuario final.
+	De esta manera, se puede abreviar la escritura de la 
+	especificaci&oacute;n.''
+fin especificación

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<!--
+    Build para testing.
+	Aqui se carga la taskdef "loroc" (que build.xml debe crear primero).
+	Se hacen pruebas de compilación exitosa en test/valid/**.loro y 
+	de compilación que debe fallar en test/invalid/**.loro
+	
+	** Debe invocarse a través del build.xml principal.
+-->
+<project name="Test" default="test">
+
+	<taskdef name="loroc" classname="loro.misc.ant.LoroCompilerTask"
+	 classpath="${build}/classes"/>
+	
+    <target name="test" depends="test-valid, test-invalid">
+    </target>
+
+	<!-- Prueba de fuentes válidos -->
+	<target name="test-valid" depends="test-valid-indep, test-valid-interdep">
+		<echo message="Valid programs OK"/>
+	</target>
+
+	<!-- Prueba de fuentes válidos independientes -->
+	<target name="test-valid-indep" description="Compila fuentes Loro válidos independientes">
+	 	<delete dir="${build}/oro"/>
+        <loroc srcdir="test/valid/indep" 
+			destdir="${build}/oro"
+			includes="**/**.loro"
+			excludes="**/*LEAME.loro, **/*README.loro"
+			save="false"
+		/>
+	<!--   log="System.out"	/>  -->
+	</target>
+
+	<!-- Prueba de fuentes válidos con interdependencias -->
+	<target name="test-valid-interdep" description="Compila fuentes Loro válidos interdependientes">
+	 	<delete dir="${build}/oro"/>
+        <loroc srcdir="test/valid/interdep" 
+			destdir="${build}/oro"
+			includes="**/**.loro"
+			excludes="**/*LEAME.loro, **/*README.loro"
+			save="true"
+		/>
+	</target>
+
+	<!-- Prueba de fuentes inválidos -->
+	<target name="test-invalid" description="Anticompila fuentes Loro inválidos">
+	 	<delete dir="${build}/oro"/>
+        <loroc srcdir="test/invalid" 
+			destdir="${build}/oro"
+			includes="**/**.loro"
+			excludes="**/*LEAME.loro, **/*README.loro"
+			anticompile="true"
+		/>
+		<echo message="Invalid programs OK"/>
+	</target>
+</project>

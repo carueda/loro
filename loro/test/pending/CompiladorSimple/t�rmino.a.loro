@@ -1,0 +1,10 @@
+
+algoritmo para término(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	factor(as);
+	mientras as.lookahead = '*' || as.lookahead = '/' haga
+		aceptar(as, as.lookahead);
+		factor(as);
+	fin mientras;
+fin algoritmo

@@ -1,0 +1,5 @@
+paquete loroI::mat;
+
+algoritmo para sen(val: real) -> res: real
+	implementacion "java" "loro.java.loroI.Mat";
+fin algoritmo

@@ -1,0 +1,20 @@
+especificacion evalPol(a: []real, x: real) -> val: real
+descripcion 
+	''Evaluación de un polinomio en un punto.
+	El polinomio está definido por el arreglo de
+	coeficientes, de esta manera:
+	<p>
+		p(x) = a[0] + a[1]*x^1 + a[2]*x^2 + ... + a[n]*x^n 
+	<p>
+	donde n es el orden del polinomio. <p>
+
+	Este proceso evalúa el polinomio en un punto concreto dado.''
+entrada
+	a : ''El arreglo de coeficientes que define al polinomio.
+	    El primer indice debe ser cero, a.inf = 0.''
+	x : ''Punto en el que se evalúa el polinomio.''
+salida
+	val : ''El valor resultado de la evaluación.''
+pre { a.longitud > 0 && a.inf = 0 }
+pos { "val es el resultado de la evaluacion" }
+fin especificacion

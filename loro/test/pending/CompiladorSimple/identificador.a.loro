@@ -1,0 +1,13 @@
+
+algoritmo para identificador(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	si 'a' <= as.lookahead && as.lookahead <= 'z' entonces
+		aceptar(as, as.lookahead);	// OK
+	si_no
+		error(as, "
+Error de sintaxis: 
+	Esperado  : identificador"
+		);
+	fin si;
+fin algoritmo

@@ -1,0 +1,9 @@
+paquete loroI::sistema;
+
+especificación leerReal() -> v: real
+	descripción
+		''Lee un numero real de la entrada estandar.''
+	salida
+		v : ''El numero leido.''
+	pos { v = v' }
+fin especificación

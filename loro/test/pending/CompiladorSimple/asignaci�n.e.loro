@@ -1,0 +1,7 @@
+
+especificación asignación(as: AS)
+	descripción ''Proceso para el no terminal asignación.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación

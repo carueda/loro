@@ -1,0 +1,11 @@
+especificacion copiar(a: []real, b: []real)
+	descripcion
+		"Copia el arreglo a en b"
+	entrada
+		a: "Arreglo a"
+		b: "Arreglo b"
+	pre
+		{ a != nulo && b != nulo && #a = #b }
+	pos
+		{ para_todo i:entero, 0 <= i && i < #a : (b[i] = a[i]) }
+fin especificacion

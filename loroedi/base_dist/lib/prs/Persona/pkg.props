@@ -1,0 +1,9 @@
+#Propiedades de paquete
+#Mon Oct 07 20:23:58 PDT 2002
+spec.2=crearPersona
+spec.1=verPersona
+spec.0=demoPersona
+class.0=Persona
+alg.2=crearPersona, crearPersona
+alg.1=verPersona, verPersona
+alg.0=demoPersona, demoPersona

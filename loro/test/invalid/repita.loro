@@ -1,0 +1,9 @@
+algoritmo repita_ para PRUEBA()
+estrategia ""
+inicio
+	repita
+		mm: entero := 10;
+		rr: entero := 1;
+	hasta mm = 10;
+	escribir("sino " +mm);	// ERROR
+fin algoritmo

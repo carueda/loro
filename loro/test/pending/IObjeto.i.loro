@@ -1,0 +1,15 @@
+paquete loroI::sistema;
+
+///////////////////////////////////////////////////////////////////////
+interface IObjeto
+	descripción
+	"Esta es la interface básica a la que todo objeto de Loro responde."
+
+	///////////////////////////////////////////////////////////////
+	operación comoCadena() -> c: cadena
+		descripción "Obtiene una versión cadena del objeto."
+		salida c: "La versión cadena del objeto."
+		pos { c != nulo }
+	fin operación
+
+fin interface

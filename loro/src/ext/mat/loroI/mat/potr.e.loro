@@ -1,0 +1,13 @@
+paquete loroI::mat;
+
+especificación potr(base: real, p: real) -> res: real
+	descripción
+		''Eleva un número a una potencia real.''
+	entrada
+		base: ''La base.''
+		p: ''La potencia.''
+	salida
+		res : ''El resultado de elevar la base a la potencia.''
+	pre { cierto }
+	pos { res = potr' }
+fin especificación

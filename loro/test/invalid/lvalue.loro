@@ -1,0 +1,8 @@
+///////////////////////////////////////////////////////////////
+algoritmo lvalue para PRUEBA()
+	descripcion ""
+inicio
+	a: [] entero := crear[10]entero;
+	a.inf := 5;  // error
+	
+fin algoritmo

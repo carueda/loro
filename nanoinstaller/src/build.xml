@@ -1,0 +1,133 @@
+<project name="nanoInstaller" default="nic" basedir=".">
+
+    <!--
+        Build for the nanoInstaller
+        2003-10-18 - Carlos Rueda
+    -->
+	<property file="build.properties"/>
+    <property name="src.dir" value="${basedir}"/>
+    <property name="ni.jar" value="ni.jar"/>
+    <property name="nic.jar" value="nic.jar"/>
+
+    <!-- This is used to prepare installation properties. -->
+    <property name="tmp.properties" value="${predist.dir}/__TMP_.PROPS"/>
+
+
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${java.classes}"/>
+        <mkdir dir="${predist.dir}"/>
+		<dependset>
+            <srcfileset dir="." includes="build.properties"/>
+            <srcfileset dir="${src.dir}" includes="_nanoInstaller_/resource/info.properties"/>
+            <targetfileset dir="${java.classes}" includes="_nanoInstaller_/resource/info.properties"/>
+        </dependset>
+        <dependset>
+            <srcfilelist dir="${src.dir}" files="_nanoInstaller_/resource/**"/>
+            <targetfileset dir="${dist.dir}" includes="${nic.jar}"/>
+        </dependset>
+    </target>
+
+    <target name="nic" depends="init, ni.jar, compile.compiler"
+     description="Makes the complete compiler nic.jar">
+        <copy file="${predist.dir}/${ni.jar}"
+         todir="${java.classes}/_nanoInstaller_/resource"
+       />
+        <copy todir="${java.classes}/_nanoInstaller_/resource">
+            <fileset dir="${src.dir}/_nanoInstaller_/resource"/>
+        </copy>
+
+        <!-- Updates the info.properties read by the compiler. -->
+        <replace
+         file="${java.classes}/_nanoInstaller_/resource/info.properties">
+            <replacefilter token="@VERSION@" value="${VERSION}"/>
+            <replacefilter token="@BUILD@" value="${DSTAMP}"/>
+        </replace>
+
+        <jar jarfile="${dist.dir}/${nic.jar}"
+            manifest="nic.manifest"
+            basedir="${java.classes}"
+            includes="_nanoInstaller_/compiler/**, _nanoInstaller_/resource/**"
+        />
+    </target>
+
+    <target name="ni.jar" depends="init, compile.installer"
+     description="Makes the base installer archive">
+        <jar jarfile="${predist.dir}/${ni.jar}"
+            manifest="ni.manifest"
+            basedir="${java.classes}"
+            includes="_nanoInstaller_/installer/*.class"
+        />
+    </target>
+
+    <target name="compile.installer" depends="init"
+     description="Compiles the installer classes">
+        <javac
+            srcdir="${basedir}"
+            destdir="${java.classes}"
+            includes="_nanoInstaller_/installer/*.java"
+        />
+    </target>
+
+    <target name="compile.compiler" depends="init"
+     description="Compiles the installer compiler">
+        <javac
+            srcdir="${basedir}"
+            destdir="${java.classes}"
+            includes="_nanoInstaller_/compiler/*.java"
+            debug="on"
+        />
+        <copy todir="${java.classes}">
+            <fileset dir="."/>
+        </copy>
+    </target>
+
+    <target name="auto-installer"  depends="nic, nanoproperties"
+     description="Makes a nanoInstaller installer for this project in ${predist.dir}">
+        <mkdir dir="${predist.dir}/base_inst/src"/>
+        <copy todir="${predist.dir}/base_inst/src">
+            <fileset dir="."/>
+        </copy>
+        <java jar="${dist.dir}/${nic.jar}" fork="true">
+            <arg value="${tmp.properties}"/>
+            <arg value="${predist.dir}/base_inst"/>
+            <arg value="${predist.dir}/nanoinstaller-${VERSION}.jar"/>
+        </java>
+        <delete dir="${predist.dir}/base_inst"/>
+    </target>
+
+  <target name="nanoproperties"
+   description="Update properties to make the auto-installer">
+        <copy file="nanoInstaller.properties" tofile="${tmp.properties}"/>
+        <replace file="${tmp.properties}">
+            <replacefilter token="@VERSION@" value="${VERSION}"/>
+            <replacefilter token="@BUILD@" value="${DSTAMP}"/>
+        </replace>
+  </target>
+
+
+    <target name="install"
+     description="Launch the installer (for testing)">
+        <echo message="Launching ${predist.dir}/nanoinstaller-${VERSION}.jar"/>
+        <java jar="${predist.dir}/nanoinstaller-${VERSION}.jar" fork="true"/>
+    </target>
+
+    <target name="clean"
+     description="Deletes working subdirs">
+        <delete dir="${java.classes}"/>
+    </target>
+
+    <target name="clean-dist" depends="clean"
+     description="Deletes working subdirs and the predistribution one">
+        <delete dir="${predist.dir}"/>
+    </target>
+
+    <target name="src" description="Makes a backup archive of src">
+        <tstamp/>
+        <zip zipfile="${predist.dir}/nanoinstaller-src-${VERSION}-${DSTAMP}.zip"
+            basedir="${basedir}/.."
+            includes="src/**"
+        />
+    </target>
+
+</project>

@@ -1,0 +1,11 @@
+clase AS
+	descripción 
+	''Contiene información para registrar el 
+	avance de un proceso de análisis sintáctico.''
+
+	fuente: cadena : ''La cadena fuente a analizar'';
+
+	indice: entero : ''ïndice dentro del fuente'';
+
+	lookahead: caracter : ''el token visto por adelantado'';
+fin clase

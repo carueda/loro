@@ -1,0 +1,9 @@
+
+especificación error(as: AS, mensaje: cadena)
+	descripción 
+		''Despliega un mensaje de error.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+		mensaje: ''El mensaje.''
+	pre { as != nulo && mensaje != nulo}
+fin especificación

@@ -1,0 +1,26 @@
+algoritmo demopd para PRUEBA()
+descripcion ''Prueba simple de @{pcm.a}.''
+inicio
+	// Prueba con 4 matrices.
+
+	// dimensiones de las 4 matrices:
+	//                (10x5) (5x50)  (50x5)  (5x2)
+	p: []entero := [10,     5,     50,     5,     2];
+
+	// numero de matrices (que es 4 pero lo ponemos en terminos
+	// de la longitud del arreglo de dimensiones, p):
+	n: entero := p.longitud - 1;  
+	m: [][]entero := crear [n][n]entero;
+	s: [][]entero := crear [n][n]entero;
+
+	// calcular tablas m y s
+	pcm(p, m, s);
+
+	// mostrar p:
+	escribirln("dimensiones, p = " +p);
+
+	// mostrar las tablas m y s:
+	escribirln("tablas de optimizacion:");
+	escribirln("m = " +m);
+	escribirln("s = " +s);
+fin algoritmo

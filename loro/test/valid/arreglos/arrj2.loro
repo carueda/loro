@@ -1,0 +1,27 @@
+///////////////////////////////////////////////////////////////
+especificacion obtMatriz(m, n: entero) -> matriz: [][]entero
+descripcion "Crea una matriz de m x n."
+entrada m: "# filas"; n: "# cols";
+salida  matriz: "El resultado";
+pre { m >= 0 && n >= 0 }
+pos { #matriz = m && (m > 0 => #matriz[0] = n) }
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para obtMatriz(m, n: entero) -> matriz: [][]entero
+implementacion "java" "loro.java.loroI.Prueba"
+fin algoritmo
+
+///////////////////////////////////////////////////////////////
+especificacion demoMatriz()
+descripcion "Programa de demostracion manejo de arreglos multidimen."
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para demoMatriz()
+estrategia "simple."
+inicio
+	matriz: [][]entero;
+	matriz := obtMatriz(3, 4);
+	escribirln("matriz = " +matriz);
+fin algoritmo

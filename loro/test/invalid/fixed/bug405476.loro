@@ -1,0 +1,60 @@
+/*
+	BUG:           405476
+	REPORTADO POR: Marlon J. Manrique
+	CORREGIDO POR: Carlos Rueda  2001-08-11
+	OTRA VEZ:      2002-03-07
+
+    Se esta permitiendo que una clase pase como instancia dentro de
+    los argumentos de llamada a un algoritmo.
+*/
+
+// Clases
+clase miClase
+    descripcion "Una clase cualquiera"
+
+    i : entero : "Un atributo cualquiera";
+fin clase
+
+// Especificaciones
+especificacion algCualquiera(instancia : miClase)
+    descripcion "Cualquier algoritmo que recibe una instacia de clase como argumento"
+    entrada
+        instancia : "Una instancia de una clase"
+    pre { cierto }
+fin especificacion
+
+especificacion argClase()
+    descripcion "Bug : Utilizacion de una clase como argumento."
+fin especificacion
+
+// Algoritmos
+algoritmo para algCualquiera(instancia : miClase)
+    estrategia ""
+inicio
+    escribirln("La instancia : " + instancia);
+    // Error al tratar de acceder al atributo de la instancia
+    // por ser una clase
+    escribirln("Atributo de la instancia : " + instancia.i);
+fin algoritmo
+
+algoritmo para argClase()
+    estrategia ""
+inicio
+    mc : miClase;
+    mc := crear miClase;
+
+    mc := miClase;                // error
+
+    si mc = miClase entonces      // error
+    fin si;
+
+    // llamado a los algoritmos con instancia y clase
+    algCualquiera(mc);      // OK
+    algCualquiera(miClase);       // error
+
+    // Al ser este un algoritmo implementado en Java al momento de ser
+    // invocado el metodo se espera una instancia de LObjeto y no
+    // LClase
+//  algCualquieraJava(mc);
+//  algCualquieraJava(miClase);   // <<<---  Se permitia antes
+fin algoritmo

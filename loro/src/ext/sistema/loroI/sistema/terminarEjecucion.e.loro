@@ -1,0 +1,18 @@
+paquete loroI::sistema;
+
+especificación terminarEjecucion(cod: entero)
+	descripción
+		''Termina la ejecucion del programa Loro en ejecucion.
+		Por 'programa Loro' se entiende la ejecucion del algoritmo
+		lanzado desde el ambiente de base del sistema.
+		Esto significa que este proceso NO retorna al algoritmo
+		en que fue llamado.''
+	entrada
+		cod: ''Un codigo de terminacion. Es costumbre que un programa
+		ponga en 0 (cero) este codigo para indicar una terminacion
+		normal; y, desde luego, diferente de cero para indicar que 
+		el programa ha terminado por algun problema irrecuperable.
+		El entorno integrado mostrara al usuario cual fue este codigo.''
+	pre { cierto }
+	pos { ''NO RETORNA'' }
+fin especificación

@@ -1,0 +1,13 @@
+/////////////////////////////////////////////////////////////
+// Muestra uso de un nombre semantico para referir funciones 
+// que estan por fuera de Loro.
+//
+especificacion primo(n: entero) -> p: entero
+	descripcion "Retorna el n-ésimo primo."
+		entrada 
+			n: "El índice"
+		salida 
+			p: "El n-ésimo número primo."
+	pre { n >= 0 }
+	pos { p = primo'(n) }
+fin especificacion

@@ -1,0 +1,7 @@
+algoritmo para crearPersona(n:cadena, e:entero) -> p: Persona
+descripción ''Simple creación básica y asignación de atributos.''
+inicio
+	p := crear Persona;
+	p.nombre := n;
+	p.edad := e;
+fin algoritmo

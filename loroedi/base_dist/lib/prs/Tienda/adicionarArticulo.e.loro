@@ -1,0 +1,24 @@
+
+
+especificacion adicionarArticulo(codigo: []entero, precio: []real, 
+				num_articulos: entero,
+				art_codigo: entero, art_precio: real) -> adiciono: booleano
+	descripcion
+		"Adiciona un articulo (codigo y precio) al arreglo
+		 de codigos y precios, si hay espacio y no existe el articulo."
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+		art_codigo: "Codigo del articulo a adicionar"
+		art_precio: "Precio del articulo a adicionar"
+	salida
+		adiciono: "cierto si fue posible adicionar el articulo"
+	pre
+		{ 0 <= art_codigo && art_codigo <= 9999 }
+	pos
+		{ existeArticulo(codigo,num_articulos,art_codigo) => pre && adiciono = falso ||
+		  !existeArticulo(codigo,num_articulos,art_codigo) =>
+		  codigo[num_articulos] = art_codigo && precio[num_articulos] = art_precio 
+		  && adiciono = cierto}
+fin especificacion

@@ -1,0 +1,5 @@
+algoritmo escribirCarro para opcionMenu()
+descripción ''Esta opcion de menu simplemente escribe C A R R O.''
+inicio
+	escribir("C A R R O");
+fin algoritmo

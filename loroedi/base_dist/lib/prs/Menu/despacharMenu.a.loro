@@ -1,0 +1,47 @@
+algoritmo para despacharMenu(titulo: cadena, menu: []OpcionMenu)
+descripción
+	''Se hace un ciclo principal para mostrar el menu y despachar
+	opcion del usuario. Para mostrar el menu se hace un ciclo
+	para desplegar los textos de las opciones; cada texto se
+	antecede con su numero de posicion como identificador
+	de la opcion; Luego se le pide al usuario que elija una
+	opcion; si la opcion es valida, se invoca el algoritmo 
+	asociado a la opcion; si no, se	escribe un mensaje de
+	aviso y se vuelve a mostrar el menu. El ciclo principal
+	se termina si la opcion dada es cero (0), que es una opcion
+	especial agregada para indicar 'Salir del menu'.''
+inicio
+	// Guardemos en una cadena todo el texto del menu:
+	mensajeMenu: cadena;
+	mensajeMenu := "\n" +titulo+ ":\n";
+	para i:entero := 0 hasta #menu - 1 haga
+		mensajeMenu := mensajeMenu + (i+1) + ") " +menu[i].texto+ "\n";
+	fin para;
+	// agregue opcion especial de salida:
+	mensajeMenu := mensajeMenu + "0) Salir del menu\n";
+
+	opc: entero;	// la opcion elegida por el usuario
+
+	// el ciclo principal:
+	ciclo
+		// mostrar el menu:
+		escribirln(mensajeMenu);
+
+		// pida opcion al usuario:
+		escribir("Elija una opcion: ");
+		opc := leerEntero();
+
+		si 1 <= opc && opc <= #menu entonces
+			// es opcion valida:
+			menu[opc - 1].alg();  // ejecute la opcion
+		si_no_si opc = 0 entonces
+			// tambien es valida, indicando terminar el programa:
+			termine ;
+		si_no
+			escribirln("Opcion incorrecta.");
+		fin si;
+	fin ciclo;
+
+	escribirln("Ciao!");
+
+fin algoritmo

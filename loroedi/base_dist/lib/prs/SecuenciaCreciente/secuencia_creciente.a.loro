@@ -1,0 +1,34 @@
+algoritmo para secuencia_creciente(secuencia: []entero) -> res: booleano
+descripcion
+	''Se hace un recorrido de izquierda a derecha revisando pares 
+	consecutivos de numeros. Para cada par consecutivo (a, b) se
+	debe verificar que a <= b. Si un par no lo cumple, se
+	retorna inmediatamente con falso. Si el recorrido se logra
+	completar, se retorna cierto.''
+inicio
+	// Indices para primero y segundo elementos consecutivos:
+	i: entero := secuencia.inf;
+	j: entero := i + 1;
+
+	// mientras se tenga un par numeros por examinar...
+	mientras j <= secuencia.sup haga
+
+		a:entero := secuencia[i];  // primer elemento
+		b:entero := secuencia[j];  // segundo elemento
+
+		si a <= b entonces
+			// se cumple la condicion local.
+			// Actualicemos indices para continuar el recorrido:
+			i := i + 1;
+			j := j + 1;
+		si_no
+			// se incumple la condicion necesaria.
+			// Termine respondiendo falso:
+			retorne falso;
+		fin si;
+	fin mientras;
+
+	// Termine respondiendo cierto, puesto que se hizo el recorrido completo
+	// sin que se incumpliera cada condicion local:
+	retorne cierto;
+fin algoritmo

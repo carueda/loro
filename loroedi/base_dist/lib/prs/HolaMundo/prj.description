@@ -1,0 +1,27 @@
+Hola Mundo!
+
+"Hola mundo" se ha vuelto quizá el ejemplo más famoso al estudiar 
+por primera vez cualquier lenguaje de programación. Sólo se trata 
+de escribir un simple mensaje por la salida estándar o por defecto
+del ambiente en que se ejecute el algoritmo.
+
+Este proyecto sólo define un algoritmo holaMundo. La especificación 
+PRUEBA al que corresponde este algoritmo ya viene incluido dentro 
+del sistema Loro y sirve para definir, como su nombre lo indica,
+algoritmos sencillos que no reciben entradas y no producen salidas
+explícitas, aunque sí pueden, como en este caso, escribir mensajes
+por algún mecanismo apropiado. En este ejemplo se utiliza el
+algoritmo escribirln para generar el mensaje deseado.
+
+Instrucciones:
+Hacer clic derecho sobre el algoritmo y escoger por ejemplo:
+ - "Ejecutar" para ejecutar inmediatamente el algoritmo.
+ - "Editar/Ver fuente" para ir al editor que muestra el código
+   fuente del algoritmo.
+
+Experimentación:
+Hacer todas las modificaciones que se deséen al código fuente,
+por ejemplo, cambiar el mensaje desplegado. Compilar y ejecutar
+otra vez. Si se generan errores de compilación, no hay por qué
+preocuparse: los errores de compilación hacen parte de la 
+práctica y es mejor irse familiarizando desde un principio :-)

@@ -1,0 +1,12 @@
+///////////////////////////////////////////////////////////////
+especificacion ppal()
+descripcion""
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para ppal()
+estrategia""
+inicio
+	e: real := leerEntero();
+	escribirln("e = " +e);
+fin algoritmo

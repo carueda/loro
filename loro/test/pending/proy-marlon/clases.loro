@@ -1,0 +1,28 @@
+clase Persona
+	descripcion "Una persona es una entidad con una identificacion, un nombre, 
+			unas referencias,una direccion y un codigo"
+	nombre:cadena := "*": "Nombre de la persona";
+	codigo:entero := -1: "codigo de usuario de la persona";
+	direccion:cadena := "*": "Direccion de la persona";
+	telefono:cadena := "*": "Telefono de la persona";
+	cedula:cadena := "*": "Identificacion de la persona";
+	refNombre:cadena := "*": "Nombre de la referencia";
+	refTelefono:cadena := "*": "Telefono de la referencia";
+fin clase
+/*******************************************************************************************/
+clase video
+	descripcion "Un video es una entidad con un nombre, un codigo, un genero y un estado"
+	nombre:cadena := "*":"Nombre del video";
+	codigo:entero := -1:"codigo del video";
+	genero:cadena := "*":"Genero del video ";
+	estado:cadena := "Disponible":"Estado del video";
+fin clase
+/*******************************************************************************************/
+clase prestamo
+	descripcion "El prestamo es una entidad con un codigo del prestmo,  un codigo del video 
+			un codigo de  y una fecha"
+	codigoP:entero := -1:"Codigo del prestamo";
+	codigoV:entero := -1:"Codigo del video";
+	codigoA:entero := -1:"codigo del afiliado";
+	fecha:cadena := "**/**/****":"Fecha del prestamo";
+fin clase

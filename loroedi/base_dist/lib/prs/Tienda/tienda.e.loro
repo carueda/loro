@@ -1,0 +1,7 @@
+
+
+especificacion tienda()
+	descripcion 
+		"Punto de entrada al programa de tienda, despliega un menu que permite acceder
+		 a las funciones suministradas por el programa"
+fin especificacion

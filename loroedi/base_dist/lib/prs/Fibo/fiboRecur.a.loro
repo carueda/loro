@@ -1,0 +1,9 @@
+algoritmo fiboRecur para fibo(n: entero) -> fibo: entero
+estrategia ''Recursiva directa.''
+inicio
+	si n < 3 entonces
+		retorne 1;
+	si_no
+		fibo := fiboRecur(n-1) + fiboRecur(n-2);
+	fin si;
+fin algoritmo

@@ -1,0 +1,5 @@
+paquete loroI::mat;
+
+algoritmo para potr(base: real, p: real) -> res: real
+	implementacion "java" "loro.java.loroI.Mat";
+fin algoritmo

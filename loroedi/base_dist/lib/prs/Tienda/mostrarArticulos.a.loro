@@ -1,0 +1,13 @@
+
+
+algoritmo para mostrarArticulos(codigo: []entero, precio: []real, num_articulos: entero)
+estrategia
+	"Se imprimen dos mensajes de cabezera y se recorre el arreglo de codigos 
+	 hasta el numero de articulos, imprimiendo su codigo y precio"
+inicio
+	escribir("Articulos\n");
+	escribir("Codigo\tPrecio\n");
+	para i: entero := 0 hasta num_articulos - 1 haga
+		escribir(codigo[i] + "\t" + precio[i] + "\n");
+	fin para;
+fin algoritmo

@@ -1,0 +1,11 @@
+paquete loroI::sistema;
+
+especificación obtTiempoEnSegundos() -> s: entero
+	descripción
+		''Obtiene el tiempo transcurrido desde la medianoche 
+		del primero de enero de 1970 hasta el momento en que
+		se ejecuta este proceso, medido en segundos.''
+	salida
+		s : ''El tiempo en segundos.''
+	pos { s = s' }
+fin especificación

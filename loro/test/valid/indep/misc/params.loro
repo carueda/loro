@@ -1,0 +1,18 @@
+// ejemplo para verificacion de igualdad de nombres
+// de paramteros en espec y algoritmo.
+// Sugerencia de marlonj.
+//
+especificación params(base,xx,yy:real, n, zz:entero) -> res:real
+	descripción ""
+	entrada	base: "."; xx: "."; yy: "."; n: "."; zz: "."
+	salida	res : ".";
+	pre { cierto }
+	pos { cierto }
+fin especificación
+
+algoritmo para params(base,xx,yy:real, n, zz:entero) -> res:real
+	estrategia ""
+inicio
+	retorne 21.21;
+fin algoritmo
+

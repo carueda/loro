@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación log(val: real) -> res: real
+	descripción
+		''Obtiene el logaritmo en base e de un valor.''
+	entrada
+		val: ''Valor a operar.''
+	salida
+		res : ''El logaritmo del valor.''
+	pre { cierto }
+	pos { res = log' }
+fin especificación

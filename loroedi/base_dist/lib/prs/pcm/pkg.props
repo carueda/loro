@@ -1,0 +1,5 @@
+#Propiedades de paquete
+#Mon Oct 07 20:31:10 PDT 2002
+spec.0=pcm
+alg.1=demopd, loroI\:\:sistema\:\:PRUEBA
+alg.0=pcm, pcm

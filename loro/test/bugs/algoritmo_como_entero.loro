@@ -1,0 +1,7 @@
+////////////////////////////////////////////////////////////////
+algoritmo algoritmo_como_entero para PRUEBA()
+"algoritmo como entero
+   provoca mensaje con null."
+inicio
+	escribir como entero;
+fin algoritmo

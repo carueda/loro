@@ -1,0 +1,10 @@
+
+especificacion extdemo()
+descripcion ""
+fin especificacion
+
+algoritmo para extdemo()
+estrategia ""
+inicio
+	ext::ext();
+fin algoritmo

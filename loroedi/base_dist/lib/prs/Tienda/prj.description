@@ -1,0 +1,21 @@
+Programa que especifica e implementa una tienda la cual posee
+   un listado de articulos y su respectivo precio.
+
+   Se debe poder:
+   Adicionar un nuevo tipo de articulo.
+   Eliminar un tipo de articulo.
+   Mostrar que articulos tienen el mismo precio y cuantas veces se repite
+   cada precio.
+   Realizar la compra de articulos.
+   Realizar un aumento o rebaja a uno o todos los articulos de acuerdo a un
+   porcentaje.
+ 
+   Provee procedimientos para la lectura y despliegue de menus 
+   desde la consola de usuario.
+ 
+El algoritmo "principal" es tienda().
+
+
+   Autor : Marlon J. Manrique
+           marlonj@excite.com
+	   mayo/2000

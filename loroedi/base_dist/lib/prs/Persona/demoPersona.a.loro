@@ -1,0 +1,18 @@
+algoritmo para demoPersona()
+descripción
+	''Simple creacion de algunas persona utilizando @{crearPersona.a};
+	Se visualizan sus datos con @{verPersona} y tambien con el
+	mecanismo proporcionado por defecto por Loro.''
+inicio
+	p1, p2: Persona;
+	p1 := crearPersona("Paco", 30);
+	p2 := crearPersona("Lola", 13);
+
+	// Visualizacion usando el proceso definido aqui:
+	verPersona(p1);
+	verPersona(p2);
+
+	// Visualizacion usando mecanismo incorporado de Loro:
+	escribirln("p1 = " +p1);
+	escribirln("p2 = " +p2);
+fin algoritmo

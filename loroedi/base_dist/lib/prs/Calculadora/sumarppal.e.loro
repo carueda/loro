@@ -1,0 +1,5 @@
+especificacion sumarppal()
+	descripcion
+		''Despliega los mensajes de solicitud de los valores
+		 a y b, los lee y muestra el resultado de su suma''
+fin especificacion

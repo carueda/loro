@@ -1,0 +1,3297 @@
+LORO - NOTAS DE DESARROLLO
+--------------------------
+
+/////////////////////////////////////////////////////////////////////////
+	2002-03-05
+	version 0.7r6
+	
+	- Nuevo recurso loroedi/info.properties, leido por loro.Info para 
+	  suministrar la informacion sobre nombre y version, y tambien usado por
+	  build-instalador.xml para identificar el instalador. Ahora, solo
+	  basta con actualizar este solo sitio para reflejar esta informacion
+	  en todas las demas dependencias. ;^)  (salvo este archivo, desde luego).
+	
+/////////////////////////////////////////////////////////////////////////
+	2002-03-02
+	version 0.7r5
+	
+	- Revision completa para construccion con Ant.
+	- Ahora los projectos Loro y LoroEDI estan separados completamente,
+	  salvo porque LoroEDI depende del nucleo compilado de Loro.
+	  
+/////////////////////////////////////////////////////////////////////////
+	2002-02-27
+	
+	- Manejo mas inteligente de la dependencia de SkinLF: si la libreria de
+	  skinlf no esta, no se compilan fuentes dependientes pero el proyecto 
+	  se puede contruir. Ver build.xml, src/loroedi.laf.*
+	
+/////////////////////////////////////////////////////////////////////////
+	2002-02-23 (bajo jEdit -- no bajo VAJ)
+	version 0.7r4
+	
+	- Habilite el cygwin para hacer compilacion-construccion con Ant
+	  tal como lo hacia en Linux.
+	  
+	- Organizar los builds para que se cree oportunamente la anttask de loroc!
+	
+	Idea:
+		Separar los projectos Loro y LoroEDI tal que se armen completamente
+		por aparte (bueno, LoroEDI solo incluyendo loro.jar/loroI.lar)
+	
+/////////////////////////////////////////////////////////////////////////
+	2002-02-22 (bajo JEDIT -- no bajo VAJ)
+	version 0.7r3
+	
+	- build.xml actualizado:
+	
+		- Preparacion separada del nucleo Loro, que deja los archivos:
+			loro.jar
+			loroI.lar
+			fuentesloro.jar
+			
+		- Preparacion de LoroEDI, dependiendo de Loro.
+		
+		- Preparacion de distribucion.
+		
+	- Actualizados:
+		- scripts de lanzamiento
+
+/////////////////////////////////////////////////////////////////////////
+	2002-02-20
+
+	loro-2002-02-20.tgz:
+	  Contenido:
+		Loro       0.7r2  Sin errores.
+		LoroEDI    0.7r2  Solo 1 warning, y errores por dependencia de SkinLF.
+		LoroMISC          Errores por dependiencia en Ant.
+		LoroIParser.jj    Gramatica JavaCC.
+		DEVNOTES.txt      Este archivo.
+
+	- Separacion Loro-LoroEDI:
+	  En el sistema LoroEDI ahora solo hace referencias al paquete principal loro
+	  del sistema Loro. 
+	  Queda pendiente una API para acceder a la composicion de los elementos de
+	  un programa en Loro (es decir, los nodos del arbol de analisis). 
+	  Quiza loro.arbol.* deba quedar como parte de esta API finalmente (?).
+	  
+	  Por ahora, LoroEDI solo esta pidiendo de un algoritmo (unidad ejecutable) la 
+	  descripcion de su especificacion y la estrategia para efectos de tooltip. 
+	  Para esto se hicieron metodos "ad hoc" en Loro:
+	  	String obtDescripcionEspecificacion(IUnidad u)
+		String obtEstrategiaAlgoritmo(IUnidad u)
+	  pero queda pendiente hacer un mejor diseño.
+
+	- Nuevo metodo Loro.verificarSistema() que debe llamarse justo despues de
+	  Loro.configurar() y que verifica que el sistema esta debidamente listo
+	  para operar para el usuario final, concretamente que la clase raiz
+	  exista.  Esta verificacion se omite en la herramienta LoroCompilador
+	  para permitir precisamente que se compile dicha clase (y otros elementos
+	  de apoyo que puedan surgir despues).
+	  Esto debe complementarse con el siguiente pendiente: 
+	  como hace Loro para acceder a su libreria de apoyo?
+	  Ver por ejemplo: loro.tools.LoroCompilador
+	
+	
+	- Algunos renombramientos (Visitable -> IVisitable, Ubicable -> IUbicable) y
+	  uso de List/ArrayList a cambio de Vector en todos los puntos en que
+	  el remplazo es directo. Queda Vector en TablaSimbolos (que necesita actualizar
+	  tamano, setSize) y en codigo generado por javacc.
+
+
+	------------------
+	Algunos "pendientes" recogidos (copy-n-paste) del resto de este documento
+	para hacer algun diagnostico :/
+
+	- Pendiente mostrar (lin,col) para ubicacion de errores: esto puede esperar.
+	- Resaltar codigo fuente ante error de ejecucion!!!
+	- Pendiente con respecto al interprete:
+		- Agregar JTable para tabla de simbolos.
+		- Guardar historia de comandos a nueva preferencia.
+	- Queda pendiente inventar algun mecanismo adecuado para no generar
+	  la documentacion de las extensiones CADA VEZ que se lanza el EDI.
+	  Notese que la libreria de apoyo DIR/lib/loroI.lar SOLO
+	  se documenta UNA vez gracias a la propiedad loro.CODEVERSION.n
+	  (ver loro.Control.dispatchFirstTime).
+	  Quizas hacer algo parecido para las extensiones.
+	  Este punto se hara mas importante cuando se disponga de muchas y
+	  mas grandes extensiones (como es lo esperado).
+
+	- Pendiente algo como @{loroI::sistema} para referir al documento
+	  de base que describe un paquete completo (este todavia no se esta
+	  manejando en general).
+
+	- En cuanto al chequeo de "instancia de", sigue pendiente el mecanismo
+	  para subclases, es decir, si B es subclase de A y obj es
+	  instancia de B, entonces ``obj es A'' es correcto.
+	  Asi que lo unico revisado actualmente es que la clase del objeto
+	  sea EXACTAMENTE la clase contra la que se confronta.
+
+	- Asunto del cambio de version de los serializables .oro
+
+	- [pendiente] Atender explicacion de error en compilacion. Este
+	  es todo un aspecto (contemplado en la filosofia de Loro) pero que
+	  falta por atacarse a fondo en implementacion despues.
+
+	- Hacer aparecer mensaje "Compilando..." en etiqueta de estado ANTES del 
+	  proceso de compilacion.
+
+	- Literal especial para documentacion (distinto de literal cadena)
+
+	-PENDIENTE: Funciones "semanticas" como:
+		pos { p = primo'(n) }. Ver primo.loro
+	------------------
+
+
+/////////////////////////////////////////////////////////////////////////
+	2002-02-13
+
+	- Sobre bug "critico" de 2002-01-28:
+	  Explicacion: en solo compilacion, la declaracion ``x:entero:=0''
+	  deja marcada la variable ``x'' como "asignada" aunque la asignacion
+	  como tal no se hace efectiva; al pasar al modo ejecucion, el ejecutor
+	  se encuentra con el NPE al acceder a ``x''.
+
+	  Solucion: Se ha hecho un nuevo servicio ponAsignado(boolean asignado) sobre 
+	  la tabla de simbolos para poner el estado de asignacion a todas las variables.
+	  El II utiliza este servicio para poner todas las variables como NO asignadas
+	  cuando se pasa de "solo compilacion" al modo "ejecucion". De esta manera, el
+	  caso de arriba genera ahora un mensaje de "variable no tiene asignacion".
+	  Este control podria hacerse en un esquema variable-por-variable en donde
+	  solo las variables que se han declarado en modo "solo compilacion" reciban
+	  este tratamiento; pero lo dejo asi hasta que haya la necesidad real de agregarlo.
+	  
+	LoroEDI:
+	- El boton de terminacion en el II ahora solo se habilita si el modo de
+	  operacion es ejecucion.
+	- Agregados tootips para los botones del II.
+	
+	Loro:
+	- Cambio en gramatica de etiquetas:
+		Ahora una etiqueta es un identificador entre caracteres '/':
+			/etiqueta/
+		de tal forma hay que utilizarla tanto al bautizar una iteracion, como
+		en las instrucciones 'termine' y 'continue'.
+		Antes se presentaba la siguiente ambiguedad, ej:
+			ciclo :
+				escribirln("hola");
+				...
+			fin ciclo
+		o, lo que es igual:
+			ciclo : escribirln
+				("hola");         <<-- expresion
+				...
+			fin ciclo
+		que es un programa valido, pero seguramente no el deseado!
+		El esquema /id/ evita esta ambiguedad y es aceptablemente estetico.
+		Queda pendiente un resaltado especial (como en variables semanticas).
+
+/////////////////////////////////////////////////////////////////////////
+	2002-02-12
+
+	loro-2002-02-12.tgz:
+
+	- Agregada preferencia para recordar el tamano del Font en editor.
+	  (Para el interprete interactivo se pospone la preferencia, pero
+	  esta funcionalidad esta activa.)
+
+	- Corregido bug que viene desde antes de este refactoring:
+	  En el interprete interactivo, si el programa o comando Loro empieza 
+	  inmediatamente con una lectura, el cursor aparece al puro inicio de
+	  la linea y entonces no se logra el control de prefijos especiales 
+	  para resaltado en el text-area. Solucion: faltaba hacer manejo de
+	  prefix en JTerm.read(). Listo.
+
+	- El despliegue de lineas en el interprete interactivo dejaba el "rastro"
+	  del cursor (cuando no habia necesidad de scroll generalmente): 
+	  se corrigio este defecto agregando el ocultamiento del cursor cuando 
+	  se pone texto en los metodos append() e insert() de JEditTextArea.
+	  Solo en algunos casos escasos se presenta aun este rastro, sobre todo
+	  cuando hay combinacion con interrupcion.
+
+	- Mejorado el manejo de la interrupcion de un proceso en el interprete 
+	  interactivo: a veces se desplegaba mal el coloreamiento correspondiente
+	  (manejo de prefijos especiales con el JTerm). Queda pendiente el caso
+	  cuando un proceso largo sin lecturas se interrumpe, en este caso
+	  tiende a salir repetido el prompt. Por ejemplo, al interrumpir el 
+	  comando:
+	  	ciclo escribirln("."); fin ciclo
+	  el prompt queda algo como (en colores distintos ;)
+	  	$  $
+
+
+	- REVISAR (no prioritario)
+	  Manejo de threads en EjecutorTerminable:
+		- no recuerdo muy bien por que este manejo ;-/
+		- quiza dejar que la prioridad la establezca su cliente
+		- en terminarExternamente() hay un interrupt(); por que?
+
+	- Corregida (otra vez, despues del refactoring) la obtencion del foco en el 
+	  text area tan pronto se inicia el LoroEDI.
+
+	- Eliminado paquete util.simpleditor, con codigo viejo que se tenia de respaldo.
+	
+
+/////////////////////////////////////////////////////////////////////////
+	2002-02-10
+
+	loro-2002-02-10.tgz:
+
+	Loro:
+	- LoroEjecutor.visitar(NSubindexacion)
+	  En indice fuera de rango, se distingue ahora entre arreglo vacio o no
+	  para efectos del mensaje en la excepcion.
+
+	- Bug corregido: En el interprete no se estaba reiniciando la pila de ejecucion
+	  ejecucion tras ejecucion: En LoroEjecutor.reset(..) se agrego pilaEjec.reset() 
+	  (Estaba este error antes del refactoring?!)
+	  
+	LoroEDI:
+	- Revision general de util.editor.* y de loroedi.jedit, eliminando
+	  codigo innecesario, moviendo algunos comportamientos "listener"
+	  a clases internas en AreaTexto_jedit, y mejorando documentacion.
+
+	- He modificado loroedi.jedit.TextAreaPainter.setFont(Font) para evitar
+	  el "deprecated" Toolkit.getFontMetrics(font); ahora es el 
+	  getFontMetrics(font) heredado de Component. Pruebas rapidas de
+	  edicion no presentan anomalias.
+	  Queda pendiente un "deprecated" similar en SyntaxStyle.getFontMetrics(Font).
+
+	- En JEditTextArea nuevo metodos setFont(Font) y getFont() (que no estaba 
+	  reimplementados) para operar sobre el TextAreaPainter painter. Esto logra
+	  ahora que se pueda modificar el font en util.jterm.JEJTermDemo con los
+	  comandos F11, F12. 
+	  Para que el cursor (caret) se ajustara adecuadamente, tuve que hacer lo
+	  siguiente en JEditTextArea._offsetToX():
+		Codigo original que no funcionaba
+		   fm = styles[id].getFontMetrics(defaultFont);
+		El painter sabe como ajustar el FontMetrics, asi que ahora es:
+		   fm = painter.getFontMetrics(defaultFont);
+					
+	  Habilitada esta funcionalidad en el editor del LoroEDI. Ver menu Edicion.
+	  El interprete interactivo, que se implementa con una JTerm, queda tambien
+	  habilitado para esto pues el JTerm esta ahora atendiendo algunas teclas
+	  para manipular el font (tamano, negrilla, cursiva).
+
+	- Hice una revision dentro del modulo jedit para ver la posibilidad de
+	  habilitar la caracteristica undo/redo: no parece muy rapida de hacer,
+	  asi que lo descarto por ahora. Habra que revisar posibles nuevos elementos
+	  en syntax.jedit.org, y/o en el mismo jedit actual.
+	
+
+/////////////////////////////////////////////////////////////////////////
+	2002-02-04
+
+	loro-2002-02-04.tgz
+
+	- Renombrada SemanticException por ChequeadorException.
+
+	- Mejoramiento de la clase Preferencias y reactivacion de su uso.
+
+	- Se quito manejo de KeyListener en util.editor, que se tenia para
+	  ciertas acciones (copiar, pegar, abrir, ayuda, guardar, ...). 
+	  Ahora todo esto se controla desde loroedi.EDI. 
+	  Aunque loroedi.jedit.AreaTexto_jedit mantiene este esquema internamente
+	  para seguir manejando los varios sinonimos de teclado sobre el clipboard.
+
+	- Mejorado el control de salida de LoroEDI.
+
+	- Propiedades en LoroEDI (preferencias y configuracion) ahora todas
+	  comienzan con loroedi.* y los archivos son loroedi.pref y loroedi.conf
+
+	- Adicionado opcion de menu para mostrar el interprete interactivo.
+
+	- En LoroEDI eliminadas algunas clases de respaldo viejas.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-02-03
+
+	Loro:
+	- Nuevo Chequeador.chequear(Nodo) que pone SemanticException como
+	  posible excepcion, lo cual es mas apropiado para sus clientes que
+	  hacer nodo.aceptar(chequeador) y tener que atender VisitanteException.
+
+	- Renombramientos de interfaces en paquete loro para que empiecen con I.
+
+	- Renombramientos en loro.tools:
+		Compilador     --> LoroCompilador
+		Interprete     --> LoroInterprete
+		Doc            --> LoroDocumentador
+		TraductorAJava --> LoroTraductorAJava
+		EsquemaJava    --> LoroEsquemaJava
+	  Eliminada clase Info: cada herramienta se pone su titulo informativo.
+
+	LoroEDI:
+
+	- Reactivada la generacion de documentacion desde la compilacion:
+	  en LoroControl.compilar(String fuente) se invoca _generarDocumentacion(unidades).
+	
+	- Eliminados por innecesarios: 
+		clase ObjetoCompiladoMemoria
+		interface EDIListener
+
+	PRUEBAS:
+		Pocas pero satisfactorias, teniendo en cuenta que hay algunas 
+		operaciones que estan pendientes como: recompilacion/documentacion
+		de loroI.lar.
+
+	LoroMISC:
+	- Hice algunos retoques minimos a LoroCompilerTask:
+	  pendiente reimplementar para agilizar la compilacion de unidades de apoyo
+	  para Loro mismo.
+		
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-30 
+
+	- LoroEDI accede ahora solo a loro.EjecucionException para
+	  exceptiones asociadas a ejecucion. Un nuevo metodo en esta
+	  clase, esTerminacionExterna(), le permite al cliente saber
+	  si la exception es por terminacion externa y no por un problema
+	  en la ejecucion como tal. (Al interior de Loro, se revisa una
+	  runtime exception, TerminacionExternaException, para este evento.
+	  Un manejo similar se hace para el caso de terminacion interna, o sea,
+	  por programa (TerminacionInternaException).
+
+	- LExcepcion pasa a ser subclase de Exception (antes de RuntimeException).
+	  Esto ha obligado una buena cantidad de ajustes en la revision.
+
+	- Ahora los metodos generales de lecturas pueden generar la excepcion
+	  java.io.InterruptedIOException que resulta muy razonable.
+	  En ejecutarAlgoritmoJava, ademas de revisar LEXception, ahora se revisa 
+	  tambien java.io.InterruptedIOException para transformarla en una 
+	  TerminacionException.
+
+	Notese que:
+	  TerminacionExternaException y TerminacionInternaException extienden
+	  RuntimeException, lo que facilita el control interno.
+	  En cambio, TerminacionException extiende EjecucionException, para
+	  control a mas alto nivel dentro del visitante ejecutor.
+
+	Bueno, a hacer pruebas exhaustivas con todos los cambios hechos.
+	Los primeros ensayos no resultan tan mal hasta ahora ;-) Hay que
+	revisar el manejo de excepciones (pila de ejecucion, por ej).
+		
+	- Ahora LoroEDI esta indicandole a Loro donde encontrar el archivo de
+	  apoyo (loroI.lar). Pero este deberia estar bajo el dominio de Loro.
+	  Como hacerlo?  Leyendolo de un recurso con ClassLoader.getResource()? 
+	  Ahora el archivo de apoyo es un ZipFile que se crea en ManejadorUnidades 
+	  con el nombre (String) del archivo. Podria quiza hacerse un 
+	  getResourceAsStream() y crear en cambio un ZipInputStream. PENDIENTE.
+
+	- Probe loro.tools.Compilador sobre los fuentes de apoyo. Compilan
+	  perfectamente. Por ej:
+	   java loro.tools.Compilador -d /cygwin/home/carlos/_loro/oro *.e.loro *.a.loro
+
+	  Pendiente: actualizar el ant-task (compilador Loro) para que utilice este 
+	  nuevo esquema mas simplificado: antes se leian las propiedades de configuracion 
+	  (que ahora es de LoroEDI) para poder operar.
+	
+	  Pendiente: hacer que estas tools sean como clientes del sistema (ahora
+	  acceden a muchas partes intimas ;-) de Loro.
+	  
+
+	- Desaparece clase loro.util.Valor que contenia valores por defecto para 
+	  los diversos tipos: ahora cada Tipo tiene el valor por defecto para si mismo.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-28 (loro-2002-01-28.tgz)
+
+	- Nueva clase loro.Util pensada para los clientes. Solo he movido
+	  alli loro.util.Util.replace.
+	  Ahora LoroEDI no utiliza loro.util.Util. (salvo alguna clase
+	  de copia de seguridad que queda con errores por ahora.)
+
+	- Nueva clase loro.IInterprete (con doble II por ahora para no
+	  confundirse con loroedi.Interprete).
+	  Su servicio es dar soporte al interprete interactivo. 
+	  loro.Loro.crearInterprete() obtiene una instancia de ella.
+	  
+	  Primeras pruebas van bien, pero hay bugs descubiertos:
+
+	  1) bug que viene desde antes de este refactoring:
+	  Si el programa loro empieza inmediatamente con una lectura,
+	  el cursor aparece al puro inicio de la linea y entonces no se
+	  logra el control de prefijos especiales para resaltado en el
+	  text-area. Solucion pendiente.
+
+	  2) bug mas critico:
+	  Pasos para reproducirlo:
+
+	    $ .cambiarmodo
+		Modo cambiado a: Interpretación sin ejecucion (sólo chequeo)
+	    $ x: entero := 3
+	    $ x + 4
+	    $ .cambiarmodo
+		Modo cambiado a: Interpretación completa con ejecución
+	    $ x + 4
+		Se genera un NPE !!
+
+	  No recuerdo si este problema estaba antes. Revision pendiente.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-26  (loro-07q4-2002-01-26.tgz)
+
+	- Continuando refactoring...
+
+	- Ahora LoroEDI se encarga de determinar cuando un algoritmo es
+	  "ejecutable directamente" (LoroControl.ejecutableDirectamente)
+	  como dejar esto?
+
+	- LoroEDI depende mucho de loro.util.Util -- factorizar.
+
+	- Mas pendientes respecto a excepciones, nodos del arbol, tipos.
+
+	- Solo LoroITraductor (por desaparecer) queda con errores de compilacion.
+	  Quien ha tomado su papel es LoroControl.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-25  (loro-2002-01-25.tgz)
+
+	Loro:
+
+	- Nuevo paquete loro.doc, en donde se han puesto:
+		Documentador
+		VisitanteLoroDoc
+
+	- Nuevo paquete loro.tools, en donde se han puesto los "programas"
+	  de linea de comandos:
+		Compilador
+		Doc
+		EsquemaJava
+		Interprete
+		TraductorAJava
+
+	- Eliminada interface PostCompilationListener y por consiguiente la
+	  implementacion que habia en Chequeador para generar inmediatamente la
+	  documentacion: la idea es que el cliente interesado (LoroEDI) haga
+	  esto despues de compilar a traves del servicio Loro.compilar.
+
+	- Nueva clase loro.LoroClassLoader que toma responsabilidad sobre la
+	  carga de clases Java desde archivos JAR. Se extrae esto de loroedi.Control
+	  Continuar con:
+		hacer loro.Loro.ponDirectorioExtensiones(String dir_ext)
+			que prepara el class-loader
+
+		en loroedi.Control hacer el ajuste de uso necesario...
+
+	- Loro queda sin ninguna dependiencia de LoroEDI
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-24 Separacion Loro-LoroEDI
+
+	Acabo de comenzar la separacion de todo el sistema actual en dos
+	grandes subsistemas:
+
+		- Loro        Nucleo de servicios del lenguaje: 
+		              compilacion, ejecucion (incluyendo paso-a-paso),
+		              documentacion, etc.
+
+		- LoroEDI     Entorno de Desarrollo Integrado para Loro:
+		              La GUI propiamente.
+
+	Para esto, ahora hay los dos proyectos correspondientes bajo VAJ.
+
+	La idea es facilitar diversas formas de interaccion con Loro:
+	ademas de la misma EDI, tambien posibles plug-ins para editores
+	como jEdit y Jext.
+
+	Ya se han hecho algunos renombramientos de paquetes (por ejemplo, los
+	que empezaban en loro.edi**, ahora son loroedi**).
+	Clase principal:  Antes loro.EDI;  Ahora loroedi.LoroEDI
+
+	Lo que sigue es ir quitando toda dependencia que tenga Loro en LoroEDI
+	como: Preferencias, Configuracion, etc.
+	(Seguramente Loro tendra su propia configuracion pero de naturaleza
+	transitoria.)
+
+	En Loro he creado algunos elementos nuevos (huecos por ahora) con el
+	fin de ir preparando una API de acceso:
+		clase loro.Loro (ofrecera los principales servicios)
+		clases excepcion loro.{Loro,Analisis,Compilacion,_Ejecucion}Exception
+		interface loro.Unidad (resultado de compilacion)
+	Por ahora, parece que loro.arbol.* sera parte de esta API.
+	Se continuara con estos elementos una vez se haga la separacion completa.
+	
+	Todo queda compilando OK:
+		Loro:     0 errors, 0 warnings   (version 07.q1)
+		LoroEDI:  0 errors, 2 warnings (los del jedit)   (version 07.q1)
+
+		LoroMISC: 6 errors en loro.misc.ant.LoroCompilerTask debidos a
+			que no se incluyen clases de apache referenciadas.
+			(nuevo proyecto para separar cosas accesorias).
+
+	Los tres proyectos se siguen exportando a un mismo archivo ...-src.jar
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-22 (0.7q0 OK compilacion)
+
+	- paquete util.editor
+	  El servicio de editor como tal se pone en este nuevo paquete.
+		class Editor
+			Ofrece las operaciones basicas de un editor, como
+			buscar, abrir, guardar, copiar, pegar, etc.
+		abstract class AreaTexto
+			Sobre el que opera un editor. Se ofrece una
+			implementacion basica (clase interna al Editor) basada
+			en java.awt.TextArea.
+			[PENDIENTE pasar algunas operaciones a Editor como buscar()]
+		interface EditorListener
+			Un editor notifica a un EditorListener sobre ciertos
+			eventos.
+	  No se incluyen ventanas, ni menues. De esto se encarga el cliente
+	  del editor.
+
+	- clase AreaTexto_jedit movida a loro.edi.jedit.
+
+	- Todas las acciones del EDI canalizadas como clases internas de 
+	  loro.edi.Acciones. El atributo edi (clase EDI) queda a disposicion de 
+	  todas las acciones. A traves del edi se puede obtener el editor para
+	  aquellas acciones que operan directamente sobre la edicion.
+
+	- Renombramientos (a español):
+		LoroPreferences    --> Preferencias
+		LoroConfiguration  --> Configuracion
+	  (pendientes sus metodos).
+
+	- Nueva loro.LoroControl para sustituir a LoroITraductor y Editable anteriores.
+
+	- Comienza a funcionar en buena parte el nuevo EDI. 
+	  Seguir revisando.
+		- No se recuerda Preferencia.RECENT.
+		- Al salir, revisar modificacion sin guardar (parece?)
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-18
+
+	- pocos retoquecitos...
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-17
+
+	- nuevo paquete loro.edi.editor con:
+		- interface EditorListener  (simplificacion de Editable)
+		- clase Editor (de SimpleEditor)
+		- clase abstracta AreaText con extensiones:
+			- clase AreaText_jedit
+			- clase AreaText_awt
+	  El Editor no es ahora un JFrame sino un JPanel que luego se
+	  insertara en el loro.edi.EDI. Este editor ofrece todas las
+	  operaciones correspondientes que seran la base para las
+	  acciones en loro.edi.acciones.
+
+	- A loro.edi.EDI se han movido algunas operaciones relativas a
+	  la tool-bar quedando con errores --revisar.
+		
+/////////////////////////////////////////////////////////////////////////
+	2002-01-16 (0.7p9 OK!)
+
+	Continuando refactoring de la interface grafica (EDI).
+
+	- Esqueleto de opciones barra de menues:
+		loro.edi.EDI   (tiene main de prueba)
+		loro.edi.actions.*
+	  Seguir tomando de la implementacion anterior del editor (que
+	  esta repartido en varias partes) y unificar manejo.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-15 (quedando version 0.7p8 OK!)
+
+	Empezando refactoring de la interface grafica (EDI).
+
+	- Se toma como raiz para este manejo el paquete loro.edi. 
+	
+	- Renombrados paquetes:
+		loro.help          como:    loro.edi.help
+		loro.help.doc      como:    loro.edi.help.doc
+		loro.interp        como:    loro.edi.interp
+		loro.jedit         como:    loro.edi.jedit
+		loro.laf           como:    loro.edi.laf
+
+	Pendientes otros paquetes asociados directamente con la ventana de
+	edicion.		
+
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-14 (quedando version 0.7p7 SIN errores!)
+
+	- De nuevo el proyecto esta compilando y corriendo al parecer (casi) tal
+	  como estaba antes. 
+		- compilacion de paquetes loroI::{sistema,mat,entsal} OK
+		- Hice un recorrido rapido por los programas de demostracion 
+		  (bajo demo/): compilan y corren OK.
+	  Pendiente mostrar (lin,col) para ubicacion de errores: esto puede esperar
+	  un poco pues el resaltado del rango en la text-area esta bien con el
+	  nuevo manejo de Rango.
+
+	- Nuevo paquete loro.tipo con todos los tipos Tipo... que se tenian en
+	  loro.arbol.
+
+	- Revisar una vez mas loro.parsers.javacc.ConstructorArbol ya que tuve
+	  algunos NPE al determinar los rangos para nodos con componentes opcionales.
+
+	- Factorizar codigo entre Chequeador y Ejecutor: tienen metodos que hacen 
+	  basicamente lo mismo.
+
+	- Revisar variables de control en Chequedor para construcciones sintacticamente
+	  recursivas, como por ejemplo "segun" (variable tipoSegun).
+
+	- Nombres cualificados representados ahora con String[]. 
+	  Posiblemente sea mejor definir un tipo especifico para este concepto,
+	  digamos NombreCualificado, pero voy a aplazarlo mientras avanzo mas
+	  en otros aspectos con este refactoring.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-13
+
+	- Siguen errores por manejo a medias de nombres de paquete!!!
+
+	- Renombrado paquete loro.parser por loro.parsers.javacc.
+
+	- Eliminada clase loro.arbol.TipoPendiente; ahora el manejo de
+	  nodos-tipo (solo la descripcion sintactica de tipos) incluye este
+	  manejo (que es para los tipos clase y especificacion).
+
+	- Eliminado metodo Chequeador._resolverTipoPendiente. Vea:
+		Chequeador.visitar(NTipoClase n)
+		Chequeador.visitar(NTipoEspecificacion n)
+	  que se encargan de esta operacion en los casos concretos.
+
+
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-11
+
+	- Mas ajustes.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-10 (quedando version 0.7p3 con errores!)
+
+	- Completada construccion de nodos en loro.arbol.* con nuevos elementos
+	  para reemplazar a Token.
+
+	- QUITADA toda dependencia de Token en loro.arbol.* (haciendo multiples
+	  ajustes en otros paquetes),
+	  SALVO la clase:
+		 TipoPendiente 
+	  que esta muy relacionada con:
+		 Chequeador._resolverTipoPendiente
+	  Seguir con esto.
+			
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-09  (quedando version 0.7p2 en VAJ)
+
+	Continuando con reestructuracion loro.arbol.* :
+	- La compilacion sigue haciendose completa puesto que no se ha eliminado
+	  nada de los elementos dependientes de Token: mas bien se agrega lo
+	  necesario para el manejo nuevo, se prueba y luego se elimina todo lo
+	  de Token por fuera de loro.parser.
+
+	(SableCC se ve muy interesante como posible alternativa en una futura 
+	implementacion del derivador para Loro - ademas de ANTLR.)
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-08
+
+	Reestructurando loro.arbol.* :
+	- Modificando LoroIParser.jj, agregando elementos (ver abajo) y
+	  compilando para ir probando.
+
+	- Se han creado nuevos elementos:
+		clase Rango
+		interface Ubicable -- obtRango()
+		interface ITerminal extends Ubicable
+		interface Visitable -- aceptar(IVisitante)
+	- Modificado:
+		interface INodo extends Ubicable, Visitable
+	
+	- Nueva jerarquia de clases con base en NTipo:
+		Un NTipo se refiere a una alusion a un tipo dentro del
+		texto fuente, y no a un objeto con todas las responsabilidades
+		asociadas al manejo completo de tipos.
+		Esta pendiente como *pasar* de NTipo a Tipo.
+
+	- Nuevo paquete loro.tabsimb para manejo de tabla de simbolos:
+		clase TablaSimbolos
+		clase EntradaTabla
+		clase TSException (nueva clase)
+	  Eliminada toda referencia a Token en este paquete. Ok.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-07
+
+	- Nueva clase loro.parser.ConstructorArbol.
+	  Ahora, no se invoca ningun constructor de Nodo directamente en
+	  loro.parser.LoroIParser, sino que se hace a traves de los
+	  servicios de ConstructorArbol. Se regenero el parser (javacc)
+	  desde win2000 satisfactoriamente (importando solo las clases
+	  LoroIParser... en VAJ, bien).
+	  Lo anterior permitira (?) ir haciendo las modificaciones para
+	  reducir las dependencias en la clase loro.parser.Token en otras
+	  partes del sistema: El ConstructorArbol se encargara de convertir
+	  la informacion de Token en lo que se defina para un nuevo esquema
+	  general.
+
+/////////////////////////////////////////////////////////////////////////
+	2002-01-05
+
+	- Eliminada la clase TraduccionException. Ahora DerivacionException
+	  ha asumido completa responsabilidad. Se traslado funcionalidad de
+	  obtRango (rango comprometido en texto fuente) a loro.util.Util y
+	  se creo explicitamente la clase loro.derivacion.Rango.
+	  Todo esto puede facilitar un rediseño para mejorar manejo asociado
+	  actualmente a la clase loro.parser.Token.
+
+	- Se ha resuelto el asunto de ``crear[10..15]'', haciendo
+	  que un literal real obligue a tener algun digito despues
+	  del punto; es decir, ahora ``6.'' NO es literal real valido;
+	  no creo que esta exigencia vaya en contra de la filosofia
+	  de Loro, en cambio hace mas comoda la escritura de rangos
+	  con literales enteros.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-12-17  (De nuevo usando VAJ como mejor ayuda para refactoring)
+	
+	  - Nuevo paquete loro.derivacion para el manejo de la contruccion
+          del arbol sintactico. Ahora se tiene la interface Derivador
+          que define este comportamiento. De esta manera ha quedado "aislado"
+          el mecanismo sobre JavaCC (paquete loro.parser), SALVO la clase 
+          loro.parser.Token (cuyo uso esta presente un muchas otras partes 
+          del sistema) y la nueva clase de acople DerivadorJavaCC.
+          La idea es crear despues el paquete loro.parsers.javacc.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-12-13
+	
+	  - crear[10..15] produce error sintactico: ``encontrado .15''
+	    y es porque se toma primero la expresion (literal real) ``10.'' 
+		Por ahora, hay que escribir: crear[10 ..15]) pero esto NO es conveniente.
+		PENDIENTE: dar prioridad al "operador" ``..''
+
+	- Inicio revision de algunos modulos.
+	
+/////////////////////////////////////////////////////////////////////////
+	2001-12-12  (Retoma despues de mas de un mes)
+	
+	- Nuevo mecanismo sintactico para crear arreglos que permite indicar
+	  el rango para los indices. El asunto queda asi:
+	  
+		- crear [m .. n] <tipo>
+			crea un arreglo para (n - m + 1) valores del tipo dado, los
+			cuales son accesibles mediante los indices m, m+1, ..., n.
+			
+	  	- crear [n] <tipo>
+			crea un arreglo para n valores del tipo dado, los
+			cuales son accesibles mediante los indices 0, 1, ..., n-1.
+			(mecanismo anterior que se mantiene).
+			
+/////////////////////////////////////////////////////////////////////////
+	2001-11-05
+	
+	- Algo de limpieza despues de recompilacion completa bajo java 1.4
+	  (por ejemplo, se renombro Util.assert por Util._assert, ya que
+	  'assert' es ahora palabra reservada de Java).
+	  
+	- Ampliado el lexico (LoroIParser.jj) con las nuevas palabras
+	  reservadas:
+	  		interface
+			implementa
+	  (pero sin ningun manejo aun).
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-25
+
+	- En proceso de complementar mecanismo 'extiende' para clases:
+
+		- Se revisa ahora posible ciclicidad al definir una clase:
+			clase X extiende X ...
+
+		- Se ha hecho Chequeador._chequearAsignabilidad general para ser usado
+		  en varias partes.
+		  PENDIENTE: Completar uso en otros posibles puntos.
+
+	- Cambios en la gramatica:
+
+		-Se quita id para constructor;
+		 Razon: evitar redundancia (mismo nombre de la clase) al tiempo 
+		 que se destaca el caracter especial de los constructores.
+
+		-Ahora una etiqueta es solo un identificador, que se antecede de ":" (dos puntos)
+		 cuando se bautiza una iteracion, y se usa sin mas adornos en los 'termine'
+		 y 'continue'.
+		 Razon: Mas simple y claro. Antes era <etiqueta>. Tambien pensando
+		 en la posterior transicion hacia Java/C++ en donde esta muy arraigado el uso de
+		 los corchetes angulares para tipos genericos (concepto bien diferente al
+		 de etiquetas).
+
+	- Mejorado despliegue de tabla de simbolos (toString) principalmente para el II
+	  (Interprete Interactivo), mientras se hace una JTable.
+	  Pero pendiente completar (manejo de nulos, mas atributos de EntradaTabla...)
+	- Agregado metacomando ``.borrar ID'' para eliminar una entrada de la
+	  tabla de simbolos en el II.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-15
+
+	- Se modifica el orden de busqueda para resolver unidades compiladas:
+			1- el archivo de apoyo del sistema.
+			2- la ruta para leer unidades compiladas
+			3- directorio donde se guardan compilados
+	  El cambio concretamente es que ahora se busca primero en el archivo de
+	  apoyo (antes se exploraba este de ultimo). Este es el esquema correcto
+	  para resolver ciertas unidades de soporte para el lenguaje (como la
+	  clase Objeto --por hacerse).
+	  Ver ManejadorUnidades.
+
+	- Interprete Interactivo:
+		- Se muestra stack trace ante EjecucionException
+
+	- Bugs corregidos:
+		-Operador # sobre variable con referencia a nulo provocaba NPE.
+		 Correccion: revision en Ejecutor.visitar(NCardinalidad).
+		-Conversion cadena(nulo) no se aceptaba.
+		 Correccion en TipoNulo.esConvertibleA.
+
+	- PENDIENTES
+		- Resaltar codigo fuente ante error de ejecucion!!!
+	- Pendiente con respecto al interprete:
+		- Agregar JTable para tabla de simbolos.
+		- Guardar historia de comandos a nueva preferencia.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-12 - version 0.699
+
+	- Renombrada clase loro.IDESimple como loro.EDI (ya no es tan simple :)
+	  y actualizados los archivos dependientes (como loro.manifest).
+
+	- Modificaciones con respecto al interprete interactivo:
+
+		- Habilitada construccion 'utiliza'. Ej:
+			$ utiliza algoritmo loroI::mat::maxEntero
+			$ maxEntero(1,2)
+		   =  2
+
+		- Mejorado despliegue de colores para diferenciar los mensajes.
+
+		- Habilitada navegacion de la historia (flechas UP y DOWN).
+
+		- Las expresiones cadena y caracter se muestran como codigo Loro
+		  (o sea con ``quotes''). Sin embargo hay que complementar esto.
+		  Ver loro.util.Util.quote().  (creo que javacc genera codigo para
+		  esto --mirarlo).
+
+		- Se distingue una expresion 'nulo' de una expresion (invocacion)
+		  que no retorna nada (tipoUnit): en el primer caso se muestra
+		  el resultado, y en el segundo caso no se muestra nada.
+
+		- Se permite 'terminar' la ejecucion de una instruccion mediante
+		  un boton.
+		  NOTA: La accion de "limpiar" la ventana no se hace todavia desde boton
+		  porque habria que complementar el JTerm en el control de una posible
+		  lectura en curso (asi esta la consola tradicional). Mas bien, se ofrece
+		  el comando explicito ".limpiar" para ser entrado por teclado, lo cual,
+		  por ser en el mismo hilo de lectura, no ofrece complicaciones (aunque
+		  ojo que se genera una exception de ubicacion, creo, en el jedit, pero
+		  que no perjudica la continuacion del interprete).
+
+		- Se recuerda el rectangulo gracias a una nueva preferencia.
+
+	- Bug corregido: Un ciclo sin instrucciones no se podia interrumpir.
+	  Correccion:  se complemento EjecutorTerminable.
+
+	- Bug corregido: conversion de tipo de 'nulo' a instancia de clase
+	  o a arreglo provocaba error de chequeo. Correccion: No se habia
+	  reimplementado Tipo.esConvertibleA() en TipoNulo.
+
+	- Bug corregido: En ejecucion no se hacia conversion de argumentos para
+	  invocacion. Ver Ejecutor.visitar(NInvocacion n).
+	  PENDIENTE IMPORTANTE
+		Hacer para LAlgoritmo el mismo manejo que con NAlgoritmo sobre posible
+		conversion de valores.  Esto esta relacionado con la posibilidad
+		de hacer que NAlgoritmo implemente LAlgoritmo y todos los ajustes
+		correspondientes necesarios.
+
+	- Se define la especificacion:  loroI::sistema::PRUEBA
+	  Se elimina la especificacion: loroI::sistema::principalGenerico
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-09
+
+	- Hice que la clase loro.jedit.JEditTextArea implementara util.jterm.ITextArea
+	  para facilitar las cosas. Se elimina la subclase LoroJEditTextArea y mejor
+	  se hace una clase loro.jedit.Loro encargada de hacer preparativos varios.
+	  Todo esto inicialmente para el manejo de eventos asociados a la
+	  ventana del interprete. Por ejemplo, ahora ya se atiende el Enter en
+	  el JTerm (inhibiendo lo correspondiente en el JEditTextArea).
+
+	- Bastante hacking sobre el paquete loro.jedit para lograr buenos efectos
+	  de syntax coloring en el area del interprete:
+		- Se resalta el prompt de manera especial
+		- Se resalta salida de subproceso (algoritmo llamado desde el interprete)
+		  de manera especial.
+
+	- Bug corregido: Un literal entero demasiado grande provocaba 
+	  NumberFormatException en el constructor NLiteralEntero.
+	  Correccion: Se detecta la exception en el constructor de
+	  NLiteralEntero y se lanza en Chequeador como SemanticException.
+
+	- Nota: Se presentan ahora mas interdependiencias entre los
+	  proyectos Loro y JTerm (que han estado juntos de todas maneras desde
+	  hace un tiempo).  Si se quiere mantener el proyecto JTerm independiente
+	  en un futuro, habra que hacer los ajustes necesarios (por ahora no es
+	  la necesidad).
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-08
+
+	- Ajustando el JTerm para que trabaje con el JEditTextArea.
+	  Continuar con atencion de teclazos: el JEdit parece capturar
+	  el Enter y no dejarlo llegar al JTerm para atender entrada
+	  de comando. Parece que hay que apuntar al Document manejado.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-07
+
+	- De manera similar a como se hizo para 'tabSimb'/tabSimbBase, se hizo
+	  manejo sobre 'unidadActual'/'unidadBase'.
+
+	- Se hizo subclase NUnidadInterprete de NUnidad para prestar las
+	  funcionalidades necesarias para el interprete. De esta manera se
+	  logra inmediatamante la resolucion de nombres cortos a completos:
+		 > escribirln("Hola")
+		 Hola
+		 >
+
+	- Reaparece palabra reservada "es_instancia_de" (a cambio de "es" que 
+	  desaparece). Creo que "es" la puse anteriormente por breve; pero es
+	  mejor el nombre mas largo y descriptivo "es_instancia_de" (si es por
+	  aspectos de edicion, esto se puede facilitar con abreviaciones que 
+	  ofrezca el editor como tal - estilo JEdit o Jext). Ademas, casi nadie
+	  debe haber usado este operador ;-/
+
+	- Bug en conversion de tipo entero a booleano que causaba por ejemplo:
+	  booleano(1) -> falso.  Corregido: tiene que ser: booleano(0) -> falso
+	  y booleano(!=0) -> cierto.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-05
+
+	- Modificado el esquema para saber si un identificador "tiene asignacion":
+	  este estado se actualizaba a traves de operaciones "ponValor". Ahora
+	  se hizo un metodo especifico "ponAsignado" para actualizar directamente
+	  el flag "asignado" dentro de la EntradaTabla correspondiente.
+	  (Nota: cambio de nombre:  antes: "tieneValor  ahora:  obtAsignado).
+	  Asi que ahora Chequeador no utiliza ponValor sino ponAsignado con true.
+	  Este manejo es mas "limpio" y se hizo ahora necesario para el
+	  interprete, en donde se presenta un ciclo chequeo/ejecucion que requiere
+	  mantener el estado de las variables top-level. De esta manera,
+	  el Ejecutor ya reporta cuando se utiliza una variable sin asignacion.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-10-01
+
+	- Continuando implementacion de ejecucion interactiva.
+	  Se ha incorporado el concepto de "tabla de simbolos de base" tanto
+	  en Chequeador como en Ejecutor, tal que esta pueda establecerse
+	  externamente  e incluso compartirse con los controles correspondientes
+	  (anteriormente estos visitantes establecian siempre su propio manejo
+	  de tabla de simbolos).
+	  Las pruebas hasta ahora permiten declarar y ejecutar instrucciones
+	  de asignacion simple. Continuar con modificaciones correspondientes
+	  al manejo de "unidadActual" en Chequeador: en donde se asume que
+	  hay tal "unidad actual", pero desde el interprete tal unidad no
+	  existe: Ajustar esto.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-28
+
+	- Inicio de ejecucion interactiva. Ver clase loro.interp.Interprete.
+	  Por ahora, lo que se hace basicamente para procesar una linea
+	  escrita por el usuario es lo siguiente:
+
+		parser.ReInit(new StringReader(line));
+		Nodo n = parser.accion();
+		n.aceptar(chequeador);
+		n.aceptar(ejecutor);
+		Object o = ejecutor.obtRetorno();
+		return ejecutor._comoCadena(o);   // para imprimir resultado
+
+	  Desde luego falta hacer todos los preparativos (y seguras
+	  modificaciones a las clases de soporte) para que haya una debida
+	  coordinacion chequeador/ejecutor, en colaboracion con una nueva
+	  clase (por hacerse) para mantener el estado de las variables top-level.
+
+	  Nota: En loro.IDESImple se esta lanzando esto directamente por ahora!
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-24
+
+	- Se pusieron comillas en los scripts para prevenir rutas con espacios
+	  (por ejemplo, en los .bat esto es problematico).
+
+	- Modificacion de la gramatica para clases: Hay que anteceder la
+	  cadena de documentacion con ``:'':
+			edad : entero  : "La edad de la persona";
+	  esto para dar mas claridad, sobre todo teniendo en cuenta el caso
+	  de un atributo cadena que ademas esta inicializado:
+			nombre : cadena := "NN" : "Nombre de la persona."
+	  Con esto resurge la inquietud de definir un token especial para
+	  cadenas de documentacion, es decir, distinto a LITERAL_CADENA: PENDIENTE.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-21 - Version 0.68
+
+	- Modificacion de la gramatica para clases: ahora se exige que cada
+	  atributo tenga su descripcion, ej:
+			edad : entero  "La edad de la persona";
+	  Ver demo/objetos/demoPersona.loro
+	  Esto implico la modificacion de NDeclDesc (clase que se tenia pero
+	  que no se estaba utilizando), y de los visitantes.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-20
+
+	- EXPERIMENTAL
+	  Lanzamiento desde codigo Loro de un algoritmo en una nueva ventana.
+	  Ver proyecto lxhilos, en donde esta el codigo Java y Loro para
+	  soporte del nuevo proceso 'lorox::hilos::lanzar(alg: algoritmo)'
+
+	- BUG: Para la ejecucion de un algoritmo no implementado en Loro
+		  (actualmente en Java), NO se estaba considerando el asunto
+		  de las pre y pos-condiciones.
+		  CORREGIDO. Ver loro.ejecucion.Ejecutor.visitar(NAlgoritmo)
+
+	- Para toda extension LAR (en DIR/lib/ext/) se genera ahora
+	  automaticamente su documentacion.
+
+	- Queda pendiente inventar algun mecanismo adecuado para no generar
+	  la documentacion de las extensiones CADA VEZ que se lanza el EDI.
+	  Notese que la libreria de apoyo DIR/lib/loroI.lar SOLO
+	  se documenta UNA vez gracias a la propiedad loro.CODEVERSION.n
+	  (ver loro.Control.dispatchFirstTime).
+	  Quizas hacer algo parecido para las extensiones.
+	  Este punto se hara mas importante cuando se disponga de muchas y
+	  mas grandes extensiones (como es lo esperado).
+
+	- Advertencia: Se hicieron algunas modificaciones en las fases de
+	  chequeo (Chequeador) y ejecucion (Ejecutor) relativas a variables
+	  y parametros de tipo algoritmo, para corregir algunos vacios
+	  existentes. Por ejemplo, revisar en tiempo de ejecucion si un valor
+	  puede entrar como parametro o puede ser asignado cuando en la fase
+	  de compilacion solo se sabe que se trata de una referencia generica.
+	  Ver los metodos nuevos:
+		loro.arbol.Tipo.esAsignableValor(Object)
+		loro.arbol.TipoAlgoritmo.esAsignableValor(Object)
+	  Definir la pertinencia de esto (tengo una pequena confusion ahora)
+	  Es posible que hayan (re)aparecido bugs por todo esto, asi que
+	  estar alerta.
+
+	- Gracias a una mejora en el nanoInstaller, ahora se crean bien
+	  los scripts en DIR/bin/ tanto para Linux como para winbugs.
+	  (Esto se tenia desde hace unos dias pero habia olvidado anotarlo.)
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-18
+
+	- Modificado Ejecutor._pedirArgumentosParaAlgoritmo para que pida
+	  las entradas una por una. Esto como "mejora" provisional hasta que
+	  se defina el mecanismo de interaccion mas apropiado.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-17
+
+	Correccion de bugs reportados por Marlon.
+
+	- Un algoritmo que recibiera parametros tipo cadena ya no se consideraba
+	  como "ejecutable directamente": CORREGIDO.
+	  Ver loro.LoroITraductor.ejecutableDirectamente. Solo bastaba arreglar
+	  este chequeo porque la captura ya estaba lista.
+
+	- En loro.ejecucion.Ejecutor._convertirValor no se tenia en cuenta el caso
+	  de val como "instanceof" LAlgoritmo: CORREGIDO.  Sin embargo, es una
+	  solucion a medias puesto que esta pendiente una reestructuracion
+	  en la cual el mismo NAlgoritmo sea un LAlgoritmo: entonces apareceran
+	  algunas nuevas funcionalidades para LAlgoritmo, como por ejemplo para
+	  revisar a que especificacion corresponde.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-14 - Version 0.67
+
+	- Corregida anomalia (bug): no se resolvia bien una direccion
+	  relativa (ver metodos loro.util.Util.getRelativeLocation's) para
+	  documentacion HTML.
+
+	- Agregada posibilidad de incluir marcadores internos (inline tags)
+	  en cadenas de descripcion para enlazar documentacion: Ej:
+
+			"..... Ver @{loroI::sistema::leerEntero.e} ....."
+
+	  se convierte en la documentacion en un href apuntando a la
+	  documentacion de la especificacion loroI::sistema::leerEntero (por
+	  la terminacion .e). Listo entonces para unidades directas.
+
+	  Pendiente algo como @{loroI::sistema} para referir al documento
+	  de base que describe un paquete completo (este todavia no se esta
+	  manejando en general).
+
+	- Los botones "back" y "forward" del browser muestran como tooltip el URL
+	  al que apuntan.
+
+	- Para facilitar la apertura de demostraciones en la primera ejecucion,
+	  el editor pone ahora el directorio DIR/demo/ como de arrancada (si la
+	  preferencia RECENT no esta definida).
+
+	- En bin/ creados los scripts 'lorodoc*' y actualizados 'loroc*', y
+	  'loroedit*'.
+	  NOTE: No se ha hecho mayor cosa para preparar debidamente estos
+	  scripts de manera inmediata desde la instalacion (salvo quiza para
+	  Linux/Unix). Editelos a mano para ajustar lo necesario en su instalacion
+	  (este mensaje no es precisamente para primiparos, para quienes solamente
+	  se piensa en el EDI. ;-\)
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-13
+
+	- Algunos retoques al generador de documentacion HTML.
+
+	- Corregida la asociacion de tokens inicial y final
+	  para cada nodo del arbol de derivacion. Entre otras cosas esto
+	  provocaba no poder reconstruir bien el codigo fuente a partir del arbol,
+	  lo cual era necesario para, por ejemplo, el generador de documentacion,
+	  o seleccionar correctamente el area de texto fuente comprometida con un
+	  error de compilacion.
+
+	- Para lo anterior, se descargargo JavaCC 2.1. Se hicieron pruebas de
+	  generacion del parser nuevamente. Todo parece funcionar tal como
+	  venia sucediendo procediendo como se indica a continuacion:
+
+		- javacc genera ahora un SimpleCharStream, en vez de ASCII_CharStream.
+		  (Nunca se manipulo ni invoco directamente  ASCII_CharStream.)
+
+		- Se dejaron las mismas clases viejas Token, TokenMgrError, 
+		  ParseException y no las recien generadas. Aunque el nuevo javacc 
+		  genera warnings, despues de una revision comparativa veo que no
+		  hay cambios --salvo desde luego los que yo mismo hice en cuanto
+		  a algunos mensajes, el uso de transient y Serializable.)
+
+	  Asi que se hicieron cambio al LoroIParser.jj y a muchas clases de la
+	  jerarquia de Nodo para arreglar los tokens ini y fin.
+
+	  Se Actualizo tambien 'build.xml' para incluir la actualizacion del parser.
+	  (Para esto, he tenido que compilar los fuentes del <javacc> task opcional
+	  --con destino a ~/java/classes-- y tambien poner JavaCC.zip en el classpath.
+	  Queda funcionando OK.
+
+	- Se hizo splitPane1.setDividerLocation(200); en el DocBrowser.
+	  Pendiente guardar esto como una preferencia.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-12
+
+	- Terminada una primera version del generador de documentacion HTML.
+	  Incluye links para unidades referenciadas, es decir, en algoritmo
+	  hay link para la especificacion correspondiente; y en tipos que
+	  involucren especificaciones y clases tambien hay links.
+
+	- Una posibilidad NO implementada en este momento es incluir la
+	  lista de algoritmos conocidos para una cierta especificacion.
+	  PENDIENTE.
+
+	- La propiedad "directorio para guardar unidades compiladas" es ahora
+	  loro.pref.oro.dir  (antes loro.oro.dir en loro.conf).
+
+	- Manejo inicial de la primera ejecucion del sistema asociado al codigo
+	  de la version. Vea Control.dispatchFirstTime().
+	  En este momento:
+		- Generacion documentacion de unidades de apoyo (loroI.lar)
+		  en LoroPreferences.DOC_DIR.
+		  Esto se hizo para manejar solo UN DIRECTORIO RAIZ para toda la
+		  documentacion API. Entonces era necesario automatizar la
+		  generacion asociada a loroI.lar en DOC_DIR.
+
+		- En IDESimple se agrego tambien el chequeo de primera vez para
+		  lanzar la ventana de ayuda como forma de "bienvenida".
+		  (esta despues de lanzar el propio editor para que quede encima).
+
+	- No mas referencias a la propiedad "loro.dir" por ambiguo: el nombre
+	  preciso para esto incluye ahora la version (codigo de la version).
+	  Asi por ejemplo, esta propiedad es "loro.067.dir" para esta version del
+	  sistema; (y loro.067.n para el contador de ejecuciones completas).
+	  LoroConfiguration se encarga de esto.
+	  El nanoInstaller fue actualizado para mantener posibles propiedades
+	  preexistentes en anterior archivo de configuracion. (El asunto es
+	  que este archivo de configuracion mantiene el mismo nombre independiente
+	  de la version; ahora es [user.home]/.loro/loro.conf.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-06  - Version 0.66
+
+	- Nuevo paquete loro.help.doc con clases para el despacho de la
+	  ventana de documentacion.
+
+	- Se agrego opcion al EDI para visualizar la documentacion API. Para
+	  esto se toma la propiedad "loro.pref.doc.dir" (nueva).
+	  Por defecto, user.home/.loro/doc/
+
+	- Se agrego a Chequeador la generacion automatica de la documentacion.
+	  Para esto se creo la interface PostCompilationListener para
+	  observadores que quieran hacer algo con una unidad que acaba de ser
+	  compilada exitosamente. Por ahora el mismo Chequeador implementa
+	  esta interface ;-\  (no quedo muy seguro de haber escogido bien
+	  a Chequeador como responsable de esto; quiza mejor el ManejadorUnidades,
+	  por ejemplo --pero no esta tampoco tan mal).
+
+	- Al visualizador BrowserPanel le agregue la opcion de "refresh" la
+	  pagina visualizada, pero no logro hacer que el EditorPane vuelva a
+	  recargar la pagina: PENDIENTE. Por ahora quito el boton.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-04
+
+	- Nuevos metodos en ManejadorUnidades:
+
+		public void obtUnidades(String nombrePaquete, Vector v)
+			para cargar todas las unidades de un paquete teniendo en cuenta la
+			ruta de busqueda, el directorio para guardar compilados y la libreria de apoyo
+
+		public NUnidad obtUnidadDeArchivo(String nombreArchivo)
+			para cargar una unidad de un archivo dado con nombre completo
+
+		private void _cargarUnidadesDeDirectorio(File dirBase, String nombrePaquete, Vector v)
+			auxiliar para obtUnidades(String nombrePaquete, Vector v)
+
+		private void _cargarUnidadesDeZip(ZipFile zf, String nombrePaquete, Vector v)
+			auxiliar para obtUnidades(String nombrePaquete, Vector v)
+
+	- Con lo anterior, ahora loro.Doc acepta elementos a procesar donde cada elemento
+	  puede ser una de 3 posibilidades: paquete, unidad o archivo.
+	  Ver loro.Doc para mas detalles.
+
+	- Continuar con la opcion EDI para el despliegue de documentacion API.
+	  IDEA: Destinar una ventana especialmente para esto. Tomar los ensayos en
+	  loro.edi.* como base (usando JTree).
+
+	- Pendiente terminar el propio visitante documentador.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-09-03
+
+	- Se hizo publico:
+		ManejadorUnidades.obtUnidad(String nombreUnidad)
+	  para el servicio de otros modulos, concretamente para el documentador,
+	  ya que recibe unidades ya compiladas.
+
+	- loro.Doc recibe ahora (opcionalmente) el directorio de destino para
+	  la documentacion generada. A este directorio de base se le concatena
+	  el paquete de la unidad a documentar.
+
+	- Por definir: Ahora loro.Doc recibe la lista de unidades a procesar,
+	  pero cada unidad debe ser nombrada completamente. Seria deseable
+	  por decir algo por ejemplo como:
+
+		java loro.Doc -d /ruta/a/doc/ loroI::sistema
+		para indicar todas las unidades del paquete loro::sistema
+
+	  Para esto hacer el nuevo metodo:
+		NUnidad[] ManejadorUnidades.obtUnidades(String paquete)
+	  que retorne la lista de unidades en el paquete indicado
+
+	- Una vez hecho la anterior y actualizado el programa de linea de
+	  comando loro.Doc, definir opcion correspondiente IDE para el usuario.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-31
+
+	- Inicio del generador de documentacion:
+	  Nuevas clases:
+		loro.visitante.VisitanteLoroDoc
+		loro.Doc
+	  Cambiar a recibir *unidades compiladas* y no fuentes.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-30  - Version 0.65
+
+	- Nuevo paquete loro.misc.ant con la unica clase (ahora) LoroCompilerTask
+	  que es una "task" de Ant para compilar fuentes en Loro.
+	  Se hizo un buildanttasks.xml para compilar esto (no se puede en el
+	  mismo build.xml porque aqui se hace el <taskdef>).
+	  Se hizo tambien un antloroc.html que documenta el uso de esta task.
+
+	- Complementado build.xml para tambien compilar los fuentes en loro
+	  sobre los cuales se contruye la libreria de apoyo loroI.lar, asi
+	  como el empaquetamiento de tales fuentes en fuentesloro.jar.
+	  De esta manera se automatiza la actualizacion de las unidades de
+	  soporte (para prevenir posibles cambios en las clases serializadas).
+
+	- ToolTipText para opciones de menu que tienen algoritmos ejecutables.
+	  Primera version: un poco simple: se pone la descripcion de la especificacion
+	  y la estrategia del algoritmo. Se utiliza un formato HTML muy preliminar
+	  cuya apariencia no se garantiza mas teniendo en cuenta la version de JVM que
+	  se utilice)  Por ejemplo, se deberia reemplazar "\n" -> "<br>"
+
+	- Rescatados los fuentes Loro asociados a:
+			loroI::sistema::terminarEjecucion(cod: entero)
+	  (en algun momento se extraviaron!). Actualizada la API correspondiente.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-28  - Version 0.64
+
+	- Complementados algunos chequeos (aplazados hace tiempo) asociados
+	  a clases y algoritmos como valores: conversion de tipos, chequeo de
+	  "instancia de", asi como algunos bugs menores que se encontraron.
+
+	- En cuanto al chequeo de "instancia de", sigue pendiente el mecanismo
+	  para subclases, es decir, si B es subclase de A y obj es
+	  instancia de B, entonces ``obj es A'' es correcto.
+	  Asi que lo unico revisado actualmente es que la clase del objeto
+	  sea EXACTAMENTE la clase contra la que se confronta.
+
+	- Ojo: frame.getLocationOnScreen() como funciona? las ventana se mueven
+	  un poco ejecucion tras ejecucion! (parece relacionado con el grosor
+	  del marco.   Esto en linux (tambien le pasa al JEdit); probar en windows.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-26  - Version 0.63
+
+	- Reubicacion de archivos de configuracion y preferencias:
+	  Ahora se ubican bajo el directorio <user.home>/.loro/:
+		<user.home>/.loro/loro.conf - configuracion
+		<user.home>/.loro/loro.pref - preferencias
+	  (Recordar que en windows es <user.home>/_loro/ (con underscore);
+	  esto para generalizar, ya que en win2000 no hay problema con el
+	  punto inicial en el nombre de un archivo o directorio.)
+
+	- Tambien se paso el directorio para guardar unidades compiladas de
+	  <loro.dir>/oro/ a <user.home>/.loro/oro/.  Y ahora no es codigo
+	  duro, sino que hay una nueva propiedad <loro.oro.dir> que se
+	  lee del loro.conf, con valor por defecto el indicado aqui.
+	  Esto para "compartir" este directorio del usuario entre posibles
+	  diferentes instalaciones de Loro (aunque sigue pendiente el
+	  asunto del cambio de version de los serializables .oro).
+
+	- Nuevo archivo TO-DO.txt (paralelo a este DEVNOTES.txt) para
+	  anotar "TODO" lo que hay por hacer :-) .
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-24  - Version 0.62
+
+	- Nuevo manejo (muy preliminar) de *preferencias*, por ahora solo
+	  "recordando" lo siguiente como lo deja el usuario y no porque
+	  haya todavia una interaccion expresa para esto:
+		- el ultimo archivo editado
+		- la posicion y las dimensiones de la ventana de edicion
+		- la posicion y las dimensiones de la ventana de ayuda
+	  Ahora en el archivo: <user.home>/.loro.pref.
+	  Quiza convenga crear mejor un directorio <user.home>/.loro/
+	  y alli poner esta informacion asi como la de configuracion.
+	  Ver LoroPreferences (y tambien LoroConfiguration).
+	  NOTA: El L&F (discutido mas abajo): se considera como preferencia
+	  (loro.pref.laf) y no como configuracion (loro.laf).
+
+	- Nueva clase loro.help.HelpManager para:
+		- Atender comando Ayuda, ventana navegacion HTML
+
+	  En cuanto a navegacion HTML, se tiene:
+		- Manejo de comandos "back", "forward" y "home"
+		- tambien atencion del textfield "location"
+		- Se hace un chequeo simple de si un enlace o una direccion
+		  dada por el usuaio es de texto para poderse visualizar;
+		  esto se hace mirando el content-type (que empiece por
+		  "text/", o mirando que la direccion no termine en ".jar".
+		  (esto ultimo no deberia ser asi, pero al parecer en sourceforge
+		  no ponen el mime-type correcto para los .jar !)
+
+	  - Se hizo un poco de revision de documentos para la distribucion.
+
+	  - [pendiente] Atender explicacion de error en compilacion. Este
+		es todo un aspecto (contemplado en la filosofia de Loro) pero que
+		falta por atacarse a fondo en implementacion despues.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-23  - Version 0.61
+
+	- Nuevo manejo de themepacks para el LookAndFeel de Swing usando la
+	  libreria (LGPL) SkinLF de http://www.L2FProd.com.
+	  Ver loro.laf.LookAndFeel.   (nuevo paquete loro.laf)
+	  Para este manejo, se lee la preferencia `loro.pref.laf'.
+	  Si 'loro.pref.laf'  esta definida, se toma como el nombre del
+	  archivo themepack a cargar, por ejemplo:
+		loro.pref.laf=/home/carueda/java/themes/aquathemepack.zip
+	  A loro.IDESimple.main se le agrego la invocacion:
+		LookAndFeel.start();
+	  antes de lanzar el EDI. En realidad LookAndFeel es una clase
+	  intermediaria para utilizar LookAndFeel_SkinLF que es quien
+	  depende realmente de la libreria skinlf.
+	  Probado con buenos resultados.
+
+	  Estos themepacks pueden descargarse de:
+		http://javootoo.l2fprod.com/plaf/skinlf/index.php
+
+	  El asunto ahora es decidir sobre la "mejor" mecanica para que un
+	  usuario "principiante" pueda elegir su L&F con este manejo, ya que
+	  por ahora tendria que editar .loro.pref y escribir la linea de arriba.
+	  Parece que se acerca el momento de incluir una opcion de "Preferencias"
+	  para este tipo de cosas. Queda pendiente.
+
+	- Actualizado elemento Class-path en el 'manifest' con skinlf.jar
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-21  - Version 0.6
+
+	- Nuevo: Tool bar: con botones para archivo, edicion y compilacion
+	  (iconos tomados de JEdit, quien a su vez los toma de Sun Microsystems).
+	  build.xml se encarga de copiar el contenido de img/ para que las
+	  imagenes queden contenidas en el ejecutable de Loro.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-20
+
+	- Nuevo: Tool bar: FALTA MODULARIZAR y COMPLETAR
+
+	- Nuevo: loro.util.Util.showSplash() muestra una splash window.
+	  Lo que falta es contar con una buena imagen :-/ (!).
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-17
+
+	- Primeros pasos de construccion del sistema utilizando `Ant'.
+	  No se trata de descartar el VAJ (por sus facilidades de depuracion),
+	  sino de aprovechar tambien el gran potencial de ant para
+	  re-construir el sistema. Todo esto combinado con la tambien poderosa
+	  herramienta JEdit. Ademas, es posible combinar directamente VAJ
+	  con Ant (pero todavia no lo he explorado bien).
+
+	- PENDIENTE tambien comenzar a utilizar CVS.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-16
+
+	- Corregido obtencion del foco en el text area tan pronto se inicia
+	  el IDE, como cuando se abre un nuevo archivo, y cuando se abandona
+	  una accion de "salir" o "nuevo". (Posiblemente no este totalmente
+	  corregido como se quisiera, pero esta bastante aceptable ahora.)
+
+	- Actualizado Logger para marcar claramente el inicio y el fin
+	  de actividades, y su llamado oportuno desde el SimpleEditor.
+
+	- Modificado loro.jedit.TextAreaPainter.paintCaret: Un poco mas
+	  grueso el caret y siempre llenando (fillRect).
+
+	- Modificado TokenMgrError.LexicalError() para mostrar
+	  <FIN DE ARCHIVO> y no <EOF>.
+
+	- Nuevos intentos por hacer aparecer mensaje "Compilando..." en
+	  etiqueta de estado ANTES del proceso de compilacion, pero AUN
+	  no logro nada. PENDIENTE
+
+	- Version VAJ: 0.5.7
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-14
+
+	- Nueva interface loro.ijava.LManejadorES para abstraer la funcionalidad
+	  de entrada/salida en tiempo de ejecucion de un programa Loro.
+	  Esta funcionalidad ya estaba disponible, pero un desarrollador tenia
+	  que importar directamente la clase loro.util.ManejadorEntradaSalida;
+	  desde luego, esto no estaba bien; la idea es que solo tenga que
+	  importar las interfaces necesarias. Listo.
+
+	- Version VAJ: 0.5.6
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-11
+
+	- OJO: Hay que automatizar la actualizacon de las unidades de
+	  apoyo (loroI.lar), ya que siempre es mejor actualizar despues de
+	  cambios importantes en loro.arbol, para compatibilidad de las
+	  versiones de las clases.
+	  Por ejemplo, hoy con el nuevo atributo TipoClase.instancia.
+
+	  En vista de lo anterior, actualice loro.Compilador (para que opere
+	  con el nuevo Control) y esta trabajando muy bien.
+
+	  PENDIENTE PRONTO
+
+
+	- Se corrigieron bugs:
+		405476 Clase utilizada como argumento
+		406432 Consola - Tamaño Letra
+		406436 Algoritmos y valor nulo
+
+		- 405476 Clase utilizada como argumento
+			Se agrego un atributo a TipoClase:
+				boolean instancia;
+			que indica si el tipo se asocia a una instancia  o no.
+			En una declaracion, siempre se pone para *instancia*
+			Se complementaron las operaciones de comparacion y asignabilidad
+			de acuerdo a este nuevo criterio.
+
+		- 406432 Consola - Tamaño Letra
+			Esto es del JTerm: simplemente se hizo un chequeo para evitar
+			font_size <= 0.
+
+		- 406436 Algoritmos y valor nulo
+			Faltaban sobreescribirse algunos metodos en TipoAlgoritmo.
+
+	- Version VAJ: 0.5.4
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-08
+
+	- Se corrigio armazon de URL para el classloader que impedia cargar
+	  clases bajo win32.
+
+	- Se complemento llamado a Logger.log(...) para hacer seguimiento a
+	  proceso de creacion del classloader y de su .getClass.
+
+	- Version VAJ: 0.5.3.1
+
+/////////////////////////////////////////////////////////////////////////
+	2001-08-07
+
+	- Se establece loro.dir/oro/ como directorio para guardar unidades
+	  compiladas durante la sesion. Ver Control.iniciar.
+
+	- Se quita la opcion "Directorio para guardar unidades compiladas"
+	  (por lo tanto, se quita el menu "Parametros" porque queda vacio).
+
+	- Se renombro loro.util.Log por loro.util.Logger.
+
+	- Version VAJ: 0.5.2.6
+
+/////////////////////////////////////////////////////////////////////////
+	2001-07-31
+
+	- Listo Control.createClassLoader (que tiene en cuenta todos los
+	  loro.dir/lib/ext/*.lar):  Se probo con un ejemplo.
+
+	- Lista la preparacion automatica de todos los loro.dir/lib/ext/*.lar,
+	  esto a traves de Control.createManejadorUnidades.
+
+	- No se tiene en cuenta mas loro.ruta.unidades:
+		Mas bien solo se cargar automaticamente todos los *.lar en
+		el directorio de extensiones loro.dir/lib/ext/.
+		Desaparece la opcion de usuario correspondiente.
+		El unico punto adicional para resolver una unidad compilada
+		sera el "directorio para guardar compilados".
+
+	- Probado lo anterior con un ejemplo: esto es, una pequena extension:
+	  con los dos archivos tipicos:
+
+		- ext.lar  -  unidades loro
+		- ext.jar  -  clases Java de soporte
+
+	  Se pusieron en loro.dir/lib/ext/ y funciona perfectamente.
+
+	- Continuar con:
+		- Definir el aspecto operativo para un desarrollador de extensiones.
+		Esto involucra ofrecer un .jar aparte para el paquete loro.ijava y
+		tambien completar y publicar la API correspondiente.
+
+		- No se ha hecho una limpieza completa del concepto loro.ruta.unidades
+
+
+	OTROS cambios menos profundos:
+
+	- En:
+		loro.util.simpleeditor.AreaTexto_jedit.keyPressed(KeyEvent ke)
+	  se adiciono la atencion de Ctrl-C, Alt-C (copy); Ctrl-V, Alt-V
+	  (paste), y Ctrl-X, Alt-X (cut), que, segun Lina, parece que se
+	  usan mas que Ctrl-Ins, Shift-Ins y Shift-Delete.
+
+	- Se quita la opcion "Imprimir" mientras se implementa bien.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-07-26
+
+	- Continuar con Control.createClassLoader (loro.Control es una nueva
+	  clase encargada de las operaciones de inicializacion y terminacion
+	  de una aplicacion Loro, asi como ofrecer el servicio de obtener el
+	  class loader para paquetes de extension.
+
+	- JarClassLoader va a desaparecer posiblemente.
+	- Util.obtClass() esta listo.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-07-25
+
+	- Inicio ajustes para lograr cargar una clase Java (que implementa algun
+	  algoritmo Loro) utilizando la nueva clase JarClassLoader.
+
+	- Para modularizar se ha hecho el metodo estatico:
+		Class Util.obtClass(String class_name)
+	  para obtener la clase segun se indique en class_name. Este nuevo metodo es
+	  llamado desde Ejecutor.ejecutarAlgoritmoJava.
+
+	- Util.obtClass() INCOMPLETO - Continuar aqui.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-07-14 (Despues de 4 meses, ahora en Davis!)
+
+	- Inicio revision y posible remodularizacion del manejo de las
+	  ``propiedades'' globales de Loro.
+
+	- Se ha definido la nueva clase loro.LoroConfiguration
+	- Se ha modificado loro.util.Util.getProperty en consecuencia.
+	- Se ha modificado loro.IDESimple.main para hacer: LoroConfiguration.load()
+
+
+/////////////////////////////////////////////////////////////////////////
+B R E A K
+/////////////////////////////////////////////////////////////////////////
+
+
+ /////////////////////////////////////////////////////////////////////////
+	2001-03-12
+
+	- marlonj hizo unos primeros ensayos para incluir opción de "imprimir",
+	  pero la cosa no es tan directa --hay que revisar el jedit para
+	  ver cómo hacer esto adecuadamente.
+	  (Queda version VAJ 0.5.2)
+
+/////////////////////////////////////////////////////////////////////////
+	2001-03-01
+
+	- Nuevo release 0.5  (en VAJ: 0.5.1)
+
+	- Sólo se muestran los algoritmos compilados que puedan ejecutarse
+	  directamente (interacción con el usuario).
+	  Ver:
+		LoroITraductor.obtCompilados()
+		LoroITraductor.ejecutableDirectamente().
+
+	- Se arregló en métodos Java de soporte para procesos Loro (especialmente
+	  los de lectura) para que mapearan posibles errores a LException (y
+	  RuntimeException). Esto mejora el mensaje de la exception.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-27/28
+
+	- Clase EjecutorTerminable lista:  extiende Ejecutor y sobreescribe
+	  toda visita haciendo chequeo de flag de terminación antes de llamar
+	  directamente al método heredado, super.visitar(n).
+	  PENDIENTE :
+		Utilizar Ejecutor cuando no se prevea terminación controlada
+		(o sea, cuando se lance una ejecución desde el intérprete loro);
+		por ahora siempre se está utilizando EjecutorTerminable.
+
+	- Nueva opción (bajo "Acción") para escoger uno de los algoritmos
+	  disponibles en la última compilación y ejecutarlo.
+		Ver
+			loro.traduccion.simpleide.SimpleIDE.ejecutarDeLista()
+
+	- Listo consola nueva por cada ejecución de programa.
+	  Esta consola (versión JTerm) ofrece opciones de "Limpiar",
+	  "Cerrar" (siempre y cuando esté en ejecución), "Terminar ejecución",
+	  y además tiene un popup menú para cambiar el estilo y tamaño de la
+	  letra.
+
+	- La zona de mensajes dejó de ser en ventana aparte pasando a
+	  ser parte (inferior) de la ventana principal.
+
+	- Se quitó menú "Ver" (->Consola, ->Mensajes) --ya no tiene sentido.
+
+	- BUG corregido: no se detectaba en tiempo de ejecución si un identificador
+	  tenía valor asignado o no (por ejemplo, se imprimía ''nulo'' para tipos
+	  primitivos). Bug reportado por marlonj.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-26
+
+	- PENDIENTE Lanzar una consola nueva por cada ejecución de programa.
+
+	- PENDIENTE Quitar opción Ver->Consola, por la razón anterior.
+
+	- Inicio de EjecutorTerminable:
+
+		Nueva clase EjecutorTerminable
+			que extiende Ejecutor -- PENDIENTE COMPLETAR MANEJO
+
+		Nueva excepción TerminacionExternaException para señalar una detención
+		"externa" a un hilo de ejecución.
+
+	- Se ha puesto la mínima prioridad al hilo de ejecución de un
+	  programa en Loro, con el fin de permitir una pronta reacción
+	  cuando se quiera detener.
+	  Pero hay que hacer pruebas de esto en cuanto a desempeño (que sea
+	  aceptable, o quizás poner la opción de ejecutar sin posibilidad de
+	  detención rápida).
+
+	- Las pruebas iniciales sobre este mecanismo de detención han sido
+	  satisfactorias.  Faltan pruebas más exhaustivas.
+
+	- Se tiene casi completa la migración a Swing.
+	  Faltan ventana de mensajes y quizá otros elementos.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-24
+
+	- Ojo en ConsolaJTerm.actionPerformed con la terminación
+	  de una ejecucion.  Obviamente esto exception llega al hilo
+	  de eventos y no al algoritmo en ejecución (era solo un primer
+	  ensayo :-))  COMPLETAR ESTO.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-23
+
+	- Los dos aspectos de abajo muestran que de hecho se requiere un
+	  control completo de la ejecución de un programa Loro. Esto es,
+	  que incluya los elementos de interacción con el usuario
+	  (entrada/salida estándar, componentes gráficos, etc.) y las
+	  opciones para controlar la propia ejecución como por ejemplo
+	  para detenerla manualmente (kill).
+
+	- PENDIENTE Incorporar JTerm para nueva consola.
+
+	- PENDIENTE Mostrar indicador de programa en ejecución y forma de
+		pararlo.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-22 - con ayuda de marlonj
+
+	- PENDIENTE revisar en tiempo de ejecución la conversión de tipo
+	  en el caso de algoritmos.
+
+	- Nuevo proyecto (aparte por ahora) Loro_ext, a cargo de marlonj
+	  para ir armando librerias de extensión a Loro.
+
+	- Mejoramiento de la interface Loro-Java (paquete loro.ijava):
+
+		Nuevo LAmbienteListener para que se pueda notificar de eventos
+			asociados a la ejecución de un programa Loro. Por lo pronto
+			solo para avisar de la terminación de una ejecución.
+
+		A un objeto Loro se le puede ahora asociar un objeto Java:
+			LObjeto.ponObjetoJava(Object)
+			Objecto LObjeto.obtObjetoJava()
+
+		En Ejecutor.visitar(NInvocacion) se revisa ahora que se trate de
+		un LAlgoritmo, para llamarle su .ejecutar(args).
+
+	- Recompilados todos los procesos incorporados.
+
+	- TipoAlgoritmo ahora puede ser asociado a un NAlgoritmo o a una
+	  NEspecificacion.
+	  Se pone ahora TipoAlgoritmo (y no TipoEspecificacion) a una variable
+	  declarada como:
+			alg: algoritmo [para algunaEspec]
+	  para controlar que siempre debe ser un algoritmo lo que se invoque
+	  (incluso, con declaraciones como la anterior).
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-21
+
+	- OJO: Recompilar todos los procesos incorporados y rearmar loroI.lar
+	  para próximo release.
+
+	- Nuevo proceso incorporado loroI::sistema::terminarEjecucion(cód: entero)
+	  (como el System.exit(cod) de Java).
+	  Para esto se creó nueva clase TerminarException.
+	  Ver:
+		loro.ijava.TerminarException
+		loro.ejecucion.Ejecutor.ejecutarAlgoritmoJava()
+		loro.ejecucion.HiloAlgoritmo.run()
+
+	  NOTA: Quise que se llamara terminarEjecución(c) (con tilde) pero tuve
+	  problemas con la búsqueda de la entrada en el archivo loroI.lar (formato zip);
+	  hice un seguimiento y el método ZipFile.getEntry(String) no encuentra
+	  un elemento cuyo nombre tenga tilde -- lástima.
+	  Realmente parece un BUG de Java!:
+		for ( java.util.Enumeration e = zf.entries(); e.hasMoreElements(); )
+			System.out.println(e.nextElement());
+	  provoca OutOfMemoryError cuando llega a una entrada que tiene tilde !!!
+	  Así que dejaré los dos nombres para probar en otras versiones de Java.
+
+
+	- Arreglado el asunto de la tabla de símbolos que no quedaba vacía
+	  después de compilarse una unidad: el problema era que (por el
+	  nuevo manejo de "pendientes") erróneamente se tenía:
+		tabSimb.marcar();
+		...
+		tabSimb.desmarcar();
+	  pero, ahora, en el fragmento intermedio podrían darse más empilamientos
+	  de marcas, así que el último desmarcar() en realidad no dejaba la pila
+	  de marcas en el punto de la primera marca; esto porque ahora se permite
+	  proseguir ante excepciones en una primera pasada (manejo de "pendientes").
+	  Solución entonces:
+		marca_tabla = tabSimb.marcar();
+		...
+		tabSimb.irAMarca(marca_tabla);
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-16/17
+
+	- Oops! problemas de nuevo con objetos serializables que acarrean
+	  demasiado datos para poner en disco: concretamente los tipos
+	  TipoAlgoritmo, TipoClase y TipoEspecificacion, que tienen como
+	  atributos, respectivamente, NAlgoritmo, NClase y NEspecificacion.
+	  Esto se ha manifestado al compilar algoritmos que tienen dependencias
+	  (recursion) mutuas.
+	  Hice un primero intento de corrección poniendo "transient" tales
+	  atributos y complementando el manejo correspondiente (para recuperación
+	  en memoria), pero deshice las modificaciones mientras se ataca este
+	  problema de manera completa.
+
+	- El manejo de "pendientes" todavía está por completarse.
+
+	- Ojo otra vez con Chequeador.visitar(NFuente n) en cuanto a la
+	  tabla de símbolos.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-15
+
+	- Nuevo manejo de pendientes.
+
+		- Nueva clase IdIndefinidoException extends SemanticException
+		- Vea en Chequeador:
+			visitar(NFuente)
+			visitar(NAlgoritmo)
+			visitar(NClase)
+			visitar(NEspecificion)
+		- Ojo con manejo de las marcas en tabla de simbolos
+		- controlar no hacer segunda pasada si hubo éxito en la primera
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-14
+
+	- BUG: Se admitía invocar una especificación! y, claro, se generaba
+	  un error en ejecución al detectarse esto.
+	  FIX: En Chequeador se hizo el método:
+			_resolverInvocacionIdEnAmbiente(n)
+	  para verificar que efectivamente se trata de un algoritmo.
+	  Se hicieron pruebas de compilación/ejecución de los diversos
+	  demos actuales y todo anda bien (en particular los demoFibo que
+	  manejan variables declaradas como algoritmos).
+
+	  Esto no se habia notado antes porque generalmente se escriben
+	  de manera muy inmediata los algoritmos que se van a llamar.
+
+	  De todas manerar lo que está más de fondo es permitir dejar
+	  unidades pendientes dentro de la compilación de una unidad.
+	  Por ejemplo, si el algoritmo referenciado en una invocación
+	  no se encuentra, dejar un "pendiente" para eventualmente resolverlo
+	  más adelante dentro del mismo fuente. Con las demás unidades
+	  (clases, especificaciones) debe hacerse algo similar.
+	  Esto permitirá, entre otras cosas, la recursión mutua.
+
+	  OJO seguir con Chequeador._chequearUnidadesPendientes()
+	  Hasta ahora se ha hecho:
+
+		_chequearAlgoritmosPendientes()
+			para las invocaciones de algoritmos
+
+		_chequearClasesPendientes()
+			para referencias a clases. Ya se tiene manejo para la visita
+			a NCrearObjeto, pero faltan las visitas a:
+				NDeclaracion
+				NConvertirTipo
+				NCrearArregloTipoBase
+				NEsInstanciaDe
+			sitios en donde se viene llamando _resolverTipoPendiente:
+			hay que revisar qué otros sitios faltan.
+
+	  Pendiente borrar una unidad cuando no se logran resolver sus
+	  propios pendientes.
+
+	- Acerca de "stack overflow":
+
+		OJO, para tener en cuenta:
+			clase A		descripción ""
+				a: A := crear A;
+			fin clase
+		esto genera desde luego un "stack overflow"
+
+		Teniendo en cuenta este y otros casos en donde se puede presentar
+		la recursión infinia, se decidió atrapar el error
+		java.lang.StackOverflowError en Ejecutor.visitar(NAlgoritmo)
+		para generar una EjecucionException correspondiente. Ya se probó
+		y quedó muy bien (ver también PilaEjecucion.mostrar en donde se
+		pone un máximo de niveles del topo a mostrar).
+
+	- Ajustados los "component parent" de diversos dialogos para que
+	  indicaran la ventana principal del editor, y así regresar a ella
+	  (y no a la ventana de mensajes, por ejemplo) cuando se cerraran.
+
+	- En loro.util.concola.Consola.{abrir(),waitingRead()} se agregaron
+	  instrucciones de requestFocus al área de la entrada estándar
+	  (al abrirse la consola el editor seguia con el foco).
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-12
+
+	- Se genera nuevo release version 0.4 con lo nuevo que se comenta
+	  a continuacion.
+
+	- Se agrego menu Edicion con las opciones:
+		Cortar
+		Copiar
+		Pegar
+		Seleccionar todo
+		Buscar
+		Buscar siguiente
+		Ir a linea
+
+	  que son funcionales para la version jedit (AreaTexto_jedit)
+	  pero no para AreaTexto_awt, salvo "Seleccionar todo".
+
+	- La clase loro.util.simpleeditor.SEVentanaParametro no se esta usando:
+	  se han empezado a utilizar las facilidades de swing. Se deja como
+	  copia de seguridad (aunque seguramente desaparecera).
+
+	- La clase loro.util.simpleeditor.SEConfirmacion todavia sigue
+	  atendiendo algunas necesidades pero deberia ser descartada a
+	  cambio de swing en una proxima version.
+
+	- Hechos algunos ajustes de colores para el syntax highlighting, y
+	  setCaretPosicion(0) justo despues de setText(text) cuando
+	  se acaba de abrir un archivo en el SimpleEditor.
+
+	- Se observo la siguiente anomalia (no grave) del JEditTextArea:
+	  Si se sobrepone alguna caja de dialogo, o el mismo menu colgante,
+	  se altera la visualiacion de la linea en donde esta el cursor si
+	  esta linea queda parcialmente tapada. Se advertira de esto en
+	  las notas entregadas con el producto y se deja para despues su
+	  revision.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-09
+
+	- A punto de hacer un nuevo release version 0.4 sólo agregando el
+	  syntax highlighting.
+	  Ahora queda version 0.39.9 mientras se hacen ultimos ajustes.
+
+	- Ya que JEditTextArea no atiende directamente operaciones sobre
+	  clipboard (cut-copy.paste), se hace el metodo:
+		AreaTexto_jedit.keyPressed ( KeyEvent ke )
+	  para atender los teclazos.
+
+	- En loro.jedit.JEditTExtArea.setText() se corrige el comportamiento
+	  no deseado de no manejar bien los tokens que cubren varias lineas
+	  (ver comentario alli).
+
+	- Ensayos Swing, paquete loro.edi: JTree y JPlitPane principalmente.
+	  Esto sigue siendo engorroso pues no tengo claro como son las
+	  politicas de despliegue (minimum-size, preferred-size, etc.)
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-07
+
+	- Empece el nuevo paquete loro.edi para el Entorno de Desarrollo Integrado.
+	  Tomo como base el paquete loro.util.adi (que desaparece).
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-06
+
+	- Se actualizo paquete loro.util.adi para operar al nuevo estilo
+	  javax.swing...  El comportamiento ahora es correcto.
+
+	- Se hizo en util.jterm  pruebas de un nuevo text-area basado
+	  en LoroJEditTextArea.  Bien el despliegue pero aparentemente
+	  el jedit se apodera del Enter y el JTerm no se entera de esto.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-05
+
+	- Se actualizo paquete loro.util.simpleeditor:
+		Nueva clase AreaTexto y sus subclases AreaTexto_jedit
+		y AreaTexto_awt, para facilitar despacho automatico
+		de version jedit (JEditTextArea) o awt (TextArea).
+		Modificada clase SimpleEditor para hacer uso de AreaTexto.
+		AreaTexto tiene un servicio estatico crearAreaTexto(SimpleEditor)
+		para hacer la eleccion adecuada.
+
+	- Se hicieron algunos ligeros cambios a la clase
+		loro.traduccion.simpleide.SimpleIDE para ajustarse a los cambios
+		hechos al SimpleEditor.
+
+	- Comprobe que los repositorios (.dat) entre las versiones 3.5
+	  y 3.02 del VAJ son compatibles (por lo menos en lo que he venido
+	  manejando). Esto facilita las cosas por ahora.
+
+	- Buscar como generalizar el concepto actual de Consola hacia
+	  el concepto de "stdio" y permitir la utilizacion del JTerm.
+
+	- Tambien tengo la idea que, en el IDE, siempre salga una ventana
+	  de ejecucion (del hilo encargado) de un algoritmo lanzado por
+	  el usuario.
+	  Esto indica inmediatamente que el algoritmo esta corriendo y alli
+	  se pueden poner opciones como "Finalizar", "Detener", "Reanudar",
+	  etc., o sea, opciones con respecto a la ejecucion; incluso colgar
+	  de alli el area para stdio.
+
+	- Eliminadas algunas clases que se tenian desde hace tiempo con
+	  ensayos utilizando mpEDIT.
+
+/////////////////////////////////////////////////////////////////////////
+	2001-02-04
+
+	- Nueva accion de iteracion "ciclo".
+
+	- Nuevo manejo de etiquetamiento para las acciones de
+	  iteracion: "para", "mientras", "repita" y "ciclo". Por
+	  ejemplo:
+		"ciclo" [ etiqueta ]  acciones  "fin" "ciclo"
+
+	- Nuevas acciones "termine" y "continue" en consistencia
+	  con lo anterior. La forma es:
+		"termine"  [ etiqueta ]  [  "si" expresion  ]
+	  similarmente para "continue".
+	  Si no hay etiqueta, se aplica para la iteracion mas inmediata.
+	  Si no hay expresion, se aplica incondicionalmente; si si la hay,
+	  se aplica si esta expresion es verdadera.
+
+	- Algunas pruebas generales de lo anterior han sido correctas.
+
+	- Inquietud: Deberia hacerse un manejo de este mismo estilo para
+	  las acciones "segun" (y sus "caso"s), o sea, poderse etiquetar
+	  tambien los "segun".
+
+	- Nuevas palabras reservadas: "este", "super" PERO SIN manejo aun.
+
+	- Ya se han ampliado las pruebas del jedit para syntax highlighting
+	  dando muy buenos resultados.
+	  Se ha modificado:
+		CTokenMarker:
+			- permitir que los literales cadena cubran
+			  varias lineas
+			- ignorar literales caracter, ya que las variables
+			  semanticas usan tambien una comilla al final y falta
+			  controlar que no queden como errono (en rojo) el resaltado.
+			- no se manejan labels estilo C/C++
+	  Se ha creado LoroTokenMarker, basado en el JavaTokenMarker de
+	  Slava.
+
+
+
+/////////////////////////////////////////////////////////////////////////
+	2001-01-29		(OJO - Despues de 5 meses!)
+
+	- BUG Mal incremento/decremento de variable de control en un
+	  ciclo para: Se debe estar consultando el valor actual en la
+	  tabla de simbolos antes de hacer la actualizacion!
+	  Se sugirio que mas bien se chequeara en compilacion que NO sea
+	  posible hacer asignaciones a la variable de control.
+		PENDIENTE
+
+	- Hoy visite jedit.sorceforge.net y afortunadamente Slava ha
+	  puesto en dominio publico su manejador de syntax highlighting.
+	  Hice una pruebas iniciales muy satisfactorias. El objetivo
+	  ahora es iniciar el desarrollo estilo Swing del entorno
+	  incluyendo desde luego el syntax highlighting de Slava.
+	  Esto me obliga a revisar si la nueva version del VAJava
+	  trabaja ya con javax.swing y no con el viejo
+	  com.sun.java.swing etc.
+
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-28
+
+	- Hice algunos ajustes para hacer applet.
+	  Varios para evitar security-exceptions.
+	  Quedo pendiente resolver Access-Member security exception: al
+	  tratar de acceder a los metodos declarados de una clase Java,
+	  lo cual sucede cuando se ejecuta un algoritmo implementado en
+	  Java, ejemplo escribirln, leerEntero, etc.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-16
+
+	- Se hizo nueva clase loro.util.Log que ayuda en la escritura de
+	  mensajes de rastreo. Esto depende de que se haya definido la
+	  propiedad "loro.log" (correspondiente a la variable de ambiente
+	  LORO_LOG), que indica el nombre de un archivo texto en donde
+	  poner los mensajes. Por el momento, siempre se re-crea dicho
+	  archivo (no es para concatenacion).
+
+	- Se corrigio la siguiente situacion: En Windows no se encontraban
+	  las unidades guardadas en loroI.lar, archivo que se creo en Linux.
+	  Encontre que los nombres quedan con el separador '/' de linux y
+	  como en Windows se arma el nombre con '\' pues claro no se
+	  encontraba.
+	  Asumiendo como parte del formato zip el separador '/'
+	  independientemente del SO, en ManejadorUnidades._cargarUnidadDeZip
+	  se intenta primero con '/' y luego (sin son distintos por supuesto)
+	  con el separador del SO (File.separatorChar).
+	  **OJO**
+		Esta segunda alternativa deberia omitirse si se verifica que el
+		formato zip siempre usa '/'.
+
+	- En el editor (loro.util.simpleeditor.SimpleEditor) se inicializo
+	  el directorio con el valor de la propiedad "user.dir". (antes se
+	  iniciaba en blanco, "", lo que provocaba en windows que iniciara
+	  en "Mis documentos" (que asco!),salvo que en el directorio de
+	  trabajo hubiera algun archivo .loro (!).
+
+
+	- Corregi lo siguiente:
+	  En windows habia que "afectar" minimo 2 veces un fuente para que
+	  el editor (loro.util.simpleeditor.SimpleEditor) lo tomara como
+	  cambiado.
+	  La cosa es que en windows no se invoca textValueChanged(TextEvent e)
+	  cuando se hace setText al textArea, que si es lo que sucede en
+	  linux y por eso se incluyo la ayuda de un indicador 'cambioInterno'
+	  que es prendido cuando se va a hacer setText para que el consiguiente
+	  textValueChanged no apagara el indicador de discoAlDia. Para saber
+	  si se esta en linux, se usa un criterio muy general:
+			boolean en_linux = File.separatorChar == '/';
+	  en actualizarTextArea.
+
+	  En windows no sucede esta invocacion y entonces se quedaba prendido
+	  cambioInterno (de la primera cargada del archivo) con el resultado
+	  de tenerse que afectar una segunda vez el archivo para que fuera
+	  tomado como cambiado.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-13
+
+	- Hice cambios a loro.Info para que fuera a traves de metodos la
+	  forma de obtener la informacion y asi evitar no actualizacion de
+	  las clases "main" pues VAJ no las recompila cuando se cambian
+	  atributos 'static final'.
+
+	- Se hicieron los .bat correspondientes para preparar la nueva
+	  actualizacion.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-12
+
+	- Ahora ManejadorUnidades hace uso de las propiedades del sistema
+		loro.dir
+		loro.ruta.unidades
+
+	  <loro.dir>/lib/loroI.lar es el archivo de soporte para loroI.
+
+	- Se han ajustado los programas shell loroedit, loroc, loro,
+	  loroij, loroj para que trasladen las variables de ambiente
+	  LORO_DIR y LORO_RUTA_UNIDADES a las propiedades loro.dir y
+	  loro.ruta.unidades.
+
+	- Se tienen ahora dos caches en ManejadorUnidades: uno para las
+	  unidades generadas en la sesion y leidas de acuerdo con la
+	  ruta de busqueda (loro.ruta.unidades en principio), y otro,
+	  cacheZip, para memorizar las unidades que se lean de algun
+	  archivo zip (como por ejemplo loroI.lar).
+
+	  Una primera observacion es que dentro de un mismo fuente el
+	  tiempo crece fuertemente en funcion de la distancia del
+	  error semantico. Esto hay que revisarlo para una futura version.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-11
+
+	- Nuevo manejo de LORO_RUTA_UNIDADES (propiedad loro.ruta.unidades)
+	  para busqueda de unidades compiladas al estilo del CLASSPATH de Java:
+		Se admiten directorios y archivos .zip
+
+	- Mejorar la forma en que se estan recibiendo los argumentos para
+	  un algoritmo desde el comando 'loro', metodo:
+		Ejecutor.ejecutarAlgoritmoArgumentosCadena
+	  teniendo en cuenta que desde el script loro se pasan los argumentos
+	  a loro.Interprete con $*, y esto quita el efecto de las comillas
+	  para pasar en un solo argumento, es decir:
+			loro loroI::sistema::escribirln "Hola mundo"
+	  es pasado como:
+			java loro.Interprete loroI::sistema::escribirln Hola mundo
+	  o sea, 2 argumentos.
+
+	- Desarrollar un "lorodoc" que genere documentacion HTML de las
+	  unidades, principalmente (en cuanto a loroI) de especificaciones
+	  de las librerias incluidas.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-10
+
+	- Se revisaron los programas principales
+		loroedit, loroc, loro, loroij, loroj
+	  agregando un mejor manejo de informacion (Info) general.
+
+	(- loroj deberia recibir archivos compilados, No fuentes, pero
+	   esto lo dejamos para despues.)
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-09
+
+	- Algoritmos Remotos    Por marlonj, carueda
+	  ------------------
+
+		Al parecer, como forma de posibilitar la invocacion remota de
+		algoritmos, se haria un rediseno consistente en lo siguiente:
+
+		Se definiria una interface comun para todo posible tipo de
+		algoritmo, que puede ser perfectamente el mismo LAlgoritmo
+		que se tiene actualmente. Su operacion basica es:
+
+			Object ejecutar(Object[] args)
+
+		Como algoritmos concretos que implementan esta interface se
+		tendrian los tres siguientes:
+
+			* NAlgoritmo: Clase ya existente que volveria a tomar la
+				responsabilidad de su ejecucion.
+
+			* AlgoritmoJava: Nueva clase para ejecutar algoritmos Loro
+				implementados en Java (ahora esta responsabilidad la
+				tiene NAlgoritmo).
+
+			* AlgoritmoRemoto: Nueva clase para ejecutar algoritmos remotos.
+
+	------------------------------------------------------------------------
+
+	- PROBAR todas las herramientas de linea de comandos.
+
+	- He definido la creacion de instancias desde Java:
+
+		loro.ijava.LAmbiente.crearInstancia(LClase)
+		loro.ijava.LAmbiente.ejecutarAlgoritmo(LAlgoritmo, Object[] args)
+
+	  con implementacion por parte de Ejecutor.
+	  Ver metodos de loro.java.loroI.Prueba:
+		crearPersonaDesdeJava
+		ejecutarAlgoritmoLoro
+
+	  Ver lorotest/persona/demoPersona4.loro
+		y lorotest/ejecutarDesdeJava.loro
+
+	  Las pruebas iniciales funcionan Ok.
+
+	- El manejo de arreglos con interface explicita AUN no se ha
+	  definido. Mas bien ahora este manejo se da por declaracion
+	  de arreglos Java como tal, lo cual exige del parte del
+	  codigo Java hacer ciertas promociones de tipo. Vea
+		loro.java.loroI.Prueba.llenarMatriz
+		lorotest/arrj3.loro
+	  Pero esto no deberia verse como un gran problema: de todas
+	  maneras aqui ya estamos en terronos mas avanzados y lo que
+	  importa si es mas la eficiencia.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-07
+
+	- Completar definiciones en paquete loro.ijava.
+
+	- Ojo, procesar especificacion en ejecucion de
+	  metodo en Java:
+			- revisar precondiciones
+			- invocar metodo Java
+			- revisar poscondiciones
+
+	- El Valor.nulo como valor para "nulo" en Loro obliga a realizar
+	  conversion a "null" para efectos de invocar un metodo Java
+	  implementador de un algoritmo Loro. Vea
+
+		Object Ejecutor._convertirArgumentoParaJava(Object arg)
+		Object Ejecutor._convertirRetornoDeJava(Object res)
+
+	  Pero he puesto Valor.defectoObjeto == Valor.nulo == null
+	  para probar la cosa, o sea, para utilizar el mismo "null"
+	  dentro de Loro. Las primeras revisiones han resultado correctas
+	  (despues de algunos pequenos ajustes). De todo seguir bien,
+	  se dejaran eliminadas las comprobaciones en los metodos mencionados.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-05b
+
+	- Pendiente complemento del arbol para que se maneje bien todo
+	  lo referente a los tokens, incluyendo tipos. Esto es vital
+	  para dar soporte a los mensajes de error y, mas adelante, al
+	  sistema de depuracion.
+
+	- Completar interface loro.ijava, y en Ejecutor el metodo:
+		Object ejecutarAlgoritmoJava(NAlgoritmo alg, Object[] args)
+	  para atender otros posibles valores de retorno del invoke
+	  ademas de null y LAlgoritmoImp.
+	  Falta manejo de arreglos y objetos: creacion, consulta
+	  y modificacion de atributos, etc.
+	  Vea prueba inicial con arreglo: loroI::entsal::obtDirectorio.
+
+
+	- En tipo, se ha modificado
+		"clase" [ nombre() ]		<<-- Se descarto
+	  a:
+		["clase"] nombre()
+	  puesto que en cuanto a clases si hay una jerarquia explicita (de
+	  raiz unica).
+
+	  Se ha dejado opcional la parte "clase" al indicar el tipo para
+	  hacer mas comoda la escritura.
+	  Sin embargo, resulto importante que no se descartara del todo
+	  la parte "clase" puesto que al encontrar una expresion como:
+			Persona(expr)
+	  el compilador cree que se trata de una invocacion normal y no
+	  de una conversion de tipo. Quice primero manejar esto de manera
+	  automatica, pero se complica un poco: saber en visitar(NInvocacion)
+	  si el id (o nombre) se resolvio en el ambiente (no en la tabla de
+	  simbolos) y si es una clase... Bueno, mejor se dejo que se
+	  generara el error, pero se complemento el mensaje diciendo que
+	  posiblemente sea necesario anteceder el nombre con "clase" o bien
+	  con "algoritmo para" y asi indicar correctamente una conversion
+	  de tipo.
+
+	- Inquietudes:
+
+		- Que los procesos se distingan no solo por su nombre sino
+		  tambien por los tipos de sus parametros de entrada.
+
+		- Que haya jerarquia de tipos (estilo NESL), arrancando desde
+		  el mismo "Objeto"; por ejemplo, seria muy util especificar
+		  solo una vez:
+
+			especificacion intercambiar(a: []clase Objeto, i, j: entero)
+
+		  para cualquier tipo de elementos del arreglo...
+		  incluso primitivos!
+
+		  O tambien:
+
+			especificacion max(v1, v2: numero) -> max: numero
+
+		  (Pero esto seria para otro nivel o contexto de uso de Loro.)
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-05
+
+	- Corregi bug en Ejecutor.ejecutarAlgoritmoJava:
+	  no se convertia el nulo de Loro al null de Java para el paso
+	  de argumentos al invoke. (Complemento a la inversa de pasar
+	  de null de Java a nulo de Loro en valor de retorno.)
+
+	- El paquete loroI::sistema es ahora visible automaticamente.
+	  Se recurre a el para resolver cualquier unidad que no se haya
+	  podido resolver por algun mecanismo explicito. Vea:
+		Chequeador._obt{Especificacion, Algoritmo,Clase}ParaId(Token id)
+	  Notese que solo es necesaria esta busqueda en compilacion, pues
+	  en ejecucion se recurre a las asociaciones de nombres
+	  simple-compuesto que ya estan preparadas por la compilacion.
+
+	- Se quitan las palabras reservadas:
+		escribir
+		leerAlgoritmo
+		leerBooleano
+		leerCaracter
+		leerCadena
+		leerEntero
+		leerReal
+	  y se eliminan los nodos NLeer* y NEscriba correspondientes,
+	  asi como las operaciones de visitante.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-04
+
+	- A cambio de leerAlgoritmo(cadena), se ha definido el siguiente proceso:
+
+		especificacion obtAlgoritmo(nomAlgoritmo: cadena) -> alg: algoritmo
+			descripcion "Obtiene un algoritmo dado su nombre."
+			entrada nomAlgoritmo: "Nombre completo del algoritmo a leer."
+			salida alg: "Algoritmo correspondiente al nombre."
+		fin especificacion
+
+	  Esto se complementa con el mecanismo de promocion de tipos para
+	  fines de asignacion, ej:
+
+		alg: algoritmo;
+		afibo: algoritmo para fibo;
+		nom: cadena;
+		...
+		nom := leerCadena();
+		alg := obtAlgoritmo(nom);
+		afibo := algoritmo para fibo(alg);
+		f := afibo(5);
+
+	  Funcionando Ok.
+
+	- Se ha actualizado LoroIParser.jj para que en tipo aparezca:
+
+	  ...
+			"algoritmo" [ "para" nombre() ]
+		|
+			"clase" [ nombre() ]		<<-- OJO, NO !
+	  ...
+
+	  La parte de clase (TipoClase) se ha actualizado siguiendo las pautas
+	  para especificacion pero falta hacer revision y pruebas completas;
+	  PERO TIENDE ES A QUITARSE puesto que en cuanto a clases SI habra
+	  una jerarquia explicita con una unica raiz generica.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-08-02
+
+	- Estoy pasando los leer...() de ser palabras reservadas a algoritmos
+	  implementados en Java.
+	  Para esto, se ha definido una nueva clase:
+		loro.util.ManejadorEntradaSalida
+	  que se encarga de todas las lecturas de tipo basicos --listo.
+	  Falta que tambien se encargue de leerAlgoritmo(nomEspec).
+	  Para esto hay que definir la interface Java-Loro para pasar
+	  objetos (en este caso un algoritmo), pero tambien hay necesidad
+	  de definir el tipo en Loro 'algoritmo' sin cualificacion de
+	  'para' cual especificacion (esto ya lo ha solicitado Marlon
+	  para otra necesidad).
+	  De tal manera que la especificacion de leerAlgoritmo pueda ser:
+
+		especificacion leerAlgoritmo(nomEspec: cadena) -> alg: algoritmo
+			...
+		fin especificacion
+
+	  hay que completar el mecanismo de promocion (de algoritmo generico
+	  a algun algoritmo para una especificacion particular), e incluso
+	  ofrecer la posibilidad de ejecutar un algoritmo generico:
+
+		especificacion ejecutarAlgoritmo(alg: algoritmo)
+			...
+		fin especificacion
+
+	  En ejecucion, se procederia como se hace ahora desde el mismo
+	  sistema cuando se ejecuta una algoritmo desde el ambiente.
+
+	  AH!!!!
+		Acabo de pensar lo siguiente:
+
+			especificacion leerAlgoritmo() -> alg: algoritmo
+				...
+			fin especificacion
+
+		O sea, NO indicando ninguna especificacion!, precisamente
+		porque se retorna un algoritmo generico. Mas bien el
+		chequeo se dara cuando se haga la promocion, que sera
+		obligada en una asignacion, por ejemplo:
+
+			f: algoritmo para fibo;
+			...
+			f := algoritmo para fibo(leerAlgoritmo());
+
+	  PENDIENTE
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-30
+
+	- He iniciado la definicion de algunos paquetes Loro con
+	  implementacion en Java:
+
+		loroI::sistema		Servicios del sistema
+		loroI::mat			Funciones matematicas
+		loroI::entsal		Servicios de entrada/salida
+
+	  Se creo el paquete loro.java.loroI con las clases correspondientes
+	  para la implementacion.
+
+	  En particular, se deben implementar de esta manera los
+	  servicios del sistema leerEntero, leerReal, etc. quitandolos
+	  como palabras reservadas.
+
+	  Hay que definir la forma de manejar las posibles excepciones.
+
+	- Para organizacion de lo anterior, se creo el directorio
+	  'distrib' con el fin de alojar lo concerniente a una
+	  distribucion del sistema. Por ahora solo se han puesto los
+	  fuentes de los paquetes mencionados arriba.
+
+	- Revisadas todas las clases de loro.arbol: ninguna requiere
+	  importar clases de loro.compilacion o loro.ejecucion.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-29
+
+	- He eliminado clases Ambiente, AmbienteCompilacion y
+	  AmbienteEjecucion.
+	  He preferido concentrar cada funcionalidad en cada
+	  visitante apropiado: Chequeador y Ejecutor, si bien podrian
+	  aun factorizarse algunos elementos comunes basicos.
+	  Probado este cambio exitosamente.
+
+	- Corregido bug en declaracion con inicializacion: solo se efecuaba
+	  la asignacion en el primer momento de la declaracion exitosa;
+	  recuerdese que cuando la declaracion esta dentro de un ciclo, se
+	  esta manejando un mecanismo muy malo para el control de la
+	  redeclaracion a partir de la segunda pasada: simplemente ignorar
+	  la excepcion de la redeclaracion. PENDIENTE mejorar esto.
+
+	- He renombrado la clase loro.Version por loro.Info.
+
+	- He renombrado la loro.NativoJava por loro.EsquemaJava - PROBAR.
+	  En general, PROBAR todas las herramientas de linea de comandos
+	  (hace dias que no se usan).
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-24
+
+	- pos { p = primo'(n) }
+	  Quiza no permitir esta construccion; mas bien utilizar
+	  simplemente { p = primo' }, o bien utilizar la posibilidad de
+	  escribir una cadena literal:
+			{ "p = n-esimo numero primo" }
+
+	- Acabo de mudarme de "VAJ 3.0 Version Linux Beta" a
+	  "VAJ Version 3.02" (todo bien)
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-23
+
+	- Revisando lorotest.
+	  Ver primo.loro en donde se tiene
+			pos { p = primo'(n) }
+	  PENDIENTE resolver el asunto de lo semantico a nivel de
+	  invocaciones (en este caso primo'(n)).
+
+	- Revision de ejemplos completada satisfactoriamente.
+	  Ver observacion a continuacion.
+
+	- Ejecutor.visitar(NCuantificado) simplemente pone retorno en
+	  cierto, es decir, no se procesa la condicion cuantificada.
+
+	  (PENDIENTE en general algun manejo mas completo para las
+	  cuantificaciones para un futuro aunque no es prioritario).
+
+	  Ya que este cierto no necesariamente hace que la afirmacion
+	  en cuestion se satisfaga, se define un indicador
+	  afirmacionCiertaPorCuantificacion que es puesta a cierto solo
+	  por visitar(NCuantificado) para avisarle a visitar(NAfirmacion)
+	  que su condicion es satisfecha directamente, aunque esto es
+	  una sobresimplificacion que debe documentarse al usuario.
+	  Lo ideal seria manejar esto mas localmente, es decir, por
+	  ejemplo haciendo que (x op y) sea cierto si cualquiera de x o y
+	  es una cuantificacion y op es cualquier operador logico.
+
+	  El ejemplo tienda.loro tiene varias cuantificaciones.
+
+
+	- Hice nueva clase loro.util.ManejadorUnidades encargada del
+	  almacenamiento de las unidades compiladas incluyendo el uso
+	  de un cache para referencia rapida a unidades ya guardadas.
+	  Los efectos fueron inmediatos en mucho mejor desempeno (de
+	  hecho se venian presentando relecturas innecesarias).
+
+	- OJO: Chequeador.visitar(NNombre) siempre asume que se debe tratar
+	  de un algoritmo. Esto no deberia ser asi excepto cuando se trate
+	  de una invocacion (como con NId). Sin embargo, en general el
+	  contexto no es suficiente para saber a que tipo de unidad se esta
+	  haciendo referencia concretamente cuando aparece xx::yy::zz.
+	  ...Se deja asi: Si se esta en una invoacion (unico contexto claro),
+	  se intenta tomar un algoritmo; si no, se reporta el error de
+	  posible uso de una unidad (no hay forma de saber cual tipo
+	  concretamente) como un valor.
+
+
+	- solucionado problema con fibo:
+	  En ejecucion leerAlgoritmo(fibo) generaba error
+		"algoritmo demo::fibo::fiboIter no es para especificacion fibo"
+	  Resulta que en NLeerAlgoritmo quedaba almacenado el nombre simple
+	  de la especificacion y no el nombre completo. Se corrigio practicando
+	  el mismo mecanismo que para NAlgoritmo en compilacion, es decir,
+	  hacer un n.ponNombreEspecificacion con el nombre compuesto
+	  correspondiente.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-22
+
+	- En revision procesando los ejemplos.
+
+	- Continuar con fibo -- HAY PROBLEMAS!
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-21
+
+	- Se paso pilaEjec de AmbienteEjecucion a Ejecutor.
+
+	- Se ubico el manejo de la tabla de simbolos en cada marco de
+	  activacion dentro de la pila de ejecucion.
+
+	- La variable tabSimb dentro de Ejecutor siempre se refiere a
+	  la misma tabla de simbolos correspondiente al marco de
+	  activacion en el tope de la pilaEjec.
+
+	- Solo cuando se empila una NEspecificacion, NO se crea una
+	  nueva tabla de simbolos, sino que se toma la misma del
+	  algoritmo que quedara justo debajo del tope (en algoritmo
+	  es que se enlazan los parametros).
+
+	- SEGUIR REVISANDO ESTO
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-18pm
+
+	- REVISAR ejecutar pot.a.loro
+
+	- Ya se hace tambien Ejecutor.visitar(NEspecificacion) desde
+	  Ejecutor.visitar(NAlgoritmo) para manejar
+	  pila de ejecucion cuando hay entrada y/o salidas, es decir,
+	  pre y/o pos-condiciones que al evaluarse (aun no se evaluan)
+	  podrian producir nuevas invocaciones o errores de ejecucion.
+
+	- Lista factorizacion en {Chequeador,Ejecutor}.visitar(NId n)
+
+	- Permitir que dentro de una afirmacion, una cadena literal
+	  sea valida, entendiendose como una expresion booleana especial
+	  de valor siempre cierto.
+	  LISTO: vea {Chequeador,Ejecutor}.visitar(NAfirmacion).
+	  Se agrego a NAfirmacion un atributo cadena (String) que guarda
+	  la imagen completa de la expresion afirmada con el fin de
+	  reportarse cuando no sea satisfecha en ejecucion.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-18
+
+	- Para efectos de la fase de ejecucion, se debe agregar a
+	  cada unidad de compilacion un mecanismo que permita resolver
+	  nombre simples a nombres compuestos. Este mecanismo puede
+	  ser simplemente un Hashtable, tal como ahora se hace para
+	  la fase de compilacion (el miembro 'utiliza' de Ambiente).
+	  La situacion es la siguiente. El mecanismo 'utiliza' al
+	  inicio de un fuente Loro permite referir elementos mas
+	  adelante (dentro de un unidad de compilacion) mediante
+	  nombres simples. Es necesario que dentro de la unidad
+	  se puedan recuperar (para ejecucion) los nombres largos
+	  correspondientes. Se descarta la posibilidad de reemplazar
+	  directamente los nombres cortos por los largos en la
+	  compilacion (evitando el posterior mapeo) simplemente
+	  porque la filosofia de Loro es permitir el seguimiento
+	  de la fase de ejecucion en relacion al codigo fuente tal
+	  como fue escrito (resaltado de zonas de error, por ejemplo).
+
+	  He empezado los ajustes... ver:
+
+		NUnidad (nuevo miembro sc y metodos asociados)
+		Chequeador._revisarIdEnAmbiente(NId n)
+		Ejecutor._visitarIdParaInvocacion(NId n)
+
+	  Ya he probado inicialmente demoFibo, en donde al escoger
+	  fiboBinet ya se resuelve adecuadamente la llamada a pot.
+	  Revisar mas y extender esquema a las otras unidades de
+	  compilacion.
+
+	  En Chequeador._visitarId...(NId n) conviene factorizar el
+	  codigo similar.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-17
+
+	- Quitado atributo tabla de simbolos de las clases:
+		-LoroICompilado, que ahora se llama ObjetoCompiladoMemoria
+		 (en realidad no se utilizaba).
+		-AmbienteCompilacion
+
+	  Se manejan ahora a nivel de Chequeador y Ejecutor.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-15pm
+
+	- Ejecutar demoFibo.loro: al escoger fiboBinet, se produce error:
+		No se encuentra algoritmo para 'pot'
+	  Resulta que hay que guardar informacion dentro de un algoritmo
+	  que haga como de tabla de simbolos (aunque mas simple) para que
+	  se puedan resolver los nombre referidos internamente. En este
+	  caso, se hace una invocacion pot(...) que esta correcta puesto
+	  que en fiboBinet.a.loro se hace previamente un
+			utiliza algoritmo demo::mat::pot;
+	  pero que no se esta teniendo en cuenta como informacion dentro
+	  del algoritmo.
+
+	- OJO OJO OJO Optimizar ejecucion: se esta haciendo siempre la
+	  recargada de algoritmos llamados --deberian cargarse solo una vez!
+
+	- Cambiada la sintaxis para indicar la implementacion de un
+	  algoritmo en otro lenguaje: Ahora es mas general y su forma
+	  es:
+			implementacion <LITERAL_CADENA> <LITERAL_CADENA>
+
+	  La primera cadena se entiende como el lenguaje (por ejemplo
+	  "Java"); la segunda se entiende como informacion adicional
+	  que requiere el implementador. Ej:
+			implementacion "Java" "alguna.Clase"
+	  Ver LoroIParser.jj, lorotest/nativo.loro.
+
+	- Revisados:
+		fiboBinet.loro
+		demoFibo.loro
+	  (aparentemente bien)
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-15
+
+	- Revisar:
+		fiboBinet.loro
+		demoFibo.loro
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-14
+
+	- Se hizo nuevo tipo TipoPendiente que reemplaza a la
+	  clase TipoNombre, que desaparece completamente, y al constructor
+	  TipoClase.TipoClase(Token[] nombre), que desaparece.
+	  Vea tipo() en LoroIParser.jj
+
+	- Se hizo Chequeador._resolverTipoPendiente que toma un tipo
+	  y lo resuelve considerando que sea pendiente (TipoPendiente)
+	  o pueda contener un tipo pendiente (TipoArreglo).
+	  FALTA revisar completamente todos los casos en que debe hacerse
+	  esta resolucion.
+
+	- Ojo: algunos nodos requieren importar clases
+	  de loro.compilacion, loro.ejecucion REVISAR
+
+	- Se puso visibilidad restringida a "package" para los atributos
+	  de todos los nodos. Listo.
+
+	- Quite el constructor por defecto unico para
+	  cualquier clase (no era buen diseño).
+	  Mas bien en el constructor de NClase, si no
+	  se dan constructores, se pone automaticamente
+	  un constructor por defecto asociado a la clase.
+	  Ver NConstructor.java
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-13pm
+
+	- OJO:
+		arreglar Ejecutor.crearObjeto.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-13
+
+	- OJO:
+		arreglar NClase.crearObjeto.
+
+	- Se quito Nodo.ejecutar para todo el arbol.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-12
+
+	- OJO: La operacion fundamental que inicia una ejecucion es:
+			alg.ejecutar(args)
+	  o sea, a traves de un algoritmo. Preguntas:
+
+			- este metodo debe preparar la tabla de simbolos y
+			  aceptar a un nuevo visitante Ejecutor?
+
+			- o debe hacerse algo externo a este nodo como
+				AmbienteEjecucion.ejecutarAlgoritmo(alg, args),
+				implementandose realmente Ejecutor.visitar(Nalgoritmo)?
+
+	- Ya se paso todo nodo.ejecutar a visitante Ejecutor
+
+	- Se paso Valor de loro.compilacion a loro.ejecucion.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-10
+
+	- Gran reorganizacion de paquetes Java.
+
+	- Se inicia visitante Ejecutor (paquete loro.ejecucion). COMPLETAR.
+	  Pendiente de ubicacion final de:
+		TablaSimbolos
+		EntradaTabla
+		LoroBase
+		SoporteJava
+		Valor
+
+	  Para tener en cuenta: TablaSimbolos se quedaria en loro.compilacion
+	  y mas se hace un esquema orientado a ejecucion concretamente (?)
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-08
+
+	- Ya se paso todo nodo.chequear a visitante Chequeador.
+
+	- Complementar Chequeador: tabla de simbolos,quien lo crea?
+	  donde se mantiene?
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-06
+
+	- Corregir:
+		c: clase paq1::Clase := crear Clase();
+	  Esto esta compilando y corriendo bien. PERO no deberia
+	  ser asi porque no se esta haciendo un
+		utiliza clase paq1::Clase;
+	  La mera declaracion esta haciendo el mismo efecto!
+
+	- Corregir: Se tiene el paquete por defecto:
+		algoritmo xx para espec() ...
+	  dice "no se encuentra especificacion 'espec'" siendo que
+	  acaba de compilarse en otro fuente. (Si se hace el
+	  "utiliza" explicito, funciona bien, pero esto no tiene que
+	  ser asi.) Ver decismultiple.loro
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-05
+
+	- Continuo con Chequeador. (bien)
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-04
+
+	- Inicio manejo de visitantes para chequeo. Vea Chequeador.
+	  Tuve que crear la nueva clase VisitanteException y hacer
+	  que todos los "visitar" indiquen que pueden generar esta
+	  excepcion, y tambien en el metodo aceptar de todos los
+	  nodos del arbol sintactico.
+
+	  La conversion de nodo.chequear() a visitante.visitar(nodo)
+	  es bastante mecanica. Para la clase Chequeador ya tengo listos:
+	  visitar(NFuente), visitar(NPaquete), visitar(NUtiliza),
+	  visitar(NEspecificacion), visitar(NAlgoritmo), visitar(NClase),
+	  visitar(NConstructor). He ido agregando algunos metodos
+	  obt/pon a los nodos para ir eliminando el acceso directo.
+	  Las pruebas iniciales estan bien.
+	  COMPLEMENTAR el chequeo y hacer tambien el visitante Ejecutor!
+	  Una vez hecho esto, quitar los metodos chequear() y ejecutar()
+	  de todos los nodos.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-07-03
+
+	- Versionalizo: 0.5
+
+	- Estudiar la siguiente posibilidad en cuanto a "visitante"s:
+		- "chequear" dejarlo como esta (sin "visitante")
+		- "ejecutar" hacerlo con "visitante"
+
+
+	- NNombre.chequear() solo busca algoritmo. Esto esta bien como
+	  *expresion*; como otra cosa (Especificacion o Clase) no
+	  se tiene posibilidad en este momento, excepto:
+		si es clase, para referenciar alguna miembro "global" (de clase),
+		que esta PENDIENTE
+
+	- Corregi: no se buscaba algun elemento bajo el paquete actual:
+	  ver AmbienteCompilacion.obt{Especificacion,Algoritmo,Clase}
+
+	- Acabo de revisar los ...ParaInvocacion() (como
+	  NId.chequearParaInvocacion): Efectivamente se deja este
+	  tratamiento especial, puesto que cuando se trata de
+	  una invocacion se le da preferencia a la busqueda
+	  de un algoritmo del ambiente antes que a la tabla de
+	  simbolos; cuando no es invocacion, en cambio, se le
+	  da preferencia a la tabla de simbolos.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-29
+
+	- Sintaxis: Ahora "::" como separador para paquete y no ".".
+	  Justificacion: reflejar con diferencias sintacticas las
+	  diferencias semanticas.
+
+	- Sintaxis: Nueva palabra reservada "global", aunque sin
+	  ningun tratamiento por ahora. La idea es que sea otro
+	  cualificador para fines de miembros de clase.
+
+	- Se hizo reorganizacion de manejo de informacion sobre
+	  unidades compilables. Mucha funcionalidad relacionada a
+	  esto se tiene en Ambiente.
+
+	- Ahora se pueden imprimir objetos:
+		p: Persona := ...
+		escriba "p = " +p+ "\n";
+	  Se hace hasta un cierto novel (2) para evitar, entre otras
+	  cosas, recursion infinita.
+
+	- Bug corregido: (reportado por marlonj)
+		No se convertia un valor al hacer asignacion. Ej:
+			e: real := leerEntero()
+		dejaba en e un Integer y no un Double!
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-28
+
+	- Ojo con NAsignacion.chequear() por nuevo
+		nodo NNombre.
+		Ver lorotest/Persona.loro
+
+	- Sobre esto, considerar la posibilidad de
+	  definir:
+		AmbienteCompilacion.obtSimbolo(String s)
+	  que busque la definicion del simbolo dado
+	  tanto en la tabla de simbolos y en el
+	  ambiente como tal (algoritmo, con paquete...).
+
+	- Revisar los ...ParaInvocacion() (como
+	  NId.chequearParaInvocacion): pienso que no deberia
+	  haber un tratamiento especial, es decir, se
+	  deberia utilizar el chequeo (ejecucion) normal.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-27
+
+	- Cambio de paquete principal de:
+			co.edu.autonoma.yupana...
+	  a
+			loro...
+
+	- PENDIENTES DE FECHAS ANTERIORES!!
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-23
+
+	- OJO con NSubId.chequear
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-22
+
+	- Se empezo manejo de "paquete". Ya se guardan las unidades guardables
+	  de acuerdo a como se haya indicado con "paquete" dentro al inicio
+	  del fuente.
+	  El paquete es una ruta que complementa la Ambiente.rutaBaseCompilados.
+
+	- Falta complementar manejo del "utiliza".  Ver lorotest/utiliza.loro
+
+	- Se renombro NUnidad a NFuente, y el NUnidadGuardable a NUnidad.
+	  Razon: "unidad" es cada NEspecificacion, NAlgoritmo y NClase,
+	  y un "fuente" puede contener varias "unidades".
+	  Asi quedan mas consistentes los nombres.
+
+	- Empiezo a partir en dos directorios los ejemplos .loro: uno para
+	  fines de distribucion (ejemplos), y otro para pruebas de
+	  desarrollo (lorotest).
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-20
+
+	- Sobre referencias nulas, hay que hacer una revision exhaustiva en los
+	  .ejecutar correspondientes. En algunas partes se retorna Valor.nulo cuando
+	  la referencia es nula.
+	  Ver 2000-06-16-1 sobre otros casos en donde se retorna el null de Java.
+	  Podria pensarse null siempre, pero los atributos de una clase se estan
+	  guardando en una Hashtable y alli no se puede guardar null.
+	  Revisar entonces y definir esto de manera general.
+
+	- Se agregaron palabras "extiende" y "es_instancia_de"
+
+	- Implementaciones pendientes de completarse para estos nuevos mecanismos.
+		Ver por ejemplo: NEsInstanciaDe.ejecutar().
+
+	- Se corrigieron faltantes sobre cadenas, subindizacion y referencias nulas.
+	  Antes se permitia: cad[i] := 'd'
+
+	- Me parece bien quitar el mecanismo de los "constructores" en Loro I, como
+	  sugiere Marlon. Para el sistema, podria manejarse un flag que indique bajo
+	  cual nivel se esta compilando para no necesariamente quitar el mecanismo
+	  a nivel sintactico--PENDIENTE.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-19
+
+	- Ya hay primera implementacinn de "nativo".
+	- Falta arreglos, clases, algoritmos.
+	- Falta implementaciones completas de interfaces en paquete
+	  ...loro.nativo.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-18
+
+	- Actualice la gramatica. Ver actualizacion 2000-06-17 en LoroIParser.jj
+
+	-Reflejando esto, hay nuevos nodos NPaquete, NUtiliza con implementaciones
+	iniciales que solo muestran error de chequeo.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-17
+
+	-Versionalizo hoy bajo VAJ: 0.3
+
+	-Corregi no resaltado de token de 1 caracter de tamano ante algun
+	error. En este caso, las posiciones de inicio y fin de token son
+	iguales (se retornaba null en TraduccionException.obtRango()
+	erroneamente).
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-16
+
+	1) Arregle las diversas lecturas sobre como comportarse ante errores
+	de I/O y cuando se da Ctrl-D (fin de archivo). Se dejo asi: para
+	cuando se trata de lectura de referencias (cadenas, algoritmos,
+	--proximamente arreglos, objetos??--), se retorna nulo (null, de hecho);
+	para los otros casos (tipos primitivos), se genera una EjecucionException.
+
+	-Se verifica igualdad de nombres de parametros entre espec y algoritmo
+	(sugerencia de marlonj).
+
+	-Sobre seccion "utiliza" dentro de algoritmo:
+	Decido QUITAR esta caracteristica:
+	Si se ha de "parametrizar" (flexibilidad de cual algoritmo
+	correr en una invocacion ya compilada), que se haga mediante
+	parametros precisamente.
+	Por ahora, se controla esto a nivel semantico.
+	PENDINTE quitar de la gramatica.
+
+	-Sobre Bug StackOverflow - writeObject.
+	No es *bug* como tal: lo que sucede es que hay demasiado anidamiento
+	al recorrer los campos de los objetos mientras se escriben en disco.
+	Sobre todo los Token's!! Cai en cuenta que los tokens arman una lista
+	encadenada interiormente y, claro!, se bajaba a disco demasiada
+	informacion. Acabo de poner "transient" dichos encadenamientos y el
+	problema no se ha vuelto a presentar. Ademas los archivos compilados
+	quedan de tamanos razonables ;-).  (con tienda.loro se bajo de 3115
+	bloques a solo 296, segun du -s).
+
+	-Pienso considerar la posibilidad de hacer mi propio token (LoroToken, p.ej)
+	buscando reducir dependencias de JavaCC y facilitar la utilizacion
+	de otras herramientas de generacion de derivadores.
+
+	-Lo de tabSimb.marcarAlgoritmo() (como se dice mas abajo) esta correcto
+	para compilacion. No habia caido en cuenta que para ejecucion tambien,
+	y acabo de ponerlo en NAlgoritmo.ejecutar(Object[]).
+	Pense en un principio que la marca de algoritmo deberia tambien tener
+	un tratamiento de pila (note: estamos en ejecucion); sin embargo, lo
+	he dejado como marca unica y la ejecucion marcha bien: Estar pendiente
+	en mas pruebas para detectar alguna anomalia.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-15
+
+	-JavaCC en RedHat Linux 6.0 (en el que actualmente trabajo en casa) 
+	aborta con un NullPointerException!  Acabo de comprobar que no sucede
+	asi en Windows. Y los JavaCC.zip (las clases) son identicos.
+
+	-No he hecho aun nuevas generaciones javacc sobre LoroIParser.jj.
+
+	-Ver NCaso.chequear(): Se obliga una mejor disciplina de declaracion de 
+	variables.
+	Se hizo clase NAccion como superclase de diferentes nodos que son acciones.
+	Para controlar adecuadamente los ambitos de variables:
+		1) Hice
+			tabSimb.marcar();
+			<bloque de acciones>
+			tabSimb.desmarcar();
+		En los metodos chequear() de los nodos accion que incluyen posibilidad 
+		de abrir ambitos nuevos de declaraciones.
+
+		2) Se hizo metodo nuevo tabSimb.marcarAlgoritmo() para marcar la 
+		posicion dentro de la tabla de simbolos que servira de limite para
+		verificar redeclaracion de variables.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-14
+
+	-Movi todos los nodos (y los tipos) al nuevo paquete:
+		co.edu.autonoma.yupana.loro.arbol;
+
+	-OJO: Actualizar fuente LoroIParser.jj con:
+		import co.edu.autonoma.yupana.loro.arbol.*;
+
+	-Hice clase PilaEjecucion.
+
+	-Se hizo clase Ambiente con subclases
+	AmbienteCompilacion y AmbienteEjecucion.
+
+	-Queda funcionando normalmente por hoy.
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-13
+
+	-Agregue nueva clase excepcion EjecucionException y puse que todos
+	los metodos ejecutar() (y similares) pueden generarla. Ahora
+	se reporta de manera simple un error en tiempo de ejecucion con
+	respecto a la logica del programa Loro.
+
+	-Agregue nueva clase LoroAmbiente para manejar el ambiente de
+	ejecucion. Por ahora maneja solamente la pila pero hay que
+	mover de LoroBase algunos servicios que son mas del ambiente.
+	EjecucionException.printStackTrace imprime la pila de
+	ejecucion (llamando a LoroBase.mostrarPilaEjecucion).
+
+	-Se hizo una clase NUnidadGuardable como superclase de NEspecificacion,
+	NAlgoritmo y NClase.  NUnidadGuardable contiene el atributo
+	nombreFuente.
+
+	-REVISAR EXHAUSTIVAMENTE DONDE generar EjecucionException.
+
+	-A IDESimple le agregue el parametro: Guardar Compilados?
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-12
+
+	-Sobre Bug StackOverflow - writeObject.
+	Hice la prueba en Windows y funciono correctamente!
+	Parece entonces que se trata de un bug en linux: el jdk (tanto
+	de Sun como de IBM), VAJ?
+
+	-Bug reportado por marlonj:
+
+	algoritmo para foo() -> sal: entero
+	estrategia "..."
+	inicio
+		para i:entero := 0 hasta 30 haga
+			sal := sal + 0;
+		fin para;
+	fin algoritmo
+
+	-donde sal es una salida no inicializada. La compilacion
+	es exitosa pero hay un NullPointerException en ejecucion.
+	El compilador deberia reportar "variable no asignada" puesto
+	que se esta usando sal en la expresion "sal + 0".
+
+	Correccion:
+	En NAsignacion (var := expr), primero se hacia chequeo del
+	lado izquierdo (var); como es sal precisamente, se marcaba
+	internamente como si ya tuviera asignacion; por eso, no se
+	reportaba error de compilacion. Lo que se hizo simplemente
+	fue primero chequear la expresion derecha y luego el valor
+	izquierdo. Esto soluciono el problema.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-11
+
+	-Bugs reportados por marlonj.
+
+	-Se agregaron verificaciones dentro de NId.chequearParaInvocacion()
+	para que se tuviera en cuenta si se esta dentro de un algoritmo o no.
+	LoroBase.obtAlgoritmoActual() retorna null si no se esta dentro de
+	un algoritmo (de hecho se corrigio un bug respecto a esto tambien:
+	no se controlaba bien este estado --ver NUnidad.chequear()).
+
+	-Se arreglaron IDESimple.main() y Interprete.main() para no tomar
+	ArrayIndexOutOfBoundsException como indicador de argumentos mal
+	pasados: esta exception puede ser provocada internamente por el
+	programa Loro (o incluso por algun bug del sistema).
+
+	-Bug: StackOverflow al hacer writeObj() para guardar compilados.
+	Se agrego un flag 'guardarCompilados' dentro de LoroBase que
+	permite indicar si se omite la escritura a disco de los objetos
+	compilados. Operando sin esto (todo en memoria) el sistema
+	tienda.loro de marlonj funciona bien.
+	Un bug de java? (!) las pruebas hasta ahora han sido en linux y
+	bajo IBM (VAJ, JDK).
+	Sigo en revision...
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-10
+
+	-Sobre el bug de "Mirar fiboRecur.loro", que tenia que ver con el
+	mecanismo para chequear y ejecutar invocaciones sobre identificadores,
+	se determino lo que se explica a continuacion:
+
+	Se hicieron ajustes en los nodos NId y NInvocacion.
+
+	NInvocacion.{chequear|ejecutar}() hace llamado a
+	NId.{chequear|ejecutar}ParaInvocacion() cuando se trata de invocacion
+	sobre un NId.  NId opera dando preferencia a que se trate de un algoritmo.
+	Si no es asi, se recurre entonces a la tabla de simbolos.
+
+	NId.{chequear|ejecutar}() se invocan en los demas casos que no son
+	invocacion.	 NId opera, por el contrario, buscando primero en la tabla
+	de simbolos; despues intenta como algoritmo.
+
+	Esto mantiene (y mejora) la posibilidad de declarar una variable con
+	el mismo nombre de un algoritmo sin que se presenten conflictos confusos
+	(los mensajes de error son adecuados, me parece).
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-09
+
+	-BUG: Mirar fiboRecur.loro
+
+	-PENDIENTE: Funciones "semanticas" como:
+		pos { p = primo'(n) }. Ver primo.loro
+
+	-PENDIENTE: Revision general de ''instanceof'' para la
+	averiguacion de tipos y expresiones concretas: deberia
+	mantenerse el esquema de tener metodos para averiguar
+	esto, ej: Tipo.esEntero, etc.
+
+	-Hice reorganizacion: antes TipoNombre era superclase de
+	TipoEspecificacion y TipoAlgoritmo. Ahora quedan las tres
+	independientes.
+	Compilando menu.loro se observaba el bug:
+	   "no se puede convertir []algoritmo para opcionMenu
+		a []algoritmo para opcionMenu"  !
+	Se corrigio.
+
+	-Bug: Un parametro formal 'algoritmo para alguna_espec' no
+	permitia un parametro real que fuera el nombre de un
+	algoritmo explicito (como tal).
+	Se Corrigio: En NConstructor se ajusto el metodo:
+		boolean aceptaArgumentos(NExpresion[] args)
+	para que se utilizara el metodo Tipo.esAsignable en vez
+	de Tipo.igual.
+	Revisar en general (dondequiera que se reciban parametros).
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-08
+
+	- Acabo de probar StringReader a cambio de UtilReader y el problema
+	se soluciono. Falta hacer mas pruebas.
+
+	- Modifique NSubId para que revisara si la clase asociada (a la que se
+	le esta accediendo uno de sus miembros) esta ya definida; si no lo esta,
+	se solicita (a LoroBase) que se obtenga tal clase segun el nombre.
+	En realidad esta verificacion deberia hacerse desde NDeclaracion pero
+	habria que hacer alguna especie de metodo (recursivo) Tipo.resolver() 
+	que se encargara de esto: notese que los tipos no son nodos y tal vez
+	deberian serlo!
+
+	- Hice metodo para Tipo:
+		public boolean esInvocable()
+	La idea es quitar la restriccion de solo poder invocar identificadores 
+	a poder invocar cualquier expresion, expr(...). Se verifica si el tipo
+	de la expr es invocable.
+	Ver NInvocacion.chequear/ejecutar. Ver ejemplo demoMenu.loro que corre bien.
+	Faltan mas pruebas.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-06-07
+
+	- Corregi este bug: el repita-hasta operaba como do-while (oops!).
+	Se detecto gracias a Marlonj que esta preparando un ejercicio para
+	los primiparos.
+
+	- Una anomalia detectada es la siguiente: A veces, el compilador
+	reporta errores sintacticos cuando no los hay. Sucede en loroedit,
+	es decir, cuando se opera con co.edu.autonoma.yupana.loro.IDESimple.
+	Estoy por revisarlo...
+	He revisado un poco a nivel del javacc: tenia una version 1.1 aun
+	no probada (creo) leyendo si habian avisos de bugs de este tipo. Nada.
+	Bueno, de todas maneras loroc funciona bien! Tendre que revisar
+	el codigo de loroedit. Ensaye el javacc 1.1 sobre LoroIParser.jj y
+	produce un NullPointerException! Vere si traigo una nueva version
+	del javacc.
+
+
+/////////////////////////////////////////////////////////////////////////
+	2000-05-31
+
+	- En realidad, minimos ajustes sobre la version del anio pasado.
+	Compilacion y ejecucion exitosa: estoy listo para continuar
+	con el desarrollo.
+
+	- He mirado mpEDIT: traje y cargue en VisualAge la ultima version
+	a hoy que es la 1.5, pero no he revisado cuales cambios importantes
+	hay con respecto a lo anterior.
+	Como actualice mpTOOLS.mpEDIT/strings.properties, no me aparecen
+	ahora las opciones de menus: por ejemplo 'Compilar'. Hay que mirar
+	como se hace esto si quiero reintentar habilitar mpEDIT para Loro.
+

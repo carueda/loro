@@ -1,0 +1,11 @@
+especificacion maximo3(m, n, p: entero) -> max: entero
+	descripcion ''Obtiene el maximo de tres numeros dados.''
+	entrada 
+		m : ''Uno de los numeros a revisar.''
+		n : ''Otro de los numeros a revisar.''
+		p : ''El tercer numero a revisar.''
+	salida
+		max : ''El maximo entre m, n y p.''
+	pre { cierto }
+	pos { ''ejercicio: escribir la expresion logica'' }
+fin especificacion

@@ -1,0 +1,12 @@
+
+algoritmo para nextToken(as: AS)
+	estrategia ''...''
+inicio
+//escribirln("as = " +as);
+	si as.indice < #as.fuente - 1 entonces
+		as.indice := as.indice + 1;
+		as.lookahead := as.fuente[as.indice];
+	si_no
+		as.lookahead := '$';	// fin de entrada
+	fin si;
+fin algoritmo

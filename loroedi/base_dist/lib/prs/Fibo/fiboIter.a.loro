@@ -1,0 +1,13 @@
+algoritmo fiboIter para fibo(n: entero) -> fibo: entero
+estrategia ''Una versión iterativa sencilla.''
+inicio
+	si n < 3 entonces
+		retorne 1;
+	fin si;
+	n1, n2: entero := 1;
+	para i:entero desde 3 hasta n haga
+		fibo := n1 + n2;
+		n2 := n1;
+		n1 := fibo;
+	fin para;
+fin algoritmo

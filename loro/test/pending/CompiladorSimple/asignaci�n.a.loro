@@ -1,0 +1,8 @@
+
+algoritmo para asignación(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	variable(as);
+	aceptar(as, '=');
+	expresión(as);
+fin algoritmo

@@ -1,0 +1,20 @@
+algoritmo para multiplicarppal()
+estrategia
+	''Despliega un mensaje de explicacion, solicita el valor de a,
+	 solicita el valor de b y despliega el resultado de su multiplicacion.''
+inicio
+	a: entero;
+	b: entero;
+	resultado: entero;
+
+	// Solicitud de los valores de a y b al usuario.
+	escribir("Multiplicacion de dos numeros a y b\n");
+	escribir("a: ");
+	a := leerEntero();
+	escribir("b: ");
+	b := leerEntero();
+
+	resultado := multiplicar(a,b);	// Calculo de la multiplicacion
+
+	escribir("a x b = " + a + " x " + b + " = " + resultado);
+fin algoritmo

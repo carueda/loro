@@ -1,0 +1,9 @@
+/*
+	Inválido:
+	Ciclicidad en definición
+*/
+///////////////////////////////////////////////////////////////
+clase A  extiende A
+	descripción "clase A"
+fin clase
+

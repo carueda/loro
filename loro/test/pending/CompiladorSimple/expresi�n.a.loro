@@ -1,0 +1,10 @@
+
+algoritmo para expresión(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	término(as);
+	mientras as.lookahead = '+' || as.lookahead = '-' haga
+		aceptar(as, as.lookahead);
+		término(as);
+	fin mientras;
+fin algoritmo

@@ -1,0 +1,12 @@
+Orden de compilación
+
+	clases.loro                 OK
+	consultarAfiliado.loro      OK
+	eliminarAfiliado.loro       OK
+	nuevoAfiliado.loro          OK
+	menuExistencia.loro         OK
+	menuAfiliacion.loro         OK
+	menuDevolucion.loro         OK
+	Prestamo.loro               ERRORES DE COMPILACION
+	(resto no probados)
+	

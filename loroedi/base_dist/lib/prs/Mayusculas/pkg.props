@@ -1,0 +1,6 @@
+#Propiedades de paquete
+#Thu Aug 29 21:53:41 PDT 2002
+spec.1=test_mayusculas
+spec.0=mayusculas
+alg.1=test_mayusculas, test_mayusculas
+alg.0=mayusculas, mayusculas

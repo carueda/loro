@@ -1,0 +1,16 @@
+#Propiedades de paquete
+#Thu Aug 29 21:46:02 PDT 2002
+spec.6=multiplicar
+spec.5=restarppal
+alg.6=multiplicar, multiplicar
+spec.4=restar
+alg.5=restarppal, restarppal
+spec.3=sumarppal
+alg.4=restar, restar
+spec.2=multiplicarppal
+alg.3=sumarppal, sumarppal
+spec.1=sumar
+alg.2=multiplicarppal, multiplicarppal
+spec.0=calculadora
+alg.1=sumar, sumar
+alg.0=calculadora, calculadora

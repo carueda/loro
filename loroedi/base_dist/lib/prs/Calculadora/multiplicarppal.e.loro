@@ -1,0 +1,6 @@
+especificacion multiplicarppal()
+	descripcion
+		''Despliega los mensajes de solicitud de los valores
+		 a y b, los lee y muestra el resultado de su 
+		 multiplicacion''
+fin especificacion

@@ -1,0 +1,476 @@
+package loro.impl;
+
+import loro.*;
+import loro.compilacion.*;
+import loro.derivacion.*;
+import loro.arbol.*;
+import loro.util.Util;
+import loro.util.ManejadorUnidades;
+
+
+import java.io.*;
+import java.util.*;
+
+/////////////////////////////////////////////////////////////////////
+/**
+ * Implementacion de ICompilador
+ *
+ * @author Carlos Rueda
+ * @version 2002-10-06
+ */
+public class CompiladorImpl implements ICompilador
+{
+	/** Arreglo vacio de unidades. */
+	private static final IUnidad[] ARREGLO_VACIO_UNIDAD = new IUnidad[0];
+	
+	/** El derivador sintáctico. */
+	IDerivador derivador;
+
+	/** El chequeador semántico. */
+	Chequeador chequeador;
+
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Crea un compilador.
+	 */
+	public CompiladorImpl()
+	{
+		derivador = ManejadorDerivacion.obtDerivador();
+		chequeador = new Chequeador();
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public IUnidad compileSpecificaction(
+		String expected_pkgname, 
+		String expected_unitname
+	)
+	throws CompilacionException
+	{
+		/////////////////////////////////////////////
+		// Fase sintáctica (construcción del árbol de derivación):
+		NFuente prg = derivador.derivarFuente();
+		NUnidad[] unidades = (NUnidad[]) prg.obtUnidades();
+		if ( unidades.length > 1 )
+		{
+			IUnidad u2 = unidades[1];
+			Rango r = u2.obtRango();
+			throw new CompilacionException(r, 
+				"Sólo se espera la definición de la especificación '" +expected_unitname+ "'"
+			);
+		}
+		
+		if ( !(unidades[0] instanceof NEspecificacion) )
+		{
+			IUnidad u2 = unidades[0];
+			Rango r = u2.obtRango();
+			throw new CompilacionException(r, 
+				"Se espera la definición de la especificación '" +expected_unitname+ "'"
+			);
+		}
+		
+		NUnidad unidad = unidades[0];
+		
+		String unitname = unidad.obtNombreSimpleCadena();
+		if ( ! expected_unitname.equals(unitname) )
+		{
+			Rango r;
+			String msg = "Se espera el nombre '" +expected_unitname+ "'";
+			TId id = unidad.obtId();
+			r = id.obtRango();
+			throw new CompilacionException(r, msg);
+		}
+		
+		/////////////////////////////////////////////
+		// Fase semántica:
+		try
+		{
+			chequeador.reiniciar();
+			chequeador.setExpectedPackageName(expected_pkgname);
+			chequeador.chequear(prg);
+			return unidad;
+		}
+		catch ( ChequeadorException se )
+		{
+			throw new CompilacionException(se.obtRango(), se.getMessage());
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public IUnidad compileAlgorithm(
+		String expected_pkgname, 
+		String expected_unitname,
+		String expected_specname
+	)
+	throws CompilacionException
+	{
+		/////////////////////////////////////////////
+		// Fase sintáctica (construcción del árbol de derivación):
+		NFuente prg = derivador.derivarFuente();
+		NUnidad[] unidades = (NUnidad[]) prg.obtUnidades();
+		if ( unidades.length > 1 )
+		{
+			IUnidad u2 = unidades[1];
+			Rango r = u2.obtRango();
+			throw new CompilacionException(r, 
+				"Sólo se espera la definición del algoritmo '" +expected_unitname+ "'"
+			);
+		}
+		if ( !(unidades[0] instanceof NAlgoritmo) )
+		{
+			IUnidad u2 = unidades[0];
+			Rango r = u2.obtRango();
+			throw new CompilacionException(r, 
+				"Se espera la definición del algoritmo '" +expected_unitname+ "'"
+			);
+		}
+		
+		NUnidad unidad = unidades[0];
+		
+		String unitname = unidad.obtNombreSimpleCadena();
+		if ( ! expected_unitname.equals(unitname) )
+		{
+			Rango r;
+			String msg = "Se espera el nombre '" +expected_unitname+ "'";
+			TId id = unidad.obtId();
+			if ( id != null )
+			{
+				// el nombre del algoritmo aparce explícitamente dado.
+				r = id.obtRango();
+			}
+			else
+			{
+				// el nombre se toma del de la especificación
+				NAlgoritmo nalg = (NAlgoritmo) unidad;
+				TNombre espec = nalg.obtTNombreEspecificacion();
+				TId[] ids = espec.obtIds();
+				r = ids[ids.length -1].obtRango();
+				// ya que ese sería el nombre que toma el algoritmo por defecto.
+				msg += " y este algoritmo tomaría el nombre '" +unitname+ "'";
+			}
+			
+			throw new CompilacionException(r, msg);
+		}
+		
+		if ( expected_specname != null )
+		{
+			NAlgoritmo nalg = (NAlgoritmo) unidad;
+			TNombre espec = nalg.obtTNombreEspecificacion();
+			String specname = espec.obtCadena();
+			boolean ok = expected_specname.equals(specname);
+			if ( ! ok )
+			{
+				// No hay coincidencia exacta.
+				// Posibilidad que se trate de una especificación en el mismo
+				// paquete o en el paquete automático:
+				if ( specname.indexOf(":") < 0 )    // specname debe ser simple
+				{
+					ok = expected_specname.equals(expected_pkgname+ "::" +specname);
+					if ( ! ok )
+					{
+						ManejadorUnidades mu = chequeador.obtManejadorUnidades();
+						String auto_pkg = mu.obtNombrePaqueteAutomatico();
+						ok = expected_specname.equals(auto_pkg+ "::" +specname);
+					}
+				}
+			}
+			if ( ! ok )
+			{
+				throw new CompilacionException(
+					espec.obtRango(),
+					"Se espera que el algoritmo sea para la especificación '" 
+						+expected_specname+ "'"
+				);
+			}
+		}
+
+		/////////////////////////////////////////////
+		// Fase semántica:
+		try
+		{
+			chequeador.reiniciar();
+			chequeador.setExpectedPackageName(expected_pkgname);
+			chequeador.chequear(prg);
+			return unidad;
+		}
+		catch ( ChequeadorException se )
+		{
+			throw new CompilacionException(se.obtRango(), se.getMessage());
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public IUnidad compileClass(
+		String expected_pkgname, 
+		String expected_unitname
+	)
+	throws CompilacionException
+	{
+		/////////////////////////////////////////////
+		// Fase sintáctica (construcción del árbol de derivación):
+		NFuente prg = derivador.derivarFuente();
+		NUnidad[] unidades = (NUnidad[]) prg.obtUnidades();
+		if ( unidades.length > 1 )
+		{
+			IUnidad u2 = unidades[1];
+			Rango r = u2.obtRango();
+			throw new CompilacionException(r, 
+				"Sólo se espera la definición de la clase '" +expected_unitname+ "'"
+			);
+		}
+		
+		if ( !(unidades[0] instanceof NClase) )
+		{
+			IUnidad u2 = unidades[0];
+			Rango r = u2.obtRango();
+			throw new CompilacionException(r, 
+				"Se espera la definición de la clase '" +expected_unitname+ "'"
+			);
+		}
+		
+		NUnidad unidad = unidades[0];
+		
+		String unitname = unidad.obtNombreSimpleCadena();
+		if ( ! expected_unitname.equals(unitname) )
+		{
+			Rango r;
+			String msg = "Se espera el nombre '" +expected_unitname+ "'";
+			TId id = unidad.obtId();
+			r = id.obtRango();
+			throw new CompilacionException(r, msg);
+		}
+		
+		/////////////////////////////////////////////
+		// Fase semántica:
+		try
+		{
+			chequeador.reiniciar();
+			chequeador.setExpectedPackageName(expected_pkgname);
+			chequeador.chequear(prg);
+			return unidad;
+		}
+		catch ( ChequeadorException se )
+		{
+			throw new CompilacionException(se.obtRango(), se.getMessage());
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public IUnidad[] derivarFuente()
+	throws CompilacionException
+	{
+		NFuente prg = derivador.derivarFuente();
+		return prg.obtUnidades();
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public void derivarId()
+	throws CompilacionException
+	{
+		TId tid = derivador.derivarId();
+		if ( Util.esVarSemantica(tid) )
+		{
+			throw new CompilacionException(tid.obtRango(), "variable semántica");
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public void derivarNombre()
+	throws CompilacionException
+	{
+		TNombre tnombre = derivador.derivarNombre();
+		TId[] tids = tnombre.obtIds();
+		for ( int i = 0; i < tids.length; i++ )
+		{
+			if ( Util.esVarSemantica(tids[i]) )
+			{
+				throw new CompilacionException(tnombre.obtRango(), "contiene variable semántica");
+			}
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public IFuente compilarFuente()
+	throws CompilacionException
+	{
+		/////////////////////////////////////////////
+		// Fase sintáctica (construcción del árbol de derivación):
+		NFuente prg = derivador.derivarFuente();
+
+		/////////////////////////////////////////////
+		// Fase semántica:
+		try
+		{
+			chequeador.reiniciar();
+			chequeador.chequear(prg);
+			return prg;
+		}
+		catch ( ChequeadorException se )
+		{
+			throw new CompilacionException(se.obtRango(), se.getMessage());
+		}
+	}
+
+	///////////////////////////////////////////////////////////////
+	public IUnidad[] obtAlgoritmos()
+	{
+		List list = new ArrayList();
+		for ( Enumeration e = chequeador.obtAlgoritmos(); e.hasMoreElements(); )
+		{
+			list.add(e.nextElement());
+		}
+		
+		return (IUnidad[]) list.toArray(ARREGLO_VACIO_UNIDAD);
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public String obtTextoFuente()
+	{
+		return derivador.obtTextoFuente();
+	}
+
+	///////////////////////////////////////////////////////////////
+	public void ponGuardarCompilados(boolean g)
+	{
+		chequeador.obtManejadorUnidades().ponGuardarCompilados(g);
+	}
+
+	//////////////////////////////////////////////////////////////
+	public void ponDirectorioDestino(String dir)
+	{
+		chequeador.obtManejadorUnidades().ponDirGuardarCompilado(dir);
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public void ponNombreArchivo(String nombreArchivo)
+	{
+		chequeador.ponNombreFuente(nombreArchivo);
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public ICompilador ponTextoFuente(Reader fuente)
+	{
+		derivador.ponTextoFuente(fuente);
+		return this;
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public ICompilador ponTextoFuente(String fuente)
+	{
+		derivador.ponTextoFuente(fuente);
+		return this;
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	/**
+	 * Ordena una lista de nombres de archivos (Strings) según las extensiones
+	 * tal que queda: *.e.loro, *.a.loro, *.c.loro, resto.
+	 */
+	private static void sort(List archivos)
+	{
+		Collections.sort(archivos, new Comparator()
+		{
+			////////////////////////////////////////
+			public int compare(Object o1, Object o2)
+			{
+				String s1 = (String) o1;
+				String s2 = (String) o2;
+				
+				if ( s1.endsWith(".e.loro") )
+				{
+					return s2.endsWith(".e.loro") ? 0 : -1;
+				}
+				else if ( s1.endsWith(".a.loro") )
+				{
+					return s2.endsWith(".e.loro") ? +1 : s2.endsWith(".a.loro") ? 0 : -1;
+				}
+				else if ( s1.endsWith(".c.loro") )
+				{
+					return s2.endsWith(".c.loro") ? 0 : +1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+		});
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	public int compilarListaArchivos(List archivos, List unidades, Writer errores)
+	{
+		// Primero ordenamos los nombres de los archivos fuentes:
+		sort(archivos);
+	
+		// ahora, compilar:
+		PrintWriter pwerr = new PrintWriter(errores, true);
+		int compilados = 0;
+		for ( Iterator it = archivos.iterator(); it.hasNext(); )
+		{
+			String nombre = (String) it.next();
+			try
+			{
+				FileInputStream fis = new FileInputStream(nombre);
+				Reader reader = new BufferedReader(new InputStreamReader(fis));
+				ponTextoFuente(reader);
+				ponNombreArchivo(nombre);
+				IFuente fuente = compilarFuente();
+				IUnidad[] unids = fuente.obtUnidades();
+				compilados++;
+				if ( unidades != null )
+				{
+					unidades.addAll(Arrays.asList(unids));
+				}
+			}
+			catch(FileNotFoundException ex)
+			{
+				pwerr.println(nombre+ ": archivo no encontrado");
+			}
+			catch(CompilacionException ex)
+			{
+				Rango rango = ex.obtRango();
+				
+				String res = nombre + 
+					"[" +rango.obtIniLin()+ "," +rango.obtIniCol()+ "]" +
+					" " +ex.getMessage()
+				;
+				pwerr.println(res);
+			}
+		}
+		
+		return compilados;
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public int anticompilarListaArchivos(List archivos, Writer errores)
+	{
+		// Primero ordenamos los nombres de los archivos fuentes:
+		sort(archivos);
+	
+		// ahora, anti-compilar:
+		PrintWriter pwerr = new PrintWriter(errores, true);
+		int anticompilados = 0;
+		for ( Iterator it = archivos.iterator(); it.hasNext(); )
+		{
+			String nombre = (String) it.next();
+			try
+			{
+				FileInputStream fis = new FileInputStream(nombre);
+				Reader reader = new BufferedReader(new InputStreamReader(fis));
+				ponTextoFuente(reader);
+				ponNombreArchivo(nombre);
+				compilarFuente();
+				pwerr.println(nombre+ ": HA COMPILADO BIEN!!!");
+			}
+			catch(FileNotFoundException ex)
+			{
+				pwerr.println(nombre+ ": archivo no encontrado");
+			}
+			catch(CompilacionException ex)
+			{
+				anticompilados++;
+			}
+		}
+		
+		return anticompilados;
+	}
+}

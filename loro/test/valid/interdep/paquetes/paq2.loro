@@ -1,0 +1,8 @@
+utiliza especificacion loro::paq1::espec;
+
+algoritmo alg2 para espec()
+estrategia ""
+inicio
+	loro::paq1::alg1();
+fin algoritmo
+

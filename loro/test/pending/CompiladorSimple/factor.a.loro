@@ -1,0 +1,19 @@
+
+algoritmo para factor(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	si 'a' <= as.lookahead && as.lookahead <= 'z' entonces
+		variable(as);
+	si_no_si '0' <= as.lookahead && as.lookahead <= '9' entonces
+		dígito(as);
+	si_no_si '(' = as.lookahead entonces
+		aceptar(as, '(');
+		expresión(as);
+		aceptar(as, ')');
+	si_no
+		error(as, "
+Error de sintaxis: 
+	Esperado  : variable,  dígito,  o  \"(\""
+				);
+	fin si;
+fin algoritmo

@@ -1,0 +1,12 @@
+////////////////////////////////////////////////////////////////
+algoritmo decisionCond para PRUEBA()
+"Condicion como mera instruccion."
+inicio
+	escribir("Dame un numero real: ");
+	r:real := leerReal();
+	escribir(r+ " en ");
+	r <= -100.0  ? escribirln("(-inf, -100]")
+	: r <= 0.0   ? escribirln("(-100, 0]")
+	: r <= 100.0 ? escribirln("(0, 100]")
+	: escribirln("(100, +inf)");
+fin algoritmo

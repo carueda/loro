@@ -1,0 +1,17 @@
+
+
+especificacion existeArticulo(codigo: []entero, num_articulos: entero,  art_codigo: entero) -> existe_articulo: booleano
+	descripcion
+		"Retorna cierto si el articulo con el codigo dado se encuentra en el
+		 arreglo de articulos"
+	entrada
+		codigo: "Arreglo de codigos"
+		num_articulos: "Numero de articulos"
+		art_codigo: "Codigo del articulo a adicionar"
+	salida
+		existe_articulo: "cierto si existe el articulo en el arreglo de articulos"
+	pre
+		{ cierto }
+	pos
+		{ existe_articulo = cierto <=> existe i: entero, 0 <= i && i < num_articulos : (codigo[i] = art_codigo) }
+fin especificacion

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<!--
+    Build para apoyo de Loro.
+	Aqui se carga la taskdef "loroc" (que build.xml debe crear primero).
+	
+	** Debe invocarse a través del build.xml principal.
+-->
+
+<project name="Loro" default="apoyo">
+
+	<taskdef name="loroc" classname="loro.misc.ant.LoroCompilerTask"
+	 classpath="${build}/classes"/>
+	
+	<!-- apoyo .................................................. -->
+    <target name="apoyo" depends="compile-apoyo"
+     description="Hace ncleo loroI.lar">
+		<mkdir dir="${build}/ext/sistema"/>
+		<copy todir="${build}/ext/sistema">
+			<fileset dir="${src}/ext/sistema"/> 
+		</copy>
+        <jar jarfile="${recurso.apoyo}" 
+		 basedir="${build}/ext/sistema"
+		/>
+    </target>
+
+    <target name="compile-apoyo">
+        <loroc srcdir="${src}/ext/sistema" destdir="${build}/ext/sistema" includes="loroI/sistema/**/*.loro"
+		/>
+    </target>
+	
+</project>

@@ -1,0 +1,9 @@
+
+algoritmo para analizar(fuente: cadena)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	escribirln("Analizando [" +fuente+ "] ...");
+	as: AS := crearAS(fuente);
+	asignación(as);
+	escribirln("**OK**");
+fin algoritmo

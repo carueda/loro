@@ -1,0 +1,7 @@
+Algunos ejemplos de manejo de arreglos:
+
+ - Intercambio de dos posiciones en un arreglo.
+   Nótese el uso de variables terminadas en (') en la 
+   especificación.
+
+ - Averiguar si un número está en un arreglo de números.

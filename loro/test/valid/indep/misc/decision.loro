@@ -1,0 +1,17 @@
+///////////////////////////////////////////////////////////////
+especificacion ppal()
+descripcion""
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo decision para ppal()
+estrategia ""
+inicio
+	si cierto entonces
+		escribirln("entonces");
+	si_no
+		mm: entero := 10;
+		mm := 20;
+		escribirln("sino " +mm);
+	fin si;
+fin algoritmo

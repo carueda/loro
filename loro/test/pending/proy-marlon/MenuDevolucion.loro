@@ -1,0 +1,61 @@
+especificacion menuDevolucion(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    descripcion "Mostrar y ejecutar el contenido de menu devolucion"
+   entrada
+	afiliado:"socio del video"
+	peliculas:"Elemento que presta el video"
+	alquiler:"servicio que presta el video"
+	
+    pre{"codigo>0"}
+    pos{"poner en el estado de un video que esta disponible"}
+fin especificacion
+
+algoritmo para menuDevolucion(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    estrategia"1.declarar variables
+		2. Inicializar a en 0
+		3.Leer a
+		4. Hacer un ciclo
+			inicio 0
+			hasta 99
+			cambio de 1 en 1
+              	4.1 Si a es igual a i entonces borrar registro
+		4.2 Cambiar campo de estado del video resgiStraDO a disponible
+		4.3 Si no a a se le lleva 1
+		5. Si a es igual a 0 entonces op es igual a 1
+		5.1 si no op es igual a 0
+		6.Retornar al menu principal"
+    
+
+	inicio
+	op : entero := 0;
+	a,i,j:entero;
+	a := 0;
+	codigo:entero;
+	escribir("\nEscriba el codigo del prestamo: ");
+	codigo := leerEntero();
+	mientras (op = 0) haga
+		para i desde 0 hasta 99 haga
+			si (alquiler[codigo].codigoP = i)entonces
+				alquiler[codigo].codigoV := -1;
+				alquiler[codigo].codigoA := -1;
+				alquiler[codigo].fecha := "**/**/**";
+				para j desde 0 hasta 99 haga	
+					si (alquiler[codigo].codigoP = peliculas[j].codigo)entonces
+						peliculas[j].estado := "disponible";
+					fin si;
+				fin para;
+				alquiler[codigo].codigoP := -1;		
+			si_no
+				a := 1;
+			fin si;
+		fin para;
+		si (a = 0)entonces
+			escribir("\nDevolucion existosa...");
+			op := 1;
+		si_no
+			escribir("\nEl codigo no se encuentra...");
+			op := 0;
+		fin si;
+	fin mientras;	
+	menuPrincipal(afiliado,peliculas,alquiler);
+fin algoritmo
+

@@ -1,0 +1,34 @@
+///////////////////////////////////////////////////////////////
+especificacion intercambiar(a: []entero, i, j: entero)
+	descripcion ""
+	entrada 
+		a: "El arreglo."
+		i: "Indice."
+		j: "Indice."
+	pre { 0 <= i && i < #a && 0 <= j && j < #a }
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo intercjava para intercambiar(a: []entero, i, j: entero)
+implementacion "java" "loro.java.loroI.Prueba"
+fin algoritmo
+
+///////////////////////////////////////////////////////////////
+especificacion demoIntercambiar()
+descripcion "Programa de demostracion de intercambio en arreglo."
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para demoIntercambiar()
+estrategia "simple."
+inicio
+	a: []entero := crear [4]entero;
+	a[0] := 0;
+	a[1] := 10;
+	a[2] := 20;
+	a[3] := 30;
+
+	escribirln("antes   = " +a);
+	intercjava(a, 1, 3);
+	escribirln("despues = " +a);
+fin algoritmo

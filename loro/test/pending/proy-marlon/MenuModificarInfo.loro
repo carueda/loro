@@ -1,0 +1,88 @@
+especificacion menuModificarinfo(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    descripcion "Mostrar y ejecutar el contenido de menu modificar info"
+	entrada
+	afiliado:"socio del video"
+	peliculas:"Elemento que presta el video"
+	alquiler:"servicio que presta el video"    
+    pre{"op=0"}
+    pos{"op=5"}
+fin especificacion
+
+algoritmo para menuModificarInfo(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    estrategia"1.declarar variables 
+               2.Inicializar op en 0
+               3. hacer un ciclo:
+                    inicio:op=0
+                    salida op=5
+                    cambio al leer op
+               	3.1 Si op=1 entonces retornar Cambiar nombre
+		3.2. Si op=2 entonces retornar Cambiar telefono
+		3.3. Si op=3 entonces retornar Cambiar direccion
+		3.4. Si op=4 entonces retornar Cambiar cedula
+               	3.5 Si op=5 entonces retornar menu principal"
+    
+
+	inicio
+	codigo,i,j:entero;
+	nombre:cadena;
+	telefono:cadena;
+	direccion:cadena;
+	cedula:cadena;
+	op:entero;
+	op := 0; 
+	mientras(op = 0)haga	
+		escribir("\nEscriba el codigo del afiliado: ");
+		codigo := leerEntero();
+		para i desde 0 hasta 19 haga
+			si(afiliado[i].codigo = codigo)entonces
+				op := 1;
+				j := i;		
+			si_no
+				op := 0;
+			fin si;	
+		fin para;
+		si(op = 0)entonces
+			escribir("\nEl codigo no existe...");
+		fin si;
+	fin mientras ;
+	mientras(op = 0)haga
+		escribirln("\t\tVIDEO VARIEDADES");
+		escribirln("\t\tMenu Modificar Informacion");
+		escribirln("\t\t1. Cambiar nombre");
+		escribirln("\t\t2. Cambiar telefono");
+		escribirln("\t\t3. Cambiar direccion");
+		escribirln("\t\t4. Cambiar cedula");
+		escribirln("\t\t5. Volver");
+		escribirln("\tDigite la opcion deseada: ");
+		op := leerEntero();
+		si(op = 1)entonces
+			escribir("Escriba el nuevo nombre: ");				
+			nombre := leerCadena();
+			afiliado[j].nombre := nombre;
+			op := 0;
+		fin si;
+		si(op = 2)entonces
+			escribir("Escriba el nuevo telefono: ");
+			telefono := leerCadena();
+			afiliado[j].telefono := telefono;
+			op := 0;
+		fin si;
+		si(op = 3)entonces
+			escribir("Escriba la nueva direccion:");
+			direccion := leerCadena();
+			afiliado[j].direccion := direccion;
+			op := 0;
+		fin si;
+		si(op = 4)entonces
+			escribir("Escriba la nueva cedula: ");
+			cedula := leerCadena();
+			afiliado[j].cedula := cedula;
+			op := 0;
+		fin si;
+		si(op = 5)entonces
+			op := 1;
+			menuPrincipal(afiliado,peliculas,alquiler);
+		fin si;	
+	fin mientras;
+fin algoritmo
+

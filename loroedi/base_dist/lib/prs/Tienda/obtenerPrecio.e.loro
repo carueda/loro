@@ -1,0 +1,20 @@
+
+
+especificacion obtenerPrecio(codigo: []entero, precio: []real, num_articulos: entero, art_codigo: entero) -> precio_articulo: real
+	descripcion
+		"Retorna el precio del articulo con el codigo dado, si este no existe
+		 retorna -1.0"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+		art_codigo: "Codigo del articulo"
+	salida
+		precio_articulo: "Precio del articulo con el codigo dado"
+	pre
+		{ cierto }
+	pos
+		{ existeArticulo(codigo,num_articulos,art_codigo) => 
+		  precio[obtenerPosicion(codigo,num_articulos,art_codigo)] = precio_articulo ||
+		  !existeArticulo(codigo,num_articulos,art_codigo) => precio_articulo = -1.0 }
+fin especificacion

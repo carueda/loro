@@ -1,0 +1,7 @@
+paquete loroI::sistema;
+
+clase Objeto
+	descripción
+	''Esta es la raiz de la jerarquia de clases de Loro.
+	Todo objeto de Loro es instancia de esta clase.''
+fin clase

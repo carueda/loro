@@ -1,0 +1,11 @@
+
+algoritmo para variable(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	identificador(as);
+	si as.lookahead = '[' entonces
+		aceptar(as, '[');
+		expresión(as);
+		aceptar(as, ']');
+	fin si;
+fin algoritmo

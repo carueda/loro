@@ -1,0 +1,39 @@
+algoritmo para calculadora()
+estrategia
+	''Despliega el menu de opciones como esta especificado;
+	 Lee la opcion del usuario y con un esquema de si-entonces
+	 anidados despacha la operacion deseada. En caso de una
+	 opcion no valida, se despliega una aviso al usuario.''
+inicio
+	opcion: entero;
+
+	repita
+		// Se escribe el menu
+		escribirln("\n\nMenu :");
+		escribirln("1. Sumar dos numeros.");
+		escribirln("2. Restar dos numeros.");
+		escribirln("3. Multiplicar dos numeros.");
+		escribirln("4. Salir.\n");
+
+		// Se solicita la opcion
+		escribir("Entre una opcion : ");
+
+		// Se lee la opcion desde consola
+		opcion := leerEntero();
+
+		// Se descartan una a los posibles valores de opcion
+		si opcion = 1 entonces
+			sumarppal();
+		si_no_si opcion = 2 entonces
+			restarppal();
+		si_no_si opcion = 3 entonces
+			multiplicarppal();
+		si_no_si opcion != 4 entonces
+			// Si ninguno de los 'si' identifico la opcion
+			// y esta es diferente de 4 no es una opcion
+			// valida
+			escribirln("Opcion " + opcion + " No Valida");
+		fin si;
+	hasta opcion = 4;
+
+fin algoritmo

@@ -1,0 +1,9 @@
+paquete loroI::sistema;
+
+especificación leerBooleano() -> v: booleano
+	descripción
+		''Lee un valor booleano (cierto o falso) de la entrada estandar.''
+	salida
+		v : ''El valor leido.''
+	pos { v = v' }
+fin especificación

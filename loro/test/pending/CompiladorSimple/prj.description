@@ -1,0 +1,43 @@
+Análisis Sintáctico de una gramática sencilla utilizando 
+una tecnica descendente recursiva predictiva.
+
+Uso:
+   - Abrir el Interprete Integrado (Alt-I)
+   - Invocar el algoritmo analizar suministrando la cadena
+     que se quiere analizar.
+   - Ejemplos:
+        analizar("x=7")             -- OK
+        analizar("x=(7-(9-5))+1")   -- OK
+        analizar("x[5+7]=9")        -- OK
+        analizar("x=(7")            -- Error
+        analizar("x=7k")            -- OK!! (pero debe ser error)
+
+Pendiente: 
+	- completar verificacion de las reglas
+	- permitir espacios en blanco
+
+La gramática:
+------------
+
+ asignacion ::=
+               variable "=" expresion
+
+ variable ::=
+             identificador [ "[" expresion "]" ]
+
+ identificador ::=
+                  "a" | "b" | ... | "z"
+
+ expresion ::=
+              termino ( ("+" | "-")? termino )*
+
+ termino ::=
+            factor ( ("*" | "/")? factor )*
+
+ factor ::=
+           variable
+        |  digito
+        |  "(" expresion ")"
+
+ digito ::=
+           "0" | "1" | ... | "9"

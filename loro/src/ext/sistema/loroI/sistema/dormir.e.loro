@@ -1,0 +1,9 @@
+paquete loroI::sistema;
+
+especificación dormir(milésimas: entero)
+	descripción
+		''Duerme la ejecución durante un tiempo.''
+	entrada
+		milésimas: ''Tiempo a dormir en milésimas de segundo.''
+	pre { milésimas >= 0 }
+fin especificación

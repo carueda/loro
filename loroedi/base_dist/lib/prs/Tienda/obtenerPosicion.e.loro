@@ -1,0 +1,22 @@
+
+
+especificacion obtenerPosicion(codigo: []entero, num_articulos: entero, art_codigo: entero) -> posicion: entero
+	descripcion
+		"Retorna la posicion del articulo con el codigo dado, si este no existe 
+		 retorna -1"
+	entrada
+		codigo: "Arreglo de codigos"
+		num_articulos: "Numero de articulos"
+		art_codigo: "Codigo del articulo"
+	salida
+		posicion: "Posicion del articulo dentro del arreglo"
+	pre
+		{ cierto }
+	pos
+		{ existeArticulo(codigo,num_articulos,art_codigo) = ex' &&
+			( ex' && codigo[posicion] = art_codigo
+				|| !ex' && posicion = -1 )
+		//  	(ex' => codigo[posicion] = art_codigo) &&
+		//  	(!ex' => posicion = -1)
+		}
+fin especificacion

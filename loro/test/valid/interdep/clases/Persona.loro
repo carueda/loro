@@ -1,0 +1,57 @@
+//
+// Una demostracion de objetos en Loro I: Un objeto es una
+// composicion de datos cuya estructura esta determinada por
+// una clase.
+//
+
+///////////////////////////////////////////////////////////////
+// Definamos por ejemplo la clase "Persona":
+clase Persona
+	descripción 
+	"Una persona tiene un nombre y una edad.
+	Para armar una lista (encadenada) de personas, incluimos
+	un enlace a la siguiente Persona."
+
+	nombre: cadena := "NN" : "el nombre de esta persona";
+
+	edad: entero constante = 10 : "la edad de esta persona";
+
+	sgte: clase Persona : "enlace a la siguiente persona";
+fin clase
+
+///////////////////////////////////////////////////////////////
+algoritmo ppal para PRUEBA()
+estrategia "Simples asignaciones y uso del proceso incorporado escribirln."
+inicio
+	// cree una instancia de Persona:
+	p: Persona := crear Persona;
+
+	// escribamos; vemos que p tiene un estado por defecto:
+	escribirln("por defecto, p: " +p);
+
+	// asignemos valores para los atributos:
+	p.nombre := "calvin";
+//	p.edad := 30;  //<<-- ERROR puesto que edad es constante.
+
+	// escribamos:
+	escribirln("con calvin, p: " +p);
+
+	// pongamos una nueva persona en el enlace de "calvin":
+	p.sgte := crear Persona();
+	p.sgte.nombre := "hobbes";
+
+	// escribamos:
+	escribirln("con hobbes, p: " +p);
+
+	// y al enlace de "hobbes" asociemos a "calvin":
+	// notese que queda un encadenamiento circular:
+	p.sgte.sgte := p;
+
+	// escribamos; Loro muestra el objeto hasta un cierto nivel
+	// de profundizacion para evitar una recursion infinita ya
+	// que la lista es circular:
+	escribirln("circular, p: " +p);
+
+escribirln("arreglo: " +crear[30]entero);
+
+fin algoritmo

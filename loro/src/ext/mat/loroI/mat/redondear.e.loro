@@ -1,0 +1,13 @@
+paquete loroI::mat;
+
+especificación redondear(val: real) -> res: real
+	descripción
+		''Obtiene el valor entero (como real) mas cercano 
+		a un valor dado.''
+	entrada
+		val: ''Valor a operar.''
+	salida
+		res : ''El redondeo del valor.''
+	pre { cierto }
+	pos { res = res' }
+fin especificación

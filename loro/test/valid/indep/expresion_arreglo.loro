@@ -1,0 +1,8 @@
+algoritmo expresion_arreglo para PRUEBA()
+	"Demuestra la posibilidad de denotar arreglos explicitamente."
+inicio
+	e: entero := 20;
+	a:[]entero := [10, e, 30];
+	escribirln("a = " +a);
+fin algoritmo 
+

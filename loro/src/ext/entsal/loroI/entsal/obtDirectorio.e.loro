@@ -1,0 +1,12 @@
+paquete loroI::entsal;
+
+especificación obtDirectorio(nombreDir: cadena) -> lista: []cadena
+	descripción
+		''Obtiene la lista de archivos en un directorio.''
+	entrada
+		nombreDir: ''Ruta del directorio.''
+	salida
+		lista: ''Lista de archivos del directorio.''
+	pre { nombreDir != nulo }
+	pos { lista = lista' }
+fin especificación

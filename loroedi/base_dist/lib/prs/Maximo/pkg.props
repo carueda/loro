@@ -1,0 +1,6 @@
+#Propiedades de paquete
+#Mon Oct 07 20:36:10 PDT 2002
+spec.1=maximo2
+spec.0=maximo3
+alg.1=maximo2, maximo2
+alg.0=maximo3, maximo3

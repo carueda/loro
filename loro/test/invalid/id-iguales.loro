@@ -1,0 +1,26 @@
+especificacion e()
+	descripcion ""
+fin especificacion
+
+/////////////////////////////////////////////////////////////////
+algoritmo a para e()
+	descripcion ""
+inicio
+fin algoritmo
+
+/////////////////////////////////////////////////////////////////
+algoritmo e para escribirln(cad:cadena)
+	descripcion ""
+inicio
+	
+fin algoritmo
+
+/////////////////////////////////////////////////////////////////
+algoritmo para PRUEBA()
+	descripcion ""
+inicio
+	  	e : algoritmo para e := a;
+	  	e("");   // error: Este "e" se resuelve primero por la
+		         // tabla de simbolos, resultando en un algoritmo que
+				 // no espera argumentos --no es el algoritmo "e" de mas arriba
+fin algoritmo

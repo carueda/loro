@@ -1,0 +1,32 @@
+
+
+algoritmo para ajustarPrecioPpal(codigo: []entero, precio: []real, num_articulos: entero)
+estrategia 
+	"Se lee el codigo del nuevo articulo desde consola, se verifica
+	 que exista, si  no existe se muestra un mensaje y se retorna, si 
+	 existe se solicita el porcentaje y si es una rebaja o no  y se invoca a
+	 ajustarPrecio"
+inicio
+	art_codigo : entero;
+	porcentaje : entero;
+	rebajar: booleano := falso;
+
+	escribir("\nDigite el codigo del articulo: ");
+	art_codigo := leerEntero();
+
+	si existeArticulo(codigo,num_articulos,art_codigo) entonces
+		escribir("Digite el porcentaje (0 - 100): ");
+		porcentaje := leerEntero();
+
+		escribir("Rebajar precio (cierto,falso): ");
+		rebajar := leerBooleano();
+
+		si rebajar entonces
+			porcentaje := - porcentaje;
+		fin si;
+		
+		ajustarPrecio(codigo,precio,num_articulos,art_codigo,porcentaje);
+	si_no
+		escribir("El articulo no existe\n");
+	fin si;
+fin algoritmo

@@ -1,0 +1,22 @@
+
+
+algoritmo para ajustarPreciosPpal(codigo: []entero, precio: []real, num_articulos: entero)
+estrategia 
+	 "Se solicita el porcentaje y si es una rebaja o no y se invoca a
+	 ajustarPrecios"
+inicio
+	porcentaje : entero;
+	rebajar : booleano;
+
+	escribir("Digite el porcentaje (1 - 100): ");
+	porcentaje := leerEntero();
+
+	escribir("Rebajar precios (cierto,falso): ");
+	rebajar := leerBooleano();
+
+	si rebajar entonces
+		porcentaje := - porcentaje;
+	fin si;
+
+	ajustarPrecios(codigo,precio,num_articulos,porcentaje);
+fin algoritmo

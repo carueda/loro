@@ -1,0 +1,10 @@
+///////////////////////////////////////////////////////////////
+algoritmo para PRUEBA()
+estrategia ""
+inicio
+	mientras cierto haga
+		mm: entero := 10;
+		rr: entero := 1;
+	fin mientras;
+	escribirln( "sino " +mm);	// <<-- ERROR: mm no definido
+fin algoritmo

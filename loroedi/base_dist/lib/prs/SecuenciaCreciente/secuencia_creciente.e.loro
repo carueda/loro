@@ -1,0 +1,15 @@
+especificacion secuencia_creciente(secuencia: []entero) -> res: booleano
+	descripcion 
+	''Dice si los elementos en una secuencia estan en orden creciente.
+	Por ejemplo, las siguientes secuencias son crecientes:
+	<ul>
+		<li>    [1,2,3],
+		<li>    [-3,0,0,21],
+		<li>    [1,1,2,2]
+	</ul>''
+	entrada secuencia: ''la secuencia de números enteros.''
+	salida	res: ''cierto si la secuencia es creciente; falso en caso contrario.''
+	pre { secuencia != nulo }
+	pos { ''(res = cierto) <=> (secuencia ordenada crecientemente)'' }
+            // Ejercicio: Como escribir esta poscondicion mas formalmente?
+fin especificacion

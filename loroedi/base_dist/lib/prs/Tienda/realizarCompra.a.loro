@@ -1,0 +1,25 @@
+
+
+algoritmo para realizarCompra(codigo: []entero, precio: []real, num_articulos: entero,
+			codigos_compra: []entero, cantidades_articulo: []entero) -> monto: real 
+estrategia 
+	"Se recorre el arreglo de codigos_compra, se obtiene el precio de cada 
+	 articulo se multiplica por la cantidad suministrada en el otro arreglo
+	 y se acumula en una variable para le proximo calculo.
+	 Se retorna el acumulado final."
+inicio
+	codigo_articulo: entero;
+	precio_articulo: real;
+	cantidad_articulo: entero;
+
+	precio_compra : real := 0.0;
+
+	para i: entero := 0 hasta #codigos_compra - 1 haga
+		codigo_articulo := codigos_compra[i];
+		precio_articulo := obtenerPrecio(codigo,precio,num_articulos,codigo_articulo);
+		cantidad_articulo := cantidades_articulo[i];
+		precio_compra := precio_compra + (cantidad_articulo * precio_articulo);
+	fin para;
+
+	retorne precio_compra;	
+fin algoritmo

@@ -1,0 +1,13 @@
+algoritmo EuclidesMod para maxComunDivisor(n, m: entero) -> mcd : entero
+estrategia ''Algoritmo de Euclides con módulo.''
+inicio
+	r : entero;	// residuo
+	mientras cierto haga
+		r := n % m; 
+		si r = 0 entonces
+			retorne m;
+		fin si;
+		n := m;
+		m := r;
+	fin mientras;
+fin algoritmo

@@ -1,0 +1,26 @@
+
+
+algoritmo para adicionarArticuloPpal(codigo: []entero, precio: []real, 
+				num_articulos: entero) -> adiciono: booleano
+estrategia 
+	"Se lee el codigo del nuevo articulo desde consola, se verifica
+	 que exista, si existe se muestra un mensaje y se retorna, si no
+	 existe se solicita y lee el precio del articulo y se invoca a
+	 adicionarArticulo y se retorna el valor que resulta de ello "
+inicio
+	art_codigo : entero;
+	art_precio : real;
+
+	escribir("\nDigite el codigo del articulo: ");
+	art_codigo := leerEntero();
+
+	si existeArticulo(codigo,num_articulos,art_codigo) entonces
+		escribirln("El Articulo ya existe.");
+		retorne falso;
+	fin si;
+
+	escribir("Digite el precio del articulo: ");
+	art_precio := leerReal();
+
+	retorne adicionarArticulo(codigo,precio,num_articulos,art_codigo,art_precio);
+fin algoritmo

@@ -1,0 +1,29 @@
+/*
+	Este ejemplo muestra que un bloque de acciones de 
+	un caso es un ambito de variables (sin importar si
+	aparece 'fin caso' o no). 
+	Esto difiere de Java.
+	Por lo tanto, este fuente no compila correctamente:
+	en el caso 2 se reporta:
+		"Identificador mm no definido"
+	Habria que declarar mm "afuera" del segun.
+*/
+
+///////////////////////////////////////////////////////////////
+especificacion ppal()
+descripcion""
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para ppal()
+estrategia ""
+inicio
+	segun 2 haga
+		caso 1:
+			mm: entero := 10;
+			escribirln("1-hola + " +mm);
+		caso 2:
+			//mm: entero := 20;
+			escribirln("2-hola + " +mm); // error: mm no definido
+	fin segun;
+fin algoritmo

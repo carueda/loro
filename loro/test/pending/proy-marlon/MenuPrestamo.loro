@@ -1,0 +1,54 @@
+especificacion menuPrestamo(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    descripcion "Mostrar y ejecutar el contenido del menu prestamo"
+	entrada
+	afiliado:"socio del video"
+	peliculas:"Elemento que presta el video"
+	alquiler:"servicio que presta el video"
+    pre{"op=0"}
+    pos{"op=5"}
+fin especificacion
+
+algoritmo para menuPrestamo(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    estrategia".Declarar variables 
+	2. Inicializar op en 0
+	3. Hacer un ciclo
+		inicio op=0
+		salida op=4
+		cambio al leer op
+	4. Se lee op
+	4.1. Si op=1 entonces retornar registar prestamo
+	4.2. Si op=2 entonces retornar descargar prestamo
+	4.3. Si op=3 entonces retornar modificar prestamo
+	4.4. Si op=4 entonces retornar menu principal"
+	
+
+    inicio
+	op:entero;
+	op := 0; 
+	mientras(op = 0)haga
+		escribirln("VIDEO VARIEDADES");
+		escribirln("Menu Prestamo");
+		escribirln("1. Registrar prestamo");
+		escribirln("2. Eliminar prestamo");
+		escribirln("3. Modificar prestamo");
+		escribirln("4. Volver");
+		op := leerEntero();
+		si(op = 1)entonces
+			registroPrestamo(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+		si(op = 2)entonces
+			descargarPrestamo(alquiler,afiliado);
+			op := 0;
+		fin si;
+		si(op = 3)entonces
+			menuModificarPrestamo(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+		si(op = 4)entonces
+			menuPrincipal(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+	fin mientras;
+fin algoritmo
+

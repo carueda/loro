@@ -1,0 +1,10 @@
+
+especificacion primofibo(n: entero) -> p: entero
+	descripcion "Retorna el fibo(n)-ésimo primo."
+		entrada 
+			n: "El índice"
+		salida 
+			p: "El fibo(n)-ésimo número primo."
+	pre { n >= 0 }
+	pos { p = primo(fibo(n)) }
+fin especificacion

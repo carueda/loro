@@ -1,0 +1,11 @@
+paquete loroI::mat;
+
+especificación PI() -> PI: real
+	descripción
+		''Obtiene el número pi, el cociente entre la circunferencia
+		de un c&iacute;rculo y su di&aacute;metro.
+		(Está en mayúscula para destacar su caracter de constante.)''
+	salida
+		PI : ''El numero pi.''
+	pos { PI = pi' }
+fin especificación

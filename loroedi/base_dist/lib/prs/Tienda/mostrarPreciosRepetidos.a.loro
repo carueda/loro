@@ -1,0 +1,43 @@
+
+
+algoritmo para mostrarPreciosRepetidos(codigo: []entero, precio: []real, num_articulos: entero)
+estrategia 
+	"Se copia el arreglo de precios en un arreglo temporal, se escribe un encabezado 
+	 y se recorre el arreglo temporal, hasta el numero de articulos
+	 verificando que el precio es diferente de -1,
+	 si este es diferente de -1 se guarda en una variable actual se inicializa un
+	 contador en cero y una cadena que almacena los codigos de los articulos
+	 se recorre el arreglo temporal desde la posicion desde
+	 que se encontro el precio diferente de -1 hasta el final del arreglo 
+	 verificando si existe un precio igual al almacenado en actual, si
+	 es asi se adiciona 1 al contador y se asigna -1 al arreglo precio 
+	 en la posicion donde se encontro el valor igual.
+	 Despues de recorrer el arreglo se imprime la variable actual, el contador
+	 y los articulos."
+inicio
+	articulos: cadena;
+	tmp: []real := crear [#precio]real;
+
+	copiar(precio,tmp);
+
+	actual: real;
+	cantidad: entero;
+
+	escribir("Precio\tCantidad\tArticulos\n");
+
+	para i: entero := 0 hasta num_articulos - 1 haga
+		articulos := "";
+		si tmp[i] >= 0 entonces
+			actual := tmp[i];
+			cantidad := 0;
+			para j: entero :=i hasta num_articulos - 1 haga
+				si tmp[j] = actual entonces
+					articulos := articulos + " " + codigo[j];
+					cantidad := cantidad + 1;
+					tmp[j] := -1;
+				fin si;
+			fin para;
+			escribir(actual + "\t" + cantidad + "\t" + articulos + "\n");
+		fin si;
+	fin para;
+fin algoritmo

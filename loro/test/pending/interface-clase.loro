@@ -1,0 +1,40 @@
+///////////////////////////////////////////////////////////////
+interface IFoo
+	descripción "interface IFoo: proveedor de enteros consecutivos"
+
+	///////////////////////////////////////////////////////////////
+	operacion obtEntero() -> val: entero
+		descripcion "Obtiene el siguiente entero"
+		salida val: "El entero."
+		pos { val > 0 }
+	fin operacion
+fin interface // IFoo
+
+///////////////////////////////////////////////////////////////
+clase Foo para IFoo
+	descripción "clase Foo para IFoo"
+
+	proximo: entero := 1 : "proximo valor entero a suministar.";
+
+	///////////////////////////////////////////////////////////////
+	metodo para obtEntero() -> val: entero
+		descripcion ""
+	inicio
+		val := proximo;
+		proximo := proximo + 1;
+	fin metodo
+fin clase // Foo
+
+///////////////////////////////////////////////////////////////
+algoritmo test_ic para PRUEBA()
+descripcion "Prueba interface/clase"
+inicio
+	obj: interface IFoo := crear Foo();
+
+	ciclo
+		val: entero := obj.obtEntero();
+		escribirln("val = " +val);
+		termine si val >= 10;
+	fin ciclo;
+fin algoritmo // test_ic
+

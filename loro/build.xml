@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<!--
+    Build para núcleo Loro
+	2002-10-09 - carueda
+	
+	Consultar primero build.properties
+	
+	Para compilar todo el proyecto:
+		$ ant
+	esto deja los archivos finales en ${dist}
+	
+	Para efectuar pruebas:
+		$ ant test
+		
+	Para crear extensiones:
+		$ ant ext
+		
+	Para eliminar archivos intermedios:
+		$ ant clean
+	
+	Para generar documentación API:
+		$ ant api-nucleo
+	
+	Para eliminar todo lo generado, incluyendo ${dist}:
+		$ ant clean-dist
+			
+	Para empaquetar todos los fuentes del proyecto
+		$ ant src
+-->
+
+<project name="Loro" default="Loro" basedir=".">
+	<property file="build.properties"/>
+	<property name="src" value="src"/>
+	<property name="recurso.apoyo" value="${build}/classes/recurso/loroI.lar"/>
+
+    <target name="init">
+		<tstamp/>		
+		<mkdir dir="${build}/classes"/>
+        <mkdir dir="${build}/oro"/>
+        <mkdir dir="${build}/ext"/>
+		<mkdir dir="${build}/classes/recurso"/>
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${dist}/ext"/>
+		
+		<uptodate property="parser.noRequerido" 
+		 targetfile="${src}/loro/parsers/javacc/LoroIParser.java" >
+			<srcfiles dir= "${src}/loro/parsers" includes="**/*.jj"/>
+		</uptodate>
+
+		<uptodate property="apoyo.noRequerido" 
+		 targetfile="${recurso.apoyo}" >
+			<srcfiles dir= "${src}/ext/sistema"/>
+			<srcfiles dir= "${build}/classes" includes="**/**.class"/>
+		</uptodate>
+
+		<!-- recurso info.properties depende de build.properties 
+		     y de ${src}/loro/info.properties -->
+		<dependset>
+            <srcfileset dir="." includes="build.properties"/>
+			<srcfileset dir="${src}" includes="loro/info.properties"/>
+            <targetfileset dir="${build}/classes" includes="loro/info.properties"/>
+        </dependset>
+	</target>
+
+    <target name="Loro" depends="init, loro.jar"
+     description="Hace nucleo Loro completo y extensiones">
+    </target>
+
+    <target name="loro.jar" depends="loro-sin-apoyo.jar, apoyo"
+     description="Hace JAR del nucleo en directorio de distribucion">
+        <jar jarfile="${dist}/loro-${VERSION}.jar"
+         	basedir="${build}/classes"
+			includes="loro/**, recurso/**"
+		/>
+    </target>
+
+    <target name="loro-sin-apoyo.jar" depends="init, javaccparser, compile, info"
+     description="Hace JAR del nucleo SIN apoyo en directorio de distribucion">
+        <jar jarfile="${dist}/loro-sin-apoyo.jar"
+         	basedir="${build}/classes"
+			includes="loro/**"
+		/>
+    </target>
+
+    <target name="info"
+     description="Actualiza recurso de info">
+        <copy file="${src}/loro/info.properties" todir="${build}/classes/loro"/>
+        <replace
+         file="${build}/classes/loro/info.properties">
+            <replacefilter token="@VERSION@" value="${VERSION}"/>
+            <replacefilter token="@BUILD@" value="${DSTAMP}"/>
+        </replace>
+    </target>
+
+    <target name="compile" depends="info"
+     description="Compila fuentes Java del nucleo excluyendo loro/misc/ant/**">
+	 	<!-- <antcall target="info"/> -->
+		<javac srcdir="${src}" destdir="${build}/classes"
+        	includes="loro/**/*.java"
+			excludes="misc/ant/**"
+			classpath="${bsh.jar}"
+			debug="on"
+       />
+    </target>
+
+    <target name="javaccparser" if="javacchome" unless="parser.noRequerido"
+	 description="Actualiza las clases del parser si es necesario">
+	 	<echo message="javacchome=${javacchome}"/>
+        <javacc
+            target="${src}/loro/parsers/javacc/LoroIParser.jj"
+            outputdirectory="${src}/loro/parsers/javacc/"
+            javacchome="${javacchome}"
+        />
+    </target>
+
+    <target name="anttasks" depends="loro-sin-apoyo.jar"
+	 description="Hace 'tasks' de Loro loro/misc/ant/**">
+	 	<javac srcdir="${src}" destdir="${build}/classes"
+        	includes="/loro/misc/ant/**"
+			classpath="${build}/classes"
+			debug="on"
+		/>
+    </target>
+
+    <target name="apoyo" depends="anttasks" unless="apoyo.noRequerido"
+     description="Hace apoyo">
+        <ant antfile="build-apoyo.xml"/>
+    </target>
+
+    <target name="ext" depends="anttasks"
+     description="Hace extensiones">
+        <ant antfile="build-ext.xml"/>
+    </target>
+
+<!-- .......... Pruebas .................. -->
+
+    <target name="test" depends="loro.jar">
+        <ant antfile="build-test.xml" target="test"/>
+    </target>
+
+<!-- .......... Varios .................. -->
+
+    <target name="clean-ext"
+     description="Borra subdir ${build}/ext">
+		<delete dir="${build}/ext"/>
+    </target>
+
+    <target name="clean"
+     description="Borra subdir ${build}">
+		<delete dir="${build}"/>
+    </target>
+
+    <target name="clean-dist" depends="clean"
+     description="Borra subdirs ${build} y ${dist}">
+		<delete dir="${dist}"/>
+    </target>
+
+    <target name="src" description="Hace backup del proyecto">
+		<tstamp/>
+        <zip zipfile="${dist}/loro-src-${VERSION}-${DSTAMP}.zip"
+         	basedir="${basedir}"
+			includes="**"
+			excludes="${build}/**, ${dist}/**, **/*~"
+		/>
+    </target>
+
+<!-- .......... Documentacion API .................. -->
+
+    <target name="api-nucleo" depends="loro.jar">
+		<mkdir dir="${dist}/docs/api"/>
+		<javadoc packagenames="loro"
+			   sourcepath="${src}"
+			   defaultexcludes="yes"
+			   destdir="${dist}/docs/api"
+			   author="false"
+			   version="true"
+			   use="true"
+			   windowtitle="Loro ${VERSION} (Build ${DSTAMP})">
+		<doctitle><![CDATA[<h1>Loro ${VERSION} (Build ${DSTAMP})</h1>]]></doctitle>
+		<bottom><![CDATA[<font size="-2"><i>&#169; 2002 Carlos Rueda.</i></font>]]></bottom>
+		<link offline="true" href="http://java.sun.com/products/jdk/1.2/docs/api/" 
+		 packagelistLoc="C:\tmp"/>
+		<link href="http://loro.sf.net"/>
+	  </javadoc>
+    </target>
+
+</project>

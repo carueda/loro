@@ -1,0 +1,11 @@
+
+algoritmo para crearAS(fuente: cadena) -> as: AS
+	estrategia ''Crea un objeto d econtrol para el analisis
+	Descendente recursivo predictivo.''
+inicio
+	as := crear AS;
+	as.fuente := fuente;
+	as.indice := 0;
+	as.lookahead := fuente[0];
+	retorne as;
+fin algoritmo

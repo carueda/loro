@@ -1,0 +1,10 @@
+especificacion maximo2(m, n: entero) -> max: entero
+	descripcion ''Obtiene el maximo de dos numeros dados.''
+	entrada 
+		m : ''Uno de los numeros a revisar.''
+		n : ''El otro numero a revisar.''
+	salida
+		max : ''El maximo entre m y n.''
+	pre { cierto }
+	pos { ( m > n => max = m) && ( m <= n => max = n) }
+fin especificacion

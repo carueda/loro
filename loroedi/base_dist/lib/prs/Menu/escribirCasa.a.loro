@@ -1,0 +1,5 @@
+algoritmo escribirCasa para opcionMenu()
+descripción ''Esta opcion de menu simplemente escribe C A S A.''
+inicio
+	escribir("C A S A");
+fin algoritmo

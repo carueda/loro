@@ -1,0 +1,29 @@
+algoritmo para demoEvalPol()
+descripción 
+	''Peticion de datos al usuario, o sea, el polinomio (grado
+	y coeficientes) y el punto de evaluacion (valor de x).
+	Finalmente invocacion de los algoritmos @{evalPolDirecto.a}
+	y @{evalPolHorner.a} para mostrar los resultados (que deben
+	ser iguales).''
+inicio
+	escribir("Grado del polinomio:");
+	n: entero := leerEntero();
+	si n <= 0 entonces
+		escribirln("El valor debe ser positivo. Chao!");
+		retorne;
+	fin si;
+	n := n + 1;
+	a: []real := crear [n]real;
+	para i:entero desde 0 hasta n-1 haga
+		escribir("Introduzca coeficiente a_" +i
+			+ " para x^" +i+ " "
+		);
+		a[i] := leerReal();
+	fin para;
+	escribir("Introduzca punto a evaluar:");
+	x: real := leerReal();
+
+	// muestre evaluaciones con los algoritmos
+	escribirln("evalPolDirecto = " +evalPolDirecto(a, x));
+	escribirln("evalPolHorner  = " +evalPolHorner(a, x));
+fin algoritmo

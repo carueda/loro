@@ -1,0 +1,53 @@
+algoritmo maquina para adivinador()
+    descripción
+	''Algoritmo en el que la maquina hace de adivinador.
+	Se le pide al usuario que piense un numero en un
+	determinado rango y se procede a una interaccion de
+	numeros propuestos preguntandole al usuario, en cada oportunidad,
+	si el numero propuesto es o bien el correcto, o bien es menor
+	al pensado, o bien es mayor. La estrategia para hacerlo en el
+	menor numero de pasos en general, es tipo busqueda binaria.
+	(En @{usuario.a} es el usuario quien hace de adivinador.)''
+inicio
+	rango_desde: entero := 1;   // valor inicial rango de busqueda
+	rango_hasta: entero := 256; // valor final rango de busqueda.
+	                            // Este rango se ira reduciendo a
+	                            // se medida avance en la busqueda.
+
+	num_propuesto: entero;     // para mis numeros propuestos
+	num_previo: entero;        // para recordar mi anterior propuesta
+	respuesta_usr: cadena;     // para respuestas del usuario
+	intentos: entero;          // un contador para mis intentos:
+
+	num_previo := -1;          // -1 significa que aun no hay anterior
+	intentos := 0;
+
+	// y ahora interactuemos:	
+	escribirln("Hola. Por favor, piensa un número entre 1 y 256");
+	escribirln("Mi misión es adivinarlo en el menor número de pasos.");
+	escribir("Si ya lo pensaste, presiona Intro para proceder ");
+	leerCadena();
+	mientras /interaccion/ rango_desde <= rango_hasta haga
+		num_propuesto := (rango_desde + rango_hasta) / 2;
+		si num_previo != num_propuesto entonces
+			intentos := intentos + 1;
+			escribirln("(" +intentos+ ")  Te propongo: " +num_propuesto);
+		si_no
+			escribirln("(" +intentos+ ")  Re-propongo: " +num_propuesto);
+		fin si;
+
+		escribir("He acertado? (responde con uno de menor, igual, mayor): ");
+		respuesta_usr := leerCadena();
+		si respuesta_usr = "igual" entonces
+			termine /interaccion/;
+		fin si;
+
+		num_previo := num_propuesto;
+		si respuesta_usr = "menor" entonces
+			rango_hasta := num_propuesto - 1;
+		si_no
+			rango_desde := num_propuesto + 1;
+		fin si;
+	fin mientras;
+	escribirln("    Adivine!  Me tome " +intentos+ " intentos");
+fin algoritmo

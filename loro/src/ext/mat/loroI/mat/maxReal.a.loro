@@ -1,0 +1,5 @@
+paquete loroI::mat;
+
+algoritmo para maxReal(v1, v2: real) -> max: real
+	implementacion "java" "loro.java.loroI.Mat";
+fin algoritmo

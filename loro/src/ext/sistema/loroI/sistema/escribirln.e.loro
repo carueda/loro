@@ -1,0 +1,11 @@
+paquete loroI::sistema;
+
+especificación escribirln(cad: cadena)
+	descripción
+		''Escribe una cadena por la salida estandar agregando
+		un cambio de linea.''
+	entrada
+		cad: ''La cadena a escribir.''
+	pre { cierto }
+	pos { ''La cadena escrita por salida estandar con cambio de linea'' }
+fin especificación

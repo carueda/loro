@@ -1,0 +1,1 @@
+java -cp "${DIR}/lib/loro.jar" loro.tools.LoroCompilador $@

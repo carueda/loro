@@ -1,0 +1,6 @@
+#Propiedades de paquete
+#Mon Oct 07 20:08:16 PDT 2002
+spec.1=secuencia_creciente
+spec.0=test_secuencia_creciente
+alg.1=secuencia_creciente, secuencia_creciente
+alg.0=test_secuencia_creciente, test_secuencia_creciente

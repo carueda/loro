@@ -1,0 +1,7 @@
+especificacion xx(n: entero) -> sal: cadena
+	descripcion ""
+	entrada n: ""
+	salida sal: ""
+	pre { cierto }
+	pos { cierto }
+fin especificacion

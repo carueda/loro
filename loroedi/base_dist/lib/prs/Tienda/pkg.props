@@ -1,0 +1,36 @@
+#Propiedades de paquete
+#Mon Oct 07 01:58:15 PDT 2002
+spec.16=adicionarArticuloPpal
+alg.9=obtenerPosicion, obtenerPosicion
+spec.15=ajustarPrecio
+alg.8=copiar, copiar
+spec.14=eliminarArticuloPpal
+alg.7=adicionarArticulo, adicionarArticulo
+spec.13=realizarCompraPpal
+alg.6=mostrarArticulos, mostrarArticulos
+spec.12=existeArticulo
+alg.5=ajustarPreciosPpal, ajustarPreciosPpal
+spec.11=ajustarPrecioPpal
+alg.4=tienda, tienda
+spec.10=ajustarPrecios
+alg.3=eliminarArticulo, eliminarArticulo
+spec.9=obtenerPosicion
+alg.2=obtenerPrecio, obtenerPrecio
+spec.8=copiar
+alg.1=mostrarPreciosRepetidos, mostrarPreciosRepetidos
+spec.7=adicionarArticulo
+alg.0=realizarCompra, realizarCompra
+spec.6=mostrarArticulos
+spec.5=ajustarPreciosPpal
+spec.4=tienda
+spec.3=eliminarArticulo
+spec.2=obtenerPrecio
+spec.1=realizarCompra
+spec.0=mostrarPreciosRepetidos
+alg.16=adicionarArticuloPpal, adicionarArticuloPpal
+alg.15=ajustarPrecio, ajustarPrecio
+alg.14=eliminarArticuloPpal, eliminarArticuloPpal
+alg.13=realizarCompraPpal, realizarCompraPpal
+alg.12=existeArticulo, existeArticulo
+alg.11=ajustarPrecioPpal, ajustarPrecioPpal
+alg.10=ajustarPrecios, ajustarPrecios

@@ -1,0 +1,6 @@
+#Propiedades de paquete
+#Mon Oct 07 20:33:28 PDT 2002
+spec.0=maxComunDivisor
+alg.2=EuclidesMod, maxComunDivisor
+alg.1=Euclides, maxComunDivisor
+alg.0=demoMCD, loroI\:\:sistema\:\:PRUEBA

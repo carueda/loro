@@ -1,0 +1,45 @@
+algoritmo usuario para adivinador()
+    descripción 
+	''Algoritmo para que el usuario adivine un número 'pensado' por
+	el algoritmo en un rango determinado.
+	Para pensar el número, este algoritmo se ayuda del algoritmo
+	@{loroI::mat::obtRealAleatorio.a}.
+	(En @{maquina.a} es la maquina quien hace de adivinador.)''
+inicio
+	// Voy a pensar un numero entre 1 y tope:
+	tope: entero constante = 256;
+    
+	// el número se obtiene de manera aleatoria:
+	// primero, obtengamos un número real aleatorio entre 0 y 1:
+	r: real := loroI::mat::obtRealAleatorio();
+
+	// con ayuda de éste, obtengamos un número entero grande entre 0 y 1000000:
+	grande: entero := (1000000 * r) como entero;
+
+	// y con ayuda del grande obtengamos el número pensado entre 1 y tope:
+	num_pensado: entero := 1 + (grande % tope);
+
+	// note que (grande % tope) resulta en un numero entre 0 y (tope-1);
+	// por eso se agrega 1.
+
+	// un contador para los intentos del usuario:
+	intentos: entero := 0;
+
+	// y ahora interactuemos:	
+	escribirln("Hola. Acabo de pensar un número entre 1 y " +tope);
+	escribirln("Tu misión es adivinarlo en el menor número de pasos.");
+	escribirln("En cada intento, te dire si acertaste, o si es menor o mayor.");
+	ciclo /interaccion/
+		escribir("Cuál propones?: ");
+		num_propuesto: entero := leerEntero();
+		intentos := intentos + 1;
+		si num_propuesto = num_pensado entonces
+			escribirln("    Adivinaste!  Te tomaste " +intentos+ " intentos");
+			termine /interaccion/;
+		si_no_si num_propuesto < num_pensado entonces
+			escribirln("    No es ese; intenta uno mayor.");
+		si_no
+			escribirln("    No es ese; intenta uno menor.");
+		fin si;
+	fin ciclo;
+fin algoritmo

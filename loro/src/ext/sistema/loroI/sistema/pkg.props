@@ -1,0 +1,30 @@
+#Propiedades de paquete
+#Mon Oct 07 01:08:30 PDT 2002
+alg.9=leerCaracter, loroI\:\:sistema\:\:leerCaracter
+alg.8=caracterAMayuscula, loroI\:\:sistema\:\:caracterAMayuscula
+alg.7=leerReal, loroI\:\:sistema\:\:leerReal
+spec.13=obtTiempoEnSegundos
+alg.6=terminarEjecucion, loroI\:\:sistema\:\:terminarEjecucion
+spec.12=caracterAMinuscula
+alg.5=leerCadena, loroI\:\:sistema\:\:leerCadena
+spec.11=escribirln
+alg.4=obtAlgoritmo, loroI\:\:sistema\:\:obtAlgoritmo
+spec.10=leerCaracter
+alg.3=leerEntero, loroI\:\:sistema\:\:leerEntero
+spec.9=PRUEBA
+alg.2=leerBooleano, loroI\:\:sistema\:\:leerBooleano
+spec.8=caracterAMayuscula
+alg.1=dormir, loroI\:\:sistema\:\:dormir
+spec.7=leerReal
+alg.0=escribir, loroI\:\:sistema\:\:escribir
+spec.6=terminarEjecucion
+class.0=Objeto
+spec.5=leerCadena
+spec.4=obtAlgoritmo
+spec.3=leerEntero
+spec.2=leerBooleano
+spec.1=dormir
+spec.0=escribir
+alg.12=obtTiempoEnSegundos, loroI\:\:sistema\:\:obtTiempoEnSegundos
+alg.11=caracterAMinuscula, loroI\:\:sistema\:\:caracterAMinuscula
+alg.10=escribirln, loroI\:\:sistema\:\:escribirln

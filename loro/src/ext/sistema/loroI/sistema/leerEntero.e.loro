@@ -1,0 +1,9 @@
+paquete loroI::sistema;
+
+especificación leerEntero() -> e: entero
+	descripción
+		''Lee un numero entero de la entrada estandar.''
+	salida
+		e : ''El numero leido.''
+	pos { e = e' }
+fin especificación

@@ -1,0 +1,5 @@
+paquete loroI::mat;
+
+algoritmo para minReal(v1, v2: real) -> min: real
+	implementacion "java" "loro.java.loroI.Mat";
+fin algoritmo

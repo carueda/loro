@@ -1,0 +1,2 @@
+Main-class: loroedi.LoroEDI
+Class-path: ../lib/loro.jar ../lib/skinlf.jar

@@ -1,0 +1,13 @@
+paquete loroI::mat;
+
+especificación pot(base: real, n: entero) -> res: real
+	descripción
+		''Eleva un número a una potencia entera.''
+	entrada
+		base: ''La base.''
+		n: ''La potencia.''
+	salida
+		res : ''El resultado de elevar la base a la potencia.''
+	pre { n >= 0 }
+	pos { res = pot' }
+fin especificación

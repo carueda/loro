@@ -1,0 +1,9 @@
+algoritmo fiboBinet para fibo(n: entero) -> fibo: entero
+estrategia ''Versión de Binet.''
+inicio
+	r5, res: real;
+	r5 := 2.23606797749979;  // raiz cuadrada de 5 aprox.
+	res := loroI::mat::pot((1 + r5) / 2, n);
+	r: real := (1 / r5) * res;
+	fibo := r como entero;
+fin algoritmo

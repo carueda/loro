@@ -1,0 +1,11 @@
+especificacion calculadora()
+	descripcion
+		''Despliega un menu de opciones numericas asi:
+		 1 invoca la funcion de sumar dos numeros.
+		 2 invoca la funcion de restar dos numeros.
+		 3 invoca la funcion de multiplicar dos numeros.
+		 4 sale del menu.
+
+		 Lee la opcion digitada por el usuario y procede
+		 a ejecutar la opcion.''
+fin especificacion

@@ -1,0 +1,26 @@
+algoritmo para pcm(p: []entero constante, m, s: [][]entero)
+descripción ''...''
+inicio
+	n, q, j: entero;
+	n := #m;
+	escribirln("n=" +n);
+	para i:entero desde 0 hasta n-1 haga
+		m[i][i] := 0;
+	fin para;
+	para l:entero desde 2 hasta n haga
+		escribirln("l=" +l);
+		para i:entero desde 0 hasta n-l haga
+			j := i + l - 1;
+			m[i][j] := 999999999;
+			escribirln("   i=" +i+ " j=" +j);
+			para k:entero desde i hasta j-l haga
+				escribirln("      >k=" +k);
+				q := m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];
+				si q < m[i][j] entonces
+					m[i][j] := q;
+					s[i][j] := k;
+				fin si;
+			fin para;
+		fin para;
+	fin para;
+fin algoritmo

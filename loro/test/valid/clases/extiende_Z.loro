@@ -1,0 +1,9 @@
+///////////////////////////////////////////////////////////////
+clase Z extiende Y
+	descripcion "" 
+
+	z1: entero := x1 + 1000 : "Atributo z1";
+
+fin clase
+
+

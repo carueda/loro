@@ -1,0 +1,7 @@
+
+especificación identificador(as: AS)
+	descripción ''Proceso para el no terminal identificador.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación

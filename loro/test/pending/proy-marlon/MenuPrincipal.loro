@@ -1,0 +1,65 @@
+/*******************************************************************************************/    
+especificacion menuPrincipal(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    descripcion "Mostrar los elementos del menu principal"
+	entrada
+	afiliado:"socio del video"
+	peliculas:"Elemento que presta el video"
+	alquiler:"servicio que presta el video"
+    pre{"op=0"}
+    pos{"salir op=5"}
+fin especificacion
+
+algoritmo para menuPrincipal(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    estrategia
+	"1.Declarar variables 
+	2. Crear los arreglos
+	3. Inicializar op en 0
+	4. Hacer un ciclo
+		inicio op=0
+		salida op=5
+		cambio al leer op
+	5. Se lee op
+	5.1. Si op=1 entonces retornar menu afiliacion
+	5.2. Si op=2 entonces retornar menu prestamo
+	5.3. Si op=3 entonces retornar menu devolucion
+	5.4. Si op=4 entonces retornar menu existencia
+	5.5. Si op=5 entonces ir a op=1"
+    
+
+	inicio
+	
+	op:entero;
+	op := 0; 
+	mientras(op = 0)haga
+		escribirln("\t\tVIDEO VARIEDADES");
+		escribirln("\t\tMenu Principal");
+		escribirln("\t\t1. Afiliaciones");
+		escribirln("\t\t2. Prestamo");
+		escribirln("\t\t3. Devolucion");
+		escribirln("\t\t4. Existencia de videos");
+		escribirln("\t\t5. Salir");
+		escribirln("\tDigite la opcion deseada: ");
+		op := leerEntero();
+		
+		si(op = 1)entonces
+			menuAfiliacion(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+		si(op = 2)entonces
+			menuPrestamo(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+		si(op = 3)entonces
+			menuDevolucion(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+		si(op = 4)entonces
+			menuExistencia(afiliado,peliculas,alquiler);
+			op := 0;
+		fin si;
+		si(op = 5)entonces
+			op := 1;
+		fin si;	
+	fin mientras;
+fin algoritmo
+

@@ -1,0 +1,8 @@
+////////////////////////////////////////////////////////////////
+algoritmo testterminar para PRUEBA()
+"para probar terminacion externa mientras se lee."
+inicio
+	escribir("escriba algo: ");
+	c:cadena := leerCadena();
+	escribirln("escribio " +c);
+fin algoritmo

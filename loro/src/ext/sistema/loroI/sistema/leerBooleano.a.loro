@@ -1,0 +1,5 @@
+paquete loroI::sistema;
+
+algoritmo para leerBooleano() -> v: booleano
+	implementacion "java" "loro.java.loroI.Sistema";
+fin algoritmo

@@ -1,0 +1,15 @@
+especificacion para_test()
+descripcion "una prueba de BUG en ciclo para."
+fin especificacion
+
+algoritmo para para_test()
+estrategia ""
+inicio
+	i: entero;
+
+	para i desde 2 hasta 6 haga
+		escribirln("i = " +i);
+		i:=10;
+	fin para;
+fin algoritmo           
+

@@ -1,0 +1,8 @@
+algoritmo para copiar(a: []real, b: []real)
+estrategia 
+	"Se recorre todo el arreglo a copiando en b los valores de a"
+inicio
+	para i: entero := 0 hasta #a - 1 haga
+		b[i] := a[i];
+	fin para;
+fin algoritmo

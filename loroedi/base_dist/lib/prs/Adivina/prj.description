@@ -1,0 +1,21 @@
+Se trata de un simple juego entre el usuario y la máquina para la
+adivinación de números enteros en un determinado rango.
+
+Uno de ellos hace el papel de 'adivinador' y el otro de 'pensador':
+El pensador piensa un número que el adivinador debe adivinar en la
+menor cantidad de pasos.
+En el algoritmo 'usuario' es el usuario quien hace adivinador, y en
+el algoritmo 'maquina' es la máquina quien debe adivinar.
+
+Ejercicios:
+
+- Complementar el algoritmo 'usuario' para que la máquina le informe
+  al usuario qué tan bien se ha desempeñado para adivinar el número.
+  En otras palabras se está preguntando: Cuál es el número de intentos
+  suficientes máximo para siempre adivinar un número entre 1 y 256?
+  Suponiendo que dicho número sea X, entonces se le dice al usuario
+  que hizo un trabajo excelente si intentos es menor o igual que X;
+  en caso contrario, se le dice que pudo haberlo hecho mejor.
+
+- Generalizar el rango de números y, por lo tanto, la fórmula para
+  desempeño del ejercicio anterior.

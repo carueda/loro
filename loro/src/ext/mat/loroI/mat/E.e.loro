@@ -1,0 +1,10 @@
+paquete loroI::mat;
+
+especificación E() -> E: real
+	descripción
+		''Obtiene el número e, la base de los logaritmos naturales.
+		(Está en mayúscula para destacar su caracter de constante.)''
+	salida
+		E : ''El numero e.''
+	pos { E = e' }
+fin especificación

@@ -1,0 +1,24 @@
+clase Mat para IMat
+	descripción "Implementacion basica de IMat."
+
+	metodo para comoCadena()->c:cadena
+	descripción
+		"Simplemente retorna \"Mat\"."
+	inicio
+		retorne "Mat";
+	fin metodo
+
+	metodo para pot(base: real, n: entero) -> res: real
+	descripción
+		"Eleva un número a una potencia entera."
+	inicio
+		res := loroI::mat::pot(base, n);
+	fin metodo
+
+	metodo para aleatorio() -> res: real
+	descripción
+		"Obtiene un valor aleatorio en [0, 1)."
+	inicio
+		res := loroI::mat::obtRealAleatorio();
+	fin metodo
+fin clase // Mat

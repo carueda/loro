@@ -1,0 +1,8 @@
+#Propiedades de paquete
+#Mon Oct 07 19:57:37 PDT 2002
+spec.1=fibo
+spec.0=demo
+alg.3=fiboBinet, fibo
+alg.2=fiboIter, fibo
+alg.1=fiboRecur, fibo
+alg.0=demo1, demo

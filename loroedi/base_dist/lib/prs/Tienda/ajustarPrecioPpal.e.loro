@@ -1,0 +1,14 @@
+
+
+especificacion ajustarPrecioPpal(codigo: []entero, precio: []real, num_articulos: entero) 
+	descripcion 
+		"Despliega los mensajes de solicitud de porcentaje para ajustar
+		 el precio del articulo con codigo leido de consola,
+		 tambien pregunta si se esta haciendo una rebaja o no"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+	pre
+		{ cierto }
+fin especificacion

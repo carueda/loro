@@ -1,0 +1,101 @@
+
+///////////////////////////////////////////////////////////////
+clase X
+	descripción "clase X"
+
+	x1: entero := 1 : "Atributo x1";
+	x2: entero := 2 : "Atributo x2";
+
+	constructor(x1_, x2_:entero)
+		descripcion ""
+			entrada 
+				x1_: "Valor para x1";
+				x2_: "Valor para x2";
+			pre { cierto }
+		estrategia ""
+	inicio
+		x1 := x1_;
+		x2 := x2_;
+	fin constructor
+fin clase
+
+///////////////////////////////////////////////////////////////
+clase Y extiende X
+	descripción "clase Y"
+
+	y1: entero := x1 + 1000 : "Atributo y1";
+
+	constructor(x1_, x2_, y1_:entero)
+		descripcion ""
+			entrada
+				x1_: "Valor para x1";
+				x2_: "Valor para x2";
+				y1_: "Valor para y1";
+			pre { cierto }
+		estrategia ""
+	inicio
+		x1 := x1_;
+		x2 := x2_;
+		y1 := y1_;
+	fin constructor
+
+fin clase
+
+///////////////////////////////////////////////////////////////
+clase Z extiende Y
+	descripcion "" 
+	z1: entero := x1 + 1000 : "Atributo z1";
+fin clase
+
+
+///////////////////////////////////////////////////////////////
+especificacion verX(x: X)
+	descripcion "Muestra un objeto X."
+	entrada x: "el objeto a mostrar."
+	pre { x != nulo }
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para verX(x: X)
+	estrategia ""
+inicio
+	escribirln(
+		"x1 = " +x.x1+ "\n"+
+		"x2 = " +x.x2+ "\n\n"
+	);
+fin algoritmo
+
+///////////////////////////////////////////////////////////////
+especificacion verY(y: Y)
+	descripcion "Muestra un objeto Y."
+	entrada y: "el objeto a mostrar."
+	pre { y != nulo }
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para verY(y: Y)
+	estrategia ""
+inicio
+	escribirln(
+		"x1 = " +y.x1+ "\n"+
+		"x2 = " +y.x2+ "\n"+
+		"y1 = " +y.y1+ "\n\n"
+	);
+fin algoritmo
+
+
+///////////////////////////////////////////////////////////////
+algoritmo test_extiende para PRUEBA()
+estrategia "."
+inicio
+	x: X := crear Y(10,20,30);
+	y: Y := crear Y(10,20,30);
+
+	verX(x);
+	verX(y);
+
+	verY(y);
+	
+	escribirln("z = " +crear Z);
+
+fin algoritmo

@@ -1,0 +1,6 @@
+algoritmo _00004 para PRUEBA() 
+estrategia ""
+inicio
+	arreglo: []entero := crear [10]entero;
+	arreglo[-11] := 0;
+fin algoritmo

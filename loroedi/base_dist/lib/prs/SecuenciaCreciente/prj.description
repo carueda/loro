@@ -1,0 +1,25 @@
+En este proyecto se ataca el problema de averiguar si una 
+secuencia dada de números es creciente. 
+
+Se incluye un esquema de "pruebas" para algoritmos que se suponen
+solucionan dicho problema.
+
+Para el problema como tal:
+
+  especificación secuencia_creciente
+	Define el problema
+	
+  algoritmo secuencia_creciente para secuencia_creciente 
+	Una solución para el problema
+	
+Para las pruebas:
+
+  especificación test_secuencia_creciente
+	Probador de algoritmos para secuencia_creciente.
+	Esta especificación fue generada con la opción "Generar esquema de pruebas"
+	haciendo clic derecho sobre la especificación secuencia_creciente.
+	
+  algoritmo para test_secuencia_creciente
+	Una implementación de test_secuencia_creciente. El esquema de este
+	algoritmo fue generado también con la opción "Generar esquema de pruebas".
+	Las afirmaciones interiores fueron agregadas manualmente.

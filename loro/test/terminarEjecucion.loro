@@ -1,0 +1,5 @@
+algoritmo prueba_terminarEjecucion para PRUEBA()
+descripcion "prueba de terminar ejecucion internamente."
+inicio
+	terminarEjecucion(0);
+fin algoritmo

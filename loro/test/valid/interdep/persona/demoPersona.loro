@@ -1,0 +1,121 @@
+//
+// Demostración de manejo de una clase y de algunas facilidades
+// incorporadas en Loro que permiten vizualizar la composicion de 
+// objetos.
+//
+
+///////////////////////////////////////////////////////////////
+clase Persona
+
+	descripción 
+		"Una persona es una entidad con un nombre y una edad."
+
+	nombre: cadena := "NN" : "nombre";
+	edad: entero : "edad";
+	sgte: Persona : "siguiente";
+
+	algoConstante: entero constante = 1 + (5 * 3) : "algo constante";
+
+	unArreglo: [][]entero : "una matriz";
+
+	///////////////////////////////////////////////////////////////
+	constructor(n: cadena, e: entero)
+		descripción "Crea una persona con atributos dados."
+		entrada
+			n: "El nombre para la persona."
+			e: "La edad para la persona."
+		pre { n != nulo && e >= 0 }
+		pos { nombre = n && edad = e && nulo = sgte}
+
+		estrategia "Simple asignación."
+	inicio
+		nombre := n != nulo ? n : "NN";
+		edad := e;
+		sgte := nulo;
+	fin constructor
+
+
+	///////////////////////////////////////////////////////////////
+	constructor(n: cadena, e: entero, s: Persona)
+		descripción "Crea una persona con atributos dados 
+			y una persona siguiente."
+		entrada
+			n: "El nombre para la persona."
+			e: "La edad para la persona."
+			s: "Siguiente persona."
+		pre { n != nulo && e >= 0 }
+		pos { nombre = n && edad = e && s = sgte}
+
+		estrategia "Simple asignación."
+	inicio
+		nombre := n;
+		edad := e;
+		sgte := s;
+	fin constructor
+
+fin clase
+
+/////////////////////////////////////////////////////////////////
+especificación crearPersona(n:cadena, e:entero) -> p: Persona
+descripción "Crea un objeto persona."
+entrada
+	n: "Nombre para la persona."
+	e: "Edad de la persona."
+salida
+	p: "El objeto creado."
+pre { n != nulo && e >= 0 }
+pos { p.nombre = n && p.edad = e }
+fin especificación
+
+/////////////////////////////////////////////////////////////////
+algoritmo para crearPersona(n:cadena, e:entero) -> p: Persona
+estrategia "Hacer creacion basica y asignar atributos."
+inicio
+	p := crear Persona(n, e);
+fin algoritmo
+
+
+///////////////////////////////////////////////////////////////
+especificación verPersona(p: Persona constante)
+descripción "Muestra los datos de una persona por salida estandar."
+entrada
+	p: "La persona cuyos datos se van a mostrar."
+pre { p != nulo }
+pos { "Los datos mostrados por la salida estandar." }
+fin especificación
+
+///////////////////////////////////////////////////////////////
+algoritmo para verPersona(p: Persona constante)
+estrategia "Simple uso de escribirln."
+inicio
+	escribirln("Datos de persona:");
+	escribirln("  Nombre: " +p.nombre);
+	escribirln("  Edad  : " +p.edad);
+fin algoritmo
+
+
+/////////////////////////////////////////////////////////////////
+especificación demoPersona()
+	descripcion
+		"Demostración de manejo de la clase persona y de
+		algunas facilidades incorporadas que permiten
+		viaualizar la composicion de objetos.
+		Vea Persona.c.loro."
+fin especificación
+
+/////////////////////////////////////////////////////////////////
+algoritmo para demoPersona()
+estrategia "Simple"
+inicio
+	p1, p2: Persona;
+	p1 := crearPersona("Paco", 30);
+	p2 := crearPersona("Lola", 13);
+
+	// Visualizacion usando el proceso definido aqui:
+	verPersona(p1);
+	verPersona(p2);
+
+	// Visualizacion usando mecanismo incorporado:
+	escribirln("p1 = " +p1);
+	escribirln("p2 = " +p2);
+fin algoritmo

@@ -1,0 +1,11 @@
+///////////////////////////////////////////////////////////////
+algoritmo para PRUEBA()
+estrategia ""
+inicio
+	i:entero;
+	para i := 0 hasta 10 haga
+		mm: entero := 10;
+		rr: entero := 1;
+	fin para;
+	escribir("sino " +mm);  // <<-- ERROR
+fin algoritmo

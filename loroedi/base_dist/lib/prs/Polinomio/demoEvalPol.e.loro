@@ -1,0 +1,5 @@
+especificacion demoEvalPol()
+descripcion 
+	''Demo de evaluacion de polinomios con diferentes
+	algoritmos. Vea @{evalPolDirecto.a}, @{evalPolHorner.a}.''
+fin especificacion

@@ -1,0 +1,8 @@
+
+algoritmo para error(as: AS, mensaje: cadena)
+	estrategia ''...''
+inicio
+	escribirln(mensaje);
+	escribirln("as = " +as);
+	terminarEjecucion(1);
+fin algoritmo

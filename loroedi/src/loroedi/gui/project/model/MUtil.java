@@ -1,0 +1,219 @@
+package loroedi.gui.project.model;
+
+import loroedi.gui.project.unit.*;
+
+import loro.Loro;
+import loro.IUnidad;
+
+//////////////////////////////////////////////////
+/**
+ * Utilerías varias.
+ *
+ * @author Carlos Rueda
+ * @version 2002-10-06
+ */
+public class MUtil
+{
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene plantilla de texto fuente para una especificación tester.
+	 */
+	public static String getSourceCodeTemplateSpecTest(
+		String pkg_name, String spec_name, String tested_spec_name
+	)
+	{
+		String var = "alg";
+		StringBuffer sb = new StringBuffer();
+		if ( pkg_name != null )
+		{
+			sb.append("paquete " +pkg_name+ ";\n" + "\n");
+		}
+		sb.append(
+			"especificación " +spec_name+ "(" +var+ ": algoritmo para " +tested_spec_name+ ")\n"+
+			"    descripción\n"+
+			"           ''Probador de algoritmos para la especificación " +tested_spec_name+ "''\n"+
+			"    entrada\n"+
+			"        " +var+ ": ''El algoritmo sometido a pruebas.''\n"+
+			"    pre { " +var+ " != nulo }\n"+
+			"fin especificación"
+		);
+		return sb.toString();
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene plantilla de texto fuente para un algoritmo tester.
+	 */
+	public static String getSourceCodeTemplateAlgTest(
+		String pkg_name, String spec_name, String tested_spec_name
+	)
+	{
+		String var = "alg";
+		StringBuffer sb = new StringBuffer();
+		if ( pkg_name != null )
+		{
+			sb.append("paquete " +pkg_name+ ";\n" + "\n");
+		}
+		sb.append(
+			"algoritmo para " +spec_name+ "(" +var+ ": algoritmo para " +tested_spec_name+ ")\n"+
+			"    descripción\n"+
+			"           ''Contiene código para probar el algoritmo pasado como argumento''\n"+
+			"inicio\n"+
+			"    {{ Código de prueba (generalmente, una secuencia de afirmaciones) }}\n"+
+			"fin algoritmo"
+		);
+		return sb.toString();
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene plantilla de texto fuente para una especificación.
+	 */
+	public static String getSourceCodeTemplateSpec(String spec_name, String pkg_name)
+	{
+		StringBuffer sb = new StringBuffer();
+		if ( pkg_name != null )
+		{
+			sb.append("paquete " +pkg_name+ ";\n" + "\n");
+		}
+		sb.append(
+			"especificación " +spec_name+ "( {{indica las entradas si las hay}} )"  +"\n"+
+			"    -> {{indica la salida si la hay}}"                   +"\n"+
+			"    descripción"                                           +"\n"+
+			"           {{Describe brevemente el problema}}"          +"\n"+
+			"    entrada"                                               +"\n"+
+			"        {{Describe las entradas, si las hay}}"           +"\n"+
+			"    salida"                                                +"\n"+
+			"        {{Describe la salida, si la hay}}"               +"\n"+
+			"    pre { {{Escribe la precondición}} }"                 +"\n"+
+			"    pos { {{Escribe la poscondición}} }"                 +"\n"+
+			"fin especificación"
+		);
+		return sb.toString();
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Pone plantilla de texto fuente para una unidad.
+	 * Provisionalmente, estas plantillas están "hard-coded" aquí;
+	 * luego se pondrán en recursos correspondientes.
+	 */
+	public static void setSourceCodeTemplate(IProjectUnit unit)
+	{
+		IPackageModel pkg = unit.getPackage();
+		StringBuffer sb = new StringBuffer();
+		boolean anonymous_pkg = pkg.getModel().isAnonymous(pkg);
+		if ( ! anonymous_pkg )
+		{
+			sb.append("paquete " +pkg.getName()+ ";\n" + "\n");
+		}
+		String name = unit.getName();
+		if ( unit instanceof SpecificationUnit )
+		{
+			sb.append(
+				"especificación " +name+ "( {{indica las entradas si las hay}} )"  +"\n"+
+				"    -> {{indica la salida si la hay}}"                   +"\n"+
+				"    descripción"                                           +"\n"+
+				"           {{Describe brevemente el problema}}"          +"\n"+
+				"    entrada"                                               +"\n"+
+				"        {{Describe las entradas, si las hay}}"           +"\n"+
+				"    salida"                                                +"\n"+
+				"        {{Describe la salida, si la hay}}"               +"\n"+
+				"    pre { {{Escribe la precondición}} }"                 +"\n"+
+				"    pos { {{Escribe la poscondición}} }"                 +"\n"+
+				"fin especificación"
+			);
+		}
+		else if ( unit instanceof AlgorithmUnit )
+		{
+			IProjectModel prj = pkg.getModel();
+			AlgorithmUnit alg = (AlgorithmUnit) unit;
+			String spec_name = alg.getSpecificationName();
+			String spec_signature = null;
+			
+			SpecificationUnit spec = prj.getAlgorithmSpecification(alg);
+			if ( spec != null )
+			{
+				// encontrada la especificación en el mismo proyecto.
+				IUnidad.IEspecificacion ne = (IUnidad.IEspecificacion) spec.getIUnidad();
+				if ( ne != null )
+				{
+					spec_signature = ne.toString();
+					if ( spec_signature.startsWith("especificaci") )
+					{
+						// para omitir esta palabra y dejar el prototipo
+						spec_signature = spec_signature.substring("especificación".length() + 1);
+						spec_signature = spec_signature.trim();
+					}
+				}
+			}
+			else
+			{
+				// la especificación debe estar en otro proyecto del espacio de trabajo.
+				IUnidad.IEspecificacion ne = Loro.getSpecification(spec_name);
+				if ( ne != null )
+				{
+					spec_signature = ne.toString();
+					if ( spec_signature.startsWith("especificaci") )
+					{
+						// para omitir esta palabra y dejar el prototipo
+						spec_signature = spec_signature.substring("especificación".length() + 1);
+						spec_signature = spec_signature.trim();
+					}
+				}
+			}
+			
+			if ( spec_signature == null )
+			{
+				spec_signature = "{{" +"Error: No se encuentra la especificación " +spec_name+ "}}";
+			}
+			else
+			{
+				// Si la especificación está en el paquete automático, mejor
+				// omitir tal prefijo de la signatura:
+				String auto_pkg_sep = Loro.getAutomaticPackageName() + "::";
+				if ( spec_signature.startsWith(auto_pkg_sep) )
+				{
+					// tome supuesto nombre simple:
+					String aux = spec_signature.substring(auto_pkg_sep.length());
+					if ( aux.indexOf("::") < 0 )
+					{
+						// en efecto no está en subpaquete, así que simplifique:
+						spec_signature = aux;
+					}
+				}
+				
+				// En caso que este algoritmo NO esté en el paquete anónimo pero
+				// la especificación si lo esté, entonces hay necesidad de agregar:
+				//   utiliza especificación spec_name;
+				if ( ! anonymous_pkg
+				&&     spec_name.indexOf("::") < 0 )
+				{
+					sb.append("utiliza especificación " +spec_name+ ";\n" + "\n");
+				}
+			}
+			
+			sb.append(
+				"algoritmo " +name+ " para " +spec_signature    +"\n"+
+				"    descripción"                               +"\n"+
+				"           {{Describe brevemente el algoritmo}}"     +"\n"+
+				"inicio"                                        +"\n"+
+				"    {{Escribe las acciones}}"                +"\n"+
+				"fin algoritmo"
+			);
+		}
+		else if ( unit instanceof ClassUnit )
+		{
+			sb.append(
+				"clase " +name                                      +"\n"+
+				"    descripción"                                   +"\n"+
+				"           {{Describe brevemente esta clase}}"   +"\n"+
+				"\n"+
+				"    {{Escribe los componentes de esta clase}}"   +"\n"+
+				"fin clase"
+			);
+		}
+		
+		unit.setSourceCode(sb.toString());
+	}
+}

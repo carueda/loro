@@ -1,0 +1,37 @@
+///////////////////////////////////////////////////////////////////
+especificacion arreglo(n, v: entero) -> a: []entero
+descripcion "Retorna un arreglo de iguales elementos."
+entrada
+	n: "Numero de elementos del arreglo."
+	v: "Valor para todos los n elementos."
+salida
+	a: "arreglo de n elementos v."
+pre { n = n' && n' >= 0 && v = v'}
+pos { n' = m' && (para_todo i:entero, 0 <= i && i < n': (a[i] = v')) }
+fin especificacion
+
+///////////////////////////////////////////////////////////////////
+algoritmo para arreglo(n, v: entero) -> a: []entero
+estrategia "..."
+inicio
+	a := crear [n] entero;
+	para i:entero desde 0 hasta n - 1 haga
+		a[i] := v;
+	fin para;
+fin algoritmo
+
+///////////////////////////////////////////////////////////////////
+especificacion demoArreglo()
+descripcion "Demo con arreglos."
+fin especificacion
+
+///////////////////////////////////////////////////////////////////
+algoritmo para demoArreglo()
+estrategia "..."
+inicio
+	escribirln("" +arreglo(5, 10));
+	c: []cadena;
+	c := (crear [1][] cadena)[0];
+	escribirln("hola: " +c+ "\n");
+	{ c = nulo };
+fin algoritmo

@@ -1,0 +1,12 @@
+paquete loroI::sistema;
+
+especificación caracterAMayuscula(c: caracter) -> m: caracter
+	descripción
+		''Obtiene la versión mayúscula de un caracter.''
+	entrada
+		c: ''El caracter.''
+	salida
+		m : ''El caracter en mayúscula.''
+	pre { cierto }
+	pos { m = m' }
+fin especificación

@@ -1,0 +1,16 @@
+paquete paq1;
+
+clase Clase
+	descripción ""
+fin clase
+
+especificación ppalClase()
+	descripcion ""
+fin especificación
+
+algoritmo para ppalClase()
+estrategia""
+inicio
+	c: clase paq1::Clase := crear Clase();
+	escribirln("c = " +c);
+fin algoritmo

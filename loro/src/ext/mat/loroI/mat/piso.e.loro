@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación piso(val: real) -> res: real
+	descripción
+		''Obtiene el piso de un valor.''
+	entrada
+		val: ''Valor a operar.''
+	salida
+		res : ''El piso del valor.''
+	pre { cierto }
+	pos { res = piso' }
+fin especificación

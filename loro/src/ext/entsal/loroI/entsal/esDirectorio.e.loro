@@ -1,0 +1,12 @@
+paquete loroI::entsal;
+
+especificación esDirectorio(ruta: cadena) -> res: booleano
+	descripción
+		''Dice si la ruta dada es un directorio.''
+	entrada
+		ruta: ''Ruta a chequear.''
+	salida
+		res: ''Cierto solo si la ruta es directorio.''
+	pre { ruta != nulo }
+	pos { res = res' }
+fin especificación

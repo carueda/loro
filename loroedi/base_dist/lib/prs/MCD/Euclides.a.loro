@@ -1,0 +1,12 @@
+algoritmo Euclides para maxComunDivisor(n, m: entero) -> mcd : entero
+estrategia ''Algoritmo de Euclides sólo con resta.''
+inicio
+	mientras n != m haga
+		si n > m entonces
+			n := n - m;
+		si_no
+			m := m - n;
+		fin si;
+	fin mientras;
+	retorne n;
+fin algoritmo

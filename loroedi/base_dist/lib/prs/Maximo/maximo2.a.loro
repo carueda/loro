@@ -1,0 +1,11 @@
+algoritmo para maximo2(m, n: entero) -> max: entero
+descripcion
+	''La estrategia es directa: se utiliza una pregunta
+	'si' para decidir cual es el numero mas grande.''
+inicio
+	si m > n entonces
+		max := m;
+	si_no
+		max := n;
+	fin si;
+fin algoritmo

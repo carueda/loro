@@ -1,0 +1,196 @@
+especificacion registroPrestamo(afiliado:[]persona,peliculas:[]video,alquiler:[]prestamo)
+    descripcion "Mostrar y ejecutar el contenido de registar prestamo"
+	entrada
+	afiliado:"socio del video"
+	peliculas:"elemento que presta el video"
+	alquiler:"servicio que presta el video"    	
+    pre{"codigo de usuario valido"}
+    pos{"prestamo registrado"}
+fin especificacion
+
+algoritmo para registroPrestamo(afiliado:[]persona,peliculas:[]video,alquiler:[]prestamo)
+    estrategia"1.declarar variables 
+               2."
+    	inicio
+	codigoV,codigoA,i,j,op1:entero;
+	fecha:cadena;
+	op1 := 0;
+	i := 0;
+	mientras(op1 = 0)haga
+		escribir("\nIngrese el codigo del afiliado: ");
+		codigoA := leerEntero();	
+		para i desde 0 hasta 19 haga
+			si(afiliado[i].codigo = codigoA)entonces
+				j := 0;
+				op1 := 0;
+			si_no
+				j := 1;
+				op1 := 1;
+			fin si;
+		fin para;
+		si (j = 1)entonces
+			escribir("\nEl codigo no existe...");
+		fin si;
+	fin mientras;
+	op1 := 0;
+	i := 0;
+	mientras(op1 = 0)haga
+		escribir("\nIngrese el codigo de la pelicula: ");
+		codigo: entero := leerEntero();	  // codigoP
+		para i desde 0 hasta 99 haga
+			si(peliculas[i].codigo = codigo)entonces
+				j := 0;
+				op1 := 0;
+			si_no
+				j := 1;
+				op1 := 1;
+			fin si;
+		fin para;
+		si (j = 1)entonces
+			escribir("\nEl codigo no existe...");
+		fin si;
+	fin mientras;
+	i := 0;
+	para i desde 0 hasta 99 haga
+		si(alquiler[i].codigo = -1)entonces
+			j := i;
+		fin si;
+	fin para;
+	i := 0;
+	para i desde 0 hasta 99 haga
+		si (peliculas[i].codigo = codigoV)entonces
+			peliculas[i].estado := "alquilada";
+		fin si;
+	fin para;
+	escribir("Escriba la fecha DD/MM/AAAA: ");
+	fecha := leerCadena();
+	alquiler[j].codigoA := codigoA;
+	alquiler[j].codigoV := codigoV;
+	alquiler[j].codigoP := j;
+	alquiler[j].fecha := fecha;
+fin algoritmo
+/*******************************************************************************************/
+especificacion descargarPrestamo(alquiler:[]prestamo,afiliado:[]persona)
+    descripcion "Mostrar y ejecutar el contenido de descargar prestamo"
+	entrada
+	alquiler:"servicio que presta el video"    	
+	afiliado:"socio del video"
+    pre{"codigo usuario"}
+    pos{"factura"}
+fin especificacion
+
+algoritmo para descargarPrestamo(alquiler:[]prestamo,afiliado:[]persona)
+    estrategia"1.declarar variables 
+               2."
+    inicio
+	codigo,op1:entero;
+	i,j:entero;
+	op1 := 0;
+	mientras(op1 = 0)haga
+		escribir("\nIngrese el codigo del prestamo: ");
+		codigo := leerEntero();	
+		para i desde 0 hasta 99 haga
+			si(alquiler[i].codigoP = codigo)entonces
+				j := 0;
+				op1 := 0;
+			si_no
+				j := 1;
+				op1 := 1;
+			fin si;
+		fin para;
+		si (j = 1)entonces
+			escribir("\nEl codigo no existe...");
+		fin si;
+	fin mientras;
+	para i desde 0 hasta 99 haga
+		si(alquiler[i].codigoP = codigo)entonces
+			j := i;			
+			alquiler[i].codigoV := -1;
+			alquiler[i].codigoA := -1;
+			alquiler[i].fecha := "*";
+		fin si;
+	fin para;
+	alquiler[j].codigoP := -1;	
+fin algoritmo
+/*******************************************************************************************/
+especificacion menuModificarPrestamo(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    descripcion "Mostrar y ejecutar el contenido de menu modificar prestamo"
+	entrada
+	afiliado:"socio del video"
+	peliculas:"Elemento que presta el video"
+	alquiler:"servicio que presta el video"
+	 pre{"codigo prestamo"}
+    pos{"prestamo modificado"}
+fin especificacion
+
+algoritmo para menuModificarPrestamo(afiliado:[]Persona,peliculas:[]Video,alquiler:[]Prestamo)
+    estrategia"	1.declarar variables 
+               	2.Inicializar op en 0
+		3. Leer op
+		4. hacer un ciclo 
+			Inicio op=0
+			salida op=4
+			cambio al leer op
+		4.1 Si op=1 entonces
+
+		4.2 Si op=2 entonces
+		
+		4.3 Si op=3 entonces
+
+		4.4 Si op=4 entonces retornar al menu principal"
+    
+	inicio
+	
+	codigoP,codigoA,codigoV,op,op1,i,j:entero;
+	fecha:cadena;
+	op := 0; 
+	op1 := 1;
+	mientras(op1 = 0)haga
+		escribir("\nIngrese el codigo del prestamo: ");
+		codigoP := leerEntero();	
+		para i desde 0 hasta 99 haga
+			si(alquiler[i].codigoP = codigoP)entonces
+				j := 0;
+				op1 := 0;
+			si_no
+				j := 1;
+				op1 := 1;
+			fin si;
+		fin para;
+		si (j = 1)entonces
+			escribir("\nEl codigo no existe...");
+		fin si;
+	fin mientras;
+	mientras(op = 0)haga
+		escribirln("\t\tVIDEO VARIEDADES");
+		escribirln("\t\tMenu Modificar Informacion");
+		escribirln("\t\t1. Cambiar codigo afiliado");
+		escribirln("\t\t2. Cambiar codigo video");
+		escribirln("\t\t3. Cambiar fecha");
+		escribirln("\t\t4. Volver");
+		escribirln("\tDigite la opcion deseada: ");
+		op := leerEntero();
+		si(op = 1)entonces
+			escribir("Escriba el codigo nuevo");
+			codigoA := leerEntero();
+			alquiler[codigoP].codigoA := codigoA;
+			op := 0;
+		fin si;
+		si(op = 2)entonces
+			escribir("Escriba el codigo nuevo: ");
+			codigoV := leerEntro();
+			alquiler[codigoP].codigoV := codigoV;
+			op := 0;
+		fin si;
+		si(op = 3)entonces
+			escribir("Escriba la nueva fecha DD/MM/AAAA: ");
+			fecha := leerCadena();
+			alquiler[codigoP].fecha := fecha;
+			op := 0;
+		fin si;
+		si(op = 4)entonces
+			op := 1;
+			menuPrincipal(afiliado,peliculas,alquiler);
+		fin si;	
+	fin mientras;
+fin algoritmo

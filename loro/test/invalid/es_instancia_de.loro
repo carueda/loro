@@ -1,0 +1,23 @@
+///////////////////////////////////////////////////////////////
+clase X
+	descripción "Clase X"
+fin clase
+
+///////////////////////////////////////////////////////////////
+clase Y
+	descripción "Clase Y"
+fin clase
+
+/////////////////////////////////////////////////////////////////
+algoritmo probar_es_instancia_de para PRUEBA()
+estrategia ""
+inicio
+	x: X;
+	x := crear X;
+
+	si x es_instancia_de Y entonces
+		escribirln("ERROR INTERNO!");
+	si_no
+		escribirln("ERROR INTERNO!");
+	fin si;
+fin algoritmo

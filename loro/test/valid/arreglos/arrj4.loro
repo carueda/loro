@@ -1,0 +1,24 @@
+///////////////////////////////////////////////////////////////
+especificacion registrar(alg: algoritmo, nombre: cadena)
+descripcion "."
+entrada alg: ""; nombre: "";
+pre { alg != nulo && nombre != nulo }
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para registrar(alg: algoritmo, nombre: cadena)
+implementacion "java" "loro.java.loroI.Prueba"
+fin algoritmo
+
+///////////////////////////////////////////////////////////////
+especificacion demoRegistrar()
+descripcion "Programa de demostracion para registro de algoritmo."
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para demoRegistrar()
+estrategia "simple."
+inicio
+	alg: algoritmo := obtAlgoritmo("loroI::mat::maxEntero");
+	registrar(alg, "maxEntero");
+fin algoritmo

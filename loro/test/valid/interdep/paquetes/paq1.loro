@@ -1,0 +1,11 @@
+paquete loro::paq1;
+
+especificacion espec()
+descripcion ""
+fin especificacion
+
+algoritmo alg1 para espec()
+estrategia ""
+inicio
+	escribirln("Hola desde paq1.alg1");
+fin algoritmo

@@ -1,0 +1,5 @@
+paquete loroI::entsal;
+
+algoritmo para obtDirectorio(nombreDir: cadena) -> lista: []cadena
+	implementacion "java" "loro.java.loroI.EntSal";
+fin algoritmo

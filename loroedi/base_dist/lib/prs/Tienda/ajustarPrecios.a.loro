@@ -1,0 +1,12 @@
+
+
+algoritmo para ajustarPrecios(codigo: []entero, precio: []real, num_articulos: entero, porcentaje: entero)
+estrategia
+	"Se recorre el arreglo modificando el precio de todos los articulos 
+	 sumado el precio actual * el porcentaje dividido
+	 entre 100.0"
+inicio
+	para i: entero := 0 hasta num_articulos - 1 haga
+		precio[i] := precio[i] + (precio[i] * (porcentaje / 100.0));
+	fin para;
+fin algoritmo

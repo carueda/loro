@@ -1,0 +1,21 @@
+
+
+
+especificacion ajustarPrecio(codigo: []entero, precio: []real, num_articulos: entero, art_codigo: entero, porcentaje: entero)
+	descripcion
+		"Ajusta los precios de el articulo con el codigo de la tienda en el porcentaje 
+		 especificado"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+		art_codigo: "Codigo del articulo"
+		porcentaje: "Porcentaje de ajuste de precio"
+	pre
+		{ cierto }
+	pos
+		{ existeArticulo(codigo,#codigo,art_codigo) => 
+		  precio[obtenerPosicion(codigo,#codigo,art_codigo)] = 
+		  precio[obtenerPosicion(codigo,#codigo,art_codigo)] * porcentaje / 100.0 ||
+		  existeArticulo(codigo,#codigo,art_codigo) => pre }
+fin especificacion

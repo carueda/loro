@@ -1,0 +1,36 @@
+/*
+	Compilacion interactiva: Los algoritmos invocados por
+	el algoritmo principal lanzado pueden estar recompilandose
+	simultaneamente asi que pueden verse los cambios
+	interactivamente.
+	- compile
+	- ejecute
+	- cambie el algoritmo alg y vuelva a compilar
+	- los cambios se reflejan  inmediatamente
+
+	NOTA: UTILICE ESTO CON PRECAUCION YA QUE PUEDEN
+	      PRODUCIRSE COMPORTAMIENTOS INESPERADOS CUANDO
+	      LA RECOMPILACION TIENE ERRORES.
+*/
+
+///////////////////////////////////////////////////
+algoritmo alg para PRUEBA()
+estrategia "..."
+inicio
+	escribir("Mensaje desde alg(sss)");
+fin algoritmo
+
+///////////////////////////////////////////////////
+algoritmo ppal para PRUEBA()
+estrategia "..."
+inicio
+	i: entero := 0;
+	ciclo
+		escribir("Invocando alg(): ");
+		i := i + 1;
+		termine si i = 20;
+		alg();
+		escribirln("   Durmiendo...");
+		dormir(1000);
+	fin ciclo;
+fin algoritmo

@@ -1,0 +1,13 @@
+especificación maxComunDivisor(n, m: entero) -> mcd : entero
+	descripción
+		''Dados dos enteros, el proceso responde con
+		su máximo común divisor.''
+	entrada
+		n : ''un número.''
+		m : ''otro número.''
+	salida
+		mcd : ''máximo común divisor.''
+	pre { n >= 0 && m >= 0}
+	pos { ''mcd es igual al máximo común divisor de n y m'' }
+	     // Ejercicio: Cómo escribir formalmente esta poscondición?
+fin especificación

@@ -1,0 +1,8 @@
+/////////////////////////////////////////////////////////////////
+algoritmo para PRUEBA()
+	descripcion ""
+inicio
+	si Objeto es_instancia_de Objeto entonces
+		escribirln("ERROR INTERNO!");
+	fin si;
+fin algoritmo

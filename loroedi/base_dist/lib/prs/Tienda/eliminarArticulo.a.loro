@@ -1,0 +1,24 @@
+
+
+algoritmo para eliminarArticulo(codigo: []entero, precio: []real, 
+				num_articulos: entero,
+				art_codigo: entero) -> elimino: booleano
+estrategia 
+	"Se recorre el arreglo buscando el articulo con el codigo sumnistrado
+	 al encontrarlo se recorre el arreglo desde esa posicion hasta
+	 una menos del numero de articulos haciendo al articulo i igual
+	 al articulo i+1"
+inicio
+	para i: entero := 0 hasta num_articulos - 1 haga
+		si art_codigo = codigo[i] entonces
+			para j: entero := i hasta num_articulos - 1 haga
+				codigo[j] := codigo[j+1]; 
+				precio[j] := precio[j+1]; 
+			fin para;
+			retorne cierto;
+		fin si;
+	fin para;
+
+	escribirln("No se encontro el articulo con codigo: " + art_codigo);
+	retorne falso;
+fin algoritmo

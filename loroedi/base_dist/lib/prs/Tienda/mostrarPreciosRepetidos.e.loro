@@ -1,0 +1,13 @@
+especificacion mostrarPreciosRepetidos(codigo: []entero, precio: []real, num_articulos: entero)
+	descripcion 
+		''Imprime en consola la lista de precios, con el numero de articulos
+		 que poseen ese precio y que articulos los poseen''
+	entrada
+		codigo: ''Arreglo de codigos''
+		precio: ''Arreglo de precios''
+		num_articulos: ''Numero de articulos en la tienda''
+	pre
+		{ cierto }
+	pos
+		{ cierto }
+fin especificacion

@@ -1,0 +1,5 @@
+paquete loroI::entsal;
+
+algoritmo para esDirectorio(ruta: cadena) -> res: booleano
+	implementacion "java" "loro.java.loroI.EntSal";
+fin algoritmo

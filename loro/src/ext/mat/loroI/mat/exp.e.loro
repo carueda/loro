@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación exp(val: real) -> res: real
+	descripción
+		''Obtiene el valor de elevar e a una potencia dada.''
+	entrada
+		val: ''Potencia para e.''
+	salida
+		res : ''El resultado de elevar e a la val.''
+	pre { cierto }
+	pos { res = res' }
+fin especificación

@@ -1,0 +1,42 @@
+algoritmo para pertenece(a: []entero constante, n: entero) 
+		-> esta:booleano
+estrategia
+	"Para comenzar, se asume que n no está en el arreglo; luego se 
+	recorre el arreglo mediante un ciclo revisando si algún valor es 
+	igual a n; si es así, se corrige la suposición y se termina el ciclo.
+	<p>
+
+	Se utiliza un ciclo etiquetado (es decir, un ciclo con nombre propio)
+	y el mecanismo <b>termine</b> ante situaciones de terminacion del ciclo.
+	Realmente en este ejemplo no es indispensable el uso de etiquetas puesto
+	que no hay ambiguedad para cada instruccion de terminacion, pero se
+	opta por la claridad.
+	<p>
+	Actualizado: Oct/2001 <br>
+	Actualizado: Mar/2002 - Etiquetas al estilo '<tt>/etiq/</tt>'"
+inicio
+	esta := falso;      // Suponemos que n no esta en a.
+	i : entero := a.inf;    // Indice para recorrer arreglo a.
+
+	ciclo /busqueda/    // Un nombre /busqueda/ para el ciclo
+
+		termine /busqueda/ si i > a.sup;  
+		// A un 'termine' se le puede indicar cual ciclo terminar.
+		// En este caso, terminamos el ciclo /busqueda/ si el
+		// indice i se pasa del rango de indices del arreglo.
+							
+		si a[i] = n entonces
+			// Ah! el numero si esta! entonces...
+			esta := cierto;      // ...actualizamos suposicion y ...
+			termine /busqueda/;  // no seguimos buscando.
+			                     // Esto hace saltar justo a
+			                     // continuacion del "fin ciclo"
+		fin si;
+		i := i + 1;   // Siguiente indice para continuar
+		              // con la busqueda.
+	fin ciclo;
+	// A este punto se llega desde cualquier "termine /busqueda/".
+
+	// La respuesta del algoritmo es el valor final de la variable 'esta'.
+	retorne esta; 
+fin algoritmo

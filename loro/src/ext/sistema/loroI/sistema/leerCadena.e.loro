@@ -1,0 +1,9 @@
+paquete loroI::sistema;
+
+especificación leerCadena() -> v: cadena
+	descripción
+		''Lee una cadena de la entrada estandar.''
+	salida
+		v : ''La cadena leida.''
+	pos { v = v' }
+fin especificación

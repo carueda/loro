@@ -1,0 +1,10 @@
+paquete loroI::mat;
+
+algoritmo potIter para pot(base:real, n:entero) -> res:real
+	estrategia ''Iterativa, O(n).''
+inicio
+	res := 1.0;
+	para i:entero desde 1 hasta n haga
+		res := res * base;
+	fin para;
+fin algoritmo

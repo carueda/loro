@@ -1,0 +1,28 @@
+especificacion espec()
+descripcion ""
+fin especificacion
+
+algoritmo espec para escribir(cad:cadena)
+descripcion ""
+inicio
+	escribirln("ssss");
+fin algoritmo
+
+algoritmo var_vs_alg para PRUEBA()
+descripcion
+	"Problema resolucion de nombres, conflicto namespaces
+	Este provoca el intento de invocar una especificacion
+	en tiempo de ejecucion!"
+inicio
+	// declaracion bien:
+	espec : algoritmo para espec := espec;
+
+	// espec se resuelve por ambiente (porque HAY algoritmo de nombre espec)
+	espec("blah");    
+	// pero produce error de ejecucion porque se invoca
+
+	// de esta manera se obligaria por tabla simbolos:
+	(espec como algoritmo para espec)();
+
+fin algoritmo
+

@@ -1,0 +1,21 @@
+////////////////////////////////////////////////////////////////
+algoritmo sinosis para PRUEBA()
+"Probar mecanismo si_no anidado"
+inicio
+	escribir("Deme un numero real: ");
+	r:real := leerReal();
+	escribir(r+ " en ");
+	si r <= -100.0 entonces
+		escribirln("(-inf, -100]");
+	si_no
+		si r <= 0.0 entonces
+			escribirln("(-100, 0]");
+		si_no
+			si r <= 100.0 entonces
+				escribirln("(0, 100]");
+			si_no 
+				escribirln("(100, +inf)");
+			fin si;
+		fin si;
+	fin si;
+fin algoritmo

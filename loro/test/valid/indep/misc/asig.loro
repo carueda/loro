@@ -1,0 +1,7 @@
+///////////////////////////////////////////////////////////////
+algoritmo para PRUEBA()
+estrategia""
+inicio
+	e: real := leerEntero();
+	escribirln("e = " +e);
+fin algoritmo

@@ -1,0 +1,2067 @@
+////////////////////////////////////////////////////////////////////////////////////////
+//               L O R O - Sistema de Programación Didáctico
+////////////////////////////////////////////////////////////////////////////////////////
+// PROYECTO                     : Loro
+// FUENTE                       : LoroIParser.jj
+// DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
+// AUTOR                        : Carlos Rueda
+// FECHA ORIGINAL               : 1998-01-28
+// FECHA ULTIMA ACTUALIZACION   : 2002-10-09
+//
+// COMPILACIÓN
+//  con JavaCC Versión 2.1: Ver build.xml.
+//
+// NOTAS:
+//  Observación tomada de jshell:
+//      OJO: Se vio que el Simple1 (ASCII_CharStream) cerraba
+//      la entrada! y claro! esto estropeaba el resto de la
+//      operación del shell. Lo que hice fue eliminar esta
+//      intrucción en el método FillBuff de ASCII_CharStream.
+//      ** Tener esto en cuenta para LORO: en donde no se ha
+//      ** hecho este cambio.
+//
+//  Al compilar se genera el siguiente warning:  
+//             [ojo: mensaje con version vieja de javacc]
+//  Reading from file LoroIParser.jj . . .
+//  Warning: Line 249, Column 9: The generated CharStream class cannot handle 16 bit
+//  characters. Please set the JAVA_UNICODE_ESCAPE option or the UNICODE_INPUT opti
+//  on to true so that a CharStream class that can handle 16 bit characters is gener
+//  ated.
+// Pero el funcionamiento con ASCII_CharStream aparentemente es correcto hasta ahora.
+// PENDIENTE hacer una revisión sobre este aspecto.
+//
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// ACTUALIZACIONES:
+//
+//		2002-10-09
+//			- Agregado elemento léxico IMPL:  {%texto%} para info o código
+//			  en implementación usando otro lenguaje. No terminal: timpl
+//
+//		2002-10-06
+//			- Permitido TEXT_DOC en afirmacion()
+//			- Ahora se acepta sólo una comilla sencilla (') al final de un ID
+//
+//		2002-09-16
+//			- Agregados: tidEOF y tnombreEOF()
+//
+//		2002-08-26
+//			- Agregado elemento léxico TEXT_DOC: ''texto'' para cadenas de documentación.
+//			  Este se usa en la producción tdoc().
+//
+//			- Agregado elemento léxico GUIDE:  {{texto}}
+//			que no se referencia en ninguna parte de la sintaxis pero permite
+//			indicar puntos que deben ser reemplazados por código válido en
+//			plantillas.
+//
+//		2002-05-24
+//			Nueva forma de indicar tipo:
+//				"interface" tnombre()
+//  
+//		2002-05-05
+//      	- Nueva producción interface_()
+//      	- Nueva producción unidad() para las alternativas de unidad.
+//			- Alternativa "especificación" | "operación" para especificacion()
+//			- Alternativa "algoritmo" | "método" para algoritmo()
+//
+//		2002-04-03
+//		- Nuevas palabras clave "operacion", "metodo", "objeto"
+//
+//		2002-03-27
+//		- Nueva palabra clave "como" para conversion de tipo:
+//			expresion "como" ntipo
+//		  YA no se acepta la sintaxis:
+//			ntipo "(" expresion ")"
+//		- Aumentada gramatica para aceptar expresiones arreglo, ej:
+//			[1,3,6,2]
+//		  El arreglo debe tener por lo menos una expresion.
+//
+//		2002-03-19
+//		- Agregados elementos "si_no_si" opcionales en una decision.
+//		- Ahora son opcionales la palabras "descripcion" y "estrategia"
+//        que van antes de la cadena correspondiente.
+//      - Ahora un algoritmo puede tener la palabra "descripcion" para su
+//        descripcion a cambio de "estrategia". 
+//
+//		2002-02-13
+//              - Se cambia de nuevo indicacion de etiqueta:
+//                  de   : etiqueta     en declaracion (ciclo)
+//                       etiqueta       en uso (termine, continue).
+//			  a    /etiqueta/ tanto en declaracion como en referencia.
+//
+//		2002-01-07 -> 2002-01-10
+//			Creacion de nodos con ConstructorArbol.
+//			
+//		2002-01-05
+//			- Se ha resuelto el asunto de ``crear[10..15]'', haciendo
+//			  que un literal real obligue a tener algun digito despues
+//			  del punto; es decir, ahora ``6.'' NO es literal real valido;
+//			  no creo que esta exigencia vaya en contra de la filosofia
+//			  de Loro, en cambio hace mas comoda la escritura de rangos
+//			  con literales enteros.
+//
+//		2001-12-12
+//			- Mecanismo adicional para crear arreglos:
+//					crear [m .. n] <tipo>
+//			Pendiente: resolver casos ``crear[10..15]'' ya que se toma
+//			primero el literal real ``10.'', por lo que ahora se requiere
+//			que haya espacio antes de ``..''
+//
+//      2001-11-05
+//		   - aparece:  interface
+//
+//      2001-10-25
+//              - Se cambia indicacion de etiqueta:
+//                  de:  <etiqueta>
+//                  a:   : etiqueta     en declaracion (ciclo)
+//                       etiqueta       en uso (termine, continue).
+//
+//      2001-10-18
+//              - Se quita id para constructor.
+//
+//      2001-10-07
+//              - Reaparece palabra reservada "es_instancia_de" (a cambio de "es" que desaparece).
+//
+//      2001-10-01
+//              - Nueva produccion: Nodo accionInterprete() para las lineas ingresadas
+//                en el Interprete.
+//
+//      2001-09-25
+//              - Reformada gramatica para clases: ahora hay que agregar una
+//                cadena de documentacion para cada atributo:
+//                    id : tipo : LITERAL_CADENA
+//
+//      2001-02-04
+//              - Nuevas palabras reservadas: "ciclo", "termine", "continúe"
+//              - Nuevas acciones NCiclo, NTermine, NContinue.
+//              - Nuevas palabras reservadas: "éste", "super".
+//
+//      2000-08-05
+//              - Se deja opcional la palabra "clase" en tipo().
+//
+//  2000-08-04
+//      - Desaparecen palabras reservadas:
+//          escriba
+//          leerAlgoritmo
+//          leerBooleano
+//          leerCadena
+//          leerCaracter
+//          leerEntero
+//          leerReal
+//        y las producciones escriba() y e_leer()
+//
+//        Ahora estos procesos Loro se especifican en loro con implementaciones
+//        en Java.
+//
+//  2000-07-15
+//      - Desaparecen palabras reservadas "nativo" y "java".
+//        Para lograr el mecanismo de implementacion en otro lenguaje,
+//        se define mejor la nueva palabra reservada "implementacion";
+//        a continuacion de esta palabra se deben indicar dos literales
+//        cadena: la primera se supone que indicando el lenguaje en que
+//        se implementa el algoritmo, y la segunda indicando cualquier
+//        tipo de informacion adicional que requiera el implementador.
+//        Desde luego, aunque parece bastante general, esto esta pensado
+//        mas para Java, por lo que es posible que esto se cambie en un
+//        futuro.
+//
+//      - Desaparece palabra reservada "es_instancia_de" y aparece "es".
+//
+//  2000-06-29
+//      - Nueva palabra reservada "global", pero sin ningun
+//        tratamiento adicional. PENDIENTE
+//
+//      - Nuevo separador "::" para paquetes.
+//        Vea nombre(), e_nombre() y claseJava().
+//        claseJava() se definio para que siga siendo
+//        con "." siguiendo las especificaciones de Java.
+//
+//  2000-06-27
+//      - package loro.loro.nucleo;
+//
+//  2000-06-23
+//      - Se cambio id() por nombre() en algunos sitios:
+//          - "algoritmo" [id()] "para" nombre() ...
+//          - "algoritmo" "para" nombre() ...       (tipo)
+//          - "clase" nombre()              (tipo)
+//          - "leerAlgoritmo" "(" nombre() ")"
+//
+//  2000-06-22
+//      - Se renombra:
+//          NUnidad  unidad() ...
+//        a
+//          NFuente fuente() ...
+//
+//  2000-06-20
+//      - Aparecen nuevas palabras reservadas:
+//          "extiende", "es_instancia_de"
+//
+//      - Aparece nueva producción e_instancia()
+//
+//      - Se agrega mecanismo "extiende" a declaración de clase.
+//
+//  2000-06-17
+//      - Se importa el nuevo paquete de nodos:
+//          import loro.arbol.*;
+//
+//      - Aparece nuevas palabras reservadas:
+//          "paquete", "nativo", "java"
+//
+//      - Aparecen nuevas construcciones (estilo Java) para
+//        declarar "paquete" y "utiliza"r (import) otros
+//        elementos.
+//
+//      - Desaparece mecanismo "utiliza id/id" dentro de algoritmo.
+//
+//      - Aparece posibilidad de indicar que un algoritmo está
+//        implementado de manera nativa (Java).
+//        En prueba inicial.
+//
+//
+//  May/03/1999
+//      - Manejo de "constante" e inicialización de variables.
+//      - Mejoramiento del chequeo de los constructores.
+//  May/02/1999
+//      - Inicio de ajustes para operadores más "a la Java".
+//      - Se quita palabra reservada "con" para las
+//        expresiones "cuantificadas"; se usa la coma ",".
+//      - El operador ^ no es más para potenciación sino
+//        para XOR
+//      - Se incluyen >>>, &, |, ?:
+//
+//  Abr/30/1999
+//      - Mejoramiento general de las producciones
+//
+//  Abr/29/1999
+//      - Se inicia manejo de clases, objetos y constructores
+//
+//  Abr/28/1999
+//      - Se permiten tildes en palabras reservadas
+//
+//  Abr/27/1999
+//      - Se inicia manejo de variables semánticas
+//
+//  Abr/24/1999
+//      - Se agrega acción afirmacion()
+//      - desaparecen palabras reservadas: lectura, escritura
+//
+//  Abr/24/1999
+//      - Se mejora gramática para asignación.
+//      - Para cuando se presenta TokenMgrError, se ha modificado el
+//        fuente TokenMgrError.java:
+//          Se agregan dos atributos:  int lin, col;
+//          En el constructor apropiado se agrega:
+//              lin = errorLine;
+//              col = errorColumn;
+//        Estos campos los usa LoroITraductor para convertir el error en
+//        una TraduccionException. Abr/24/1999.
+//        Se ponen los mensajes en español.
+//      - También se ha ajustado ParseException.java
+//        para poner los mensajes en español.
+//
+//  Abr/22/1999
+//      - Múltiple declaración: a, b, c: entero
+//      - Asignación como expresión: a := b := c:= 0
+//  Abr/19/1999
+//      - Se deja leerAlgoritmo(ID) y se eliminan
+//          leer algoritmo para ID
+//          leerAlgoritmo(expr)
+//  Abr/13/1999
+//      - "o", "y" dejan de ser palabras reservadas
+//      - Se opta por los operadores: &&, ||
+//      - El operador de concatenación es +, como en Java.
+//
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+PARSER_BEGIN(LoroIParser)
+
+package loro.parsers.javacc;
+
+import loro.arbol.*;
+
+import java.util.*;
+
+class LoroIParser
+{
+}
+
+PARSER_END(LoroIParser)
+
+
+SKIP : // espacios y comentarios
+{
+	" "
+  | "\t"
+  | "\n"
+  | "\r"
+  | "\f"
+}
+
+// Tomado de Java1.1.jj:
+
+/* COMMENTS */
+
+MORE :
+{
+  "//" : IN_SINGLE_LINE_COMMENT
+|
+  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+|
+  "/*" : IN_MULTI_LINE_COMMENT
+|
+  "''" : IN_TEXT_DOC
+|
+  "{{" : IN_GUIDE
+|
+  "{%" : IN_IMPL
+}
+
+<IN_SINGLE_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT
+}
+
+<IN_FORMAL_COMMENT>
+SPECIAL_TOKEN :
+{
+  <FORMAL_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <MULTI_LINE_COMMENT: "*/" > : DEFAULT
+}
+
+
+<IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT, IN_TEXT_DOC, IN_GUIDE, IN_IMPL>
+MORE :
+{
+  < ~[] >
+}
+
+<IN_TEXT_DOC>
+TOKEN :
+{
+  <TEXT_DOC: "''" > : DEFAULT
+}
+
+<IN_GUIDE>
+TOKEN :
+{
+  <GUIDE: "}}" > : DEFAULT
+}
+
+<IN_IMPL>
+TOKEN :
+{
+  <IMPL: "%}" > : DEFAULT
+}
+
+
+TOKEN : // tipos básicos
+{
+	< BOOLEANO: "booleano" >
+  | < CADENA: "cadena" >
+  | < CARACTER: "caracter" >
+  | < ENTERO: "entero" >
+  | < REAL: "real" >
+}
+
+TOKEN : // otras palabras reservadas
+{
+	< ALGORITMO: "algoritmo">
+  | < BAJANDO: "bajando">
+  | < CASO: "caso" >
+  | < CICLO: "ciclo" >
+  | < CIERTO: "cierto" >
+  | < CLASE: "clase" >
+  | < COMO: "como" >
+  | < CONSTANTE: "constante">
+  | < CONSTRUCTOR: "constructor">
+  | < CONTINUE: "continue" | "continúe">
+  | < CREAR: "crear">
+  | < DESDE: "desde" >
+  | < DESCRIPCION: "descripcion" | "descripción">
+  | < EN: "en">
+  | < ENTONCES: "entonces" >
+  | < ENTRADA: "entrada">
+  | < ES: "es_instancia_de">
+  | < ESPECIFICACION: "especificacion" | "especificación" >
+  | < ESTE: "este" | "éste" >
+  | < ESTRATEGIA: "estrategia">
+  | < EXISTE: "existe">
+  | < EXTIENDE: "extiende">
+  | < FALSO: "falso" >
+  | < FIN: "fin" >
+  | < GLOBAL: "global" >
+  | < HAGA: "haga">
+  | < HASTA: "hasta">
+  | < IMPLEMENTACION: "implementacion" | "implementación">
+  | < INICIO: "inicio">
+  | < IMPLEMENTA: "implementa">
+  | < INTERFACE: "interface">
+  | < METODO: "metodo" | "método">
+  | < MIENTRAS: "mientras" >
+  | < NADA: "nada">
+  | < NULO: "nulo">
+  | < OBJETO: "objeto">
+  | < OPERACION: "operacion" | "operación">
+  | < PAQUETE: "paquete">
+  | < PARA: "para">
+  | < PARA_TODO: "para_todo">
+  | < PASO: "paso" >
+  | < POS: "pos">
+  | < PRE: "pre">
+  | < REPITA: "repita">
+  | < RETORNE: "retorne">
+  | < SALIDA: "salida">
+  | < SEGUN: "segun" | "según">
+  | < SI: "si" >
+  | < SI_NO: "si_no" >
+  | < SI_NO_si: "si_no_si" >
+  | < SUPER: "super" >
+  | < TERMINE: "termine" >
+  | < UTILIZA: "utiliza" >
+}
+
+TOKEN : // Literales
+{
+	< LITERAL_ENTERO: (<DIGITO>)+ >
+  |
+	< LITERAL_REAL:
+		(["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENTE>)?
+	 |  "." (["0"-"9"])+ (<EXPONENTE>)?
+	 |  (["0"-"9"])+ <EXPONENTE>
+	 |  (["0"-"9"])+ (<EXPONENTE>)?
+	>
+  |
+	< #EXPONENTE: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  |
+	< #HEXA: ["0"-"9","a"-"f","A"-"F"] >
+  |
+	< LITERAL_CARACTER:
+		  "'"
+		  (   (~["'","\\","\n","\r"])
+		| ("\\"
+			( ["n","t","b","r","f","\\","'","\""]
+			| ["0"-"7"] ( ["0"-"7"] )?
+			| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+			| "u" <HEXA> <HEXA> <HEXA> <HEXA>
+			)
+		  )
+		  )
+		  "'"
+	>
+  |
+	< LITERAL_CADENA:   // se permite que cubra varias líneas
+	  "\""
+	  (   (~["\"","\\"])    //(~["\"","\\","\n","\r"])
+	| ("\\"
+		( ["n","t","b","r","f","\\","'","\""]
+		| ["0"-"7"] ( ["0"-"7"] )?
+		| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+		| "u" <HEXA> <HEXA> <HEXA> <HEXA>
+		)
+	  )
+	  )*
+	  "\""
+	>
+}
+
+TOKEN : // Identificadores
+{
+	< ID: <LETRA> (<LETRA>|<DIGITO>)* ("'")?>
+  |
+  < #LETRA:
+	  [
+	   "\u0024",
+	   "\u0041"-"\u005a",
+	   "\u005f",
+	   "\u0061"-"\u007a",
+	   "\u00c0"-"\u00d6",
+	   "\u00d8"-"\u00f6",
+	   "\u00f8"-"\u00ff",
+	   "\u0100"-"\u1fff",
+	   "\u3040"-"\u318f",
+	   "\u3300"-"\u337f",
+	   "\u3400"-"\u3d2d",
+	   "\u4e00"-"\u9fff",
+	   "\uf900"-"\ufaff"
+	  ]
+  >
+|
+  < #DIGITO:
+	  [
+	   "\u0030"-"\u0039",
+	   "\u0660"-"\u0669",
+	   "\u06f0"-"\u06f9",
+	   "\u0966"-"\u096f",
+	   "\u09e6"-"\u09ef",
+	   "\u0a66"-"\u0a6f",
+	   "\u0ae6"-"\u0aef",
+	   "\u0b66"-"\u0b6f",
+	   "\u0be7"-"\u0bef",
+	   "\u0c66"-"\u0c6f",
+	   "\u0ce6"-"\u0cef",
+	   "\u0d66"-"\u0d6f",
+	   "\u0e50"-"\u0e59",
+	   "\u0ed0"-"\u0ed9",
+	   "\u1040"-"\u1049"
+	  ]
+  >
+}
+
+//////////////////////////////////////////////////////////////////////////
+NFuente fuente() :
+{
+	NPaquete pq = null;
+	NUtiliza utz;
+	Vector v_utz = new Vector();
+	Nodo n;
+	Vector v = new Vector();
+}
+{
+	[ pq=paquete() ]
+	( utz=utiliza() ";"   { v_utz.addElement(utz); } )*
+	( n=unidad()            { v.addElement(n); }	)+
+	<EOF>
+	{
+		NUtiliza[] a_utz = new NUtiliza[v_utz.size()];
+		v_utz.copyInto(a_utz);
+		Nodo[] a = new Nodo[v.size()];
+		v.copyInto(a);
+		return ConstructorArbol.crearNFuente(pq, a_utz, a);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NUnidad unidad() :
+{
+	NUnidad n;
+}
+{
+	(
+		n=especificacion()
+	  |
+		n=algoritmo()
+	  |
+		n=clase()
+	  |
+		n=interface_()
+	)
+	{
+		return n;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NInterface interface_() :
+{
+	Token tini;
+	Token tfin;
+	TId i;
+	TCadenaDoc d;
+	
+	Vector interfaces = new Vector();
+	TNombre inter;
+
+	NDeclDesc[] atrs = null;
+
+	List opers = new ArrayList();
+	NEspecificacion op;
+}
+{
+	tini="interface" i=tid()
+	[
+		"extiende" inter=tnombre() { interfaces.addElement(inter); }
+		         ( "," inter=tnombre() { interfaces.addElement(inter); } )*
+	]
+		[ <DESCRIPCION> ] d=tdoc()
+		(
+			op=especificacion()     { opers.add(op); }
+		)*
+	"fin" tfin="interface"
+	{
+		TNombre[] inters = new TNombre[interfaces.size()];
+		interfaces.copyInto(inters);
+		
+		return ConstructorArbol.crearNInterface(tini, i, inters, d, opers, tfin);
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+NPaquete paquete() :
+{
+	Token tini;
+	TNombre nom;
+}
+{
+	tini="paquete" nom=tnombre() ";"
+	{
+		return ConstructorArbol.crearNPaquete(tini, nom);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NUtiliza utiliza() :
+{
+	Token tini;
+	Token que;
+	TNombre nom;
+}
+{
+	tini="utiliza"
+	(
+		que=<ESPECIFICACION>
+	  |
+		que="algoritmo"
+	  |
+		que="clase"
+	)
+	nom=tnombre()
+	{
+		return ConstructorArbol.crearNUtiliza(tini, que, nom);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NClase clase() :
+{
+	Token tini;
+	Token tfin;
+	TId i;
+	TCadenaDoc d;
+	TNombre x = null;
+
+	NDeclDesc[] atrs = null;
+
+	Vector cs = new Vector();
+	NConstructor c;
+
+	Vector interfaces = new Vector();
+	TNombre inter;
+
+	Vector mets = new Vector();
+	NAlgoritmo m;
+}
+{
+	( tini="clase" | tini="objeto" ) 
+	i=tid() 
+	[ "extiende" x=tnombre() ]
+	[
+		"para" inter=tnombre() { interfaces.addElement(inter); }
+		      (","  inter=tnombre() { interfaces.addElement(inter); } )*
+	]
+		[ <DESCRIPCION> ] d=tdoc()
+		[ atrs=declDescs() ]
+		(
+			c=constructor()     { cs.addElement(c); }
+		)*
+		(
+			m=algoritmo()     { mets.addElement(m); }
+		)*
+	"fin" ( tfin="clase" | tfin="objeto" )
+	{
+		TNombre[] inters = new TNombre[interfaces.size()];
+		interfaces.copyInto(inters);
+		
+		NConstructor[] acs = new NConstructor[cs.size()];
+		cs.copyInto(acs);
+		
+		NAlgoritmo[] ams = new NAlgoritmo[mets.size()];
+		mets.copyInto(ams);
+		
+		return ConstructorArbol.crearNClase(tini, i, x, inters, d, atrs, acs, ams, tfin);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NDeclDesc[] declDescs() :
+{
+	Vector v = new Vector();
+	NDeclDesc d;
+}
+{
+	d=declDesc() ";"    { v.addElement(d); }
+	( d=declDesc() ";"  { v.addElement(d); } )*
+	{
+		NDeclDesc[] a = new NDeclDesc[v.size()];
+		v.copyInto(a);
+		return a;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclDesc declDesc() :
+{
+	TId i;
+	NTipo t;
+	TCadenaDoc d;
+	boolean esConstante = false;
+	NExpresion e = null;
+	Token c = null;
+}
+{
+	i=tid() ":" t=ntipo()
+	[
+		(
+			":="  e=expresion()
+		  |
+			c="constante" [ "=" e=expresion() ]  { esConstante = true; }
+		)
+	]
+	":" d=tdoc()
+	{
+		return ConstructorArbol.crearNDeclDesc(i, t, d, esConstante, e, c);
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+NConstructor constructor() :
+{
+	Token tini;
+	Token tfin;
+	TCadenaDoc d;
+	TCadenaDoc e;
+	NDeclaracion[] ent = null;
+	NDeclaracion[] sal = null;
+	NDescripcion[] dent = null;
+	NAfirmacion pre = null;
+	NAfirmacion pos = null;
+	Nodo[] a = null;
+}
+{
+	tini="constructor" "(" [ ent=declaraciones() ]  ")"
+	   [ <DESCRIPCION> ] d=tdoc()
+	   [    "entrada" ( "nada" | dent=descripciones() )  ]
+	   [    "pre" pre=afirmacion()  ]
+	   [    "pos" pos=afirmacion()  ]
+	"estrategia" e=tdoc()
+	"inicio"
+		a=acciones()
+	"fin" tfin="constructor"
+	{
+		return ConstructorArbol.crearNConstructor(tini, d, ent, dent, pre, pos, e, a, tfin);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NEspecificacion especificacion() :
+{
+	Token tini;
+	Token tfin;
+	TId i;
+	TCadenaDoc d;
+	NDeclaracion[] ent = null;
+	NDeclaracion[] sal = null;
+	NDescripcion[] dent = null;
+	NDescripcion[] dsal = null;
+	NAfirmacion pre = null;
+	NAfirmacion pos = null;
+}
+{
+	( tini=<ESPECIFICACION> | tini=<OPERACION> )
+		i=tid() "(" ( ent=declaraciones() )?  ")"
+			( "->" sal=declaraciones() )?
+		[ <DESCRIPCION> ] d=tdoc()
+	   [    "entrada" ( "nada" | dent=descripciones() )  ]
+	   [    "salida"  ( "nada" | dsal=descripciones() )  ]
+	   [    "pre" pre=afirmacion()  ]
+	   [    "pos" pos=afirmacion()  ]
+	"fin" ( tfin=<ESPECIFICACION> | tfin=<OPERACION> )
+	{
+		return ConstructorArbol.crearNEspecificacion(
+			tini, 
+			i, d, ent, sal, dent, dsal, pre, pos, 
+			tfin
+		);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDescripcion[] descripciones() :
+{
+	Vector v = new Vector();
+	NDescripcion d;
+}
+{
+	( d=descripcion() { v.addElement(d); } )+
+	{
+		NDescripcion[] a = new NDescripcion[v.size()];
+		v.copyInto(a);
+		return a;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDescripcion descripcion() :
+{
+	TId i;
+	TCadenaDoc d;
+}
+{
+	i=tid() ":" d=tdoc()  [";"]
+	{
+		return ConstructorArbol.crearNDescripcion(i, d);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NAlgoritmo algoritmo() :
+{
+	Token ti, tf;
+	TId id = null;
+	TNombre esp;
+	NDeclaracion[] ent = null;
+	NDeclaracion[] sal = null;
+	TCadenaDoc d = null;
+	Nodo[] a = null;
+	TCadena leng = null;
+	TCadena lengAdic = null;
+}
+{
+	( ti="algoritmo" | ti=<METODO> )
+	[id=tid()] "para" esp=tnombre() "(" [ent=declaraciones()]  ")"
+			[ "->" sal=declaraciones() ]
+	(
+		[ <DESCRIPCION> | "estrategia" ] d=tdoc()
+		"inicio"
+			a=acciones()
+	  |
+		<IMPLEMENTACION> leng=timpl() lengAdic=timpl() [";"]
+	)
+	"fin" ( tf="algoritmo" | tf=<METODO> )
+	{
+		return ConstructorArbol.crearNAlgoritmo(
+			ti,
+			id, esp, d, ent, sal, a,
+			leng, lengAdic,
+			tf
+		);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion[] declaraciones() :
+{
+	Vector v = new Vector();
+	NDeclaracion[] d;
+	int tot = 0;        // el total de declaraciones individuales
+}
+{
+	d=declaraciones1Tipo()
+	{
+		tot += d.length;
+		v.addElement(d);
+	}
+	(
+		/*
+		 * En una expresión de variable cuantificada viene
+		 * posiblemente:
+		 *  "," expresion()
+		 * a continuación de las declaraciones; una expresión
+		 * a su vez puede comenzar con un ID. Así que se
+		 * requiere un LOOKAHEAD(3) para resolver el asunto.
+		 */
+		LOOKAHEAD(3)
+		"," d=declaraciones1Tipo()
+		{
+			tot += d.length;
+			v.addElement(d);
+		}
+	)*
+	{
+		NDeclaracion[] a = new NDeclaracion[tot];
+		int offset = 0;
+		for ( int k = 0; k < v.size(); k++ )
+		{   
+			d = (NDeclaracion[]) v.elementAt(k);
+			System.arraycopy(d, 0, a, offset, d.length);
+			offset += d.length;
+		}
+		return a;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion declaracion() :
+{
+	TId i;
+	NTipo t;
+}
+{
+	i=tid() ":" t=ntipo()
+	{
+		return ConstructorArbol.crearNDeclaracion(i, t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion[] declaraciones1Tipo() :
+{
+	TId[] i;
+	NTipo t;
+	boolean esConstante = false;
+	NExpresion e = null;
+	Token c = null;
+}
+{
+	i=tids() ":" t=ntipo()
+	[
+		(
+			":="  e=expresion()
+		  |
+			c="constante" [ "=" e=expresion() ]
+			{ esConstante = true; }
+		)
+	]
+	{
+		NDeclaracion[] decl = new NDeclaracion[i.length];
+		for ( int k = 0; k < i.length; k++ )
+		{
+			decl[k] = ConstructorArbol.crearNDeclaracion(i[k], t, esConstante, e, c);
+		}
+
+		return decl;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion declaracion1Tipo() :
+{
+	TId[] i;
+	NTipo t;
+	boolean esConstante = false;
+	NExpresion e = null;
+	Token c = null;
+}
+{
+	i=tids() ":" t=ntipo()
+	[
+		(
+			":="  e=expresion()
+		  |
+			c="constante" [ "=" e=expresion() ]
+			{ esConstante = true; }
+		)
+	]
+	{
+		return ConstructorArbol.crearNDeclaracion(i, t, esConstante, e, c);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NTipo ntipo() :
+{
+	NTipo t;
+	TNombre nom = null;
+	Token ti = null;
+}
+{
+	(
+		t=ntipobasico()
+	  | 
+		ti="[" "]" t=ntipo()    
+		{ t = ConstructorArbol.crearNTipoArreglo(ti, t); }
+	  |
+	    // por ahora obliga palabra clave "interface", mientras se completa manejo. 2002-05-24
+		ti="interface" nom=tnombre()  
+		{ t = ConstructorArbol.crearNTipoInterface(ti, nom); }
+	  |
+		ti="algoritmo"	[ "para" nom=tnombre() ]
+		{ t = ConstructorArbol.crearNTipoEspecificacion(ti, nom); }
+	  |
+		[ti="clase"] nom=tnombre()  
+		{ t = ConstructorArbol.crearNTipoClase(ti, nom); }
+	)
+	{
+		return t;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NTipo ntipobasico() :
+{
+	Token t;
+}
+{
+	(   t="entero"        
+	  | t="booleano"
+	  | t="caracter"
+	  | t="real"    
+	  | t="cadena"  
+	)
+	{
+		return ConstructorArbol.crearNTipoBasico(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+Nodo[] acciones() :
+{
+	Vector v = new Vector();
+	Nodo a;
+}
+{
+	( a=accion() ";"  { v.addElement(a); } )*
+	{
+		Nodo[] as = new Nodo[v.size()];
+		v.copyInto(as);
+		return as;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+Nodo accion() :
+{
+	Nodo n;
+}
+{
+	(
+		LOOKAHEAD(2)
+		n=declaracion1Tipo()    //declaracion()
+	|
+		n=expresion()
+	|
+		n=decision()
+	|
+		n=decisionMultiple()
+	|
+		n=iteracion()
+	|
+		n=retorne()
+	|
+		n=afirmacion()
+	|
+		n=termine()
+	|
+		n=_continue()
+	)
+	{
+		return n;
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+/**
+ * Esta es la produccion para las lineas ingresadas en el Interprete.
+ * Basicamente es accion() o utiliza() finalizando con ";" opcional y
+ * EOF obligatorio.
+ * Tambien vacio es posible para permitir linea de comentario solamente.
+ */
+Nodo accionInterprete() :
+{
+	Nodo n = null;
+}
+{
+	[
+		(
+			n=accion()
+		 |
+			n=utiliza()
+		)
+		[ ";" ]
+	]
+	<EOF>
+	{
+		return n;
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+Nodo iteracion() :
+{
+	Nodo n;
+}
+{
+	(
+		LOOKAHEAD(2)
+		n=mientras()
+	|
+		n=para()
+	|
+		n=repita()
+	|
+		n=ciclo()
+	)
+	{
+		return n;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NAfirmacion afirmacion() :
+{
+	Token ti, tf;
+	Token tdoc = null;
+	NExpresion e = null;
+}
+{
+	ti="{" ( e=expresion() | tdoc=<TEXT_DOC> ) tf="}"
+	{
+		if ( e != null )
+			return ConstructorArbol.crearNAfirmacion(ti, e, tf);
+		else
+			return ConstructorArbol.crearNAfirmacion(ti, tdoc, tf);
+			
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDecision decision() :
+{
+	Token ti, tf;
+	NExpresion e;
+	Nodo[] as;
+	NDecisionSiNoSi sinosi;
+	Vector sinosis = new Vector();
+	Nodo[] an = null;
+}
+{
+	ti="si" e=expresion() "entonces" as=acciones()
+	( sinosi=decision_si_no_si() { sinosis.addElement(sinosi); } )*
+	[ "si_no" an=acciones() ]
+	"fin" tf="si"
+	{
+		NDecisionSiNoSi[] asinosis = new NDecisionSiNoSi[sinosis.size()];
+		sinosis.copyInto(asinosis);
+		return ConstructorArbol.crearNDecision(ti, e, as, asinosis, an, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDecisionSiNoSi decision_si_no_si() :
+{
+	Token ti;
+	NExpresion e;
+	Nodo[] as;
+}
+{
+	ti="si_no_si" e=expresion() "entonces" as=acciones() 
+	{
+		return ConstructorArbol.crearNDecisionSiNoSi(ti, e, as);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDecisionMultiple decisionMultiple() :
+{
+	Token ti, tf;
+	Token cti, ctf = null;
+
+	NExpresion e_segun;
+	NExpresion e_caso;
+	Nodo[] a_caso;
+	boolean con_fin_caso = false;
+	Vector casos = new Vector();
+	NCaso caso_sino = null;
+}
+{
+	ti=<SEGUN> e_segun=expresion() "haga"
+		(
+			cti="caso" e_caso=expresion() ":"
+				a_caso=acciones()
+			( LOOKAHEAD(2) "fin" ctf="caso" [";"] { con_fin_caso = true; } )?
+			{
+				casos.addElement(
+					ConstructorArbol.crearNCaso(cti, e_caso, a_caso, con_fin_caso, ctf)
+				);
+				con_fin_caso = false;
+				ctf = null;
+			}
+		)*
+		(   cti="si_no" [":"]
+				a_caso=acciones()
+			( LOOKAHEAD(2) "fin" ctf="caso" [";"])?
+			{
+				caso_sino = ConstructorArbol.crearNCaso(cti, null, a_caso, true, ctf);
+			}
+		)?
+	"fin" tf=<SEGUN>
+	{
+		NCaso[] css = new NCaso[casos.size()];
+		casos.copyInto(css);
+		return ConstructorArbol.crearNDecisionMultiple(ti, e_segun, css, caso_sino, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NMientras mientras() :
+{
+	Token ti, tf;
+	TId etq = null;
+	NExpresion e;
+	Nodo[] a;
+}
+{
+	ti="mientras" [ "/" etq=tid() "/" ] e=expresion() "haga"
+		a=acciones()
+	"fin" tf="mientras"
+	{
+		return ConstructorArbol.crearNMientras(ti, etq, e, a, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NPara para() :
+{
+	Token ti, tf;
+	TId etq = null;
+	TId i = null;
+	NDeclaracion d = null;
+	NExpresion ed;
+	boolean b = false;
+	NExpresion ep = null;
+	NExpresion eh;
+	Nodo[] a;
+}
+{
+	ti="para" [ "/" etq=tid() "/" ] ( LOOKAHEAD(2) d=declaracion() | i=tid() )
+	("desde" | ":=") ed=expresion()     ("bajando" { b = true; } )?
+	("paso" ep=expresion())?
+	"hasta" eh=expresion()
+	"haga"
+		a=acciones()
+	"fin" tf="para"
+	{
+		return ConstructorArbol.crearNPara(ti, etq, i, d, ed, b, ep, eh, a, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NRepita repita() :
+{
+	Token ti;
+	TId etq = null;
+	Nodo[] a;
+	NExpresion e;
+}
+{
+	ti="repita" [ "/" etq=tid() "/" ]
+		a=acciones()
+	"hasta" e=expresion()
+	{
+		return ConstructorArbol.crearNRepita(ti, etq, a, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NCiclo ciclo() :
+{
+	Token ti, tf;
+	TId etq = null;
+	Nodo[] a;
+}
+{
+	ti="ciclo" [ "/" etq=tid() "/" ]
+		a=acciones()
+	"fin" tf="ciclo"
+	{
+		return ConstructorArbol.crearNCiclo(ti, etq, a, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NRetorne retorne() :
+{
+	NExpresion[] es = null;
+	Token t;
+}
+{
+	t="retorne" [ es=expresiones() ]
+	{
+		if ( es == null )
+			es = new NExpresion[0];
+
+		return ConstructorArbol.crearNRetorne(t, es);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NTermine termine() :
+{
+	Token t;
+	TId etq = null;
+	NExpresion e = null;
+}
+{
+	t="termine" [ "/" etq=tid() "/" ]  [ "si"  e=expresion() ]
+	{
+		return ConstructorArbol.crearNTermine(t, etq, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NContinue _continue() :
+{
+	Token t;
+	TId etq = null;
+	NExpresion e = null;
+}
+{
+	t=<CONTINUE> [ "/" etq=tid() "/" ]  [ "si"  e=expresion() ]
+	{
+		return ConstructorArbol.crearNContinue(t, etq, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion[] expresiones() :
+{
+	Vector es = new Vector();
+	NExpresion e;
+}
+{
+	e=expresion() { es.addElement(e); }
+	( "," e=expresion() { es.addElement(e); } )*
+	{
+		NExpresion[] exs = new NExpresion[es.size()];
+		es.copyInto(exs);
+		return exs;
+	}
+}
+
+//
+// Segmento para expresiones
+//
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion expresion() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_cond()
+	[
+		":=" f=expresion()
+		{
+			e = ConstructorArbol.crearNAsignacion(e, f);
+		}
+	]
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_cond() :
+{
+	NExpresion e, f = null, g = null;
+}
+{
+	e=e_implic()
+	[
+		"?"  f=expresion()
+		":"  g=e_cond()
+		{
+			e = ConstructorArbol.crearNCondicion(e, f, g);
+		}
+	]
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_implic() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_o()
+	(
+		(
+			"<=>"  f=e_o()
+			{
+				e = ConstructorArbol.crearNEquivalencia(e, f);
+			}
+		  |
+			"=>"  f=e_o()
+			{
+				e = ConstructorArbol.crearNImplicacion(e, f);
+			}
+		)
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_o() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_y()
+	(
+		"||"  f=e_y()
+		{
+			e = ConstructorArbol.crearNO(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_y() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_oarit()
+	(
+		"&&"    f=e_oarit()
+		{
+			e = ConstructorArbol.crearNY(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_oarit() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_oexc()
+	(
+		"|"  f=e_oexc()
+		{
+			e = ConstructorArbol.crearNOArit(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_oexc() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_yarit()
+	(
+		"^"  f=e_yarit()
+		{
+			e = ConstructorArbol.crearNOExc(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_yarit() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_igual()
+	(
+		"&"  f=e_igual()
+		{
+			e = ConstructorArbol.crearNYArit(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_igual() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_instancia()
+	(
+		"=" f=e_instancia()
+		{
+			e = ConstructorArbol.crearNIgual(e, f);
+		}
+	  |
+		"!=" f=e_instancia()
+		{
+			e = ConstructorArbol.crearNDiferente(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_instancia() :
+{
+	NExpresion e;
+	NTipo t;
+}
+{
+	e=e_rel()
+	[
+		(
+			<IMPLEMENTA> t=ntipo()
+			{
+				e = ConstructorArbol.crearNImplementa(e, t);
+			}
+		 |
+		    <COMO> t=ntipo()        // conversión 
+			{
+				e = ConstructorArbol.crearNConvertirTipo(e, t);
+			}
+		 |
+			"es_instancia_de" t=ntipo()
+			{
+				e = ConstructorArbol.crearNEsInstanciaDe(e, t);
+			}
+		)
+	]
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_rel() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_corr()
+	(
+		"<" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMenor(e, f);
+		}
+	  |
+		">" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMayor(e, f);
+		}
+	  |
+		"<=" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMenorIgual(e, f);
+		}
+	  |
+		">=" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMayorIgual(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_corr() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_sum()
+	(
+		"<<" f=e_sum()
+		{
+			e = ConstructorArbol.crearNCorrIzq(e, f);
+		}
+	  |
+		">>" f=e_sum()
+		{
+			e = ConstructorArbol.crearNCorrDer(e, f);
+		}
+	  |
+		">>>" f=e_sum()
+		{
+			e = ConstructorArbol.crearNCorrDerDer(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_sum() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_mul()
+	(
+		"+" f=e_mul()
+		{
+			e = ConstructorArbol.crearNMas(e, f);
+		}
+	  |
+		"-" f=e_mul()
+		{
+			e = ConstructorArbol.crearNMenos(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_mul() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_unaria()
+	(
+		"*" f=e_unaria()
+		{
+			e = ConstructorArbol.crearNPor(e, f);
+		}
+	  |
+		"/" f=e_unaria()
+		{
+			e = ConstructorArbol.crearNDivReal(e, f);
+		}
+	  |
+		"%" f=e_unaria()
+		{
+			e = ConstructorArbol.crearNMod(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_unaria() :
+{
+	Token ti;
+	NExpresion e;
+	NDeclaracion[] d;
+	NExpresion con = null;
+}
+{
+	(
+		ti="!" e=e_unaria() { e = ConstructorArbol.crearNNo(ti, e); }
+	  |
+		ti="-" e=e_unaria() { e = ConstructorArbol.crearNNeg(ti, e); }
+	  |
+		ti="+" e=e_unaria() { e = ConstructorArbol.crearNPlus(ti, e); }
+	  |
+		ti="~" e=e_unaria() { e = ConstructorArbol.crearNNoBit(ti, e); }
+	  |
+		ti="#" e=e_unaria() { e = ConstructorArbol.crearNCardinalidad(ti, e); }
+	  |
+		ti="@" e=e_unaria() { e = ConstructorArbol.crearNACadena(ti, e); }
+	  |
+		e=e_primaria()
+	  |
+		(
+			ti="existe"  |  ti="para_todo"
+		)
+		d=declaraciones()   // ver LOOKAHEAD allí
+		[
+			"," con=expresion()
+		]
+		":" e=e_unaria()
+		{
+			e = ConstructorArbol.crearNCuantificado(ti, d, con, e);
+		}
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_primaria() :
+{
+	Token tf;
+	NExpresion e, f;
+	NExpresion[] args = null;
+	TId i;
+}
+{
+	e=e_prefijoPrimaria()
+	(
+		(
+			"." i=tid()
+			{
+				e = ConstructorArbol.crearNSubId(e, i);
+			}
+		)
+	  |
+		(
+			"[" f=expresion() tf="]"	// subindexación
+			{
+				e = ConstructorArbol.crearNSubindexacion(e, f, tf);
+			}
+		)
+	  |
+		(
+			"(" [ args=expresiones() ] tf=")"     // invocación
+			{
+				if ( args == null )
+					args = new NExpresion[0];
+				e = ConstructorArbol.crearNInvocacion(e, args, tf);
+			}
+		)
+	)*
+	{
+		return e;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_prefijoPrimaria() :
+{
+	Token ti, tf;
+	NTipo t;
+	NExpresion e;
+	List list = new ArrayList();
+}
+{
+	(
+		e=e_const()
+	  |
+	    ti="[" e=expresion()        { list.add(e); } 
+		    ( "," e=expresion()  { list.add(e); } )* 
+		tf="]"
+		{
+			e = ConstructorArbol.crearNExpresionArreglo(ti, list, tf);
+		}
+	  |
+		//LOOKAHEAD(3)  Ya no porque se quito conversion de tipo de abajo
+		e=e_nombre()
+
+/* ******
+ Sintaxis vieja para conversion de tipo (quitada 2002-03-27)	  
+	  |
+		t=ntipo() "(" e=expresion() tf=")"     // conversión
+		{
+			e = ConstructorArbol.crearNConvertirTipo(e, t, tf);
+		}
+****** */
+	  |
+		"(" e=expresion() ")" 
+	  |
+		e=e_crear()
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_crear() :
+{
+	Token ti, tf = null;
+	NExpresion e, f, g = null;
+	TNombre c;
+	NExpresion[] args = null;
+}
+{
+	ti="crear"
+	(
+		"[" e=expresion() [ ".." g=expresion() ] "]" f=tamanoArreglo()
+		{
+			e = ConstructorArbol.crearNCrearArreglo(ti, e, g, f);
+		}
+	  |
+		c=tnombre()
+		[ LOOKAHEAD(2) "(" [ args=expresiones() ] tf=")" ]
+		{
+			if ( args == null )
+			{
+				args = new NExpresion[0];
+			}
+
+			e = ConstructorArbol.crearNCrearObjeto(ti, c, args, tf);
+		}
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion tamanoArreglo() :
+{
+	Token ti;
+	NExpresion e, f, g = null;
+	NTipo t;
+}
+{
+	(
+		LOOKAHEAD(2)    // tipo puede comenzar con "["
+		t=ntipo()
+		{
+			e = ConstructorArbol.crearNCrearArregloTipoBase(t);
+		}
+	  |
+		ti="[" e=expresion() [ ".." g=expresion() ] "]" f=tamanoArreglo()
+		{
+			e = ConstructorArbol.crearNCrearArreglo(ti, e, g, f);
+		}
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_const() :
+{
+	NExpresion e;
+}
+{
+	(
+		e=e_literalEntero()
+	  |
+		e=e_literalBooleano()
+	  |
+		e=e_literalReal()
+	  |
+		e=e_literalCaracter()
+	  |
+		e=e_literalCadena()
+	  |
+		e=e_literalNulo()
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalNulo() :
+{
+	Token t;
+}
+{
+	t="nulo"
+	{
+		return ConstructorArbol.crearNLiteralNulo(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalEntero() :
+{
+	Token t;
+}
+{
+	t=<LITERAL_ENTERO>
+	{
+		return ConstructorArbol.crearNLiteralEntero(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalReal() :
+{
+	Token t;
+}
+{
+	t=<LITERAL_REAL>
+	{
+		return ConstructorArbol.crearNLiteralReal(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalBooleano() :
+{
+	Token t;
+}
+{
+	( t="cierto"  |  t="falso" |  t="pre" )
+	{
+		return ConstructorArbol.crearNLiteralBooleano(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalCadena() :
+{
+	Token t;
+}
+{
+	t=<LITERAL_CADENA>
+	{
+		return ConstructorArbol.crearNLiteralCadena(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalCaracter() :
+{
+	Token t;
+}
+{
+	t=<LITERAL_CARACTER>
+	{
+		return ConstructorArbol.crearNLiteralCaracter(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_id() :
+{
+	TId i;
+}
+{
+	i=tid()
+	{
+		return ConstructorArbol.crearNId(i);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_nombre() : // id1::id2::id3
+{
+	Vector v = new Vector();
+	TId t;
+}
+{
+	t=tid()              { v.addElement(t); }
+	( LOOKAHEAD(2) "::" t=tid()  { v.addElement(t); } )*
+	{
+		int size = v.size();
+		if ( size == 1 )
+			return ConstructorArbol.crearNId(t);
+
+		TId[] a = new TId[size];
+		v.copyInto(a);
+		return ConstructorArbol.crearNNombre(a);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TId tid() :    // id
+{
+	Token t;
+}
+{
+	t=<ID>
+	{
+		return ConstructorArbol.crearTId(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TId tidEOF() :     // id <EOF>
+{
+	TId tid;
+}
+{
+	tid=tid()
+	<EOF>
+	{
+		return tid;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TId[] tids() :	// id1,id2,id3
+{
+	Vector v = new Vector();
+	TId t;
+}
+{
+	t=tid()  { v.addElement(t); }
+	( "," t=tid() { v.addElement(t); } )*
+	{
+		TId[] a = new TId[v.size()];
+		v.copyInto(a);
+		return a;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+TNombre tnombre() :  // id1::id2::id3
+{
+	Vector v = new Vector();
+	TId t;
+}
+{
+	t=tid()              { v.addElement(t); }
+	( LOOKAHEAD(2) "::" t=tid()  { v.addElement(t); } )*
+	{
+		return ConstructorArbol.crearTNombre(v);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TNombre tnombreEOF() :  // id1::id2::id3 <EOF>
+{
+	TNombre tnombre;
+}
+{
+	tnombre=tnombre()
+	<EOF>
+	{
+		return tnombre;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Literal cadena para info de implementación
+TCadena timpl() :
+{
+	Token t;
+	String str;
+}
+{
+	( 
+	   t=<IMPL>            { str = t.image.substring(2, t.image.length() -2); }
+	 |
+	   t=<LITERAL_CADENA>  { str = t.image.substring(1, t.image.length() -1); }
+	)
+	{
+		return ConstructorArbol.crearTCadena(t, str);
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// Cadena de documentacion
+TCadenaDoc tdoc() :
+{
+	Token t;
+}
+{
+	(  t=<TEXT_DOC>  |  t=<LITERAL_CADENA> )
+	{
+		return ConstructorArbol.crearTCadenaDoc(t);
+	}
+}
+
+

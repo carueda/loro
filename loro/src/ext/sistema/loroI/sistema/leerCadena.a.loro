@@ -1,0 +1,5 @@
+paquete loroI::sistema;
+
+algoritmo para leerCadena() -> v: cadena
+	implementacion "java" "loro.java.loroI.Sistema";
+fin algoritmo

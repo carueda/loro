@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación cos(val: real) -> res: real
+	descripción
+		''Obtiene el coseno de un angulo.''
+	entrada
+		val: ''Angulo en radianes.''
+	salida
+		res : ''El coseno del angulo.''
+	pre { cierto }
+	pos { res = coseno' }
+fin especificación

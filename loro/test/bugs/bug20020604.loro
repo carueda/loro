@@ -1,0 +1,17 @@
+clase UnaClase
+	descripción ""
+
+	sgte: UnaClase : "siguiente";
+
+	constructor(s: UnaClase)
+		descripción ""
+		entrada	s: "siguiente elemento."			
+		pre { cierto }
+		pos { s = sgte }
+		estrategia "Simple asignación."
+	inicio
+		sgte := s;
+	fin constructor
+
+fin clase
+

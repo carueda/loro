@@ -1,0 +1,7 @@
+especificación test_secuencia_creciente(alg: algoritmo para secuencia_creciente)
+    descripción
+           ''Probador de algoritmos para la especificación secuencia_creciente''
+    entrada
+        alg: ''El algoritmo sometido a pruebas.''
+    pre { alg != nulo }
+fin especificación

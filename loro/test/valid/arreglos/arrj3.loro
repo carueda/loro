@@ -1,0 +1,26 @@
+///////////////////////////////////////////////////////////////
+especificacion llenarMatriz(matriz: [][]entero)
+descripcion "Llena una matriz."
+entrada matriz: "El resultado";
+pre { matriz != nulo }
+pos { "matriz llena de datos diversos" }
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para llenarMatriz(matriz: [][]entero)
+implementacion "java" "loro.java.loroI.Prueba"
+fin algoritmo
+
+///////////////////////////////////////////////////////////////
+especificacion demoMatrizLlenar()
+descripcion "Programa de demostracion manejo de arreglos multidimen."
+fin especificacion
+
+///////////////////////////////////////////////////////////////
+algoritmo para demoMatrizLlenar()
+estrategia "simple."
+inicio
+	matriz: [][]entero := crear[3][4]entero;
+	llenarMatriz(matriz);
+	escribirln("matriz = " +matriz);
+fin algoritmo

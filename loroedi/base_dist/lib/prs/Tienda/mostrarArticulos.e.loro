@@ -1,0 +1,14 @@
+
+
+especificacion mostrarArticulos(codigo: []entero, precio: []real, num_articulos: entero)
+	descripcion
+		"Despliega por consola la lista de articulos con su codigo y precio"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+	pre
+		{ cierto }
+	pos
+		{ cierto }
+fin especificacion

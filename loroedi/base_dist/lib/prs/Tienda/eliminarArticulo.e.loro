@@ -1,0 +1,23 @@
+
+
+especificacion eliminarArticulo(codigo: []entero, precio: []real, 
+				num_articulos: entero,
+				art_codigo: entero) -> elimino: booleano
+	descripcion
+		"Elimina el articulo (codigo y precio) de los arreglos
+		 de codigo y precio, del articulo con el codigo dado"
+	entrada
+		codigo: "Arreglo de codigos"
+		precio: "Arreglo de precios"
+		num_articulos: "Numero de articulos"
+		art_codigo: "Codigo del articulo a eliminar"
+	salida
+		elimino: "cierto si se elimino o no se encontro el articulo"
+	pre
+		{ cierto }
+	pos
+		{ existeArticulo(codigo,num_articulos,art_codigo) => elimino = cierto &&
+		  para_todo i: entero, i <= obtenerPosicion(codigo,num_articulos,art_codigo) 
+		  && i < num_articulos : (codigo[i] = codigo[i+1] && precio[i] = precio[i+1]) ||
+		  !existeArticulo(codigo,num_articulos,art_codigo) => elimino = falso && pre}
+fin especificacion

@@ -1,0 +1,16 @@
+paquete loroI::sistema;
+
+especificación obtAlgoritmo(nombre: cadena) -> alg: algoritmo
+	descripción
+		''Lee un algoritmo y lo retorna. Si el nombre no puede 
+		resolverse en un algoritmo, se retorna nulo.''
+	entrada
+		nombre: ''Nombre completo (es decir, cualificado con
+			paquete) del algoritmo correspondiente.''
+	salida
+		alg : ''El algoritmo leido.''
+
+	pre { nombre != nulo }
+	pos { alg = alg' }
+
+fin especificación

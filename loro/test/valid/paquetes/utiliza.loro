@@ -1,0 +1,8 @@
+//paquete misc;
+
+utiliza especificacion misc::espec;
+
+algoritmo para espec()
+estrategia ""
+inicio
+fin algoritmo

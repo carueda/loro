@@ -1,0 +1,26 @@
+
+
+algoritmo para adicionarArticulo(codigo: []entero, precio: []real, 
+				num_articulos: entero,
+				art_codigo: entero, art_precio: real) -> adiciono: booleano
+estrategia 
+	"Se verifica que el articulo no exista, si existe se retorna falso.
+	 Si el numero de articulos es mayor al tamaño del arreglo se despliega
+	 un aviso y se retorna falso.
+	 Se colocan precio y valor despues del ultimo articulo y se retorna cierto"
+inicio
+	si existeArticulo(codigo,num_articulos,art_codigo) entonces
+		retorne falso;
+	fin si;
+
+	si num_articulos >= #codigo entonces
+		escribirln("Se ha alcanzado el numero maximo de articulos que
+			 se pueden almacenar");
+		retorne falso;
+	fin si;
+
+	codigo[num_articulos] := art_codigo;
+	precio[num_articulos] := art_precio;
+
+	retorne cierto;
+fin algoritmo

@@ -1,0 +1,9 @@
+paquete ext;
+
+especificacion ext()
+descripcion "Prueba de extension."
+fin especificacion
+
+algoritmo para ext()
+implementacion "java" "ext.Ext"
+fin algoritmo

@@ -1,0 +1,15 @@
+////////////////////////////////////////////////////////////////
+algoritmo cambio_tipo_por_asignacion para PRUEBA()
+"probar manejo de tipos en asignaciones"
+inicio
+	c:caracter;
+	e:entero;
+
+	//// no es valido asignar entero a caracter
+	//c := e := ' ';   // antes se aceptaba esto
+
+	//// la forma correcta es:
+	c := (e := ' ') como caracter;   
+
+	e := c;
+fin algoritmo

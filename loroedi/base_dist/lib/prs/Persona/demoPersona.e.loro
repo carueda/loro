@@ -1,0 +1,7 @@
+especificación demoPersona()
+	descripcion
+		''Demostración de manejo de la clase persona y de
+		algunas facilidades incorporadas que permiten
+		visualizar la composicion de objetos.
+		Vea @{Persona.c}.''
+fin especificación

@@ -1,0 +1,13 @@
+///////////////////////////////////////////////////////////////////
+especificacion arreglonulo()
+descripcion "Prueba de asignacion de nulo a un arreglo."
+fin especificacion
+
+///////////////////////////////////////////////////////////////////
+algoritmo para arreglonulo()
+estrategia "..."
+inicio
+	a: []entero;
+	a := nulo;
+	escribirln("a = " +a);
+fin algoritmo

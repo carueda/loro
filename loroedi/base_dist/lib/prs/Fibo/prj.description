@@ -1,0 +1,68 @@
+Demostración de manejo de algoritmos utilizando la secuencia
+de Fibonacci.
+
+El problema
+-----------
+
+La secuencia de números de Fibonacci es:
+
+  1   1   2   3   5   8   13   21   34   55   89   144   233  ...
+
+Cada número es la suma de los dos números inmediatamente anteriores,
+excepto en las dos primeras posiciones en donde es 1.
+
+En este proyecto se aborda el problema de encontrar cuál es el número
+de la secuencia que corresponde con una posición dada. Por ejemplo,
+si se indica la posición 6, entonces la respuesta es 8, puesto que
+8 es el sexto elemento en la secuencia. Si f(n) denota el número
+de Fibonacci en la posición n, entonces el problema en términos
+de una relación entrada/salida se puede representar como sigue:
+
+      n ----> (fibo) ----> f(n)
+
+en donde n es la entrada, fibo es el nombre que se le ha puesto al 
+problema y f(n) es la salida.
+
+Contenido de este proyecto
+--------------------------
+
+  especificación fibo
+	describe el problema de encontrar un cierto número en
+	la secuencia de Fibonacci.
+
+  algoritmo fiboRecur para fibo
+	es una solución al problema fibo que utiliza una estrategia
+	recursiva, que es bastante simple de escribir puesto que:
+	     f(n) = f(n-1) + f(n-2)
+	pero que desafortunadamente resulta bastante ineficiente. 
+	Intenta por ejemplo obtener el número en la posicion 20 y verás
+	el considerable tiempo que se toma este algoritmo para
+	encontrar el número.
+
+  algoritmo fiboIter para fibo
+	es una solución mucho más eficiente. Compruébalo.
+
+  algoritmo fiboBinet para fibo
+	utiliza una fórmula matemática que encuentra directamente
+	el número deseado. Pero, cuidado! intenta con números grandes
+	y quizá veas resultados extraños. Tienes alguna explicación? 
+	(También con los otros algoritmos podría pasar algo similar.)
+
+
+Algoritmos como datos
+---------------------
+
+Este es un asunto un poco más complejo y quizá quieras dejar este
+tema para más adelante si aún no estás familiarizado con los conceptos
+básicos de algoritmos y datos en general.
+
+Aquí se tiene una demostración en la que se maneja una variable de
+tipo "algoritmo", que como tal puede recibir valores que son algoritmos
+que satisfacen la especificación fibo.
+
+  especificación demo
+	Simple especificación para la demostración.
+
+  algoritmo demo1 para demo
+	la demostración como tal. Consulta su documentación para
+	más detalles.

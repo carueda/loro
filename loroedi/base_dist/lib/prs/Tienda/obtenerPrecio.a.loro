@@ -1,0 +1,17 @@
+
+
+algoritmo para obtenerPrecio(codigo: []entero, precio: []real, num_articulos:entero, art_codigo: entero) -> precio_articulo: real
+estrategia 
+	"Se recorre el arreglo de 0 hasta num_articulos, se compara cada codigo con
+	 con el suministrado y si alguno es igual se retorna el precio de la posicion
+	 donde se encontro el codigo.
+	 Si al final de recorrer el arreglo no se encontro se retorna -1.0"
+inicio
+	para i: entero := 0 hasta #codigo - 1 haga
+		si codigo[i] = art_codigo entonces
+			retorne precio[i];
+		fin si;
+	fin para;
+
+	retorne -1.0;
+fin algoritmo

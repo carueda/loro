@@ -1,0 +1,10 @@
+paquete loroI::sistema;
+
+especificación escribir(cad: cadena)
+	descripción
+		''Escribe una cadena por la salida estandar.''
+	entrada
+		cad: ''La cadena a escribir.''
+	pre { cierto }
+	pos { ''La cadena escrita por salida estanda'' }
+fin especificación

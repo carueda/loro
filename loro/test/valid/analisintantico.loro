@@ -1,0 +1,230 @@
+clase AS
+	descripción 
+	''Contiene información para registrar el 
+	avance de un proceso de análisis sintáctico.''
+
+	fuente: cadena : ''La cadena fuente a analizar'';
+
+	indice: entero : ''ïndice dentro del fuente'';
+
+	lookahead: caracter : ''el token visto por adelantado'';
+fin clase
+especificación analizar(fuente: cadena)
+	descripción 
+		''Efectúa el análisis sintáctico de la cadena dada.''
+	entrada 
+		fuente: ''La cadena de entrada.''
+	pre { fuente != nulo }
+fin especificación
+especificación crearAS(fuente: cadena) -> as: AS
+	descripción 
+		''Crea un objeto para control del análisis sintáctico
+		sobre la cadena fuente dada.''
+	entrada 
+		fuente: ''La cadena de entrada.''
+	salida
+		as: ''El objeto de control.''
+	pre { fuente != nulo }
+	pos { as != nulo }
+fin especificación
+especificación aceptar(as: AS, t: caracter)
+	descripción 
+		''Intenta aceptar el token dado.
+		Si éste coincide con el lookahead, la aceptación
+		se da y se actualiza lookahead con el siguiente
+		token de la entrada. Si no, se reporta un error 
+		de sintaxis.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+		t: ''El token a tratar de aceptar.''
+	pre { as != nulo }
+fin especificación
+especificación nextToken(as: AS)
+	descripción 
+		''Actualiza el objeto de control con el
+		siguiente token de la entrada fuente.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+especificación error(as: AS, mensaje: cadena)
+	descripción 
+		''Despliega un mensaje de error.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+		mensaje: ''El mensaje.''
+	pre { as != nulo && mensaje != nulo}
+fin especificación
+especificación asignación(as: AS)
+	descripción ''Proceso para el no terminal asignación.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+especificación expresión(as: AS)
+	descripción ''Proceso para el no terminal expresión.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+especificación término(as: AS)
+	descripción ''Proceso para el no terminal término.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+especificación factor(as: AS)
+	descripción ''Proceso para el no terminal factor.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+especificación variable(as: AS)
+	descripción ''Proceso para el no terminal variable.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+especificación identificador(as: AS)
+	descripción ''Proceso para el no terminal identificador.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+especificación dígito(as: AS)
+	descripción ''Proceso para el no terminal dígito.''
+	entrada 
+		as: ''El objeto de control del análisis.''
+	pre { as != nulo }
+fin especificación
+algoritmo para analizar(fuente: cadena)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	escribirln("Analizando [" +fuente+ "] ...");
+	as: AS := crearAS(fuente);
+	asignación(as);
+	escribirln("**OK**");
+fin algoritmo
+algoritmo para asignación(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	variable(as);
+	aceptar(as, '=');
+	expresión(as);
+fin algoritmo
+algoritmo para expresión(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	término(as);
+	mientras as.lookahead = '+' || as.lookahead = '-' haga
+		aceptar(as, as.lookahead);
+		término(as);
+	fin mientras;
+fin algoritmo
+algoritmo para término(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	factor(as);
+	mientras as.lookahead = '*' || as.lookahead = '/' haga
+		aceptar(as, as.lookahead);
+		factor(as);
+	fin mientras;
+fin algoritmo
+algoritmo para factor(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	si 'a' <= as.lookahead && as.lookahead <= 'z' entonces
+		variable(as);
+	si_no
+		si '0' <= as.lookahead && as.lookahead <= '9' entonces
+			dígito(as);
+		si_no
+			si '(' = as.lookahead entonces
+				aceptar(as, '(');
+				expresión(as);
+				aceptar(as, ')');
+			si_no
+				error(as, "
+Error de sintaxis: 
+	Esperado  : variable,  dígito,  o  \"(\""
+				);
+			fin si;
+		fin si;
+	fin si;
+fin algoritmo
+algoritmo para variable(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	identificador(as);
+	si as.lookahead = '[' entonces
+		aceptar(as, '[');
+		expresión(as);
+		aceptar(as, ']');
+	fin si;
+fin algoritmo
+algoritmo para identificador(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	si 'a' <= as.lookahead && as.lookahead <= 'z' entonces
+		aceptar(as, as.lookahead);	// OK
+	si_no
+		error(as, "
+Error de sintaxis: 
+	Esperado  : identificador"
+		);
+	fin si;
+fin algoritmo
+algoritmo para dígito(as: AS)
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	si '0' <= as.lookahead && as.lookahead <= '9' entonces
+		aceptar(as, as.lookahead);	// OK
+	si_no
+		error(as, "
+Error de sintaxis: 
+	Esperado  : dígito"
+		);
+	fin si;
+fin algoritmo
+algoritmo para aceptar(as: AS, t: caracter)
+	estrategia ''...''
+inicio
+	si as.lookahead = t entonces
+		nextToken(as);
+	si_no
+		error(as, "
+Error de sintaxis: 
+	Esperado  : " +t+ "
+	Encontrado: " +as.lookahead
+		);
+	fin si;
+fin algoritmo
+algoritmo para nextToken(as: AS)
+	estrategia ''...''
+inicio
+//escribirln("as = " +as);
+	si as.indice < #as.fuente - 1 entonces
+		as.indice := as.indice + 1;
+		as.lookahead := as.fuente[as.indice];
+	si_no
+		as.lookahead := '$';	// fin de entrada
+	fin si;
+fin algoritmo
+algoritmo para error(as: AS, mensaje: cadena)
+	estrategia ''...''
+inicio
+	escribirln(mensaje);
+	escribirln("as = " +as);
+	terminarEjecucion(1);
+fin algoritmo
+algoritmo para crearAS(fuente: cadena) -> as: AS
+	estrategia ''Descendente recursiva predictiva.''
+inicio
+	as := crear AS;
+	as.fuente := fuente;
+	as.indice := 0;
+	as.lookahead := fuente[0];
+	retorne as;
+fin algoritmo
+
+

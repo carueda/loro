@@ -1,0 +1,9 @@
+paquete loroI::sistema;
+
+especificación leerCaracter() -> v: caracter
+	descripción
+		''Lee un caracter de la entrada estandar.''
+	salida
+		v : ''El caracter leido.''
+	pos { v = v' }
+fin especificación

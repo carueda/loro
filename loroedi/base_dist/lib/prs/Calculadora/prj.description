@@ -1,0 +1,18 @@
+Programa que especifica e implementa las funciones de
+   suma, resta y multiplicacion entre dos enteros.
+
+   Provee procedimientos para la lectura y despliegue de
+   dichas funciones desde la consola de usuario, ademas
+   de proveer un menu orientado a usuario para la
+   interaccion con el programa.
+   
+   El algoritmo "principal" es:  
+	calculadora()
+
+
+
+   Autor : Marlon J. Manrique
+	   marlonj@excite.com
+	   mayo/2000
+	   agosto/2001 - revisado
+	   agosto/2002 - esquema proyecto

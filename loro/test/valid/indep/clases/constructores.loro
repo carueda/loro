@@ -1,0 +1,30 @@
+///////////////////////////////////////////////////////////////
+clase Baz
+	descripción "con constructores"
+
+	n: entero := 1 : "un numero.";
+
+	///////////////////////////////////////////////////////////////
+	constructor(nn: entero)
+		descripcion ""
+	entrada nn: "un numero";
+	pre { cierto }
+	estrategia ""
+	inicio
+		escribirln("constructor(nn: entero)");
+		n := nn;
+	fin constructor
+
+	///////////////////////////////////////////////////////////////
+	constructor(nn: real)
+		descripcion ""
+	entrada nn: "un numero";
+	pre { cierto }
+	estrategia ""
+	inicio
+		escribirln("constructor(nn: real)");
+		n := nn como entero;
+	fin constructor
+
+fin clase // Baz
+

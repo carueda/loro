@@ -1,0 +1,13 @@
+paquete loroI::mat;
+
+especificación minReal(v1, v2: real) -> min: real
+	descripción
+		''Obtiene el minimo de dos numeros reales.''
+	entrada
+		v1: ''Uno de los valores a comparar.''
+		v2: ''Otro de los valores a comparar.''
+	salida
+		min : ''El minimo de los numeros dados.''
+	pre { cierto }
+	pos { (v1 >= v2 => min = v2) && (v1 < v2 => min = v1) }
+fin especificación

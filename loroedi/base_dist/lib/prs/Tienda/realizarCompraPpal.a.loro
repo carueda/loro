@@ -1,0 +1,46 @@
+
+
+algoritmo para realizarCompraPpal(codigo: []entero, precio: []real,
+					num_articulos: entero)
+estrategia 
+	"Se solicita la cantidad de items a comprar y de  cada uno de
+	 estos items se solicita su codigo, si este no existe se 
+	 muestra un mensaje y se pide de nuevo el codigo del mismo 
+	 item, despues se pide la cantidad de cada articulo, el codigo
+	 y cantidad se almacenan en dos arreglos de tamaño cantidad de
+	 items los cuales son pasados a la funcion realizarCompra y 
+	 se imprime el resultado obtenido"
+inicio
+	cantidad_items: entero;
+
+	codigos_articulo: []entero;
+	cantidad_articulo: []entero;
+
+	monto: real;
+
+	escribir("\nDigite la cantidad de items : ");
+	cantidad_items := leerEntero();
+
+	codigos_articulo := crear [cantidad_items]entero;
+	cantidad_articulo := crear [cantidad_items]entero;
+
+	item: entero := 0;
+
+	mientras item < cantidad_items haga
+
+		escribir("\nDigite el codigo del item (" + (item+1) + ") :");
+		codigos_articulo[item] := leerEntero();
+
+		si existeArticulo(codigo,num_articulos,codigos_articulo[item]) entonces
+			escribir("Digite la cantidad de unidades del articulo a comprar: ");
+			cantidad_articulo[item] := leerEntero();
+			item := item + 1;	
+		si_no
+			escribir("El articulo no se encuentra.\n");
+		fin si;
+	fin mientras;
+
+	monto := realizarCompra(codigo,precio,num_articulos,codigos_articulo,cantidad_articulo);
+
+	escribir("El monto de la compra es : " + monto + "\n");
+fin algoritmo

@@ -1,0 +1,17 @@
+especificación pcm(p: []entero constante, m, s: [][]entero)
+	descripción
+	''Obtiene las tablas m y s para el producto eficiente
+	de una cadena de matrices.
+	Véase 'Introduction to Algorithms' de Cormen et at.''
+	entrada
+		p: ''Lista de dimensiones de las matrices.''
+		m: ''Tabla para rellenar. 
+			Al terminar, m[i][j] es igual
+			al número de productos escalares óptimo para
+			multiplicar las matrices Ai...Aj.''
+		s: ''Tabla para rellenar.
+			Al terminar, s[i][j] = k indica la forma de
+			parentizar: (Ai...Ak)(Ak+1...Aj).''
+	pre { #m = n' && #m[0] = n' && #s = n' && #s[0] = n' && #p = n' + 1}
+	pos { m = m' && s = s' }
+fin especificación

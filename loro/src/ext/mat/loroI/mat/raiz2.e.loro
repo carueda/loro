@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación raiz2(val: real) -> res: real
+	descripción
+		''Obtiene la raiz cuadrada de un valor.''
+	entrada
+		val: ''Valor a operar.''
+	salida
+		res : ''La raiz cuadrada del valor.''
+	pre { cierto }
+	pos { res = raiz2' }
+fin especificación

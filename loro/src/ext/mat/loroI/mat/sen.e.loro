@@ -1,0 +1,12 @@
+paquete loroI::mat;
+
+especificación sen(val: real) -> res: real
+	descripción
+		''Obtiene el seno de un angulo.''
+	entrada
+		val: ''Angulo en radianes.''
+	salida
+		res : ''El seno del angulo.''
+	pre { cierto }
+	pos { res = seno' }
+fin especificación

@@ -1,0 +1,32 @@
+especificacion fun() -> a: algoritmo
+descripcion ""
+salida a: ""
+pos {cierto}
+fin especificacion
+
+algoritmo para fun() -> a: algoritmo
+estrategia "..."
+inicio
+	escribir("Nombre de un algoritmo (foo, p. ej.): ");
+	nombre: cadena := leerCadena();
+	a := obtAlgoritmo(nombre);
+	retorne a;
+fin algoritmo 
+
+algoritmo foo para PRUEBA()
+estrategia "..."
+inicio
+	escribirln("algoritmo foo() invocado!");
+fin algoritmo
+
+algoritmo dinalgs para PRUEBA()
+estrategia "..."
+inicio
+	(fun() como algoritmo para PRUEBA)();
+
+	// Aqui hay error de compilacion OK:
+//	fun()();
+
+	a: algoritmo := fun();
+//	a();      // Aqui hay error de compilacion OK:
+fin algoritmo

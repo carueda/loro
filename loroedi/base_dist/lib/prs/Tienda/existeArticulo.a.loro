@@ -1,0 +1,16 @@
+
+
+algoritmo para existeArticulo(codigo: []entero, num_articulos: entero,  art_codigo: entero) -> existe_articulo: booleano
+estrategia 
+	"Se recorre el arreglo de 0 hasta num_articulos, se compara cada codigo con
+	 con el suministrado y si alguno es igual se retorna cierto.
+	 Si al final de recorrer el arreglo no se encontro se retorna falso."
+inicio
+	para i: entero := 0 hasta num_articulos - 1 haga
+		si codigo[i] = art_codigo entonces
+			retorne cierto;
+		fin si;
+	fin para;
+
+	retorne falso;
+fin algoritmo
