@@ -6,7 +6,6 @@ import loro.compilacion.*;
 import loro.derivacion.*;
 import loro.ejecucion.*;
 import loro.util.*;
-import loro.util.Logger;
 import loro.tipo.Tipo;
 import loro.tabsimb.TablaSimbolos;
 import loro.visitante.Descriptor;
@@ -19,9 +18,10 @@ import java.util.*;
 
 //////////////////////////////////////////////////////////////
 /**
- * Punto de entrada principal al núcleo Loro.
+ * Punto de entrada principal (facade) al núcleo Loro.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public final class Loro 
 {
@@ -102,9 +102,9 @@ public final class Loro
 			if ( is == null )
 			{
 				System.err.println(
-"!!!!!! Recurso loro/info.properties no encontrado.\n" +
-"!!!!!! El sistema Loro no ha sido compilado correctamente.\n"+
-"!!!!!! Se dejan valores de informacion por defecto."
+					"!!!!!! Recurso loro/info.properties no encontrado.\n" +
+					"!!!!!! El sistema no ha sido compilado correctamente.\n"+
+					"!!!!!! Se dejan valores de informacion por defecto."
 				);
 				return;
 			}
@@ -382,26 +382,26 @@ public final class Loro
 		mu = ManejadorUnidades.crearManejadorUnidades(files);
 
 		// generar documentacion en doc_dir para las librerias de extension:
-//		if ( a.length > 0 )
-//		{
-//			 no deberia hacerse siempre pero por ahora lo hacemos :-/
-//			
-//			log("Generando documentacion para extensiones en: " +doc_dir);
-//			for ( int i = 0; i < a.length; i++ )
-//			{
-//				File file = a[i];
-//				try
-//				{
-//					String err = loro.doc.Documentador.procesarArchivoZip(
-//						file.getAbsolutePath(), doc_dir
-//					);
-//				}
-//				catch ( IOException ex )
-//				{
-//					log(file+ ": " +ex.getMessage());
-//				}
-//			}
-//		}
+		//if ( a.length > 0 )
+		//{
+		//	 no deberia hacerse siempre pero por ahora lo hacemos :-/
+		//	
+		//	log("Generando documentacion para extensiones en: " +doc_dir);
+		//	for ( int i = 0; i < a.length; i++ )
+		//	{
+		//		File file = a[i];
+		//		try
+		//		{
+		//			String err = loro.doc.Documentador.procesarArchivoZip(
+		//				file.getAbsolutePath(), doc_dir
+		//			);
+		//		}
+		//		catch ( IOException ex )
+		//		{
+		//			log(file+ ": " +ex.getMessage());
+		//		}
+		//	}
+		//}
 	}
 	
 	/////////////////////////////////////////////////////////////////
