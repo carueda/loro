@@ -10,7 +10,90 @@
 <b><tt><font size=+2>Resumen de cambios</font></tt></b>
 <br>
 <hr WIDTH="100%">
-<br><b><tt>0.8pre10&nbsp; - 2003-03-21</tt></b>
+<br><b><tt>0.8pre11&nbsp; - 2003-05-21</tt></b>
+<ul>
+<li>
+<b>Sobre entorno integrado</b>:</li>
+
+<ul>
+<li>
+El tiempo de arrancada del entorno se ha acelerado significativamente.</li>
+
+<li>
+Nuevo bot&oacute;n "Inicio" en ventana de documentaci&oacute;n que abre
+el &iacute;ndice (index.html) con todos los proyectos del espacio de trabajo.</li>
+
+<li>
+Nuevo manejo de ejecuci&oacute;n por segmentos en guiones de demostraci&oacute;n.
+Las cadenas&nbsp; "<tt>//.$</tt>"&nbsp; y&nbsp; "<tt>//.p</tt>"&nbsp; sirven
+como delimitadores de segmentos; en el segundo caso, se hace adem&aacute;s
+una "pausa" antes de proceder con la ejecuci&oacute;n del segmento. Por
+pausa se quiere decir que el usuario debe presionar Intro para continuar.
+Anteriormente las l&iacute;neas en blanco serv&iacute;an como delimitadores.
+Por lo tanto, deber&aacute;n modificarse los guiones de demostraci&oacute;n
+que usen segmentos para incluir expl&iacute;citamente alguna de estas cadenas
+especiales. Ej:<br>
+<tt>&nbsp;// Esto escribe: Hola<br>
+&nbsp;escribirln("Hola"); //.$<br>
+<br>
+&nbsp;// Esto escribe: L o r o<br>
+<b>&nbsp;para </b>car:caracter <b>en</b> "Loro" <b>haga</b></tt></li>
+
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp; escribir(car + " ");</tt>
+<br><tt>&nbsp;<b>fin para</b>; //.p</tt>
+<br>&nbsp;
+<li>
+Ahora los caracteres de control '<tt>\b</tt>' (retroceso de un espacio)
+y '<tt>\r</tt>' (retroceso al comienzo de l&iacute;nea) son procesados
+en la escritura de mensajes en las ventanas de ejecuci&oacute;n. Ej:<br>
+<tt>&nbsp; escribir("&nbsp;&nbsp; procesados");</tt></li>
+
+<br><tt>&nbsp; <b>para </b>i:entero := 1 <b>hasta </b>20 <b>haga</b></tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escribir("\r" + i); dormir(300);</tt>
+<br><tt>&nbsp; <b>fin para</b></tt>
+<li>
+Se recuerda el &uacute;ltimo proyecto instalado.</li>
+
+<li>
+Diversas mejoras generales de interfaz.</li>
+</ul>
+
+<li>
+<b>N&uacute;cleo del lenguaje</b></li>
+
+<ul>
+<li>
+Se permite ahora la asignaci&oacute;n de un literal entero a un caracter
+siempre que el valor entero est&eacute; entre 0 y 65535 (como en Java).<br>
+Ej:&nbsp;&nbsp;&nbsp; <tt>c : caracter := 76;&nbsp;&nbsp; //&nbsp; c =
+'L'</tt></li>
+
+<li>
+Revisado y mejorado el mecanismo de implementaci&oacute;n de algoritmos
+en Java.</li>
+</ul>
+
+<li>
+<b>Sobre Compatibilidad</b></li>
+
+<ul>
+<li>
+<b>A nivel de fuentes</b>: Los guiones de demostraci&oacute;n cuentan ahora
+con un esquema definido para establecer segmentos de ejecuci&oacute;n integral,
+para lo cual se usan ciertos marcadores especiales como se explica m&aacute;s
+arriba. En cuanto a programas del lenguaje (algoritmos, clases, especificaciones),
+estos siguen siendo v&aacute;lidos.</li>
+
+<li>
+<b>A nivel de binarios</b>: Es posible que algunos proyectos deban recompilarse
+(comando <b>F9</b>).</li>
+</ul>
+
+<li>
+Diversas anomal&iacute;as corregidas.</li>
+</ul>
+
+<hr WIDTH="100%"><b><tt>0.8pre10&nbsp; - 2003-03-21</tt></b>
 <ul>
 <li>
 <b>Sobre nuevo entorno</b>:</li>
@@ -486,635 +569,8 @@ Corregido. (Ver arriba.)</li>
 <br><tt>0.7s2&nbsp; - 2002-06-18</tt>
 <ul>
 <li>
-Mejorado reporte de errores de ejecuci&oacute;n asociados a subindizaciones
-(rango inv&aacute;lido con indicaci&oacute;n valores v&aacute;lidos, referencia
-nula).</li>
-
-<li>
-Gracias a algunos ajustes internos, el tiempo de compilaci&oacute;n se
-ha reducido y el tama&ntilde;o de los archivos compilados es ahora m&aacute;s
-compacto.</li>
-
-<li>
-Mejorada la navegaci&oacute;n de documentaci&oacute;n para programaci&oacute;n
-y de informaci&oacute;n de ayuda: ahora se muestra la direcci&oacute;n
-asociada al enlace sobre el que se encuentra el rat&oacute;n.</li>
-
-<li>
-Mejorada la selecci&oacute;n de texto involucrado con errores asociados
-a par&aacute;metros de entrada/salida.</li>
-
-<li>
-Agregado comando <b>.version</b> al int&eacute;rprete interactivo para
-mostrar informaci&oacute;n completa sobre versi&oacute;n del sistema (tanto
-del LoroEDI como del n&uacute;cleo Loro).</li>
-
-<li>
-Puesto ahora por defecto el excelente Look&amp;Feel&nbsp; <b>Kunststoff
-</b>(http://www.incors.com).</li>
-
-<li>
-<b>SOBRE COMPATIBILIDAD</b></li>
-
-<ul>
-<li>
-<b>A nivel de fuentes</b>: No hay cambios.</li>
-
-<li>
-<b>A nivel de binarios</b>: Hay cambios internos que obligan a la recompilaci&oacute;n
-de todos los programas que se hayan compilado con versiones anteriores.</li>
+Versi&oacute;n final 0.7.0</li>
 </ul>
 
-<li>
-Anomal&iacute;as corregidas:</li>
-
-<ul>
-<li>
-Algunas veces no se seleccionaba con precisi&oacute;n el fragmento de texto
-asociado con un error de compilaci&oacute;n. Corregido.</li>
-
-<li>
-La petici&oacute;n interactiva de entradas para un algoritmo desplegaba
-informaci&oacute;n repetida y confusa. Corregido.</li>
-
-<li>
-No se revisaban completamente los atributos "longitud", "inf" y "sup" para
-arreglos y cadenas. Corregido.</li>
-
-<li>
-Posible anomal&iacute;a inesperada al compilar una acci&oacute;n "contin&uacute;e"
-sin etiqueta. Corregido.</li>
-
-<li>
-Posible anomal&iacute;a inesperada al acceder a la estrategia de un algoritmo
-no implementado en Loro. Corregido.</li>
-</ul>
-</ul>
-
-<hr width="100%">
-<br><tt>0.7s1&nbsp; - 2002-04-25</tt>
-<ul>
-<li>
-<b>SOBRE COMPATIBILIDAD</b></li>
-
-<ul>
-<li>
-Nuevo mecanismo para verificaci&oacute;n de posibles problemas de compatibilidad
-con objetos compilados existentes.&nbsp; Esta verificaci&oacute;n se realiza
-de manera autom&aacute;tica al inicio de la primera ejecuci&oacute;n de
-esta versi&oacute;n del sistema. Si la verificaci&oacute;n no detecta ning&uacute;n
-problema, el sistema se inicia de la manera acostumbrada, por lo que no
-se percibir&aacute; ning&uacute;n cambio. En caso de problemas, se desplega
-un mensaje explicativo de la situaci&oacute;n incluyendo la lista (total
-o parcial) de elementos que son incompatibles con esta versi&oacute;n.</li>
-
-<li>
-Tambi&eacute;n se ha incluido una nueva opci&oacute;n "Verificar sistema"
-(bajo el men&uacute; de Ayuda) para que el usuario pueda ejecutar esta
-verificaci&oacute;n&nbsp; cuando lo estime conveniente.</li>
-
-<li>
-<b>NOTA: </b>Aunque es muy probable que este mecanismo sufra cambios en
-futuras versiones, se espera que cada vez sea m&aacute;s <i>transparente</i>
-, es decir, involucre cada vez menos la participaci&oacute;n directa de
-los usuarios.</li>
-</ul>
-</ul>
-
-<hr width="100%" size="2"><tt>0.7r9&nbsp; - 2002-04-15</tt>
-<ul>
-<li>
-<b>SOBRE COMPATIBILIDAD</b></li>
-
-<ul>
-<li>
-<b>A nivel de fuentes</b>: Nuevas palabras clave <b><tt>objeto</tt></b>
-, <b><tt>operaci&oacute;n</tt></b> y <b><tt>m&eacute;todo</tt></b> (preparando
-terreno para unificaci&oacute;n de conceptos de Orientaci&oacute;n a Objetos).
-Por lo tanto, estas palabras no pueden utilizarse como identificadores
-a partir de esta versi&oacute;n. Si alguna de estas palabras era usada
-anteriormente en un programa, ser&aacute; necesario editarlo para hacer
-los cambios necesarios.</li>
-
-<li>
-<b>A nivel de binarios</b>: El formato de los archivos compilados ha cambiado
-y por lo tanto NO HAY COMPATIBILIDAD con versiones anteriores. Es necesario
-volver a compilar todos los programas que se hayan compilado con versiones
-anteriores.</li>
-</ul>
-<b>NOTA</b>: Disculpas por los inconvenientes producidos por problemas
-de compatibilidad. Se est&aacute; trabajando ahora en un dise&ntilde;o
-m&aacute;s estable en este sentido, pero esto tomar&aacute; alg&uacute;n
-tiempo en tanto se hace una definici&oacute;n m&aacute;s definitiva del
-lenguaje, y se agrega, posiblemente, un mecanismo de compilaci&oacute;n
-autom&aacute;tica.</ul>
-
-<ul>
-<li>
-Agregado proceso en <tt>loroI::mat</tt> para elevar una base a una potencia
-real:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp; potr(base: real, p: real) -> res: real</tt></ul>
-
-<ul>
-<li>
-Anomal&iacute;as corregidas:</li>
-
-<ul>
-<li>
-Se permitia acceder a un atributo a trav&eacute;s del identificador de
-la clase.</li>
-
-<li>
-Se permitia: <tt>Clase <b>es_instancia_de</b> Clase</tt></li>
-
-<li>
-De nuevo se muestra posici&oacute;n [lin,col] para ubicaci&oacute;n en
-mensajes de error</li>
-
-<li>
-Se generaba error de ejecuci&oacute;n "invocaci&oacute;n de una especificaci&oacute;n"
-cuando una variable tipo algoritmo ten&iacute;a el mismo nombre de una
-especificaci&oacute;n.</li>
-
-<li>
-<tt>obj <b>como cadena </b></tt>provocaba error de compilaci&oacute;n.</li>
-</ul>
-</ul>
-
-<hr width="100%">
-<br><tt>0.7r8&nbsp; - 2002-03-27</tt>
-<ul>
-<li>
-Aumentada gram&aacute;tica para aceptar la creaci&oacute;n de arreglos
-mediante enumeraci&oacute;n expl&iacute;cita de elementos, ej:</li>
-
-<br><tt>&nbsp; a: []entero;</tt>
-<br><tt>&nbsp; a := [1,3,6,2];&nbsp; // arreglo creado enumerativamente</tt>
-<br>El arreglo debe tener por lo menos una expresion; de esta manera se
-puede deducir el tipo. Siempre tendr&aacute; subindexaci&oacute;n desde
-0. Si se requiere un arreglo vac&iacute;o, el programador deber&aacute;
-usar el mecanismo est&aacute;ndar "crear", por ej:
-<br><tt>&nbsp;&nbsp;&nbsp; crear [0] entero</tt>
-<li>
-Nueva palabra clave "<b> como</b>" para la conversi&oacute;n de tipo. La
-sintaxis es ahora:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp; <i>expresi&oacute;n</i> <b>como</b> <i>tipo</i></tt>
-<br>Ejemplos:
-<br><tt>&nbsp;&nbsp; 35.7 <b>como entero&nbsp;&nbsp;&nbsp;&nbsp; </b>resulta
-en 36 (de tipo entero)</tt>
-<br><tt>&nbsp;&nbsp; 21 <b>como real&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>resulta
-en 21.0 (de tipo real)</tt>
-<br><tt>&nbsp;&nbsp; 21 <b>como cadena&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>resulta
-en "21" (de tipo cadena)</tt>
-<br><tt>&nbsp;&nbsp; [1,3,6] <b>como cadena&nbsp; </b>resulta en "[1,3,6]"
-(de tipo cadena)</tt>
-<li>
-Correcci&oacute;n de anomal&iacute;as.</li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.7r7 - 2002-03-21</tt>
-<ul>
-<li>
-Nueva palabra clave "<b>si_no_si</b>" para componer anidamientos de condiciones
-"si".</li>
-
-<li>
-Nuevos comandos en Interprete Interactivo:</li>
-
-<br><tt>&nbsp;.verobj nivel - Pone maximo nivel para visualizar objetos</tt>
-<br><tt>&nbsp;.verarr long&nbsp; - Pone maxima longitud para visualizar
-arreglos</tt>
-<br>(Ahora todos los metacomandos empiezan con punto .)
-<li>
-Correcci&oacute;n de anomal&iacute;as.</li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.7r6 - 2002-03-15</tt>
-<ul>
-<li>
-Por completitud con el mecanismo "crear[5..10] ...'' (que permite establecer
-el rango de indexaci&oacute;n de un arreglo), se agregaron 'operaciones'
-de consulta sobre arreglos con el mecanismo punto:</li>
-
-<br><tt>&nbsp; arreglo.inf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; obtiene
-el indice inferior del arreglo</tt>
-<br><tt>&nbsp; arreglo.sup&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; obtiene
-el indice superior del arreglo</tt>
-<br><tt>&nbsp; arreglo.longitud&nbsp;&nbsp; obtiene la longitud del arreglo</tt>
-<br>Tambien se hizo para las cadenas (para &eacute;stas siempre:&nbsp;
-x.inf = 0&nbsp; y&nbsp; x.sup = x.longitud - 1)
-<li>
-<tt>Correcci&oacute;n de anomal&iacute;as.</tt></li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.68 - Sept. 21 de 2001</tt>
-<ul>
-<li>
-Se mejor&oacute; el modo de solicitar al usuario las entradas correspondientes
-para ejecutar un algoritmo, esto es, por cada entrada se muestra su descripci&oacute;n
-y el nombre del p&aacute;rametro (de acuerdo a la especificaci&oacute;n).
-Una vez terminado el algoritmo, se muestra tambi&eacute;n la descripci&oacute;n
-y el nombre de la variable de salida (por supuesto cuando el algoritmo
-retorna alg&uacute;n valor). Anteriormente, se solicitaban todas las entradas
-en una sola linea, lo cual podia ser confuso.</li>
-
-<li>
-Hechas algunas modificaciones internas sobre mejoramiento del generador
-de documentacion HTML, y correccion de algunas anomalias.</li>
-
-<li>
-Agregada posibilidad de incluir marcadores internos (inline tags) en cadenas
-de descripcion para enlazar documentacion: Ej:</li>
-
-<br><tt>&nbsp; descripcion</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp; "bla bla bla... Ver @{loroI::sistema::leerEntero.e}
-bla bla bla..."</tt>
-<br>la parte @{...} se convierte en la documentacion en una href apuntando
-a la documentacion de la especificacion loroI::sistema::leerEntero (por
-la terminacion .e).&nbsp; Algunas de las demostraciones (bajo el subdirectorio
-demo/) hacen uso de este nueva caracteristica.
-<li>
-Modificada la gramatica para clases: ahora se exige que cada atributo tenga
-su descripcion, ej:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edad : entero&nbsp; : "La edad de
-la persona";</tt>
-<li>
-Para facilitar la apertura de demostraciones en la primera ejecucion del
-EDI de Loro, el editor pone ahora el directorio demo/ como de arrancada.</li>
-
-<li>
-Anomalia corregida: No se seleccionaba (resaltaba) correctamente el area
-de texto fuente comprometida con un error de compilacion.</li>
-
-<li>
-Anomalia corregida: Un algoritmo que recibiera parametros tipo cadena&nbsp;
-no se consideraba como "ejecutable directamente".</li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.67 - Sept. 11 de 2001</tt>
-<ul>
-<li>
-Terminada una primera version del generador de documentacion HTML. Incluye
-links para unidades referenciadas, es decir, en algoritmo hay link para
-la especificacion correspondiente; y en tipos que involucren especificaciones
-y clases tambien hay links.</li>
-
-<li>
-Se agrego opcion al EDI para visualizar la documentacion API.</li>
-
-<li>
-La compilacion genera tambien automaticamente la documentacion correspondiente.</li>
-
-<li>
-El EDI recuerda ahora el tamanio y la posicion de las ventanas de edicion,
-ayuda y documentacion, y el ultimo archivo en edicion.</li>
-
-<li>
-Nueva ventana de ayuda con opciones de "navegacion": anterior, siguiente,
-inicio.</li>
-
-<li>
-Nueva barra de herramientas con iconos para facilitar la interaccion del
-usuario.</li>
-
-<li>
-Nuevo ventana de inicio ("splash") para saludar al usuario mientras se
-ejecutan operaciones de arranque.</li>
-
-<li>
-Corregido obtencion del foco en el area de edicion tan pronto se inicia
-el EDI, como cuando se abre un nuevo archivo, y cuando se abandona una
-accion de "salir" o "nuevo".</li>
-
-<li>
-Cursor un poco mas grueso para facilitar su ubicacion.</li>
-
-<li>
-Se corrigieron bugs (ver pagina del proyecto):</li>
-
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 405476 Clase utilizada como argumento
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 406432 Consola - Tama&ntilde;o Letra
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 406436 Algoritmos y valor nulo
-<br>Nuevo mecanismo de extension incluido (esto facilitara la creacion
-de nuevos paquetes).</ul>
-----------------------------------------------------------------------------------
-<br><tt>0.53 - Agosto 8 de 2001</tt>
-<ul>
-<li>
-Simplificacion de la instalacion (aunque no completamente terminada).</li>
-
-<li>
-Ya no se depende mas de la definicion de variables de ambiente. Asi que
-no es necesario modificar el archivo AUTOEXEC.BAT (Windows).</li>
-
-<li>
-Eliminado menu "Parametros": innecesario; ahora se hace un manejo automatico
-interno.</li>
-
-<li>
-Para las conocidas operaciones de edicion "Copiar", "Cortar" y "Pegar",
-se han puesto ahora mas posibilidades de combinaciones de teclas para satisfacer
-los diversos gustos al respecto:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Copiar"&nbsp; -->&nbsp;&nbsp;
-Ctrl+Insert&nbsp;&nbsp; o&nbsp;&nbsp; Ctrl+C&nbsp;&nbsp; o&nbsp;&nbsp;
-Alt+C</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Cortar"&nbsp; -->&nbsp;&nbsp;
-Ctrl+Delete&nbsp;&nbsp; o&nbsp;&nbsp; Ctrl+X&nbsp;&nbsp; o&nbsp;&nbsp;
-Alt+X</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Pegar"&nbsp;&nbsp; -->&nbsp;&nbsp;
-Shift+Insert&nbsp; o&nbsp;&nbsp; Ctrl+V&nbsp;&nbsp; o&nbsp;&nbsp; Alt+V</tt>
-<li>
-Se elimino opcion "Ejecutar ultimo algoritmo", simplemente porque la opcion
-"Ejecutar algoritmo de lista" es mas completa y mas clara. (Gracias a quienes
-hicieron esta importante observacion.)</li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.5 - Marzo 1 de 2001</tt>
-<ul>
-<li>
-Ahora se puede escoger para ejecuci&oacute;n cualquiera de los algoritmos
-"ejecutables directamente" disponibles en la &uacute;ltima compilaci&oacute;n
-exitosa. Un algoritmo "ejecutable directamente" es aquel que o bien no
-recibe entradas, o bien las entradas son de tipos b&aacute;sicos (entero,
-caracter, real, cadena, etc.).</li>
-
-<li>
-Ahora se ofrece un mejor control sobre los algoritmos en ejecuci&oacute;n:</li>
-
-<ul>
-<li>
-Se destina una consola por cada ejecuci&oacute;n</li>
-
-<li>
-Se puede detener una ejecuci&oacute;n en cualquier momento (antes hab&iacute;a
-que salirse del sistema para lograr esto).</li>
-</ul>
-
-<li>
-&nbsp;Nueva versi&oacute;n de consola m&aacute;s est&aacute;ndar (es decir,
-m&aacute;s similar a una ventana de "shell" o de DOS. Esta consola permite
-recordar &uacute;ltimas entradas (a la manera del bash o del DOSKEY). Tambi&eacute;n
-puede cambi&aacute;rsele el tama&ntilde;o y estilo de la letra.</li>
-
-<li>
-La zona de mensajes dej&oacute; de ser en ventana aparte pasando a ser
-parte (inferior) de la ventana principal.</li>
-
-<li>
-Se quit&oacute; men&uacute; "Ver" con las opciones "Consola" y "Mensajes"
-(ver puntos anteriores).</li>
-
-<li>
-BUG corregido: no se detectaba en tiempo de ejecuci&oacute;n si un identificador
-ten&iacute;a valor asignado o no; por ejemplo, se imprim&iacute;a ''nulo''
-para tipos primitivos cuando sucedia esto.</li>
-
-<li>
-Se ha hecho una migraci&oacute;n completa al manejador "Swing" de interfaz
-gr&aacute;fica ofrecido por el entorno Java. Esto se ha complementado con
-mejores caracter&iacute;sticas de navegaci&oacute;n y visualizaci&oacute;n.</li>
-
-<li>
-Nuevo proceso incorporado dormir(milisegundos) para poner a dormir la ejecuci&oacute;n
-durante un determinado tiempo.</li>
-
-<li>
-Nuevo proceso incorporado terminarEjecucion(c&oacute;d: entero) que permite
-terminar la ejecuci&oacute;n en cualquier punto (al estilo de otros lenguajes:
-exit(c&oacute;d) en C y System.exit(c&oacute;d) en Java). NOTA: Se llama
-terminarEjecucion, SIN tilde (debido a un bug de Java/zip).</li>
-
-<li>
-Los archivos compilados pueden quedar de tama&ntilde;os moderadamente grandes
-cuando hay referencias mutuas entre la unidades de compilaci&oacute;n,
-particularmente cuando se tienen algoritmos que se llaman recursivamente
-entre s&iacute;. Esto puede manifestarse por algunas demoras en el momento
-de la compilaci&oacute;n.</li>
-
-<li>
-Nuevo manejo de "elementos pendientes" en la fase de compilaci&oacute;n,
-lo que permite el uso de identificadores de unidades (algoritmos, especificaciones,
-clases) antes de que &eacute;stos sean definidos m&aacute;s adelante en
-el mismo archivo fuente.</li>
-
-<li>
-BUG corregido: Se admit&iacute;a en compilaci&oacute;n invocar una especificaci&oacute;n.
-Esto generaba desde luego un error en ejecuci&oacute;n.</li>
-
-<li>
-El posible error de desbordamiento de pila ("stack overflow") se reporta
-ahora mostrando la propia pila de ejecuci&oacute;n de Loro (y no la de
-Java).</li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.4 - Febrero 12 de 2001</tt>
-<ul>
-<li>
-En esta versi&oacute;n se requiere un entorno Java versi&oacute;n JDK 1.3
-(hasta la versi&oacute;n anterior se requer&iacute;a JDK 1.1.6). Esto debido
-principalmente a que se han empezado a utilizar clases Swing para la elaboraci&oacute;n
-de la interfaz gr&aacute;fica de usuario.</li>
-
-<li>
-Nueva caracter&iacute;stica de resaltado de sintaxis. Ahora ser&aacute;
-mucho m&aacute;s f&aacute;cil visualizar la estructura de un programa y
-revisar y ubicar "a ojo" posibles errores de compilaci&oacute;n.</li>
-
-<li>
-Nuevo men&uacute; con opciones para edici&oacute;n: Cortar, Copiar, Pegar,
-Seleccionar todo, Buscar, Buscar siguiente, Ir a una l&iacute;nea. Algunas
-de estas opciones tienen forma de operarse por teclado; el comando de ayuda,&nbsp;
-F1, da una gu&iacute;a sobre esto.</li>
-
-<li>
-Corregido error al ejecutar acciones para cuando a la variable de la iteraci&oacute;n
-se le hac&iacute;a una asignaci&oacute;n directa dentro del cuerpo.</li>
-
-<li>
-Nueva acci&oacute;n ciclo para indicar iteraci&oacute;n. Su esquema b&aacute;sico
-es:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ciclo</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acciones</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fin ciclo;</tt>
-<li>
-Nuevas acciones termine y contin&uacute;e que permiten manejar el flujo
-de control dentro de las acciones de una iteraci&oacute;n. Una acci&oacute;n
-termine provoca la terminaci&oacute;n de la iteraci&oacute;n m&aacute;s
-inmediata en la que se encuentre ubicada. Una acci&oacute;n contin&uacute;e
-provoca que el flujo de control vaya directamente al inicio del cuerpo
-de la iteraci&oacute;n (previa verificaci&oacute;n de la condici&oacute;n
-de permanencia, en caso distinto a un ciclo). Estas nuevas acciones permiten
-opcionalmente una condici&oacute;n para provocar su efecto; por ejemplo:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; termine si i > 21;</tt>
-<br>terminar&iacute;a la iteraci&oacute;n m&aacute;s interna en caso que
-i sea mayor que 21.
-<li>
-Todos los mecanismos de iteraci&oacute;n (ciclo, para, mientras, repita)
-pueden ahora etiquetarse como medio de identificaci&oacute;n para efectos
-de las acciones termine y contin&uacute;e. Una etiqueta se indica con un
-identificador encerrado entre los s&iacute;mbolos&nbsp; '&lt;'&nbsp; y&nbsp;
-'>'.&nbsp; Por ejemplo:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ciclo &lt;externo></tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>acciones</i></tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; para j desde
-m hasta h haga</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>otras_acciones</i></tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-termine &lt;externo> si alguna_condici&oacute;n;</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mas_acciones</i></tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fin para;</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fin ciclo;</tt></ul>
-
-<hr width="100%">
-<br><tt>0.38 - Agosto 16 2000</tt>
-<ul>
-<li>
-La variable de ambiente para indicar en donde est&aacute; instalado el
-sistema es LORO_DIR. (Antes era LORODIR) Esta variable ahora debe estar
-definida pues permite ubicar el archivo de libreria loroI.lar (LORO_DIR/lib/loroI.lar).</li>
-
-<li>
-Se maneja ahora la variable de ambiente LORO_RUTA_UNIDADES en donde se
-pueden indicar los directorios o archivos .zip a revisar para resolver
-nombres.</li>
-
-<li>
-Ahora las rutinas de entrada y salida b&aacute;sicas como 'escribir' (antes
-'escriba'), 'leerEntero', etc., son algoritmos normales (no mecanismos
-internos). Estos procesos est&aacute;n implementados en Java y se alojan
-en la nueva librer&iacute;a 'loroI.lar', ubicado en el subdirectorio lib
-de la instalaci&oacute;n.</li>
-
-<li>
-La nueva herramienta loroij permite generar el esquema en Java para la
-implementaci&oacute;n de un algoritmo Loro.</li>
-
-<li>
-Ya no es obligatoria la palabra "clase" para un tipo clase. As&iacute;,
-en vez de:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p: clase Persona;</tt>
-<br>se puede escribir:
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p: Persona;</tt>
-<br>Sin embargo, para conversi&oacute;n de tipo s&iacute; es necesario
-utilizar el cualificador "clase" para resolver la situaci&oacute;n.
-<li>
-A cambio de leerAlgoritmo(ID) (que ha desaparecido), se ha definido el
-siguiente proceso (en el paquete loroI::sistema):</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; especificacion obtAlgoritmo(nomAlgoritmo:
-cadena) -> alg: algoritmo</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; descripcion
-"Obtiene un algoritmo dado su nombre."</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; entrada
-nomAlgoritmo: "Nombre completo del algoritmo a leer."</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; salida
-alg: "Algoritmo correspondiente al nombre."</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fin especificacion</tt>
-<br>Esto se complementa con el mecanismo de promocion de tipos para fines
-de asignacion, ej:
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alg: algoritmo;</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; afibo: algoritmo para
-fibo;</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nom: cadena;</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nom := leerCadena();</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alg := obtAlgoritmo(nom);</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; afibo := algoritmo para
-fibo(alg);</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f := afibo(5);</tt>
-<br>&nbsp;N&oacute;tese que se admite declarar un variable como de tipo
-algoritmo sin decir para cu&aacute;l especificaci&oacute;n.
-<li>
-Nuevo manejo de paquetes (al estilo Java); y se ha iniciado la definicion
-de algunos paquetes Loro:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; loroI::sistema&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Servicios del sistema</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; loroI::mat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Funciones matematicas</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; loroI::entsal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Servicios de entrada/salida</tt>
-<li>
-Las unidades (especificaciones, algoritmos, clases) del paquete loroI::sistema
-son visibles autom&aacute;ticamente (no es necesario hacer los 'utiliza'
-correspondientes).</li>
-
-<li>
-Para facilitar la escritura de algunas afirmaciones, se permite ahora que
-una condici&oacute;n sea una cadena literal (la cual se asume inmediatamente
-verdadera). Ej:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { "p = n-esimo numero primo"
-}</tt>
-<li>
-Ahora se pueden imprimir objetos:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p: Persona := ...</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escribirln("p = " +p);</tt>
-<br>Se hace hasta un cierto nivel (2) para evitar, entre otras cosas, recursion
-infinita.
-<li>
-Ante un error en ejecuci&oacute;n, se reporta ahora la pila de ejecuci&oacute;n&nbsp;
-de Loro (que es mucho m&aacute;s clara desde luego que la pila de Java).</li>
-
-<li>
-Solucionado bug (StackOverflow) que suced&iacute;a algunas veces al guardar
-unidades compiladas en disco.</li>
-
-<li>
-Solucionado bug que suced&iacute;a algunas veces al compilar algunos fuentes
-un poco extensos (errores sint&aacute;cticos que no hab&iacute;an).</li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.1.01 - Mayo 14 1999</tt>
-<br>&nbsp;
-<ul>
-<li>
-Correcci&oacute;n: error en asignaci&oacute;n de valores por defecto para
-los arreglos.</li>
-
-<li>
-Se mejora despliegue de valores (acci&oacute;n escriba). Los arreglos se
-muestran en el estilo [val0, val1, ...].</li>
-
-<li>
-Inicializaci&oacute;n en acci&oacute;n ''para'' puede ser ahora con el
-operador de asignaci&oacute;n '':='' a cambio de la palabra ''desde'',
-por ejemplo: <tt>para i := 0 hasta n haga ...</tt></li>
-
-<li>
-Se completa el manejo de las secuencias de escape tanto en literales tipo
-caracter como cadena.</li>
-
-<li>
-En la consola se hace eco en la salida de lo escrito en la entrada.</li>
-
-<li>
-La acci&oacute;n escriba siempre generaba al final un cambio de l&iacute;nea,
-lo cual no es lo deseado en muchos casos. Ahora se deber&aacute;n escribir
-*expl&iacute;citamente* los cambios de l&iacute;nea deseados,&nbsp; por
-ejemplo:&nbsp;<tt> escriba "Total = " +tot+ " encuestados.\n" ;</tt></li>
-</ul>
-
-<hr width="100%">
-<br><tt>0.1 - Mayo 7 1999</tt>
-<p>&nbsp;&nbsp;&nbsp; - Versi&oacute;n inicial.
-<br>
-<hr width="100%">
 </body>
 </html>

@@ -14,44 +14,42 @@ Int&eacute;rprete Interactivo</font></b></h2>
 <font face="Arial,Helvetica">A trav&eacute;s del int&eacute;rprete interactivo
 se pueden ejecutar fragmentos de c&oacute;digo de manera inmediata. Esto
 incluye el lanzamiento de programas completos (haciendo invocaci&oacute;n
-de algoritmos), as&iacute; como hacer declaraciones de variables y ejecuci&oacute;n
-de instrucciones.</font>
+de algoritmos), evaluaci&oacute;n de expresiones, as&iacute; como hacer
+declaraciones de variables y ejecuci&oacute;n de instrucciones.</font>
 <center>
 <p><img SRC="images/imageUTV.JPG" NOSAVE height=419 width=482></center>
 
 <p><font face="Arial,Helvetica">Esta caracter&iacute;stica se constituye
 en un excelente medio para conocer el lenguaje.</font>
-<p><font face="Arial,Helvetica">En general, todo lo que se escriba al frente
-del indicador <b><font color="#009500">$</font></b> se toma como c&oacute;digo
-Loro. La excepci&oacute;n a esta regla es cuando el primer caracter es
-un punto ('.'), en cuyo caso se interpreta como comando dirigido al propio
-int&eacute;rprete. Estos comandos son:</font>
-<blockquote><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p><font face="Arial,Helvetica">Todo lo que se escriba al frente del indicador
+<b><font color="#009500">$</font></b>
+se toma como c&oacute;digo Loro. Adem&aacute;s, se reconocen algunos comandos
+especiales ("meta-comandos") cuando se escribe una acci&oacute;n que comienza
+con el s&iacute;mbolo punto ('.'). Estos meta-comandos s&oacute;lo los
+entiende el propio int&eacute;rprete interactivo y son los siguientes:</font>
+<blockquote><tt>.?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 - Muestra esta ayuda</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .limpiar&nbsp;&nbsp;&nbsp; - Limpia
-la ventana</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .vars&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- Muestra las variables declaradas hasta el momento</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .borrar ID&nbsp; - Borra la declaraci&oacute;n
-de la variable indicada</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .borrarvars - Borra todas las variables
-declaradas</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- Muestra otros comandos avanzados</tt>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .modo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- Muestra el modo de interpretaci&oacute;n actual.</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><tt>.limpiar&nbsp;&nbsp;&nbsp; - Limpia (borra el contenido de) la
+ventana</tt>
+<br><tt>.vars&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Muestra las variables
+declaradas hasta el momento</tt>
+<br><tt>.borrar ID&nbsp; - Borra la declaraci&oacute;n de la variable indicada</tt>
+<br><tt>.borrarvars - Borra todas las variables declaradas</tt>
+<br><tt>.modo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Muestra el modo de
+interpretaci&oacute;n actual.</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Hay dos modos de operaci&oacute;n:</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- ejecuci&oacute;n completa (por defecto)</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ejecuci&oacute;n completa (por defecto)</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 - s&oacute;lo compilaci&oacute;n</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .cambiarmodo&nbsp; - Intercambia
-el modo de interpretaci&oacute;n</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .verobj nivel - Pone maximo nivel
-para visualizar objetos</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .verarr long&nbsp; - Pone maxima
-longitud para visualizar arreglos</tt></blockquote>
+<br><tt>.cambiarmodo - Intercambia el modo de interpretaci&oacute;n</tt>
+<br><tt>.verobj nivel - Pone maximo nivel para visualizar objetos</tt>
+<br><tt>.verarr long&nbsp; - Pone maxima longitud para visualizar arreglos</tt>
+<br><tt>.gc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+- Hace un reciclaje de la memoria no en uso</tt>
+<br><tt>.version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Muestra informaci&oacute;n
+general sobre versi&oacute;n del sistema</tt></blockquote>
 
 </body>
 </html>

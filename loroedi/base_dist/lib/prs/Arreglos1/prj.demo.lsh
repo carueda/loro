@@ -1,11 +1,11 @@
 // Intercambio en arreglo:
 a: []entero := [ 0, 10, 20, 30 ];
-escribirln("arreglo antes   = " +a);
+escribirln("arreglo antes   = " +a); //.p
 
 escribirln("intercambiando posiciones 1 y 3...");
-intercambiar(a, 1, 3);
+intercambiar(a, 1, 3);  //.p
 
-escribirln("arreglo despues = " +a);
+escribirln("arreglo despues = " +a);   //.p
 
-// Esta un elemento en un arreglo?
-pertenece([1,2,3,4,5], 4);
+// Está un elemento en un arreglo?
+pertenece([1,2,3,4,5], 4);   //.p

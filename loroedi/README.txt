@@ -15,6 +15,8 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-20 (0.8pre11)
 
+	- Actualización de documentos de distribución y algunos demos.
+	
 	- El tiempo de arrancada se ha acelerado significativamente.
 	  En Workspace: Se vuelve al esquema de cargar proyectos por demanda:
 	  Inicialmente, en name_prj la asociación es un String o una Extension;
