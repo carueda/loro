@@ -76,6 +76,19 @@ public class Prueba
 		Array.set(a, i, Array.get(a, j));
 		Array.set(a, j, temp);*/
 	}
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 * intercjava.
+	 */
+	public static String replace(LAmbiente $amb,
+		String cad, char viejo, char nuevo
+	)
+	throws LException
+	{
+		return cad.replace(viejo, nuevo);
+	}
+
 	//////////////////////////////////////////////////////////////
 	/**
 	 * intjava.

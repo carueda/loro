@@ -26,6 +26,22 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-08 Version 0.7.9
+
+	- Bug corregido: Un argumento de tipo primitivo en Loro (ejemplo,
+	  caracter) llegaba como un objeto wrapper (Character) en el código
+	  interpretado por BeanShell.
+	  
+	  Solución:
+	  Revisado y ajustado el paso de argumentos a método en BeanShell.
+	  Ver LoroEjecutor.ejecutarAlgoritmoBsh()
+	  Se hace un manejo directo de los tipos primitivos. 
+	  Caso especial es el tipo 'caracter' en donde se usa directamente un
+	  bsh.Primitive puesto que no hay (en BeanShell 1.2b6) un método
+	  correspondiente bsh.set(id, char) como sí los hay para otros primitivos 
+	  como bsh.set(id ,int), etc.
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-04-03 Version 0.7.9
 
 Revisión de manejo de objetos Loro.

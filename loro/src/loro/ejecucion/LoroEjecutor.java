@@ -227,10 +227,18 @@ public class LoroEjecutor extends LoroEjecutorBase
 			for (int i = 0; i < args.length; i++)
 			{
 				String in_id = pent[i].obtId().obtId();
-				bsh.set(
-					in_id, 
-					_convertirArgumentoParaJava(args[i])
-				);
+				Object obj = args[i];
+				if ( obj instanceof Integer )
+					bsh.set(in_id, ((Integer) obj).intValue());
+				else if ( obj instanceof Boolean )
+					bsh.set(in_id, ((Boolean) obj).booleanValue());
+				else if ( obj instanceof Double )
+					bsh.set(in_id, ((Double) obj).doubleValue());
+				else if ( obj instanceof Character )
+					// BeanShell 1.2b6 no tiene set(id, char) (!)
+					bsh.set(in_id, new bsh.Primitive(((Character) obj).charValue()));
+				else
+					bsh.set(in_id, _convertirArgumentoParaJava(obj));
 			}
 			res = bsh.eval(src);
 			if ( res == null && psal.length > 0 )
