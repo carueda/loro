@@ -115,7 +115,6 @@ public class UEditor implements EditorListener
 		split.add(scrollp);
 
 		frame.getContentPane().add(split);
-		frame.setSize(700, 500);
 		Preferencias.Util.updateRect(frame, preferenceKey);
 
 		createActions(modifiable, executable, doc);

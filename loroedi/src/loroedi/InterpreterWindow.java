@@ -161,21 +161,7 @@ implements ActionListener, JTermListener
 		}
 		
 		content_pane.add(pan, "South");
-
-		Rectangle rect = Preferencias.obtRectangulo(Preferencias.II_RECT);
-		frame.setLocation(rect.x, rect.y);
-		frame.setSize(rect.width, rect.height);
-
-		frame.addComponentListener(new ComponentAdapter()
-		{
-			void common()
-			{
-				Rectangle rect_ = new Rectangle(frame.getLocationOnScreen(), frame.getSize());
-				Preferencias.ponRectangulo(Preferencias.II_RECT, rect_);
-			}
-			public void componentResized(ComponentEvent e){common();}
-			public void componentMoved(ComponentEvent e){common();}
-		});
+		Preferencias.Util.updateRect(frame, Preferencias.I_RECT);
 	}
 
 	///////////////////////////////////////////////////////////////////////

@@ -40,8 +40,13 @@ public class Preferencias
 	/** Base ORO directory. */
 	public static final String ORO_DIR = "loroedi.pref.oro.dir";
 
-	/** Rectangle for the Interpreter window. */
+	/** Rectangle for the Interactive Interpreter window. 
+	 *  This is the "persistent" interpreter. */
 	public static final String II_RECT = "loroedi.pref.ii.rect";
+
+	/** Rectangle for interpreter windows. This is used when
+	 *  a specific algorithm or demo is launched. */
+	public static final String I_RECT = "loroedi.pref.i.rect";
 
 	/** Rectangle for the demo editor. */
 	public static final String DEMO_RECT = "loroedi.pref.demo.rect";
@@ -235,10 +240,21 @@ public class Preferencias
 		{
 			Dimension s = new Dimension(600, 300);
 			Rectangle rect = new Rectangle(
-					0, 350,
+					350, 200,
 					s.width, s.height
 			);
 			ponRectangulo(II_RECT, rect);
+		}
+		
+		// I_RECT
+		if ( props.getProperty(I_RECT) == null )
+		{
+			Dimension s = new Dimension(600, 300);
+			Rectangle rect = new Rectangle(
+					0, 350,
+					s.width, s.height
+			);
+			ponRectangulo(I_RECT, rect);
 		}
 		
 		// DEMO_RECT

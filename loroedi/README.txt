@@ -64,6 +64,13 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-15 (0.8pre8)
+
+	- Nueva preferencia I_RECT para ventana de interpretación destinada 
+	  a ejecución de algoritmo/demo específico, tal que se diferencie de
+	  la ventana de Interpretación Interactiva, cuyo código es II_RECT.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-14 (0.8pre8)
 
 	- UEditor listener se inicializa ahora con un UEditorListener que no 
