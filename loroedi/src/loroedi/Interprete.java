@@ -37,11 +37,11 @@ implements ActionListener
 	static final String PREFIX_INVALID =  "!  ";
 	static final String PREFIX_SPECIAL =  "   ";
 
-	static Interprete ii = null;
-	static JFrame frame = null;    // en donde se pone el interprete
+	static private Interprete instance = null;
+	static private JFrame frame = null;    // en donde se pone el interprete
 
-	static JButton butTerminar;
-	static JButton butCerrar;
+	static private JButton butTerminar;
+	static private JButton butCerrar;
 
 
 	////////////////////////////////////////////////////////////////////////////
@@ -50,10 +50,10 @@ implements ActionListener
 	 */
 	public static Interprete getInstance()
 	{
-		if ( ii == null )
+		if ( instance == null )
 			_createInstance();
 
-		return ii;
+		return instance;
 	}
 
 
@@ -65,14 +65,14 @@ implements ActionListener
 	 */
 	private static void _createInstance()
 	{
-		if ( ii != null )
+		if ( instance != null )
 		{
 			throw new IllegalStateException(
 				"Second call to _createInstance()!"
 			);
 		}
 
-		ii = new Interprete();
+		instance = new Interprete();
 		frame = new JFrame("Intérprete Interactivo de Loro");
 		URL url = ClassLoader.getSystemClassLoader().getResource("img/icon.jpg");
 		if ( url != null ) 
@@ -88,7 +88,7 @@ implements ActionListener
 
 		java.awt.Container content_pane = frame.getContentPane();
 
-		content_pane.add(ii.obtAreaTexto());
+		content_pane.add(instance.obtAreaTexto());
 
 		javax.swing.JPanel pan = new javax.swing.JPanel(
 			new java.awt.FlowLayout(java.awt.FlowLayout.LEFT)
@@ -97,13 +97,13 @@ implements ActionListener
 		butCerrar = but = new javax.swing.JButton("Cerrar");
 		butCerrar.setMnemonic(KeyEvent.VK_C);
 		butCerrar.setToolTipText("Cierra esta ventana");
-		but.addActionListener(ii);
+		but.addActionListener(instance);
 		pan.add(but);
 		pan.add(new javax.swing.JLabel("        "));
 		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
 		butTerminar.setMnemonic(KeyEvent.VK_T);
 		butTerminar.setToolTipText("Termina abruptamente la ejecución en curso");
-		but.addActionListener(ii);
+		but.addActionListener(instance);
 		butTerminar.setEnabled(false);
 		pan.add(but);
 		content_pane.add(pan, "South");
@@ -123,7 +123,7 @@ implements ActionListener
 			public void componentMoved(ComponentEvent e){common();}
 		});
 
-		ii.start();
+		instance.start();
 	}
 
 	
@@ -132,14 +132,14 @@ implements ActionListener
 	// Instance:
 	//
 
-	JEditTextArea ta;
-	JTerm term;
+	private JEditTextArea ta;
+	private JTerm term;
 
-	PrintWriter pw;
-	BufferedReader br;
+	private PrintWriter pw;
+	private BufferedReader br;
 
-	boolean execute = true;
-	IInterprete loroii;
+	private boolean execute = true;
+	private IInterprete loroii;
 
 
 
