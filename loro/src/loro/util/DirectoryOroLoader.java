@@ -6,6 +6,7 @@ import loro.util.Util;
 
 import java.util.*;
 import java.io.*;
+import java.nio.charset.Charset;
 
 ///////////////////////////////////////////////////////////////
 /**
@@ -245,8 +246,9 @@ class DirectoryOroLoader implements IOroLoader
 	private static String readFile(File file)
 	throws FileNotFoundException, IOException
 	{
+		Charset cs = Charset.forName("ISO-8859-1");
 		BufferedReader br = new BufferedReader(
-			new InputStreamReader(new FileInputStream(file))
+			new InputStreamReader(new FileInputStream(file), cs)
 		);
 		StringBuffer sb = new StringBuffer();
 		String line;

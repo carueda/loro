@@ -16,6 +16,7 @@ import java.util.jar.JarEntry;
 import java.io.*;
 import java.net.URL;
 import java.net.JarURLConnection;
+import java.nio.charset.Charset;
 
 
 ///////////////////////////////////////////////////////////////
@@ -23,6 +24,8 @@ import java.net.JarURLConnection;
  * Cargador de las unidades del núcleo de Loro.
  * El recurso que contiene este núcleo se incluye en el mismo
  * archivo que contiene las clases. 
+ * @author Carlos Rueda
+ * @version $Id$
  */
 class CoreOroLoader implements IOroLoader
 {
@@ -312,7 +315,8 @@ class CoreOroLoader implements IOroLoader
 	private static String readInputStream(InputStream is)
 	throws IOException
 	{
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		Charset cs = Charset.forName("ISO-8859-1");
+		BufferedReader br = new BufferedReader(new InputStreamReader(is, cs));
 		StringBuffer sb = new StringBuffer();
 		String line;
 		while ( (line = br.readLine()) != null )
