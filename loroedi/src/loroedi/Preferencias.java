@@ -278,7 +278,7 @@ public class Preferencias
 		// PRJ_CHOOSE_RECT
 		if ( props.getProperty(PRJ_CHOOSE_RECT) == null )
 		{
-			Dimension s = new Dimension(300, 150);
+			Dimension s = new Dimension(500, 500);
 			Rectangle rect = new Rectangle(
 					(d.width - s.width) / 2, (d.height - s.height) / 2,
 					s.width, s.height
