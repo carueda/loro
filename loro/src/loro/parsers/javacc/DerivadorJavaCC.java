@@ -8,7 +8,6 @@ import loro.util.Util;
 import java.io.*;
 import java.util.*;
 
-
 import loro.Rango;
 
 //////////////////////////////////////////////////////////////////////
@@ -16,10 +15,9 @@ import loro.Rango;
  * Implementación de Derivador basada en JavaCC.
  *
  * @author Carlos Rueda
- * @version 2002-08-12
+ * @version $Id$
  */
-public class DerivadorJavaCC implements IDerivador
-{
+public class DerivadorJavaCC implements IDerivador {
 	/** 
 	 * Texto en compilacion. Esta cadena siempre se deja
 	 * disponible para despachar adecuadamente la creacion
@@ -33,26 +31,21 @@ public class DerivadorJavaCC implements IDerivador
 
 	////////////////////////////////////////////////////////////////
 	/**
-	 * Crea un DerivadorImpl.
+	 * Crea un derivador.
 	 */
-	public DerivadorJavaCC()
-	{
+	public DerivadorJavaCC() {
 		texto = "";
 		parser = new LoroIParser(new StringReader(""));
 	}
 	
 	///////////////////////////////////////////////////////////////////////
-	public List derivarAccionesInterprete()
-	throws DerivacionException
-	{
+	public List derivarAccionesInterprete() throws DerivacionException {
 		List list = null;
 		
-		try
-		{
+		try {
 			list = parser.accionesInterprete();
 		}
-		catch ( ParseException e )
-		{
+		catch ( ParseException e ) {
 			Token tini;
 			Token tfin;
 
@@ -65,8 +58,7 @@ public class DerivadorJavaCC implements IDerivador
 			
 			
 		}
-		catch ( TokenMgrError e )
-		{
+		catch ( TokenMgrError e ) {
 			throw new DerivacionException(
 				ConstructorArbol.obtRango(e.lin, e.col, e.lin, e.col, texto),
 				e.getMessage()
@@ -77,31 +69,18 @@ public class DerivadorJavaCC implements IDerivador
 	}
 	
 	///////////////////////////////////////////////////////////////////////
-	public NFuente derivarFuente()
-	throws DerivacionException
-	{
+	public NFuente derivarFuente() throws DerivacionException {
 		NFuente nodo = null;
 
-		try
-		{
+		try {
 			nodo = parser.fuente();
 			NUnidad[] unidades = (NUnidad[]) nodo.obtUnidades();
-			for ( int i = 0; i < unidades.length; i++ )
-			{
+			for ( int i = 0; i < unidades.length; i++ ) {
 				// Asociar a cada unidad el código fuente de donde proviene:
 				unidades[i].setSourceCode(texto);
-
-// Nota (2003-02-09)				
-// código anterior erróneo; se deja por un tiempo para hacer pruebas de 
-// dependencias no advertidas en este momento.
-//				Rango r = unidades[i].obtRango();
-//				int start = r.obtPosIni();
-//				int end   = r.obtPosFin() + 1;
-//				unidades[i].setSourceCode(texto.substring(start, end));
 			}
 		}
-		catch ( ParseException e )
-		{
+		catch ( ParseException e ) {
 			Token tini;
 			Token tfin;
 
@@ -114,8 +93,7 @@ public class DerivadorJavaCC implements IDerivador
 			
 			
 		}
-		catch ( TokenMgrError e )
-		{
+		catch ( TokenMgrError e ) {
 			throw new DerivacionException(
 				ConstructorArbol.obtRango(e.lin, e.col, e.lin, e.col, texto),
 				e.getMessage()
@@ -126,17 +104,13 @@ public class DerivadorJavaCC implements IDerivador
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	public TId derivarId()
-	throws DerivacionException
-	{
+	public TId derivarId() throws DerivacionException {
 		TId nodo = null;
 
-		try
-		{
+		try {
 			nodo = parser.tidEOF();
 		}
-		catch ( ParseException e )
-		{
+		catch ( ParseException e ) {
 			Token tini;
 			Token tfin;
 
@@ -149,8 +123,7 @@ public class DerivadorJavaCC implements IDerivador
 			
 			
 		}
-		catch ( TokenMgrError e )
-		{
+		catch ( TokenMgrError e ) {
 			throw new DerivacionException(
 				ConstructorArbol.obtRango(e.lin, e.col, e.lin, e.col, texto),
 				e.getMessage()
@@ -161,17 +134,13 @@ public class DerivadorJavaCC implements IDerivador
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	public TNombre derivarNombre()
-	throws DerivacionException
-	{
+	public TNombre derivarNombre() throws DerivacionException {
 		TNombre nodo = null;
 
-		try
-		{
+		try {
 			nodo = parser.tnombreEOF();
 		}
-		catch ( ParseException e )
-		{
+		catch ( ParseException e ) {
 			Token tini;
 			Token tfin;
 
@@ -184,8 +153,7 @@ public class DerivadorJavaCC implements IDerivador
 			
 			
 		}
-		catch ( TokenMgrError e )
-		{
+		catch ( TokenMgrError e ) {
 			throw new DerivacionException(
 				ConstructorArbol.obtRango(e.lin, e.col, e.lin, e.col, texto),
 				e.getMessage()
@@ -198,29 +166,24 @@ public class DerivadorJavaCC implements IDerivador
 
 
 	///////////////////////////////////////////////////////////////////////
-	public String obtTextoFuente()
-	{
+	public String obtTextoFuente() {
 		return texto;
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	public IDerivador ponTextoFuente(Reader fuente)
-	{
+	public IDerivador ponTextoFuente(Reader fuente) {
 		// leer todo el reader fuente como cadena
 		// para tener disponibilidad del texto siempre.
 		
 		BufferedReader br = new BufferedReader(fuente, 2*4096);
 		StringBuffer sb = new StringBuffer();
 		int ch;
-		try
-		{
-			while ( (ch = br.read()) != -1 ) 
-			{
+		try {
+			while ( (ch = br.read()) != -1 )  {
 				sb.append((char) ch);
 			}
 		}
-		catch ( IOException ex )
-		{
+		catch ( IOException ex ) {
 			throw new RuntimeException("Oops: " +ex.getMessage());
 		}
 
@@ -228,20 +191,15 @@ public class DerivadorJavaCC implements IDerivador
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	public IDerivador ponTextoFuente(String fuente)
-	{
+	public IDerivador ponTextoFuente(String fuente) {
 		// workaround para el caso en que texto termine con 
 		// comentario ``//'', en donde el parser produce un 
 		// error lexico equivocado (bug de javacc):
 		// simplemente se agrega un cambio de linea:
 		fuente += "\n";
-
 		texto = fuente;
-
 		parser.ReInit(new StringReader(texto));
-
 		ConstructorArbol.ponTexto(texto);
-		
 		return this;
 	}
 }
