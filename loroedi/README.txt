@@ -65,6 +65,12 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-15 (0.8pre11)
+
+	- Sólo cambio en build.properties para nueva versión y nuevo
+	  enlace con núcleo 0.7.91.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-04-08 (0.8pre10)
 
 	- Nueva preferencia PRJ_EXTERN_LAST para recordar el último proyecto
