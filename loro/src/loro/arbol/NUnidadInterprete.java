@@ -49,6 +49,6 @@ public class NUnidadInterprete extends NUnidad
 	///////////////////////////////////////////////////////////
 	public String toString()
 	{
-		return "Unidad de interpretación";
+		return "Interpreter unit";
 	}
 }

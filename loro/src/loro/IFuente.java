@@ -49,7 +49,7 @@ public interface IFuente
 	{
 		/////////////////////////////////////////////////////////
 		/**
-		 * Obtiene lo que se utiliza: "algoritmo", "especificacion", "clase".
+		 * Returns one of: "algorithm", "specification", "class".
 		 */
 		public String obtQue();
 		

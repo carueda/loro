@@ -1,12 +1,11 @@
 package loro.arbol;
 
+import loro.Loro.Str;
 import loro.visitante.IVisitante;
 import loro.visitante.VisitanteException;
 import loro.tipo.Tipo;
 import loro.Rango;
-
 import loro.compilacion.ClaseNoEncontradaException;
-
 import loro.IUnidad;
 
 ////////////////////////////////////////////////////////////////
@@ -256,7 +255,7 @@ public class NClase extends NUnidad implements IUnidad.IClase
 	////////////////////////////////////////////////////////////////
 	public String toString()
 	{
-		return "clase " +obtNombreCompletoCadena();
+		return Str.get("class")+ " " +obtNombreCompletoCadena();
 	}
 
 

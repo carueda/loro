@@ -1,11 +1,9 @@
 package loro.arbol;
 
-
+import loro.Loro.Str;
 import loro.visitante.IVisitante;
 import loro.visitante.VisitanteException;
-
 import loro.Rango;
-
 import loro.IUnidad;
 
 //////////////////////////////////////////////////////////////////////
@@ -166,22 +164,19 @@ public class NEspecificacion extends NUnidad implements IUnidad.IEspecificacion
 	///////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public String toString()
-	{
-		if ( interf == null )
-		{
+	public String toString() {
+		if ( interf == null ) {
 			String pkg = obtNombrePaquete();
 			if ( pkg == null )
 				pkg = "";
 			else
 				pkg += "::";
 			
-			return "especificación " +pkg + getPrototype();
+			return Str.get("specification")+ " " +pkg + getPrototype();
 		}
-		else
-		{
+		else {
 			return
-				"operación " +interf.obtNombreCompletoCadena()+ "." 
+				Str.get("operation")+ " " +interf.obtNombreCompletoCadena()+ "." 
 				+getPrototype()
 			;
 		}
@@ -198,11 +193,10 @@ public class NEspecificacion extends NUnidad implements IUnidad.IEspecificacion
 
 	////////////////////////////////////////////////////////////////////
 	/**
-	 * Retorna "algoritmo para " +obtNombreCompletoCadena().
+	 * Returns Str.get("algorithm_for")+ " " +obtNombreCompletoCadena().
 	 */
-	public String getTypeString()
-	{
-		return "algoritmo para " +obtNombreCompletoCadena();
+	public String getTypeString() {
+		return Str.get("algorithm_for")+ " " +obtNombreCompletoCadena();
 	}
 
 

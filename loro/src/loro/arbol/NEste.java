@@ -6,7 +6,7 @@ import loro.Rango;
 
 //////////////////////////////////////////////////////////////////////
 /**
- * Expresión "éste".
+ * Expresión "this".
  */
 public class NEste extends NExpresion
 {

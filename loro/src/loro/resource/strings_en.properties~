@@ -5,26 +5,27 @@
 #
 
 class=class
+object=object
 operation=operation
 specification=specification
 input=input
 output=output
 this=this
-integer=integer
 return=return
 null=null
 true=true
 false=false
 boolean=boolean
 string=string
-character=character
-integer=integer
+character=char
+integer=int
 real=real
 break=break
 continue=continue
 package=package
 uses=uses
 anonymous=anonymous
+forall=forall
 
 algorithm=algorithm
 algorithm_for=algorithm for
@@ -275,7 +276,8 @@ node.mod=Modulus in integer division
 node.neg=Arithmetic negation
 node.lnot=Logical negation
 node.anot=Bitwise negation
-node.name=Qualified name
+node.name=Complete name
+node.qualified_name=Qualified name
 node.or=Inclusive OR boolean operation
 node.aor=Bitwise inclusive OR operation
 node.xor=Exclusive OR boolean operation
@@ -374,4 +376,9 @@ specifications=specifications
 algorithms=algorithms
 classes=classes
 
-
+# syntax messages
+syntax.eof=<END OF FILE>
+syntax.2_lexical_error_found=Lexical error. Found: {0}  after {1} 
+syntax.error_found=Syntax error. Found:
+syntax.expected=Expected:
+syntax.expected_one_of=Expected one of:

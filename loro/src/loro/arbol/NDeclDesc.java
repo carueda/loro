@@ -1,9 +1,8 @@
 package loro.arbol;
 
-
+import loro.Loro.Str;
 import loro.visitante.IVisitante;
 import loro.visitante.VisitanteException;
-
 import loro.Rango;
 
 ////////////////////////////////////////////////////////////////
@@ -26,9 +25,9 @@ public class NDeclDesc extends NDeclaracionBase
 	}
 
 	////////////////////////////////////////////////////////////////
-	public String toString()
-	{
-		return id+ ":" +obtTipo() + (esConstante() ? " constante" : "")+ " " +descripcion;
+	public String toString() {
+		String constant = " " +Str.get("constant");
+		return id+ ":" +obtTipo() + (esConstante() ? constant : "")+ " " +descripcion;
 	}
 
 	////////////////////////////////////////////////////////////////

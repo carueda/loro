@@ -1,5 +1,6 @@
 package loro.arbol;
 
+import loro.Loro.Str;
 import loro.visitante.IVisitante;
 import loro.visitante.VisitanteException;
 import loro.Rango;
@@ -61,7 +62,7 @@ public class NInterface extends NUnidad
 	////////////////////////////////////////////////////////////////
 	public String toString()
 	{
-		return "interface " +obtNombreCompletoCadena();
+		return Str.get("interface")+ " " +obtNombreCompletoCadena();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -70,7 +71,7 @@ public class NInterface extends NUnidad
 	 */
 	public String getTypeString()
 	{
-		return "interface " +obtNombreCompletoCadena();
+		return Str.get("interface")+ " " +obtNombreCompletoCadena();
 	}
 
 	////////////////////////////////////////////////////////////////

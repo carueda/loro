@@ -419,7 +419,7 @@ public class Chequeador extends ChequeadorBase
 	{
 		NExpresion expr = n.obtExpresion();
 		if ( expr != null ) {
-			// No es un "si_no".
+			// it's not an "else".
 			expr.aceptar(this);
 			if ( tipoSegun.esEntero() && !(expr instanceof NLiteralEntero)
 			||   tipoSegun.esCaracter() && !(expr instanceof NLiteralCaracter) )
@@ -1198,7 +1198,7 @@ public class Chequeador extends ChequeadorBase
 
 	//////////////////////////////////////////////////////////////////////
 	/**
-	 * Chequea un fragmento "si_no_si" de una decision.
+	 * Chequea un fragmento "elseif" de una decision.
 	 */
 	public void visitar(NDecisionSiNoSi n)
 	throws VisitanteException
@@ -1668,7 +1668,7 @@ public class Chequeador extends ChequeadorBase
 
 	//////////////////////////////////////////////////////////////////////
 	/**
-	 * Chequea una expresión "éste".
+	 * Chequea una expresión "this".
 	 */
 	public void visitar(NEste n)
 	throws VisitanteException
@@ -3210,7 +3210,7 @@ public class Chequeador extends ChequeadorBase
 		{
 			throw new ChequeadorException(
 				n,
-				"Operación 'implementa' no implementada aún para objetos/clases."
+				"Operation 'implements' not yet implemented for objects/classes."
 			);
 		}
 		

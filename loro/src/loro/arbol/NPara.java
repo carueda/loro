@@ -65,7 +65,7 @@ public class NPara extends NIteracion
 		
 		if ( (i==null) == (d==null) )
 		{
-			throw new RuntimeException("Solo uno de i y d debe ser no nulo.");
+			throw new RuntimeException("Only one of i and d must be non-null.");
 		}
 		
 		id = i;

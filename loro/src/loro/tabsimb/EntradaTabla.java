@@ -84,7 +84,7 @@ public class EntradaTabla
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("id=" +id+ "; ");
-		sb.append("typw=" +tipo+ "; ");
+		sb.append("type=" +tipo+ "; ");
 		sb.append("assigned=" +asignado+ "; ");
 		sb.append("value=" +(valor==null? "" : valor.toString())+ "; ");
 		sb.append(esConstante ? " Constant" : "" );

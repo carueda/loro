@@ -68,7 +68,7 @@ public class LookAndFeel
 		if ( pref_laf.equalsIgnoreCase(IGNORE) )
 		{
 			// no se hace nada:
-			Loro.log("LoroEDI: " + "Se ignora L&F");
+			Loro.log("LoroEDI: " + "ignoring L&F");
 			return;
 		}
 
