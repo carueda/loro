@@ -1,7 +1,6 @@
 #Propiedades de paquete
-#Thu Aug 29 22:02:26 PDT 2002
+#Sat Mar 22 23:20:49 PST 2003
 spec.1=pertenece
 spec.0=intercambiar
-alg.2=pertenece, pertenece
-alg.1=intercambiar, intercambiar
-alg.0=demoIntercambiar, loroI\:\:sistema\:\:PRUEBA
+alg.1=pertenece, pertenece
+alg.0=intercambiar, intercambiar

@@ -3,6 +3,6 @@ como datos.
 
 En Loro los algoritmos son pasables como argumentos, retornables
 por algoritmos, almacenables en arreglos, etc. Esto permite hacer
-un despachor *general* de menus como se muestra en este proyecto.
+un despachador *general* de menus como se muestra en este proyecto.
 
 Demostración incluida.

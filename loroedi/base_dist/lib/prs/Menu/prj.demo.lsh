@@ -1,8 +1,8 @@
 despacharMenu(
-	"Menu del Dia", 
-	[
-		crearOpcionMenu("escribirCasa", escribirCasa),
-		crearOpcionMenu("escribirCarro", escribirCarro),
-		crearOpcionMenu("escribirBeca", escribirBeca)
-	]
+  "Menu del Dia", 
+  [
+    crearOpcionMenu("Escribir Casa", escribirCasa),
+    crearOpcionMenu("Escribir Carro", escribirCarro),
+    crearOpcionMenu("Escribir Beca", escribirBeca)
+  ]
 );

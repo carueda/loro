@@ -1,10 +1,11 @@
 algoritmo holaMundo para PRUEBA()
 descripción
-	''Se trata de escribir un simple mensaje por la salida estandar
+	''Se trata de escribir un simple mensaje por la salida estándar
 	del sistema (generalmente la misma ventana en que se ejecuta
 	el algoritmo).
+	<p>
 	Para esto, se hace uso de @{loroI::sistema::escribirln.a}, 
-	un proceso incluido en el catalogo basico de Loro.''
+	un proceso incluido en el catálogo básico de Loro.''
 inicio
 	escribirln("Hola Mundo Loro!");
 fin algoritmo

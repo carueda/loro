@@ -9,15 +9,77 @@
 <body text="#000000" bgcolor="#FFE6CC" link="#0000EE" vlink="#551A8B" alink="#FF0000">
 <b><tt><font size=+2>Resumen de cambios</font></tt></b>
 <br>
-<hr width="100%">
-<blockquote><b><tt>Versiones 0.8preX</tt></b>
-<br><b>Loro 0.8</b> ser&aacute; una versi&oacute;n completamente renovada
-del sistema en comparaci&oacute;n con las versiones 0.7 y anteriores, sobre
-todo en el aspecto de interfaz gr&aacute;fica de usuario. Durante el proceso
-de su desarrollo se estar&aacute;n ofreciendo versiones beta 0.8preX que
-ir&aacute;n agregando las caracter&iacute;sticas deseadas y que permitir&aacute;n
-llevar a cabo las pruebas pertinentes. Todo comentario o sugerencia es
-bienvenido.</blockquote>
+<hr WIDTH="100%">
+<br><b><tt>0.8pre10&nbsp; - 2003-03-21</tt></b>
+<ul>
+<li>
+<b>Sobre nuevo entorno</b>:</li>
+
+<ul>
+<li>
+En lnstalaci&oacute;n de proyecto se permite ahora navegar una p&aacute;gina
+web para ubicar el enlace correspondiente.</li>
+
+<li>
+Mejoramiento de la documentaci&oacute;n HTML generada. Ahora la p&aacute;gina
+de un proyecto incluye enlaces a todos sus componentes.</li>
+
+<li>
+En las propiedades de un proyecto, puede indicarse ahora si la descripci&oacute;n
+contiene o no marcadores HTML.</li>
+</ul>
+
+<li>
+<b>N&uacute;cleo del lenguaje</b></li>
+
+<ul>
+<li>
+Ahora se permite que un nombre cualificado corresponda a un algoritmo.
+Antes se generaba un error del estilo: "No se puede&nbsp; usar posible
+unidad..."</li>
+
+<li>
+Incluida variante "<i>para cada elemento en</i>" a la iteraci&oacute;n
+"para":&nbsp;&nbsp; Ejemplo:</li>
+
+<br><tt>&nbsp; <b>para </b>cad:cadena <b>en</b> ["hola", "mundo"] <b>haga</b></tt>
+<br><tt>&nbsp;&nbsp;&nbsp; escribir(cad+ " --> ");</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <b>para </b>car:caracter <b>en</b> cad <b>haga</b></tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escribir("&nbsp; " +car);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <b>fin para</b>;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; escribirln("");</tt>
+<br><tt>&nbsp; <b>fin para</b>;</tt>
+<li>
+Ahora ";" es opcional al final de:</li>
+
+<ul>
+<li>
+&nbsp;indicaci&oacute;n de paquete</li>
+
+<li>
+&nbsp;indicaci&oacute;n utiliza</li>
+
+<li>
+&nbsp;cada atributo en definici&oacute;n de clase</li>
+</ul>
+</ul>
+
+<li>
+<b>Sobre Compatibilidad</b></li>
+
+<ul>
+<li>
+<b>A nivel de fuentes</b>: Los programas v&aacute;lidos previos no se ven
+afectados por los cambios hechos sobre el lenguaje.</li>
+
+<li>
+<b>A nivel de binarios</b>: Hay cambios internos que se actualizan autom&aacute;ticamente
+con solo dar el comando <b>F9</b> (compilar).</li>
+</ul>
+
+<li>
+Diversas anomal&iacute;as corregidas.</li>
+</ul>
 
 <hr WIDTH="100%">
 <br><b><tt>0.8pre8&nbsp; - 2003-02-12</tt></b>
