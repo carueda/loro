@@ -26,12 +26,11 @@ import loro.util.UtilValor;
  * Interprete para acciones.
  *
  * @author Carlos Rueda
- * @version 2002-10-22
  */
 public class InterpreteImpl implements IInterprete
 {
-	PrintWriter pw;
-	BufferedReader br;
+//	PrintWriter pw;
+//	BufferedReader br;
 
 
 	TablaSimbolos tabSimbBase;
@@ -60,9 +59,6 @@ public class InterpreteImpl implements IInterprete
 
 		derivador = ManejadorDerivacion.obtDerivador();
 
-		pw = new PrintWriter(w);
-		br = new BufferedReader(r);
-
 		this.tabSimbBase = tabSimbBase;
 		ui = new NUnidadInterprete();
 
@@ -70,8 +66,10 @@ public class InterpreteImpl implements IInterprete
 		ejecutor = new EjecutorTerminable(tabSimbBase, ui);
 		ejecutor.ponClassLoader(loroClassLoader);
 
-		ejecutor.ponEntradaEstandar(br);
-		ejecutor.ponSalidaEstandar(pw);
+		if ( r != null )
+			ejecutor.ponEntradaEstandar(new BufferedReader(r));
+		if ( w != null )
+			ejecutor.ponSalidaEstandar(new PrintWriter(w));
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -83,20 +81,20 @@ public class InterpreteImpl implements IInterprete
 		List list = derivador.ponTextoFuente(text).derivarAccionesInterprete();
 		if ( list != null )
 		{
-			try
+			for ( Iterator it = list.iterator(); it.hasNext(); )
 			{
-				for ( Iterator it = list.iterator(); it.hasNext(); )
+				Nodo n = (Nodo) it.next();
+			
+				try
 				{
-					Nodo n = (Nodo) it.next();
-				
 					////////////////////
 					// fase semantica:
-					n.aceptar(chequeador);
+					chequeador.chequear(n);
 				}
-			}
-			catch(VisitanteException ex)
-			{
-				throw new CompilacionException(null, ex.getMessage());
+				catch ( ChequeadorException se )
+				{
+					throw new CompilacionException(se.obtRango(), se.getMessage());
+				}
 			}
 		}
 		return list;
