@@ -1,3 +1,8 @@
+TODO LoroEDI
+$Id$
+
+- Acelerar arrancada.
+
 - Preparar los proyectos "incluidos" como archivos *.lar en la
   distribución del sistema.  (Ver opción "instalar")
 	  

@@ -34,7 +34,7 @@ import java.net.MalformedURLException;
  * Controlador general del entorno integrado.
  *
  * @author Carlos Rueda
- * $Id$
+ * @version $Id$
  */
 public class GUI
 {
