@@ -126,6 +126,7 @@ public class LoroTokenMarker extends CTokenMarker
 			keywords.add("este",Token.KEYWORD1);
 			keywords.add("éste",Token.KEYWORD1);
 			keywords.add("super",Token.KEYWORD1);
+			keywords.add("súper",Token.KEYWORD1);
 
 			keywords.add("nulo",Token.LITERAL2);
 			keywords.add("cierto",Token.LITERAL2);
