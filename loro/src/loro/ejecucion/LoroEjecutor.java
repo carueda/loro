@@ -2413,6 +2413,109 @@ search:
 	{
 		throw new RuntimeException("Ejecutor.visitar(NPaquete) llamado!");
 	}
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 */
+	public void visitar(NForEach n)
+	throws VisitanteException
+	{
+		TId etq_ciclo = n.obtEtiqueta();
+		NExpresion in = n.obtExpresionEn();
+
+		String ident;
+		int marca = 0;  // cualquier inicializacion
+
+		NDeclaracion dec = n.obtDeclaracion();
+		if ( dec != null )		// Declaración interna
+		{
+			// Marcar la tabla;
+			marca = tabSimb.marcar();
+			dec.aceptar(this);
+			ident = dec.obtId().obtId();
+		}
+		else
+		{
+			ident = n.obtId().obtId();
+		}
+
+		Nodo[] acciones = n.obtAcciones();
+
+		
+		Object obj = _ejecutarExpresion(in);
+		String string = null;
+		Object[] array = null;
+		int len;
+		if ( obj instanceof String )
+		{
+			string = (String) obj;
+			len = string.length();
+		}
+		else 
+		{
+			if ( obj instanceof ArregloBaseNoCero )
+				array = ((ArregloBaseNoCero) obj).array;
+			else 
+				array = (Object[]) obj;
+			len = array.length;
+		}
+		
+		try
+		{
+			for ( int i = 0; i < len; i++ )
+			{
+				Object val;
+				if ( array != null )
+					val = array[i];
+				else
+					val = new Character(string.charAt(i));
+				
+				// ponga valor a ident:
+				tabSimb.ponValor(ident, val);
+	
+				// ejecute las acciones:
+				try
+				{
+					_visitarAccionesIteracion(n, acciones);
+				}
+				catch ( ControlInteracionException ex )
+				{
+					TId etq_ex = ex.obtEtiqueta();
+
+					// Esta exception es para este ciclo si su
+					// etiqueta es nula, o si las dos etiquetas
+					// son iguales:
+					if ( etq_ex == null
+					||  (etq_ciclo != null && etq_ex.obtId().equals(etq_ciclo.obtId())) )
+					{
+						// es para este ciclo.
+						if ( ex.esTermine() )
+						{
+							break;
+						}
+						else
+						{
+							// Nada que hacer.
+							// Simplemente vaya y actualice variable de control.
+						}
+					}
+					else
+					{
+						// NO es para este ciclo; relance la exception:
+						throw ex;
+					}
+				}
+			}
+		}
+		finally
+		{
+			if ( dec != null )		// Declaración interna
+			{
+				tabSimb.irAMarca(marca);
+			}
+		}
+	}
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 */

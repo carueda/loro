@@ -28,6 +28,27 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-03-14 Version 0.7.8
 
+	- Adición al lenguaje:
+	  Incluida variante "for each" a iteración "para":
+	  	"para" ...  "en"  expresion haga ...
+	  donde la expresion debe ser un arreglo o una cadena.
+	  Ejemplo:
+		para cad:cadena en ["hola", "mundo"] haga
+			escribir(cad+ " --> ");
+			para car:caracter en cad haga
+				escribir("  " +car);
+			fin para;
+			escribirln("");
+		fin para;
+	  
+	  Actualizados:
+	  	LoroIParser.jj
+		ConstructorArbol
+	  	NForEach (nuevo nodo)
+		IVisitante, y visitantes simples derivados
+		Chequeador
+		LoroEjecutor
+	  
 	- Mejoramiento de documentación HTML, con corrección de formato
 	  para símbolos especiales como ``&'' y ``<'' en código Loro
 	  llevado directamente a código HTML, concretamente el caso de 

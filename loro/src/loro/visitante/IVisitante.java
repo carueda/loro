@@ -77,6 +77,8 @@ public interface IVisitante
 	throws VisitanteException;
 	public void visitar(NEste n)
 	throws VisitanteException;
+	public void visitar(NForEach n)
+	throws VisitanteException;
 	public void visitar(NFuente n)
 	throws VisitanteException;
 	public void visitar(NId n)

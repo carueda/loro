@@ -256,6 +256,12 @@ public class Descriptor
 			description = "Expresión 'éste' que referencia al objeto sobre el cual opera el contructor o método";
 		}
 		
+		public void visitar(NForEach n)
+		throws VisitanteException
+		{
+			description = "Una iteración 'para cada elemento en ...'";
+		}
+		
 		public void visitar(NFuente n)
 		throws VisitanteException
 		{

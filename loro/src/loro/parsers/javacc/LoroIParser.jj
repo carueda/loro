@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2003-02-15
+// FECHA ULTIMA ACTUALIZACION   : 2003-03-14
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2003-03-14
+//		- Incluida variante "foreach"  ("para" .. "en" expresion ..)
 //
 //		2003-02-15
 //		- Segunda cadena para "implementación" es ahora opcional:
@@ -1271,7 +1274,7 @@ NMientras mientras() :
 }
 
 //////////////////////////////////////////////////////////////////////////
-NPara para() :
+NIteracion para() :
 {
 	Token ti, tf;
 	TId etq = null;
@@ -1281,19 +1284,30 @@ NPara para() :
 	boolean b = false;
 	NExpresion ep = null;
 	NExpresion eh;
+	NExpresion en;
 	Nodo[] a;
 }
 {
 	ti="para" [ "/" etq=tid() "/" ] ( LOOKAHEAD(2) d=declaracion() | i=tid() )
-	("desde" | ":=") ed=expresion()     ("bajando" { b = true; } )?
-	("paso" ep=expresion())?
-	"hasta" eh=expresion()
-	"haga"
-		a=acciones()
-	"fin" tf="para"
-	{
-		return ConstructorArbol.crearNPara(ti, etq, i, d, ed, b, ep, eh, a, tf);
-	}
+	(
+		("desde" | ":=") ed=expresion()     ("bajando" { b = true; } )?
+		("paso" ep=expresion())?
+		"hasta" eh=expresion()
+		"haga"
+			a=acciones()
+		"fin" tf="para"
+		{
+			return ConstructorArbol.crearNPara(ti, etq, i, d, ed, b, ep, eh, a, tf);
+		}
+	  |
+		"en" en=expresion()
+		"haga"
+			a=acciones()
+		"fin" tf="para"
+		{
+			return ConstructorArbol.crearNForEach(ti, etq, i, d, en, a, tf);
+		}
+	)
 }
 
 //////////////////////////////////////////////////////////////////////////

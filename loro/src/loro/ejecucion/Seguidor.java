@@ -469,6 +469,15 @@ public abstract class Seguidor extends LoroEjecutor
 		super.visitar(n);
 		_exit(n);
 		}
+
+	public void visitar(NForEach n)
+	throws VisitanteException
+	{
+		_enter(n);
+		super.visitar(n);
+		_exit(n);
+	}
+	
 	public void visitar(NPara n)
 	throws VisitanteException
 	{

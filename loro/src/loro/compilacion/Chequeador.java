@@ -2602,6 +2602,73 @@ public class Chequeador extends ChequeadorBase
 	/**
 	 * Chequea un nodo.
 	 */
+	public void visitar(NForEach n)
+	throws VisitanteException
+	{
+		TId etq = n.obtEtiqueta();
+		String label = _chequearDefinicionEtiqueta(etq);
+		TId id = n.obtId();
+		NDeclaracion dec = n.obtDeclaracion();
+		
+		NExpresion in = n.obtExpresionEn();
+		in.aceptar(this);
+		Tipo in_tipo = in.obtTipo();
+		if ( !in_tipo.esArreglo()
+		&&   !in_tipo.esCadena() )
+		{
+			throw new ChequeadorException(
+				in,
+				"Expresión debe ser un arreglo o cadena, pero es '" +in_tipo+ "'"
+			);
+		}
+
+		int marca = tabSimb.marcar();	// marcar nuevo ambito
+		labels.push(label);
+
+		try
+		{
+			Tipo var_tipo;
+			if ( dec == null )		// o sea, id != null.
+			{
+				EntradaTabla et = tabSimb.buscar(id.obtId());
+				if ( et == null )
+				{
+					throw new ChequeadorException(
+						id,
+						"Identificador '" +id+ "' no definido"
+					);
+				}
+				var_tipo = et.obtTipo();
+				tabSimb.ponAsignado(id.obtId(), true);
+			}
+			else
+			{
+				dec.aceptar(this);
+				var_tipo = dec.obtTipo();
+				TId dec_id = dec.obtId();
+				tabSimb.ponAsignado(dec_id.obtId(), true);
+			}
+			
+			Tipo elem_tipo = in_tipo.obtTipoElemento();
+			IUbicable u = id;
+			if ( u == null )
+				u = dec;
+			_chequearAsignabilidad(u, var_tipo, elem_tipo);
+	
+			Nodo[] acciones = n.obtAcciones();
+			visitarAcciones(acciones);
+		}
+		finally
+		{
+			tabSimb.irAMarca(marca);
+			labels.pop();
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Chequea un nodo.
+	 */
 	public void visitar(NPara n)
 	throws VisitanteException
 	{

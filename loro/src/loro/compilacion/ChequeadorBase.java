@@ -280,7 +280,7 @@ abstract class ChequeadorBase implements IVisitante
 	 * @param var_tipo      Tipo de la variable.
 	 * @param expr_tipo     Tipo de la expresion.
 	 */
-	protected void _chequearAsignabilidad(Nodo n, Tipo var_tipo, Tipo expr_tipo)
+	protected void _chequearAsignabilidad(IUbicable n, Tipo var_tipo, Tipo expr_tipo)
 	throws VisitanteException
 	{
 		boolean asignable;

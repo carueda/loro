@@ -383,6 +383,22 @@ public class VisitanteProfundidad implements IVisitante
 	}
 
 	/**
+	 * Visita una acción 'para cada'.
+	 * Se recorren los nodos hijos así:
+	 * la declaración (si la hay),
+	 * la expresión "en",
+	 * la lista de acciones.
+	 */
+	public void visitar(NForEach n)
+	throws VisitanteException
+	{
+		if ( n.obtDeclaracion() != null )
+			n.obtDeclaracion().aceptar(this);
+		n.obtExpresionEn().aceptar(this);
+		visitarLista(n.obtAcciones());
+	}
+
+	/**
 	 * Visita un fuente de compilación.
 	 */
 	public void visitar(NFuente n)

@@ -827,6 +827,23 @@ class ConstructorArbol
 	}
 
 	//////////////////////////////////////////////////////////////////
+	static NForEach crearNForEach(
+		Token ti, 
+		TId etq,
+		TId i, NDeclaracion d, NExpresion en, 
+		Nodo[] a,
+		Token tf
+	)
+	{
+		Rango rango = obtRango(ti, tf);
+		return new NForEach(
+			rango, 
+			etq,
+			i, d, en, a
+		);
+	}
+
+	//////////////////////////////////////////////////////////////////
 	static NRepita crearNRepita(Token ti, TId etq, Nodo[] a, NExpresion e)
 	{
 		Rango rango = obtRango(ti, e);
