@@ -64,6 +64,13 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-14 (0.8pre8)
+
+	- UEditor listener se inicializa ahora con un UEditorListener que no 
+	  hace nada (un "null object"--see Patterns in Java by Grand); 
+	  así, ObservadorPP.init no tiene que asociar ningún listener.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-13 (0.8pre8)
 
 	- Ejecución paso-a-paso
@@ -71,7 +78,8 @@ NOTAS
 		  una entrada de datos (lectura). 
 	  	- Problema: A veces "pasar" en un nodo interno hace regresar a un
 		  nivel menor y además propagarse su efecto más de lo
-		  debido. En gran parte corregido, pero hay que probar.
+		  debido. En gran parte corregido, pero hay que probar y corregir
+		  parejas enter/exit para mantener nivel de identación.
 		- Problema: A veces se resalta mal cuando recién se regresa de
 		  la invocación de un algoritmo. Debe definirse manejo repetido
 		  exit() vs. pop().

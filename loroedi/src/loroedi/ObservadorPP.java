@@ -82,7 +82,7 @@ public class ObservadorPP implements IObservadorPP
         public int enter(INodo n, ISymbolTable symbTab, String src)
         throws InterruptedException
         {
-/*
+
                 if ( n instanceof IUnidad.IAlgoritmo )
                 {
                         return 0;
@@ -94,7 +94,7 @@ public class ObservadorPP implements IObservadorPP
                         // Por lo tanto, no se hace nada aquí ya que se hara
                         // el enter al nodo n.
                 }
-*/
+
                 
                 currentNode = n;
                 String prefix = getPrefix(level++);
@@ -126,7 +126,7 @@ public class ObservadorPP implements IObservadorPP
         public int exit(INodo n, ISymbolTable symbTab, String src, String result)
         throws InterruptedException
         {
-/*
+
                 if ( n instanceof IUnidad.IAlgoritmo )
                 {
                         return 0;
@@ -138,7 +138,7 @@ public class ObservadorPP implements IObservadorPP
                         // Por lo tanto, no se hace nada aquí ya que se hara
                         // el enter al nodo n.
                 }
-*/	
+	
                 currentNode = n;
                 String prefix = getPrefix(--level);
                 
@@ -152,7 +152,7 @@ public class ObservadorPP implements IObservadorPP
                 editor.setTitle(TITLE_PREFIX + nodeDescr);
                 editor.getMessageArea().print(prefix+ "<-" +nodeDescr);
                 if ( result != null )
-                        editor.getMessageArea().print(" Result = " +result);
+                        editor.getMessageArea().print("-> " +result);
                 editor.getMessageArea().println("");
                 
                 if ( src != null )
@@ -180,7 +180,8 @@ public class ObservadorPP implements IObservadorPP
         {
                 setup(symbTab);
                 editor.setTitle(TITLE_PREFIX + u);
-                editor.getMessageArea().println("Entrando a " +u);
+                String prefix = getPrefix(level++);
+                editor.getMessageArea().println(prefix+ "=>" +u);
                 if ( src != null )
                 {
                         editor.setText(src);
@@ -208,7 +209,8 @@ public class ObservadorPP implements IObservadorPP
                         ppcontrol.setActive(true);
                 
                 editor.setTitle(TITLE_PREFIX + u);
-                editor.getMessageArea().println("Regresando a " +u);
+                String prefix = getPrefix(--level);
+                editor.getMessageArea().println(prefix+ "= " +u);
                 if ( src != null )
                 {
                         editor.setText(src);
@@ -247,16 +249,6 @@ public class ObservadorPP implements IObservadorPP
                         editor = new UEditor(TITLE_PREFIX, false, false, false, false,
                                 Preferencias.SOURCE_TRACE_RECT
                         );
-                        editor.setEditorListener(new UEditorListener()
-                        {
-                                public void changed() {} 
-                                public void save() {} 
-                                public void closeWindow() {} 
-                                public void compile() {}
-                                public void execute(boolean trace) {} 
-                                public void reload() {} 
-                                public void viewDoc() {}
-                        });
                         editor.display();
                         symbolTableWindow = new SymbolTableWindow(
                                 "ámbito en curso",

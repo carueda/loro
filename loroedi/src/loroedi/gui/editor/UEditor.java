@@ -16,10 +16,10 @@ import java.net.URL;
 
 /////////////////////////////////////////////////////////
 /**
- * Editor para una unidad.
+ * Editor para una unidad. Bueno, también sirve para editar
+ * cualquier tipo de código.
  *
  * @author Carlos Rueda
- * @version 2002-08-04
  */
 public class UEditor implements EditorListener
 {
@@ -39,6 +39,18 @@ public class UEditor implements EditorListener
 	protected MessageArea msgArea;
 	protected JToolBar tb;
 	
+	/** Un UEditorListener que no hace nada. */
+	protected static UEditorListener nullEditorListener = new UEditorListener()
+		{
+				public void changed() {} 
+				public void save() {} 
+				public void closeWindow() {} 
+				public void compile() {}
+				public void execute(boolean trace) {} 
+				public void reload() {} 
+				public void viewDoc() {}
+		}
+	;
 
 	////////////////////////////////////////////////////////////////////////////
 	/**
@@ -108,6 +120,8 @@ public class UEditor implements EditorListener
 
 		createActions(modifiable, executable, doc);
 		createMenuBarAndToolBar(include_toolbar);
+		
+		setEditorListener(nullEditorListener);
 	}
 
 	////////////////////////////////////////////////////////////////////////////
