@@ -2,6 +2,15 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-06-18 (0.8.6)
+
+	- Bug 975700 corregido. (wrong loroedi directory after reinstallation).
+	  Ahora Configuracion toma la system property LOROEDIDIR como unica
+	  forma de indicacion.  El bug fue consecuencia del nuevo mecanismo
+	  de instalacion izpack (con el nanoinstaller se actualizaba la
+	  propiedad en .loro/loroedi.conf).
+
+////////////////////////////////////////////////////////////////////////////
 2004-04-04 (0.8.5)
 
 	- Corregida la debida creacion del directorio de configuracion 

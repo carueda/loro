@@ -134,19 +134,17 @@ public class Configuracion
 				"Se recomienda hacer una reintalacion de Loro\n"
 			);
 		}
-
-		String loro_dir = props.getProperty(DIR);
+		
+		// LOROEDIDIR system property:
+		String loro_dir = System.getProperty("LOROEDIDIR");
 		if ( loro_dir == null ) {
-			loro_dir = System.getProperty("LOROEDIDIR");
-			if ( loro_dir == null ) {
-				throw new Exception(
-					"loroedi.jar deberia haberse llamado con LOROEDIDIR definido.\n"+
-					"Esto no deberia ocurrir. Por favor notificar esta anomalia."
-				);
-			}
-			System.out.println("Setting property " +DIR+ "=[" +loro_dir+ "]");
-			props.setProperty(DIR, loro_dir);
+			throw new Exception(
+				"loroedi.jar deberia haberse llamado con LOROEDIDIR definido.\n"+
+				"Esto no deberia ocurrir. Por favor notificar esta anomalia."
+			);
 		}
+		System.out.println("Setting property " +DIR+ "=[" +loro_dir+ "]");
+		props.setProperty(DIR, loro_dir);
 
 		// Manejo del numero de ejecuciones de la version actual del sistema:
 		String num = props.getProperty(VC);
