@@ -1,57 +1,5 @@
 LoroEDI README
 
-PENDIENTES (más o menos en orden de prioridad)
-	
-	- Preparar los proyectos "incluidos" como archivos *.lar en la
-	  distribución del sistema.  (Ver opción "instalar")
-	  
-	- Guiones en Loro
-	  En principio, la idea es restringir los guiones sólo para fines de
-	  demostraciones asociados a los proyectos. 
-	  Un proyecto puede tener un guion de demostración asociado.
-	  Una demostración es una lista de acciones para ser interpretadas
-	  inmediatamente con resultado similar a si dichas acciones las
-	  escribiera el usuario directamente.
-	  Extendiendo el esquema, se abarcaría la posibilidad de ejecutar
-	  "cualquier" guión no necesariamente asociado ningún proyecto en
-	  particular.
-	  Un guión (digamos, script.lsh) no está asociado a ningún paquete
-	  en particular y no puede incluir la definición de ninguna unidad;
-	  sólo acepta las acciones aceptadas por un intérprete.
-	  
-  	- Al compilar proyecto, despachar las posible lista de errores.
-	  La idea es mantener un sólo error por unidad, pero si varias
-	  unidades tienen problemas, entonces sí permitir abrir los editores
-	  correspondientes. Puede ser así: si sólo una unidad tiene problema,
-	  entonces abrir automáticamente su editor; si son varias unidades
-	  con errores, entonces disponer de un componente gráfico con la
-	  lista, y desde allí permitir abrir los editores deseados.
-	
-  	- Abrir editor ante error de ejecución 
-	
-	- imprimir diagrama, código fuente.
-	  
-	- Hacer más flexible manejo de oro-loaders:
-			cambiar orden de busqueda, quitar, etc.
-		
-		Workspace.{compileProjectModel, compileUnit, executeAlgorithm}
-		hacen compiler.ponDirectorioDestino(prj_dir.getAbsolutePath()); pero
-		en el caso de executeAlgorithm esto es para hacer que el directorio
-		se incluya en *busqueda*. El punto es que esto también estaría
-		incluido en un rediseño del esquema de búsqueda general.
-
-	- Renovar/reasignar íconos de la GUI.
-		
-	- Asociar un "grado de complejidad" a cada proyecto de manera que se
-	  puedan mostrar esta información al usuario cuando quiera instalar/abrir
-	  un proyecto. Podría ser algo como "bajo", "intermedio", "alto".
-	  
-	- hacer Manejo del atributo "millis" en unidad compilada. Esto para
-	  poder comparar entre archivo fuente y archivo compilado: el
-	  fuente leyendo lastModified del archivo, y la unidad compilada
-	  leyendo su "millis"
-
-	  
 NOTAS
 	
 	- Puede crearse la siguiente confusión cuando se exporta una extensión
@@ -63,6 +11,11 @@ NOTAS
 	  build-ext.html del núcleo), pero se tiene generada en un directorio para
 	  ello.
 	  
+
+////////////////////////////////////////////////////////////////////////////
+2003-04-28 (0.8pre11)
+
+	- Misc: Nuevo TODO.txt
 
 ////////////////////////////////////////////////////////////////////////////
 2003-04-24 (0.8pre11)
