@@ -2088,12 +2088,16 @@ public class GUI
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Genera la lista de segmentos definidos en el guión dado.
-	 * Líneas que comiencen con ".." tienen un manejo especial:
+	 * Cada línea se descompone en dos partes:<br>
+	 *  before  "//." after <br>
+	 * Se toma el separador final "//."  Si no está, la línea se toma
+	 * completamente y no se hace ningún manejo especial.
+	 * En otro caso, la parte before se toma y la parte after se lee
+	 * como un indicador especial para el manejo de segmentos:
 	 * <ul>
-	 *  <li> Si comienza con "..$", se finaliza segmento de acciones;
-	 *       además, si comienza con "..$p", se hará "pausa", es decir,
-	 *       se hará petición de Enter para proceder.
-	 *  <li> En otro caso, la línea se ignora.
+	 *  <li> //.$    para finalizar segmento fuente
+	 *  <li> //.p    para finalizar segmento fuente y además provocar "pausa"
+	 *  <li> En otro caso, la parte se ignora.
 	 * </ul>
 	 */
 	private static void _createCommands(String src, List segments)
@@ -2112,14 +2116,13 @@ public class GUI
 		{
 			// get next line:
 			linebuf.setLength(0);
-			String line = null;
 			for (; pos < src_len; pos++ )
 			{
 				if ( src.charAt(pos) == '\n' )
 					break;
 				linebuf.append(src.charAt(pos));
 			}
-			line = linebuf.toString();
+			String line = linebuf.toString();
 
 			String special = "";
 			int idx = line.lastIndexOf(prefix_sep);
@@ -2129,24 +2132,18 @@ public class GUI
 				special = line.substring(idx + prefix_sep.length());
 				line = line.substring(0, idx);
 			}
-
-			boolean pause = special.startsWith("p");
-			boolean end_segment = pause || special.startsWith("$");
-
 			String linetrim = line.trim();
-			
-			if ( segment == null )
-			{
-				if ( linetrim.length() > 0 )
-					segment = new StringBuffer(line);
-			}
+
+			if ( segment == null ) // new  segment?
+				segment = new StringBuffer(line);
 			else
 				segment.append("\n" +line);
 			
-			if ( end_segment )   // segment?
+			boolean pause = special.startsWith("p");
+			boolean end_segment = pause || special.startsWith("$");
+			if ( end_segment ) 
 			{
-				if ( segment != null )
-					segments.add(new SourceSegment(pos_ini, segment.toString(), pause));
+				segments.add(new SourceSegment(pos_ini, segment.toString(), pause));
 				segment = null;
 				pos_ini = pos + 1;
 			}

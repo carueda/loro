@@ -12,6 +12,11 @@ NOTAS
 	  build-ext.html del núcleo), pero se tiene generada en un directorio para
 	  ello.
 	  
+////////////////////////////////////////////////////////////////////////////
+2003-05-20 (0.8pre11)
+
+	- GUI._createCommands: corrección de posición inicio para cada segmento
+	  que hacía ubicar mal rango de texto (p.ej. para reporte de error).
 	  
 ////////////////////////////////////////////////////////////////////////////
 2003-05-19 (0.8pre11)
