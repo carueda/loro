@@ -20,7 +20,7 @@ import java.util.*;
 /**
  * Punto de entrada principal al núcleo Loro.
  *
- * @version 2002-08-08
+ * @version 2002-10-20
  * @author Carlos Rueda
  */
 public final class Loro 
