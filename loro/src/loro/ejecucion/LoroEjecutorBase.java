@@ -402,12 +402,12 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	}
 	//////////////////////////////////////////////////////////////////////////
 	/**
-	 * Crea una EjecucionException con la infomacion dada y la
+	 * Crea una EjecucionException con la informacion dada y la
 	 * pila de ejecucion actual.
 	 */
 	protected EjecucionVisitanteException _crearEjecucionException(IUbicable u, String s)
 	{
-		new Exception().printStackTrace();
+//new Exception().printStackTrace();
 		return new EjecucionVisitanteException(u, pilaEjec, s);
 	}
 	////////////////////////////////////////////////////////////////////////////////

@@ -158,6 +158,7 @@ public class InterpreteImpl implements IInterprete
 				{
 					////////////////////
 					// fase ejecucion:
+					ui.setSourceCode(text);
 					ejecutor.reset(tabSimbBase, ui);
 					n.aceptar(ejecutor);
 					Object o = ejecutor.obtRetorno();

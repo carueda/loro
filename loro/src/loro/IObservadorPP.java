@@ -10,7 +10,22 @@ import loro.arbol.IUbicable;
 public interface IObservadorPP
 {
 	//////////////////////////////////////////////////////////////
-	public int ver(IUbicable u, ISymbolTable symbTab, String src);
+	/**
+	 * Llamado cuando esta por ingresarse al elemento ubicable dado.
+	 */
+	public int enter(IUbicable u, ISymbolTable symbTab, String src);
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Llamado cuando justo se finaliza la visita al elemento ubicable dado.
+	 */
+	public int exit(IUbicable u, ISymbolTable symbTab, String src);
+	
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Llamado cuando el seguimiento termina.
+	 */
+	public int end();
 }
 	
 

@@ -72,6 +72,8 @@ public class EjecutorPP extends EjecutorTerminable
 	{
 		controlpp.setActive(false);
 		super.terminarExternamente();
+		if ( obspp != null )
+			obspp.end();
 	}
 
 
@@ -89,7 +91,11 @@ public class EjecutorPP extends EjecutorTerminable
 			throw new TerminacionExternaException(u, pilaEjec);
 		}
 		
-		_notifyObserver(u);
+		if ( obspp != null )
+		{
+			String src = unidadActual.getSourceCode();
+			obspp.enter(u, tabSimb, src);
+		}				
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -103,30 +109,21 @@ public class EjecutorPP extends EjecutorTerminable
 	//////////////////////////////////////////////////////////////////////
 	protected void _pushEvent()
 	{
-		System.out.println("EjecutorPP.push: unidadActual=" +unidadActual);
-		System.out.println("EjecutorPP.push: tabSimb:\n" +tabSimb);
-		_notifyObserver(unidadActual);
+		if ( obspp != null )
+		{
+			String src = unidadActual.getSourceCode();
+			obspp.enter(unidadActual, tabSimb, src);
+		}				
 	}
 	
 	//////////////////////////////////////////////////////////////////////
 	protected void _popEvent()
 	{
-		System.out.println("EjecutorPP.pop: unidadActual=" +unidadActual);
-		System.out.println("EjecutorPP.pop: tabSimb:\n" +tabSimb);
-		_notifyObserver(unidadActual);
-	}
-	
-	//////////////////////////////////////////////////
-	protected void _notifyObserver(IUbicable u)
-	{
-		if ( obspp == null )
-			return;
-		
-		if ( u instanceof NUnidad )
-			return;
-		
-		String src = unidadActual.getSourceCode();
-		obspp.ver(u, tabSimb, src);				
+		if ( obspp != null )
+		{
+			String src = unidadActual.getSourceCode();
+			obspp.exit(unidadActual, tabSimb, src);
+		}				
 	}
 
 }
