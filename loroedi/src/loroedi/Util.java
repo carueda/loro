@@ -3,6 +3,7 @@ package loroedi;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
+import java.nio.charset.Charset;
 
 ///////////////////////////////////////////////////////////////
 /**
@@ -288,6 +289,10 @@ public final class Util
 //		copyDirectory(dir, dest_dir);
 //	}
 	
+
+
+	private static Charset charset = Charset.forName("ISO-8859-1");
+	
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Reads an entire text file.
@@ -297,13 +302,13 @@ public final class Util
 	public static String readFile(File file)
 	throws FileNotFoundException, IOException
 	{
+		System.out.println("reading " +file);
 		BufferedReader br = new BufferedReader(
-			new InputStreamReader(new FileInputStream(file))
+			new InputStreamReader(new FileInputStream(file), charset)
 		);
 		StringBuffer sb = new StringBuffer();
 		String line;
-		while ( (line = br.readLine()) != null )
-		{
+		while ( (line = br.readLine()) != null ) {
 			sb.append(line+ "\n");
 		}
 		br.close();
@@ -319,8 +324,9 @@ public final class Util
 	public static void writeFile(File file, String text)
 	throws IOException
 	{
+		System.out.println("writing " +file);
 		PrintWriter s = new PrintWriter(
-			new OutputStreamWriter(new FileOutputStream(file))
+			new OutputStreamWriter(new FileOutputStream(file), charset)
 		);
 		s.print(text);
 		s.close();

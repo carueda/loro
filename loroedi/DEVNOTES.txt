@@ -2,6 +2,10 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-06-22 (0.8.7)
+	- loroedi.Util uses charset ISO-8859-1 for readFile() and writeFile()
+	
+////////////////////////////////////////////////////////////////////////////
 2004-06-21 (0.8.7)
 
 	- Workspace.executeCommands() tiene dos nuevos parametros, byeOK y byeErr,
