@@ -138,6 +138,7 @@
 			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${looks.jar}:${jgraph.jar}"
 			debug="on"
 			encoding="ISO8859_1"
+			source="1.4"
 		/>
     </target>
 
@@ -148,6 +149,7 @@
 			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${jgraph.jar}:${looks.jar}:${skinlf.jar}"
 			debug="on"
 			encoding="ISO8859_1"
+			source="1.4"
        />
     </target>
 
