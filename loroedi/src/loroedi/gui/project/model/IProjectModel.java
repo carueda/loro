@@ -84,6 +84,18 @@ public interface IProjectModel
 		
 		/////////////////////////////////////////////////////////////////
 		/**
+		 * Obtiene el formato de la descripción.
+		 */
+		public String getDescriptionFormat();
+
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Establece el formato de la descripción de este proyecto.
+		 */
+		public void setDescriptionFormat(String descriptionFormat);
+
+		/////////////////////////////////////////////////////////////////
+		/**
 		 * Obtiene el código de demostración de este proyecto.
 		 */
 		public String getDemoScript();

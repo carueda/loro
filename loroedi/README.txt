@@ -65,6 +65,23 @@ NOTAS
 	  
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-03-21 (0.8pre10)
+
+	- Ahora se puede indicar si la descripción de un proyecto contiene o no
+	  marcadores HTML. Por defecto (y para proyectos preexistentes) esta
+	  propiedad no está establecida, por lo que la descripción se toma
+	  como texto plano que se encierra entre <pre> ... </pre>.
+	  Los tags @{...} siempre se procesan independientemente de si la
+	  descripción está o no en HTML para seguir permitiendo los enlaces
+	  correspondientes.
+	  Principales ajustes en:
+	  	IProjectModel.IInfo
+	  	ProjectModel.Info
+		Workspace
+		GUI._editProperties()
+		GUI._saveProjectDoc()
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-03-19 (0.8pre10)
 
 	- GUI._saveProjectDoc: verificación de valores null en campos de 

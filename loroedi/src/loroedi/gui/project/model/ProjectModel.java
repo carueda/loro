@@ -39,6 +39,9 @@ public class ProjectModel implements IProjectModel
 	/** Descripción de este proyecto. */
 	protected String description;
 	
+	/** Formato de la descripción */
+	protected String descriptionFormat;
+	
 	/** Código de demostración de este proyecto. */
 	protected String demoSrc;
 	
@@ -178,6 +181,18 @@ public class ProjectModel implements IProjectModel
 			ProjectModel.this.description = description;
 		}
 		
+		/////////////////////////////////////////////////////////////////
+		public String getDescriptionFormat()
+		{
+			return descriptionFormat;
+		}
+
+		/////////////////////////////////////////////////////////////////
+		public void setDescriptionFormat(String descriptionFormat)
+		{
+			ProjectModel.this.descriptionFormat = descriptionFormat;
+		}
+
 		/////////////////////////////////////////////////////////////////
 		public String getDemoScript()
 		{

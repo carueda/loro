@@ -598,6 +598,8 @@ public class GUI
         final JTextArea f_description = new JTextArea(8, 50);
 		f_description.setEditable(editable);
 		f_description.setFont(monospaced12_font);
+		JCheckBox t_htmlDescription = new JCheckBox("Contiene HTML");
+		t_htmlDescription.setToolTipText("Indica que la descripción contiene marcadores HTML");
 		final JLabel status = new JLabel();
 		
 		if ( !valid )
@@ -633,6 +635,9 @@ public class GUI
 		f_authors.setText(model.getInfo().getAuthors());
 		f_version.setText(model.getInfo().getVersion());
 		f_description.setText(model.getInfo().getDescription());
+		t_htmlDescription.setSelected(
+			"html".equalsIgnoreCase(model.getInfo().getDescriptionFormat())
+		);
 		f_description.setCaretPosition(0);
 
 		// borders:		
@@ -641,14 +646,20 @@ public class GUI
 		f_authors.setBorder(createTitledBorder("Autor(es)"));
 		f_version.setBorder(createTitledBorder("Versión/Fecha"));
 		JScrollPane sp = new JScrollPane(f_description);
-		sp.setBorder(createTitledBorder("Descripción"));
+		Box descr_panel = new Box(BoxLayout.Y_AXIS);
+		t_htmlDescription.setAlignmentX(0f);
+		descr_panel.add(t_htmlDescription, "North");
+		sp.setAlignmentX(0f);
+		descr_panel.add(sp);
+		
+		descr_panel.setBorder(createTitledBorder("Descripción"));
 		
         Object[] array = {
 			f_name,
 			f_title,
 			f_authors,
 			f_version,
-			sp,
+			descr_panel,
 			status
 		};
 		
@@ -726,12 +737,16 @@ public class GUI
 			String authors = f_authors.getText().trim();
 			String version = f_version.getText().trim();
 			String description = f_description.getText().trim();
+			boolean htmlDescription = t_htmlDescription.isSelected();
 
 			model.getInfo().setName(prj_name);			
 			model.getInfo().setTitle(title);			
 			model.getInfo().setAuthors(authors);			
 			model.getInfo().setVersion(version);			
 			model.getInfo().setDescription(description);			
+			model.getInfo().setDescriptionFormat(
+				htmlDescription ? "html" : "plain"
+			);			
 			return true;
 		}
 		return false;
@@ -911,6 +926,7 @@ public class GUI
 		String authors = info.getAuthors();
 		String version = info.getVersion();
 		String description = info.getDescription();
+		boolean htmlDescription = "html".equalsIgnoreCase(info.getDescriptionFormat());
 		String pkgDoc = _getPackagesDoc(model);
 
 		if ( title == null )
@@ -922,7 +938,16 @@ public class GUI
 		if ( description == null )
 			description = "(no hay)";
 		
-		// process inline tags in description:
+		// if description is not in HTML, then replace special symbols:
+		if ( !htmlDescription )
+		{
+			description = 
+				"<pre>\n" +
+				loro.util.Util.formatHtml(description) +
+				"</pre>\n";
+		}
+		
+		// Replace ``@{...}'' tags in description:
 		description = loro.util.Util.processInlineTags(description, null);
 		
 		try

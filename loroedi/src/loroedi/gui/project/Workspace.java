@@ -281,6 +281,7 @@ public final class Workspace
 		prjm.getInfo().setTitle(props.getProperty("title"));
 		prjm.getInfo().setAuthors(props.getProperty("authors"));
 		prjm.getInfo().setVersion(props.getProperty("version"));
+		prjm.getInfo().setDescriptionFormat(props.getProperty("description.format", "plain"));
 		file = new File(prj_dir, "prj.description");
 		if ( file.exists() )
 		{
@@ -361,6 +362,7 @@ public final class Workspace
 		prjm.getInfo().setTitle(props.getProperty("title"));
 		prjm.getInfo().setAuthors(props.getProperty("authors"));
 		prjm.getInfo().setVersion(props.getProperty("version"));
+		prjm.getInfo().setDescriptionFormat(props.getProperty("description.format"));
 		prjm.getInfo().setDescription(extinfo.getDescription());
 		prjm.getControlInfo().setModifiable(
 			Boolean.valueOf(props.getProperty("modifiable")).booleanValue()
@@ -1014,6 +1016,7 @@ public final class Workspace
 		props.setProperty("title", info.getTitle());
 		props.setProperty("authors", info.getAuthors());
 		props.setProperty("version", info.getVersion());
+		props.setProperty("description.format", info.getDescriptionFormat());
 		loroedi.Util.storeProperties(
 			"Propiedades de proyecto", 
 			props,
@@ -1525,6 +1528,7 @@ public final class Workspace
 			default_props.setProperty("authors", "");
 			default_props.setProperty("version", "");
 			default_props.setProperty("modifiable", "false");
+			default_props.setProperty("description.format", "plain");
 			
 			props = new Properties(default_props);
 			
