@@ -21,7 +21,6 @@ import java.util.List;
  * Acciones para proyecto.
  *
  * @author Carlos Rueda
- * @version 2002-07-26
  */
 public class Actions
 {
@@ -90,6 +89,8 @@ public class Actions
 		execution_group.actions.add(null);
 		addAction("test-project", new TestProjectAction(), execution_group.actions);
 		addAction("show-variables", new ShowSymbolTableAction(), execution_group.actions);
+		execution_group.actions.add(null);
+		addAction("run-demo", new RunDemoAction(), execution_group.actions);
 		
 		help_group = new Group("Ayuda", KeyEvent.VK_Y, new ArrayList());
 		addAction("help", new HelpAction(), help_group.actions);
@@ -808,6 +809,23 @@ public class Actions
 		public void actionPerformed(ActionEvent e)
 		{
 			GUI.testProject();
+		}
+	}
+
+	/////////////////////////////////////////////////////////
+	class RunDemoAction extends AbstractAction
+	{
+		/////////////////////////////////////////////////////////
+		public RunDemoAction()
+		{
+			super("Ejecutar demo");
+			putValue(SHORT_DESCRIPTION, "Ejecuta un guión de demostración de este proyecto");
+		}
+	
+		/////////////////////////////////////////////////////////
+		public void actionPerformed(ActionEvent e)
+		{
+			GUI.runDemo();
 		}
 	}
 

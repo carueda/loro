@@ -2,6 +2,20 @@ LoroEDI README
 
 PENDIENTES (más o menos en orden de prioridad)
 	
+	- Idea: Guiones en Loro
+	  En principio, la idea es restringir los guiones sólo para fines de
+	  demostraciones asociados a los proyectos. 
+	  Un proyecto puede tener una o más demostraciones asociadas.
+	  Una demostración es una lista de acciones para ser interpretadas
+	  inmediatamente con resultado similar a si dichas acciones las
+	  escribiera el usuario directamente.
+	  Extendiendo el esquema, se abarcaría la posibilidad de ejecutar
+	  "cualquier" guión no necesariamente asociado ningún proyecto en
+	  particular.
+	  Un guión (digamos, script.lsh) no está asociado a ningún paquete
+	  en particular y no puede incluir la definición de ninguna unidad;
+	  sólo acepta las acciones aceptas por un intérprete.
+	  
   	- InstallProject() ahora solo considera 'directorios' bajo una
 	  cierta localización en la distribución del sistema.
 	  Pendiente incluir más posibilidades de origen del proyecto,
@@ -56,6 +70,25 @@ PENDIENTES (más o menos en orden de prioridad)
 	  leyendo su "millis"
 
 	  
+////////////////////////////////////////////////////////////////////////////
+2002-10-22 (0.8pre5)
+
+	- Utilizando núcleo 0.7.4
+	
+	- Algunos ajustes por nuevo parámetro para indicar si se quiere una
+	  tabla de símbolos nueva o compartida para los intérpretes:
+	     InterpreterWindow
+		 Workspace.executeCommands
+		 
+	- Creando nueva funcionalidad para definición/ejecución de "guiones".
+	  Por ahora se tiene sólo una opción "Ejecutar demo" que ejecuta
+	  el fragmento de código encerrado entre líneas ``.inicio'' y
+	  ``.fin'' de la descripción del proyecto. PROVISIONAL
+	  Ver:
+	  	GUI.runDemo() 
+		Actions
+		
+	
 ////////////////////////////////////////////////////////////////////////////
 2002-10-20 (0.8pre5)
 

@@ -212,7 +212,7 @@ implements ActionListener
 		pw = new PrintWriter(term.getWriter());
 		br = new BufferedReader(term.getReader());
 
-		loroii = Loro.crearInterprete(br, pw);
+		loroii = Loro.crearInterprete(br, pw, false);
 
 		term.setPrefix(PREFIX_SPECIAL);
 		pw.print(

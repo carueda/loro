@@ -1392,7 +1392,8 @@ public class GUI
 					workspace.executeCommands(
 						"Probando proyecto " +focusedProject.getModel().getInfo().getName(),
 						"Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba.\n",
-						cmds
+						cmds,
+						false    // newSymTab
 					);
 				}
 				else if ( total_algs > 0 )
@@ -1413,6 +1414,78 @@ public class GUI
 					prj_msg.print(msg+ "\n");
 					message(focusedProject.getFrame(), msg);
 				}
+			}
+		};
+		new Thread(run).start();
+	}
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Ejecuta un guión de demostración.
+	 */
+	public static void runDemo()
+	{
+		Runnable run = new Runnable() 
+		{
+			public void run() 
+			{
+				MessageArea prj_msg = focusedProject.getMessageArea();
+				prj_msg.clear();
+				prj_msg.print("Ejecutando demo...\n");
+				IProjectModel model = focusedProject.getModel();
+				String descr = model.getInfo().getDescription();
+				BufferedReader br = new BufferedReader(new StringReader(descr));
+				String line;
+				boolean in_demo = false;
+				StringBuffer cmd = null;
+				List cmds = new ArrayList();
+				try
+				{
+					while ( (line = br.readLine()) != null )
+					{
+						if ( in_demo )
+						{
+							if ( line.trim().length() == 0 )
+							{
+								// linea en blanco agrega comando acumulado:
+								if ( cmd != null )
+								{
+									cmds.add(cmd.toString());
+									cmd = null;
+								}
+							}
+							else if ( line.startsWith(".fin") )
+							{
+								if ( cmd != null )
+									cmds.add(cmd.toString());
+								break;
+							}
+							else
+							{
+								// linea normal:
+								if ( cmd == null )
+									cmd = new StringBuffer(line);
+								else
+									cmd.append("\n" +line);
+							}
+						}
+						else if ( line.startsWith(".inicio") )
+						{
+							in_demo = true;
+						}
+					}
+				}
+				catch(IOException ex)
+				{
+					// ignore
+				}
+
+				workspace.executeCommands(
+					"Ejecutando demo",
+					null,
+					cmds,
+					true     // newSymTab
+				);
 			}
 		};
 		new Thread(run).start();
@@ -1522,7 +1595,8 @@ public class GUI
 			workspace.executeCommands(
 				"Probando " +tested_alg.getIUnidad(),
 				null,
-				cmds
+				cmds,
+				false    // newSymTab
 			);
 		}
 	}

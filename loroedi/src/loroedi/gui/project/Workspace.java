@@ -1212,7 +1212,8 @@ public final class Workspace
 //		HiloAlgoritmo ha = new HiloAlgoritmo(u, args);
 //		ha.start();
 	
-		InterpreterWindow iw = new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null)
+		InterpreterWindow iw = 
+			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false)
 		{
 			public void body()
 			throws Exception
@@ -1271,10 +1272,11 @@ public final class Workspace
 	 * @param title For the window.
 	 * @param hello Message to start with. Can be null.
 	 * @param cmds Commands to execute.
+	 * @param newSymTab See InterpreterWindow
 	 */
-	public void executeCommands(String title, String hello, final List cmds)
+	public void executeCommands(String title, String hello, final List cmds, boolean newSymTab)
 	{
-		InterpreterWindow iw = new InterpreterWindow(title, hello)
+		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab)
 		{
 			public void body()
 			throws Exception

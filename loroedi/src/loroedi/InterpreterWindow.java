@@ -58,8 +58,9 @@ implements ActionListener
 	 *
 	 * @param title For the window.
 	 * @param hello Message to start with. Can be null.
+	 * @param newSymTab See Loro.crearInterprete
 	 */
-	public InterpreterWindow(String title, String hello)
+	public InterpreterWindow(String title, String hello, boolean newSymTab)
 	{
 		super();
 
@@ -74,7 +75,7 @@ implements ActionListener
 		pw = new PrintWriter(term.getWriter());
 		br = new BufferedReader(term.getReader());
 
-		loroii = Loro.crearInterprete(br, pw);
+		loroii = Loro.crearInterprete(br, pw, newSymTab);
 
 		if ( hello != null )
 		{
