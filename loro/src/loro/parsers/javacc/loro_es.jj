@@ -1,0 +1,1940 @@
+// Gramatica para español
+// $Id$
+
+options {
+	STATIC = false;
+}
+
+PARSER_BEGIN(ParserEs)
+	package loro.parsers.javacc;
+	import loro.arbol.*;
+	import java.util.*;
+	class ParserEs { }
+PARSER_END(ParserEs)
+
+
+SKIP : // espacios y comentarios
+{
+	" "
+  | "\t"
+  | "\n"
+  | "\r"
+  | "\f"
+}
+
+// Tomado de Java1.1.jj:
+
+/* COMMENTS */
+
+MORE :
+{
+  "//" : IN_SINGLE_LINE_COMMENT
+|
+  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+|
+  "/*" : IN_MULTI_LINE_COMMENT
+|
+  "''" : IN_TEXT_DOC
+|
+  "{{" : IN_GUIDE
+|
+  "{%" : IN_IMPL
+}
+
+<IN_SINGLE_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT
+}
+
+<IN_FORMAL_COMMENT>
+SPECIAL_TOKEN :
+{
+  <FORMAL_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <MULTI_LINE_COMMENT: "*/" > : DEFAULT
+}
+
+
+<IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT, IN_TEXT_DOC, IN_GUIDE, IN_IMPL>
+MORE :
+{
+  < ~[] >
+}
+
+<IN_TEXT_DOC>
+TOKEN :
+{
+  <TEXT_DOC: "''" > : DEFAULT
+}
+
+<IN_GUIDE>
+TOKEN :
+{
+  <GUIDE: "}}" > : DEFAULT
+}
+
+<IN_IMPL>
+TOKEN :
+{
+  <IMPL: "%}" > : DEFAULT
+}
+
+
+TOKEN : // tipos básicos
+{
+	< BOOLEAN: "booleano" >
+  | < STRING: "cadena" >
+  | < CHAR: "caracter" >
+  | < INT: "entero" >
+  | < REAL: "real" >
+}
+
+TOKEN : // otras palabras reservadas
+{
+	< ALGORITHM: "algoritmo">
+  | < CATCH: "atrape">
+  | < CASE: "caso" >
+  | < LOOP: "ciclo" >
+  | < TRUE: "cierto" >
+  | < CLASS: "clase" >
+  | < AS: "como" >
+  | < CONSTANT: "constante">
+  | < CONSTRUCTOR: "constructor">
+  | < CONTINUE: "continue" | "continúe" | "contin\u00fae" >
+  | < NEW: "crear">
+  | < FROM: "desde" >
+//  | < TO: "to" >   NOT USED, See para()
+  | < DESCRIPTION: "descripcion" | "descripción" | "descripci\u00f3n" >
+  | < IN: "en">
+  | < THEN: "entonces" >
+  | < INPUT: "entrada">
+  | < INSTANCEOF: "es_instancia_de">
+  | < SPECIFICATION: "especificacion" | "especificación" | "especificaci\u00f3n" >
+  | < THIS: "este" | "éste" | "\u00e9ste" >
+  | < STRATEGY: "estrategia">
+  | < EXISTS: "existe">
+  | < EXTENDS: "extiende">
+  | < FALSE: "falso" >
+  | < END: "fin" >
+  | < GLOBAL: "global" >
+  | < DO: "haga">
+  | < UNTIL: "hasta">
+  | < IMPLEMENTATION: "implementacion" | "implementación" | "implementaci\u00f3n" >
+  | < BEGIN: "inicio">
+  | < IMPLEMENTS: "implementa">
+  | < TRY: "intente">
+  | < INTERFACE: "interfaz" | "interface">
+  | < THROW: "lance">
+  | < METHOD: "metodo" | "método" | "m\u00e9todo" >
+  | < WHILE: "mientras" >
+  | < NULL: "nulo">
+  | < OBJECT: "objeto">
+  | < OPERATION: "operacion" | "operación" | "operaci\u00f3n" >
+  | < PACKAGE: "paquete">
+  | < FOR: "para">
+  | < BAJANDO: "bajando">         // See para()
+  | < BY: "paso" >
+  | < FORALL: "para_todo">
+  | < POST: "pos">
+  | < PRE: "pre">
+  | < REPEAT: "repita">
+  | < RETURN: "retorne">
+  | < OUTPUT: "salida">
+  | < SWITCH: "segun" | "según" | "seg\u00fan" >
+  | < IF: "si" >
+  | < ELSE: "si_no" >
+  | < ELSEIF: "si_no_si" >
+  | < FINALLY: "siempre" >
+  | < SUPER: "super" | "súper" | "s\u00faper" >
+  | < BREAK: "termine" >
+  | < USES: "utiliza" >
+}
+
+TOKEN : // Literales
+{
+	< INT_LITERAL: (<DIGIT>)+ >
+  |
+	< REAL_LITERAL:
+		(["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)?
+	 |  "." (["0"-"9"])+ (<EXPONENT>)?
+	 |  (["0"-"9"])+ <EXPONENT>
+	 |  (["0"-"9"])+ (<EXPONENT>)?
+	>
+  |
+	< #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  |
+	< #HEXA: ["0"-"9","a"-"f","A"-"F"] >
+  |
+	< CHAR_LITERAL:
+		  "'"
+		  (   (~["'","\\","\n","\r"])
+		| ("\\"
+			( ["n","t","b","r","f","\\","'","\""]
+			| ["0"-"7"] ( ["0"-"7"] )?
+			| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+			| "u" <HEXA> <HEXA> <HEXA> <HEXA>
+			)
+		  )
+		  )
+		  "'"
+	>
+  |
+	< STRING_LITERAL:   // se permite que cubra varias líneas
+	  "\""
+	  (   (~["\"","\\"])    //(~["\"","\\","\n","\r"])
+	| ("\\"
+		( ["n","t","b","r","f","\\","'","\""]
+		| ["0"-"7"] ( ["0"-"7"] )?
+		| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+		| "u" <HEXA> <HEXA> <HEXA> <HEXA>
+		)
+	  )
+	  )*
+	  "\""
+	>
+}
+
+TOKEN : // Identificadores
+{
+	< ID: <LETRA> (<LETRA>|<DIGIT>)* ("'")?>
+  |
+  < #LETRA:
+	  [
+	   "á", "é", "í", "ó", "ú", "ñ", 
+	   "\u0024",
+	   "\u0041"-"\u005a",
+	   "\u005f",
+	   "\u0061"-"\u007a",
+	   "\u00c0"-"\u00d6",
+	   "\u00d8"-"\u00f6",
+	   "\u00f8"-"\u00ff",
+	   "\u0100"-"\u1fff",
+	   "\u3040"-"\u318f",
+	   "\u3300"-"\u337f",
+	   "\u3400"-"\u3d2d",
+	   "\u4e00"-"\u9fff",
+	   "\uf900"-"\ufaff"
+	  ]
+  >
+|
+  < #DIGIT:
+	  [
+	   "\u0030"-"\u0039",
+	   "\u0660"-"\u0669",
+	   "\u06f0"-"\u06f9",
+	   "\u0966"-"\u096f",
+	   "\u09e6"-"\u09ef",
+	   "\u0a66"-"\u0a6f",
+	   "\u0ae6"-"\u0aef",
+	   "\u0b66"-"\u0b6f",
+	   "\u0be7"-"\u0bef",
+	   "\u0c66"-"\u0c6f",
+	   "\u0ce6"-"\u0cef",
+	   "\u0d66"-"\u0d6f",
+	   "\u0e50"-"\u0e59",
+	   "\u0ed0"-"\u0ed9",
+	   "\u1040"-"\u1049"
+	  ]
+  >
+}
+
+/////////////// Grammar stats here /////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////
+NFuente fuente() :
+{
+	NPaquete pq = null;
+	NUtiliza utz;
+	Vector v_utz = new Vector();
+	Nodo n;
+	Vector v = new Vector();
+}
+{
+	[ pq=paquete() ]
+	( utz=utiliza() [";"]   { v_utz.addElement(utz); } )*
+	( n=unidad()            { v.addElement(n); }	)+
+	<EOF>
+	{
+		NUtiliza[] a_utz = new NUtiliza[v_utz.size()];
+		v_utz.copyInto(a_utz);
+		Nodo[] a = new Nodo[v.size()];
+		v.copyInto(a);
+		return ConstructorArbol.crearNFuente(pq, a_utz, a);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NUnidad unidad() :
+{
+	NUnidad n;
+}
+{
+	(
+		n=especificacion()
+	  |
+		n=algoritmo()
+	  |
+		n=clase()
+	  |
+		n=interface_()
+	)
+	{
+		return n;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NInterface interface_() :
+{
+	Token tini;
+	Token tfin;
+	TId i;
+	TCadenaDoc d = null;
+	
+	Vector interfaces = new Vector();
+	TNombre inter;
+
+	NDeclDesc[] atrs = null;
+
+	List opers = new ArrayList();
+	NEspecificacion op;
+}
+{
+	tini=<INTERFACE> i=tid()
+	[
+		<EXTENDS> inter=tnombre() { interfaces.addElement(inter); }
+		         ( "," inter=tnombre() { interfaces.addElement(inter); } )*
+	]
+		[ [ <DESCRIPTION> ] d=tdoc() ]
+		(
+			op=especificacion()     { opers.add(op); }
+		)*
+	tfin=<END> [ LOOKAHEAD(2) tfin=<INTERFACE> ]
+	{
+		TNombre[] inters = new TNombre[interfaces.size()];
+		interfaces.copyInto(inters);
+		
+		return ConstructorArbol.crearNInterface(tini, i, inters, d, opers, tfin);
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+NPaquete paquete() :
+{
+	Token tini;
+	TNombre nom;
+}
+{
+	tini=<PACKAGE> nom=tnombre() [";"]
+	{
+		return ConstructorArbol.crearNPaquete(tini, nom);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NUtiliza utiliza() :
+{
+	Token tini;
+	String what;
+	TNombre nom;
+}
+{
+	tini=<USES>
+	(
+		<SPECIFICATION> { what = "specification"; }
+	  |
+		<ALGORITHM>      { what = "algorithm"; }
+	  |
+		<CLASS>          { what = "class"; }
+	)
+	nom=tnombre()
+	{
+		return ConstructorArbol.crearNUtiliza(tini, what, nom);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NClase clase() :
+{
+	Token tini;
+	Token tfin;
+	TId i;
+	TCadenaDoc d = null;
+	TNombre x = null;
+
+	NDeclDesc[] atrs = null;
+
+	Vector cs = new Vector();
+	NConstructor c;
+
+	Vector interfaces = new Vector();
+	TNombre inter;
+
+	Vector mets = new Vector();
+	NAlgoritmo m;
+}
+{
+	( tini=<CLASS> | tini=<OBJECT> ) 
+	i=tid() 
+	[ <EXTENDS> x=tnombre() ]
+	[
+		<FOR> inter=tnombre() { interfaces.addElement(inter); }
+		      (","  inter=tnombre() { interfaces.addElement(inter); } )*
+	]
+		[ [ <DESCRIPTION> ] d=tdoc() ]
+		[ atrs=declDescs() ]
+		(
+			c=constructor()     { cs.addElement(c); }
+		)*
+		(
+			m=algoritmo()     { mets.addElement(m); }
+		)*
+	tfin=<END> [ LOOKAHEAD(2) ( tfin=<CLASS> | tfin=<OBJECT> ) ]
+	{
+		TNombre[] inters = new TNombre[interfaces.size()];
+		interfaces.copyInto(inters);
+		
+		NConstructor[] acs = new NConstructor[cs.size()];
+		cs.copyInto(acs);
+		
+		NAlgoritmo[] ams = new NAlgoritmo[mets.size()];
+		mets.copyInto(ams);
+		
+		return ConstructorArbol.crearNClase(tini, i, x, inters, d, atrs, acs, ams, tfin);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NDeclDesc[] declDescs() :
+{
+	Vector v = new Vector();
+	NDeclDesc d;
+}
+{
+	d=declDesc()   [";"]    { v.addElement(d); }
+	( d=declDesc() [";"]    { v.addElement(d); } )*
+	{
+		NDeclDesc[] a = new NDeclDesc[v.size()];
+		v.copyInto(a);
+		return a;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclDesc declDesc() :
+{
+	TId i;
+	NTipo t;
+	TCadenaDoc d = null;
+	boolean esConstante = false;
+	NExpresion e = null;
+	Token c = null;
+}
+{
+	i=tid() ":" t=ntipo()
+	[
+		(
+			":="  e=expresion()
+		  |
+			c=<CONSTANT> [ "=" e=expresion() ]  { esConstante = true; }
+		)
+	]
+	[ [":"]  d=tdoc() ]
+	{
+		return ConstructorArbol.crearNDeclDesc(i, t, d, esConstante, e, c);
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+NConstructor constructor() :
+{
+	Token tini;
+	Token tfin;
+	TCadenaDoc d = null;
+	TCadenaDoc e = null;
+	NDeclaracion[] ent = null;
+	NDeclaracion[] sal = null;
+	NDescripcion[] dent = null;
+	NAfirmacion pre = null;
+	NAfirmacion pos = null;
+	Nodo[] a = null;
+}
+{
+	tini=<CONSTRUCTOR> "(" [ ent=declaraciones() ]  ")"
+	   [ LOOKAHEAD(2) [ <DESCRIPTION> ] d=tdoc() ]
+	   [    <INPUT> dent=descripciones() ]
+	   [    <PRE>  pre=afirmacion()  ]
+	   [    <POST> pos=afirmacion()  ]
+	[ [ <DESCRIPTION> | <STRATEGY> ] e=tdoc() ]
+	<BEGIN>
+		a=acciones()
+	tfin=<END> [ LOOKAHEAD(2) tfin=<CONSTRUCTOR> ]
+	{
+		return ConstructorArbol.crearNConstructor(tini, d, ent, dent, pre, pos, e, a, tfin);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NEspecificacion especificacion() :
+{
+	Token tini;
+	Token tfin;
+	TId i;
+	TCadenaDoc d = null;
+	NDeclaracion[] ent = null;
+	NDeclaracion[] sal = null;
+	NDescripcion[] dent = null;
+	NDescripcion[] dsal = null;
+	NAfirmacion pre = null;
+	NAfirmacion pos = null;
+}
+{
+	( tini=<SPECIFICATION> | tini=<OPERATION> )
+		i=tid() "(" ( ent=declaraciones() )?  ")"
+			( "->" sal=declaraciones() )?
+		[ [ <DESCRIPTION> ] d=tdoc() ]
+	   [    <INPUT> dent=descripciones() ]
+	   [    <OUTPUT> dsal=descripciones() ]
+	   [    <PRE>  pre=afirmacion()  ]
+	   [    <POST> pos=afirmacion()  ]
+	tfin=<END> [ LOOKAHEAD(2) ( tfin=<SPECIFICATION> | tfin=<OPERATION> ) ]
+	{
+		return ConstructorArbol.crearNEspecificacion(
+			tini, 
+			i, d, ent, sal, dent, dsal, pre, pos, 
+			tfin
+		);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDescripcion[] descripciones() :
+{
+	Vector v = new Vector();
+	NDescripcion d;
+}
+{
+	( d=descripcion() { v.addElement(d); } )+
+	{
+		NDescripcion[] a = new NDescripcion[v.size()];
+		v.copyInto(a);
+		return a;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDescripcion descripcion() :
+{
+	TId i;
+	TCadenaDoc d;
+}
+{
+	i=tid() ":" d=tdoc()  [";"]
+	{
+		return ConstructorArbol.crearNDescripcion(i, d);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NAlgoritmo algoritmo() :
+{
+	Token ti, tf;
+	TId id = null;
+	TNombre esp;
+	NDeclaracion[] ent = null;
+	NDeclaracion[] sal = null;
+	TCadenaDoc d = null;
+	Nodo[] a = null;
+	TCadena leng = null;
+	TCadena lengAdic = null;
+}
+{
+	( ti=<ALGORITHM> | ti=<METHOD> )
+	[id=tid()] <FOR> esp=tnombre() "(" [ent=declaraciones()]  ")"
+			[ "->" sal=declaraciones() ]
+	(
+		[ [ <DESCRIPTION> | <STRATEGY> ] d=tdoc() ]
+		<BEGIN>
+			a=acciones()
+	  |
+		<IMPLEMENTATION> leng=timpl() [ lengAdic=timpl() ] [";"]
+	)
+	tf=<END> [ LOOKAHEAD(2) ( tf=<ALGORITHM> | tf=<METHOD> ) ]
+	{
+		return ConstructorArbol.crearNAlgoritmo(
+			ti,
+			id, esp, d, ent, sal, a,
+			leng, lengAdic,
+			tf
+		);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion[] declaraciones() :
+{
+	Vector v = new Vector();
+	NDeclaracion[] d;
+	int tot = 0;        // el total de declaraciones individuales
+}
+{
+	d=declaraciones1Tipo()
+	{
+		tot += d.length;
+		v.addElement(d);
+	}
+	(
+		/*
+		 * En una expresión de variable cuantificada viene
+		 * posiblemente:
+		 *  "," expresion()
+		 * a continuación de las declaraciones; una expresión
+		 * a su vez puede comenzar con un ID. Así que se
+		 * requiere un LOOKAHEAD(3) para resolver el asunto.
+		 */
+		LOOKAHEAD(3)
+		"," d=declaraciones1Tipo()
+		{
+			tot += d.length;
+			v.addElement(d);
+		}
+	)*
+	{
+		NDeclaracion[] a = new NDeclaracion[tot];
+		int offset = 0;
+		for ( int k = 0; k < v.size(); k++ )
+		{   
+			d = (NDeclaracion[]) v.elementAt(k);
+			System.arraycopy(d, 0, a, offset, d.length);
+			offset += d.length;
+		}
+		return a;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion declaracion() :
+{
+	TId i;
+	NTipo t;
+}
+{
+	i=tid() ":" t=ntipo()
+	{
+		return ConstructorArbol.crearNDeclaracion(i, t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion[] declaraciones1Tipo() :
+{
+	TId[] i;
+	NTipo t;
+	boolean esConstante = false;
+	NExpresion e = null;
+	Token c = null;
+}
+{
+	i=tids() ":" t=ntipo()
+	[
+		(
+			":="  e=expresion()
+		  |
+			c=<CONSTANT> [ "=" e=expresion() ]
+			{ esConstante = true; }
+		)
+	]
+	{
+		NDeclaracion[] decl = new NDeclaracion[i.length];
+		for ( int k = 0; k < i.length; k++ )
+		{
+			decl[k] = ConstructorArbol.crearNDeclaracion(i[k], t, esConstante, e, c);
+		}
+
+		return decl;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDeclaracion declaracion1Tipo() :
+{
+	TId[] i;
+	NTipo t;
+	boolean esConstante = false;
+	NExpresion e = null;
+	Token c = null;
+}
+{
+	i=tids() ":" t=ntipo()
+	[
+		(
+			":="  e=expresion()
+		  |
+			c=<CONSTANT> [ "=" e=expresion() ]
+			{ esConstante = true; }
+		)
+	]
+	{
+		return ConstructorArbol.crearNDeclaracion(i, t, esConstante, e, c);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NTipo ntipo() :
+{
+	NTipo t;
+	TNombre nom = null;
+	Token ti = null;
+}
+{
+	(
+		t=ntipobasico()
+	  | 
+		ti="[" "]" t=ntipo()    
+		{ t = ConstructorArbol.crearNTipoArreglo(ti, t); }
+	  |
+	    // por ahora obliga palabra clave <INTERFACE>, mientras se completa manejo. 2002-05-24
+		ti=<INTERFACE> nom=tnombre()  
+		{ t = ConstructorArbol.crearNTipoInterface(ti, nom); }
+	  |
+		ti=<ALGORITHM>	[ <FOR> nom=tnombre() ]
+		{ t = ConstructorArbol.crearNTipoEspecificacion(ti, nom); }
+	  |
+		[ti=<CLASS>] nom=tnombre()  
+		{ t = ConstructorArbol.crearNTipoClase(ti, nom); }
+	)
+	{
+		return t;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NTipo ntipobasico() :
+{
+	Token t;
+}
+{
+	(   t=<INT>        
+	  | t=<BOOLEAN>
+	  | t=<CHAR>
+	  | t=<REAL>    
+	  | t=<STRING>  
+	)
+	{
+		return ConstructorArbol.crearNTipoBasico(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+Nodo[] acciones() :
+{
+	Vector v = new Vector();
+	Nodo a;
+}
+{
+	( a=accion() ";"  { v.addElement(a); } )*
+	{
+		Nodo[] as = new Nodo[v.size()];
+		v.copyInto(as);
+		return as;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+Nodo accion() :
+{
+	Nodo n;
+}
+{
+	(
+		LOOKAHEAD(2)
+		n=declaracion1Tipo()    //declaracion()
+	|
+		n=expresion()
+	|
+		n=decision()
+	|
+		n=decisionMultiple()
+	|
+		n=iteracion()
+	|
+		n=retorne()
+	|
+		n=intente()
+	|
+		n=lance()
+	|
+		n=afirmacion()
+	|
+		n=termine()
+	|
+		n=_continue()
+	)
+	{
+		return n;
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+/**
+ * Esta es la produccion para las lineas ingresadas en el Interprete.
+ * Es una lista de accionInterprete() separadas por ";" y opcionalmente
+ * un ";" al final.  EOF obligatorio.
+ * Tambien vacio es posible para permitir linea de comentario solamente.
+ */
+List accionesInterprete() :
+{
+	List list = new ArrayList();
+	Object n = null;
+}
+{
+	[
+	    n=accionInterprete()      { list.add(n); }
+		(
+			LOOKAHEAD(2)   // for optional final ";"
+		    ";"
+			n=accionInterprete()  { list.add(n); }
+		)*
+		[ ";" ]
+	]
+	<EOF>
+	{
+		return list;
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+/**
+ * Esta es la produccion para las lineas ingresadas en el Interprete.
+ * Basicamente es accion() o utiliza() finalizando con ";" opcional y
+ * EOF obligatorio.
+ * Tambien vacio es posible para permitir linea de comentario solamente.
+ */
+Object accionInterprete() :
+{
+	Object n = null;
+	Token t, s = null;
+}
+{
+	(
+		n=accion()
+	 |
+		n=utiliza()
+	 |
+	    ".?"     { n = "?"; }
+	 |
+	    ".??"    { n = "??"; }
+	 |
+	    "." t=<ID> [ s=<ID> ] { n = t.image + (s != null ? " " + s.image : ""); }  
+	)
+	{
+		return n;
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+Nodo iteracion() :
+{
+	Nodo n;
+}
+{
+	(
+		LOOKAHEAD(2)
+		n=mientras()
+	|
+		n=para()
+	|
+		n=repita()
+	|
+		n=ciclo()
+	)
+	{
+		return n;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NAfirmacion afirmacion() :
+{
+	Token ti, tf;
+	Token tdoc = null;
+	NExpresion e = null;
+}
+{
+	ti="{" ( e=expresion() | tdoc=<TEXT_DOC> ) tf="}"
+	{
+		if ( e != null )
+			return ConstructorArbol.crearNAfirmacion(ti, e, tf);
+		else
+			return ConstructorArbol.crearNAfirmacion(ti, tdoc, tf);
+			
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDecision decision() :
+{
+	Token ti, tf;
+	NExpresion e;
+	Nodo[] as;
+	NDecisionSiNoSi sinosi;
+	Vector sinosis = new Vector();
+	Nodo[] an = null;
+}
+{
+	ti=<IF> e=expresion() <THEN> as=acciones()
+	( sinosi=decision_si_no_si() { sinosis.addElement(sinosi); } )*
+	[ <ELSE> an=acciones() ]
+	tf=<END> [ LOOKAHEAD(2) tf=<IF> ]
+	{
+		NDecisionSiNoSi[] asinosis = new NDecisionSiNoSi[sinosis.size()];
+		sinosis.copyInto(asinosis);
+		return ConstructorArbol.crearNDecision(ti, e, as, asinosis, an, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDecisionSiNoSi decision_si_no_si() :
+{
+	Token ti;
+	NExpresion e;
+	Nodo[] as;
+}
+{
+	ti=<ELSEIF> e=expresion() <THEN> as=acciones() 
+	{
+		return ConstructorArbol.crearNDecisionSiNoSi(ti, e, as);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NDecisionMultiple decisionMultiple() :
+{
+	Token ti, tf;
+	Token cti, ctf = null;
+
+	NExpresion e_segun;
+	NExpresion e_caso;
+	Nodo[] a_caso;
+	boolean con_fin_caso = false;
+	Vector casos = new Vector();
+	NCaso caso_sino = null;
+}
+{
+	ti=<SWITCH> e_segun=expresion() <DO>
+		(
+			cti=<CASE> e_caso=expresion() ":"
+				a_caso=acciones()
+			( LOOKAHEAD(2) <END> ctf=<CASE> [";"] { con_fin_caso = true; } )?
+			{
+				casos.addElement(
+					ConstructorArbol.crearNCaso(cti, e_caso, a_caso, con_fin_caso, ctf)
+				);
+				con_fin_caso = false;
+				ctf = null;
+			}
+		)*
+		(   cti=<ELSE> [":"]
+				a_caso=acciones()
+			( LOOKAHEAD(2) <END> ctf=<CASE> [";"])?
+			{
+				caso_sino = ConstructorArbol.crearNCaso(cti, null, a_caso, true, ctf);
+			}
+		)?
+	tf=<END> [ LOOKAHEAD(2) tf=<SWITCH> ]
+	{
+		NCaso[] css = new NCaso[casos.size()];
+		casos.copyInto(css);
+		return ConstructorArbol.crearNDecisionMultiple(ti, e_segun, css, caso_sino, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NMientras mientras() :
+{
+	Token ti, tf;
+	TId etq = null;
+	NExpresion e;
+	Nodo[] a;
+}
+{
+	ti=<WHILE> [ "/" etq=tid() "/" ] e=expresion() <DO>
+		a=acciones()
+	tf=<END> [ LOOKAHEAD(2) tf=<WHILE> ]
+	{
+		return ConstructorArbol.crearNMientras(ti, etq, e, a, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NIteracion para() :
+{
+	Token ti, tf;
+	TId etq = null;
+	TId i = null;
+	NDeclaracion d = null;
+	NExpresion ed;
+	boolean b = false;
+	NExpresion ep = null;
+	NExpresion eh;
+	NExpresion en;
+	Nodo[] a;
+}
+{
+	ti=<FOR> [ "/" etq=tid() "/" ] ( LOOKAHEAD(2) d=declaracion() | i=tid() )
+	(
+		(<FROM> | ":=") ed=expresion()     
+		(<BAJANDO> { b = true; } )?
+		(<BY> ep=expresion())?
+		<UNTIL> eh=expresion()
+		<DO>
+			a=acciones()
+		tf=<END> [ LOOKAHEAD(2) tf=<FOR> ]
+		{
+			return ConstructorArbol.crearNPara(ti, etq, i, d, ed, b, ep, eh, a, tf);
+		}
+	  |
+		<IN> en=expresion()
+		<DO>
+			a=acciones()
+		tf=<END> [ LOOKAHEAD(2) tf=<FOR> ]
+		{
+			return ConstructorArbol.crearNForEach(ti, etq, i, d, en, a, tf);
+		}
+	)
+}
+
+//////////////////////////////////////////////////////////////////////////
+NRepita repita() :
+{
+	Token ti;
+	TId etq = null;
+	Nodo[] a;
+	NExpresion e;
+}
+{
+	ti=<REPEAT> [ "/" etq=tid() "/" ]
+		a=acciones()
+	<UNTIL> e=expresion()
+	{
+		return ConstructorArbol.crearNRepita(ti, etq, a, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NCiclo ciclo() :
+{
+	Token ti, tf;
+	TId etq = null;
+	Nodo[] a;
+}
+{
+	ti=<LOOP> [ "/" etq=tid() "/" ]
+		a=acciones()
+	tf=<END> [ LOOKAHEAD(2) tf=<LOOP> ]
+	{
+		return ConstructorArbol.crearNCiclo(ti, etq, a, tf);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NRetorne retorne() :
+{
+	NExpresion[] es = null;
+	Token t;
+}
+{
+	t=<RETURN> [ es=expresiones() ]
+	{
+		if ( es == null )
+			es = new NExpresion[0];
+
+		return ConstructorArbol.crearNRetorne(t, es);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NTermine termine() :
+{
+	Token t;
+	TId etq = null;
+	NExpresion e = null;
+}
+{
+	t=<BREAK> [ "/" etq=tid() "/" ]  [ <IF>  e=expresion() ]
+	{
+		return ConstructorArbol.crearNTermine(t, etq, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NContinue _continue() :
+{
+	Token t;
+	TId etq = null;
+	NExpresion e = null;
+}
+{
+	t=<CONTINUE> [ "/" etq=tid() "/" ]  [ <IF>  e=expresion() ]
+	{
+		return ConstructorArbol.crearNContinue(t, etq, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NIntente intente() :
+{
+	Token ti, tf;
+	Token ti2, tf2 = null;
+	NDeclaracion d;
+	Nodo[] a, ca;
+	NAtrape c;
+	NAtrape f = null;
+	List clist = new ArrayList();
+}
+{
+	ti=<TRY>
+		a=acciones()
+	(
+		ti2=<CATCH> "(" d=declaracion() ")"
+			ca=acciones()
+		[ LOOKAHEAD(2) <END> tf2=<CATCH> ]
+		{
+			clist.add(ConstructorArbol.crearNAtrape(ti2, d, ca, tf2));
+			tf2 = null;
+		}
+	)*
+	[
+		ti2=<FINALLY>
+			ca=acciones()
+		{
+			f = ConstructorArbol.crearNAtrape(ti2, null, ca, null);
+		}
+	]
+	tf=<END> [ LOOKAHEAD(2) tf=<TRY> ]
+	{
+		NAtrape[] cc = (NAtrape[]) clist.toArray(new NAtrape[clist.size()]); 
+		return ConstructorArbol.crearNIntente(ti, a, cc, f, tf);
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NLance lance() :
+{
+	NExpresion e;
+	Token t;
+}
+{
+	t=<THROW> e=expresion()
+	{
+		return ConstructorArbol.crearNLance(t, e);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion[] expresiones() :
+{
+	Vector es = new Vector();
+	NExpresion e;
+}
+{
+	e=expresion() { es.addElement(e); }
+	( "," e=expresion() { es.addElement(e); } )*
+	{
+		NExpresion[] exs = new NExpresion[es.size()];
+		es.copyInto(exs);
+		return exs;
+	}
+}
+
+//
+// Segmento para expresiones
+//
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion expresion() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_cond()
+	[
+		":=" f=expresion()
+		{
+			e = ConstructorArbol.crearNAsignacion(e, f);
+		}
+	]
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_cond() :
+{
+	NExpresion e, f = null, g = null;
+}
+{
+	e=e_implic()
+	[
+		"?"  f=expresion()
+		":"  g=e_cond()
+		{
+			e = ConstructorArbol.crearNCondicion(e, f, g);
+		}
+	]
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_implic() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_o()
+	(
+		(
+			"<=>"  f=e_o()
+			{
+				e = ConstructorArbol.crearNEquivalencia(e, f);
+			}
+		  |
+			"=>"  f=e_o()
+			{
+				e = ConstructorArbol.crearNImplicacion(e, f);
+			}
+		)
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_o() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_y()
+	(
+		"||"  f=e_y()
+		{
+			e = ConstructorArbol.crearNO(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_y() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_oarit()
+	(
+		"&&"    f=e_oarit()
+		{
+			e = ConstructorArbol.crearNY(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_oarit() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_oexc()
+	(
+		"|"  f=e_oexc()
+		{
+			e = ConstructorArbol.crearNOArit(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_oexc() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_yarit()
+	(
+		"^"  f=e_yarit()
+		{
+			e = ConstructorArbol.crearNOExc(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_yarit() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_igual()
+	(
+		"&"  f=e_igual()
+		{
+			e = ConstructorArbol.crearNYArit(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_igual() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_instancia()
+	(
+		"=" f=e_instancia()
+		{
+			e = ConstructorArbol.crearNIgual(e, f);
+		}
+	  |
+		"!=" f=e_instancia()
+		{
+			e = ConstructorArbol.crearNDiferente(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_instancia() :
+{
+	NExpresion e;
+	NTipo t;
+}
+{
+	e=e_rel()
+	[
+		(
+			<IMPLEMENTS> t=ntipo()
+			{
+				e = ConstructorArbol.crearNImplementa(e, t);
+			}
+		 |
+		    <AS> t=ntipo()        // conversión 
+			{
+				e = ConstructorArbol.crearNConvertirTipo(e, t);
+			}
+		 |
+			<INSTANCEOF> t=ntipo()
+			{
+				e = ConstructorArbol.crearNEsInstanciaDe(e, t);
+			}
+		)
+	]
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_rel() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_corr()
+	(
+		"<" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMenor(e, f);
+		}
+	  |
+		">" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMayor(e, f);
+		}
+	  |
+		"<=" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMenorIgual(e, f);
+		}
+	  |
+		">=" f=e_corr()
+		{
+			e = ConstructorArbol.crearNMayorIgual(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_corr() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_sum()
+	(
+		"<<" f=e_sum()
+		{
+			e = ConstructorArbol.crearNCorrIzq(e, f);
+		}
+	  |
+		">>" f=e_sum()
+		{
+			e = ConstructorArbol.crearNCorrDer(e, f);
+		}
+	  |
+		">>>" f=e_sum()
+		{
+			e = ConstructorArbol.crearNCorrDerDer(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_sum() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_mul()
+	(
+		"+" f=e_mul()
+		{
+			e = ConstructorArbol.crearNMas(e, f);
+		}
+	  |
+		"-" f=e_mul()
+		{
+			e = ConstructorArbol.crearNMenos(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_mul() :
+{
+	NExpresion e, f;
+}
+{
+	e=e_unaria()
+	(
+		"*" f=e_unaria()
+		{
+			e = ConstructorArbol.crearNPor(e, f);
+		}
+	  |
+		"/" f=e_unaria()
+		{
+			e = ConstructorArbol.crearNDivReal(e, f);
+		}
+	  |
+		"%" f=e_unaria()
+		{
+			e = ConstructorArbol.crearNMod(e, f);
+		}
+	)*
+	{
+		return e;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_unaria() :
+{
+	Token ti;
+	NExpresion e;
+	NDeclaracion[] d;
+	NExpresion con = null;
+}
+{
+	(
+		ti="!" e=e_unaria() { e = ConstructorArbol.crearNNo(ti, e); }
+	  |
+		ti="-" e=e_unaria() { e = ConstructorArbol.crearNNeg(ti, e); }
+	  |
+		ti="+" e=e_unaria() { e = ConstructorArbol.crearNPlus(ti, e); }
+	  |
+		ti="~" e=e_unaria() { e = ConstructorArbol.crearNNoBit(ti, e); }
+	  |
+		ti="#" e=e_unaria() { e = ConstructorArbol.crearNCardinalidad(ti, e); }
+	  |
+		ti="@" e=e_unaria() { e = ConstructorArbol.crearNACadena(ti, e); }
+	  |
+		e=e_primaria()
+	  |
+		(
+			ti=<EXISTS>  |  ti=<FORALL>
+		)
+		d=declaraciones()   // ver LOOKAHEAD allí
+		[
+			"," con=expresion()
+		]
+		":" e=e_unaria()
+		{
+			e = ConstructorArbol.crearNCuantificado(ti, d, con, e);
+		}
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_primaria() :
+{
+	Token tf;
+	NExpresion e, f;
+	NExpresion[] args = null;
+	TId i;
+}
+{
+	e=e_prefijoPrimaria()
+	(
+		(
+			"." i=tid()
+			{
+				e = ConstructorArbol.crearNSubId(e, i);
+			}
+		)
+	  |
+		(
+			"[" f=expresion() tf="]"	// subindexación
+			{
+				e = ConstructorArbol.crearNSubindexacion(e, f, tf);
+			}
+		)
+	  |
+		(
+			"(" [ args=expresiones() ] tf=")"     // invocación
+			{
+				if ( args == null )
+					args = new NExpresion[0];
+				e = ConstructorArbol.crearNInvocacion(e, args, tf);
+			}
+		)
+	)*
+	{
+		return e;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_prefijoPrimaria() :
+{
+	Token ti, tf;
+	NTipo t;
+	NExpresion e;
+	List list = new ArrayList();
+}
+{
+	(
+		e=e_const()
+	  |
+	  	e=e_este()
+	  |
+	    ti="["
+		    /************* pendiente
+		    [
+			   LOOKAHEAD(2)         // for "[" "]"
+			   t=ntipo()
+			]
+			************* pendiente */
+		    e=expresion()     { list.add(e); }
+		    ( 
+			   LOOKAHEAD(2)         // for comma
+			   "," e=expresion()  { list.add(e); } 
+			)* 
+			[ "," ]              
+		tf="]"
+		{
+			e = ConstructorArbol.crearNExpresionArreglo(ti, list, tf);
+		}
+	  |
+		e=e_nombre()
+	  |
+		e=e_qualified_nombre()
+	  |
+		"(" e=expresion() ")" 
+	  |
+		e=e_crear()
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_crear() :
+{
+	Token ti, tf = null;
+	NExpresion e, f, g = null;
+	TNombre c;
+	NExpresion[] args = null;
+}
+{
+	ti=<NEW>
+	(
+		"[" e=expresion() [ ".." g=expresion() ] "]" f=tamanoArreglo()
+		{
+			e = ConstructorArbol.crearNCrearArreglo(ti, e, g, f);
+		}
+	  |
+		c=tnombre()
+		[ LOOKAHEAD(2) "(" [ args=expresiones() ] tf=")" ]
+		{
+			if ( args == null )
+			{
+				args = new NExpresion[0];
+			}
+
+			e = ConstructorArbol.crearNCrearObjeto(ti, c, args, tf);
+		}
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion tamanoArreglo() :
+{
+	Token ti;
+	NExpresion e, f, g = null;
+	NTipo t;
+}
+{
+	(
+		LOOKAHEAD(2)    // tipo puede comenzar con "["
+		t=ntipo()
+		{
+			e = ConstructorArbol.crearNCrearArregloTipoBase(t);
+		}
+	  |
+		ti="[" e=expresion() [ ".." g=expresion() ] "]" f=tamanoArreglo()
+		{
+			e = ConstructorArbol.crearNCrearArreglo(ti, e, g, f);
+		}
+	)
+	{
+		return e;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_const() :
+{
+	NExpresion e;
+}
+{
+	(
+		e=e_literalEntero()
+	  |
+		e=e_literalBooleano()
+	  |
+		e=e_literalReal()
+	  |
+		e=e_literalCaracter()
+	  |
+		e=e_literalCadena()
+	  |
+		e=e_literalNulo()
+	)
+	{
+		return e;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NEste e_este() :
+{
+	Token t;
+}
+{
+	t=<THIS>
+	{
+		return ConstructorArbol.crearNEste(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalNulo() :
+{
+	Token t;
+}
+{
+	t=<NULL>
+	{
+		return ConstructorArbol.crearNLiteralNulo(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalEntero() :
+{
+	Token t;
+}
+{
+	t=<INT_LITERAL>
+	{
+		return ConstructorArbol.crearNLiteralEntero(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalReal() :
+{
+	Token t;
+}
+{
+	t=<REAL_LITERAL>
+	{
+		return ConstructorArbol.crearNLiteralReal(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalBooleano() :
+{
+	Token t;
+}
+{
+	( t=<TRUE>  |  t=<FALSE> |  t=<PRE> )
+	{
+		return ConstructorArbol.crearNLiteralBooleano(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalCadena() :
+{
+	Token t;
+}
+{
+	t=<STRING_LITERAL>
+	{
+		return ConstructorArbol.crearNLiteralCadena(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_literalCaracter() :
+{
+	Token t;
+}
+{
+	t=<CHAR_LITERAL>
+	{
+		return ConstructorArbol.crearNLiteralCaracter(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_id() :
+{
+	TId i;
+}
+{
+	i=tid()
+	{
+		return ConstructorArbol.crearNId(i);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_nombre() : // id1::id2::id3
+{
+	Vector v = new Vector();
+	TId t;
+}
+{
+	t=tid()              { v.addElement(t); }
+	( LOOKAHEAD(2) "::" t=tid()  { v.addElement(t); } )*
+	{
+		int size = v.size();
+		if ( size == 1 )
+			return ConstructorArbol.crearNId(t);
+
+		TId[] a = new TId[size];
+		v.copyInto(a);
+		return ConstructorArbol.crearNNombre(a);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+NExpresion e_qualified_nombre() : // unittype id1::id2::id3
+{
+	Token ti;
+	Vector v = new Vector();
+	String what;
+	TId t;
+}
+{
+	(
+		ti=<ALGORITHM>    { what = "algorithm"; }
+	  |
+		ti=<OBJECT>    { what = "object"; }
+	)
+	t=tid()              { v.addElement(t); }
+	( LOOKAHEAD(2) "::" t=tid()  { v.addElement(t); } )*
+	{
+		int size = v.size();
+		TId[] a = new TId[size];
+		v.copyInto(a);
+		return ConstructorArbol.createNQualifiedName(ti, what, a);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TId tid() :    // id
+{
+	Token t;
+}
+{
+	t=<ID>
+	{
+		return ConstructorArbol.crearTId(t);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TId tidEOF() :     // id <EOF>
+{
+	TId tid;
+}
+{
+	tid=tid()
+	<EOF>
+	{
+		return tid;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TId[] tids() :	// id1,id2,id3
+{
+	Vector v = new Vector();
+	TId t;
+}
+{
+	t=tid()  { v.addElement(t); }
+	( "," t=tid() { v.addElement(t); } )*
+	{
+		TId[] a = new TId[v.size()];
+		v.copyInto(a);
+		return a;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+TNombre tnombre() :  // id1::id2::id3
+{
+	Vector v = new Vector();
+	TId t;
+}
+{
+	t=tid()              { v.addElement(t); }
+	( LOOKAHEAD(2) "::" t=tid()  { v.addElement(t); } )*
+	{
+		return ConstructorArbol.crearTNombre(v);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+TNombre tnombreEOF() :  // id1::id2::id3 <EOF>
+{
+	TNombre tnombre;
+}
+{
+	tnombre=tnombre()
+	<EOF>
+	{
+		return tnombre;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Literal cadena para info de implementación
+TCadena timpl() :
+{
+	Token t;
+	String str;
+}
+{
+	( 
+	   t=<IMPL>            { str = t.image.substring(2, t.image.length() -2); }
+	 |
+	   t=<STRING_LITERAL>  { str = t.image.substring(1, t.image.length() -1); }
+	)
+	{
+		return ConstructorArbol.crearTCadena(t, str);
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// Cadena de documentacion
+TCadenaDoc tdoc() :
+{
+	Token t;
+}
+{
+	(  t=<TEXT_DOC>  |  t=<STRING_LITERAL> )
+	{
+		return ConstructorArbol.crearTCadenaDoc(t);
+	}
+}
+
+
