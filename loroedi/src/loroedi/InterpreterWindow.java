@@ -39,6 +39,7 @@ implements ActionListener
 	JButton butTerminar;
 	JButton butCerrar;
 	JButton butStep;
+	JButton butStepInto;
 	JButton butResume;
 
 	JEditTextArea ta;
@@ -52,7 +53,7 @@ implements ActionListener
 
 	Thread readingThread = null;
 
-	IObservadorPP obspp;	
+	ObservadorPP obspp;	
 
 
 	/////////////////////////////////////////////////////////////////////
@@ -112,6 +113,7 @@ implements ActionListener
 		);
 		javax.swing.JButton but;
 		butCerrar = but = new javax.swing.JButton("Cerrar");
+		but.setActionCommand("close");
 		but.setToolTipText("Cierra esta ventana");
 		but.setEnabled(false);
 		but.addActionListener(this);
@@ -119,6 +121,7 @@ implements ActionListener
 		
 		pan.add(new javax.swing.JLabel("        "));
 		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
+		but.setActionCommand("terminate");
 		but.setToolTipText("Termina abruptamente la ejecución en curso");
 		but.addActionListener(this);
 		but.setEnabled(false);
@@ -127,14 +130,22 @@ implements ActionListener
 		if ( loroii.isTraceable() )
 		{
 			pan.add(new javax.swing.JLabel("        "));
-			butStep = but = new javax.swing.JButton("Paso");
+			butStep = but = new javax.swing.JButton("Pasar");
+			but.setActionCommand("step");
 			but.setToolTipText("Siguiente paso en la ejecución");
 			but.addActionListener(this);
 			but.setEnabled(true);
 			pan.add(but);
 			
-			pan.add(new javax.swing.JLabel("        "));
+			butStepInto = but = new javax.swing.JButton("Entrar");
+			but.setActionCommand("step-into");
+			but.setToolTipText("Entra en elemento");
+			but.addActionListener(this);
+			but.setEnabled(true);
+			pan.add(but);
+			
 			butResume = but = new javax.swing.JButton("Continuar");
+			but.setActionCommand("resume");
 			but.setToolTipText("Continúa la ejecución");
 			but.addActionListener(this);
 			but.setEnabled(true);
@@ -239,6 +250,7 @@ implements ActionListener
 			if ( loroii.isTraceable() )
 			{
 				butStep.setEnabled(false);
+				butStepInto.setEnabled(false);
 				butResume.setEnabled(false);
 			}
 			GUI.updateSymbolTable();
@@ -249,13 +261,13 @@ implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		String cmd = e.getActionCommand();
-		if ( cmd.equalsIgnoreCase("Cerrar") )
+		if ( cmd.equals("close") )
 		{
 			if ( obspp != null )
 				obspp.end();
 			frame.setVisible(false);
 		}
-		else if ( cmd.equalsIgnoreCase("Terminar ejecución") )
+		else if ( cmd.equals("terminate") )
 		{
 			loroii.terminarExternamente();
 			if ( readingThread != null && readingThread != Thread.currentThread() )
@@ -263,15 +275,15 @@ implements ActionListener
 				readingThread.interrupt();
 			}
 		}
-		else if ( cmd.equalsIgnoreCase("continuar") )
+		else if ( cmd.equals("resume") )
 		{
-			loroii.resume();
+			obspp.resume();
 		}
-		else if ( cmd.equalsIgnoreCase("paso") )
+		else if ( cmd.startsWith("step") )
 		{
 			try
 			{
-				loroii.nextStep();
+				obspp.nextStep(cmd.equals("step-into"));
 			}
 			catch(InterruptedException ex)
 			{
@@ -472,6 +484,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		{
 			// no queremos control de seguimiento mientras se lee:
 			butStep.setEnabled(false);
+			butStepInto.setEnabled(false);
 			butResume.setEnabled(false);
 		}
 		readingThread = Thread.currentThread();
@@ -484,6 +497,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			if ( loroii.isTraceable() )
 			{
 				butStep.setEnabled(execute);
+				butStepInto.setEnabled(execute);
 				butResume.setEnabled(execute);
 			}
 			readingThread = null;
@@ -506,6 +520,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			if ( loroii.isTraceable() )
 			{
 				butStep.setEnabled(execute);
+				butStepInto.setEnabled(execute);
 				butResume.setEnabled(execute);
 			}
 			
@@ -517,6 +532,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 				if ( loroii.isTraceable() )
 				{
 					butStep.setEnabled(false);
+					butStepInto.setEnabled(false);
 					butResume.setEnabled(false);
 				}
 				
@@ -552,6 +568,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			if ( loroii.isTraceable() )
 			{
 				butStep.setEnabled(false);
+				butStepInto.setEnabled(false);
 				butResume.setEnabled(false);
 			}
 		}

@@ -64,6 +64,33 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-11 (0.8pre8)
+
+Ejecución paso-a-paso
+
+	- ObservadorPP ahora utiliza el nuevo servicio del núcleo
+	  Loro.getNodeDescription(INodo n) para describir cada nodo
+	  durante la ejecución. También se hace un despliegue con
+	  anidamiento en el área de mensajes de seguimiento.
+	  
+	- ObservadorPP ahora se encarga de hacer toda la sincronización
+	  para el seguimiento. Para esto, se ayuda con una clase static
+	  interna PPControl. Se hicieron los cambios correspondientes
+	  en InterpreterWindow.actionPerformed.
+	  
+	- ObservadorPP hace editor.select(r.obtPosFin(), r.obtPosIni()),
+	  es decir, en orden inverso de posiciones, para que el scroll
+	  de visualización muestre el comienzo del fragmento de código. 
+	  
+	- MessageArea ahora hace un control simple para prevenir una
+	  una sobrepetición de memoria, lo que podría suceder al hacer 
+	  seguimiento a cualquier ejecución prolongada (por ejemplo
+	  si se llama fiboRecur(10) (!)
+	  Una mejor implementación utilizaría alguna estrategia de
+	  buffer circular para mantener las ultimas n líneas escritas
+	  en el área de mensajes. Pendiente.
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-02-10 (0.8pre8)
 
 Ejecución paso-a-paso

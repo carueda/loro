@@ -166,7 +166,7 @@ public class Preferencias
 		// HELP_RECT
 		if ( props.getProperty(HELP_RECT) == null )
 		{
-			Dimension s = new Dimension(700, 460);
+			Dimension s = new Dimension(700, 500);
 			Rectangle rect = new Rectangle(
 					(d.width - s.width) / 2, (d.height - s.height) / 2 - 80,
 					s.width, s.height

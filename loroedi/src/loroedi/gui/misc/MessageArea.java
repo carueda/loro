@@ -1,6 +1,5 @@
 package loroedi.gui.misc;
 
-
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -8,12 +7,21 @@ import java.awt.event.*;
 /////////////////////////////////////////////////////////
 /**
  * Un simple area de mensajes.
+ * Se hace un manejo simple para prevenir una sobrepetición de memoria:
+ * se pone un límite para controlar el tamaño de esta área de mensajes.
  *
  * @author Carlos Rueda
- * @version 2002-08-24
  */
 public class MessageArea extends JTextArea
 {
+	/**
+	 * Un límite para controlar el tamaño de esta área de mensajes.
+	 * Ayuda a prevenir una sobrepetición de memoria.
+	 * Actualmente MAX_NO_LINES = 222.
+	 */
+	public static final int MAX_NO_LINES = 222;
+	
+	
 	////////////////////////////////////////////////////////////////////////////
 	public MessageArea()
 	{
@@ -26,6 +34,9 @@ public class MessageArea extends JTextArea
 	////////////////////////////////////////////////////////////////////////////
 	public void print(String m)
 	{
+		if ( getLineCount() > MAX_NO_LINES )
+			clear();
+
 		append(m);
 		setCaretPosition(getText().length());
 	}
