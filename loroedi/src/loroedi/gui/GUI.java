@@ -3534,6 +3534,47 @@ public class GUI
 	/**
 	 * Ejecuta una tarea
 	 */
+	public static void progressRun__BAK(Window owner, final String msg, final Runnable runnable)
+	{
+		JProgressBar progressBar = new JProgressBar();
+		progressBar.setIndeterminate(true);
+		progressBar.setStringPainted(true);
+		progressBar.setString(msg);
+		
+		JDialog dialog2;
+		if ( owner == null || owner instanceof Frame )
+			dialog2 = new JDialog((Frame) owner, msg, true);
+		else if ( owner instanceof Dialog )
+			dialog2 = new JDialog((Dialog) owner, msg, true);
+		else
+			throw new Error("Frame or Dialog expected");
+		
+		final JDialog dialog = dialog2;
+		JPanel panel = new JPanel();
+		panel.add(progressBar);
+		dialog.getContentPane().add(progressBar);
+
+		final Runnable run = new Runnable() {
+			public void run() {
+				try { 
+					runnable.run();
+				}
+				finally {
+					dialog.dispose();
+				}
+			}
+		};
+		dialog.pack();
+		dialog.setLocationRelativeTo(focusedProject.getFrame());
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new Thread(run).start(); 
+				dialog.setVisible(true);
+			}
+		});
+	}
+
 	public static void progressRun(Window owner, final String msg, final Runnable runnable)
 	{
 		final JProgressBar progressBar = new JProgressBar();
@@ -3553,24 +3594,34 @@ public class GUI
 		JPanel panel = new JPanel();
 		panel.add(progressBar);
 		dialog.getContentPane().add(progressBar);
-
-		Runnable run = new Runnable() 
-		{
-			public void run() 
-			{
-				try
-				{ 
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				dialog.pack();
+				dialog.setLocationRelativeTo(focusedProject.getFrame());
+				dialog.setVisible(true);
+			}
+		});
+		
+		
+		final SwingWorker worker = new SwingWorker() {
+			public Object construct() {
+				try {
 					runnable.run();
 				}
-				finally
-				{
-					dialog.dispose();
+				finally {
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							dialog.dispose();
+						}
+					});
 				}
+				return null;
+			}
+			public void finished() {
+				dialog.dispose();
 			}
 		};
-		new Thread(run).start(); 
-		dialog.pack();
-		dialog.setLocationRelativeTo(focusedProject.getFrame());
-		dialog.setVisible(true);
+		worker.start();		
 	}
 }
+
