@@ -23,6 +23,7 @@ import java.util.List;
  * Acciones para proyecto.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class Actions
 {
@@ -851,7 +852,7 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public void actionPerformed(ActionEvent e)
 		{
-			GUI.editDemo();
+			GUI.editProjectDemo();
 		}
 	}
 

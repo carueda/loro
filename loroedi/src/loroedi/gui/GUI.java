@@ -1544,7 +1544,8 @@ public class GUI
 	 */
 	public static boolean _compileProjectDemo()
 	{
-		String name = focusedProject.getModel().getInfo().getName();
+		IProjectModel prjm = focusedProject.getModel();
+		String name = prjm.getInfo().getName();
 		String src;
 		
 		UEditor editor = (UEditor) demoEditors.get(name);
@@ -1591,7 +1592,7 @@ public class GUI
 			if ( editor == null )
 			{
 				// aquí necesitamos el editor para mostrar el problema:
-				editor = createDemoEditor();
+				editor = createDemoEditor(prjm);
 			}
 			
 			if ( rango != null )
@@ -1944,27 +1945,25 @@ public class GUI
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Abre el editor del guión de demostración.
+	 * Abre el editor del guión de demostración del proyecto enfocado.
 	 */
-	public static UEditor editDemo()
+	public static UEditor editProjectDemo()
 	{
-		String name = focusedProject.getModel().getInfo().getName();
+		IProjectModel prjm = focusedProject.getModel();
+		String name = prjm.getInfo().getName();
 		UEditor editor = (UEditor) demoEditors.get(name);
 		if ( editor == null )
-		{
-			editor = createDemoEditor();
-		}
+			editor = createDemoEditor(prjm);
 		editor.display();
 		return editor;
 	}
 	
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Crea el editor para el guión de demostración del proyecto enfocado
+	 * Crea el editor para el guión de demostración del proyecto dado.
 	 */
-	private static UEditor createDemoEditor()
+	private static UEditor createDemoEditor(final IProjectModel prjm)
 	{
-		final IProjectModel prjm = focusedProject.getModel();
 		IProjectModel.IInfo info = prjm.getInfo();
 		String name = info.getName();
 		String src = info.getDemoScript();

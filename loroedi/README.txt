@@ -16,6 +16,10 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-06 (0.8pre11)
 
+	- Por claridad:
+		- GUI.editDemo renombrado a GUI.editProjectDemo.
+		- GUI.createDemoEditor recibe ahora el proyecto.
+	
 	- InterpreterWindow: mensaje en titulo de ventana segun si se espera lectura
 	  normal o solo un Enter.
 	
