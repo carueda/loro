@@ -16,6 +16,7 @@
     
     <locale> 
 		<langpack iso3="spa"/> 
+        <langpack iso3="eng"/>
 	</locale>
     
     <resources>

@@ -118,12 +118,7 @@ public class LoroTokenMarker extends CTokenMarker
 			keywords.add("paquete",Token.KEYWORD2);
 			keywords.add("utiliza",Token.KEYWORD2);
 
-//			keywords.add("abstracto",Token.KEYWORD1);
 			keywords.add("constante",Token.KEYWORD1);
-//			keywords.add("privado",Token.KEYWORD1);
-//			keywords.add("protegido",Token.KEYWORD1);
-//			keywords.add("publico",Token.KEYWORD1);
-//			keywords.add("público",Token.KEYWORD1);
 			keywords.add("este",Token.KEYWORD1);
 			keywords.add("éste",Token.KEYWORD1);
 			keywords.add("super",Token.KEYWORD1);

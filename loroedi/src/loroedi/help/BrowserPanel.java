@@ -1,5 +1,6 @@
 package loroedi.help;
 
+import loroedi.Info.Str;
 import loro.Loro;
 
 import javax.swing.event.*;
@@ -69,20 +70,20 @@ public class BrowserPanel extends JPanel
 		forward.addActionListener(listener);
 		buttons.add(forward);
 
-		if ( home_url != null )
-		{
+		if ( home_url != null ) {
+			String[] strs = Str.get("but.browser_home").split("\\|", 2);
 			JButton home = new JButton(loroedi.Util.getIcon("img/Home24.gif"));
 			home.setActionCommand("home");
-			home.setToolTipText("Va a la pagina inicial");
+			home.setToolTipText(strs[1]);
 			home.addActionListener(listener);
 			buttons.add(home);
 		}
 
-		if ( refreshListener != null )
-		{
+		if ( refreshListener != null ) {
+			String[] strs = Str.get("but.browser_refresh").split("\\|", 2);
 			refresh = new JButton(loroedi.Util.getIcon("img/Refresh24.gif"));
 			refresh.setActionCommand("refresh");
-			refresh.setToolTipText("Actualiza el contenido");
+			refresh.setToolTipText(strs[1]);
 			refresh.addActionListener(refreshListener);
 			buttons.add(refresh);
 		}
@@ -97,20 +98,17 @@ public class BrowserPanel extends JPanel
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-	public void setClickListener(IClickListener clickListener)
-	{
+	public void setClickListener(IClickListener clickListener) {
 		this.clickListener = clickListener;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
-	public void setLocationEditable(boolean editable)
-	{
+	public void setLocationEditable(boolean editable) {
 		location.setEditable(editable);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
-	private void createEditorPane()
-	{
+	private void createEditorPane() {
 		editorPane = new JEditorPane();
 		editorPane.setEditable(false);
 		editorPane.addHyperlinkListener(listener);
@@ -119,8 +117,7 @@ public class BrowserPanel extends JPanel
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
-	public void setTextHTML(String s)
-	{
+	public void setTextHTML(String s) {
 		editorPane.setContentType("text/html");
 		editorPane.setText(s);
 	}
@@ -129,8 +126,7 @@ public class BrowserPanel extends JPanel
 	/**
 	 * Gets the current displayed URL.
 	 */
-	public URL getPage()
-	{
+	public URL getPage() {
 		return editorPane.getPage();
 	}
 	
@@ -138,21 +134,17 @@ public class BrowserPanel extends JPanel
 	/**
 	 * Refreshes the current displayed URL, if any.
 	 */
-	public void refresh()
-	{
+	public void refresh() {
 		URL url = editorPane.getPage();
-		if ( url != null )
-		{
+		if ( url != null ) {
 			createEditorPane();
-			try
-			{
+			try {
 				editorPane.setPage(url);
 			}
-			catch (IOException ex)
-			{
+			catch (IOException ex) {
 				javax.swing.JOptionPane.showOptionDialog(
 					null,
-					"Error al refrescar página\n\n" +ex.getMessage(),
+					"Error refreshing page\n\n" +ex.getMessage(),
 					"Error",
 					javax.swing.JOptionPane.DEFAULT_OPTION,
 					javax.swing.JOptionPane.ERROR_MESSAGE,
@@ -166,16 +158,13 @@ public class BrowserPanel extends JPanel
 	
 	////////////////////////////////////////////////////////////////////////////
 	// Returns true iff Ok.
-	public boolean setPage(URL url)
-	{
+	public boolean setPage(URL url) {
 		URL prev = editorPane.getPage();
-		if ( !setPageSimple(url) )
-		{
+		if ( !setPageSimple(url) ) {
 			return false;
 		}
 
-		if ( prev != null )
-		{
+		if ( prev != null ) {
 			stack_forward.removeAllElements();
 			stack_back.push(prev);
 			updateButtons();
@@ -184,25 +173,22 @@ public class BrowserPanel extends JPanel
 
 		return true;
 	}
+	
 	////////////////////////////////////////////////////////////////////////////
 	// Returns true iff Ok.
-	boolean setPageSimple(URL url)
-	{
-		if ( url == null )
-		{
+	boolean setPageSimple(URL url) {
+		if ( url == null ) {
 			return false;
 		}
 
-		try
-		{
+		try {
 			editorPane.setPage(url);
 			location.setText(url.toString());
 		}
-		catch (IOException ex)
-		{
+		catch (IOException ex) {
 			javax.swing.JOptionPane.showOptionDialog(
 				null,
-				"Error al cargar página\n\n" +ex.getMessage(),
+				"Error loading page\n\n" +ex.getMessage(),
 				"Error",
 				javax.swing.JOptionPane.DEFAULT_OPTION,
 				javax.swing.JOptionPane.ERROR_MESSAGE,
@@ -216,34 +202,28 @@ public class BrowserPanel extends JPanel
 	}
 	////////////////////////////////////////////////////////////////////////////
 	//
-	public void setHomePage()
-	{
+	public void setHomePage() {
 		setPageSimple(home_url);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////
 	//
-	void updateButtons()
-	{
-		if ( stack_back.empty() )
-		{
+	void updateButtons() {
+		if ( stack_back.empty() ) {
 			back.setEnabled(false);
-			back.setToolTipText("Va a la página anterior visitada");
+			back.setToolTipText("");
 		}
-		else
-		{
+		else {
 			back.setEnabled(true);
 			URL url = (URL) stack_back.peek();
 			back.setToolTipText(url.getFile());
 		}
-		if ( stack_forward.empty() )
-		{
+		if ( stack_forward.empty() ) {
 			forward.setEnabled(false);
-			forward.setToolTipText("Va a la página siguiente visitada");
+			forward.setToolTipText("");
 		}
-		else
-		{
+		else {
 			forward.setEnabled(true);
 			URL url = (URL) stack_forward.peek();
 			forward.setToolTipText(url.getFile());
@@ -261,26 +241,19 @@ public class BrowserPanel extends JPanel
 	 * @author Carlos Rueda
 	 * @version (8/23/01)
 	 */
-	class Hyperactive implements HyperlinkListener, ActionListener
-	{
+	class Hyperactive implements HyperlinkListener, ActionListener {
 		////////////////////////////////////////////////////////////////////////////
-		public void hyperlinkUpdate(HyperlinkEvent e)
-		{
+		public void hyperlinkUpdate(HyperlinkEvent e) {
 			HyperlinkEvent.EventType et = e.getEventType();
-			if (et == HyperlinkEvent.EventType.ACTIVATED)
-			{
+			if (et == HyperlinkEvent.EventType.ACTIVATED) {
 				URL url = editorPane.getPage();
 	
 				URL link = e.getURL();
-				if ( clickListener != null
-				&&  clickListener.click(link) )
-				{
+				if ( clickListener != null && clickListener.click(link) ) {
 					return;
 				}
 					
-				if ( !isTextPage(link)
-				||   !setPageSimple(link) )
-				{
+				if ( !isTextPage(link) || !setPageSimple(link) ) {
 					return;
 				}
 				stack_back.push(url);
@@ -288,75 +261,61 @@ public class BrowserPanel extends JPanel
 				location.setText(link.toString());
 				updateButtons();
 			}
-			else if (et == HyperlinkEvent.EventType.ENTERED)
-			{
+			else if (et == HyperlinkEvent.EventType.ENTERED) {
 				URL link = e.getURL();
 				location.setText(link.toString());
 			}
-			else if (et == HyperlinkEvent.EventType.EXITED)
-			{
+			else if (et == HyperlinkEvent.EventType.EXITED) {
 				URL url = editorPane.getPage();
 				location.setText(url.toString());
 			}
 		}
 
 		////////////////////////////////////////////////////////////////////////////
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
 			URL url = null;
 
-			if ( cmd.equals("back") )
-			{
-				if ( ! stack_back.empty() )
-				{
+			if ( cmd.equals("back") ) {
+				if ( ! stack_back.empty() ) {
 					url = editorPane.getPage();
 					stack_forward.push(url);
 					url = (URL) stack_back.pop();
 				}
-				else
-				{
+				else {
 					return;
 				}
 			}
-			else if ( cmd.equals("forward") )
-			{
-				if ( ! stack_forward.empty() )
-				{
+			else if ( cmd.equals("forward") ) {
+				if ( ! stack_forward.empty() ) {
 					url = editorPane.getPage();
 					stack_back.push(url);
 					url = (URL) stack_forward.pop();
 				}
-				else
-				{
+				else {
 					return;
 				}
 			}
-			else if ( cmd.equals("home") )
-			{
+			else if ( cmd.equals("home") ) {
 				url = editorPane.getPage();
 				stack_back.push(url);
 				stack_forward.removeAllElements();
 				url = home_url;
 			}
-			else if ( cmd.equals("refresh") && (url = editorPane.getPage()) != null )
-			{
+			else if ( cmd.equals("refresh") && (url = editorPane.getPage()) != null ) {
 				revalidate(); // ???
-				//setTextHTML("(Recargando " +url.toString()+ "...)");
+				//setTextHTML("(Reloading " +url.toString()+ "...)");
 			}
-			else if ( e.getSource() == location )
-			{
+			else if ( e.getSource() == location ) {
 				URL loc_url = getTextURL(location.getText());
-				if ( loc_url == null )
-				{
+				if ( loc_url == null ) {
 					return;
 				}
 				// loc_url Ok.
 
 				url = editorPane.getPage();
 
-				if ( !setPageSimple(loc_url) )
-				{
+				if ( !setPageSimple(loc_url) ) {
 					// problem
 					return;
 				}
@@ -369,8 +328,7 @@ public class BrowserPanel extends JPanel
 
 				url = loc_url;
 			}
-			else
-			{
+			else {
 				return;
 			}
 
@@ -379,7 +337,6 @@ public class BrowserPanel extends JPanel
 
 			updateButtons();
 		}
-
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -387,26 +344,21 @@ public class BrowserPanel extends JPanel
 	 * Analizes s to be a valid URL, and to have a
 	 * "text/..." content-type.
 	 */
-	URL getTextURL(String s)
-	{
+	URL getTextURL(String s) {
 		URL url = null;
 
 		Loro.log("LoroEDI: "+"Intentando visualizar " +s);
 
-		try
-		{
+		try {
 			url = new URL(s);
-
-			if ( ! isTextPage(url) )
-			{
+			if ( ! isTextPage(url) ) {
 				url = null;
 			}
 		}
-		catch ( Exception ex )
-		{
+		catch ( Exception ex ) {
 			javax.swing.JOptionPane.showOptionDialog(
 				null,
-				"Error con el URL indicado\n\n"+ex.getMessage(),
+				"Error with given URL\n\n"+ex.getMessage(),
 				"Error",
 				javax.swing.JOptionPane.DEFAULT_OPTION,
 				javax.swing.JOptionPane.ERROR_MESSAGE,
@@ -416,48 +368,39 @@ public class BrowserPanel extends JPanel
 			);
 			Loro.log("LoroEDI: "+"  Exception: " +ex.getMessage());
 		}
-
 		return url;
-
 	}
 
 	////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Checks if a url has "text/..." content-type.
 	 */
-	boolean isTextPage(URL url)
-	{
-		try
-		{
+	boolean isTextPage(URL url) {
+		try {
 			String ct = url.openConnection().getContentType().toLowerCase();
 			String s = url.toString();
 
 			Loro.log("LoroEDI: "+"  content-type: " +ct);
 
 			if ( ! ct.startsWith("text/")
-			||   s.endsWith(".jar")        // <<-- Sourceforge no pone bien para jar!
-			||   s.endsWith(".lar") )      // <<-- por si acaso :-)
+			||   s.endsWith(".jar")        // <<-- Sourceforge does not (still?) sets jar well!
+			||   s.endsWith(".lar") )      // <<-- just in case :-)
 			{
 				javax.swing.JOptionPane.showOptionDialog(
 					null,
-					s+ "\n"
-					+"Este enlace no se puede visualizar en esta ventana.\n"
-					+"\n"
-					+"Puedes utilizar tu navegador convencional o abrir\n"
-					+"este enlace con la aplicación que le corresponda.\n",
-					"Mensaje",
+					Str.get("gui.1_browser_cannot_show_link", s),
+					"",
 					javax.swing.JOptionPane.DEFAULT_OPTION,
 					javax.swing.JOptionPane.WARNING_MESSAGE,
 					null,
 					null,
 					null
 				);
-				Loro.log("LoroEDI: "+"  No visualizable");
+				Loro.log("LoroEDI: "+"  unable to display");
 				return false;
 			}
 		}
-		catch ( Exception ex )
-		{
+		catch ( Exception ex ) {
 			Loro.log("LoroEDI: "+"  Exception: " +ex.getMessage());
 			return false;
 		}
@@ -466,8 +409,7 @@ public class BrowserPanel extends JPanel
 	}
 
 	////////////////////////////////////////////////////////////
-	public static interface IClickListener
-	{
+	public static interface IClickListener {
 		public boolean click(URL hyperlink);
 	}
 }

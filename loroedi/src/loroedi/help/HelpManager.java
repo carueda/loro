@@ -1,5 +1,6 @@
 package loroedi.help;
 
+import loroedi.Info.Str;
 import loroedi.Preferencias;
 import loroedi.Configuracion;
 import loro.Loro;
@@ -25,25 +26,20 @@ import javax.swing.*;
  * @author Carlos Rueda
  * @version (8/23/01)
  */
-public class HelpManager
-{
+public class HelpManager {
 	static HelpManager hm = null;
 
 	////////////////////////////////////////////////////////////////////////////
-	public static void displayHelp()
-	{
-		try
-		{
-			if ( hm == null )
-			{
+	public static void displayHelp() {
+		try {
+			if ( hm == null ) {
 				hm = new HelpManager();
 			}
 
 			hm.display();
 			hm.setHomePage();
 		}
-		catch ( Exception ex )
-		{
+		catch ( Exception ex ) {
 			Loro.log("LoroEDI: "+"displayHelp: " +ex.getMessage());
 		}
 	}
@@ -58,22 +54,18 @@ public class HelpManager
 	URL home_url;
 
 	////////////////////////////////////////////////////////////////////////////
-	protected HelpManager()
-	throws Exception
-	{
+	protected HelpManager() throws Exception {
 		home_url = null;
 		String dir = Configuracion.getProperty(Configuracion.DIR);
 		String page = "file:" +dir+ "/doc/index.html";
 		home_url = new URL(page);
 
-		frame = new JFrame("Loro Ayuda");
+		frame = new JFrame(Str.get("gui.help_title"));
 		URL url = getClass().getClassLoader().getResource("img/icon.jpg");
 		if ( url != null ) 
 			frame.setIconImage(new ImageIcon(url).getImage());
-		frame.addWindowListener(new WindowAdapter()
-		{
-			public void windowClosing(WindowEvent e)
-			{
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
 				frame.setVisible(false);
 			}
 		});
@@ -86,10 +78,8 @@ public class HelpManager
 		Rectangle rect = Preferencias.obtRectangulo(Preferencias.HELP_RECT);
 		frame.setLocation(rect.x, rect.y);
 		frame.setSize(rect.width, rect.height);
-		frame.addComponentListener(new ComponentAdapter()
-		{
-			void common()
-			{
+		frame.addComponentListener(new ComponentAdapter() {
+			void common() {
 				Rectangle rect_ = new Rectangle(frame.getLocationOnScreen(), frame.getSize());
 				Preferencias.ponRectangulo(Preferencias.HELP_RECT, rect_);
 			}
@@ -100,10 +90,8 @@ public class HelpManager
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-	void display()
-	{
-		if ( !frame.isShowing() )
-		{
+	void display() {
+		if ( !frame.isShowing() ) {
 			frame.setVisible(true);
 		}
 		frame.toFront();
@@ -111,17 +99,7 @@ public class HelpManager
 
 	////////////////////////////////////////////////////////////////////////////
 	//
-	void setHomePage()
-	{
+	void setHomePage() {
 		bp.setHomePage();
-	}
-
-	////////////////////////////////////////////////////////////////////////////
-	/**
-	 * A test.
-	 */
-	public static void main(String[] args)
-	{
-		HelpManager.displayHelp();
 	}
 }

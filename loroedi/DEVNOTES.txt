@@ -29,13 +29,14 @@ $Id$
 			Workspace .. ok
 			SymbolTableWindow .. ok
 			Project .. ok
-		loroedi/help/ ..
-			BrowserPanel .. 
-			HelpManager ..
+		loroedi/help/ .. ok
+			BrowserPanel .. ok 
+			HelpManager .. ok
 		loroedi/jedit/ ..  
 			LoroTokenMarker .. 
 		
 	- util/edit/* simplified (original sources moved to simpledi)
+	- izinstall: now includes langpack iso3="eng"
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 (0.8.7)
