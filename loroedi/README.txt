@@ -80,6 +80,9 @@ Ajustes cosméticos.
 	
 	- GUI.init: Ahora se carga configuración y preferencias antes 
 	  de procesar L&F y lo demás.
+	  
+	- Primeras pruebas con CompiereLookAndFeel (compiere.org) que
+	  se ve interesante. Queda entre comentarios. Pendiente.
 	
 ////////////////////////////////////////////////////////////////////////////
 2003-02-11 (0.8pre8)

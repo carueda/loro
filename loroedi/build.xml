@@ -2,7 +2,7 @@
 
 <!--
     Build para el entorno LoroEDI
-	2002-10-18 - carueda
+	2003-10-12 - carueda
 	
 	Consultar primero build.properties
 	
@@ -74,6 +74,7 @@
 		<echo message="Usando núcleo ${loro.dist}/${nucleo.jar}"/>
 		<echo message="kunststoff.jar = ${kunststoff.jar}"/>
 		<echo message="jgraph.jar     = ${jgraph.jar}"/>
+		<!-- <echo message="looks.jar      = ${looks.jar}"/> -->
 		<echo message="skinlf.jar     = ${skinlf.jar}"/>
 		
 		<mkdir dir="${build}"/>
@@ -119,7 +120,7 @@
 		     de linea para el echo: lineas en blanco hacen fallar el jar) -->
 		<echo message="Main-class: loroedi.gui.Main" 
 			file="${build}/loroedi.manifest">
-Class-path: ../lib/bsh-core-1.2b6.jar ../lib/${nucleo.jar} ../lib/kunststoff.jar ../lib/skinlf.jar ../lib/jgraph.jar</echo>
+Class-path: ${bsh.jar} ../lib/${nucleo.jar} ${kunststoff.jar} ${looks.jar} ${skinlf.jar} ${jgraph.jar}</echo>
 		
         <jar jarfile="${dist}/loroedi.jar" 
 			manifest="${build}/loroedi.manifest"
@@ -134,7 +135,7 @@ Class-path: ../lib/bsh-core-1.2b6.jar ../lib/${nucleo.jar} ../lib/kunststoff.jar
 		<javac srcdir="${src}" destdir="${build}/classes"
         	includes="loroedi/**/**.java, util/**/**.java, loroedi/**/*.properties"
 			excludes="**/LookAndFeel_SkinLF.java"
-			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${jgraph.jar}"
+			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${looks.jar}:${jgraph.jar}"
 			debug="on"
 		/>
     </target>
@@ -143,7 +144,7 @@ Class-path: ../lib/bsh-core-1.2b6.jar ../lib/${nucleo.jar} ../lib/kunststoff.jar
      description="Compila solo los fuentes dependientes de SkinLF">
        <javac srcdir="${src}" destdir="${build}/classes"
         	includes="loroedi/laf/LookAndFeel_SkinLF.java"
-			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${jgraph.jar}:${skinlf.jar}"
+			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${jgraph.jar}:${looks.jar}:${skinlf.jar}"
 			debug="on"
        />
     </target>
@@ -188,6 +189,7 @@ Class-path: ../lib/bsh-core-1.2b6.jar ../lib/${nucleo.jar} ../lib/kunststoff.jar
 		<copy todir="${dir.installer}/lib"      file="${kunststoff.jar}"/>
 		<copy todir="${dir.installer}/lib"      file="${jgraph.jar}"/>
 		<copy todir="${dir.installer}/lib"      file="${bsh.jar}"/>
+		<!-- <copy todir="${dir.installer}/lib"      file="${looks.jar}"/> -->
 		<copy todir="${dir.installer}/lib"      file="${skinlf.jar}"/>
 		<copy todir="${dir.installer}/lib/ext">
 			<fileset dir="${loro.dist}/ext"/> 
