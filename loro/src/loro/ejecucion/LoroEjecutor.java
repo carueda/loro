@@ -1717,17 +1717,17 @@ search:
 			// Hay que obtener la clase concreta a la que esta asociado obj
 			// y mirar si es la misma que la de tipoRevisado, o es subclase
 			// de la de tipoRevisado.
+			NClase clase = obj.obtNClase();
 
-			TipoClase tcobj = (TipoClase) e.obtTipo();
 			TipoClase tcrev = (TipoClase) n.obtNTipoRevisado().obtTipo();
 			try
 			{
-				retorno = new Boolean(Tipos.aKindOf(tcobj, tcrev));
+				retorno = new Boolean(Tipos.aKindOf(clase, tcrev));
 			}
 			catch(ClaseNoEncontradaException exc)
 			{
 				throw _crearEjecucionException(n,
-					"Clase no encontrada durante revisión de 'es_intancia_de': '" +exc.obtNombre()+ "'"
+					"Clase no encontrada durante revisión de 'es_instancia_de': '" +exc.obtNombre()+ "'"
 				);
 			}
 		}

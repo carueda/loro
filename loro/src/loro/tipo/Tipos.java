@@ -13,7 +13,7 @@ import loro.compilacion.ClaseNoEncontradaException;
  * Servicios generales sobre el sistema de tipos.
  *
  * @author Carlos Rueda
- * @version 06/02/02
+ * @version $Id$
  */
 public class Tipos 
 {
@@ -46,16 +46,41 @@ public class Tipos
 		while ( clase != null )
 		{
 			if ( t1.equals(t2) )
-			{
 				return true;
-			}
 
 			// intente por super clase:
 			clase = mu.obtSuperClase(clase);
 			if ( clase != null )
-			{
 				t1 = clase.obtNombreCompletoCadena();
-			}
+		}
+
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Dice si una clase es igual o es subclase de otra.
+	 */
+	public static boolean aKindOf(NClase clase, TipoClase tc2)
+	throws ClaseNoEncontradaException
+	{
+		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
+		
+		// tome el nombre de la super clase:
+		String[] n2 = tc2.obtNombreConPaquete();
+		String t2 = Util.obtStringRuta(n2);
+		NClase c2 = mu.obtClase(t2);
+
+		while ( clase != null )
+		{
+			// tome el nombre de la clase base:
+			String t1 = clase.obtNombreCompletoCadena();
+			
+			if ( t1.equals(t2) )
+				return true;
+
+			// intente por super clase:
+			clase = mu.obtSuperClase(clase);
 		}
 
 		return false;

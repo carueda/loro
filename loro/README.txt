@@ -14,6 +14,17 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-08 Version 0.7.91
 
+	- Bug 737350 corregido:
+	  ``obj es_instancia_de Clase'' resulta en falso cuando obj es
+	  instancia de una subclase de Clase.
+	  Solución: LoroEjecutor.visitar(NEsInstanciaDe) se basa ahora en el tipo
+	  en tiempo de ejecución asociado al objeto (antes utilizaba el tipo 
+	  *declarado*). Se definió nuevo servicio Tipos.aKindOf(NClase, TipoClase)
+	  de apoyo.
+	
+////////////////////////////////////////////////////////////////////////////
+2003-05-08 Version 0.7.91
+
 	- IInterprete/InterpreteImpl: nuevo servicio getSymbolTable().
 	
 	- PrefixWriter: revisión (aún incompleta)
