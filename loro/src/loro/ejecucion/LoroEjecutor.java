@@ -240,6 +240,24 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 	///////////////////////////////////////////////////////////////////
 	/**
+	 * Simulación "usr" para ejecutar algoritmo.
+	 *
+	 * @throws EjecucionException 
+	 *                   Por cualquier error de ejecucion
+	 *                   excepto relacionados con terminacion sea
+	 *                   interna o externa.
+	 *
+	 * @throws TerminacionException 
+	 *                   Por terminacion sea interna o externa.
+	 */
+	protected Object ejecutarAlgoritmoUsr(NAlgoritmo alg, Object[] args)
+	throws EjecucionVisitanteException
+	{
+		return "usr response (mecanismo pendiente)";
+	}
+	
+	///////////////////////////////////////////////////////////////////
+	/**
 	 * Conversion de argumento para invocacion de metodo en Java.
 	 */
 	protected Object _convertirArgumentoParaJava(Object arg)
@@ -768,44 +786,8 @@ search:
 
 			Object res[] = null;
 
-			if ( alg.implementadoEnLenguaje("java") )
+			if ( alg.implementadoEnLoro() )
 			{
-				Object obj = ejecutarAlgoritmoJava(alg, val_args);
-				res = new Object[psal.length];
-				if ( psal.length > 0 )
-				{
-					res[0] = obj;
-				}
-
-				// enlace los valores a los parametros de salida:
-				// Esto es necesario para procesar poscondicion mas adelante.
-				for ( int i = 0; i < res.length; i++ )
-				{
-					NDeclaracion d = psal[i];
-					tabSimb.ponValor(d.obtId().obtId(), res[i]);
-				}
-			}
-			else if ( alg.implementadoEnLenguaje("bsh") )
-			{
-				Object obj = ejecutarAlgoritmoBsh(alg, val_args);
-				res = new Object[psal.length];
-				if ( psal.length > 0 )
-				{
-					res[0] = obj;
-				}
-
-				// enlace los valores a los parametros de salida:
-				// Esto es necesario para procesar poscondicion mas adelante.
-				for ( int i = 0; i < res.length; i++ )
-				{
-					NDeclaracion d = psal[i];
-					tabSimb.ponValor(d.obtId().obtId(), res[i]);
-				}
-			}
-			else
-			{
-				// alg.implementadoEnLoro().
-
 				boolean hubo_retorne = false;
 
 				///////////////////////////////////////////////////////////////////////
@@ -860,6 +842,64 @@ search:
 						res[i] = tabSimb.obtValor(d.obtId().obtId());
 					}
 				}
+			}
+			else if ( alg.implementadoEnLenguaje("java") )
+			{
+				Object obj = ejecutarAlgoritmoJava(alg, val_args);
+				res = new Object[psal.length];
+				if ( psal.length > 0 )
+				{
+					res[0] = obj;
+				}
+
+				// enlace los valores a los parametros de salida:
+				// Esto es necesario para procesar poscondicion mas adelante.
+				for ( int i = 0; i < res.length; i++ )
+				{
+					NDeclaracion d = psal[i];
+					tabSimb.ponValor(d.obtId().obtId(), res[i]);
+				}
+			}
+			else if ( alg.implementadoEnLenguaje("bsh") )
+			{
+				Object obj = ejecutarAlgoritmoBsh(alg, val_args);
+				res = new Object[psal.length];
+				if ( psal.length > 0 )
+				{
+					res[0] = obj;
+				}
+
+				// enlace los valores a los parametros de salida:
+				// Esto es necesario para procesar poscondicion mas adelante.
+				for ( int i = 0; i < res.length; i++ )
+				{
+					NDeclaracion d = psal[i];
+					tabSimb.ponValor(d.obtId().obtId(), res[i]);
+				}
+			}
+			else if ( alg.implementadoEnLenguaje("usr") )
+			{
+				Object obj = ejecutarAlgoritmoUsr(alg, val_args);
+				res = new Object[psal.length];
+				if ( psal.length > 0 )
+				{
+					res[0] = obj;
+				}
+
+				// enlace los valores a los parametros de salida:
+				// Esto es necesario para procesar poscondicion mas adelante.
+				for ( int i = 0; i < res.length; i++ )
+				{
+					NDeclaracion d = psal[i];
+					tabSimb.ponValor(d.obtId().obtId(), res[i]);
+				}
+			}
+			else
+			{
+				String leng = alg.obtLenguajeImplementacion();
+				throw _crearEjecucionException(alg,
+					"Código de implementación '" +leng+ "' no reconocido"
+				);
 			}
 
 			//{ res.length <= 1 } Ver Chequeador.visitar(NEspecificacion).

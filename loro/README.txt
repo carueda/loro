@@ -25,7 +25,29 @@ NOTAS
 	  desde un paquete nombrado ni siquiera con un 'import' --el import 
 	  no acepta un nombre simple.)
 
+////////////////////////////////////////////////////////////////////////////
+2003-02-14 Version 0.7.7
 
+	- PilaEjecucion.java: algo de limpieza de código.
+	
+	- Nuevo código de implementación "usr".
+	  Ver LoroEjecutor.ejecutarAlgoritmoUsr()  
+	  Es un primer acercamiento a la posible implementación del mecanismo 
+	  de implementación sin codificación previa, es decir, cuando un
+	  algoritmo "usr" es invocado, el sistema delegará en el usuario real
+	  la correspondiente ejecución. El núcleo ofrecería un despacho
+	  simple por entrada/salida estándares para dialogar con el usuario:
+	  mostrándole cuál algoritmo (nombre) y con cuáles argumentos reales
+	  ha sido invocado y le pedirá que responda de acuerdo con el
+	  parámetro de salida. Un cliente gráfico (loroedi concretamente)
+	  deberá poder poder complementar esto para ofrecer una ventana
+	  nueva de diálogo que haga más claro el evento. Posiblemente se
+	  agregaría la posibilidad de hacer en general una sesión de
+	  interpretación interactiva para que el usuario puedar llevar
+	  a cabo acciones en el mismo lenguaje antes de retornar de la
+	  invocación.
+
+	
 ////////////////////////////////////////////////////////////////////////////
 2003-02-13 Version 0.7.7
 

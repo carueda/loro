@@ -1,30 +1,24 @@
 package loro.ejecucion;
 
-
+import loro.tabsimb.*;
+import loro.Rango;
 import loro.arbol.*;
-
-
 
 import java.io.PrintWriter;
 import java.util.Stack;
 
-import loro.tabsimb.*;
-
-import loro.Rango;
 
 /////////////////////////////////////////////////////////////////
 /**
  * La pila de ejecucion de un programa en Loro.
  *
  * @author Carlos Rueda
- * @version 0.1 2000-06-14
- * @version 0.2 2001-09-30 - ahora es ``final class''
  */
 public final class PilaEjecucion extends Stack
 {
 	/**
-	 * Máximo número de niveles desde el tope mostrar.
-	 * Subjetivamente inicializado aqui en 21.
+	 * Máximo número de niveles desde el tope a mostrar.
+	 * Arbitrariamente inicializado aqui en 21.
 	 * (muy util por ejemplo para StackOverflow).
 	 */
 	int maxNivelesMostrar = 21;
@@ -39,9 +33,6 @@ public final class PilaEjecucion extends Stack
 		/** El nodo en curso. */
 		INodo curr_node;
 		
-		/** Posicion actual dentro del fuente correspondiente. */
-		//int iniLin, iniCol;
-
 		/** La unidad de esta activacion. */
 		NUnidad uni;
 
@@ -53,12 +44,10 @@ public final class PilaEjecucion extends Stack
 		{
 			this.uni = uni;
 			this.curr_node = uni;
-//			this.iniLin = uni.obtRango().obtIniLin();
-//			this.iniCol = uni.obtRango().obtIniCol();
-
 			this.tabSimb = tabSimb;
 		}
 	}
+	
 	/////////////////////////////////////////////////////////////
 	/**
 	 * Crea un pila de ejecucion.
@@ -67,7 +56,6 @@ public final class PilaEjecucion extends Stack
 	{
 		super();
 	}
-
 
 	/////////////////////////////////////////////////////////////
 	/**
@@ -116,10 +104,7 @@ public final class PilaEjecucion extends Stack
 
 			int iniLin = m.curr_node.obtRango().obtIniLin();
 			int iniCol = m.curr_node.obtRango().obtIniCol();
-
 			String pos_msg = iniLin+ "," +iniCol;
-			//String pos_msg = m.iniLin+ "," +m.iniCol;
-			
 			sb.append("  en " +m.uni+ " (" +fuente+ ":" +pos_msg+ ")\n");
 		}
 
@@ -134,11 +119,7 @@ public final class PilaEjecucion extends Stack
 	public final TablaSimbolos obtTablaSimbolos()
 	{
 		MarcoActivacion m = (MarcoActivacion) peek();
-		if ( m != null )
-		{
-			return m.tabSimb;
-		}
-		return null;
+		return m != null ? m.tabSimb : null;
 	}
 
 	/////////////////////////////////////////////////////////////
@@ -148,12 +129,9 @@ public final class PilaEjecucion extends Stack
 	public final NUnidad obtUnidad()
 	{
 		MarcoActivacion m = (MarcoActivacion) peek();
-		if ( m != null )
-		{
-			return m.uni;
-		}
-		return null;
+		return m != null ? m.uni : null;
 	}
+
 	/////////////////////////////////////////////////////////////
 	/**
 	 * Mete un algoritmo a la pila de ejecucion.
@@ -163,6 +141,7 @@ public final class PilaEjecucion extends Stack
 	{
 		push(new MarcoActivacion(uni, new TablaSimbolos()));
 	}
+
 	/////////////////////////////////////////////////////////////
 	/**
 	 * Mete una clase a la pila de ejecucion.
@@ -172,6 +151,7 @@ public final class PilaEjecucion extends Stack
 	{
 		push(new MarcoActivacion(uni, new TablaSimbolos()));
 	}
+	
 	/////////////////////////////////////////////////////////////
 	/**
 	 * Mete una especificacion a la pila de ejecucion. En este caso
@@ -188,6 +168,7 @@ public final class PilaEjecucion extends Stack
 		}
 		push(new MarcoActivacion(uni, tabSimb));
 	}
+	
 	/////////////////////////////////////////////////////////////
 	/**
 	 * Pone en cero el tamano de esta pila.
@@ -196,8 +177,6 @@ public final class PilaEjecucion extends Stack
 	{
 		setSize(0);
 	}
-
-
 
 	/////////////////////////////////////////////////////////////
 	/**
@@ -210,8 +189,6 @@ public final class PilaEjecucion extends Stack
 		{
 			MarcoActivacion m = (MarcoActivacion) peek();
 			m.curr_node = u;
-//			m.iniLin = u.obtRango().obtIniLin();
-//			m.iniCol = u.obtRango().obtIniCol();
 		}
 	}
 
