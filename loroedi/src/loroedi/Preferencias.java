@@ -75,6 +75,9 @@ public class Preferencias
 	/** Base projects directory. */
 	public static final String PRS_DIR = "loroedi.pref.prs.dir";
 
+	/** Rectangle for dialog window to choose a .lar project. */
+	public static final String PRJ_CHOOSE_RECT = "loroedi.pref.prj.choose.rect";
+
 	////////////////////////////////////////////////////////////////////
 	
 	
@@ -268,6 +271,17 @@ public class Preferencias
 			ponRectangulo(DEMO_RECT, rect);
 		}
 
+		// PRJ_CHOOSE_RECT
+		if ( props.getProperty(PRJ_CHOOSE_RECT) == null )
+		{
+			Dimension s = new Dimension(300, 150);
+			Rectangle rect = new Rectangle(
+					(d.width - s.width) / 2, (d.height - s.height) / 2,
+					s.width, s.height
+			);
+			ponRectangulo(PRJ_CHOOSE_RECT, rect);
+		}
+
 		// PRS_DIR:
 		String prs_dir = props.getProperty(PRS_DIR);
 		if ( prs_dir == null )
@@ -373,7 +387,7 @@ public class Preferencias
 		/**
 		 * Updates a frame rect preference according to location and size events.
 		 */
-		public static void updateRect(final JFrame frame, final String preferenceKey)
+		public static void updateRect(final Window frame, final String preferenceKey)
 		{
 			Rectangle rect = Preferencias.obtRectangulo(preferenceKey);
 			frame.setLocation(rect.x, rect.y);

@@ -910,7 +910,6 @@ public class Actions
 		{
 			super("Documentación", Util.getIcon("img/api.gif"));
 			putValue(SHORT_DESCRIPTION, "Visualiza la documentación de este proyecto");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_D));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_MASK));
 		}
 	}

@@ -28,6 +28,7 @@ import java.util.*;
 import java.util.List;
 import java.io.*;
 import java.net.URL;
+import java.net.MalformedURLException;
 
 //////////////////////////////////////////////////
 /**
@@ -2447,11 +2448,17 @@ public class GUI
 		final JPanel panel_lar2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel_lar2.setAlignmentX(0f);
         final JTextField f_lar = new JTextField(30);
+		panel_lar2.add(f_lar);
 		radio_lar.setMnemonic(KeyEvent.VK_E);
+		
 		JButton choose_lar = new JButton("Local...");
 		choose_lar.setMnemonic(KeyEvent.VK_L);
-		panel_lar2.add(f_lar);
 		panel_lar2.add(choose_lar);
+		
+		JButton browse_for_lar = new JButton("Navegar...");
+		browse_for_lar.setMnemonic(KeyEvent.VK_N);
+		panel_lar2.add(browse_for_lar);
+		
 		panel_lar.add(panel_lar2);
 
 		final DocumentListener docListener = new DocumentListener()
@@ -2474,7 +2481,7 @@ public class GUI
 						URL url = new URL(lar);
 						name = new File(url.getPath()).getName();
 					}
-					catch (java.net.MalformedURLException ex)
+					catch (MalformedURLException ex)
 					{
 					}
 				}
@@ -2555,7 +2562,7 @@ public class GUI
 						{
 							URL url = new URL(lar);
 						}
-						catch (java.net.MalformedURLException ex)
+						catch (MalformedURLException ex)
 						{
 							msg = "URL mal formado";
 							ret = false;
@@ -2621,6 +2628,22 @@ public class GUI
 					f_lar.setText(lar);
 					radio_lar.setSelected(true);
 				}
+			}
+		});
+
+		browse_for_lar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				radio_lar.setSelected(true);
+				String lar = f_lar.getText().trim();
+				
+				lar = _chooseProjectInPage(
+					focusedProject.getFrame(), 
+					lar
+				);
+				if ( lar != null )
+					f_lar.setText(lar);
 			}
 		});
 
@@ -2694,7 +2717,7 @@ public class GUI
 					{
 						url = new URL(lar);
 					}
-					catch (java.net.MalformedURLException ex)
+					catch (MalformedURLException ex)
 					{
 						// But shouldn't happen.
 						return;
@@ -2707,7 +2730,7 @@ public class GUI
 					{
 						url = file.toURL();
 					}
-					catch (java.net.MalformedURLException ex)
+					catch (MalformedURLException ex)
 					{
 						// But shouldn't happen.
 						return;
@@ -2760,6 +2783,101 @@ public class GUI
 				compileProject();
 		}
 	}
+	
+	
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * @return El URL del proyecto seleccionado por el usuario en 
+	 * navegación de página web.
+	 */
+	private static String _chooseProjectInPage(JFrame frame, String lar)
+	{
+		if ( lar.length() == 0 )
+			return null;
+
+		String larlc = lar.toLowerCase();
+		if ( !larlc.startsWith("http:")
+		&&   !larlc.startsWith("ftp:")
+		&&   !larlc.startsWith("file:") )
+			return null;
+			
+		if ( larlc.endsWith(".lar") )
+			return null;
+			
+		URL page;
+		try
+		{
+			page = new URL(lar);
+		}
+		catch (MalformedURLException ex)
+		{
+			return null;
+		}
+		
+		
+        final JTextField f_name = new JTextField(50);
+		f_name.setEditable(false);
+		f_name.setFont(monospaced12_font);
+		f_name.setBorder(createTitledBorder("Enlace completo"));
+		
+		final JLabel status = new JLabel();
+		status.setFont(status.getFont().deriveFont(Font.ITALIC));
+
+		BrowserPanel prj_browser = new BrowserPanel(null, null);
+		prj_browser.setPage(page);
+		prj_browser.setLocationEditable(false);
+		prj_browser.setClickListener(new BrowserPanel.IClickListener()
+		{
+			public boolean click(URL hyperlink)
+			{
+				String lar = hyperlink.toString();
+				if ( lar.endsWith(".lar") )
+				{
+					f_name.setText(lar);
+					return true;
+				}
+				return false;
+			}
+		});
+		prj_browser.setBorder(createTitledBorder("Elegir enlace del proyecto a instalar"));
+		
+        Object[] array = {
+			prj_browser,
+			f_name,
+			status
+		};
+		
+        final ProjectDialog form = new ProjectDialog(frame, "Buscar proyecto en página", array)
+		{
+			public boolean dataOk()
+			{
+				String msg = null;
+				boolean ret = true;
+				String lar = f_name.getText();
+				if ( lar.length() == 0 )
+				{
+					msg = "Falta indicar un enlace .lar";
+					ret = false;
+				}
+				status.setForeground(ret ? Color.gray : Color.red);
+				if ( msg == null )
+					msg = "OK";
+
+				status.setText(msg);
+				return ret;
+			}
+		};
+		Preferencias.Util.updateRect(form, Preferencias.PRJ_CHOOSE_RECT);
+		form.activate();
+		form.setVisible(true);
+		if ( form.accepted() )
+		{
+			return f_name.getText();
+		}
+		return null;
+	}
+
 	
 	////////////////////////////////////////////////////////////////
 	/**

@@ -33,6 +33,7 @@ public class BrowserPanel extends JPanel
 	JButton forward;
 	JButton refresh;
 	JTextField location;
+	IClickListener clickListener;
 
 	////////////////////////////////////////////////////////////////////////////
 	/**
@@ -47,6 +48,7 @@ public class BrowserPanel extends JPanel
 	{
 		super(new BorderLayout());
 		this.home_url = home_url;
+		this.clickListener = null;
 
 		add(scrollPane = new JScrollPane());
 		listener = new Hyperactive();
@@ -95,6 +97,18 @@ public class BrowserPanel extends JPanel
 
 	}
 
+	////////////////////////////////////////////////////////////////////////////
+	public void setClickListener(IClickListener clickListener)
+	{
+		this.clickListener = clickListener;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////
+	public void setLocationEditable(boolean editable)
+	{
+		location.setEditable(editable);
+	}
+	
 	////////////////////////////////////////////////////////////////////////////
 	private void createEditorPane()
 	{
@@ -259,6 +273,12 @@ public class BrowserPanel extends JPanel
 				URL url = editorPane.getPage();
 	
 				URL link = e.getURL();
+				if ( clickListener != null
+				&&  clickListener.click(link) )
+				{
+					return;
+				}
+					
 				if ( !isTextPage(link)
 				||   !setPageSimple(link) )
 				{
@@ -446,4 +466,9 @@ public class BrowserPanel extends JPanel
 		return true;
 	}
 
+	////////////////////////////////////////////////////////////
+	public static interface IClickListener
+	{
+		public boolean click(URL hyperlink);
+	}
 }

@@ -65,6 +65,16 @@ NOTAS
 	  
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-03-16 (0.8pre9)
+
+Instalación de proyecto desde enlace .lar en página web:
+
+	- Incluida navegación de página para elección de proyecto en el
+	  comando "Instalar". GUI._chooseProjectInPage().
+	- Ajustes menores en BrowserPanel.
+	- Nueva preferencia para ventana de navegación.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-03-15 (0.8pre9)
 
 	- Bug corregido: Al tratar de instalar un proyecto externo no
