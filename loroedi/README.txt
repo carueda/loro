@@ -18,6 +18,17 @@ NOTAS
 
 	- JTerm: indicador simpleRead eliminado (no usado).
 	
+	- JTerm: más ajustes para mejorar manejo de \r y \b. Ahora se maneja un
+	  effectiveLastLine que contiene en todo momento el contenido efectivo
+	  de la última línea escrita, o sea, el mensaje resultante después de
+	  procesar \b y \r. Este cadena se compara con la última línea escrita
+	  en el text area con el fin de mantener alguna información adicional.
+	  El control ahora está mas completo, pero aún falta controlar de manera
+	  incremental dichos \r y \b. 
+	
+	- Interprete, InterpreterWindow: puestos button mnemonics (Alt-T para
+	  Terminar y Alt-C para Cerrar).
+	
 ////////////////////////////////////////////////////////////////////////////
 2003-05-13 (0.8pre11)
 
