@@ -12,6 +12,13 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-08 Version 0.7.91
+
+	- IInterprete/InterpreteImpl: nuevo servicio getSymbolTable().
+	
+	- PrefixWriter: revisión (aún incompleta)
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-06 Version 0.7.91
 
 	- Lenguaje: se permite ahora la asignación de un literal entero a un

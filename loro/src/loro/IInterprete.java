@@ -7,6 +7,7 @@ package loro;
  * Esta interface no es para ser implementada por el cliente.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public interface IInterprete
 {
@@ -110,6 +111,14 @@ public interface IInterprete
 	 */
 	public void ponLongitudVerArreglo(int longitudVerArreglo);
 	
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene la tabla de símbolos con que se creo este intérprete.
+	 *
+	 * @return la tabla de símbolos con que se creo este intérprete.
+	 */
+	public ISymbolTable getSymbolTable();
+
 	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Pone listener para atender meta-comandos.

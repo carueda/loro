@@ -21,6 +21,9 @@ import java.util.*;
 /////////////////////////////////////////////////////////////////////
 /**
  * Interprete para acciones.
+ *
+ * @author Carlos Rueda
+ * @version $Id$
  */
 public class InterpreteImpl implements IInterprete
 {
@@ -334,6 +337,12 @@ public class InterpreteImpl implements IInterprete
 		;
 	}
 
+	//////////////////////////////////////////////////////////////
+	public ISymbolTable getSymbolTable()
+	{
+		return tabSimbBase;
+	}
+
 	///////////////////////////////////////////////////////////////////////
 	public void setMetaListener(IMetaListener ml)
 	{
@@ -520,13 +529,10 @@ public class InterpreteImpl implements IInterprete
 		///////////////////////////////////////////////////////////////////////
 		public void run()
 		{
-			String prefix = prefix_special;
-			
 			if ( interactive )
 			{
-				prefixw.setPrefix(prefix);
+				prefixw.setPrefix(prefix_special);
 				pw.println(
-					prefix +
 					version+ "\n" +
 					"Escribe .? para obtener una ayuda\n"
 				);
@@ -536,9 +542,7 @@ public class InterpreteImpl implements IInterprete
 			{
 				String res = null;  // normal output
 				
-				prefix = null;
-				prefixw.setPrefix(prefix);
-				pw.print(prompt);
+				prefixw.setPrefix(prompt);
 				pw.flush();
 	
 				try
@@ -551,14 +555,17 @@ public class InterpreteImpl implements IInterprete
 						continue;
 	
 					prefixw.setPrefix(prefix_special);
-					pw.print(prefix_special);
 					pw.flush();
 					res = procesar(text);
-					prefix = prefix_expr;
+					if ( res != null )
+					{
+						prefixw.setPrefix(prefix_expr);
+						pw.println(res);
+						continue;
+					}
 				}
 				catch ( EjecucionException ex )
 				{
-					prefix = prefix_invalid;
 					if ( ex.esTerminacionInterna() )
 					{
 						res = "Ejecución terminada. Código de terminación = " 
@@ -574,7 +581,6 @@ public class InterpreteImpl implements IInterprete
 				}
 				catch(CompilacionException ex)
 				{
-					prefix = prefix_invalid;
 					res = ex.getMessage() + "\n";
 				}
 				catch ( InterruptedIOException ex )
@@ -583,7 +589,6 @@ public class InterpreteImpl implements IInterprete
 				}
 				catch(Exception ex)
 				{
-					prefix = prefix_invalid;
 					StringWriter sw = new StringWriter();
 					PrintWriter psw = new PrintWriter(sw);
 					psw.println("INESPERADO");
@@ -592,11 +597,11 @@ public class InterpreteImpl implements IInterprete
 					res = sw.toString();
 				}
 	
-				prefixw.setPrefix(null);
-				pw.println();
-				prefixw.setPrefix(prefix);
 				if ( res != null )
+				{
+					prefixw.setPrefix(prefix_invalid);
 					pw.println(res);
+				}
 			}
 		}
 	}
