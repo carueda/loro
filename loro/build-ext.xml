@@ -27,7 +27,7 @@
 
 	 	<antcall target="prj">
 			<param name="basename" value="ext_en/loro"/>
-			<param name="includes" value="loro/*.loro"/>
+			<param name="includes" value="loro/**/*.loro"/>
 			<param name="locale" value="en"/>
 		</antcall>
 
