@@ -12,6 +12,13 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-24 Version 0.7.92
+
+	- LoroClassLoader: Ahora procesa también *.lar
+	  la idea es que pueda empaquetarse en un solo archivo de extensión, 
+	  extension.lar, tanto las unidades Loro como las clases de soporte Java.
+
+////////////////////////////////////////////////////////////////////////////
 2003-05-18 Version 0.7.91
 
 	- InterpreteImpl.eval(): simplificación y corrección en retorno de valor.

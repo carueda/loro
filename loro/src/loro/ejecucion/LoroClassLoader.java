@@ -1,8 +1,6 @@
 package loro.ejecucion;
 
 import loro.Loro;
-import loro.doc.Documentador;
-import loro.util.ManejadorUnidades;
 import loro.util.Util;
 
 import java.net.URLClassLoader;
@@ -17,6 +15,7 @@ import java.util.*;
  * Cargador de clases Java de soporte para programas en Loro.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class LoroClassLoader
 {
@@ -42,7 +41,7 @@ public class LoroClassLoader
 	 * NOTA: Este metodo debe llamarse una sola vez ya que no es
 	 * acumulativo (o sea, solo se contempla UN directorio de extension).
 	 *
-	 * @param dir_ext Todos los *.jar encontrados en este directorio
+	 * @param dir_ext Todos los ".lar y *.jar encontrados en este directorio
 	 *                son tomados en cuenta.
 	 */
 	public void ponDirectorioExtensiones(String dir_ext)
@@ -59,7 +58,8 @@ public class LoroClassLoader
 			{
 				File file = files[i];
 
-				if ( file.getName().toLowerCase().endsWith(".jar") )
+				if ( file.getName().toLowerCase().endsWith(".lar")
+				||   file.getName().toLowerCase().endsWith(".jar") )
 				{
 					Loro.log("Incluyendo: " +file.getAbsoluteFile());
 					try
