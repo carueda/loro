@@ -245,13 +245,13 @@ public final class Util
 	{
 		if ( !dir.isDirectory() )
 		{
-			throw new IOException(dir+ ": no es directorio");
+			throw new IOException(dir+ ": not a directory");
 		}
 		if ( !dest_dir.isDirectory() )
 		{
-			throw new IOException(dest_dir+ ": no es directorio");
+			throw new IOException(dest_dir+ ": not a directory");
 		}
-//System.out.println(dir+ " -> " + dest_dir);
+		//System.out.println(dir+ " -> " + dest_dir);
 		
 		File[] files = dir.listFiles();
 		if ( files != null )
@@ -266,7 +266,7 @@ public final class Util
 					{
 						toFile.setLastModified(files[i].lastModified());
 					}
-//System.out.println(files[i]+ " -> " + toFile);
+					//System.out.println(files[i]+ " -> " + toFile);
 				}
 				else if ( files[i].isDirectory() )
 				{

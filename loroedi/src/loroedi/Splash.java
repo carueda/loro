@@ -1,5 +1,7 @@
 package loroedi;
 
+import loroedi.Info.Str;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -69,7 +71,7 @@ public class Splash extends JWindow
 		text_label.addMouseListener(ml);
 		fields.add(text_label);
 		
-		status_label = new JLabel("Iniciando...");
+		status_label = new JLabel(Str.get("msg.starting"));
 		status_label.setFont(status_label.getFont().deriveFont(10f));
 		status_label.setHorizontalAlignment(JLabel.LEFT);
 		status_label.setBackground(Color.yellow);

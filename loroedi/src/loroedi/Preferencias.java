@@ -95,7 +95,7 @@ public class Preferencias
 
 	/** encabezado para el archivo de configuracion. */
 	private static final String header =
-		"Preferencias de usuario de LoroEDI"
+		"LoroEDI user preferences"
 	;
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -133,10 +133,9 @@ public class Preferencias
 		catch (IOException ex )
 		{
 			Loro.log("LoroEDI: " + 
-				"Error al cargar el archivo de preferencias:\n" +
+				"Error reading preferences file:\n" +
 				"  " +loro_pref_name+ "\n" +
-				"Exception: " +ex.getMessage()+ "\n"+
-				"Se dejan preferencias por defecto."
+				"Exception: " +ex.getMessage()+ "\n"
 			);
 		}
 
@@ -312,7 +311,7 @@ public class Preferencias
 		catch (IOException ex )
 		{
 			Loro.log("LoroEDI: " + 
-				"No se pudo guardar el archivo de preferencias:\n" +
+				"Couldn't save preferences file:\n" +
 				"  " +loro_pref_name+ "\n" +
 				"Exception: " +ex.getMessage()
 			);
@@ -357,7 +356,7 @@ public class Preferencias
 		}
 		else
 		{
-			throw new RuntimeException("No debe suceder: obtRectangulo(" +key+ ")");
+			throw new RuntimeException("Internal error: obtRectangulo(" +key+ ")");
 		}
 		
 	}

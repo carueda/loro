@@ -5,6 +5,7 @@ import util.jterm.JTermListener;
 import util.jterm.ITextArea;
 import util.jterm.taimp.*;
 
+import loroedi.Info.Str;
 import loroedi.Preferencias;
 import loroedi.gui.GUI;
 import loroedi.jedit.JEditTextArea;
@@ -38,12 +39,11 @@ implements ActionListener, JTermListener
 	protected static final String PREFIX_SPECIAL =  "   ";
 
 	static private String version =	
-"Loro - Sistema Didáctico de Programación\n"+
-Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
-Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
+		Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
+		Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 	;
 
-	protected static final String defaultAddTitleRead =  "<<ESPERANDO ENTRADA POR TECLADO>>";
+	protected static final String defaultAddTitleRead = Str.get("msg.waiting_input");
 
 	protected JFrame frame = null;    // en donde se pone el interprete
 
@@ -108,8 +108,8 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 		loroii.setMetaListener(new IInterprete.IMetaListener()
 		{
 			String info = 
-".version      - Muestra información general sobre versión del sistema\n" +
-".limpiar      - Limpia la ventana"
+				".version      - Muestra información general sobre versión del sistema\n" +
+				".limpiar      - Limpia la ventana"
 			;
 			
 			///////////////////////////////////////////////////////////////////////

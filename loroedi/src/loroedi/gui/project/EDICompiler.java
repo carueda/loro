@@ -164,11 +164,8 @@ class EDICompiler
 				documentador.documentar(unidades[i], directory);
 			}
 		}
-		catch ( LoroException ex )
-		{
-			Loro.log("LoroEDI: "+
-				"Error al generar documentación: " +ex.getMessage()
-			);
+		catch ( LoroException ex ) {
+			Loro.log("LoroEDI: Error generating documentation: " +ex.getMessage());
 		}
 	}
 

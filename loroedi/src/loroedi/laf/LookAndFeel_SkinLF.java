@@ -25,16 +25,15 @@ class LookAndFeel_SkinLF implements LookAndFeel.ILookAndFeel
 	{
 		try
 		{
-			Loro.log("LoroEDI: "+"Usando skinlf library version " + SkinLookAndFeel.VERSION);
-			Loro.log("LoroEDI: "+"Poniendo L&F: " +path);
+			Loro.log("LoroEDI: "+"Using skinlf library version " + SkinLookAndFeel.VERSION);
+			Loro.log("LoroEDI: "+"L&F: " +path);
 			Skin theme = SkinLookAndFeel.loadThemePack(path);
 			SkinLookAndFeel.setSkin(theme);
 			UIManager.setLookAndFeel(new SkinLookAndFeel());
 		}
 		catch(Exception e)
 		{
-			Loro.log("LoroEDI: "+"Problema al poner L&F: " +e.getMessage());
+			Loro.log("LoroEDI: "+"error to set L&F: " +e.getMessage());
 		}
 	}
-
 }

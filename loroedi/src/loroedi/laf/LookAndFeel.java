@@ -55,11 +55,11 @@ public class LookAndFeel
 			{
 				// sigo prefiriendo Kunststoff :-)
 				UIManager.setLookAndFeel("com.incors.plaf.kunststoff.KunststoffLookAndFeel");
-//				UIManager.setLookAndFeel("org.compiere.plaf.CompiereLookAndFeel");
+				//UIManager.setLookAndFeel("org.compiere.plaf.CompiereLookAndFeel");
 			}
 			catch(Exception e)
 			{
-				Loro.log("LoroEDI: " + "Error al tratar de establecer Kunststoff L&F");
+				Loro.log("LoroEDI: cannot set Kunststoff L&F");
 			}
 			return;
 		}
@@ -84,7 +84,7 @@ public class LookAndFeel
 			if ( !file.exists() )
 			{
 				Loro.log("LoroEDI: " +file.getAbsolutePath()+ " doesn't exist");
-				Loro.log("LoroEDI: " + "No se establece L&F");
+				Loro.log("LoroEDI: " + "No L&F");
 				return;
 			}
 			pref_laf = file.getAbsolutePath();
@@ -107,7 +107,7 @@ public class LookAndFeel
 		}
 		catch(Exception e)
 		{
-			Loro.log("LoroEDI: " + "No se encuentra skinlf disponible");
+			Loro.log("LoroEDI: " + "skinlf not found");
 		}
 	}
 

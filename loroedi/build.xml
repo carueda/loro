@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
 
 <!--
-    Build para el entorno LoroEDI
-	2003-05-04 - carueda
+    Build for LoroEDI
+	Carlos A. Rueda
 	$Id$
 	
-	Consultar primero build.properties
+	See first build.properties
 	
 	Para compilar todo el proyecto:
 		$ ant
@@ -88,11 +88,11 @@
         </dependset>
 		
 		<!-- recurso info.properties depende de build.properties 
-		     y de ${src}/loroedi/info.properties -->
+		     y de ${src}/loroedi/resource/info.properties -->
 		<dependset>
             <srcfileset dir="." includes="build.properties"/>
-            <srcfileset dir="${src}" includes="loroedi/info.properties"/>
-            <targetfileset dir="${build}/classes" includes="loroedi/info.properties"/>
+            <srcfileset dir="${src}" includes="loroedi/resource/info.properties"/>
+            <targetfileset dir="${build}/classes" includes="loroedi/resource/info.properties"/>
         </dependset>
 
 		<available file="${i.nic.jar}" property="nic.presente"/>
@@ -157,9 +157,11 @@
 
     <target name="info"
      description="Actualiza recurso de info">
-        <copy file="${src}/loroedi/info.properties" todir="${build}/classes/loroedi"/>
+		<copy todir="${build}/classes/loroedi/resource">
+			<fileset dir="${src}/loroedi/resource" includes="**/*.properties"/> 
+		</copy>
         <replace
-         file="${build}/classes/loroedi/info.properties">
+         file="${build}/classes/loroedi/resource/info.properties">
             <replacefilter token="@VERSION@" value="${VERSION}"/>
             <replacefilter token="@BUILD@" value="${DSTAMP}"/>
         </replace>

@@ -35,7 +35,7 @@ public class Configuracion
 
 	/** encabezado para el archivo de configuracion. */
 	private static final String header =
-		"Configuracion LoroEDI " +Info.obtVersion()+ " -- NO MODIFICAR!"
+		"LoroEDI Configuration " +Info.obtVersion()+ " -- DO NOT EDIT!"
 	;
 
 	static

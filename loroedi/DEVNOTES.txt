@@ -2,6 +2,20 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-06-27 (0.8.7)
+	- Localization scheme:
+		loroedi/gui/editor/ .. 
+		loroedi/gui/misc/  not necessary
+		loroedi/gui/project/model/ .. 
+		loroedi/gui/project/unit/ .. 
+		loroedi/gui/project/ .. 
+		loroedi/help/doc/ .. 
+		loroedi/help/ .. 
+		loroedi/jedit/ ..  principalmente LoroTokenMarker 
+		loroedi/laf/  not necessary 
+		loroedi/ .. 
+	
+////////////////////////////////////////////////////////////////////////////
 2004-06-22 (0.8.7)
 	- loroedi.Util uses charset ISO-8859-1 for readFile() and writeFile()
 	
