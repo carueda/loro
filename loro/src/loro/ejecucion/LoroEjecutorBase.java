@@ -702,10 +702,60 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 
 	//////////////////////////////////////////////////////////////////////
 	/**
+	 * Mete en la pila un nuevo marco de activacion con
+	 * el algoritmo dado.
+	 * Se crea alli una nueva tabla de simbolos.
+	 */
+	protected void _pushAlgoritmo(NAlgoritmo uni)
+	{
+		pilaEjec.pushAlgoritmo(uni);
+		tabSimb = pilaEjec.obtTablaSimbolos();
+		unidadActual = uni;
+		_pushEvent();
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * Mete en la pila un nuevo marco de activacion con
+	 * la clase dada.
+	 * Se crea alli una nueva tabla de simbolos.
+	 */
+	protected void _pushClase(NClase uni)
+	{
+		pilaEjec.pushClase(uni);
+		tabSimb = pilaEjec.obtTablaSimbolos();
+		unidadActual = uni;
+		_pushEvent();
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * Mete en la pila un nuevo marco de activacion con
+	 * la especificacion dada.
+	 */
+	protected void _pushEspecificacion(NEspecificacion uni)
+	{
+		pilaEjec.pushEspecificacion(uni);
+		tabSimb = pilaEjec.obtTablaSimbolos();
+		unidadActual = uni;
+		_pushEvent();
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * Notifica a una subclase que acaba de hacerse un _push...(u).
+	 * En esta clase no se hace nada.
+	 */
+	protected void _pushEvent()
+	{
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	/**
 	 * Hace pop a la pila de ejecucion.
 	 * Se actualiza la tabla de simbolos y la unidad actual en ejecucion
-	 * con la del nuevo marco de activacion del tope, o con null's si la
-	 * pila queda vacia.
+	 * con las del nuevo marco de activacion del tope, o con los de base
+	 * si la pila queda vacia.
 	 */
 	protected void _pop()
 	{
@@ -723,42 +773,18 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 			tabSimb = pilaEjec.obtTablaSimbolos();
 			unidadActual = pilaEjec.obtUnidad();
 		}
+		_popEvent();
 	}
+
 	//////////////////////////////////////////////////////////////////////
 	/**
-	 * Mete en la pila un nuevo marco de activacion con
-	 * el algoritmo dado.
-	 * Se crea alli una nueva tabla de simbolos.
+	 * Notifica a una subclase que acaba de hacerse un _pop...(u).
+	 * En esta clase no se hace nada.
 	 */
-	protected void _pushAlgoritmo(NAlgoritmo uni)
+	protected void _popEvent()
 	{
-		pilaEjec.pushAlgoritmo(uni);
-		tabSimb = pilaEjec.obtTablaSimbolos();
-		unidadActual = uni;
 	}
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 * Mete en la pila un nuevo marco de activacion con
-	 * la clase dada.
-	 * Se crea alli una nueva tabla de simbolos.
-	 */
-	protected void _pushClase(NClase uni)
-	{
-		pilaEjec.pushClase(uni);
-		tabSimb = pilaEjec.obtTablaSimbolos();
-		unidadActual = uni;
-	}
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 * Mete en la pila un nuevo marco de activacion con
-	 * la especificacion dada.
-	 */
-	protected void _pushEspecificacion(NEspecificacion uni)
-	{
-		pilaEjec.pushEspecificacion(uni);
-		tabSimb = pilaEjec.obtTablaSimbolos();
-		unidadActual = uni;
-	}
+	
 	///////////////////////////////////////////////////////////////////
 	/**
 	 * Trata de resolver id en el ambiente.

@@ -27,14 +27,25 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2003-02-05 Version 0.7.7
+
+Ejecución paso-a-paso
+
+	- En EjecutorPP atención de eventos asociados a la pila de ejecucion:
+	  _pushEvent, _popEvent (llamados desde la superclase LoroEjecutorBase).
+
+	- Más argumentos para IObservadorPP.ver:
+		IObservadorPP.ver(IUbicable u, ISymbolTable symbTab, String src);
+		
+	- Aun falta sincronizar todo el asunto, por ejemplo revisar qué nodos
+	  no se "visitan" directamente y por lo tanto se requiere algún
+	  mecanismo para notificar su proceso...
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-04 Version 0.7.7
 
 Ejecución paso-a-paso
 
-		Seguir pruebas con EjecutorPP._chequearTerminacionExterna(IUbicable u)
-		...
-		
-		
 	- El constructor de InterpreteImpl recibe ahora un IObservadorPP obspp
 	  para crear un EjecutorPP. Si el parámetro es nulo, se crea entonces
 	  un EjecutorTerminable.

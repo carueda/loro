@@ -696,9 +696,30 @@ public class EjecutorTerminable extends LoroEjecutor
 		super.visitar(n);
 	}
 
+	////////////////////////////////////////////////////////
+	public void visitar(NIntente n)
+	throws VisitanteException
+	{
+		_chequearTerminacionExterna(n);
+		super.visitar(n);
+	}
 
+	////////////////////////////////////////////////////////
+	public void visitar(NLance n)
+	throws VisitanteException
+	{
+		_chequearTerminacionExterna(n);
+		super.visitar(n);
+	}
 
-
+	//////////////////////////////////////////////////////////////////////
+	public void visitar(NAtrape n)
+	throws VisitanteException
+	{
+		_chequearTerminacionExterna(n);
+		super.visitar(n);
+	}
+	
 
 	//////////////////////////////////////////////////////
 	/**

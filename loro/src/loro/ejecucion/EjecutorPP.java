@@ -1,7 +1,6 @@
 package loro.ejecucion;
 
 import loro.IObservadorPP;
-import loro.Rango;
 import loro.arbol.*;
 import loro.visitante.VisitanteException;
 import loro.tabsimb.*;
@@ -55,43 +54,6 @@ public class EjecutorPP extends EjecutorTerminable
 		controlpp.setActive(false);
 	}
 
-	//////////////////////////////////////////////////
-	protected void _chequearTerminacionExterna(IUbicable u)
-	throws VisitanteException
-	{
-		if ( terminadoExternamente )
-			throw new TerminacionExternaException(u, pilaEjec);
-
-		try
-		{
-			int senal = controlpp.obtSenal();
-			if ( obspp != null )
-			{
-				System.out.println("unidadActual=" +unidadActual);
-				String src = unidadActual.getSourceCode();
-				if ( src != null )
-				{
-					System.out.println("{" +src+ "}");
-					Rango r = u.obtRango();
-					try
-					{
-						System.out.println("[" +src.substring(r.obtPosIni(), r.obtPosFin())+ "]");
-					}
-					catch(StringIndexOutOfBoundsException ex)
-					{
-						ex.printStackTrace();
-					}
-				}
-				
-				obspp.ver(u);
-			}
-		}
-		catch(InterruptedException ex)
-		{
-			throw new TerminacionExternaException(u, pilaEjec);
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	/**
 	 * Sobreescrito para desactivar el control paso-a-paso.
@@ -111,4 +73,60 @@ public class EjecutorPP extends EjecutorTerminable
 		controlpp.setActive(false);
 		super.terminarExternamente();
 	}
+
+
+	//////////////////////////////////////////////////
+	protected void _chequearTerminacionExterna(IUbicable u)
+	throws VisitanteException
+	{
+		super._chequearTerminacionExterna(u);
+		try
+		{
+			int senal = controlpp.obtSenal();
+		}
+		catch(InterruptedException ex)
+		{
+			throw new TerminacionExternaException(u, pilaEjec);
+		}
+		
+		_notifyObserver(u);
+	}
+
+	///////////////////////////////////////////////////////////////////
+	protected void _visitarCondicionEnEspecificacion(NEspecificacion n, int contexto)
+	throws VisitanteException
+	{
+		_chequearTerminacionExterna(n);
+		super._visitarCondicionEnEspecificacion(n, contexto);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	protected void _pushEvent()
+	{
+		System.out.println("EjecutorPP.push: unidadActual=" +unidadActual);
+		System.out.println("EjecutorPP.push: tabSimb:\n" +tabSimb);
+		_notifyObserver(unidadActual);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	protected void _popEvent()
+	{
+		System.out.println("EjecutorPP.pop: unidadActual=" +unidadActual);
+		System.out.println("EjecutorPP.pop: tabSimb:\n" +tabSimb);
+		_notifyObserver(unidadActual);
+	}
+	
+	//////////////////////////////////////////////////
+	protected void _notifyObserver(IUbicable u)
+	{
+		if ( obspp == null )
+			return;
+		
+		if ( u instanceof NUnidad )
+			return;
+		
+		String src = unidadActual.getSourceCode();
+		obspp.ver(u, tabSimb, src);				
+	}
+
 }
