@@ -381,13 +381,25 @@ public final class Loro
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Crea un interprete para acciones interactivas.
+	 *
+	 * @param newSymTab Si true, el interprete queda asociado a una tabla de
+	 *                  símbolos nueva e independiente de la tabla compartida.
+	 *                  En caso contrario el intéprete toma como base una tabla
+	 *                  que será compartida por todos los intérpretes instanciados
+	 *                  con este parámetro dado en false.
 	 */
-	public static IInterprete crearInterprete(Reader r, Writer w)
+	public static IInterprete crearInterprete(Reader r, Writer w, boolean newSymTab)
 	{
 		_verificarIniciado();
 		
-		if ( tabSimbBase == null )
+		if ( newSymTab )
+		{
+			return new InterpreteImpl(r, w, new TablaSimbolos(), loroClassLoader);
+		}
+		else if ( tabSimbBase == null )
+		{
 			tabSimbBase = new TablaSimbolos();
+		}
 		
 		return new InterpreteImpl(r, w, tabSimbBase, loroClassLoader);
 	}
