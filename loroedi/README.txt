@@ -1,4 +1,5 @@
 LoroEDI README
+$Id$
 
 NOTAS
 	
@@ -12,6 +13,59 @@ NOTAS
 	  ello.
 	  
 
+////////////////////////////////////////////////////////////////////////////
+2003-05-04 (0.8pre11)
+
+	- Bug 732522 corregido: 
+	  Compilar/ejecutar demo desde ventana de edición del demo
+	  compilaba/ejecutaba siempre el demo asociado al último proyecto enfocado,
+	  no necesariamente el correspondiente al que está en edición.
+	  Solución: En GUI se separaron tareas para compilación/ejecución de un
+	  código demos dado, y los correspondientes al projecto enficado.
+	  Actualizadas las actions correspondientes.
+	  
+	- Compilación de demo ahora opera "comando por comando" al estilo de
+	  como ha venido operando Workspace.executeCommands(), es decir, se
+	  compilan los fragmentos por separado. Esto permite en particular
+	  no terminar cada comando con ";". (Antes de esto era posible ejecutar
+	  exitosamente un demo que no compilara bien, ya que la ejecución se
+	  hace por fragmentos.)
+	  
+	- build.xml: target "test2" asume que loroedi.jar está al día.
+	
+////////////////////////////////////////////////////////////////////////////
+2003-05-02 (0.8pre11)
+
+	- JTerm: Modificaciones para permitir manejo de secuencias '\b' y '\r' 
+	  en cadenas escritas a través del writer. A diferencia del manejo 
+	  estándar en terminales típicas (que esencialmente "mueven" el cursor
+	  pero no borran), en JTerm estas secuencias sí eliminan los caracteres 
+	  precedentes correspondientes, y el cursor siempre queda al final cuando
+	  se trata de la última línea actualizada.
+	  Algunas comparaciones de resultados:
+	  	   cadena          JTerm      terminal/cursor retrasado
+		   ----------      -------    --------------------------
+	  	   123\b           12         123   / 1 espacio
+	  	   12345\rXY       XY         XY345 / 3 espacios 
+	  	   12345\b\b       123        12345 / 2 espacios
+	  	   12345\r                    12345 / al comienzo
+	  Esto significa que NO hay compatibilidad completa. Por ejemplo:
+	  	escribir("   procesados");	
+		para i:entero := 1 hasta 100 haga
+		     escribir("\r" + i);
+		fin para
+	  funcionará bien en una terminal típica pero no en JTerm puesto que
+	  se borrará la parte derecha del mensaje. (Una solución completa
+	  implicaría un rediseño de JTerm que no quiero hacer por ahora.) 
+	  
+	  NOTA: JTerm hace System.setProperty("line.separator", "\n") con el
+	  fin de proceder a procesar los "\r" encontrados entendiéndose que
+	  fueron escritos por el usuario explícitamente. (Los PrintWriter's
+	  utilizan esta propiedad para los cambios de línea y en sistemas
+	  DOS se presentaría confusión con los \r puestos automáticamente.)
+	
+	- JEditTextArea: Ajustes menores control caret visible. 
+	  
 ////////////////////////////////////////////////////////////////////////////
 2003-04-28 (0.8pre11)
 

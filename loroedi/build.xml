@@ -2,7 +2,8 @@
 
 <!--
     Build para el entorno LoroEDI
-	2003-10-12 - carueda
+	2003-05-04 - carueda
+	$Id$
 	
 	Consultar primero build.properties
 	
@@ -209,15 +210,13 @@ Class-path: ${bsh.jar} ../lib/${nucleo.jar} ${kunststoff.jar} ${looks.jar} ${ski
 <!-- .......... Pruebas .................. -->
 
 	<!-- borra primero -->
-	<target name="test" depends="clean-test, test2">
+	<target name="test" depends="clean-test, loroedi.jar, test2"
+	    description="Compila fuentes Loro de demostracion incluidos en distribucion"
+	>
 	</target>
 
 	<!-- para "segundas pasadas" -->
-	<target name="test2" depends="test-demos">
-	</target>
-	
-	<target name="test-demos" depends="loroedi.jar"
-	 description="Compila fuentes Loro de demostracion incluidos en distribucion">
+	<target name="test2">
 		<echo message="Compilando fuentes de demostracion..."/>
 		<echo message="***NOTA: Hacer 'ant test2' para pasadas adicionales en caso de errores***"/>
         <loroc 

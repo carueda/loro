@@ -741,13 +741,12 @@ public class JEditTextArea extends JComponent
 	 */
 	public void append(String text)
 	{
+		boolean visible = caretVisible;
 		try
 		{
-			boolean visible = caretVisible;
 			setCaretVisible(false);
 			document.beginCompoundEdit();
 			document.insertString(document.getLength(),text,null);
-			setCaretVisible(visible);
 		}
 		catch(BadLocationException bl)
 		{
@@ -755,6 +754,7 @@ public class JEditTextArea extends JComponent
 		}
 		finally
 		{
+			setCaretVisible(visible);
 			document.endCompoundEdit();
 		}
 	}
@@ -1242,13 +1242,12 @@ public class JEditTextArea extends JComponent
 	 */
 	public void insert(String text, int pos)
 	{
+		boolean visible = caretVisible;
 		try
 		{
-			boolean visible = caretVisible;
 			setCaretVisible(false);
 			document.beginCompoundEdit();
 			document.insertString(pos,text,null);
-			setCaretVisible(visible);
 		}
 		catch(BadLocationException bl)
 		{
@@ -1256,6 +1255,7 @@ public class JEditTextArea extends JComponent
 		}
 		finally
 		{
+			setCaretVisible(visible);
 			document.endCompoundEdit();
 		}
 	}
@@ -1781,17 +1781,19 @@ public class JEditTextArea extends JComponent
 	{
 		this.popup = popup;
 	}
+	
 	/**
 	 * Replaces the selection with the specified text.
 	 * @param selectedText The replacement text for the selection
 	 */
 	public void setSelectedText(String selectedText)
 	{
-		if(!editable)
-		{
-			throw new InternalError("Text component"
-				+ " read only");
-		}
+		// carueda: this method is to be used programatically
+//		if(!editable)
+//		{
+//			throw new InternalError("Text component"
+//				+ " read only");
+//		}
 
 		document.beginCompoundEdit();
 
@@ -2138,8 +2140,18 @@ public class JEditTextArea extends JComponent
 	 */
 	public void replaceRange(String str, int start, int end)
 	{
-		select(start, end);
-		setSelectedText(str);
+		boolean visible = caretVisible;
+		try
+		{
+			setCaretVisible(false);
+			select(start, end);
+			setSelectedText(str);
+		}
+		finally
+		{
+			setCaretVisible(visible);
+		}
+		
 	}
 
 	//////////////////////////////////////////////////////////

@@ -1457,7 +1457,8 @@ public final class Workspace
 				String ask_enter = enter_processing ? " " : null;
 				for ( Iterator it = cmds.iterator(); it.hasNext(); )
 				{
-					String cmd = (String) it.next();
+					GUI.CmdSource cmdsrc = (GUI.CmdSource) it.next();
+					String cmd = cmdsrc.src;
 					try
 					{
 						interpret(cmd, ask_enter);

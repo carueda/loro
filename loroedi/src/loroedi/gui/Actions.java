@@ -869,7 +869,7 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public void actionPerformed(ActionEvent e)
 		{
-			GUI.runDemo(false);
+			GUI.runProjectDemo(false);
 		}
 	}
 
@@ -887,7 +887,7 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public void actionPerformed(ActionEvent e)
 		{
-			GUI.runDemo(true);
+			GUI.runProjectDemo(true);
 		}
 	}
 

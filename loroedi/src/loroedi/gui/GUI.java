@@ -32,6 +32,9 @@ import java.net.MalformedURLException;
 //////////////////////////////////////////////////
 /**
  * Controlador general del entorno integrado.
+ *
+ * @author Carlos Rueda
+ * $Id$
  */
 public class GUI
 {
@@ -1512,15 +1515,15 @@ public class GUI
 	
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Ejecución en un hilo de _compileDemo();
+	 * Ejecución de _compileDemo(editor) en un hilo.
 	 */
-	public static Thread compileDemo()
+	private static Thread compileDemo(final UEditor editor)
 	{
 		Runnable run = new Runnable() 
 		{
 			public void run() 
 			{
-				_compileDemo();
+				_compileDemo(editor);
 			}
 		};
 		Thread thread = new Thread(run);
@@ -1539,7 +1542,7 @@ public class GUI
 	 *
 	 * @return true si todo bien.
 	 */
-	public static boolean _compileDemo()
+	public static boolean _compileProjectDemo()
 	{
 		String name = focusedProject.getModel().getInfo().getName();
 		String src;
@@ -1592,9 +1595,7 @@ public class GUI
 			}
 			
 			if ( rango != null )
-			{	
 				editor.select(rango.obtPosIni(), rango.obtPosFin());
-			}
 			editor.display();
 			editor.getMessageArea().print(res);
 		}
@@ -1603,6 +1604,67 @@ public class GUI
 			ex.printStackTrace();
 			JOptionPane.showOptionDialog(
 				null, //focusedProject.getFrame(),
+				ex.getMessage(),
+				"Error al tratar de compilar unidad",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.ERROR_MESSAGE,
+				null,
+				null,
+				null
+			);
+		}
+		
+		return false;
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Compila el código demo asociado al editor dado..
+	 *
+	 * @return true si todo bien.
+	 */
+	private static boolean _compileDemo(UEditor editor)
+	{
+		String compiling_msg = "Compilando '" +editor.getTitle()+ "'";
+		MessageArea msgArea = editor.getMessageArea();
+		msgArea.clear();
+		msgArea.println(compiling_msg);
+		
+		String src = editor.getText();
+		int offset = 0;
+		try
+		{
+			IInterprete ii = Loro.crearInterprete(null, null, true, null);
+			
+			List cmds = new ArrayList();
+			boolean enter_processing = _createCommands(src, cmds);
+			for ( Iterator it = cmds.iterator(); it.hasNext(); )
+			{
+				CmdSource cmdsrc = (CmdSource) it.next();
+				offset = cmdsrc.offset;
+				String cmd = cmdsrc.src;
+				ii.compilar(cmd);
+			}
+			msgArea.print(" Bien!");
+			return true;
+		}
+		catch(CompilacionException ce)
+		{
+			Rango rango = ce.obtRango();
+			
+			String res = "[" +rango.obtIniLin()+ "," +rango.obtIniCol()+ "]" +
+				" " +ce.getMessage()
+			;
+			
+			msgArea.println(res);
+			if ( rango != null )
+				editor.select(offset + rango.obtPosIni(), offset + rango.obtPosFin());
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showOptionDialog(
+				null,
 				ex.getMessage(),
 				"Error al tratar de compilar unidad",
 				JOptionPane.DEFAULT_OPTION,
@@ -1736,9 +1798,8 @@ public class GUI
 					}
 					_saveProjectDoc(model, doc2_dir);
 					
-					// ahora compile el demo:
-					boolean demo_ok = _compileDemo();
-					// _compileDemo() abre el editor en caso de error.
+					// ahora compile el demo: (allí se abre el editor en caso de error.)
+					boolean demo_ok = _compileProjectDemo();
 					if ( demo_ok )					
 						message(focusedProject.getFrame(), "Compilación de proyecto exitosa");
 				}
@@ -1941,16 +2002,17 @@ public class GUI
 			}
 			public void compile() 
 			{
-				save();
-				compileDemo();
+				if ( !editor.isSaved() )
+					save();
+				compileDemo(editor);
 			}
 			public void execute(boolean trace) 
 			{
 				if ( !editor.isSaved() )
-				{
 					save();
-				}
-				runDemo(trace);
+				String title = "Ejecutando";
+				editor.getMessageArea().setText(title+ " ...\n");
+				runDemo(saved, title, trace);
 			}
 			public void reload() 
 			{
@@ -1968,30 +2030,39 @@ public class GUI
 	
 	/////////////////////////////////////////////////////////////////
 	/**
+	 * Ejecuta el guión de demostración del proyecto enfocado.
+	 */
+	public static void runProjectDemo(boolean ejecutorpp)
+	{
+		MessageArea prj_msg = focusedProject.getMessageArea();
+		prj_msg.clear();
+		IProjectModel model = focusedProject.getModel();
+		String src = model.getInfo().getDemoScript();
+		if ( src != null )
+		{
+			String title = "Ejecución demo '" +model.getInfo().getName()+ "'";
+			prj_msg.print(title+ " ...\n");
+			runDemo(src, title, ejecutorpp);
+		}
+		else
+			prj_msg.print("No hay código de demo definido\n");
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
 	 * Ejecuta un guión de demostración.
 	 */
-	public static void runDemo(final boolean ejecutorpp)
+	public static void runDemo(final String src, final String title, final boolean ejecutorpp)
 	{
 		Runnable run = new Runnable() 
 		{
 			public void run() 
 			{
-				MessageArea prj_msg = focusedProject.getMessageArea();
-				prj_msg.clear();
-				IProjectModel model = focusedProject.getModel();
-				String src = model.getInfo().getDemoScript();
-				if ( src == null )
-				{
-					prj_msg.print("No hay código de demo definido\n");
-					return;
-				}
-				
-				prj_msg.print("Ejecutando demo '" +model.getInfo().getName()+ "' ...\n");
 				List cmds = new ArrayList();
 				boolean enter_processing = _createCommands(src, cmds);
 				
 				workspace.executeCommands(
-					"Ejecución demo '" +model.getInfo().getName()+ "'",
+					title,
 					null,
 					cmds,
 					enter_processing,
@@ -2010,52 +2081,85 @@ public class GUI
 	 */
 	private static boolean _createCommands(String src, List cmds)
 	{
-		BufferedReader br = new BufferedReader(new StringReader(src));
-		String line;
+		int src_len = src.length();
 		StringBuffer cmd = null;
 		boolean firstLine = true;
 		boolean enter_processing = false;
-		try
+
+		StringBuffer linebuf = new StringBuffer();
+		int pos_ini = 0;
+		for ( int pos = 0; pos < src_len; pos++ )
 		{
-			while ( (line = br.readLine()) != null )
+			// get next line:
+			linebuf.setLength(0);
+			String line = null;
+			for (; pos < src_len; pos++ )
 			{
-				line = line.trim();
-				if ( firstLine )
+				if ( src.charAt(pos) == '\n' )
+					break;
+				linebuf.append(src.charAt(pos));
+			}
+			line = linebuf.toString();
+			String linetrim = line.trim();
+			
+			if ( firstLine )
+			{
+				firstLine = false;
+				enter_processing = linetrim.length() > 0 && linetrim.charAt(0) == '$';
+				if ( enter_processing )
 				{
-					firstLine = false;
-					enter_processing = line.length() > 0 && line.charAt(0) == '$';
-					if ( enter_processing )
-						continue;     // resto de linea se ignora (por ahora)
+					pos_ini = pos;
+					continue;     // resto de linea se ignora (por ahora)
 				}
-				
-				if ( line.length() == 0 )
+			}
+			
+			if ( linetrim.length() == 0 )
+			{
+				// linea en blanco agrega comando acumulado:
+				if ( cmd != null )
 				{
-					// linea en blanco agrega comando acumulado:
-					if ( cmd != null )
-					{
-						cmds.add(cmd.toString());
-						cmd = null;
-					}
+					cmds.add(new CmdSource(pos_ini, cmd.toString()));
+					cmd = null;
+					pos_ini = pos + 1;  // +1 por cambio de línea
 				}
+			}
+			else
+			{
+				// linea normal:
+				if ( cmd == null )
+					cmd = new StringBuffer(line);
 				else
 				{
-					// linea normal:
-					if ( cmd == null )
-						cmd = new StringBuffer(line);
-					else
-						cmd.append("\n" +line);
+					if ( cmd.length() > 0 ) 
+						cmd.append("\n");
+					cmd.append(line);
 				}
 			}
 		}
-		catch(IOException ex)
-		{
-			// ignore
-		}
 	
 		if ( cmd != null )
-			cmds.add(cmd.toString());
+			cmds.add(new CmdSource(pos_ini, cmd.toString()));
 		
 		return enter_processing;
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Un comando dentro de un texto fuente.
+	 */
+	public static class CmdSource
+	{
+		/** Posicion de inicio dentro del fuente. */
+		public int offset;
+		
+		/** Código fuente del propio comando. */
+		public String src;
+		
+		CmdSource(int offset, String src)
+		{
+			this.offset = offset;
+			this.src = src;
+		}
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -3317,8 +3421,6 @@ public class GUI
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Atiende acciones sobre una editor de unidad.
-	 * Por ahora sólo se muestran mensajes de "eco".
-	 * Pendiente implementación real.
 	 */
 	private static class EditorListenerImpl implements UEditorListener
 	{
