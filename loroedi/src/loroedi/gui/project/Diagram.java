@@ -15,12 +15,11 @@ import java.util.*;
 import java.util.List;
 
 
-/////////////////////////////////////////////////////////
 /**
  * Diagrama para un proyecto.
  *
  * @author Carlos Rueda
- * @version 2002-08-13
+ * @version $Id$
  */
 public class Diagram extends JPanel
 {
