@@ -19,6 +19,7 @@ import java.awt.*;
  * Archivo de propiedades: .loro/loroedi.pref
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class Preferencias
 {
@@ -385,6 +386,8 @@ public class Preferencias
 	 */
 	public static class Util
 	{
+		// non-instanceable
+		private Util() {}
 		
 		//////////////////////////////////////////////////////////////////////////////
 		/**
