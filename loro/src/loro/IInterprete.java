@@ -47,11 +47,31 @@ public interface IInterprete
 	 * Reinicia la tabla de simbolos a vacia.
 	 */
 	public void reiniciar();
+	
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Hace terminar la ejecucion en curso.
 	 */
 	public void terminarExternamente();
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Dice si hay disponibilidad de ejecucion paso-a-paso.
+	 */
+	public boolean isTraceable();
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Siguiente paso en la ejecucion en curso.
+	 */
+	public void nextStep()
+	throws InterruptedException;
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Continuar en la ejecucion en curso.
+	 */
+	public void resume();
 
 	///////////////////////////////////////////////////////////////////////
 	/**

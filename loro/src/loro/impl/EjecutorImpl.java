@@ -9,35 +9,10 @@ import loro.*;
 /**
  * Este objeto interactua con un visitante ejecutor para
  * implementar IEjecutor.
- *
- * @author Carlos Rueda
  */
 public class EjecutorImpl implements IEjecutor
 {
 	LoroEjecutor loroEjecutor;
-
-
-
-	//////////////////////////////////////////////////////
-	public boolean esTerminableExternamente() 
-	{
-		return loroEjecutor.esTerminableExternamente();
-	}
-	//////////////////////////////////////////////////////
-	public void ponEntradaEstandar(java.io.Reader r) 
-	{
-		loroEjecutor.ponEntradaEstandar(r);
-	}
-	//////////////////////////////////////////////////////
-	public void ponSalidaEstandar(java.io.Writer w) 
-	{
-		loroEjecutor.ponSalidaEstandar(w);
-	}
-	//////////////////////////////////////////////////////
-	public void terminarExternamente() 
-	{
-		loroEjecutor.terminarExternamente();
-	}
 
 	///////////////////////////////////////////////////
 	/**
@@ -49,6 +24,49 @@ public class EjecutorImpl implements IEjecutor
 	{
 		loroEjecutor = Ejecutores.crearEjecutor(tipoEjecutor);
 		loroEjecutor.ponClassLoader(loroClassLoader);
+	}
+
+	//////////////////////////////////////////////////////
+	public boolean esTerminableExternamente() 
+	{
+		return loroEjecutor.esTerminableExternamente();
+	}
+	
+	//////////////////////////////////////////////////////
+	public void ponEntradaEstandar(java.io.Reader r) 
+	{
+		loroEjecutor.ponEntradaEstandar(r);
+	}
+	
+	//////////////////////////////////////////////////////
+	public void ponSalidaEstandar(java.io.Writer w) 
+	{
+		loroEjecutor.ponSalidaEstandar(w);
+	}
+	
+	//////////////////////////////////////////////////////
+	public void terminarExternamente() 
+	{
+		loroEjecutor.terminarExternamente();
+	}
+	
+	//////////////////////////////////////////////////////
+	public boolean esPasoAPaso() 
+	{
+		return loroEjecutor.esPasoAPaso();
+	}
+	
+	//////////////////////////////////////////////////////
+	public void ponSenalPP(int senal)
+	throws InterruptedException
+	{
+		loroEjecutor.ponSenalPP(senal);
+	}
+
+	//////////////////////////////////////////////////////
+	public void ponObservadorPP(IObservadorPP obspp)
+	{
+		loroEjecutor.ponObservadorPP(obspp);
 	}
 
 	//////////////////////////////////////////////////////

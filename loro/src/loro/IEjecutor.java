@@ -1,7 +1,5 @@
 package loro;
 
-
-
 import java.io.Reader;
 import java.io.Writer;
 
@@ -10,29 +8,27 @@ import java.io.Writer;
  * Un ejecutor de unidades ejecutables.
  *
  * Esta interface no es para ser implementada por el cliente.
- *
- * @version 2002-01-30
- * @author Carlos Rueda
  */
 public interface IEjecutor 
 {
-
-
 	//////////////////////////////////////////////////////
 	/**
 	 * Es terminable externamente este ejecutor?
 	 */
 	public boolean esTerminableExternamente();
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Pone la entrada estandar.
 	 */
 	public void ponEntradaEstandar(Reader r);
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Pone la salida estandar.
 	 */
 	public void ponSalidaEstandar(Writer w);
+	
 	//////////////////////////////////////////////////////
 	/**
 	 * Termina externamente este ejecutor.
@@ -42,6 +38,35 @@ public interface IEjecutor
 	 */
 	public void terminarExternamente();
 
+	//////////////////////////////////////////////////////
+	/**
+	 * Puede seguirse paso a paso este ejecutor?
+	 */
+	public boolean esPasoAPaso();
+	
+	//////////////////////////////////////////////////////
+	/**
+	 * Pone senal para ejecución paso-a-paso.
+	 * 
+	 * POR COMPLEMENTAR.
+	 *
+	 * @throws UnsupportedOperationException Si este ejecutor
+	 *         no puede admite esta operación.
+	 */
+	public void ponSenalPP(int senal)
+	throws InterruptedException;
+
+	//////////////////////////////////////////////////////
+	/**
+	 * Pone observador para ejecución paso-a-paso.
+	 * 
+	 * POR COMPLEMENTAR.
+	 *
+	 * @throws UnsupportedOperationException Si este ejecutor
+	 *         no puede admite esta operación.
+	 */
+	public void ponObservadorPP(IObservadorPP obspp);
+	
 	////////////////////////////////////////////////////////////////////
 	/**
 	 * Ejecuta una unidad algoritmo con argumentos dados.

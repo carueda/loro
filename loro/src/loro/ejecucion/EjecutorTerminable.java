@@ -12,7 +12,6 @@ import loro.tabsimb.*;
  * Un ejecutor que puede terminarse externamente.
  *
  * @author Carlos Rueda
- * @version 2001-02-28
  */
 public class EjecutorTerminable extends LoroEjecutor
 {
@@ -99,7 +98,6 @@ public class EjecutorTerminable extends LoroEjecutor
 			//-- terminadoExternamente = true;
 			myThread.interrupt();
 		}
-
 	}
 
 

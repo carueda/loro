@@ -27,6 +27,18 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2002-12-05 Version 0.7.7
+
+	- Diseño preliminar de ejecución paso-a-paso.
+	  	ControlPP
+		EjecutorPP
+		IObservadorPP
+	  Compilación bien, pero se deshabilita por ahora. 
+	  En el constructor de InterpreteImpl basta con cambiar una condición
+	  (ver nota allí) para habilitar de nuevo las pruebas de paso-a-paso.
+		
+	
+////////////////////////////////////////////////////////////////////////////
 2002-11-27 Version 0.7.7
 
 	- TablaSimbolos: Quitado el manejo basado en stack de marcas. Este manejo

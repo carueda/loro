@@ -1,7 +1,6 @@
 package loro.ejecucion;
 
 
-
 ////////////////////////////////////////////////////////
 /**
  * Proveedor de ejecutores.
@@ -12,12 +11,12 @@ public class Ejecutores
 	// No instanciable
 	private Ejecutores() {}
 
-
-
 	/** Tipo para ejecutor basico (no terminable). */
 	public static final int EJECUTOR_BASICO = 0;
+	
 	/** Tipo para ejecutor terminable externamente. */
 	public static final int EJECUTOR_TERMINABLE_EXTERNAMENTE = 2;
+
 
 	///////////////////////////////////////////////////
 	/**
@@ -29,16 +28,20 @@ public class Ejecutores
 	 */
 	public static LoroEjecutor crearEjecutor(int tipoEjecutor)
 	{
+		LoroEjecutor e;
 		switch ( tipoEjecutor )
 		{
 			case EJECUTOR_BASICO:
-				return new LoroEjecutor();
+				e = new LoroEjecutor();
+				break;
 
 			case EJECUTOR_TERMINABLE_EXTERNAMENTE:
-				return new EjecutorTerminable();
+				e = new EjecutorTerminable();
+				break;
 
 			default:
 				throw new IllegalArgumentException();
 		}
+		return e;
 	}
 }

@@ -26,7 +26,6 @@ import java.util.*;
  * Código de base para el visitante de ejecución.
  *
  * @author Carlos Rueda
- * @version 2002-05-18
  */
 abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 {
@@ -1002,11 +1001,49 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	{
 		throw new TerminacionInternaException(codigo);
 	}
+	
 	//////////////////////////////////////////////////////////////
 	/**
 	 * @throws UnsupportedOperationException
 	 */
 	public synchronized void terminarExternamente()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	//////////////////////////////////////////////////////
+	/**
+	 * Retorna false.
+	 */
+	public boolean esPasoAPaso()
+	{
+		return false;
+	}
+
+	//////////////////////////////////////////////////////
+	/**
+	 * @throws UnsupportedOperationException
+	 */
+	public void ponSenalPP(int senal)
+	throws InterruptedException
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	//////////////////////////////////////////////////////
+	/**
+	 * @throws UnsupportedOperationException
+	 */
+	public void ponObservadorPP(IObservadorPP obspp)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	//////////////////////////////////////////////////////
+	/**
+	 * @throws UnsupportedOperationException
+	 */
+	public void resume()
 	{
 		throw new UnsupportedOperationException();
 	}

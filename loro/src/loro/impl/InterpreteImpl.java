@@ -24,15 +24,9 @@ import loro.util.UtilValor;
 /////////////////////////////////////////////////////////////////////
 /**
  * Interprete para acciones.
- *
- * @author Carlos Rueda
  */
 public class InterpreteImpl implements IInterprete
 {
-//	PrintWriter pw;
-//	BufferedReader br;
-
-
 	TablaSimbolos tabSimbBase;
 	NUnidadInterprete ui;
 
@@ -63,13 +57,53 @@ public class InterpreteImpl implements IInterprete
 		ui = new NUnidadInterprete();
 
 		chequeador = new Chequeador(tabSimbBase, ui);
-		ejecutor = new EjecutorTerminable(tabSimbBase, ui);
-		ejecutor.ponClassLoader(loroClassLoader);
 
+		// NOTA    (2002-12-05)
+		// Las pruebas con EjecutorPP estan en proceso.
+		// Por lo pronto, para actualizar el CVS sin comprometer la ejecución
+		// del sistema, se deshabilita y se sigue con el EjecutorTerminable.
+		// Luego se parametrizará esta opción de acuerdo con una nueva API
+		// que se defina para el propósito.
+		
+		if ( true )
+		{
+			ejecutor = new EjecutorTerminable(tabSimbBase, ui);
+		}
+		else
+		{
+			// PENDIENTE: implementación incompleta
+			
+			ejecutor = new EjecutorPP(tabSimbBase, ui);
+	
+			try
+			{
+				ejecutor.ponSenalPP(0);
+			}
+			catch(InterruptedException ex)
+			{
+			}
+			ejecutor.ponObservadorPP(new loro.IObservadorPP() {
+				public int ver(loro.arbol.IUbicable u)
+				{
+					System.out.println("u = " +u);
+					return 0;
+				}
+			});
+		}
+		
+		ejecutor.ponClassLoader(loroClassLoader);
+		
+		
 		if ( r != null )
 			ejecutor.ponEntradaEstandar(new BufferedReader(r));
 		if ( w != null )
 			ejecutor.ponSalidaEstandar(new PrintWriter(w));
+	}
+
+	/////////////////////////////////////////////////////////////////
+	public boolean isTraceable()
+	{
+		return ejecutor.esPasoAPaso();
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -182,6 +216,19 @@ public class InterpreteImpl implements IInterprete
 	public void terminarExternamente()
 	{
 		ejecutor.terminarExternamente();
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	public void nextStep()
+	throws InterruptedException
+	{
+		ejecutor.ponSenalPP(0);
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public void resume()
+	{
+		ejecutor.resume();
 	}
 
 	///////////////////////////////////////////////////////////////////////
