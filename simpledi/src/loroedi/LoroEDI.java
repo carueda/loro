@@ -24,7 +24,7 @@ import javax.swing.*;
  */
 public class LoroEDI
 {
-	static final String prefix_title = "LoroEDI";
+	static final String prefix_title = "Simple LoroEDI";
 
 	/**
 	 * El controlador principal.
