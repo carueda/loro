@@ -14,6 +14,8 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-13 Version 0.7.91
 
+	- Revisar ChequeadorBase._aKindOf: eliminar o factorizar en Tipos.
+
 	- InterpreteImpl.valorComillas: chequea si ``o instanceof String'' o
 	  ``o instanceof Character''.
 	  
