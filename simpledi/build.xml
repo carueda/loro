@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<!--
+    Build para el entorno viejo
+	2003-05-24 - carueda
+	$Id$
+	
+	- Para compilar:
+	  		ant
+	  Deja ejecutable simpledi.jar en ${build}.  Ver build.properties.
+	  
+	- Para ejecutar:
+		Poner simpledi.jar en el mismo directorio en donde se encuentre loroedi.jar
+		y ejecutar:
+			java -jar simpledi.jar
+			
+	   N O T A 
+	   -------
+	  	Al parecer, el viejo entorno sigue funcionando bien (salvo por
+		algunos mensajes de versión que aluden al nuevo entorno loroedi), 
+		PERO NO se hace ahora ningún esfuerzo por hacerle mantenimiento!
+-->
+
+
+<project name="simpledi" default="simpledi.jar">
+	<property file="build.properties"/>
+	
+	<!-- Directorio de fuentes -->
+	<property name="src" value="src"/>
+	
+    <target name="init">
+		<tstamp/>
+
+		<echo message="Usando núcleo ${loro.dist}/${nucleo.jar}"/>
+		<echo message="Usando loroedi ${loroedi.dist}/${loroedi.jar}"/>
+		
+		<mkdir dir="${build}"/>
+		<mkdir dir="${build}/classes"/>
+		<mkdir dir="${dist}"/>
+		
+		<!-- Los .class de simpledi dependen del núcleo y de loroedi -->
+		<dependset>
+            <srcfilelist dir="${loro.dist}" files="${nucleo.jar}"/>
+            <srcfilelist dir="${loroedi.dist}" files="${loroedi.jar}"/>
+            <targetfileset dir="${build}/classes" includes="**/*.class"/>
+        </dependset>
+    </target>
+
+    <target name="simpledi.jar" depends="init, compileedi"
+     description="Hace ejecutable simpledi.jar">
+		<!-- actualizar manifest (ojo: un poco truculento por los cambios
+		     de linea para el echo: lineas en blanco hacen fallar el jar) -->
+		<echo message="Main-class: loroedi.LoroEDI" 
+			file="${build}/simpledi.manifest">
+Class-path: ${loroedi.jar} </echo>
+		
+        <jar jarfile="${dist}/simpledi.jar" 
+			manifest="${build}/simpledi.manifest"
+         	basedir="${build}/classes"
+			includes="**"
+		/>
+    </target>
+
+    <target name="compileedi" depends="init"
+     description="Compila fuentes Java de simpledi">
+		<javac srcdir="${src}" destdir="${build}/classes"
+        	includes="loroedi/**/**.java, util/**/**.java"
+			classpath="${loro.dist}/${nucleo.jar}:${loroedi.dist}/${loroedi.jar}"
+			debug="on"
+		/>
+    </target>
+
+<!-- .......... Varios .................. -->
+
+    <target name="clean"
+     description="Borra ${build}">
+		<delete dir="${build}"/>
+    </target>
+
+    <target name="clean-dist" depends="clean"
+     description="Borra ${build} y ${dist}">
+		<delete dir="${dist}"/>
+    </target>
+
+</project>
+
