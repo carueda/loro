@@ -19,10 +19,8 @@
 		$ ant test2
 		
 	Para crear el instalador:
-		$ ant instalador
-		
-	Para lanzar el instalador (como prueba):
-		$ ant instalar
+		$ ant installer
+	(viejo esquema de instalacion: ``ant instalador'', ``ant instalar'')
 		
 	Para eliminar archivos intermedios:
 		$ ant clean
