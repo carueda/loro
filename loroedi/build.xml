@@ -138,6 +138,7 @@ Class-path: ${bsh.jar} ../lib/${nucleo.jar} ${kunststoff.jar} ${looks.jar} ${ski
 			excludes="**/LookAndFeel_SkinLF.java"
 			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${looks.jar}:${jgraph.jar}"
 			debug="on"
+			encoding="ISO8859_1"
 		/>
     </target>
 
@@ -147,6 +148,7 @@ Class-path: ${bsh.jar} ../lib/${nucleo.jar} ${kunststoff.jar} ${looks.jar} ${ski
         	includes="loroedi/laf/LookAndFeel_SkinLF.java"
 			classpath="${loro.dist}/${nucleo.jar}:${kunststoff.jar}:${jgraph.jar}:${looks.jar}:${skinlf.jar}"
 			debug="on"
+			encoding="ISO8859_1"
        />
     </target>
 
