@@ -93,12 +93,6 @@ public class JTerm
 	/** Prefix. */
 	protected String prefix;
 
-	/** First use of prefix after setPrefix? */
-	protected boolean prefixToFirstUse;
-
-	/** Something written after setPrefix? */
-	protected boolean somethingWritten;
-	
 	private static Pattern lf_pattern = Pattern.compile("\n");
 
 
@@ -115,6 +109,8 @@ public class JTerm
 		
 		System.setProperty("line.separator", "\n");
 
+		prefix = "";
+		
 		this.ta = ta;
 		jtermIsEditable = true;
 		
@@ -371,13 +367,6 @@ public class JTerm
 
 			if  ( !reading )
 			{
-				if ( prefix != null && prefixToFirstUse )
-				{
-					prefixToFirstUse = false;
-					ta.append(prefix);
-					ta.setCaretPosition(ta.getText().length());
-				}
-				
 				pos = ta.getCaretPosition();
 				
 				if ( initialStringToRead != null )
@@ -472,7 +461,7 @@ public class JTerm
 	 */
 	private void ta_append_lf()
 	{
-		ta.append("\n" + (prefix != null ? prefix : ""));
+		ta.append("\n" + prefix);
 		String text = ta.getText();
 		int len = text.length();
 		ta.setCaretPosition(len);
@@ -509,12 +498,7 @@ public class JTerm
 				String text = ta.getText();
 				int idx = 1 + text.lastIndexOf('\n');
 				String lastLine = text.substring(idx);
-				boolean prefix_included =
-					!prefixToFirstUse &&
-					prefix != null && lastLine.startsWith(prefix)
-				;
-						
-				if ( prefix_included )
+				if ( lastLine.startsWith(prefix) )
 				{
 					idx += prefix.length();
 					lastLine = lastLine.substring(prefix.length());
@@ -552,18 +536,12 @@ public class JTerm
 	 */
 	private String process_prefix(String[] lines)
 	{
-		if ( prefix != null )
-		{
-			lines[0] = (prefixToFirstUse ? prefix : "") + lines[0];
-			for ( int i = 1; i < lines.length; i++ )
-				lines[i] = prefix + lines[i];
-		}
 		StringBuffer sb = new StringBuffer(lines[0]);
 		for ( int i = 1; i < lines.length; i++ )
+		{
+			lines[i] = prefix + lines[i];
 			sb.append("\n" +lines[i]);
-		
-		prefixToFirstUse = false;
-		somethingWritten = true;
+		}
 		return sb.toString();
 	}
 
@@ -600,9 +578,17 @@ public class JTerm
 	 */
 	public void setPrefix(String prefix)
 	{
-		this.prefix = prefix;
-		prefixToFirstUse = prefix != null;
-		somethingWritten = false;
+		String old_prefix = this.prefix;
+		this.prefix = prefix = prefix != null ? prefix : "";
+		
+		String text = ta.getText();
+		int idx = 1 + text.lastIndexOf('\n');
+		String lastLine = text.substring(idx);
+		if ( lastLine.equals(old_prefix) )
+			//replace last line with new prefix:
+			ta.replaceRange(prefix, idx, text.length());
+		else
+			ta.append("\n" +prefix);
 	}
 
 	///////////////////////////////////////////////////
@@ -626,16 +612,6 @@ public class JTerm
 	public String getPrefix()
 	{
 		return prefix;
-	}
-
-	///////////////////////////////////////////////////
-	/**
-	 * Says if the prefix was used since the method setPrefix(String prefix)
-	 * was called with prefix != null.
-	 */
-	public boolean somethingWritten()
-	{
-		return somethingWritten;
 	}
 
 	////////////////////////////////////////////////////////////////

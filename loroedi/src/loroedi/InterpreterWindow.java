@@ -101,9 +101,7 @@ implements ActionListener, JTermListener
 		if ( hello != null )
 		{
 			term.setPrefix(PREFIX_SPECIAL);
-			pw.print(hello);
-			term.setPrefix(null);
-			pw.println();
+			pw.println(hello);
 		}
 		
 		frame = new JFrame(title);
@@ -218,8 +216,6 @@ implements ActionListener, JTermListener
 		}
 		catch ( InterruptedIOException ex )
 		{
-			term.setPrefix(null);
-			pw.println();
 			msg = "Ejecución interrumpida en operación de entrada/salida.";
 			//ex.printStackTrace();
 		}
@@ -239,9 +235,7 @@ implements ActionListener, JTermListener
 		if ( msg != null )
 		{
 			term.setPrefix(PREFIX_INVALID);
-			pw.print(msg);
-			term.setPrefix(null);
-			pw.println();
+			pw.println(msg);
 		}
 	}
 
@@ -259,6 +253,8 @@ implements ActionListener, JTermListener
 		}
 		finally
 		{
+			term.setPrefix(PREFIX_SPECIAL);
+			term.setEditable(false);
 			butCerrar.setEnabled(true);
 			butTerminar.setEnabled(false);
 			enableTraceableButtons(false);
@@ -346,12 +342,12 @@ implements ActionListener, JTermListener
 		}
 		else if ( text.equals(".vars") )
 		{
-			msg = Loro.getSymbolTable().toString();
+			msg = loroii.getSymbolTable().toString();
 		}
 		else if ( text.equals(".borrarvars") )
 		{
 			loroii.reiniciar();
-			msg = Loro.getSymbolTable().toString();
+			msg = loroii.getSymbolTable().toString();
 		}
 		else if ( text.startsWith(".borrar") )
 		{
@@ -415,11 +411,8 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		{
 			msg = text+ ": comando no entendido.    .? para obtener ayuda.";
 		}
-
 		term.setPrefix(PREFIX_SPECIAL);
-		pw.print(msg);
-		term.setPrefix(null);
-		pw.println();
+		pw.println(msg);
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -449,18 +442,14 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	void procesar(String text)
 	throws AnalisisException
 	{
+		term.setPrefix(PREFIX_SPECIAL);
 		if ( text.charAt(0) == '.' )
-		{
 			metaProcesar(text);
-		}
 		else
-		{
 			procesarLoro(text);
-		}
+
 		if ( obspp != null && obspp.getSymbolTableWindow() != null )
-		{
 			obspp.getSymbolTableWindow().update();
-		}
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -469,7 +458,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	{
 		term.setPrefix(PROMPT);
 		pw.print(text);
-		term.setPrefix(null);
 
 		if ( ask_enter != null )
 		{
@@ -539,13 +527,8 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	protected void procesarLoro(String text)
 	throws AnalisisException
 	{
-		boolean one_line_more = true;
 		try
 		{
-			// en caso que el codigo escriba cosas:
-			term.setPrefix(PREFIX_SPECIAL);
-			//pw.println();
-
 			// habilite el boton de terminacion si el modo es ejecucion:
 			butTerminar.setEnabled(loroii.getExecute());
 			enableTraceableButtons(loroii.getExecute());
@@ -557,21 +540,10 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 				butTerminar.setEnabled(false);
 				enableTraceableButtons(false);
 				
-				if ( term.somethingWritten() )
-				{
-					// cancele efecto de PREFIX_SPECIAL:
-					term.setPrefix(null);
-					pw.println();
-					one_line_more = false;
-				}
-
 				if ( res != null )
 				{
 					term.setPrefix(PREFIX_EXPR);
-					pw.print(res);
-					term.setPrefix(null);
-					pw.println();
-					one_line_more = false;
+					pw.println(res);
 				}
 			}
 			else
@@ -581,9 +553,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		}
 		finally
 		{
-			term.setPrefix(null);
-			if ( one_line_more )
-				pw.println();
 			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 			butTerminar.setEnabled(false);
 			enableTraceableButtons(false);

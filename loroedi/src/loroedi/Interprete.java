@@ -27,6 +27,7 @@ import java.net.URL;
  * PENDIENTE: factorizar con InterpreterWindow.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class Interprete extends Thread
 implements ActionListener
@@ -94,18 +95,13 @@ implements ActionListener
 
 			try
 			{
-				pw.print(PROMPT);
+				term.setPrefix(PROMPT);
 				String text = br.readLine();
 				if ( text == null )
-				{
 					break;
-				}
 				text = text.trim();
 				if ( text.length() == 0 )
-				{
 					continue;
-				}
-
 
 				procesar(text);
 			}
@@ -117,13 +113,6 @@ implements ActionListener
 						+ex.obtCodigoTerminacionInterna()
 					;
 				}
-	/********
-		comentado para dejar que se imprima la pila de ejecucion.
-				else if ( ex.esTerminacionExterna() )
-				{
-					msg = "Ejecución terminada externamente.";
-				}
-	*******/
 				else
 				{
 					StringWriter sw = new StringWriter();
@@ -167,9 +156,7 @@ implements ActionListener
 			if ( msg != null )
 			{
 				term.setPrefix(PREFIX_INVALID);
-				pw.print(msg);
-				term.setPrefix(null);
-				pw.println();
+				pw.println(msg);
 			}
 			GUI.updateSymbolTable();
 		}
@@ -215,12 +202,10 @@ implements ActionListener
 		loroii = Loro.crearInterprete(br, pw, false, null);
 
 		term.setPrefix(PREFIX_SPECIAL);
-		pw.print(
+		pw.println(
 			loroedi.Info.obtTituloII() + "\n" +
 			"Escribe .? para obtener una ayuda"
 		);
-		term.setPrefix(null);
-		pw.println();
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -421,9 +406,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		}
 
 		term.setPrefix(PREFIX_SPECIAL);
-		pw.print(msg);
-		term.setPrefix(null);
-		pw.println();
+		pw.println(msg);
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -447,14 +430,11 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	void procesar(String text)
 	throws AnalisisException
 	{
+		term.setPrefix(PREFIX_SPECIAL);
 		if ( text.charAt(0) == '.' )
-		{
 			metaProcesar(text);
-		}
 		else
-		{
 			procesarLoro(text);
-		}
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -463,12 +443,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	{
 		try
 		{
-			// en caso que el codigo escriba cosas:
-			term.setPrefix(PREFIX_SPECIAL);
-			//pw.println();
-
-			// habilite el boton de terminacion si el modo es
-			// ejecucion:
+			// habilite el boton de terminacion si el modo es ejecucion:
 			butTerminar.setEnabled(execute);
 			
 			if ( execute )
@@ -477,19 +452,10 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 				butTerminar.setEnabled(false);
 				
-				if ( term.somethingWritten() )
-				{
-					// cancele efecto de PREFIX_SPECIAL:
-					term.setPrefix(null);
-					pw.println();
-				}
-
 				if ( res != null )
 				{
 					term.setPrefix(PREFIX_EXPR);
-					pw.print(res);
-					term.setPrefix(null);
-					pw.println();
+					pw.println(res);
 				}
 			}
 			else
@@ -499,8 +465,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		}
 		finally
 		{
-			term.setPrefix(null);
-			pw.println();
 			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 			butTerminar.setEnabled(false);
 		}
