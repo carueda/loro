@@ -17,6 +17,15 @@ $Id$
 		- CompiladorImpl.java:
 		  Para la compilacion de fuentes loro, hice asociacion explicita del 
 		  charset ISO8859_1 al abrir los archivos a compilar.
+		  
+	- Algunos fuentes loro de prueba renombrados para evitar problema del
+	  compilador cuando hay interdependencias y el orden en que se
+	  compilan los archivos no resulta ser el apropiado. (Recuerdese que
+	  aun se hace una manejo simplista en este sentido.)
+	  
+	- CompiladorImpl.java:
+	  Corregido comparator para el ordenamiento de los nombres de los
+	  archivos a compilar (no contemplaba todos los posibles casos).
 
 ////////////////////////////////////////////////////////////////////////////
 2003-05-24 Version 0.7.92

@@ -25,7 +25,10 @@
     </target>
 
     <target name="compile-apoyo">
-        <loroc srcdir="${src}/ext/sistema" destdir="${build}/ext/sistema" includes="loroI/sistema/**/*.loro"
+        <loroc srcdir="${src}/ext/sistema" 
+			destdir="${build}/ext/sistema" 
+			includes="loroI/sistema/**/*.loro"
+			save="true"
 		/>
     </target>
 	

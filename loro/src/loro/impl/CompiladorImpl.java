@@ -363,6 +363,29 @@ public class CompiladorImpl implements ICompilador
 		return this;
 	}
 
+	// to sort files according to name:
+	private static int _orderCode(String s) {
+		return s.endsWith(".e.loro") ? 10
+		     : s.endsWith(".i.loro") ? 15
+		     : s.endsWith(".a.loro") ? 20
+		     : s.endsWith(".c.loro") ? 25
+		     : s.endsWith(".o.loro") ? 30
+			 : 50
+		;
+	}
+	
+	private static Comparator comparator = new Comparator() {
+		public int compare(Object o1, Object o2) {
+			String s1 = (String) o1;
+			String s2 = (String) o2;
+			int cmp = _orderCode(s1) - _orderCode(s2);
+			if ( cmp == 0 )
+				return s1.compareTo(s2);
+			else
+				return cmp;
+		}
+	};
+	
 	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Ordena una lista de nombres de archivos (Strings) según las extensiones
@@ -370,32 +393,7 @@ public class CompiladorImpl implements ICompilador
 	 */
 	private static void sort(List archivos)
 	{
-		Collections.sort(archivos, new Comparator()
-		{
-			////////////////////////////////////////
-			public int compare(Object o1, Object o2)
-			{
-				String s1 = (String) o1;
-				String s2 = (String) o2;
-				
-				if ( s1.endsWith(".e.loro") )
-				{
-					return s2.endsWith(".e.loro") ? 0 : -1;
-				}
-				else if ( s1.endsWith(".a.loro") )
-				{
-					return s2.endsWith(".e.loro") ? +1 : s2.endsWith(".a.loro") ? 0 : -1;
-				}
-				else if ( s1.endsWith(".c.loro") )
-				{
-					return s2.endsWith(".c.loro") ? 0 : +1;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		});
+		Collections.sort(archivos, comparator);
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -407,9 +405,11 @@ public class CompiladorImpl implements ICompilador
 		// ahora, compilar:
 		PrintWriter pwerr = new PrintWriter(errores, true);
 		int compilados = 0;
+		//pwerr.println("Compiling: {");
 		for ( Iterator it = archivos.iterator(); it.hasNext(); )
 		{
 			String nombre = (String) it.next();
+			//pwerr.println("  [" +nombre+ "]");
 			try
 			{
 				Reader reader = _openReader(nombre);
@@ -438,6 +438,7 @@ public class CompiladorImpl implements ICompilador
 				pwerr.println(res);
 			}
 		}
+		//pwerr.println("}");
 		
 		return compilados;
 	}
@@ -454,6 +455,7 @@ public class CompiladorImpl implements ICompilador
 		for ( Iterator it = archivos.iterator(); it.hasNext(); )
 		{
 			String nombre = (String) it.next();
+			//pwerr.println("[" +nombre+ "]");
 			try
 			{
 				Reader reader = _openReader(nombre);

@@ -12,6 +12,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.io.File;
 
 ////////////////////////////////////////////////////////
@@ -28,6 +29,7 @@ import java.io.File;
  * <li>log (optional, default=(none)").
  *      Value for property "loro.log": The name of file or one of the 
  *      special names "System.out" o "System.err".
+ * <li>shownames (optional, default=false").
  * <li>includes (optional)
  * <li>excludes (optional)
  * </ul>
@@ -47,7 +49,7 @@ import java.io.File;
  * Specify save="false" for testing purposes.
  *
  * @author Carlos Rueda <a href="mailto:carueda@users.sf.net">carueda@users.sf.net</a>
- * @version 2002-08-08
+ * @version $Id$
  */
 public class LoroCompilerTask extends MatchingTask
 {
@@ -72,6 +74,9 @@ public class LoroCompilerTask extends MatchingTask
 	/** Argument to "loro.log" property. */
 	private String loro_log = null;
 
+	/** Show filenames being compiled? */
+	private boolean shownames = false;
+	
 	private List compileList;
 
 
@@ -128,6 +133,15 @@ public class LoroCompilerTask extends MatchingTask
 	{
 		this.loro_log = loro_log;
 		log("property 'log' set to '" +loro_log+ "'");
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	/**
+	 * Sets the shownames flag.
+	 */
+	public void setShownames(boolean shownames)
+	{
+		this.shownames = shownames;
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -196,6 +210,13 @@ public class LoroCompilerTask extends MatchingTask
 		
 		if ( size > 0 )
 		{
+			if ( shownames ) {
+				log("Files to compile:");
+				for ( Iterator it = compileList.iterator(); it.hasNext(); ) {
+					String name = (String) it.next();
+					log(name+ " ");
+				}
+			}
 			doLoroCompile();
 		}
 	}
