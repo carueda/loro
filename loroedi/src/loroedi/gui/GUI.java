@@ -6,6 +6,7 @@ import loroedi.gui.project.unit.*;
 import loroedi.gui.editor.*;
 import loroedi.gui.misc.MessageArea;
 
+import loroedi.Info.Str;
 import loroedi.Util;
 import loroedi.Configuracion;
 import loroedi.Preferencias;
@@ -40,7 +41,7 @@ import javax.swing.Timer;
 public class GUI
 {
 	public static final Font monospaced12_font = new Font("monospaced", Font.PLAIN, 12);
-	public static final String UNTITLED_PROJECT = "(proyecto sin nombre)";
+	public static final String UNTITLED_PROJECT = Str.get("gui.untitled_prj");
 	public static final String tester_prefix = "test_";
 	
 	static Workspace workspace;
@@ -117,7 +118,7 @@ public class GUI
 			// **** NOTA: Por ahora se hace así siempre ****
 			docInProjectDirectory = true;
 			
-			splash.status("Iniciando espacio de trabajo...");
+			splash.status(Str.get("gui.starting_workspace"));
 			workspace = Workspace.createInstance(prs_dir); 
 
 			numOpen = 0;
@@ -127,7 +128,7 @@ public class GUI
 			if ( recent.length() > 0
 			&&   workspace.existsProjectModel(recent) )
 			{
-				splash.status("Cargando proyecto reciente...");
+				splash.status(Str.get("gui.loading_recent_prj"));
 				model = workspace.getProjectModel(recent);
 			}
 			else
@@ -136,30 +137,24 @@ public class GUI
 				model = workspace.getNewProjectModel();
 				
 				// lo siguiente pendiente mientras se define comportamiento.
-//				_newOrOpenProject(frame);
-//				if ( numOpen == 0 )
-//				{
-//					frame.dispose();
-//					quit();
-//				}
+				//_newOrOpenProject(frame);
+				//if ( numOpen == 0 )
+				//{
+				//	frame.dispose();
+				//	quit();
+				//}
 			}
 			
 			_dispatch(frame, model);
 			
 			_firstTime();
 			
-			if ( _isNewAndEmpty(model) )
-			{
-				focusedProject.getMessageArea().print(
-"Proyecto nuevo. Para proceder con su definición, elegir la opción 'Propiedades'\n"+
-"en el menú 'Proyecto'.  Si se desea acceder a un proyecto ya existente, elegir\n"+
-"opción 'Abrir...' (Ctrl-O) u opción 'Instalar...' (Ctrl-I)."
-				);
+			if ( _isNewAndEmpty(model) ) {
+				focusedProject.getMessageArea().print(Str.get("gui.msg_new_prj"));
 			}
-			else
-			{
+			else {
 				focusedProject.getMessageArea().print(
-"Proyecto '" +model.getInfo().getName()+ "' abierto."
+					Str.get("gui.1_msg_prj_open", model.getInfo().getName())
 				);
 			}
 
@@ -172,7 +167,7 @@ public class GUI
 			JOptionPane.showOptionDialog(
 				null,
 				ex.getMessage(),
-				"Error de inicio",
+				"An error occurred",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -193,14 +188,13 @@ public class GUI
 	static void _initCore()
 	throws Exception
 	{
-		if ( prs_dir == null )
-		{
+		if ( prs_dir == null ) {
 			prs_dir = Preferencias.obtPreferencia(Preferencias.PRS_DIR);
 		}
 		new File(prs_dir).mkdirs();
 
 		// prepare valores de configuración para Loro:
-		splash.status("Configurando núcleo...");
+		splash.status(Str.get("gui.msg_init_core"));
 		String ext_dir = Configuracion.getProperty(Configuracion.DIR)+ "/lib/ext/";
 		String paths_dir = prs_dir;
 		Loro.configurar(ext_dir, paths_dir);
@@ -210,7 +204,7 @@ public class GUI
 		ICompilador compilador = Loro.obtCompilador();
 		compilador.ponDirectorioDestino(oro_dir);
 		
-		splash.status("Preparando entorno...");
+		splash.status(Str.get("gui.msg_setup_env"));
 		symbolTableWindow = new SymbolTableWindow(
 			"top-level",
 			Loro.getSymbolTable(),
@@ -247,7 +241,7 @@ public class GUI
 
 		////////////////////////////////////////
 		// Verifique el núcleo Loro: 
-		splash.status("Verificando núcleo...");
+		splash.status(Str.get("gui.msg_verify_core"));
 		Loro.verificarNucleo();
 
 		IDocumentador documentador = Loro.obtDocumentador();
@@ -260,7 +254,7 @@ public class GUI
 		// genere documentacion de extensiones en doc_dir:
 		// lo siguiente genera doc para todas las unidades,
 		// incluyendo las del núcleo:
-		splash.status("Actualizando documentación...");
+		splash.status(Str.get("gui.msg_update_doc"));
 		documentador.documentarExtensiones(doc_dir);
 		
 		// y lo siguiente genera doc para cada proyecto-extensión como tal
@@ -277,7 +271,6 @@ public class GUI
 		
 		////////////////////////////////////////
 		// Abra la ventana de ayuda:
-		splash.status("Abriendo ayuda...");
 		loroedi.help.HelpManager.displayHelp();
 		
 		//pendiente revisar esto:
@@ -353,9 +346,9 @@ public class GUI
 		if ( interactiveInterpreter == null )
 		{
 			interactiveInterpreter = new InterpreterWindow(
-				"Intérprete Interactivo de Loro",     //title
+				Str.get("ii.tit"),
 				loroedi.Info.obtTituloII()+ "\n"
-				+"Escribe .? para obtener una ayuda",  //hello
+				+Str.get("ii.hello"),
 				false,                                //newSymTab
 				false                                 //ejecutorpp
 			);
@@ -407,7 +400,7 @@ public class GUI
 	 */
 	static void createBrowserPanel()
 	{
-		docFrame = new JFrame("Documentación");
+		docFrame = new JFrame(Str.get("gui.tit_doc"));
 		URL url = ClassLoader.getSystemClassLoader().getResource("img/icon.jpg");
 		if ( url != null ) 
 			docFrame.setIconImage(new ImageIcon(url).getImage());
@@ -443,13 +436,7 @@ public class GUI
 				if ( hyperlink.getProtocol().equalsIgnoreCase("file")
 				&&  !new File(hyperlink.getPath()).exists() )
 				{
-					message(docFrame, 
-"No se encuentra el documento indicado por este enlace.\n"+
-"\n" +
-"Si se trata de una unidad del lenguaje o de un proyecto\n"+
-"del sistema, esta documentación se genera automáticamente\n"+
-"como parte del comando de compilación."
-					);
+					message(docFrame, Str.get("gui.msg_link_not_found"));
 					return true;
 				}
 				return false;
@@ -468,14 +455,8 @@ public class GUI
 		String filename = Util.replace(basename, "::", File.separator);
 		filename += "." +ext+ ".html";
 		File file = new File(doc_dir, filename);
-		if ( !file.exists() )
-		{
-			message(focusedProject.getFrame(), 
-"No se encuentra el documento HTML asociado.\n"+
-"\n" +
-"Esta documentación se genera de forma automática\n"+
-"como parte del comando de compilación."
-			);
+		if ( !file.exists() ) {
+			message(focusedProject.getFrame(), Str.get("gui.msg_link_not_found"));
 			return;
 		}
 		
@@ -576,7 +557,7 @@ public class GUI
 				JOptionPane.showOptionDialog(
 					focusedProject.getFrame(),
 					ex.getMessage(),
-					"Error al tratar de guardar propiedades del proyecto",
+					"Error while saving project properties",
 					JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE,
 					null,
@@ -617,27 +598,19 @@ public class GUI
         final JTextArea f_description = new JTextArea(8, 50);
 		f_description.setEditable(editable);
 		f_description.setFont(monospaced12_font);
-		JCheckBox t_htmlDescription = new JCheckBox("Contiene HTML");
-		t_htmlDescription.setToolTipText("Indica que la descripción contiene marcadores HTML");
+		String[] strs = Str.get("gui.contains_html").split("\\|", 2);
+		JCheckBox t_htmlDescription = new JCheckBox(strs[0]);
+		t_htmlDescription.setToolTipText(strs[1]);
 		final JLabel status = new JLabel();
 		
-		if ( !valid )
-		{
+		if ( !valid ) {
 			status.setForeground(Color.red);
-			status.setText(
-"<html>\n"+
-"<b>Proyecto incompatible</b><br>\n"+
-"Este proyecto corresponde a una extensión cuyos elementos compilados resultan incompatibles<br>\n"+
-"con la actual versión de Loro.<br>\n"+ 
-"Para obtener una versión actualizada de esta extensión, favor consultar con su proveedor."+
-"</html>\n"
-			);
+			status.setText("incompatible project");
 		}
-		else
-		{
+		else{
 			status.setFont(status.getFont().deriveFont(Font.ITALIC));
 			if ( !editable )
-				status.setText("Las propiedades de este proyecto no se pueden modificar");
+				status.setText(Str.get("gui.msg_read_only_props"));
 		}
 		
 		final String curr_name = model.getInfo().getName();
@@ -660,10 +633,10 @@ public class GUI
 		f_description.setCaretPosition(0);
 
 		// borders:		
-		f_name.setBorder(createTitledBorder("Código del proyecto"));
-		f_title.setBorder(createTitledBorder("Título"));
-		f_authors.setBorder(createTitledBorder("Autor(es)"));
-		f_version.setBorder(createTitledBorder("Versión/Fecha"));
+		f_name.setBorder(createTitledBorder(Str.get("gui.prj_code")));
+		f_title.setBorder(createTitledBorder(Str.get("gui.prj_tit")));
+		f_authors.setBorder(createTitledBorder(Str.get("gui.prj_author")));
+		f_version.setBorder(createTitledBorder(Str.get("gui.prj_version_date")));
 		JScrollPane sp = new JScrollPane(f_description);
 		Box descr_panel = new Box(BoxLayout.Y_AXIS);
 		t_htmlDescription.setAlignmentX(0f);
@@ -671,7 +644,7 @@ public class GUI
 		sp.setAlignmentX(0f);
 		descr_panel.add(sp);
 		
-		descr_panel.setBorder(createTitledBorder("Descripción"));
+		descr_panel.setBorder(createTitledBorder(Str.get("gui.prj_description")));
 		
         Object[] array = {
 			f_name,
@@ -683,13 +656,11 @@ public class GUI
 		};
 		
 		String diag_title;
-		if ( curr_name.trim().length() == 0 )
-		{
-			diag_title = "Propiedades para el nuevo proyecto";
+		if ( curr_name.trim().length() == 0 ) {
+			diag_title = Str.get("gui.prj_new_props");
 		}
-		else
-		{
-			diag_title = "Propiedades del proyecto: \"" +curr_name+ "\"";
+		else {
+			diag_title = Str.get("gui.1_prj_props", curr_name);
 		}
         final ProjectDialog form = new ProjectDialog(frame, diag_title, array)
 		{
@@ -705,17 +676,17 @@ public class GUI
 					String prj_name = f_name.getText();
 					if ( prj_name.indexOf(' ') >= 0 )
 					{
-						msg = "No se permite utilizar espacios para el código del proyecto";
+						msg = Str.get("gui.spaces_not_allowed");
 						//f_name.setBorder(ProjectDialog.redBorder);
 					}
 					else if ( prj_name.length() == 0 )
 					{
-						msg = "Falta un código de identificación para el proyecto";
+						msg = Str.get("gui.code_expected"); 
 					}
 					else if ( !curr_name.equalsIgnoreCase(prj_name)
 					&& workspace.existsProjectModel(prj_name) )
 					{
-						msg = "Ya existe un proyecto con este código";
+						msg = Str.get("gui.code_already_used"); 
 					}
 				}
 				if ( msg != null )
@@ -724,17 +695,17 @@ public class GUI
 				}
 				else if ( f_title.getText().trim().length() == 0 )
 				{
-					msg = "Falta indicar un título para el proyecto";
+					msg = Str.get("gui.tit_expected"); 
 				}
 				else if ( f_description.getText().trim().length() == 0 )
 				{
-					msg = "Falta dar una descripción al proyecto";
+					msg = Str.get("gui.description_expected"); 
 				}
 				
 				if ( msg == null )
 				{
 					status.setForeground(Color.gray);
-					status.setText("OK");
+					status.setText(Str.get("gui.msg_ok"));
 				}
 				else
 				{
@@ -845,7 +816,7 @@ public class GUI
 				JOptionPane.showOptionDialog(
 					frame,
 					ex.getMessage(),
-					"Error al tratar de guardar proyecto",
+					"Error occured while saving project",
 					JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE,
 					null,
@@ -897,13 +868,13 @@ public class GUI
 			
 			String pkgname = pkgm.getName();
 			if ( pkgname.length() == 0 )
-				pkgname = "<i>an&oacute;nimo</i>";
+				pkgname = "<i>" +Loro.Str.get("html.anonymous")+ "</i>";
 			else
 				pkgname = "<code><b>" +pkgname+ "</b></code>";
 			
 			sb.append("<tr bgcolor=\"#FFCCCC\">\n");
 			sb.append("<td>\n");
-			sb.append("paquete: " +pkgname+ "\n");
+			sb.append(Loro.Str.get("html.package")+ ": " +pkgname+ "\n");
 			sb.append("</td>\n");
 			sb.append("</tr>\n");
 			
@@ -919,8 +890,9 @@ public class GUI
 				sb.append("<tr>\n");
 				sb.append("<td>\n");
 
+				String stereo = loro.util.Util.formatHtml(unit.getStereotype());
 				sb.append("&nbsp;&nbsp;<a href=\"" +href+ "\">" +
-					"<code>" +unit.getStereotype()+ " " +unit.getName()+ "</code>" + 
+					"<code>" +stereo+ " " +unit.getName()+ "</code>" + 
 					"</a>\n"
 				);
 				sb.append("</td>\n");
@@ -948,14 +920,15 @@ public class GUI
 		boolean htmlDescription = "html".equalsIgnoreCase(info.getDescriptionFormat());
 		String pkgDoc = _getPackagesDoc(model);
 
+		String str_missing = Str.get("gui.prj_missing_prop");
 		if ( title == null )
-			title = "(no hay)";
+			title = str_missing;
 		if ( authors == null )
-			authors = "(no hay)";
+			authors = str_missing;
 		if ( version == null )
-			version = "(no hay)";
+			version = str_missing;
 		if ( description == null )
-			description = "(no hay)";
+			description = str_missing;
 		
 		// if description is not in HTML, then replace special symbols:
 		if ( !htmlDescription )
@@ -1014,7 +987,7 @@ public class GUI
 		catch(Exception ex)
 		{
 			System.out.println(
-				"Error al guardar documentación proyecto '" +prjname+ "'\n" +
+				"Error while saving project documentation '" +prjname+ "'\n" +
 				ex.getMessage()
 			);
 		}
@@ -1031,15 +1004,16 @@ public class GUI
 	 */
 	private static void _saveMainIndexForProjects()
 	{
+		String loro_projects = Str.get("gui.html_loro_projects");
 		StringBuffer sb = new StringBuffer(
 			"<html>\n" +
 			"<head>\n" +
-			"<title>Proyectos Loro</title>\n" +
+			"<title>" +loro_projects+ "</title>\n" +
 			"</head>\n" +
 			"<body>\n"
 		);
 		
-		sb.append("<b>Proyectos Loro</b>\n");
+		sb.append("<b>" +loro_projects+ "</b>\n");
 		
 		sb.append("<table>\n");
 		for ( Iterator it = workspace.getAvailableProjects().iterator(); it.hasNext(); )
@@ -1074,7 +1048,7 @@ public class GUI
 		catch(Exception ex)
 		{
 			System.out.println(
-				"Error al guardar index.html principal.\n" +
+				"Error while saving main index.html.\n" +
 				ex.getMessage()
 			);
 		}
@@ -1113,7 +1087,7 @@ public class GUI
 			JOptionPane.showOptionDialog(
 				focusedProject.getFrame(),
 				ex.getMessage(),
-				"Error al tratar de guardar proyecto",
+				"Error while saving project",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -1147,14 +1121,14 @@ public class GUI
 		f_title.setText(model.getInfo().getTitle());
 
 		// borders:		
-		f_name.setBorder(createTitledBorder("Código del proyecto"));
-		f_title.setBorder(createTitledBorder("Título"));
+		f_name.setBorder(createTitledBorder(Str.get("gui.prj_code")));
+		f_title.setBorder(createTitledBorder(Str.get("gui.prj_tit")));
 		
 		JPanel panel_target = new JPanel(new GridLayout(0, 1));
-		panel_target.setBorder(createTitledBorder("Destino"));
+		panel_target.setBorder(createTitledBorder(Str.get("gui.prj_export_target")));
 		
 		final JPanel panel_extension = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		final JRadioButton radio_extension = new JRadioButton("Proyecto");
+		final JRadioButton radio_extension = new JRadioButton(Str.get("gui.prj_export_to_project"));
 		radio_extension.setMnemonic(KeyEvent.VK_P);
 		radio_extension.setSelected(true);
 		panel_extension.add(radio_extension);
@@ -1165,7 +1139,7 @@ public class GUI
 		panel_target.add(panel_extension);
 
 		final JPanel panel_directory = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		final JRadioButton radio_directory = new JRadioButton("Directorio");
+		final JRadioButton radio_directory = new JRadioButton(Str.get("gui.prj_export_to_directory"));
 		radio_directory.setMnemonic(KeyEvent.VK_D);
 		radio_directory.setSelected(false);
 		panel_directory.add(radio_directory);
@@ -1180,18 +1154,18 @@ public class GUI
         group.add(radio_extension);
 		
 		JPanel panel_include = new JPanel(new GridLayout(0, 1));
-		panel_include.setBorder(createTitledBorder("Incluir en la exportación"));
+		panel_include.setBorder(createTitledBorder(Str.get("gui.prj_export_include")));
 		
-		final JCheckBox check_source = new JCheckBox("Código fuente (*.loro)", true);
+		final JCheckBox check_source = new JCheckBox(Str.get("gui.prj_export_include_src"), true);
 		check_source.setMnemonic(KeyEvent.VK_F);
 		panel_include.add(check_source);
 		
-		final JCheckBox check_compiled = new JCheckBox("Código compilado (*.oro)", true);
+		final JCheckBox check_compiled = new JCheckBox(Str.get("gui.prj_export_include_compiled"), true);
 		check_compiled.setMnemonic(KeyEvent.VK_C);
 		check_compiled.setDisplayedMnemonicIndex(7);
 		panel_include.add(check_compiled);
 
-		final JCheckBox check_html = new JCheckBox("Documentación (*.html)", true);
+		final JCheckBox check_html = new JCheckBox(Str.get("gui.prj_export_include_doc"), true);
 		check_html.setMnemonic(KeyEvent.VK_M);
 		panel_include.add(check_html);
 
@@ -1203,7 +1177,7 @@ public class GUI
 			status
 		};
 		
-		String diag_title = "Exportar proyecto: \"" +model.getInfo().getName()+ "\"";
+		String diag_title = Str.get("gui.1_prj_export_tit", model.getInfo().getName()); 
         final ProjectDialog form = new ProjectDialog(frame, diag_title, array)
 		{
 			public boolean dataOk()
@@ -1212,41 +1186,35 @@ public class GUI
 				if ( radio_directory.isSelected() )
 				{
 					String dir = f_directory.getText().trim();
-					if ( dir.length() == 0 )
-					{
-						msg = "Falta indicar un directorio absoluto de destino";
+					if ( dir.length() == 0 ) {
+						msg = Str.get("gui.prj_export_missing_dir"); 
 					}
-					else 
-					{
+					else {
 						File file = new File(dir);
-						if ( !file.isAbsolute() )
-						{
-							msg = "Debe indicarse un directorio absoluto";
+						if ( !file.isAbsolute() ) {
+							msg = Str.get("gui.prj_export_missing_abs_dir");
 						}
 					}
 				}
 				else if ( radio_extension.isSelected() )
 				{
 					String ext = f_extension.getText().trim();
-					if ( ext.length() == 0 )
-					{
-						msg = "Falta indicar el nombre del archivo proyecto de destino";
+					if ( ext.length() == 0 ) {
+						msg = Str.get("gui.prj_export_missing_prj_name");
 					}
 				}
 				
-				if ( msg == null )
-				{
+				if ( msg == null ) {
 					if ( !check_source.isSelected() && !check_compiled.isSelected()
-					&&   !check_html.isSelected() )
-					{
-						msg = "Nada para incluir en la exportación";
+					&&   !check_html.isSelected() ) {
+						msg = Str.get("gui.prj_export_nothing");
 					}
 				}
 				
 				if ( msg == null )
 				{
 					status.setForeground(Color.gray);
-					status.setText("OK");
+					status.setText(Str.get("gui.msg_ok"));
 				}
 				else
 				{
@@ -1264,10 +1232,9 @@ public class GUI
 				radio_directory.setSelected(true);
 				String dir = Util.selectDirectory(
 					focusedProject.getFrame(),
-					"Directorio de destino"
+					Str.get("gui.prj_export_to_directory")
 				);
-				if ( dir != null )
-				{
+				if ( dir != null ) {
 					f_directory.setText(dir);
 				}
 			}
@@ -1280,11 +1247,10 @@ public class GUI
 				radio_extension.setSelected(true);
 				String ext = Util.selectSaveFile(
 					focusedProject.getFrame(),
-					"Archivo de extensión de destino",
+					Str.get("gui.prj_export_to_project"),
 					JFileChooser.FILES_ONLY
 				);
-				if ( ext != null )
-				{
+				if ( ext != null ) {
 					if ( !ext.endsWith(".lar") )
 						ext += ".lar";
 					f_extension.setText(ext);
@@ -1330,10 +1296,7 @@ public class GUI
 				dest = f_directory.getText().trim();
 				File file = new File(dest);
 				if ( file.exists()
-				&&   !confirm(frame, 
-						"El directorio de destino ya existe:\n"+
-						"  " +dest+ "\n"+
-						"¿Proceder con la exportación?\n") )
+				&&   !confirm(frame, Str.get("gui.1_prj_export_conf_dir_existing",dest) ) )
 				{
 					return;
 				}
@@ -1346,10 +1309,7 @@ public class GUI
 				
 				File file = new File(dest);
 				if ( file.exists()
-				&&  !confirm(frame, 
-						"El archivo de destino ya existe:\n"+
-						"  " +dest+ "\n"+
-						"¿Proceder con la exportación?\n") )
+				&&   !confirm(frame, Str.get("gui.1_prj_export_conf_file_existing",dest) ) )
 				{
 					return;
 				}
@@ -1365,7 +1325,7 @@ public class GUI
 					check_html.isSelected()
 				);
 				
-				message(focusedProject.getFrame(), "Exportación de proyecto exitosa");
+				message(focusedProject.getFrame(), Str.get("gui.1_prj_export_ok")); 
 			}
 			catch(Exception ex)
 			{
@@ -1373,7 +1333,7 @@ public class GUI
 				JOptionPane.showOptionDialog(
 					focusedProject.getFrame(),
 					ex.getMessage(),
-					"Error al tratar de exportar proyecto",
+					"Error exporting project",
 					JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE,
 					null,
@@ -1414,8 +1374,8 @@ public class GUI
 			{
 				JOptionPane.showMessageDialog(
 					frame,
-					"No hay código fuente disponible",
-					"Atención",
+					Str.get("gui.msg_no_src_code"),
+					"",
 					JOptionPane.INFORMATION_MESSAGE
 				);
 				return null;
@@ -1455,7 +1415,7 @@ public class GUI
 				unit.setSourceCode(editor.getText());
 				workspace.saveUnit(unit);
 				editor.setSaved(true);
-				editor.getMessageArea().setText("Guardado.");
+				editor.getMessageArea().setText(Str.get("gui.unit_saved"));
 			}
 			else
 			{
@@ -1469,7 +1429,7 @@ public class GUI
 			JOptionPane.showOptionDialog(
 				null, //focusedProject.getFrame(),
 				ex.getMessage(),
-				"Error al tratar de guardar unidad",
+				"Error saving unit",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -1574,7 +1534,7 @@ public class GUI
 		MessageArea prj_msg = focusedProject.getMessageArea();		
 		IProjectModel prjm = focusedProject.getModel();
 		String name = prjm.getInfo().getName();
-		String compiling_msg = "Compilando demo '" +name+ "' ...";
+		String compiling_msg = Str.get("gui.1_msg_compiling_demo"); 
 		
 		boolean ok = false;
 		UEditor editor = (UEditor) demoEditors.get(name);
@@ -1582,7 +1542,7 @@ public class GUI
 		{
 			editor.getMessageArea().clear();
 			editor.getMessageArea().println(compiling_msg);
-			prj_msg.print("  Demo: ");
+			prj_msg.print("  " +Str.get("gui.msg_demo")+ ": ");
 			ok = _compileDemo(editor);
 		}
 		else
@@ -1591,7 +1551,7 @@ public class GUI
 			if ( src == null || src.trim().length() == 0 )
 				return true;  // inmediatamente, sin mensajes.
 			
-			prj_msg.print("  Demo: ");
+			prj_msg.print("  " +Str.get("gui.msg_demo")+ ": ");
 			int[] offsets = new int[2];
 			try
 			{
@@ -1610,7 +1570,7 @@ public class GUI
 				JOptionPane.showOptionDialog(
 					null, //focusedProject.getFrame(),
 					ex.getMessage(),
-					"Error al tratar de compilar guión",
+					"Error compiling script",
 					JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE,
 					null,
@@ -1619,7 +1579,7 @@ public class GUI
 				);
 			}
 		}
-		prj_msg.print(ok ? "Bien!" : "Error!");
+		prj_msg.print(ok ? Str.get("gui.msg_compiling_ok") : Str.get("gui.msg_compiling_error"));
 		
 		return ok;
 	}
@@ -1637,14 +1597,14 @@ public class GUI
 
 		MessageArea msgArea = editor.getMessageArea();
 		msgArea.clear();
-		msgArea.println("Compilando:");
+		msgArea.println(Str.get("gui.1_msg_compiling_demo", ""));
 		
 		String src = editor.getText();
 		int[] offsets = new int[2];
 		try
 		{
 			_compileDemoSource(src, offsets);
-			msgArea.print(" Bien!");
+			msgArea.print(" " +Str.get("gui.msg_compiling_ok"));
 			return true;
 		}
 		catch(CompilacionException ce)
@@ -1657,7 +1617,7 @@ public class GUI
 			JOptionPane.showOptionDialog(
 				null,
 				ex.getMessage(),
-				"Error al tratar de compilar unidad",
+				"Error compiling unit",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -1729,19 +1689,19 @@ public class GUI
 				if ( editor != null )
 				{
 					editor.getMessageArea().clear();
-					editor.getMessageArea().print("Compilando...");
+					editor.getMessageArea().print(Str.get("gui.1_msg_compiling_unit", ""));
 				}
 				MessageArea prj_msg = focusedProject.getMessageArea();
 				prj_msg.clear();
-				prj_msg.print("Compilando " +unit.getStereotypedName()+ "...");
+				prj_msg.print(Str.get("gui.1_msg_compiling_unit", unit.getStereotypedName()));
 		
 				try
 				{
 					workspace.compileUnit(unit);
-					prj_msg.print(" Bien!");
+					prj_msg.print(" " +Str.get("gui.msg_compiling_ok"));
 					if ( editor != null )
 					{
-						editor.getMessageArea().print(" Bien!");
+						editor.getMessageArea().print(" " +Str.get("gui.msg_compiling_ok"));
 						refreshDocIfNecessary(unit);
 					}
 					return;
@@ -1776,7 +1736,7 @@ public class GUI
 						JOptionPane.showOptionDialog(
 							null,
 							res,
-							"Hubo error en compilación",
+							"Error compiling",
 							JOptionPane.DEFAULT_OPTION,
 							JOptionPane.ERROR_MESSAGE,
 							null,
@@ -1791,7 +1751,7 @@ public class GUI
 					JOptionPane.showOptionDialog(
 						null, //focusedProject.getFrame(),
 						ex.getMessage(),
-						"Error al tratar de compilar unidad",
+						"Error compiling unit",
 						JOptionPane.DEFAULT_OPTION,
 						JOptionPane.ERROR_MESSAGE,
 						null,
@@ -1830,13 +1790,13 @@ public class GUI
 	{
 		MessageArea prj_msg = focusedProject.getMessageArea();
 		prj_msg.clear();
-		prj_msg.println("Compilando proyecto:");
+		prj_msg.println(Str.get("gui.1_msg_compiling_prj", ""));
 		IProjectModel model = focusedProject.getModel();
 		try
 		{
-			prj_msg.print("  Unidades: ");
+			prj_msg.print("  " +Str.get("gui.1_msg_compiling_prj_units")+ ": ");
 			workspace.compileProjectModel(model);
-			prj_msg.println("Bien!");
+			prj_msg.println(Str.get("gui.msg_compiling_ok"));
 			if ( browser != null ) // simplemente refresque.
 				browser.refresh();
 
@@ -1848,7 +1808,7 @@ public class GUI
 			// ahora compile el demo: (allí se abre el editor en caso de error.)
 			boolean demo_ok = _compileProjectDemo();
 			if ( demo_ok )
-				message(focusedProject.getFrame(), "Compilación de proyecto exitosa");
+				message(focusedProject.getFrame(), Str.get("gui.msg_compiling_ok"));
 		}
 		catch(UnitCompilationException ex)
 		{
@@ -1861,7 +1821,7 @@ public class GUI
 				" " +ex.getMessage()
 			;
 
-			prj_msg.println("Error!");
+			prj_msg.println(Str.get("gui.msg_compiling_error"));
 			prj_msg.println(unit.getStereotypedName()+ ": " +res);
 			
 			UEditor editor = (UEditor) unit.getUserObject();
@@ -1885,7 +1845,7 @@ public class GUI
 				JOptionPane.showOptionDialog(
 					null,
 					res,
-					"Hubo error en compilación",
+					"Error compiling",
 					JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE,
 					null,
@@ -1900,7 +1860,7 @@ public class GUI
 			JOptionPane.showOptionDialog(
 				focusedProject.getFrame(),
 				ex.getMessage(),
-				"Error al compilar proyecto",
+				"Error compiling project",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -1923,7 +1883,7 @@ public class GUI
 			{
 				MessageArea prj_msg = focusedProject.getMessageArea();
 				prj_msg.clear();
-				prj_msg.print("Tomando algoritmos a probar...\n");
+				prj_msg.print(Str.get("gui.msg_test_taking_algs")+ "\n");
 				IProjectModel model = focusedProject.getModel();
 				List cmds = new ArrayList();
 				int total_algs = 0;
@@ -1939,7 +1899,7 @@ public class GUI
 						if ( cmd != null )
 						{
 							cmds.add(new SourceSegment(0, 0,
-									"// Probando " +tested_alg+ "\n"+
+									"// " +Str.get("gui.1_msg_testing_alg", tested_alg)+ "\n"+
 									cmd, false
 								)
 							);
@@ -1948,12 +1908,13 @@ public class GUI
 				}
 				if ( cmds.size() > 0 )
 				{
-					prj_msg.print("Lanzando ventana para ejecución de pruebas...\n");
+					prj_msg.print(Str.get("gui.1_msg_test_launching_window")+ "\n");
+					String prj_name = focusedProject.getModel().getInfo().getName();
 					workspace.executeCommands(
-						"Probando proyecto " +focusedProject.getModel().getInfo().getName(),
-						"---Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba---\n",
-						"---Pruebas terminadas exitosamente---",   // byeOK
-						"---Hubo error(es)---",                    // byeErr
+						Str.get("gui.1_msg_testing_prj", prj_name),
+						Str.get("gui.msg_call_testing_algs")+ "\n",
+						Str.get("gui.msg_call_tests_ok"),      // byeOK
+						Str.get("gui.msg_call_tests_error"),   // byeErr
 						cmds,
 						false,    // newSymTab
 						false     // ejecutorpp
@@ -1961,18 +1922,13 @@ public class GUI
 				}
 				else if ( total_algs > 0 )
 				{
-					String msg = 
-						"No se encontraron pruebas aplicables.\n"+
-						"Un algoritmo se puede probar si cuenta con un esquema de\n"+
-						"pruebas para su especificación y tanto el algoritmo a probar\n"+
-						"como el algoritmo probador están compilados." 
-					;
+					String msg = Str.get("gui.msg_no_tests_available");
 					prj_msg.print(msg+ "\n");
 					message(focusedProject.getFrame(), msg);
 				}
 				else // total_algs == 0 
 				{
-					String msg = "Este proyecto no tiene algoritmos definidos\n";
+					String msg = Str.get("gui.msg_prj_with_no_algs")+ "\n";
 						
 					prj_msg.print(msg+ "\n");
 					message(focusedProject.getFrame(), msg);
@@ -2011,7 +1967,8 @@ public class GUI
 		
 		boolean modifiable = prjm.getControlInfo().isModifiable();
 		UEditor editor = new UEditor(
-			"Demo '" +name+ "'", modifiable, true, false, true,
+			Str.get("gui.1_edit_demo_tit", name), 
+			modifiable, true, false, true,
 			Preferencias.DEMO_RECT
 		);
 		editor.setText(src);
@@ -2035,12 +1992,12 @@ public class GUI
 		String src = model.getInfo().getDemoScript();
 		if ( src != null && src.trim().length() > 0 )
 		{
-			String title = "Ejecución demo '" +model.getInfo().getName()+ "'";
+			String title = Str.get("gui.1_edit_demo_tit", model.getInfo().getName()); 
 			prj_msg.print(title+ " ...\n");
 			runDemo(src, title, ejecutorpp);
 		}
 		else
-			prj_msg.print("No hay código de demostración para ejecutar.");
+			prj_msg.print(Str.get("gui.no_demo_to_run"));
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -2182,10 +2139,7 @@ public class GUI
 		}
 		else
 		{
-			message(
-				focusedProject.getFrame(),
-				"El algoritmo no está compilado"
-			);
+			message(focusedProject.getFrame(), Str.get("gui.msg_alg_not_compiled"));
 		}
 	}
 
@@ -2222,11 +2176,11 @@ public class GUI
 	public static String getTestExecutionCmd(AlgorithmUnit tested_alg, boolean dialogs)
 	{
 		MessageArea prj_msg = focusedProject.getMessageArea();
-		prj_msg.print("Examinando '" +tested_alg.getQualifiedName()+ "' ...\n");
+		prj_msg.print("'" +tested_alg.getQualifiedName()+ "' ...\n");
 		IUnidad.IAlgoritmo tested_u = (IUnidad.IAlgoritmo) tested_alg.getIUnidad();
 		if ( tested_u == null )
 		{
-			String msg = "...El algoritmo no está compilado";
+			String msg = "..." +Str.get("gui.msg_alg_not_compiled");
 			prj_msg.print(msg+ "\n");
 			if ( dialogs )
 			{
@@ -2241,7 +2195,7 @@ public class GUI
 		IUnidad.IAlgoritmo tester_u = Loro.getAlgorithm(tester_alg_name);
 		if ( tester_u == null )
 		{
-			String msg = "...No se encuentra el algoritmo probador '" +tester_alg_name+ "'";
+			String msg = "..." +Str.get("gui.1_msg_tester_alg_not_found", tester_alg_name); 
 			prj_msg.print(msg+ "\n");
 			if ( dialogs )
 			{
@@ -2264,12 +2218,13 @@ public class GUI
 		if ( cmd != null )
 		{
 			List cmds = new ArrayList();
-			cmds.add(new SourceSegment(0, 0, "// Probando " +tested_alg+ "\n"+cmd, false));
+			cmds.add(new SourceSegment(0, 0, "// " +Str.get("gui.1_msg_testing_alg", tested_alg.getIUnidad())+ "\n"+cmd, false));
+
 			workspace.executeCommands(
-				"Probando " +tested_alg.getIUnidad(),
-				"---Invocando algoritmo de prueba---\n",
-				"---Prueba terminada exitosamente---",    // byeOK
-				"---Hubo error(es)---",                   // byeErr
+				Str.get("gui.1_msg_testing_alg", tested_alg.getIUnidad()),
+				Str.get("gui.msg_call_testing_algs")+ "\n",
+				Str.get("gui.msg_call_tests_ok"),      // byeOK
+				Str.get("gui.msg_call_tests_error"),   // byeErr
 				cmds,
 				false,    // newSymTab
 				false     // ejecutorpp
@@ -2291,10 +2246,10 @@ public class GUI
 				java.awt.Toolkit.getDefaultToolkit().beep();
 				int sel = JOptionPane.showConfirmDialog(
 					frame,
-					"¿Finalizar el Entorno Integrado de Loro?",
-					"Confirmación",
+					Str.get("gui.conf_quit"),
+					"",
 					JOptionPane.YES_NO_OPTION,
-					JOptionPane.WARNING_MESSAGE
+					JOptionPane.INFORMATION_MESSAGE
 				);
 				if ( sel != 0 )
 					return;
@@ -2430,7 +2385,7 @@ public class GUI
 				{
 					prjname = UNTITLED_PROJECT;
 				}
-				JMenuItem mi = new JMenuItem("Proyecto: " +prjname);
+				JMenuItem mi = new JMenuItem(Str.get("gui.1_msg_project", prjname));
 				mi.setActionCommand(actionCmd);
 				mi.addActionListener(selectFromWindowMenu);
 				frame.windowMenu.add(mi);
@@ -2460,13 +2415,14 @@ public class GUI
 		final String prjname = _openProjectDialog(focusedProject.getFrame());
 		if ( prjname != null )
 		{
-			progressRun(focusedProject.getFrame(), "abriendo '" +prjname+ "'", new Runnable() 
-			{
-				public void run() 
-				{
-					_openProject(prjname);
+			progressRun(focusedProject.getFrame(), 
+				Str.get("gui.1_msg_opening_project", prjname), 
+				new Runnable()  {
+					public void run()  {
+						_openProject(prjname);
+					}
 				}
-			});
+			);
 			focusedProject.getFrame().toFront();
 		}
 	}
@@ -2490,7 +2446,7 @@ public class GUI
 		}
 		dispatch(prjname);
 		focusedProject.getMessageArea().clear();
-		focusedProject.getMessageArea().println("Proyecto '" +prjname+ "' abierto");
+		focusedProject.getMessageArea().println(Str.get("gui.1_msg_prj_open", prjname));
 		return true;
 	}
 	
@@ -2507,20 +2463,17 @@ public class GUI
 		File dir = null;
 		
 		DataInputStream in;
-		try
-		{
+		try {
 			in = new DataInputStream(url.openStream());
 		}
 		catch(IOException ex)
 		{
 			JOptionPane.showOptionDialog(
 				focusedProject.getFrame(),
-				"Error al tratar de leer el archivo indicado.\n"
-				+"Favor verificar la localización dada.\n"
-				+"\n"
+				Str.get("gui.cannot_read_file")+ "\n"
 				+ex.getClass()+ ":\n"
 				+"   " +ex.getMessage(),
-				"Error al tratar de leer el archivo indicado",
+				Str.get("gui.cannot_read_file"),
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -2533,7 +2486,7 @@ public class GUI
 		{
 			MessageArea prj_msg = focusedProject.getMessageArea();
 			prj_msg.clear();
-			prj_msg.println("Importando proyecto:");
+			prj_msg.println(Str.get("gui.msg_importing_prj"));
 			
 			File path = new File(url.getPath());
 			String name = path.getName();
@@ -2556,7 +2509,7 @@ public class GUI
 			workspace.addProjectModelName(dir.getName());
 			_addDirectoryToPath(dir.getName());
 			
-			prj_msg.println(" Listo");
+			prj_msg.println(" " +Str.get("gui.msg_done"));
 		}
 		catch(Exception ex)
 		{
@@ -2564,7 +2517,7 @@ public class GUI
 			JOptionPane.showOptionDialog(
 				focusedProject.getFrame(),
 				ex.getMessage(),
-				"Error al tratar de instalar proyecto de proveniencia externa",
+				"Error occured while trying to install project",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -2632,16 +2585,19 @@ public class GUI
 		f_name.setFont(monospaced12_font);
 		
 		
-		JCheckBox chk_open = new JCheckBox("Abrir proyecto al finalizar instalación", null, true); 
+		JCheckBox chk_open = new JCheckBox(
+			Str.get("gui.msg_open_prj_after_install"), 
+			null, true
+		); 
 		
 		JScrollPane sp = new JScrollPane(cb_prjs);
-		f_name.setBorder(createTitledBorder("Instalar con el nombre"));
+		f_name.setBorder(createTitledBorder(Str.get("gui.msg_install_prj_with_name")));
 		f_name.setText((String) cb_prjs.getSelectedValue());
 
 		final JPanel panel_inc = new JPanel();
 		panel_inc.setLayout(new BoxLayout(panel_inc, BoxLayout.Y_AXIS));
 		panel_inc.setBorder(createTitledBorder(""));
-		final JRadioButton radio_inc = new JRadioButton("Instalar proyecto incluido:");
+		final JRadioButton radio_inc = new JRadioButton(Str.get("gui.msg_install_builtin_prj")+ ":");
 		radio_inc.setAlignmentX(0f);
 		radio_inc.setMnemonic(KeyEvent.VK_I);
 		radio_inc.setSelected(true);
@@ -2662,15 +2618,11 @@ public class GUI
 		final JPanel panel_lar = new JPanel();
 		panel_lar.setLayout(new BoxLayout(panel_lar, BoxLayout.Y_AXIS));
 		panel_lar.setBorder(createTitledBorder(""));
-		final JRadioButton radio_lar = new JRadioButton("Instalar proyecto externo:");
+		final JRadioButton radio_lar = new JRadioButton(Str.get("gui.msg_install_external_prj")+ ":");
+		
 		radio_lar.setAlignmentX(0f);
 		panel_lar.add(radio_lar);
-		JLabel l_header_lar = new JLabel(
-			"<html>"+
-			"Escribe la ubicación web (URL) o indica el archivo local que contiene<br>\n"+
-			"el proyecto a instalar.\n"+
-			"</html>"
-		);
+		JLabel l_header_lar = new JLabel(Str.get("gui.msg_install_prompt_prj"));
 		l_header_lar.setForeground(Color.gray);
 		l_header_lar.setAlignmentX(0f);
 		panel_lar.add(l_header_lar);
@@ -2681,23 +2633,27 @@ public class GUI
 		panel_lar2.add(f_lar);
 		radio_lar.setMnemonic(KeyEvent.VK_E);
 		
-		JButton choose_lar = new JButton("Local...");
+		String[] strs;
+		
+		strs = Str.get("but.local_file").split("\\|", 2);
+		JButton choose_lar = new JButton(strs[0]);
+		choose_lar.setToolTipText(strs[1]);
 		choose_lar.setMnemonic(KeyEvent.VK_L);
 		panel_lar2.add(choose_lar);
 		
-		JButton browse_for_lar = new JButton("Navegar...");
+		strs = Str.get("but.browse").split("\\|", 2);
+		JButton browse_for_lar = new JButton(strs[0]);
+		browse_for_lar.setToolTipText(strs[1]);
 		browse_for_lar.setMnemonic(KeyEvent.VK_N);
 		panel_lar2.add(browse_for_lar);
 		
 		panel_lar.add(panel_lar2);
 
-		final DocumentListener docListener = new DocumentListener()
-		{
-			void common()
-			{
+		final DocumentListener docListener = new DocumentListener() {
+			void common() {
 				String name = "";
 				f_name.setText("");
-//				radio_lar.setSelected(true);
+				//radio_lar.setSelected(true);
 				String lar = f_lar.getText().trim();
 				if ( lar.length() == 0 )
 					return;
@@ -2737,15 +2693,7 @@ public class GUI
         group.add(radio_inc);
         group.add(radio_lar);
 
-		JLabel l_header = new JLabel(
-			"<html>"+
-			"Instalar un proyecto significa ponerlo en el espacio de trabajo para<br>\n"+
-			"que pueda ser abierto, probado y posiblemente modificado.<br>\n"+
-			"<br>\n"+
-			"Aquí puedes elegir entre instalar uno de los proyectos incluidos con<br>\n"+
-			"el sistema, o instalar un proyecto de proveniencia externa.<br>\n"+
-			"</html>"
-		);
+		JLabel l_header = new JLabel(Str.get("gui.msg_install_help_prj"));
 		l_header.setForeground(Color.gray);
 
 		
@@ -2758,7 +2706,7 @@ public class GUI
 			status
 		};
 		
-        final ProjectDialog form = new ProjectDialog(focusedProject.getFrame(), "Instalar proyecto", array)
+        final ProjectDialog form = new ProjectDialog(focusedProject.getFrame(), Str.get("gui.tit_install_prj"), array)
 		{
 			public boolean dataOk()
 			{
@@ -2772,7 +2720,7 @@ public class GUI
 					
 					if ( from_name == null || from_name.trim().length() == 0 )
 					{
-						msg = "Falta indicar el proyecto a instalar";
+						msg = Str.get("gui.install_missing_prj_name"); 
 						ret = false;
 					}
 				}
@@ -2781,7 +2729,7 @@ public class GUI
 					String lar = f_lar.getText().trim();
 					if ( lar.length() == 0 )
 					{
-						msg = "Falta indicar el archivo";
+						msg = Str.get("gui.install_missing_file"); 
 						ret = false;
 					}
 					else if ( lar.toLowerCase().startsWith("http:")
@@ -2794,7 +2742,7 @@ public class GUI
 						}
 						catch (MalformedURLException ex)
 						{
-							msg = "URL mal formado";
+							msg = Str.get("gui.install_malformed_url");
 							ret = false;
 						}
 					}
@@ -2805,7 +2753,7 @@ public class GUI
 						File file = new File(lar);
 						if ( !file.exists() )
 						{
-							msg = "El elemento indicado no existe";
+							msg = Str.get("gui.install_file_not_found");
 							ret = false;
 						}
 					}
@@ -2815,29 +2763,29 @@ public class GUI
 				{
 					if ( prjname.trim().length() == 0 )
 					{
-						msg = "Falta indicar un nombre para instalar el proyecto";
+						msg = Str.get("gui.install_missing_prj_name");
 						ret = false;
 					}
 					else if ( alreadyOpen(prjname) )
 					{
-						msg = "Hay un proyecto abierto con el nombre '" +prjname+ "'";
+						msg = Str.get("gui.1_install_prj_open", prjname);
 						ret = false;
 					}
 					else if ( new File(new File(prs_dir), prjname).exists() )
 					{
-						msg = "Ya hay un proyecto instalado con el nombre '" +prjname+ "'";
-						setAcceptText("SOBREESCRIBIR");
+						msg = Str.get("gui.1_install_prj_overwrite", prjname);
+						setAcceptText(Str.get("gui.install_overwrite"));
 					}
 					else
 					{
-						setAcceptText("Aceptar");
+						setAcceptText(Str.get("gui.install_ok"));
 					}
 				}
 				
 				status.setForeground(ret ? Color.gray : Color.red);
 				if ( msg == null )
 				{
-					msg = "OK";
+					msg = Str.get("gui.install_ok");
 				}
 				status.setText(msg);
 				return ret;
@@ -2850,7 +2798,7 @@ public class GUI
 			{
 				String lar = Util.selectFile(
 					focusedProject.getFrame(),
-					"Archivo proyecto",
+					Str.get("gui.tit_install_prj"),
 					JFileChooser.FILES_ONLY
 				);
 				if ( lar != null )
@@ -2923,7 +2871,7 @@ public class GUI
 					JOptionPane.showOptionDialog(
 						focusedProject.getFrame(),
 						ex.getMessage(),
-						"Error al instalar proyecto",
+						"Error installing project",
 						JOptionPane.DEFAULT_OPTION,
 						JOptionPane.ERROR_MESSAGE,
 						null,
@@ -2985,29 +2933,12 @@ public class GUI
 			if ( chk_open.isSelected() )
 			{
 				_openProject(to_name);
-				
-				msg = 
-					"Instalación completada.\n"+
-					"\n"+
-					"El proyecto '" +from_name+ "' se ha instalado con el nombre '" +to_name+ "'\n"+
-					"y se encuentra ahora abierto.\n"+
-					"\n"+
-					"Loro procederá a compilar este proyecto a continuación.\n"+
-					"\n"
-				;
+				msg = Str.get("gui.2_install_completed_compile", from_name, to_name)+ "\n\n";
 				compile_project = true;
 			}
 			else
 			{
-				msg = 
-					"Instalación completada.\n"+
-					"\n"+
-					"El proyecto '" +from_name+ "' se ha instalado con el nombre '" +to_name+ "'.\n"+
-					"\n"+
-					"Para abrirlo, utiliza la opción 'Abrir...' en el menú 'Proyecto'.\n"+
-					"Posiblemente sea necesario compilar el proyecto una vez abierto.\n"+
-					"\n"
-				;
+				msg = Str.get("gui.2_install_completed", from_name, to_name)+ "\n\n";
 			}
 			message(focusedProject.getFrame(), msg);
 			if ( compile_project )
@@ -3050,7 +2981,7 @@ public class GUI
         final JTextField f_name = new JTextField(50);
 		f_name.setEditable(false);
 		f_name.setFont(monospaced12_font);
-		f_name.setBorder(createTitledBorder("Enlace completo"));
+		f_name.setBorder(createTitledBorder(Str.get("gui.install_complete_link")));
 		
 		final JLabel status = new JLabel();
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
@@ -3071,7 +3002,7 @@ public class GUI
 				return false;
 			}
 		});
-		prj_browser.setBorder(createTitledBorder("Elegir enlace del proyecto a instalar"));
+		prj_browser.setBorder(createTitledBorder(Str.get("gui.install_choose_link")));
 		
         Object[] array = {
 			prj_browser,
@@ -3079,7 +3010,7 @@ public class GUI
 			status
 		};
 		
-        final ProjectDialog form = new ProjectDialog(frame, "Buscar proyecto en página", array)
+        final ProjectDialog form = new ProjectDialog(frame, Str.get("gui.install_choose_link"), array)
 		{
 			public boolean dataOk()
 			{
@@ -3088,12 +3019,12 @@ public class GUI
 				String lar = f_name.getText();
 				if ( lar.length() == 0 )
 				{
-					msg = "Falta indicar un enlace .lar";
+					msg = Str.get("gui.install_choose_link");
 					ret = false;
 				}
 				status.setForeground(ret ? Color.gray : Color.red);
 				if ( msg == null )
-					msg = "OK";
+					msg = Str.get("gui.msg_ok");
 
 				status.setText(msg);
 				return ret;
@@ -3122,7 +3053,8 @@ public class GUI
 		}
 		JFrame frame = focusedProject.getFrame();
 		String filename = Util.selectFile(frame, 
-			"Archivo fuente a importar", JFileChooser.FILES_ONLY
+			Str.get("gui.import_choose_src_file"), 
+			JFileChooser.FILES_ONLY
 		);
 		if ( filename == null )
 		{
@@ -3139,13 +3071,11 @@ public class GUI
 			Rango r = ex.obtRango();
 			JOptionPane.showOptionDialog(
 				frame,
-				"Error de compilación en el fuente.\n"
-				+"\n"
-				+"No se puede importar un fuente con errores de compilación."
+				Str.get("gui.import_src_file_compile_error")
 				+"\n"
 				+"[" +r.obtIniLin()+ "," +r.obtIniCol()+ "] " +ex.getMessage()
 				,
-				"Error de compilación",
+				"",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -3159,7 +3089,7 @@ public class GUI
 			JOptionPane.showOptionDialog(
 				frame,
 				ex.getMessage(),
-				"Error al importar fuente",
+				"Error importing source",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
@@ -3182,12 +3112,12 @@ public class GUI
 		cb_prjs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		final JTextField f_selected = new JTextField((String) cb_prjs.getSelectedValue());
 		f_selected.setEditable(false);
-		f_selected.setBorder(createTitledBorder("Abrir"));
+		f_selected.setBorder(createTitledBorder(Str.get("gui.prj_open")));
 		final JLabel status = new JLabel();
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
 		
 		JScrollPane sp = new JScrollPane(cb_prjs);
-		sp.setBorder(createTitledBorder("Proyectos de trabajo"));
+		sp.setBorder(createTitledBorder(Str.get("gui.prj_in_workspace")));
 		
 
 		cb_prjs.addListSelectionListener(new ListSelectionListener()
@@ -3204,13 +3134,7 @@ public class GUI
 			}
 		});
 
-		JLabel l_header = new JLabel(
-			"<html>"+
-			"Estos proyectos hacen parte del actual espacio de trabajo.<br>\n"+
-			"Si no está aquí el proyecto buscado, intentar por la opción<br>\n"+
-			"'Instalar' del menú principal.\n"+
-			"</html>"
-		);
+		JLabel l_header = new JLabel(Str.get("gui.msg_open_help_prj"));
 		l_header.setForeground(Color.gray);
 
         Object[] array = {
@@ -3220,7 +3144,7 @@ public class GUI
 			status
 		};
 		
-        final ProjectDialog form = new ProjectDialog(frame, "Abrir proyecto", array)
+        final ProjectDialog form = new ProjectDialog(frame, Str.get("gui.prj_open"), array)
 		{
 			public boolean dataOk()
 			{
@@ -3229,17 +3153,18 @@ public class GUI
 				boolean ret = true;
 				if ( prjname.length() == 0 )
 				{
-					msg = "Falta indicar el proyecto a abrir";
+					msg = Str.get("gui.open_missing_prj_name");
 					ret = false;
 				}
 				if ( alreadyOpen(prjname) )
 				{
-					msg = "Proyecto actualmente abierto";
+					msg = Str.get("gui.open_prj_already_open");
+					ret = false;
 				}
 				status.setForeground(ret ? Color.gray : Color.red);
 				if ( msg == null )
 				{
-					msg = "OK";
+					msg = Str.get("gui.msg_ok");
 				}
 				status.setText(msg);
 				return ret;
@@ -3292,19 +3217,19 @@ public class GUI
 	 */
 	public static void reloadProject()
 	{
-		progressRun(focusedProject.getFrame(), "recargando", new Runnable() 
+		progressRun(focusedProject.getFrame(), Str.get("gui.prj_reloading"), new Runnable() 
 		{	
 			public void run() 
 			{
 				MessageArea prj_msg = focusedProject.getMessageArea();
 				prj_msg.clear();
-				prj_msg.print("Recargando...");
+				prj_msg.print(Str.get("gui.prj_reloading")+ "...");
 				IProjectModel model = workspace.getProjectModel(
 					focusedProject.getModel().getInfo().getName()
 				);
 				focusedProject.setModel(model);
 				focusedProject.getDiagram().repaint();
-				prj_msg.print(" Listo");
+				prj_msg.print(" " +Str.get("gui.msg_done"));
 			}
 		});
 		
@@ -3404,7 +3329,7 @@ public class GUI
 			if ( url != null ) 
 				setIconImage(new ImageIcon(url).getImage());
 
-			windowMenu = new JMenu("Ventana");
+			windowMenu = new JMenu(Str.get("gui.menu_window"));
 			JMenuBar mb = createMenuBar(windowMenu); 
 			windowMenu.setMnemonic(KeyEvent.VK_V);
 			setJMenuBar(mb);
@@ -3455,7 +3380,7 @@ public class GUI
 			if ( editor.isSaved() )
 			{
 				// primer cambio.
-				editor.getMessageArea().print("\nIniciando edición");
+				editor.getMessageArea().print("\n" +Str.get("gui.msg_starting_edit"));
 			}
 			editor.setSaved(false);
 		}
@@ -3494,7 +3419,7 @@ public class GUI
 			UEditor editor = (UEditor) unit.getUserObject();
 			editor.setText(unit.getSourceCode());
 			editor.setSaved(true);
-			editor.getMessageArea().setText("Recargado.");
+			editor.getMessageArea().setText(Str.get("gui.msg_edit_reloaded"));
 			editor.setCaretPosition(0);
 		}
 		
@@ -3529,7 +3454,7 @@ public class GUI
 			if ( editor.isSaved() )
 			{
 				// primer cambio.
-				editor.getMessageArea().print("\nIniciando edición");
+				editor.getMessageArea().print("\n" +Str.get("gui.msg_starting_edit"));
 			}
 			editor.setSaved(false);
 		}
@@ -3539,7 +3464,7 @@ public class GUI
 			info.setDemoScript(editor.getText());
 			workspace.saveDemoScript(prjm);
 			editor.setSaved(true);
-			editor.getMessageArea().setText("Guardado.");
+			editor.getMessageArea().setText(Str.get("gui.msg_demo_saved"));
 			saved = editor.getText();
 		}
 		public void closeWindow() 
@@ -3558,18 +3483,18 @@ public class GUI
 				save();
 			if ( saved.trim().length() > 0 )
 			{
-				String title = "Ejecutando";
+				String title = Str.get("gui.msg_demo_run");
 				editor.getMessageArea().setText(title+ " ...\n");
 				runDemo(saved, title, trace);
 			}
 			else
-				editor.getMessageArea().setText("No hay código para ejecutar.");
+				editor.getMessageArea().setText(Str.get("gui.no_demo_to_run"));
 		}
 		public void reload() 
 		{
 			editor.setText(saved);
 			editor.setSaved(true);
-			editor.getMessageArea().setText("Recargado.");
+			editor.getMessageArea().setText(Str.get("gui.msg_edit_reloaded"));
 			editor.setCaretPosition(0);
 		}
 		public void viewDoc() {}
@@ -3583,12 +3508,12 @@ public class GUI
 		// No uso showConfirmDialog porque no encuentro como poner el
 		// "No" preenfocado. Así que uso showOptionDialog.
 		
-		Object[] options = { "Sí", "No" };
+		Object[] options = { Str.get("gui.conf_yes"), Str.get("gui.conf_no") };
 		java.awt.Toolkit.getDefaultToolkit().beep();
 		return 0 == JOptionPane.showOptionDialog(
 			frame,
 			msg,
-			"Confirmación",
+			"",
 			JOptionPane.DEFAULT_OPTION,
 			JOptionPane.QUESTION_MESSAGE,
 			null,
@@ -3603,7 +3528,7 @@ public class GUI
 		JOptionPane.showMessageDialog(
 			frame,
 			msg,
-			"Mensaje",
+			"",
 			JOptionPane.WARNING_MESSAGE
 		);
 	}

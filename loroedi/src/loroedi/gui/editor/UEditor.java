@@ -1,5 +1,6 @@
 package loroedi.gui.editor;
 
+import loroedi.Info.Str;
 import loroedi.gui.misc.*;
 import loroedi.Preferencias;
 import loroedi.Util;
@@ -79,13 +80,7 @@ public class UEditor implements EditorListener
 		AreaTexto areaTexto = new AreaTexto_jedit(null);
 
 		// ahora si, cree el Editor (el cual requiere el area de texto!):
-		editor = new Editor(
-			frame, 
-			areaTexto, 
-			this,
-			"Fuentes Loro (*.loro)",
-			".loro"
-		);
+		editor = new Editor(frame, areaTexto, this);
 		areaTexto.ponEditor(editor);
 		areaTexto.setEditable(modifiable);
 
@@ -144,8 +139,8 @@ public class UEditor implements EditorListener
 		actions.put("find-text",        new FindAction());
 		actions.put("find-next",        new FindNextAction());
 		actions.put("goto-line",        new GotoLineAction());
-		actions.put("incr-fontsize",    new IncrementFontAction());
-		actions.put("decr-fontsize",    new DecrementFontAction());
+		actions.put("incr-fontsize",    new IncreaseFontAction());
+		actions.put("decr-fontsize",    new DecreaseFontAction());
 		
 //		actions.put("print",  new PrintAction());
 
@@ -188,7 +183,7 @@ public class UEditor implements EditorListener
 		JMenu menu;
 		
 		// Unidad:
-		menu = new JMenu("Unidad");
+		menu = new JMenu(Str.get("gui.menu_unit"));
 		menu.setMnemonic(KeyEvent.VK_U);
 		mb.add(menu);
 		menu.add((Action) actions.get("save"));
@@ -202,7 +197,7 @@ public class UEditor implements EditorListener
 		menu.add((Action) actions.get("close"));
 		
 		// Edición:
-		menu = new JMenu("Edición");
+		menu = new JMenu(Str.get("gui.menu_edit"));
 		menu.setMnemonic(KeyEvent.VK_E);
 		mb.add(menu);
 		menu.add((Action) actions.get("copy-selection"));
@@ -390,19 +385,6 @@ public class UEditor implements EditorListener
 		listener.changed();
 	}
 
-	////////////////////////////////////////////////////////////////////////
-	/** Implementación para EditorListener. */
-	public void ponDirectorioFuentes(String dir)
-	{
-		// ignore
-	}
-	/////////////////////////////////////////////////////////////////
-	/** Implementación para EditorListener. */
-	public void ponNombreArchivo(String nomArchivo)
-	{
-		// ignore
-	}
-
 	////////////////////////////////////////////////////////////////
 	/**
 	 * Incrementa o decrementa el tamano del font actual
@@ -440,8 +422,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public CloseAction()
 		{
-			super("Cerrar");
-			putValue(SHORT_DESCRIPTION, "Cierra esta ventana");
+			super();
+			String[] strs = Str.get("gui.action_close_window").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK));
 		}
@@ -459,9 +443,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public SaveAction()
 		{
-			super("Guardar", Util.getIcon("img/Save24.gif"));
-			putValue(SHORT_DESCRIPTION, "Guarda esta unidad");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_G));
+			super(null, Util.getIcon("img/Save24.gif"));
+			String[] strs = Str.get("gui.action_saved_unit").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
 		}
 	
@@ -479,8 +464,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public ReloadAction()
 		{
-			super("Recargar");
-			putValue(SHORT_DESCRIPTION, "Recarga el último contenido guardado de esta unidad");
+			super();
+			String[] strs = Str.get("gui.action_reload_unit").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_R));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_MASK));
 		}
@@ -499,9 +486,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public CompileAction()
 		{
-			super("Compilar", Util.getIcon("img/compile.gif"));
-			putValue(SHORT_DESCRIPTION, "Compila esta unidad");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_O));
+			super(null, Util.getIcon("img/compile.gif"));
+			String[] strs = Str.get("gui.action_compile_unit").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		}
 	
@@ -519,9 +507,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public ExecuteAction()
 		{
-			super("Ejecutar");
-			putValue(SHORT_DESCRIPTION, "Ejecuta este elemento");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_E));
+			super();
+			String[] strs = Str.get("gui.action_run").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.CTRL_MASK));
 		}
 	
@@ -539,8 +528,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public ExecuteTraceAction()
 		{
-			super("Ejecutar paso-a-paso");
-			putValue(SHORT_DESCRIPTION, "Ejecuta este elemento paso-a-paso");
+			super();
+			String[] strs = Str.get("gui.action_run_trace").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.SHIFT_MASK));
 		}
 	
@@ -558,8 +549,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public ViewDocFromEditorAction()
 		{
-			super("Ver documentación", Util.getIcon("img/api.gif"));
-			putValue(SHORT_DESCRIPTION, "Muestra la documentación de esta unidad");
+			super(null, Util.getIcon("img/api.gif"));
+			String[] strs = Str.get("gui.action_view_doc_unit").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F1, KeyEvent.CTRL_MASK));
 		}
 	
@@ -588,8 +581,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public CopyAction()
 		{
-			super("Copiar", Util.getIcon("img/Copy24.gif"));
-			putValue(SHORT_DESCRIPTION, "Copia el texto seleccionado");
+			super(null, Util.getIcon("img/Copy24.gif"));
+			String[] strs = Str.get("gui.action_copy").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 		}
@@ -613,8 +608,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public CutAction()
 		{
-			super("Cortar", Util.getIcon("img/Cut24.gif"));
-			putValue(SHORT_DESCRIPTION, "Corta el texto seleccionado");
+			super(null, Util.getIcon("img/Cut24.gif"));
+			String[] strs = Str.get("gui.action_cut").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_U));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
 		}
@@ -638,9 +635,10 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public PasteAction()
 		{
-			super("Pegar", Util.getIcon("img/Paste24.gif"));
-			putValue(SHORT_DESCRIPTION, 
-				"Inserta el último texto copiado o cortado");
+			super(null, Util.getIcon("img/Paste24.gif"));
+			String[] strs = Str.get("gui.action_paste").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_P));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
 		}
@@ -664,9 +662,11 @@ public class UEditor implements EditorListener
 		/////////////////////////////////////////////////////////
 		public SelectAllAction()
 		{
-			super("Seleccionar todo");
-			putValue(SHORT_DESCRIPTION, "Selecciona todo el contenido en edición");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_T));
+			super();
+			String[] strs = Str.get("gui.action_select_all").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
+			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_A));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK));
 		}
 	}
@@ -683,15 +683,17 @@ public class UEditor implements EditorListener
 		public void actionPerformed(ActionEvent e)
 		{
 			editor.traerAlFrente();
-			editor.buscar();
+			String[] strs = Str.get("gui.editor_find_string").split("\\|", 2);
+			editor.buscar(strs[0], strs[1]);
 		}
 
 		/////////////////////////////////////////////////////////
 		public FindAction()
 		{
-			super("Buscar...", Util.getIcon("img/Find24.gif"));
-			putValue(SHORT_DESCRIPTION, "Busca una secuencia de caracteres en el texto");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_B));
+			super(null, Util.getIcon("img/Find24.gif"));
+			String[] strs = Str.get("gui.action_find").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_MASK));
 		}
 	}
@@ -708,14 +710,17 @@ public class UEditor implements EditorListener
 		public void actionPerformed(ActionEvent e)
 		{
 			editor.traerAlFrente();
-			editor.buscarSiguiente();
+			String[] strs = Str.get("gui.editor_find_string").split("\\|", 2);
+			editor.buscarSiguiente(strs[0], strs[1]);
 		}
 
 		/////////////////////////////////////////////////////////
 		public FindNextAction()
 		{
-			super("Buscar siguiente", Util.getIcon("img/FindAgain24.gif"));
-			putValue(SHORT_DESCRIPTION, "Busca de nuevo");
+			super(null, Util.getIcon("img/FindAgain24.gif"));
+			String[] strs = Str.get("gui.action_find_next").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_G));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.CTRL_MASK));
 		}
@@ -733,14 +738,16 @@ public class UEditor implements EditorListener
 		public void actionPerformed(ActionEvent e)
 		{
 			editor.traerAlFrente();
-			editor.irALinea();
+			editor.irALinea(Str.get("gui.editor_goto_line"));
 		}
 
 		/////////////////////////////////////////////////////////
 		public GotoLineAction()
 		{
-			super("Ir a línea...");
-			putValue(SHORT_DESCRIPTION, "Permite ir a una línea en particular");
+			super();
+			String[] strs = Str.get("gui.action_goto_line").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_L));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_MASK));
 		}
@@ -750,7 +757,7 @@ public class UEditor implements EditorListener
 	/////////////////////////////////////////////////////////
 	/**
 	 */
-	final class DecrementFontAction extends AbstractAction
+	final class DecreaseFontAction extends AbstractAction
 	{
 		/////////////////////////////////////////////////////////
 		/**
@@ -763,17 +770,19 @@ public class UEditor implements EditorListener
 		}
 
 		/////////////////////////////////////////////////////////
-		public DecrementFontAction()
+		public DecreaseFontAction()
 		{
-			super("Decrementar tamaño letra");
-			putValue(SHORT_DESCRIPTION, "Decrementa el tamaño de letra en la ventana de edición");
+			super();
+			String[] strs = Str.get("gui.action_decrease_font").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	}
 
 	/////////////////////////////////////////////////////////
 	/**
 	 */
-	final class IncrementFontAction extends AbstractAction
+	final class IncreaseFontAction extends AbstractAction
 	{
 		/////////////////////////////////////////////////////////
 		/**
@@ -786,12 +795,13 @@ public class UEditor implements EditorListener
 		}
 
 		/////////////////////////////////////////////////////////
-		public IncrementFontAction()
+		public IncreaseFontAction()
 		{
-			super("Incrementar tamaño letra");
-			putValue(SHORT_DESCRIPTION, "Incrementa el tamaño de letra en la ventana de edición");
+			super();
+			String[] strs = Str.get("gui.action_increase").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	}
-
-
 }
+

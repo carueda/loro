@@ -8,6 +8,7 @@ import loroedi.gui.misc.NotImplementedAction;
 import loroedi.gui.editor.*;
 import loroedi.Util;
 import loroedi.Info;
+import loroedi.Info.Str;
 
 import loro.Loro;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 /////////////////////////////////////////////////////////
 /** 
- * Acciones para proyecto.
+ * Actions.
  *
  * @author Carlos Rueda
  * @version $Id$
@@ -45,7 +46,7 @@ public class Actions
 		Group g;
 		name_action = new HashMap();
 		
-		project_group = new Group("Proyecto", KeyEvent.VK_P, new ArrayList());
+		project_group = new Group(Str.get("gui.menu_project"), KeyEvent.VK_P, new ArrayList());
 		addAction("new", new NewAction(), project_group.actions);
 		addAction("open", new OpenAction(), project_group.actions);
 		addAction("install", new InstallAction(), project_group.actions);
@@ -66,8 +67,8 @@ public class Actions
 		//addAction("print", new PrintAction());
 
 		
-		develop_group = new Group("Desarrollo", KeyEvent.VK_D, new ArrayList());
-		g = new Group("Agregar", KeyEvent.VK_A, new ArrayList());
+		develop_group = new Group(Str.get("gui.menu_dev"), KeyEvent.VK_D, new ArrayList());
+		g = new Group(Str.get("gui.menu_add"), KeyEvent.VK_A, new ArrayList());
 			addAction("new-pkg", new NewPackageAction(), g.actions);
 			addAction("new-spec", new NewSpecificationAction(), g.actions);
 			addAction("new-algorithm", new NewAlgorithmAction(), g.actions);
@@ -78,9 +79,9 @@ public class Actions
 		develop_group.actions.add(null);
 		addAction("view-prj-doc", new ViewProjectDocAction(), develop_group.actions);
 		develop_group.actions.add(null);
-		Group diag_g = new Group("Diagrama", KeyEvent.VK_G, new ArrayList());
+		Group diag_g = new Group(Str.get("gui.menu_diagram"), KeyEvent.VK_G, new ArrayList());
 		develop_group.actions.add(diag_g);
-			g = new Group("Tamaño", KeyEvent.VK_T, new ArrayList());
+			g = new Group(Str.get("gui.menu_diagram_size"), KeyEvent.VK_T, new ArrayList());
 				addAction("zoom-in", new ZoomInAction(), g.actions);
 				addAction("zoom-out", new ZoomOutAction(), g.actions);
 				addAction("actual-size", new ActualSizeAction(), g.actions);
@@ -89,7 +90,7 @@ public class Actions
 		develop_group.actions.add(null);
 		addAction("edit-demo", new EditDemoAction(), develop_group.actions);
 
-		execution_group = new Group("Ejecución", KeyEvent.VK_E, new ArrayList());
+		execution_group = new Group(Str.get("gui.menu_run"), KeyEvent.VK_E, new ArrayList());
 		addAction("show-ii", new ShowIIAction(), execution_group.actions);
 		execution_group.actions.add(null);
 		addAction("test-project", new TestProjectAction(), execution_group.actions);
@@ -98,7 +99,7 @@ public class Actions
 		addAction("run-demo", new RunDemoAction(), execution_group.actions);
 		addAction("run-trace-demo", new RunTraceDemoAction(), execution_group.actions);
 		
-		help_group = new Group("Ayuda", KeyEvent.VK_Y, new ArrayList());
+		help_group = new Group(Str.get("gui.menu_help"), KeyEvent.VK_Y, new ArrayList());
 		addAction("help", new HelpAction(), help_group.actions);
 		help_group.actions.add(null);
 		addAction("about", new AboutAction(), help_group.actions);
@@ -220,8 +221,10 @@ public class Actions
 	{
 		public ShowIIAction() 
 		{
-			super("Intéprete Interactivo", Util.getIcon("img/ii.gif"));
-			putValue(SHORT_DESCRIPTION, "Despliega el Intérprete Interactivo");
+			super(null, Util.getIcon("img/ii.gif"));
+			String[] strs = Str.get("gui.action_ii").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.ALT_MASK));
 		}
@@ -237,8 +240,10 @@ public class Actions
 	{
 		public ShowSymbolTableAction() 
 		{
-			super("Variables declaradas");
-			putValue(SHORT_DESCRIPTION, "Muestra la tabla de variables declaradas en el entorno");
+			super();
+			String[] strs = Str.get("gui.action_namespace").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_V));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK));
 		}
@@ -254,8 +259,10 @@ public class Actions
 	{
 		public ZoomInAction() 
 		{
-			super("Ampliar");
-			putValue(SHORT_DESCRIPTION, "Amplía el tamaño del diagrama");
+			super();
+			String[] strs = Str.get("gui.action_diagram_zoom_in").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_A));
 		}
 
@@ -270,8 +277,10 @@ public class Actions
 	{
 		public ZoomOutAction() 
 		{
-			super("Reducir");
-			putValue(SHORT_DESCRIPTION, "Reduce el tamaño del diagrama");
+			super();
+			String[] strs = Str.get("gui.action_diagram_zoom_out").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_R));
 		}
 
@@ -286,8 +295,10 @@ public class Actions
 	{
 		public ActualSizeAction() 
 		{
-			super("Normal");
-			putValue(SHORT_DESCRIPTION, "Pone el tamaño real del diagrama");
+			super();
+			String[] strs = Str.get("gui.action_diagram_normal").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_N));
 		}
 
@@ -303,8 +314,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ViewUnitDocAction()
 		{
-			super("Ver documentación");
-			putValue(SHORT_DESCRIPTION, "Muestra la documentación de esta unidad");
+			super();
+			String[] strs = Str.get("gui.action_view_unit_doc").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F1, KeyEvent.CTRL_MASK));
 		}
 	
@@ -321,8 +334,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public EditViewAction()
 		{
-			super("Editar/Ver fuente");
-			putValue(SHORT_DESCRIPTION, "Edita o visualiza el código fuente de esta unidad");
+			super();
+			String[] strs = Str.get("gui.action_edit_view_unit").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
 		}
 	
@@ -339,8 +354,8 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public CopyUnitAction()
 		{
-			super("Copiar");
-			putValue(SHORT_DESCRIPTION, "Permite hacer una copia de esta unidad");
+			super("Copy");
+			putValue(SHORT_DESCRIPTION, "Allows to make a copy of this unit");
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -356,8 +371,8 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public MoveUnitAction()
 		{
-			super("Mover");
-			putValue(SHORT_DESCRIPTION, "Permite mover esta unidad a otro paquete");
+			super("Move");
+			putValue(SHORT_DESCRIPTION, "Allows to move this unit to other package");
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -373,8 +388,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public DeleteUnitAction()
 		{
-			super("Remover");
-			putValue(SHORT_DESCRIPTION, "Elimina esta unidad");
+			super();
+			String[] strs = Str.get("gui.action_delete_unit").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 		}
 	
@@ -391,8 +408,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public DeletePackageAction()
 		{
-			super("Remover");
-			putValue(SHORT_DESCRIPTION, "Elimina este paquete");
+			super();
+			String[] strs = Str.get("gui.action_delete_package").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -408,8 +427,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public NewAction()
 		{
-			super("Nuevo...", Util.getIcon("img/New24.gif"));
-			putValue(SHORT_DESCRIPTION, "Crea un nuevo proyecto");
+			super(null, Util.getIcon("img/New24.gif"));
+			String[] strs = Str.get("gui.action_new_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_N));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
 		}
@@ -427,8 +448,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public OpenAction()
 		{
-			super("Abrir...", Util.getIcon("img/Open24.gif"));
-			putValue(SHORT_DESCRIPTION, "Abre un proyecto existente");
+			super(null, Util.getIcon("img/Open24.gif"));
+			String[] strs = Str.get("gui.action_open_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_A));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
 		}
@@ -446,8 +469,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public InstallAction()
 		{
-			super("Instalar...");
-			putValue(SHORT_DESCRIPTION, "Permite poner un proyecto en el espacio de trabajo");
+			super();
+			String[] strs = Str.get("gui.action_install_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK));
 		}
@@ -465,8 +490,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ReloadAction()
 		{
-			super("Recargar");
-			putValue(SHORT_DESCRIPTION, "Recarga este proyecto");
+			super();
+			String[] strs = Str.get("gui.action_reload_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_R));
 		}
 	
@@ -483,8 +510,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public CloseProjectAction()
 		{
-			super("Cerrar");
-			putValue(SHORT_DESCRIPTION, "Cierra este proyecto");
+			super();
+			String[] strs = Str.get("gui.action_close_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK));
 		}
@@ -502,9 +531,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public QuitAction()
 		{
-			super("Salir");
-			putValue(SHORT_DESCRIPTION, "Salir del entorno integrado");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_S));
+			super();
+			String[] strs = Str.get("gui.action_quit").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
 		}
 	
@@ -521,8 +551,8 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public PrintDiagramAction()
 		{
-			super("Imprimir");
-			putValue(SHORT_DESCRIPTION, "Imprime el diagrama");
+			super("Print");
+			putValue(SHORT_DESCRIPTION, "Prints diagram");
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
 		}
 	
@@ -539,8 +569,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ImportAction()
 		{
-			super("Importar...");
-			putValue(SHORT_DESCRIPTION, "Importar...");
+			super();
+			String[] strs = Str.get("gui.action_import_file").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_M));
 		}
 	
@@ -557,8 +589,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ExportAction()
 		{
-			super("Exportar...");
-			putValue(SHORT_DESCRIPTION, "Exporta el proyecto");
+			super();
+			String[] strs = Str.get("gui.action_export_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_E));
 		}
 	
@@ -575,8 +609,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ProjectPropertiesAction()
 		{
-			super("Propiedades");
-			putValue(SHORT_DESCRIPTION, "Muestra/edita las propiedades del proyecto");
+			super();
+			String[] strs = Str.get("gui.action_props_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_P));
 		}
 	
@@ -593,9 +629,8 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public SaveAction()
 		{
-			super("Guardar");
-			putValue(SHORT_DESCRIPTION, "Guarda el estado actual de este proyecto");
-			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_G));
+			super("Save");
+			putValue(SHORT_DESCRIPTION, "Saves current state of project");
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
 		}
 	
@@ -612,8 +647,8 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public SaveAsAction()
 		{
-			super("Guardar como...");
-			putValue(SHORT_DESCRIPTION, "Guarda este proyecti con otro nombre");
+			super("Save as...");
+			putValue(SHORT_DESCRIPTION, "Saves this project with a different name");
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -629,8 +664,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public NewPackageAction()
 		{
-			super("Paquete");
-			putValue(SHORT_DESCRIPTION, "Crea un nuevo paquete");
+			super();
+			String[] strs = Str.get("gui.action_new_pkg").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_P));
 		}
 	
@@ -647,8 +684,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public NewSpecificationAction()
 		{
-			super("Especificación");
-			putValue(SHORT_DESCRIPTION, "Crea una nueva especificación");
+			super();
+			String[] strs = Str.get("gui.action_new_spec").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_E));
 		}
 	
@@ -665,8 +704,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public NewAlgorithmAction()
 		{
-			super("Algoritmo");
-			putValue(SHORT_DESCRIPTION, "Crea un nuevo algoritmo");
+			super();
+			String[] strs = Str.get("gui.action_new_algorithm").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_A));
 		}
 	
@@ -683,8 +724,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public NewAlgorithmFromSpecificationAction()
 		{
-			super("Crear algoritmo");
-			putValue(SHORT_DESCRIPTION, "Crea un nuevo algoritmo para esta especificación");
+			super();
+			String[] strs = Str.get("gui.action_new_algorithm_from_spec").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -700,10 +743,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public CreateTestForSpecificationAction()
 		{
-			super("Crear esquema para pruebas");
-			putValue(SHORT_DESCRIPTION, 
-				"Crea un probador de algoritmos para esta especificación"
-			);
+			super();
+			String[] strs = Str.get("gui.action_create_test_for_spec").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -719,8 +762,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ExecuteAlgorithmAction()
 		{
-			super("Ejecutar");
-			putValue(SHORT_DESCRIPTION, "Ejecuta este algoritmo");
+			super();
+			String[] strs = Str.get("gui.action_run_algorithm").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.CTRL_MASK));
 		}
 	
@@ -737,8 +782,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ExecuteTraceAlgorithmAction()
 		{
-			super("Ejecutar paso-a-paso");
-			putValue(SHORT_DESCRIPTION, "Ejecuta este algoritmo paso-a-paso");
+			super();
+			String[] strs = Str.get("gui.action_run_trace_algorithm").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.SHIFT_MASK));
 		}
 	
@@ -755,8 +802,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public TestAlgorithmAction()
 		{
-			super("Probar");
-			putValue(SHORT_DESCRIPTION, "Hace pruebas a este algoritmo");
+			super();
+			String[] strs = Str.get("gui.action_test_algorithm").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -772,8 +821,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public NewInstanceAction()
 		{
-			super("Crear instancia (no implementado aún)");
-			putValue(SHORT_DESCRIPTION, "Crea una instancia de esta clase");
+			super();
+			String[] strs = Str.get("gui.action_new_instance").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	
 		/////////////////////////////////////////////////////////
@@ -789,8 +840,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public NewClassAction()
 		{
-			super("Clase");
-			putValue(SHORT_DESCRIPTION, "Crea una nueva clase");
+			super();
+			String[] strs = Str.get("gui.action_new_class").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
 		}
 	
@@ -807,8 +860,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public CompileProjectAction()
 		{
-			super("Compilar proyecto", Util.getIcon("img/compile.gif"));
-			putValue(SHORT_DESCRIPTION, "Compila este proyecto en su totalidad");
+			super(null, Util.getIcon("img/compile.gif"));
+			String[] strs = Str.get("gui.action_compile_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		}
 	
@@ -825,8 +880,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public TestProjectAction()
 		{
-			super("Probar proyecto", Util.getIcon("img/compile.gif"));
-			putValue(SHORT_DESCRIPTION, "Hace pruebas a los algoritmos de este proyecto");
+			super(null, Util.getIcon("img/compile.gif"));
+			String[] strs = Str.get("gui.action_test_prj").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_MASK));
 		}
 	
@@ -844,8 +901,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public EditDemoAction()
 		{
-			super("Editar demo");
-			putValue(SHORT_DESCRIPTION, "Edición del guión de demostración de este proyecto");
+			super();
+			String[] strs = Str.get("gui.action_edit_demo").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_M));
 		}
 	
@@ -862,8 +921,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public RunDemoAction()
 		{
-			super("Ejecutar demo");
-			putValue(SHORT_DESCRIPTION, "Ejecuta un guión de demostración de este proyecto");
+			super();
+			String[] strs = Str.get("gui.action_run_demo").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_MASK));
 		}
 	
@@ -880,8 +941,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public RunTraceDemoAction()
 		{
-			super("Ejecutar demo paso-a-paso");
-			putValue(SHORT_DESCRIPTION, "Ejecuta paso-a-paso un guión de demostración de este proyecto");
+			super();
+			String[] strs = Str.get("gui.action_run_trace_demo").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.SHIFT_MASK));
 		}
 	
@@ -909,8 +972,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public ViewProjectDocAction()
 		{
-			super("Documentación", Util.getIcon("img/api.gif"));
-			putValue(SHORT_DESCRIPTION, "Visualiza la documentación de este proyecto");
+			super(null, Util.getIcon("img/api.gif"));
+			String[] strs = Str.get("gui.action_view_prj_doc").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_MASK));
 		}
 	}
@@ -932,8 +997,10 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public HelpAction()
 		{
-			super("Ayuda Loro", Util.getIcon("img/Help24.gif"));
-			putValue(SHORT_DESCRIPTION, "Información general sobre el sistema");
+			super(null, Util.getIcon("img/Help24.gif"));
+			String[] strs = Str.get("gui.action_help").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 		}
 	}
@@ -949,29 +1016,16 @@ public class Actions
 		 */
 		public void actionPerformed(ActionEvent e)
 		{
-			String about = 
-"Loro - Sistema Didáctico de Programación\n"+
-" \n" +
-Info.obtNombre()+ " " +Info.obtVersion()+ " (" +Info.obtBuild()+ ")\n" +
-Loro.obtNombre()+ " " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")\n" +
-" \n" +
-"http://loro.sf.net\n" +
-" \n"+
-"Este programa es software libre y puede ser\n"+
-"redistribuido si se desea. Se ofrece con la\n"+
-"esperanza que sea útil, pero sin ningún tipo\n"+
-"de garantía. Por favor, lea la licencia de uso.\n"+
-" \n" +
-"Copyright© 1999-2004 Carlos A. Rueda\n" +
-"Universidad Autónoma de Manizales\n" +
-"Manizales - Colombia\n" +
-" \n"
-			;
+			String about = Str.get("gui.3_about_msg", 
+				Info.obtNombre()+ " " +Info.obtVersion()+ " (" +Info.obtBuild()+ ")",
+				Loro.obtNombre()+ " " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")",
+				"http://loro.sf.net"
+			);
 			
 			javax.swing.JOptionPane.showMessageDialog(
 				null,
 				about,
-				"A propósito de...",
+				Str.get("gui.about"),
 				javax.swing.JOptionPane.INFORMATION_MESSAGE,
 				Util.getIcon("img/splash.jpg")
 			);
@@ -980,8 +1034,10 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")\n" +
 		/////////////////////////////////////////////////////////
 		public AboutAction()
 		{
-			super("A propósito de ...");
-			putValue(SHORT_DESCRIPTION, "Muestra identificación y versión del sistema");
+			super();
+			String[] strs = Str.get("gui.action_about").split("\\|", 2);
+			putValue(NAME, strs[0]);
+			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
 	}
 

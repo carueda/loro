@@ -1,12 +1,11 @@
 package loroedi.gui.project.unit;
 
 import loroedi.gui.project.model.IPackageModel;
+import loro.Loro;
 
 //////////////////////////////////////////////////
 /**
- *
  * @author Carlos Rueda
- * @version 2002-08-03
  */
 public class SpecificationUnit extends AbstractProjectUnit
 {
@@ -19,7 +18,7 @@ public class SpecificationUnit extends AbstractProjectUnit
 	/////////////////////////////////////////////////////////////////
 	public String getStereotype()
 	{
-		return "«especificación»";
+		return "«" +Loro.Str.get("specification")+ "»";
 	}
 
 	/////////////////////////////////////////////////////////////////

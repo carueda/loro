@@ -107,10 +107,7 @@ implements ActionListener, JTermListener
 		loroii = Loro.crearInterprete(br, pw, newSymTab, obspp);
 		loroii.setMetaListener(new IInterprete.IMetaListener()
 		{
-			String info = 
-				".version      - Muestra información general sobre versión del sistema\n" +
-				".limpiar      - Limpia la ventana"
-			;
+			String info = Str.get("ii.help_msg"); 
 			
 			///////////////////////////////////////////////////////////////////////
 			public String getInfo()
@@ -122,11 +119,11 @@ implements ActionListener, JTermListener
 			public String execute(String meta)
 			{
 				String res = null;
-				if ( meta.equals(".version") )
+				if ( meta.equals(Str.get("ii.version")) )
 				{
 					res = version;
 				}
-				else if ( meta.equals(".limpiar") )
+				else if ( meta.equals(Str.get("ii.clear_console")) )
 				{
 					ta.setText("");
 					res = "";
@@ -165,43 +162,50 @@ implements ActionListener, JTermListener
 			new java.awt.FlowLayout(java.awt.FlowLayout.LEFT)
 		);
 		javax.swing.JButton but;
-		butCerrar = but = new javax.swing.JButton("Cerrar");
+		String[] strs;
+		
+		strs = Str.get("but.close").split("\\|", 2);
+		butCerrar = but = new javax.swing.JButton(strs[0]);
 		butCerrar.setMnemonic(KeyEvent.VK_C);
 		but.setActionCommand("close");
-		but.setToolTipText("Cierra esta ventana");
+		but.setToolTipText(strs[1]);
 		but.setEnabled(false);
 		but.addActionListener(this);
 		pan.add(but);
 		
 		pan.add(new javax.swing.JLabel("        "));
-		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
+		strs = Str.get("but.terminate").split("\\|", 2);
+		butTerminar = but = new javax.swing.JButton(strs[0]);
 		butTerminar.setMnemonic(KeyEvent.VK_T);
 		but.setActionCommand("terminate");
-		but.setToolTipText("Termina abruptamente la ejecución en curso");
+		but.setToolTipText(strs[1]);
 		but.addActionListener(this);
 		but.setEnabled(false);
 		pan.add(but);
 		
 		if ( loroii.isTraceable() )
 		{
+			strs = Str.get("but.step_over").split("\\|", 2);
 			pan.add(new javax.swing.JLabel("        "));
-			butStep = but = new javax.swing.JButton("Pasar");
+			butStep = but = new javax.swing.JButton(strs[0]);
 			but.setActionCommand("step");
-			but.setToolTipText("Siguiente paso en la ejecución");
+			but.setToolTipText(strs[1]);
 			but.addActionListener(this);
 			but.setEnabled(true);
 			pan.add(but);
 			
-			butStepInto = but = new javax.swing.JButton("Entrar");
+			strs = Str.get("but.step_into").split("\\|", 2);
+			butStepInto = but = new javax.swing.JButton(strs[0]);
 			but.setActionCommand("step-into");
-			but.setToolTipText("Entra en elemento");
+			but.setToolTipText(strs[1]);
 			but.addActionListener(this);
 			but.setEnabled(true);
 			pan.add(but);
 			
-			butResume = but = new javax.swing.JButton("Continuar");
+			strs = Str.get("but.step_resume").split("\\|", 2);
+			butResume = but = new javax.swing.JButton(strs[0]);
 			but.setActionCommand("resume");
-			but.setToolTipText("Continúa la ejecución");
+			but.setToolTipText(strs[1]);
 			but.addActionListener(this);
 			but.setEnabled(true);
 			pan.add(but);
@@ -239,14 +243,10 @@ implements ActionListener, JTermListener
 		}
 		catch(EjecucionException ex)
 		{
-			if ( ex.esTerminacionInterna() )
-			{
-				msg = "Ejecución terminada. Código de terminación = " 
-					+ex.obtCodigoTerminacionInterna()
-				;
+			if ( ex.esTerminacionInterna() ) {
+				msg = Loro.Str.get("ii.1_exit_code", ""+ex.obtCodigoTerminacionInterna());
 			}
-			else
-			{
+			else {
 				StringWriter sw = new StringWriter();
 				ex.printStackTrace(new PrintWriter(sw));
 				msg = ex.getMessage() + "\n" +sw.toString();
@@ -458,7 +458,7 @@ implements ActionListener, JTermListener
 			term.setEditable(false);
 			try
 			{
-				addTitleRead = "<<presionar Intro para continuar>>";				
+				addTitleRead = Str.get("ii.press_enter");				
 				readLine(ask_enter);
 			}
 			finally

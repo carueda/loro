@@ -5,9 +5,7 @@ import loro.IUnidad;
 
 //////////////////////////////////////////////////
 /**
- *
  * @author Carlos Rueda
- * @version 2002-08-12
  */
 public abstract class AbstractProjectUnit implements IProjectUnit
 {

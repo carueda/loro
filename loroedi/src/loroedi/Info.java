@@ -24,10 +24,8 @@ public final class Info
 	/**
 	 * Obtiene los datos del recurso loroedi/resource/info.properties.
 	 */
-	private static void obtInfo() 
-	{
-		if ( name == null )
-		{
+	private static void obtInfo() {
+		if ( name == null ) {
 			// valores por defecto:
 			name = "LoroEDI";
 			version = "v";
@@ -40,13 +38,11 @@ public final class Info
 				System.err.println("resource " +INFO_PROPS_PATH+ " NOT FOUND!");
 				return;
 			}
-			try
-			{
+			try {
 				props.load(is);
 				is.close();
 			}
-			catch(IOException ex)
-			{
+			catch(IOException ex) {
 				// ignore.
 			}
 			
@@ -60,8 +56,7 @@ public final class Info
 	/**
 	 * Obtiene el "build" del sistema.
 	 */
-	public static String obtBuild()
-	{
+	public static String obtBuild() {
 		obtInfo();
 		return build;
 	}
@@ -70,8 +65,7 @@ public final class Info
 	/**
 	 * Obtiene la versión del sistema.
 	 */
-	public static String obtVersion()
-	{
+	public static String obtVersion() {
 		obtInfo();
 		return version;
 	}
@@ -80,8 +74,7 @@ public final class Info
 	/**
 	 * Obtiene el nombre del sistema.
 	 */
-	public static String obtNombre()
-	{
+	public static String obtNombre() {
 		obtInfo();
 		return name;
 	}
@@ -91,26 +84,21 @@ public final class Info
 	/**
 	 * Obtiene el título del Entorno de Desarrollo Integrado.
 	 */
-	public static String obtTituloEDI()
-	{
+	public static String obtTituloEDI() {
 		obtInfo();
-		return obtNombre()+ 
-		" Versión " +obtVersion()+
-		" (" +obtBuild()+ ")\n"+
-		"Entorno de Desarrollo Integrado";
+		return obtNombre()+ " " +obtVersion()+ " (" +obtBuild()+ ")\n"+
+			Str.get("gui.tit");
 	}
 
 	////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene el título del intérprete interactivo.
 	 */
-	public static String obtTituloII()
-	{
+	public static String obtTituloII() {
 		obtInfo();
-		return obtNombre()+ 
-		" Versión " +obtVersion()+
-		" (" +obtBuild()+ ")\n"+
-		"Intérprete Interactivo";
+		return obtNombre()+ " " +obtVersion()+ " (" +obtBuild()+ ")\n"+
+			Str.get("ii.tit")
+		;
 	}
 
 	////////////////////////////////////////////////////////

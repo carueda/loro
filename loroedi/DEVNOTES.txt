@@ -4,16 +4,24 @@ $Id$
 ////////////////////////////////////////////////////////////////////////////
 2004-06-27 (0.8.7)
 	- Localization scheme:
-		loroedi/gui/editor/ .. 
+		loroedi/ ..
+			Info .. ok
+			InterpreterWindow .. ok
+		loroedi/gui/ ..
+			GUI .. ok
+			Actions .. ok
+		loroedi/gui/editor/ .. ok
+			UEditor .. ok
 		loroedi/gui/misc/  not necessary
 		loroedi/gui/project/model/ .. 
-		loroedi/gui/project/unit/ .. 
+		loroedi/gui/project/unit/ .. ok 
 		loroedi/gui/project/ .. 
 		loroedi/help/doc/ .. 
 		loroedi/help/ .. 
 		loroedi/jedit/ ..  principalmente LoroTokenMarker 
-		loroedi/laf/  not necessary 
-		loroedi/ .. 
+		loroedi/laf/  not necessary
+		
+	- util/edit/* simplified (original sources moved to simpledi)
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 (0.8.7)

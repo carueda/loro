@@ -2,10 +2,9 @@ package loroedi.gui;
 
 //////////////////////////////////////////////////
 /**
- * Punto de entrada al entorno integrado.
+ * main entry point to integrated environment
  *
  * @author Carlos Rueda
- * @version 2002-08-11
  */
 public class Main
 {

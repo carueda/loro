@@ -1,7 +1,5 @@
 package util.editor;
 
-
-
 import java.io.*;
 import java.awt.*;
 
@@ -24,8 +22,6 @@ public abstract class AreaTexto
 	/** Mi editor. */
 	protected Editor se;
 	
-	
-
 
 	/////////////////////////////////////////////////////////////////
 	/**
