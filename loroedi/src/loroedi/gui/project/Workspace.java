@@ -75,7 +75,10 @@ public final class Workspace
 	/** List of names of available projects */
 	List prjnames;
 	
-	/** Mapping from name (in lower case) to either IExtension or String */
+	/**
+	 * Mapping from project name (in lower case) to either 
+	 * Extension, String, or IProjectModel. 
+	 */
 	Map name_prj;
 	
 	/** Directory with projects. */
@@ -108,8 +111,8 @@ public final class Workspace
 			{
 				String name = files[i].getName();
 				prjnames.add(name);
-				IProjectModel prjm = _loadProjectModelDirectory(name);
-				name_prj.put(name.toLowerCase(), prjm);
+				// Se asocia el mismo nombre:
+				name_prj.put(name.toLowerCase(), name);
 			}
 		}
 
@@ -143,8 +146,8 @@ public final class Workspace
 		String name = extinfo.getName();
 		if ( !existsProjectModel(name) )
 			prjnames.add(name);
-		IProjectModel prjm = _loadProjectModelExtension(extinfo);
-		name_prj.put(name.toLowerCase(), prjm);
+		// Se asocia el extinfo:
+		name_prj.put(name.toLowerCase(), extinfo);
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -188,7 +191,7 @@ public final class Workspace
 		for ( Iterator it = prjnames.iterator(); it.hasNext(); )
 		{
 			String prjname = (String) it.next();
-			IProjectModel prjm = (IProjectModel) name_prj.get(prjname.toLowerCase());
+			IProjectModel prjm = getProjectModel(prjname);
 			for ( Iterator itt = prjm.getPackages().iterator(); itt.hasNext(); )
 			{
 				IPackageModel pkgm = (IPackageModel) itt.next();
@@ -226,21 +229,21 @@ public final class Workspace
 		{
 			prjm = (IProjectModel) obj;
 		}
-		////{{{ casos por eliminar
 		else if ( obj instanceof Extension )
 		{
 			prjm = _loadProjectModelExtension((Extension) obj);
+			name_prj.put(prjname.toLowerCase(), prjm);
 		}
 		else if ( obj instanceof String )
 		{
 			prjm = _loadProjectModelDirectory((String) obj);
+			name_prj.put(prjname.toLowerCase(), prjm);
 		}
-		////}}} casos por eliminar
 		else
 		{
 			throw new RuntimeException(prjname+ ": proyecto no disponible");
 		}
-		
+
 		prjm.addProjectModelListener(pmlistener);
 		
 		return prjm;
@@ -254,12 +257,42 @@ public final class Workspace
 		return loadProjectModelFromDirectory(prj_dir);
 	}
 	
+	
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Carga un proyecto de un directorio dado.
+	 * Obtiene la información básica de un proyecto.
+	 * @return An IROInfo object describing the project. 
 	 */
-	public IProjectModel loadProjectModelFromDirectory(File prj_dir)
+	public IProjectModel.IROInfo getProjectModelInfo(String prjname)
 	{
+		Object obj = name_prj.get(prjname.toLowerCase());
+		if ( obj instanceof IProjectModel )
+		{
+			IProjectModel prjm = (IProjectModel) obj;
+			return prjm.getInfo();
+		}
+		else if ( obj instanceof Extension )
+		{
+			return _loadProjectModelInfoExtension((Extension) obj);
+		}
+		else if ( obj instanceof String )
+		{
+			return _loadProjectModelInfoFromDirectory(prjname);
+		}
+		else
+		{
+			throw new RuntimeException(prjname+ ": proyecto no disponible");
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Gets a IROInfo object describing a project from a directory.
+	 * @return An IROInfo object describing the project. 
+	 */
+	private IProjectModel.IROInfo _loadProjectModelInfoFromDirectory(String prjname)
+	{
+		File prj_dir = new File(prs_dir, prjname);
 		Properties props = new Properties();
 		File file = new File(prj_dir, "prj.props");
 		if ( file.exists() )
@@ -273,33 +306,26 @@ public final class Workspace
 				System.err.println(ex.getMessage());
 			}
 		}
-		String name = prj_dir.getName();
-		IProjectModel prjm = new ProjectModel(name);
-		prjm.getInfo().setTitle(props.getProperty("title"));
-		prjm.getInfo().setAuthors(props.getProperty("authors"));
-		prjm.getInfo().setVersion(props.getProperty("version"));
-		prjm.getInfo().setDescriptionFormat(props.getProperty("description.format", "plain"));
+		String description = "";
 		file = new File(prj_dir, "prj.description");
 		if ( file.exists() )
 		{
 			try
 			{
-				String description = loroedi.Util.readFile(file);
-				prjm.getInfo().setDescription(description);
+				description = loroedi.Util.readFile(file);
 			}
 			catch(IOException ex)
 			{
 				System.err.println(ex.getMessage());
 			}
-			
 		}
+		String demo_src = "";
 		file = new File(prj_dir, "prj.demo.lsh");
 		if ( file.exists() )
 		{
 			try
 			{
-				String demo_src = loroedi.Util.readFile(file);
-				prjm.getInfo().setDemoScript(demo_src);
+				demo_src = loroedi.Util.readFile(file);
 			}
 			catch(IOException ex)
 			{
@@ -307,6 +333,34 @@ public final class Workspace
 			}
 			
 		}
+
+		return new ReadOnlyInfo(
+			prjname,
+			props.getProperty("title"),
+			props.getProperty("authors"),
+			props.getProperty("version"),
+			props.getProperty("description.format", "plain"),
+			description,
+			demo_src
+		);
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Carga un proyecto de un directorio dado.
+	 */
+	public IProjectModel loadProjectModelFromDirectory(File prj_dir)
+	{
+		String prjname = prj_dir.getName();
+		IProjectModel.IROInfo roi = _loadProjectModelInfoFromDirectory(prjname);
+
+		IProjectModel prjm = new ProjectModel(prjname);
+		prjm.getInfo().setTitle(roi.getTitle());
+		prjm.getInfo().setAuthors(roi.getAuthors());
+		prjm.getInfo().setVersion(roi.getVersion());
+		prjm.getInfo().setDescriptionFormat(roi.getDescriptionFormat());
+		prjm.getInfo().setDescription(roi.getDescription());
+		prjm.getInfo().setDemoScript(roi.getDemoScript());
 		
 		// get packages:
 		File pkgs_dir = prj_dir;
@@ -352,17 +406,35 @@ public final class Workspace
 	}
 	
 	/////////////////////////////////////////////////////////////////
-	private IProjectModel _loadProjectModelExtension(Extension extinfo)
+	private IProjectModel.IROInfo _loadProjectModelInfoExtension(Extension extinfo)
 	{
 		Properties props = extinfo.getProperties();
+		return new ReadOnlyInfo(
+			extinfo.getName(),
+			props.getProperty("title"),
+			props.getProperty("authors"),
+			props.getProperty("version"),
+			props.getProperty("description.format", "plain"),
+			extinfo.getDescription(),
+			extinfo.getDemoScript()
+		);
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	private IProjectModel _loadProjectModelExtension(Extension extinfo)
+	{
+		IProjectModel.IROInfo roi = _loadProjectModelInfoExtension(extinfo);
+
 		IProjectModel prjm = new ProjectModel(extinfo.getName());
-		prjm.getInfo().setTitle(props.getProperty("title"));
-		prjm.getInfo().setAuthors(props.getProperty("authors"));
-		prjm.getInfo().setVersion(props.getProperty("version"));
-		prjm.getInfo().setDescriptionFormat(props.getProperty("description.format"));
-		prjm.getInfo().setDescription(extinfo.getDescription());
+		prjm.getInfo().setTitle(roi.getTitle());
+		prjm.getInfo().setAuthors(roi.getAuthors());
+		prjm.getInfo().setVersion(roi.getVersion());
+		prjm.getInfo().setDescriptionFormat(roi.getDescriptionFormat());
+		prjm.getInfo().setDescription(roi.getDescription());
+		prjm.getInfo().setDemoScript(roi.getDemoScript());
+
 		prjm.getControlInfo().setModifiable(
-			Boolean.valueOf(props.getProperty("modifiable")).booleanValue()
+			Boolean.valueOf(extinfo.getProperties().getProperty("modifiable")).booleanValue()
 		);
 		
 		IOroLoader oroLoader = extinfo.getOroLoader();
@@ -1381,7 +1453,7 @@ public final class Workspace
 		InterpreterWindow iw = 
 			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp)
 		{
-			public void body()
+			protected void body()
 			throws Exception
 			{
 				// A este prefijo se le agrega lo que suministre el usuario 
@@ -1741,6 +1813,83 @@ public final class Workspace
 					_removeUnit((IProjectUnit) e.getElement());
 					break;
 			}
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * All set* methods throw UnsupportedOperationException
+	 */
+	private static class ReadOnlyInfo implements IProjectModel.IROInfo
+	{
+		String name;
+		String title;
+		String authors;
+		String version;
+		String descriptionFormat;
+		String description;
+		String demoSrc;
+		
+		/////////////////////////////////////////////////////////////////
+		ReadOnlyInfo(
+			String name,
+			String title,
+			String authors,
+			String version,
+			String descriptionFormat,
+			String description,
+			String demoSrc
+		)
+		{
+			this.name = name;
+			this.title = title;
+			this.authors = authors;
+			this.version = version;
+			this.descriptionFormat = descriptionFormat;
+			this.description = description;
+			this.demoSrc = demoSrc;
+		}
+		
+		/////////////////////////////////////////////////////////////////
+		public String getName()
+		{
+			return name;
+		}
+		
+		/////////////////////////////////////////////////////////////////
+		public String getTitle()
+		{
+			return title;
+		}
+	
+		/////////////////////////////////////////////////////////////////
+		public String getAuthors()
+		{
+			return authors;
+		}
+	
+		/////////////////////////////////////////////////////////////////
+		public String getVersion()
+		{
+			return version;
+		}
+	
+		/////////////////////////////////////////////////////////////////
+		public String getDescription()
+		{
+			return description;
+		}
+		
+		/////////////////////////////////////////////////////////////////
+		public String getDescriptionFormat()
+		{
+			return descriptionFormat;
+		}
+
+		/////////////////////////////////////////////////////////////////
+		public String getDemoScript()
+		{
+			return demoSrc;
 		}
 	}
 	

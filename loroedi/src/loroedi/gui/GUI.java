@@ -29,6 +29,8 @@ import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 
+import javax.swing.Timer;
+ 
 //////////////////////////////////////////////////
 /**
  * Controlador general del entorno integrado.
@@ -419,23 +421,20 @@ public class GUI
 				docFrame.setVisible(false);
 			}
 		});
-		Rectangle rect = Preferencias.obtRectangulo(Preferencias.DOC_RECT);
-		docFrame.setLocation(rect.x, rect.y);
-		docFrame.setSize(rect.width, rect.height);
-		docFrame.addComponentListener(new ComponentAdapter()
-		{
-			void common()
-			{
-				Rectangle rect_ = new Rectangle(docFrame.getLocationOnScreen(), docFrame.getSize());
-				Preferencias.ponRectangulo(Preferencias.DOC_RECT, rect_);
-			}
-			public void componentResized(ComponentEvent e){common();}
-			public void componentMoved(ComponentEvent e){common();}
-		});
+		Preferencias.Util.updateRect(docFrame, Preferencias.DOC_RECT);
 
 		try
 		{
-			browser  = new BrowserPanel(null, null);
+			URL home_url = null;
+			try
+			{
+				home_url = new File(doc_dir, "index.html").toURL();
+			}
+			catch(MalformedURLException e)
+			{
+				// ignore.
+			}
+			browser  = new BrowserPanel(home_url, null);
 			docFrame.getContentPane().add(browser);
 		}
 		catch(Exception ex)
@@ -1038,13 +1037,16 @@ public class GUI
 		for ( Iterator it = workspace.getAvailableProjects().iterator(); it.hasNext(); )
 		{
 			String prjname = (String) it.next();
-			IProjectModel prjm = workspace.getProjectModel(prjname);
+			IProjectModel.IROInfo info = workspace.getProjectModelInfo(prjname);
 			sb.append("<tr>\n");
 			sb.append("<td bgcolor=\"#FFCCCC\">\n");
 			sb.append("  <a href=\"" +prjname+ ".prj.html"+ "\">" +prjname+ "</a>\n");
 			sb.append("</td>\n");
+			sb.append("<td bgcolor=\"#FFCCCC\">\n");
+			sb.append("  " +info.getVersion()+ "\n");
+			sb.append("</td>\n");
 			sb.append("<td bgcolor=\"#FFEEEE\">\n");
-			sb.append("  " +prjm.getInfo().getTitle()+ "\n");
+			sb.append("  " +info.getTitle()+ "\n");
 			sb.append("</td>\n");
 			sb.append("</tr>\n");
 		}
@@ -2464,12 +2466,22 @@ public class GUI
 	
 	////////////////////////////////////////////////////////////////
 	/**
-	 * @return true si la apertura procede.
+	 * Abre un diálogo para abrir un proyecto del espacio de trabajo.
 	 */
-	public static boolean openProject()
+	public static void openProject()
 	{
-		String prjname = _openProjectDialog(focusedProject.getFrame());
-		return prjname == null ? false : _openProject(prjname);
+		final String prjname = _openProjectDialog(focusedProject.getFrame());
+		if ( prjname != null )
+		{
+			progressRun("abriendo '" +prjname+ "'", new Runnable() 
+			{
+				public void run() 
+				{
+					_openProject(prjname);
+				}
+			});
+			focusedProject.getFrame().toFront();
+		}
 	}
 	
 	////////////////////////////////////////////////////////////////
@@ -2594,7 +2606,7 @@ public class GUI
 				_installProject();
 			}
 		};
-		new Thread(run).start(); 
+		new Thread(run).start();
 	}
 	
 	////////////////////////////////////////////////////////////////
@@ -3537,5 +3549,49 @@ public class GUI
 			"Mensaje",
 			JOptionPane.WARNING_MESSAGE
 		);
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Ejecuta una tarea
+	 */
+	public static void progressRun(final String msg, final Runnable runnable)
+	{
+		final JProgressBar progressBar = new JProgressBar();
+		progressBar.setIndeterminate(true);
+		progressBar.setStringPainted(true);
+		progressBar.setString(msg);
+		final JDialog dialog = new JDialog(focusedProject.getFrame(), msg, true);
+		JPanel panel = new JPanel();
+		panel.add(progressBar);
+		dialog.getContentPane().add(progressBar);
+
+		final Timer timer = new Timer(250, new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent evt) 
+			{
+				progressBar.setString(msg);
+			}
+		});
+
+		Runnable run = new Runnable() 
+		{
+			public void run() 
+			{
+				try
+				{ 
+					runnable.run();
+				}
+				finally
+				{
+					timer.stop();
+					dialog.dispose();
+				}
+			}
+		};
+		new Thread(run).start(); 
+		dialog.pack();
+		dialog.setLocationRelativeTo(focusedProject.getFrame());
+		dialog.setVisible(true);
 	}
 }

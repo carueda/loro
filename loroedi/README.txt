@@ -15,6 +15,26 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-20 (0.8pre11)
 
+	- El tiempo de arrancada se ha acelerado significativamente.
+	  En Workspace: Se vuelve al esquema de cargar proyectos por demanda:
+	  Inicialmente, en name_prj la asociación es un String o una Extension;
+	  y por demanda, en getProjectModel(String prjname), se actualiza la
+	  asociación al propio IProjectModel.
+	
+	- Nuevo GUI.progressRun() para mostrar ventana de progreso mientras se
+	  ejecuta una tarea. Usado ahora en openProject(). 
+	
+	- GUI.createBrowserPanel() ahora crea el BrowserPanel con home al index.html
+	  principal con la lista de proyectos en el espacio de trabajo.
+	  
+	- IProjectModel: Se separó de IInfo las operaciones de consulta en la
+	  interfaz IROInfo. Esta interfaz IROInfo ayuda a agilizar la consulta 
+	  general sobre proyectos.
+	  
+	- Nuevo método Workspace.getProjectModelInfo(prjname) para obtener un
+	  IROInfo de información de sólo lectura. Utilizado ahora en
+	  GUI._saveMainIndexForProjects()
+	  
 	- GUI._createCommands: corrección de posición inicio para cada segmento
 	  que hacía ubicar mal rango de texto (p.ej. para reporte de error).
 	  

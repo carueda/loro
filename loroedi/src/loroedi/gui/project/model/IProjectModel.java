@@ -13,14 +13,15 @@ import java.util.Collection;
  * Modelo de proyecto.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public interface IProjectModel
 {
 	//////////////////////////////////////////////////
 	/**
-	 * Info general sobre el proyecto.
+	 * Info general sobre el proyecto sólo para consulta (read-only).
 	 */
-	public interface IInfo
+	public interface IROInfo
 	{
 		/////////////////////////////////////////////////////////////////
 		/**
@@ -30,21 +31,9 @@ public interface IProjectModel
 	
 		/////////////////////////////////////////////////////////////////
 		/**
-		 * Establece el nombre de este proyecto.
-		 */
-		public void setName(String name);
-	
-		/////////////////////////////////////////////////////////////////
-		/**
 		 * Obtiene el título de este proyecto.
 		 */
 		public String getTitle();
-	
-		/////////////////////////////////////////////////////////////////
-		/**
-		 * Establece el título de este proyecto.
-		 */
-		public void setTitle(String title);
 	
 		/////////////////////////////////////////////////////////////////
 		/**
@@ -54,21 +43,9 @@ public interface IProjectModel
 	
 		/////////////////////////////////////////////////////////////////
 		/**
-		 * Establece los autores de este proyecto.
-		 */
-		public void setAuthors(String authors);
-	
-		/////////////////////////////////////////////////////////////////
-		/**
 		 * Obtiene la versión de este proyecto.
 		 */
 		public String getVersion();
-	
-		/////////////////////////////////////////////////////////////////
-		/**
-		 * Establece la versión de este proyecto.
-		 */
-		public void setVersion(String version);
 	
 		/////////////////////////////////////////////////////////////////
 		/**
@@ -78,16 +55,53 @@ public interface IProjectModel
 
 		/////////////////////////////////////////////////////////////////
 		/**
-		 * Establece la descripción de este proyecto.
-		 */
-		public void setDescription(String description);
-		
-		/////////////////////////////////////////////////////////////////
-		/**
 		 * Obtiene el formato de la descripción.
 		 */
 		public String getDescriptionFormat();
 
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Obtiene el código de demostración de este proyecto.
+		 */
+		public String getDemoScript();
+	}
+	
+	//////////////////////////////////////////////////
+	/**
+	 * Info general sobre el proyecto con posibilidad de modificación.
+	 */
+	public interface IInfo extends IROInfo
+	{
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Establece el nombre de este proyecto.
+		 */
+		public void setName(String name);
+	
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Establece el título de este proyecto.
+		 */
+		public void setTitle(String title);
+	
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Establece los autores de este proyecto.
+		 */
+		public void setAuthors(String authors);
+	
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Establece la versión de este proyecto.
+		 */
+		public void setVersion(String version);
+	
+		/////////////////////////////////////////////////////////////////
+		/**
+		 * Establece la descripción de este proyecto.
+		 */
+		public void setDescription(String description);
+		
 		/////////////////////////////////////////////////////////////////
 		/**
 		 * Establece el formato de la descripción de este proyecto.
@@ -96,16 +110,9 @@ public interface IProjectModel
 
 		/////////////////////////////////////////////////////////////////
 		/**
-		 * Obtiene el código de demostración de este proyecto.
-		 */
-		public String getDemoScript();
-
-		/////////////////////////////////////////////////////////////////
-		/**
 		 * Establece el código de demostración de este proyecto.
 		 */
 		public void setDemoScript(String src);
-
 	}
 
 	//////////////////////////////////////////////////
