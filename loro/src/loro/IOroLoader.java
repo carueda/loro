@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import loro.arbol.NUnidad;
 
+import java.io.FilenameFilter;
 
 ///////////////////////////////////////////////////////////////
 /**
@@ -30,6 +31,18 @@ public interface IOroLoader
 	 */
 	InputStream getResourceAsStream(String name);
 
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Gets the list of names of all files in this loader according to a
+	 * filename filter. 
+	 * Use getResourceAsStream(name) with each element in the returned list.
+	 *
+	 * @param fnfilter   The filename filter. Can be null.
+	 *
+	 * @return The list of filenames (String's).
+	 */
+	public List getFilenames(FilenameFilter fnfilter);
+	
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene una unidad.

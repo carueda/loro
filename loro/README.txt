@@ -27,6 +27,19 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2002-11-07 Version 0.7.4
+
+	- Nueva operación IOroLoader.getFilenames() para obtener lista completa
+	  de los nombres de los elementos del cargador.
+	  Actualizados: CoreOroLoader, DirectoryOroLoader, ZipFileOroLoader.
+	  
+	- Nuevos métodos en loro.util.Util para copiar elementos de una extensión
+	  a un directorio o a otra extensión (.lar).
+	  
+	- Actualizado build-ext.html: ahora se utiliza <zip> a cambio de <jar>
+	  (El MANIFEST.MF no se necesita).
+	
+////////////////////////////////////////////////////////////////////////////
 2002-10-30 Version 0.7.4
 
 	- En loro.util.Util:
