@@ -20,9 +20,8 @@ PENDIENTES (más o menos en orden de prioridad)
 	  cierta localización en la distribución del sistema.
 	  Pendiente incluir más posibilidades de origen del proyecto,
 	  como:
-	  	- archivo extensión (.lar).
-		- archivo proyecto (quizá .pr --por definirse).
-		- además la posibilidad de tomar el archivo desde la web (http).
+	  	- archivo extensión (.lar) desde sistema local de archivos
+		- archivo extensión (.lar) desde la web (http).
 		
   	- Al compilar proyecto, despachar las posible lista de errores.
 	  La idea es mantener un sólo error por unidad, pero si varias
@@ -57,6 +56,30 @@ PENDIENTES (más o menos en orden de prioridad)
 	  leyendo su "millis"
 
 	  
+NOTAS
+	
+	- Puede crearse la siguiente confusión cuando se exporta una extensión
+	  de la cual se está visualizando su documentación normalmente:
+	  Haberse indicado "incluir documentación (*.html)" y sin embargo no haberse
+	  exportado dicha documentación. Lo que sucede ahora es que generalmente 
+	  esta documentación no se está incluyendo en las extensiones creadas
+	  externamente, particularmente desde los builds*.xml (ver por ejemplo el
+	  build-ext.html del núcleo), pero se tiene generada en un directorio para
+	  ello.
+	  
+////////////////////////////////////////////////////////////////////////////
+2002-11-07 (0.8pre5)
+
+Completada opción "exportar proyecto":
+
+	- Ya opera también cuando el proyecto a exportar es una extension.
+	
+	- Nuevas operaciones en IProjectModel:
+		IOroLoader getOroLoader()
+		setOroLoader(IOroLoader)
+		
+	- Ahora se confirma con el usuario si el destino de la exportación ya existe.
+	
 ////////////////////////////////////////////////////////////////////////////
 2002-10-30 (0.8pre5)
 

@@ -920,14 +920,6 @@ public class GUI
 		String prjname = model.getInfo().getName();
 		JFrame frame = focusedProject.getFrame();
 
-		if ( prjname.endsWith(".lar") )
-		{
-			// PENDING to export an extension.
-			message(frame, "Exportación de extensión (.lar) aún no implementada");
-			return;
-		}
-		
-		
         final JTextField f_name = new JTextField(30);
 		f_name.setEditable(false);
         final JTextField f_title = new JTextField(30);
@@ -1013,7 +1005,7 @@ public class GUI
 					else 
 					{
 						File file = new File(dir);
-						if ( !file.isDirectory() ||  !file.isAbsolute() )
+						if ( !file.isAbsolute() )
 						{
 							msg = "Debe indicarse un directorio absoluto";
 						}
@@ -1122,12 +1114,32 @@ public class GUI
 			if ( radio_directory.isSelected() )
 			{
 				dest = f_directory.getText().trim();
+				File file = new File(dest);
+				if ( file.exists() )
+				{
+					if ( !confirm(frame, 
+						"El directorio de destino ya existe:\n"+
+						"  " +dest+ "\n"+
+						"¿Proceder con la exportación?\n") )
+					{
+						return;
+					}
+					
+				}
 			}
 			else // ( radio_extension.isSelected() )
 			{
 				dest = f_extension.getText().trim();
 				if ( !dest.endsWith(".lar") )
 					dest += ".lar";
+				
+				if ( !confirm(frame, 
+					"El archivo de destino ya existe:\n"+
+					"  " +dest+ "\n"+
+					"¿Proceder con la exportación?\n") )
+				{
+					return;
+				}
 			}
 				
 			try
@@ -1139,6 +1151,8 @@ public class GUI
 					check_compiled.isSelected(),
 					check_html.isSelected()
 				);
+				
+				message(focusedProject.getFrame(), "Exportación de proyecto exitosa");
 			}
 			catch(Exception ex)
 			{

@@ -364,6 +364,8 @@ public final class Workspace
 			IPackageModel pkgm = prjm.addPackage(pkgname);
 			_setupPackageFromLoader(oroLoader, pkgname, pkgm, prjm);
 		}
+		
+		prjm.setOroLoader(oroLoader);
 		return prjm;
 	}
 	
@@ -610,56 +612,96 @@ public final class Workspace
 	)
 	throws Exception
 	{
-		File file = new File(dest);
+		// prepare the filename filter:
+		FilenameFilter fnfilter = new FilenameFilter()
+		{
+			public boolean accept(File dir, String name)
+			{
+				if ( !source && (name.endsWith(".loro") || name.endsWith(".lsh")) )
+					return false;
+				if ( !compiled && name.endsWith(".oro") )
+					return false;
+				if ( !html && name.endsWith(".html") )
+					return false;
+				return true;
+			}
+		};
+					
+					
+		// in case destination is an extension:
+		ZipOutputStream zos = null;
+		
+		// in case destination is a directory:
+		File dir = null;
+		
+		// zos and dir are mutually exclusive, of course.
+		
+		File dest_file = new File(dest);
+		
+		if ( dest.endsWith(".lar") )
+		{
+			File parent = dest_file.getParentFile();
+			if ( !parent.exists() )
+			{
+				if ( !parent.mkdirs() )
+					throw new Exception("No pudo crearse el directorio: " +parent);
+			}
+			
+			// export to an extension archive.
+			BufferedOutputStream bos = new BufferedOutputStream(
+				new FileOutputStream(dest)
+			);
+			zos = new ZipOutputStream(bos);
+			zos.setLevel(9);
+		}
+		else
+		{
+			dir = new File(dest);
+			if ( !dir.isAbsolute() )
+				throw new Exception("Debe indicarse un directorio absoluto: " +dest);
+			if ( !dir.exists() )
+			{
+				if ( !dir.mkdirs() )
+					throw new Exception("No pudo crearse el directorio: " +dir);
+			}
+		}
+
+
+
 
 		String prjname = prjm.getInfo().getName();
 		if ( prjname.endsWith(".lar") )
 		{
-			// PENDING to export an extension.
-			throw new Exception("PENDING to export an extension.");
+			// source is an extension project.
+			IOroLoader oroLoader = prjm.getOroLoader();
+			if ( oroLoader != null )
+			{
+				if ( zos != null )
+					loro.util.Util.copyExtensionToZip(oroLoader, zos, fnfilter);
+				else
+					loro.util.Util.copyExtensionToDirectory(oroLoader, dir, fnfilter);
+			}
+			else
+			{
+				throw new Exception("Inesperado: extensión sin cargador de unidades."); 
+			}
 		}
 		else
 		{
-			// it's a project on a "directory".
+			// source is a directory project.
 		
-			if ( dest.endsWith(".lar") )
+			if ( zos != null )
 			{
-				// export to an extension archive.
-				
+				// export to zos: (see initialization above)
 				File prj_dir = new File(prs_dir, prjname);
-				BufferedOutputStream bos = new BufferedOutputStream(
-					new FileOutputStream(dest)
-				);
-				ZipOutputStream zos = new ZipOutputStream(bos);
-				zos.setLevel(9);
-				loro.util.Util.copyDirectoryToZip(prj_dir, zos,
-					new FilenameFilter()
-					{
-						public boolean accept(File dir, String name)
-						{
-							if ( !source && (name.endsWith(".loro") || name.endsWith(".lsh")) )
-								return false;
-							if ( !compiled && name.endsWith(".oro") )
-								return false;
-							if ( !html && name.endsWith(".html") )
-								return false;
-							return true;
-						}
-					}
-				);
-				zos.close();
+				loro.util.Util.copyDirectoryToZip(prj_dir, zos, fnfilter);
 			}
 			else
 			{
 				// export to a directory.
 				
-				File dir = file;
-				if ( !dir.isAbsolute() )
-					throw new Exception("Debe indicarse un directorio absoluto: " +dest);
-
-				
 				// por ahora, con _saveProjectModel,  pero debería cambiarse
-				// a una simple copia de directorio similar como se hace
+				// a una simple copia de directorio similar a como se hace
 				// hacia una extensión.  PENDING.
 				_saveProjectModel(prjm, dir, true);
 				
@@ -678,6 +720,11 @@ public final class Workspace
 					}
 				}
 			}
+		}
+		
+		if ( zos != null )
+		{
+			zos.close();
 		}
 	}
 	

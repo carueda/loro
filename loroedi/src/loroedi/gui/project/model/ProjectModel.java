@@ -15,7 +15,6 @@ import java.util.*;
  * El paquete anónimo se identifica con el nombre vacío, "". 
  *
  * @author Carlos Rueda
- * @version 2002-08-03
  */
 public class ProjectModel implements IProjectModel
 {
@@ -54,6 +53,9 @@ public class ProjectModel implements IProjectModel
 	
 	/** Proyectos de los que dependo. */
 	protected List supportingProjects;
+	
+	/** El cargador de unidades asociado. */
+	protected IOroLoader oroLoader;
 	
 	
 	/////////////////////////////////////////////////////////////////
@@ -440,5 +442,17 @@ public class ProjectModel implements IProjectModel
 	public String toString()
 	{
 		return name;
+	}
+
+	/////////////////////////////////////////////////////////////////
+	public IOroLoader getOroLoader()
+	{
+		return oroLoader;
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	public void setOroLoader(IOroLoader oroLoader)
+	{
+		this.oroLoader = oroLoader;
 	}
 }

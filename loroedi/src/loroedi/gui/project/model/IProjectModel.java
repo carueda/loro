@@ -3,6 +3,7 @@ package loroedi.gui.project.model;
 import loroedi.gui.project.unit.*;
 
 import loro.IUnidad;
+import loro.IOroLoader;
 
 import javax.swing.*;
 import java.util.Collection;
@@ -12,7 +13,6 @@ import java.util.Collection;
  * Modelo de proyecto.
  *
  * @author Carlos Rueda
- * @version 2002-07-26
  */
 public interface IProjectModel
 {
@@ -273,6 +273,18 @@ public interface IProjectModel
 	 * Notifies all registered listeners about an event.
 	 */
 	public void notifyListeners(ProjectModelEvent ev);
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene el cargador de unidades asociado.
+	 */
+	public IOroLoader getOroLoader();
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Establece el cargador de unidades asociado.
+	 */
+	public void setOroLoader(IOroLoader oroLoader);
 	
 	
 }
