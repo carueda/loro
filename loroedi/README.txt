@@ -2,6 +2,26 @@ LoroEDI README
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-03-26 (0.8.3)
+
+	New IzPack installation:
+	Finally I'm now using IzPack (http://izforge.com/izpack) to
+	make the LoroEDI installer.
+	
+	- build.{properties,xml}: modified: new "installer" target.
+	  ("instalador" still works but will be eventually deleted).
+	- izinstall.xml: new: Installation specification
+	- base_dist/lib/izshortcut.xml: new: shortcut specification
+	- Configuracion.java: modified: now it creates loroedi.conf. The
+	  system property "LOROEDIDIR" must be defined. See below.
+	  (loroedi.conf was created outside loroedi by the previous 
+	  installation scheme.)
+	- base_dist/bin/*: modified: these scripts now define LOROEDIDIR to
+	  launch the java programs. (actually this is only necessary for
+	  loroedi*)
+	- This is working fine on my linux system. Windows tests pending.
+
+////////////////////////////////////////////////////////////////////////////
 2004-01-17 (0.8.2)
 	- New loroedi.Util.replace() (copied verbatim from loro.util.Util.replace()) 
 	  (goal: to have less dependence on loro implementation).

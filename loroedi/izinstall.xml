@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<!--
+	LoroEDI Installation specification 
+	Carlos A. Rueda
+	$Id$
+-->
+<installation version="1.0">
+    <info>
+        <appname>LoroEDI</appname>
+        <appversion>@VERSION@</appversion>
+        <authors>
+            <author name="Carlos A. Rueda" email="carueda@users.sf.net"/>
+        </authors>
+        <url>http://loro.sf.net</url>
+    </info>
+    
+    <guiprefs width="640" height="480" resizable="yes"/>
+    
+    <locale> 
+		<langpack iso3="spa"/> 
+		<langpack iso3="eng"/> 
+	</locale>
+    
+    <resources>
+		<res id="Installer.image" src="doc/images/splash.jpg" />
+        <res id="LicencePanel.licence" src="doc/COPYING.txt"/>
+		<res id="shortcutSpec.xml" src="lib/izshortcut.xml"/>
+    </resources>
+    
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="LicencePanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="InstallPanel"/>
+		<panel classname="ShortcutPanel"/>
+        <panel classname="FinishPanel"/>
+    </panels>
+    
+	<native type="izpack" name="ShellLink.dll"/>
+
+    <packs>
+        <pack name="System" required="yes">
+            <description>The complete system</description>
+            <file src="." targetdir="$INSTALL_PATH"/>
+			<parsable targetfile="$INSTALL_PATH/bin/loroedi"/>
+			<parsable targetfile="$INSTALL_PATH/bin/loroedi.bat"/>
+			<parsable targetfile="$INSTALL_PATH/bin/loroc"/>
+			<parsable targetfile="$INSTALL_PATH/bin/loroc.bat"/>
+			<parsable targetfile="$INSTALL_PATH/bin/lorodoc"/>
+			<parsable targetfile="$INSTALL_PATH/bin/lorodoc.bat"/>
+			<executable targetfile="$INSTALL_PATH/bin/loroedi" stage="never"/>
+			<executable targetfile="$INSTALL_PATH/bin/loroc" stage="never"/>
+			<executable targetfile="$INSTALL_PATH/bin/lorodoc" stage="never"/>
+        </pack>
+    </packs>
+</installation>

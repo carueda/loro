@@ -171,6 +171,18 @@ Class-path: ${bsh.jar} ../lib/${nucleo.jar} ${kunststoff.jar} ${looks.jar} ${ski
 
 <!-- .......... Creacion del instalador .................. -->
 
+    <target name="installer"  depends="loroedi.jar, prepare-inst"
+     description="Makes an executable installer for LoroEDI">
+		<taskdef name="izpack" classpath="${izdir}/lib/compiler.jar"
+			classname="com.izforge.izpack.ant.IzPackTask"/>
+		<izpack input="${dist}/izinstall.xml"
+			output="${dist}/${i.jar}"
+			installerType="standard-kunststoff"
+			basedir="${dir.installer}"
+			izPackDir="${izdir}/"/>
+    </target>
+
+	<!-- nano-instalador (to be dropped) -->
     <target name="instalador"  depends="loroedi.jar, verifique.nic, prepare-inst, nanoproperties"
      description="Crea el instalador de LoroEDI">
 	   <java jar="${i.nic.jar}" fork="true">
@@ -197,6 +209,13 @@ Class-path: ${bsh.jar} ../lib/${nucleo.jar} ${kunststoff.jar} ${looks.jar} ${ski
 		<copy todir="${dir.installer}/lib/ext">
 			<fileset dir="${loro.dist}/ext"/> 
 		</copy>
+		
+   		<delete file="${dist}/izinstall.xml"/>
+        <copy file="izinstall.xml" tofile="${dist}/izinstall.xml"/>
+		<replace file="${dist}/izinstall.xml">
+			<replacefilter token="@VERSION@" value="${VERSION}"/>
+			<replacefilter token="@BUILD@"   value="${DSTAMP}"/>
+		</replace>
     </target>
 
   <target name="nanoproperties" depends="init"

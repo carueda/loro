@@ -10,6 +10,7 @@ import java.io.*;
  * Archivo de propiedades: .loro/loroedi.conf
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class Configuracion
 {
@@ -83,14 +84,39 @@ public class Configuracion
 	 *
 	 * @throws Exception  Problema para cargar el archivo de configuracion.
 	 */
-	public static void load()
-	throws Exception
-	{
-		try
-		{
+	public static void load() throws Exception {
+		File conf_file = new File(loro_conf_name);
+		if ( !conf_file.exists() ) {
+			// now I create this file from here (no more from installation)
+			try {
+				String dir = System.getProperty("LOROEDIDIR");
+				if ( dir == null )
+					throw new Exception("Please call me with LOROEDIDIR defined properly");
+				
+				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(conf_file));
+				props.setProperty(DIR, dir);
+				props.store(out, header);
+				out.close();
+			}
+			catch (IOException ex )
+			{
+				throw new Exception(
+					"No se pudo crear el archivo de propiedades de Loro:\n" +
+					"  " +loro_conf_name+ "\n" +
+					"\n" +
+					"El problema ha sido:\n" +
+					"  " +ex.getMessage()+ "\n"
+				);
+			}
+		}
+	
+		// what follows is basically what I had before.
+		// Later this will be modified.
+		
+		try {
 			// load properties:
 			BufferedInputStream br =
-				new BufferedInputStream(new FileInputStream(loro_conf_name))
+				new BufferedInputStream(new FileInputStream(conf_file))
 			;
 
 			props.load(br);

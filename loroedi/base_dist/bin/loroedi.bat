@@ -1,2 +1,3 @@
 @echo off
-java -jar "${DIR}\bin\loroedi.jar"
+java "-DLOROEDIDIR=$INSTALL_PATH" -jar "$INSTALL_PATH\bin\loroedi.jar"
+
