@@ -15,7 +15,7 @@ import java.awt.event.*;
 
 /////////////////////////////////////////////////////////
 /**
- * Se encarga de construir el EDI completo de Loro.
+ * VIEJO. Se encarga de construir el EDI completo de Loro.
  *
  * @author Carlos Rueda
  * @version 2002-01-22

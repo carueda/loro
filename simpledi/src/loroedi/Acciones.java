@@ -10,7 +10,7 @@ import util.editor.*;
 
 /////////////////////////////////////////////////////////
 /**
- * Obtiene los objetos Action para la interaccion con el usuario.
+ * VIEJO. Obtiene los objetos Action para la interaccion con el usuario.
  */
 public class Acciones
 {

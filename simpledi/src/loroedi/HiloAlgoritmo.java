@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 //////////////////////////////////////////////////////////////////
 /**
- * Hilo para ejecución de algoritmos en una consola.
+ * VIEJO. Hilo para ejecución de algoritmos en una consola.
  *
  * @version 2002-09-29
  * @author Carlos Rueda

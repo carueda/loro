@@ -10,7 +10,7 @@ import java.util.*;
 
 /////////////////////////////////////////////////////////////////////
 /**
- * El controlador principal del sistema LoroEDI.
+ * VIEJO. El controlador principal del sistema LoroEDI.
  *
  * @author Carlos Rueda
  * @version 2002-01-22

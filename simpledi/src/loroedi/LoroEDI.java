@@ -16,8 +16,7 @@ import javax.swing.*;
 
 /////////////////////////////////////////////////////////////////////
 /**
- * El Entorno de desarrollo Integrado para Loro.
- * POR DESAPARECER
+ * VIEJO Entorno de desarrollo Integrado para Loro.
  *
  * @author Carlos Rueda
  * @version $Id$
