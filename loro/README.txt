@@ -26,6 +26,12 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-31 Version 0.7.9
+
+	- Objeto.obtMetodo(String nom): corregido para utilizar nombre
+	  simple y no nombre completo del método.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-03-22 Version 0.7.9
 
 Algo de refactoring y limpieza -- manejo de unidades compiladas.

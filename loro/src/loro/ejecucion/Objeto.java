@@ -128,10 +128,11 @@ public class Objeto implements LObjeto
 				for (int i = 0; i < mets.length; i++)
 				{
 					NAlgoritmo met = mets[i];
-					if ( met.obtNombreCompletoCadena().equals(nom) )
-					{
+					
+					//if ( met.obtNombreCompletoCadena().equals(nom) )
+					// debe ser nombre simple:
+					if ( met.obtNombreSimpleCadena().equals(nom) )
 						return met;
-					}
 				}
 				klase = mu.obtSuperClase(klase);
 			}
