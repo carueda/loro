@@ -555,6 +555,14 @@ public class Chequeador extends ChequeadorBase
 						"Esta definición provoca ciclicidad: la clase se extiende a sí misma"
 					);
 				}
+				
+				// si el extiende es un nombre simple correspondiente a un nombre
+				// compuesto, entonces hacer la asociación correspondiente:
+				if ( extiende.obtIds().length == 1
+				&&   superclase.obtNombreCompleto().length > 1 )
+				{
+					n.ponNombreCompuesto("c" +extiende.obtCadena(), super_name);
+				}
 
 				// enlace todos los atributos de la superclase:
 				NDeclDesc[] super_atrs;
