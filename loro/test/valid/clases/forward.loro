@@ -1,0 +1,9 @@
+clase A
+	descripción ""
+	b: B : "referencia a B de abajo";
+fin clase
+
+clase B
+	descripción ""
+//	a: A : "referencia a A de arriba";
+fin clase
