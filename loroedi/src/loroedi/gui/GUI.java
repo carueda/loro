@@ -1459,18 +1459,12 @@ public class GUI
 		UEditor editor = (UEditor) demoEditors.get(name);
 		
 		if ( editor != null )
-		{
 			src = editor.getText();
-		}
 		else
-		{
 			src = focusedProject.getModel().getInfo().getDemoScript();
-			if ( src == null )
-			{
-				return true;
-			}
-		}
-		
+
+		if ( src == null )
+			return true;
 		
 		String compiling_msg = "Compilando demo '" +name+ "' ...";
 		if ( editor != null )
@@ -1481,7 +1475,7 @@ public class GUI
 		
 		MessageArea prj_msg = focusedProject.getMessageArea();
 		//prj_msg.clear();
-		prj_msg.println(compiling_msg);
+		prj_msg.println(" " +compiling_msg);
 
 		try
 		{
@@ -1820,6 +1814,9 @@ public class GUI
 		IProjectModel.IInfo info = prjm.getInfo();
 		String name = info.getName();
 		String src = info.getDemoScript();
+		if ( src == null )
+			src = "";
+		
 		boolean modifiable = prjm.getControlInfo().isModifiable();
 		final UEditor editor = new UEditor(
 			"Demo '" +name+ "'", modifiable, true, false, true,

@@ -64,6 +64,16 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-03-13 (0.8pre9)
+
+	- Bug corregido: Al compilar proyecto sin demo se podría generar un
+	  error de compilación por tratar de compilar "null" como si fuera
+	  el código fuente del demo. (En realidad, este "null" se estaba
+	  guardando primero como código del demo, y en una sesión posterior
+	  se presentaba el error.)
+	  Ver GUI.createDemoEditor() y GUI._compileDemo().
+	
+////////////////////////////////////////////////////////////////////////////
 2003-03-11 (0.8pre9)
 
   Documentación HTML:
