@@ -1,0 +1,10 @@
+algoritmo intent1 para PRUEBA() ''test''
+inicio
+	intente
+		escribirln("intentando");
+	atrape (error: cadena)
+		escribirln("error: " +error);
+	siempre
+		escribirln("esto siempre se hace");
+	fin intente;
+fin algoritmo
