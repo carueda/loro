@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<!--
+	Installer shortcut specification (eng) 
+	Carlos A. Rueda
+	$Id$
+-->
+<shortcuts>
+  <programGroup defaultName="LoroEDI" location="applications"/>
+  <shortcut
+     name="LoroEDI"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\bin\loroedi.bat"
+     commandLine=""
+     description="Loro Integrated Programming Environment"
+     initialState="noShow">
+     <createForPack name="System"/>
+   </shortcut>
+
+   <shortcut
+     name="Uninstall LoroEDI"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
+     commandLine=""
+     description="Uninstall LoroEDI">
+     <createForPack name="System" />
+   </shortcut>
+   
+</shortcuts>
