@@ -11,11 +11,12 @@ import java.io.PrintWriter;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 ////////////////////////////////////////////////////////////////
 /**
- * A JTerm object interacts with a ITextArea that is to be used as a source
- * for reading and as a target for writing text info.
+ * A JTerm object interacts with a ITextArea to be used both as a source
+ * for reading from and as a target for writing to text data.
  *
  * Once a JTerm object is created, an application will get the writer
  * (method getWriter()), and reader (method getReader()), to write to and
@@ -30,13 +31,7 @@ import java.util.ArrayList;
  *		F12 to decrease the font size.
  *
  * @author Carlos Rueda
- * @version 0.1 1999-04-15
- * @version 0.2 2000-01-10
- * @version 0.3 2000-01-17
- * @version 0.4 2001-02-23
- * @version 0.5 2001-10-09 - Prefix handling.
- * @version 0.6 2002-10-01 - Handling of given initial part for reading.
- * @version 0.7 2003-04-23 - original editable status in text area taken into account
+ * @version $Id$
  */
 public class JTerm
 {
@@ -48,7 +43,7 @@ public class JTerm
 	
 	/**
 	 * Text area is originally editable? 
-	 * ta.setEditable() will not be called if !ta.isEditable() wehn 
+	 * ta.setEditable() will not be called if !ta.isEditable() when 
 	 * this JTerm object is created. 
 	 */
 	protected boolean taIsEditable;
@@ -99,12 +94,540 @@ public class JTerm
 	/** Prefix. */
 	protected String prefix;
 
-	/** First use of prefix after setted with setPrefix? */
+	/** First use of prefix after setPrefix? */
 	protected boolean prefixToFirstUse;
 
-	/** Something written after setted with setPrefix? */
+	/** Something written after setPrefix? */
 	protected boolean somethingWritten;
+	
+	private static Pattern lf_pattern = Pattern.compile("\n");
 
+
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Creates a JTerm on a ITextArea.
+	 *
+	 * @param ta	The text area manipulated.
+	 */
+	public JTerm(ITextArea ta)
+	{
+		super();
+		lock = this;
+		
+		System.setProperty("line.separator", "\n");
+
+		this.ta = ta;
+		taIsEditable = ta.isEditable();
+		
+		ta.addKeyListener(new Key());
+		ta.setFont(new Font("monospaced", Font.PLAIN, 14));
+
+		history = new ArrayList();
+		posHistory = 0;
+		inHistory = false;
+
+		reset();
+
+		jtreader = new JTermReader();
+		jtwriter = new JTermWriter();
+
+		ta.addMouseListener
+		(	new MouseAdapter()
+			{
+				////////////////////////////////////////////////////
+				// Auxiliar method to mouse dispatching.
+				void aux()
+				{
+					if ( taIsEditable )
+					{
+						ITextArea ta_ = JTerm.this.ta;
+						int pos_now = ta_.getCaretPosition();
+						if ( ta_.isEditable() != pos_now >= pos )
+							ta_.setEditable(pos_now >= pos);
+					}
+				}
+
+				////////////////////////////////////////////////////
+				public void mousePressed(MouseEvent e) { aux(); }
+
+				////////////////////////////////////////////////////
+				public void mouseReleased(MouseEvent e) { aux(); }
+			}
+		);
+
+	}
+
+	////////////////////////////////////////////////////////////////
+	/**
+	 */
+	public void addJTermListener(JTermListener listener)
+	{
+		this.listener = listener;
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 * Clears the text area.
+	 * This has effect only if there is not a current reading operation.
+	 */
+	public void  clear()
+	{
+		synchronized(lock)
+		{
+			if  ( taIsEditable && !reading )
+				ta.setText("");
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////
+	public void decrementFontSize()
+	{
+		processIncrementFontSize(-1);
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 * Gets the reader associated with this jterm.
+	 */
+	public Reader getReader()
+	{
+		return jtreader;
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 * Gets the writer associated with this jterm.
+	 */
+	public Writer getWriter()
+	{
+		return jtwriter;
+	}
+	
+	////////////////////////////////////////////////////////////////
+	public void incrementFontSize()
+	{
+		processIncrementFontSize(1);
+	}
+	
+	////////////////////////////////////////////////////////////////
+	private void processBoldFont()
+	{
+		Font font = ta.getFont();
+		int font_size = font.getSize();
+		int font_style = font.getStyle();
+		if ( (font_style & Font.BOLD) == Font.BOLD )
+			font_style &= ~Font.BOLD;
+		else
+			font_style |= Font.BOLD;
+		font = new Font("monospaced", font_style, font_size);
+		//font = font.deriveFont(font_style, font_size);
+		//	deriveFont is 1.2.2 ?
+		ta.setFont(font);
+	}
+	
+	////////////////////////////////////////////////////////////////
+	private void processEnter()
+	{
+		enter = true;
+
+		// Update text
+		String t = ta.getText();
+		String new_cmd = "";
+		if ( pos < t.length() )
+			new_cmd = t.substring(pos);
+
+		if ( !simpleRead )
+		{
+			inHistory = false;
+
+			// Add new_cmd to history as long as it is not empty
+			// and not equal to the last memorized:
+			if ( new_cmd.length() > 0 )
+			{
+				if ( history.size() > 0 )
+				{
+					t = (String) history.get(history.size() -1);
+					if ( !new_cmd.equals(t) )
+						history.add(new_cmd);
+				}
+				else
+				{
+					history.add(new_cmd);
+				}
+			}
+		}
+
+		new_cmd += "\n";
+		textNotRead += new_cmd;
+
+		ta_append_lf();
+
+		pos += new_cmd.length();
+
+		// Notify the ENTER
+		notifyAll();
+	}
+	////////////////////////////////////////////////////////////////
+	private void processEscape()
+	{
+		String t = ta.getText();
+		if ( pos <= t.length() )
+		{
+			textNotRead = "";
+			ta.replaceRange(textNotRead, pos, t.length());
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////
+	private void processHistory(boolean up)
+	{
+		String t = ta.getText();
+		if ( pos <= t.length() && history.size() > 0 )
+		{
+			if ( inHistory )
+			{
+				if ( up )
+				{
+					if ( posHistory == 0 )
+						return;
+
+					posHistory--;
+				}
+				else
+				{
+					if ( posHistory == history.size() -1 )
+						return;
+
+					posHistory++;
+				}
+			}
+			else
+			{
+				inHistory = true;
+				posHistory = history.size() -1;
+			}
+
+			String texto = (String) history.get(posHistory);
+			ta.replaceRange(texto, pos, t.length());
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////
+	private void processIncrementFontSize(int inc)
+	{
+		Font font = ta.getFont();
+		int font_size = font.getSize();
+		int font_style = font.getStyle();
+		font_size += inc;
+		if ( font_size <= 0 )		// 2001-08-11
+		{
+			// Ignore
+			return;
+		}
+		Font new_font = new Font("monospaced", font_style, font_size);
+		//new_font = font.deriveFont(font_style, font_size);
+		//	deriveFont is 1.2.2 ?
+		ta.setFont(new_font);
+	}
+	
+	////////////////////////////////////////////////////////////////
+	private void processItalicFont()
+	{
+		Font font = ta.getFont();
+		int font_size = font.getSize();
+		int font_style = font.getStyle();
+		if ( (font_style & Font.ITALIC) == Font.ITALIC )
+			font_style &= ~Font.ITALIC;
+		else
+			font_style |= Font.ITALIC;
+		font = new Font("monospaced", font_style, font_size);
+		//font = font.deriveFont(font_style, font_size);
+		//	deriveFont is 1.2.2 ?
+		ta.setFont(font);
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Makes a read as specified in java.io.Reader.
+	 * Internally, waits until an ENTER is pressed
+	 * (keyPressed notifies about that), and takes textNotRead
+	 * to fill in cbuf.
+	 */
+	public int read(char[] cbuf, int off, int len)
+	throws IOException
+	{
+		synchronized(lock)
+		{
+			ta.requestFocus();
+
+			if  ( !reading )
+			{
+				if ( prefix != null && prefixToFirstUse )
+				{
+					prefixToFirstUse = false;
+					ta.append(prefix);
+					ta.setCaretPosition(ta.getText().length());
+				}
+				
+				pos = ta.getCaretPosition();
+				
+				if ( initialStringToRead != null )
+				{
+					ta.append(initialStringToRead);
+					ta.setCaretPosition(ta.getText().length());
+					initialStringToRead = null;
+				}
+			}
+
+			reading = true;
+
+			while ( !enter )
+			{
+				reading = true;
+				if ( listener != null )
+					listener.waitingRead(reading);
+
+				try
+				{
+					wait();
+				}
+				catch(InterruptedException e)
+				{
+					reading = false;
+					if ( listener != null )
+					{
+						listener.waitingRead(reading);
+					}
+
+					throw new InterruptedIOException(e.getMessage());
+				}
+			}
+
+			// Control flow comes from keyPressed()'s notifyAll();
+			// textNotRead contains text not yet read.
+
+			int texLen = textNotRead.length();
+			int num_leidos = Math.min(texLen, len);
+
+			// Fill in cbuf
+			textNotRead.getChars(0, num_leidos, cbuf, off);
+
+			// textNotRead may continue being non-empty:
+			if ( texLen == num_leidos )
+				enter = false;
+
+			// Update textNotRead with suffix not taken:
+			textNotRead = textNotRead.substring(num_leidos);
+
+			reading = false;
+			if ( listener != null )
+				listener.waitingRead(reading);
+
+			return num_leidos;
+		}
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 */
+	public void  requestFocus()
+	{
+		ta.requestFocus();
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Resets this manager.
+	 */
+	public void reset()
+	{
+		synchronized(lock)
+		{
+			enter = false;
+			reading = false;
+			textNotRead = "";
+
+			simpleRead = false;
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////
+	void setSimpleRead(boolean simpleRead)
+	{
+		this.simpleRead = simpleRead;
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 * Appends a \n to the text area.
+	 */
+	private void ta_append_lf()
+	{
+		ta.append("\n" + (prefix != null ? prefix : ""));
+		String text = ta.getText();
+		int len = text.length();
+		ta.setCaretPosition(len);
+	}
+	
+	////////////////////////////////////////////////////////////////
+	public void toggleBoldFont()
+	{
+		processBoldFont();
+	}
+	
+	////////////////////////////////////////////////////////////////
+	public void toggleItalicFont()
+	{
+		processItalicFont();
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 * Writes a string to the text area.
+	 * Called by JTermWriter.write()
+	 */
+	private void writeString(String s)
+	{
+		synchronized(lock)
+		{
+			String[] lines = lf_pattern.split(s, -1);
+			boolean append = ! reading
+				||   pos >= ta.getText().length() -1
+			;
+			
+			if ( append )
+			{
+				String text = ta.getText();
+				int idx = 1 + text.lastIndexOf('\n');
+				String lastLine = text.substring(idx);
+				boolean prefix_included =
+					!prefixToFirstUse &&
+					prefix != null && lastLine.startsWith(prefix)
+				;
+						
+				if ( prefix_included )
+				{
+					idx += prefix.length();
+					lastLine = lastLine.substring(prefix.length());
+				}
+				
+				// process first line in affected area:
+				lines[0] = process_br(lastLine + lines[0]);
+
+				// process \b,\r for remaining lines:
+				for ( int i = 1; i < lines.length; i++ )
+					lines[i] = process_br(lines[i]);
+				
+				// process prefixes and get resulting area:
+				s = process_prefix(lines);
+				
+				// replace after idx:
+				ta.replaceRange(s, idx, text.length());
+			}
+			else
+			{
+				// Only process prefixes (NO \b,\r processing):
+				s = process_prefix(lines);
+				ta.insert(s, pos);
+			}
+
+			ta.setCaretPosition(ta.getText().length());
+			
+			pos += s.length();
+		}
+	}
+
+	///////////////////////////////////////////////////
+	/**
+	 * Process lines for possible prefixes.
+	 */
+	private String process_prefix(String[] lines)
+	{
+		if ( prefix != null )
+		{
+			lines[0] = (prefixToFirstUse ? prefix : "") + lines[0];
+			for ( int i = 1; i < lines.length; i++ )
+				lines[i] = prefix + lines[i];
+		}
+		StringBuffer sb = new StringBuffer(lines[0]);
+		for ( int i = 1; i < lines.length; i++ )
+			sb.append("\n" +lines[i]);
+		
+		prefixToFirstUse = false;
+		somethingWritten = true;
+		return sb.toString();
+	}
+
+	///////////////////////////////////////////////////
+	/**
+	 * \b and \r processing.
+	 * No prefix management at all.
+	 */
+	private String process_br(String line)
+	{
+		line = line.substring(1 + line.lastIndexOf('\r'));
+
+		String line2;
+		do
+		{
+			line2 = line;
+			line = line2.replaceAll("[^\b]\b", "");
+		
+		} while ( !line.equals(line2) ) ;
+		
+		line = line.replaceAll("\b", "");
+		
+		return line;
+	}
+	
+	///////////////////////////////////////////////////
+	/**
+	 * Sets the prefix to include in every line output.
+	 *
+	 * @param prefix The prefix. If != null, this is put after
+	 *      each \n in every string written to the JTerm, and also in
+	 *      front of the very first string written.
+	 *      If null, no prefix inclusion is performed.
+	 */
+	public void setPrefix(String prefix)
+	{
+		this.prefix = prefix;
+		prefixToFirstUse = prefix != null;
+		somethingWritten = false;
+	}
+
+	///////////////////////////////////////////////////
+	/**
+	 * Sets the initial part of a reading.
+	 * With no effect if a reading is in progress.
+	 */
+	public void setInitialStringToRead(String s)
+	{
+		synchronized(lock)
+		{
+			if ( !reading )
+				initialStringToRead = s;
+		}
+	}
+
+	///////////////////////////////////////////////////
+	/**
+	 * Gets the current prefix associated.
+	 */
+	public String getPrefix()
+	{
+		return prefix;
+	}
+
+	///////////////////////////////////////////////////
+	/**
+	 * Says if the prefix was used since the method setPrefix(String prefix)
+	 * was called with prefix != null.
+	 */
+	public boolean somethingWritten()
+	{
+		return somethingWritten;
+	}
 
 	////////////////////////////////////////////////////////////////
 	/**
@@ -199,8 +722,7 @@ public class JTerm
 	/**
 	 * To attend key events.
 	 */
-	class Key
-	implements KeyListener
+	class Key implements KeyListener
 	{
 		////////////////////////////////////////////////////////////////
 		/**
@@ -362,471 +884,5 @@ public class JTerm
 		//////////////////////////////////////////////////////////
 		public void keyReleased(KeyEvent e) {}
 	}
-	////////////////////////////////////////////////////////////////
-	/**
-	 * Creates a JTerm on a ITextArea.
-	 *
-	 * @param ta	The text area manipulated.
-	 */
-	public JTerm(ITextArea ta)
-	{
-		super();
-		lock = this;
 
-		this.ta = ta;
-		taIsEditable = ta.isEditable();
-		
-		ta.addKeyListener(new Key());
-		ta.setFont(new Font("monospaced", Font.PLAIN, 14));
-
-		history = new ArrayList();
-		posHistory = 0;
-		inHistory = false;
-
-		reset();
-
-		jtreader = new JTermReader();
-		jtwriter = new JTermWriter();
-
-		ta.addMouseListener
-		(	new MouseAdapter()
-			{
-				////////////////////////////////////////////////////
-				// Auxiliar method to mouse dispatching.
-				void aux()
-				{
-					if ( taIsEditable )
-					{
-						ITextArea ta_ = JTerm.this.ta;
-						int pos_now = ta_.getCaretPosition();
-						if ( ta_.isEditable() != pos_now >= pos )
-							ta_.setEditable(pos_now >= pos);
-					}
-				}
-
-				////////////////////////////////////////////////////
-				public void mousePressed(MouseEvent e) { aux(); }
-
-				////////////////////////////////////////////////////
-				public void mouseReleased(MouseEvent e) { aux(); }
-			}
-		);
-
-	}
-	////////////////////////////////////////////////////////////////
-	/**
-	 */
-	public void addJTermListener(JTermListener listener)
-	{
-		this.listener = listener;
-	}
-	///////////////////////////////////////////////////
-	/**
-	 * Clears the text area.
-	 * This has effect only if there is not a current reading operation.
-	 */
-	public void  clear()
-	{
-		synchronized(lock)
-		{
-			if  ( taIsEditable && !reading )
-				ta.setText("");
-		}
-	}
-	////////////////////////////////////////////////////////////////
-	public void decrementFontSize()
-	{
-		processIncrementFontSize(-1);
-	}
-	///////////////////////////////////////////////////
-	/**
-	 * Gets the reader associated with this jterm.
-	 */
-	public Reader getReader()
-	{
-		return jtreader;
-	}
-	///////////////////////////////////////////////////
-	/**
-	 * Gets the writer associated with this jterm.
-	 */
-	public Writer getWriter()
-	{
-		return jtwriter;
-	}
-	////////////////////////////////////////////////////////////////
-	public void incrementFontSize()
-	{
-		processIncrementFontSize(1);
-	}
-	////////////////////////////////////////////////////////////////
-	private void processBoldFont()
-	{
-		Font font = ta.getFont();
-		int font_size = font.getSize();
-		int font_style = font.getStyle();
-		if ( (font_style & Font.BOLD) == Font.BOLD )
-			font_style &= ~Font.BOLD;
-		else
-			font_style |= Font.BOLD;
-		font = new Font("monospaced", font_style, font_size);
-		//font = font.deriveFont(font_style, font_size);
-		//	deriveFont is 1.2.2 ?
-		ta.setFont(font);
-	}
-	////////////////////////////////////////////////////////////////
-	private void processEnter()
-	{
-		enter = true;
-
-		// Update text
-		String t = ta.getText();
-		String new_cmd = "";
-		if ( pos < t.length() )
-			new_cmd = t.substring(pos);
-
-		if ( !simpleRead )
-		{
-			inHistory = false;
-
-			// Add new_cmd to history as long as it is not empty
-			// and not equal to the last memorized:
-			if ( new_cmd.length() > 0 )
-			{
-				if ( history.size() > 0 )
-				{
-					t = (String) history.get(history.size() -1);
-					if ( !new_cmd.equals(t) )
-						history.add(new_cmd);
-				}
-				else
-				{
-					history.add(new_cmd);
-				}
-			}
-		}
-
-		new_cmd += "\n";
-		textNotRead += new_cmd;
-
-		ta_append("\n");
-
-		pos += new_cmd.length();
-
-		// Notify the ENTER
-		notifyAll();
-	}
-	////////////////////////////////////////////////////////////////
-	private void processEscape()
-	{
-		String t = ta.getText();
-		if ( pos <= t.length() )
-		{
-			textNotRead = "";
-			ta.replaceRange(textNotRead, pos, t.length());
-		}
-	}
-	////////////////////////////////////////////////////////////////
-	private void processHistory(boolean up)
-	{
-		String t = ta.getText();
-		if ( pos <= t.length() && history.size() > 0 )
-		{
-			if ( inHistory )
-			{
-				if ( up )
-				{
-					if ( posHistory == 0 )
-						return;
-
-					posHistory--;
-				}
-				else
-				{
-					if ( posHistory == history.size() -1 )
-						return;
-
-					posHistory++;
-				}
-			}
-			else
-			{
-				inHistory = true;
-				posHistory = history.size() -1;
-			}
-
-			String texto = (String) history.get(posHistory);
-			ta.replaceRange(texto, pos, t.length());
-		}
-	}
-	////////////////////////////////////////////////////////////////
-	private void processIncrementFontSize(int inc)
-	{
-		Font font = ta.getFont();
-		int font_size = font.getSize();
-		int font_style = font.getStyle();
-		font_size += inc;
-		if ( font_size <= 0 )		// 2001-08-11
-		{
-			// Ignore
-			return;
-		}
-		Font new_font = new Font("monospaced", font_style, font_size);
-		//new_font = font.deriveFont(font_style, font_size);
-		//	deriveFont is 1.2.2 ?
-		ta.setFont(new_font);
-	}
-	////////////////////////////////////////////////////////////////
-	private void processItalicFont()
-	{
-		Font font = ta.getFont();
-		int font_size = font.getSize();
-		int font_style = font.getStyle();
-		if ( (font_style & Font.ITALIC) == Font.ITALIC )
-			font_style &= ~Font.ITALIC;
-		else
-			font_style |= Font.ITALIC;
-		font = new Font("monospaced", font_style, font_size);
-		//font = font.deriveFont(font_style, font_size);
-		//	deriveFont is 1.2.2 ?
-		ta.setFont(font);
-	}
-	////////////////////////////////////////////////////////////////
-	/**
-	 * Makes a read as specified in java.io.Reader.
-	 * Internally, waits until an ENTER is pressed
-	 * (keyPressed notifies about that), and takes textNotRead
-	 * to fill in cbuf.
-	 */
-	public int read(char[] cbuf, int off, int len)
-	throws IOException
-	{
-		synchronized(lock)
-		{
-			ta.requestFocus();
-
-			if  ( !reading )
-			{
-				if ( prefix != null && prefixToFirstUse )
-				{
-					prefixToFirstUse = false;
-					ta.append(prefix);
-					ta.setCaretPosition(ta.getText().length());
-				}
-				
-				pos = ta.getCaretPosition();
-				
-				if ( initialStringToRead != null )
-				{
-					ta.append(initialStringToRead);
-					ta.setCaretPosition(ta.getText().length());
-					initialStringToRead = null;
-				}
-			}
-
-			reading = true;
-
-			while ( !enter )
-			{
-				reading = true;
-				if ( listener != null )
-					listener.waitingRead(reading);
-
-				try
-				{
-					wait();
-				}
-				catch(InterruptedException e)
-				{
-					reading = false;
-					if ( listener != null )
-					{
-						listener.waitingRead(reading);
-					}
-
-					throw new InterruptedIOException(e.getMessage());
-				}
-			}
-
-			// Control flow comes from keyPressed()'s notifyAll();
-			// textNotRead contains text not yet read.
-
-			int texLen = textNotRead.length();
-			int num_leidos = Math.min(texLen, len);
-
-			// Fill in cbuf
-			textNotRead.getChars(0, num_leidos, cbuf, off);
-
-			// textNotRead may continue being non-empty:
-			if ( texLen == num_leidos )
-				enter = false;
-
-			// Update textNotRead with suffix not taken:
-			textNotRead = textNotRead.substring(num_leidos);
-
-			reading = false;
-			if ( listener != null )
-				listener.waitingRead(reading);
-
-			return num_leidos;
-		}
-	}
-	///////////////////////////////////////////////////
-	/**
-	 */
-	public void  requestFocus()
-	{
-		ta.requestFocus();
-	}
-	////////////////////////////////////////////////////////////////
-	/**
-	 * Resets this manager.
-	 */
-	public void reset()
-	{
-		synchronized(lock)
-		{
-			enter = false;
-			reading = false;
-			textNotRead = "";
-
-			simpleRead = false;
-		}
-	}
-	////////////////////////////////////////////////////////////////
-	void setSimpleRead(boolean simpleRead)
-	{
-		this.simpleRead = simpleRead;
-	}
-	///////////////////////////////////////////////////
-	/**
-	 * This auxiliary function appends a string to the text area,
-	 * and sets the caret position at the end of the text.
-	 * Note: An append suffices with a java.awt.textArea; but
-	 * with a javax.swing.JTextArea an explicit setCaretPosition
-	 * is also necessary.
-	 */
-	private void ta_append(String s)
-	{
-		s = process_prefix(s);
-		ta.append(s);
-		ta.setCaretPosition(ta.getText().length());
-	}
-	////////////////////////////////////////////////////////////////
-	public void toggleBoldFont()
-	{
-		processBoldFont();
-	}
-	////////////////////////////////////////////////////////////////
-	public void toggleItalicFont()
-	{
-		processItalicFont();
-	}
-	///////////////////////////////////////////////////
-	/**
-	 * Writes a string to the text area.
-	 */
-	public void writeString(String s)
-	{
-		synchronized(lock)
-		{
-			if ( ! reading
-			||   pos >= ta.getText().length() -1 )
-			{
-				ta_append(s);
-			}
-			else
-			{
-				s = process_prefix(s);
-				ta.insert(s, pos);
-				ta.setCaretPosition(ta.getText().length());
-			}
-			
-			pos += s.length();
-		}
-	}
-
-	///////////////////////////////////////////////////
-	/**
-	 * Process a string for possible prefixes.
-	 */
-	final String process_prefix(String s)
-	{
-		if ( prefix != null )
-		{
-			s = (prefixToFirstUse ? prefix : "")
-				+replace(s, "\n", "\n" +prefix)
-			;
-			prefixToFirstUse = false;
-		}
-		somethingWritten = true;
-		return s;
-	}
-
-	///////////////////////////////////////////////////
-	/**
-	 * Sets the prefix to include in every line output.
-	 *
-	 * @param prefix The prefix. If != null, this is put after
-	 *      each \n in every string written to the JTerm, and also in
-	 *      front of the very first string written.
-	 *      If null, no prefix inclusion is performed.
-	 */
-	public void setPrefix(String prefix)
-	{
-		this.prefix = prefix;
-		prefixToFirstUse = prefix != null;
-		somethingWritten = false;
-	}
-
-	///////////////////////////////////////////////////
-	/**
-	 * Sets the initial part of a reading.
-	 * With no effect if a reading is in progress.
-	 */
-	public void setInitialStringToRead(String s)
-	{
-		synchronized(lock)
-		{
-			if ( !reading )
-				initialStringToRead = s;
-		}
-	}
-
-	///////////////////////////////////////////////////
-	/**
-	 * Gets the current prefix associated.
-	 */
-	public String getPrefix()
-	{
-		return prefix;
-	}
-
-	///////////////////////////////////////////////////
-	/**
-	 * Says if the prefix was used since the method setPrefix(String prefix)
-	 * was called with prefix != null.
-	 */
-	public boolean somethingWritten()
-	{
-		return somethingWritten;
-	}
-
-	///////////////////////////////////////////////////////////
-	/**
-	 * Replace in 's' all occurrences of 'from' to 'to'.
-	 */
-	private static String replace(String s, String from, String to)
-	{
-		StringBuffer sb = new StringBuffer();
-		int len = from.length();
-		int i, p = 0;
-		while ( (i = s.indexOf(from, p)) >= 0 )
-		{
-			sb.append(s.substring(p, i) + to);
-			p = i + len;
-		}
-		sb.append(s.substring(p));
-		return sb.toString();
-	}
 }
