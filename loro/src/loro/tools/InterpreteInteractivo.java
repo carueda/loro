@@ -10,7 +10,6 @@ import java.util.*;
  * Intérprete para acciones interactivas.
  *
  * @author Carlos Rueda
- * @version 2002-06-04
  */
 public class InterpreteInteractivo
 {
@@ -22,7 +21,6 @@ public class InterpreteInteractivo
 	static PrintWriter pw;
 	static BufferedReader br;
 
-	static boolean execute = true;
 	static IInterprete loroii;
 
 	// prepare valores de configuracion para Loro:
@@ -108,14 +106,6 @@ public class InterpreteInteractivo
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	static String obtModo(boolean execute)
-	{
-		return execute ? "Interpretación completa con ejecución"
-					   : "Interpretación sin ejecucion (sólo chequeo)"
-		;
-	}
-
-	///////////////////////////////////////////////////////////////////////
 	static void ejecutar()
 	{
 		while ( true )
@@ -138,7 +128,7 @@ public class InterpreteInteractivo
 				}
 
 
-				procesar(text);
+				procesarLoro(text);
 			}
 			catch ( EjecucionException ex )
 			{
@@ -173,143 +163,16 @@ public class InterpreteInteractivo
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	static void metaProcesar(String text)
-	{
-		String msg;
-
-		if ( text.equals(".?") )
-		{
-			msg =
-"El Intérprete Interactivo le permite ejecutar instrucciones Loro\n"+
-"de manera inmediata. Escriba una instrucción a continuación del\n"+
-"indicador (símbolo " +PROMPT.trim()+ ") y presione Entrar.\n" +
-"Algunos ejemplos:\n"+
-"  $ lenguaje: cadena;                       // declaración de una variable \n"+
-"  $ lenguaje := \"Loro\";                   // asignación a una variable \n"+
-"  $ escribirln(\"Programe en \" +lenguaje); // invocación de un algoritmo \n"+
-"\n"+
-"Hay algunos comandos especiales para el propio intérprete, reconocidos\n"+
-"porque empiezan con punto (.):\n"+
-"\n"+
-"   .?          - Muestra esta ayuda\n" +
-"   .vars       - Muestra las variables declaradas hasta el momento\n" +
-"   .borrar ID  - Borra la declaración de la variable indicada\n" +
-"   .borrarvars - Borra todas las variables declaradas\n" +
-"   .??         - Muestra otros comandos avanzados"
-			;
-		}
-		else if ( text.equals(".??") )
-		{
-			msg =
-"Comandos avanzados:\n"+
-"\n"+
-"   .modo         - Muestra el modo de interpretación actual.\n" +
-"                   Hay dos modos de operación:\n" +
-"                     - ejecución completa (por defecto)\n" +
-"                     - sólo compilación\n" +
-"   .cambiarmodo  - Intercambia el modo de interpretación\n"+
-"   .verobj nivel - Pone maximo nivel para visualizar objetos\n"+
-"   .verarr long  - Pone maxima longitud para visualizar arreglos\n"
-			;
-		}
-		else if ( text.equals(".vars") )
-		{
-			msg = Loro.getSymbolTable().toString();
-		}
-		else if ( text.equals(".modo") )
-		{
-			msg = obtModo(execute);
-		}
-		else if ( text.equals(".borrarvars") )
-		{
-			loroii.reiniciar();
-			msg = Loro.getSymbolTable().toString();
-		}
-		else if ( text.startsWith(".borrar") )
-		{
-			StringTokenizer st = new StringTokenizer(text.substring(".borrar".length()));
-			try
-			{
-				String id = st.nextToken();
-				msg = id+ " " +(loroii.quitarID(id)
-					? "borrado" 
-					: "no declarado"
-				);
-			}
-			catch ( Exception ex )
-			{
-				msg = "Indique un nombre de variable";
-			}
-		}
-		else if ( text.equals(".cambiarmodo") )
-		{
-			execute = !execute;
-			if ( execute )
-			{
-				// se acaba de pasar de "solo compilacion" a "ejecucion".
-				// Hacer que todas las variables figuren como sin asignacion:
-				loroii.ponAsignado(false);
-			}
-			msg = "Modo cambiado a: " +obtModo(execute);
-		}
-		else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )
-		{
-			StringTokenizer st = new StringTokenizer(text);
-			try
-			{
-				st.nextToken(); // ignore comando
-				int num = Integer.parseInt(st.nextToken());
-				if ( text.startsWith(".verobj") )
-				{
-					loroii.ponNivelVerObjeto(num);
-				}
-				else
-				{
-					loroii.ponLongitudVerArreglo(num);
-				}
-				msg = "";
-			}
-			catch ( Exception ex )
-			{
-				msg = "Indique un valor numerico";
-			}
-		}
-		else
-		{
-			msg = text+ ": comando no entendido.  Escriba .? para obtener ayuda.";
-		}
-
-		pw.println(msg);
-	}
-
-	///////////////////////////////////////////////////////////////////////
-	static void procesar(String text)
-	throws AnalisisException
-	{
-		if ( text.charAt(0) == '.' )
-		{
-			metaProcesar(text);
-		}
-		else
-		{
-			procesarLoro(text);
-		}
-	}
-
-	///////////////////////////////////////////////////////////////////////
 	static void procesarLoro(String text)
 	throws AnalisisException
 	{
 		try
 		{
-			if ( execute )
+			if ( loroii.getExecute() )
 			{
 				String res = loroii.ejecutar(text);
-				
 				if ( res != null )
-				{
 					pw.println(PREFIX_EXPR + res);
-				}
 			}
 			else
 			{

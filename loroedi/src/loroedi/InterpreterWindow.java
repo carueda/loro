@@ -50,7 +50,6 @@ implements ActionListener, JTermListener
 	protected PrintWriter pw;
 	protected BufferedReader br;
 
-	protected boolean execute = true;
 	protected IInterprete loroii;
 
 	protected Thread readingThread = null;
@@ -347,10 +346,6 @@ implements ActionListener, JTermListener
 		{
 			msg = Loro.getSymbolTable().toString();
 		}
-		else if ( text.equals(".modo") )
-		{
-			msg = obtModo(execute);
-		}
 		else if ( text.equals(".borrarvars") )
 		{
 			loroii.reiniciar();
@@ -371,17 +366,6 @@ implements ActionListener, JTermListener
 			{
 				msg = "Indique un nombre de variable";
 			}
-		}
-		else if ( text.equals(".cambiarmodo") )
-		{
-			execute = !execute;
-			if ( execute )
-			{
-				// se acaba de pasar de "solo compilacion" a "ejecucion".
-				// Hacer que todas las variables figuren como sin asignacion:
-				loroii.ponAsignado(false);
-			}
-			msg = "Modo cambiado a: " +obtModo(execute);
 		}
 		else if ( text.equals(".limpiar") )
 		{
@@ -513,7 +497,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	throws Exception
 	{
 		term.setInitialStringToRead(s);
-		butTerminar.setEnabled(execute);
+		butTerminar.setEnabled(loroii.getExecute());
 		// no queremos control de seguimiento mientras se lee:
 		enableTraceableButtons(false);
 		frame.setTitle(title+ " <<ESPERANDO ENTRADA POR TECLADO>>");
@@ -526,7 +510,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		finally
 		{
 			frame.setTitle(title);
-			enableTraceableButtons(execute);
+			enableTraceableButtons(loroii.getExecute());
 			readingThread = null;
 		}
 	}
@@ -543,10 +527,10 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			//pw.println();
 
 			// habilite el boton de terminacion si el modo es ejecucion:
-			butTerminar.setEnabled(execute);
-			enableTraceableButtons(execute);
+			butTerminar.setEnabled(loroii.getExecute());
+			enableTraceableButtons(loroii.getExecute());
 			
-			if ( execute )
+			if ( loroii.getExecute() )
 			{
 				String res = loroii.ejecutar(text);
 				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
@@ -587,14 +571,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	}
 	
 	
-	///////////////////////////////////////////////////////////////////////
-	static String obtModo(boolean execute)
-	{
-		return execute ? "Interpretación completa con ejecución"
-		               : "Interpretación sin ejecucion (sólo chequeo)"
-		;
-	}
-
 	///////////////////////////////////////////////
 	protected void close()
 	{

@@ -229,15 +229,14 @@ public class TablaSimbolos implements ISymbolTable
 
 	//////////////////////////////////////////////////////////////
 	/**
-	 * Otiene una version cadena del contenido de esta tabla.
+	 * Obtiene una version cadena del contenido de esta tabla.
+	 * La cadena resultante no finaliza con cambio de linea.
 	 */
 	public String toString()
 	{
 		int size = tabla.size();
 		if ( size == 0 )
-		{
 			return "No hay declaraciones";
-		}
 
 		// obtenga maximos anchos para las columnas:
 
@@ -245,9 +244,8 @@ public class TablaSimbolos implements ISymbolTable
 		String[] header = new String[] { "Variable", "Tipo", "Valor" };
 		int[] lens = new int[header.length];
 		for ( int k = 0; k < lens.length; k++ )
-		{
 			lens[k] = header[k].length();
-		}
+
 		String[] cols = new String[header.length];
 
 		for(int i = 0; i < size; i++)
@@ -264,9 +262,7 @@ public class TablaSimbolos implements ISymbolTable
 			{
 				int len = cols[k].length();
 				if ( lens[k] < len )
-				{
 					lens[k] = len;
-				}
 			}
 		}
 
@@ -278,13 +274,14 @@ public class TablaSimbolos implements ISymbolTable
 			Util.format(header[k], lens[k], ' ', sb);
 			sb.append("  ");
 		}
+		
+		// rayitas
 		sb.append("\n");
 		for ( int k = 0; k < header.length; k++ )
 		{
 			Util.format("", lens[k], '-', sb);
 			sb.append("  ");
 		}
-		sb.append("\n");
 
 		// datos
 		for(int i = 0; i < size; i++)
@@ -297,12 +294,12 @@ public class TablaSimbolos implements ISymbolTable
 			          : "?"
 			;
 
+			sb.append("\n");
 			for ( int k = 0; k < cols.length; k++ )
 			{
 				Util.format(cols[k], lens[k], ' ', sb);
 				sb.append("  ");
 			}
-			sb.append("\n");
 		}
 		
 		return sb.toString();

@@ -141,6 +141,19 @@ public class InterpreteImpl implements IInterprete
 	}
 	
 	///////////////////////////////////////////////////////////////////////
+	public String procesar(String text)
+	throws AnalisisException
+	{
+		if ( execute )
+			return ejecutar(text);
+		else
+		{
+			compilar(text);
+			return null;
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Ver UtilEjecucion._executeUsrAlgorithm() 
 	 */
@@ -296,6 +309,17 @@ public class InterpreteImpl implements IInterprete
 		UtilValor.ponLongitudVerArreglo(longitudVerArreglo);
 	}
 
+	//////////////////////////////////////////////////////////////
+	public boolean getExecute()
+	{
+		return execute;
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	public void setExecute(boolean execute)
+	{
+		this.execute = execute;
+	}
 
 	///////////////////////////////////////////////////////////////////////
 	private void metaProcesar(String text)
@@ -313,7 +337,6 @@ public class InterpreteImpl implements IInterprete
 "reconocidos porque empiezan con punto (.):\n"+
 "\n"+
 "   .?            - Muestra esta ayuda\n" +
-"   .limpiar      - Limpia la ventana\n"+
 "   .vars         - Muestra las variables declaradas actualmente\n" +
 "   .borrar ID    - Borra la declaración de la variable indicada\n" +
 "   .borrarvars   - Borra todas las variables declaradas\n" +
@@ -338,7 +361,6 @@ public class InterpreteImpl implements IInterprete
 		else if ( text.equals(".vars") )
 		{
 			msg = tabSimbBase.toString();
-			//msg = Loro.getSymbolTable().toString();
 		}
 		else if ( text.equals(".modo") )
 		{
@@ -347,7 +369,7 @@ public class InterpreteImpl implements IInterprete
 		else if ( text.equals(".borrarvars") )
 		{
 			this.reiniciar();
-			msg = Loro.getSymbolTable().toString();
+			msg = tabSimbBase.toString();
 		}
 		else if ( text.startsWith(".borrar") )
 		{
@@ -376,17 +398,11 @@ public class InterpreteImpl implements IInterprete
 			}
 			msg = "Modo cambiado a: " +obtModo(execute);
 		}
-		else if ( text.equals(".limpiar") )
-		{
-			//ta.setText("");
-			msg = "no se como limpiar";
-		}
 		else if ( text.equals(".version") )
 		{
 			msg =
-"Loro - Sistema Didáctico de Programación\n"+
-//Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
-Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
+"Lenguaje Loro\n"+
+Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 			;
 		}
 		else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )

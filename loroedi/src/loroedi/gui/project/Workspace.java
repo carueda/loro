@@ -1458,7 +1458,14 @@ public final class Workspace
 				for ( Iterator it = cmds.iterator(); it.hasNext(); )
 				{
 					String cmd = (String) it.next();
-					interpret(cmd, ask_enter);
+					try
+					{
+						interpret(cmd, ask_enter);
+					}
+					catch ( Exception ex )
+					{
+						handleException(ex);
+					}
 				}
 			}
 		};

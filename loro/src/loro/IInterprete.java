@@ -7,7 +7,6 @@ package loro;
  * Esta interface no es para ser implementada por el cliente.
  *
  * @author Carlos Rueda
- * @version 2002-01-28
  */
 public interface IInterprete
 {
@@ -22,6 +21,7 @@ public interface IInterprete
 	 */
 	public void compilar(String text)
 	throws CompilacionException;
+
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Interpreta un texto.
@@ -32,6 +32,36 @@ public interface IInterprete
 	 */
 	public String ejecutar(String text)
 	throws AnalisisException;
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Procesa un texto. Esto significa interpretar el texto (con
+	 * ejecucion) o bien solo compilarlo si el modo de interpretacion
+	 * actual indica incluir la ejecucion.
+	 *
+	 * @param texto El codigo fuente a procesar.
+	 *
+	 * @return Una cadena descriptiva del resultado de la ejecucion.
+	 *         null si el modo es solo compilacion.
+	 */
+	public String procesar(String text)
+	throws AnalisisException;
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Dice si se incluye ejecucion en la interpretacion.
+	 *
+	 * @return true ssi se incluye ejecucion.
+	 */
+	public boolean getExecute();
+
+	//////////////////////////////////////////////////////////////
+	/**
+	 * Pone el modo de interpretacion actual.
+	 *
+	 * @param execute true para incluir ejecucion.
+	 */
+	public void setExecute(boolean execute);
 
 	//////////////////////////////////////////////////////////////
 	/**
