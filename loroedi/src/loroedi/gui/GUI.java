@@ -1202,20 +1202,29 @@ public class GUI
 	public static boolean _compileDemo()
 	{
 		String name = focusedProject.getModel().getInfo().getName();
-		String compiling_msg = "Compilando demo '" +name+ "' ...";
 		String src;
 		
 		UEditor editor = (UEditor) demoEditors.get(name);
 		
 		if ( editor != null )
 		{
-			editor.getMessageArea().clear();
-			editor.getMessageArea().println(compiling_msg);
 			src = editor.getText();
 		}
 		else
 		{
 			src = focusedProject.getModel().getInfo().getDemoScript();
+			if ( src == null )
+			{
+				return true;
+			}
+		}
+		
+		
+		String compiling_msg = "Compilando demo '" +name+ "' ...";
+		if ( editor != null )
+		{
+			editor.getMessageArea().clear();
+			editor.getMessageArea().println(compiling_msg);
 		}
 		
 		MessageArea prj_msg = focusedProject.getMessageArea();
@@ -2149,6 +2158,7 @@ public class GUI
 			}
 			
 			String msg; 
+			boolean compile_project = false;
 			if ( chk_open.isSelected() )
 			{
 				_openProject(to_name);
@@ -2158,8 +2168,11 @@ public class GUI
 					"\n"+
 					"El proyecto '" +from_name+ "' se ha instalado con el nombre '" +to_name+ "'\n"+
 					"y se encuentra ahora abierto.\n"+
+					"\n"+
+					"Loro procederá a compilar este proyecto a continuación.\n"+
 					"\n"
 				;
+				compile_project = true;
 			}
 			else
 			{
@@ -2169,10 +2182,13 @@ public class GUI
 					"El proyecto '" +from_name+ "' se ha instalado con el nombre '" +to_name+ "'.\n"+
 					"\n"+
 					"Para abrirlo, utiliza la opción 'Abrir...' en el menú 'Proyecto'.\n"+
+					"Posiblemente sea necesario compilar el proyecto una vez abierto.\n"+
 					"\n"
 				;
 			}
 			message(focusedProject.getFrame(), msg);
+			if ( compile_project )
+				compileProject();
 		}
 	}
 	

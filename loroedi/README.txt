@@ -77,12 +77,22 @@ PENDIENTES (más o menos en orden de prioridad)
 		UEditor.getTitle()
 		GUI.compileDemo()
 		
-	- GUI.compilePropect() actualizado para incluir el demo.
+	- GUI.compileProject() actualizado para incluir el demo.
 	
 	- UEditor: nuevos argumentos executable y doc en constructor, y nueva
 	  acción "execute".
 	
 	- UEditorListener: nueva operación execute()
+	
+	- GUI._compileDemo() chequea si aún no hay demo para simplemente
+	  retornar true.
+	  
+	- GUI.installProject() ahora compila el proyecto recién instalado y
+	  abierto. La idea es que los archivos generados de un proyecto (como
+	  .oro, html) no deberían incluirse en la distribución del sistema, y
+	  más bien generarse una vez instalado el proyecto.
+	  Este manejo se complementará cuando se incluya la instalación desde
+	  otras proveniencias.
 	
 	
 ////////////////////////////////////////////////////////////////////////////
