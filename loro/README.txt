@@ -26,6 +26,11 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-13 Version 0.7.8
+
+	- VisitanteLoroDoc: Puesto un </table> que faltaba.
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-03-11 Version 0.7.8
 
 	- Mejoramiento de la apariencia de la documentación.

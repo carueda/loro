@@ -401,6 +401,8 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 		out.println(unindent());
 		out.println("</td></tr>");
 
+		out.println("</table>\n");
+
 		if ( claseActual == null )
 			close();
 	}
@@ -611,6 +613,8 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 
 		out.println("</td></tr>");
 
+		out.println("</table>\n");
+
 		if ( interfaceActual == null )
 			close();
 	}
@@ -670,6 +674,8 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 
 		out.println("</table>\n");
 		out.println("</td></tr>");
+
+		out.println("</table>\n");
 
 		// ... métodos:             P E N D I N G 
 		claseActual = n;
