@@ -25,6 +25,18 @@ NOTAS
 	  aún se genera un error de posible conversión inválida. Para permitir
 	  este caso habría que actualizar Chequeador.visitar(NForEach n) y
 	  LoroEjecutor.visitar(NForEach n). (No muy necesario por lo pronto.)
+	  
+	- LoroIParser.jj:
+		En e_prefijoPrimaria() se probó posibilidad de explicitar el tipo
+		de los elementos de una expresión arreglo, ej:
+			[entero 45, 'c']
+		lo que permitiría indicar un arreglo vacío, ej:
+			[entero]
+		pero se deja entre comentarios por ahora, para hacer el cambio
+		completo después.
+		Otra posibilidad es permitir simplemente la expresión [] que sería
+		compatible con arreglos de cualquier tipo (?). Pendiente.
+	
 	
 ////////////////////////////////////////////////////////////////////////////
 2003-05-04 Version 0.7.91

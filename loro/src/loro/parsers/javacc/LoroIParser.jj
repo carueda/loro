@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2003-04-23
+// FECHA ULTIMA ACTUALIZACION   : 2003-05-05
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -34,6 +34,14 @@
 //
 // ACTUALIZACIONES:
 //
+//		2003-05-05
+//		- En e_prefijoPrimaria() se probó posibilidad de explicitar el tipo
+//		  de los elementos de una expresión arreglo, ej:
+//				[entero 45, 'c']
+//		  lo que permitiría indicar un arreglo vacío, ej:
+//				[entero]
+//		  pero se deja entre comentarios por ahora.
+// 
 //		2003-04-23
 //		- accionInterprete() incluye meta-comandos
 //
@@ -1888,7 +1896,14 @@ NExpresion e_prefijoPrimaria() :
 	  |
 	  	e=e_este()
 	  |
-	    ti="[" e=expresion()     { list.add(e); }
+	    ti="["
+		    /************* pendiente
+		    [
+			   LOOKAHEAD(2)         // for "[" "]"
+			   t=ntipo()
+			]
+			************* pendiente */
+		    e=expresion()     { list.add(e); }
 		    ( 
 			   LOOKAHEAD(2)         // for comma
 			   "," e=expresion()  { list.add(e); } 

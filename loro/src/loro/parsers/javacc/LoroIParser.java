@@ -2546,8 +2546,14 @@ class LoroIParser implements LoroIParserConstants {
       break;
     case 98:
       ti = jj_consume_token(98);
-      e = expresion();
-                                       list.add(e);
+      /************* pendiente
+      		    [
+      			   LOOKAHEAD(2)         // for "[" "]"
+      			   t=ntipo()
+      			]
+      			************* pendiente */
+                          e = expresion();
+                                        list.add(e);
       label_29:
       while (true) {
         if (jj_2_9(2)) {
@@ -3049,48 +3055,14 @@ class LoroIParser implements LoroIParserConstants {
     return retval;
   }
 
-  static final private boolean jj_3R_142() {
-    if (jj_scan_token(PRE)) return true;
+  static final private boolean jj_3R_141() {
+    if (jj_scan_token(FALSO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_119() {
-    if (jj_3R_125()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_37() {
-    if (jj_3R_41()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_scan_token(92)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_120() {
-    if (jj_scan_token(98)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_118() {
-    if (jj_3R_124()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3_3() {
-    if (jj_scan_token(90)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_35()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_137() {
-    if (jj_scan_token(LITERAL_CARACTER)) return true;
+  static final private boolean jj_3R_138() {
+    if (jj_scan_token(LITERAL_CADENA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3118,20 +3090,8 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_141() {
-    if (jj_scan_token(FALSO)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3R_49() {
     if (jj_3R_59()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_138() {
-    if (jj_scan_token(LITERAL_CADENA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3148,22 +3108,16 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
+  static final private boolean jj_3R_140() {
+    if (jj_scan_token(CIERTO)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static final private boolean jj_3_1() {
     if (jj_scan_token(91)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_3R_33()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_48() {
-    if (jj_scan_token(105)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_140() {
-    if (jj_scan_token(CIERTO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3182,8 +3136,20 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
+  static final private boolean jj_3R_48() {
+    if (jj_scan_token(105)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static final private boolean jj_3R_38() {
     if (jj_3R_49()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_136() {
+    if (jj_scan_token(LITERAL_REAL)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3224,12 +3190,6 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_136() {
-    if (jj_scan_token(LITERAL_REAL)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3R_69() {
     if (jj_3R_84()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3252,6 +3212,12 @@ class LoroIParser implements LoroIParserConstants {
     if (jj_scan_token(FIN)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_scan_token(CASO)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_134() {
+    if (jj_scan_token(LITERAL_ENTERO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3298,12 +3264,6 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_134() {
-    if (jj_scan_token(LITERAL_ENTERO)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3_2() {
     if (jj_3R_34()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3314,6 +3274,12 @@ class LoroIParser implements LoroIParserConstants {
     if (jj_scan_token(FIN)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_scan_token(CASO)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_139() {
+    if (jj_scan_token(NULO)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3368,12 +3334,6 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_139() {
-    if (jj_scan_token(NULO)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3R_113() {
     Token xsp;
     xsp = jj_scanpos;
@@ -3382,6 +3342,12 @@ class LoroIParser implements LoroIParserConstants {
     if (jj_3R_116()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_125() {
+    if (jj_scan_token(ESTE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
@@ -3409,8 +3375,8 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_125() {
-    if (jj_scan_token(ESTE)) return true;
+  static final private boolean jj_3R_133() {
+    if (jj_3R_139()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3427,14 +3393,32 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
+  static final private boolean jj_3R_132() {
+    if (jj_3R_138()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static final private boolean jj_3R_108() {
     if (jj_scan_token(122)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
+  static final private boolean jj_3R_131() {
+    if (jj_3R_137()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static final private boolean jj_3R_107() {
     if (jj_scan_token(123)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_130() {
+    if (jj_3R_136()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3447,26 +3431,20 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_133() {
-    if (jj_3R_139()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3R_106() {
     if (jj_scan_token(126)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_132() {
-    if (jj_3R_138()) return true;
+  static final private boolean jj_3R_129() {
+    if (jj_3R_135()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_131() {
-    if (jj_3R_137()) return true;
+  static final private boolean jj_3R_128() {
+    if (jj_3R_134()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3479,12 +3457,6 @@ class LoroIParser implements LoroIParserConstants {
 
   static final private boolean jj_3R_79() {
     if (jj_scan_token(CADENA)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_130() {
-    if (jj_3R_136()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3503,12 +3475,6 @@ class LoroIParser implements LoroIParserConstants {
 
   static final private boolean jj_3R_77() {
     if (jj_scan_token(CARACTER)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_129() {
-    if (jj_3R_135()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3554,15 +3520,32 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_128() {
-    if (jj_3R_134()) return true;
+  static final private boolean jj_3R_58() {
+    if (jj_scan_token(UTILIZA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_58() {
-    if (jj_scan_token(UTILIZA)) return true;
+  static final private boolean jj_3R_124() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_128()) {
+    jj_scanpos = xsp;
+    if (jj_3R_129()) {
+    jj_scanpos = xsp;
+    if (jj_3R_130()) {
+    jj_scanpos = xsp;
+    if (jj_3R_131()) {
+    jj_scanpos = xsp;
+    if (jj_3R_132()) {
+    jj_scanpos = xsp;
+    if (jj_3R_133()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
@@ -3592,55 +3575,6 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_63() {
-    if (jj_scan_token(CLASE)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_124() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_128()) {
-    jj_scanpos = xsp;
-    if (jj_3R_129()) {
-    jj_scanpos = xsp;
-    if (jj_3R_130()) {
-    jj_scanpos = xsp;
-    if (jj_3R_131()) {
-    jj_scanpos = xsp;
-    if (jj_3R_132()) {
-    jj_scanpos = xsp;
-    if (jj_3R_133()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_55() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_63()) jj_scanpos = xsp;
-    else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_61()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_54() {
-    if (jj_scan_token(ALGORITMO)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_62()) jj_scanpos = xsp;
-    else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3_13() {
     if (jj_scan_token(131)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3649,15 +3583,17 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_97() {
-    if (jj_3R_98()) return true;
+  static final private boolean jj_3R_63() {
+    if (jj_scan_token(CLASE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_53() {
-    if (jj_scan_token(INTERFACE)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+  static final private boolean jj_3R_55() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_63()) jj_scanpos = xsp;
+    else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_3R_61()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
@@ -3675,10 +3611,46 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
+  static final private boolean jj_3R_54() {
+    if (jj_scan_token(ALGORITMO)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_62()) jj_scanpos = xsp;
+    else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_97() {
+    if (jj_3R_98()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_53() {
+    if (jj_scan_token(INTERFACE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_61()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_11() {
+    if (jj_3R_40()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static final private boolean jj_3R_52() {
     if (jj_scan_token(98)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_scan_token(99)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_39() {
+    if (jj_3R_50()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3701,15 +3673,21 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3_11() {
-    if (jj_3R_40()) return true;
+  static final private boolean jj_3R_56() {
+    if (jj_scan_token(91)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_39() {
-    if (jj_3R_50()) return true;
+  static final private boolean jj_3R_42() {
+    if (jj_3R_41()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_56()) { jj_scanpos = xsp; break; }
+      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    }
     return false;
   }
 
@@ -3733,12 +3711,6 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_56() {
-    if (jj_scan_token(91)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3R_104() {
     if (jj_3R_105()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3751,26 +3723,8 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_42() {
-    if (jj_3R_41()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_56()) { jj_scanpos = xsp; break; }
-      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    }
-    return false;
-  }
-
   static final private boolean jj_3R_87() {
     if (jj_scan_token(TERMINE)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_86() {
-    if (jj_scan_token(103)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3787,6 +3741,12 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
+  static final private boolean jj_3R_86() {
+    if (jj_scan_token(103)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static final private boolean jj_3R_89() {
     if (jj_3R_93()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3795,6 +3755,12 @@ class LoroIParser implements LoroIParserConstants {
 
   static final private boolean jj_3R_92() {
     if (jj_3R_96()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_41() {
+    if (jj_scan_token(ID)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3831,20 +3797,26 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
+  static final private boolean jj_3R_127() {
+    if (jj_scan_token(CREAR)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   static final private boolean jj_3_4() {
     if (jj_3R_36()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_41() {
-    if (jj_scan_token(ID)) return true;
+  static final private boolean jj_3R_123() {
+    if (jj_3R_127()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_127() {
-    if (jj_scan_token(CREAR)) return true;
+  static final private boolean jj_3R_122() {
+    if (jj_scan_token(95)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3878,18 +3850,6 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_123() {
-    if (jj_3R_127()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_122() {
-    if (jj_scan_token(95)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3_12() {
     if (jj_scan_token(131)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3898,14 +3858,28 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3R_47() {
-    if (jj_scan_token(102)) return true;
+  static final private boolean jj_3R_126() {
+    if (jj_3R_41()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  static final private boolean jj_3R_126() {
-    if (jj_3R_41()) return true;
+  static final private boolean jj_3_9() {
+    if (jj_scan_token(91)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_38()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_121() {
+    if (jj_3R_126()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_47() {
+    if (jj_scan_token(102)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3954,22 +3928,14 @@ class LoroIParser implements LoroIParserConstants {
     return false;
   }
 
-  static final private boolean jj_3_9() {
-    if (jj_scan_token(91)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_38()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  static final private boolean jj_3R_121() {
-    if (jj_3R_126()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3R_95() {
     if (jj_scan_token(REPITA)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_142() {
+    if (jj_scan_token(PRE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
@@ -3996,6 +3962,46 @@ class LoroIParser implements LoroIParserConstants {
 
   static final private boolean jj_3R_59() {
     if (jj_3R_74()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_137() {
+    if (jj_scan_token(LITERAL_CARACTER)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_119() {
+    if (jj_3R_125()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_37() {
+    if (jj_3R_41()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_scan_token(92)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_120() {
+    if (jj_scan_token(98)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_118() {
+    if (jj_3R_124()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3_3() {
+    if (jj_scan_token(90)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_35()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
