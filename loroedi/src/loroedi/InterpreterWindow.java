@@ -66,13 +66,11 @@ implements ActionListener, JTermListener
 	 * @param hello Message to start with. Can be null.
 	 * @param newSymTab See Loro.crearInterprete
 	 * @param ejecutorpp step-by-step execution?
-	 * @param editable Text area editable?
 	 */
 	public InterpreterWindow(
 		String title, String hello, 
 		boolean newSymTab, 
-		boolean ejecutorpp,
-		boolean editable
+		boolean ejecutorpp
 	)
 	{
 		super();
@@ -84,7 +82,6 @@ implements ActionListener, JTermListener
 			PREFIX_INVALID,
 			false
 		);
-		ta.setEditable(editable);
 		
 		term = new JTerm((ITextArea) ta);
 		term.addJTermListener(this);
@@ -466,9 +463,22 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		term.setPrefix(null);
 
 		if ( ask_enter != null )
-			readLine(ask_enter);
+		{
+			// don't let the user edit the text area:
+			ta.setEditable(false);
+			try
+			{
+				readLine(ask_enter);
+			}
+			finally
+			{
+				ta.setEditable(true);
+			}
+		}
 		else
+		{
 			pw.println();
+		}
 
 		procesar(text);
 	}

@@ -1379,7 +1379,7 @@ public final class Workspace
 		compiler.ponDirectorioDestino(prj_dir.getAbsolutePath());
 		
 		InterpreterWindow iw = 
-			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp, true)
+			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp)
 		{
 			public void body()
 			throws Exception
@@ -1449,7 +1449,7 @@ public final class Workspace
 		boolean ejecutorpp
 	)
 	{
-		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp, false)
+		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp)
 		{
 			public void body()
 			throws Exception
