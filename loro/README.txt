@@ -27,6 +27,25 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2003-02-04 Version 0.7.7
+
+Ejecución paso-a-paso
+
+		Seguir pruebas con EjecutorPP._chequearTerminacionExterna(IUbicable u)
+		...
+		
+		
+	- El constructor de InterpreteImpl recibe ahora un IObservadorPP obspp
+	  para crear un EjecutorPP. Si el parámetro es nulo, se crea entonces
+	  un EjecutorTerminable.
+	  
+	- El servicio Loro.crearInterprete ahora recibe a su vez el observador
+	  para seguimiento paso-a-paso, de tal manera que se delega en el cliente
+	  la decisión de si quiere una ejecución con o sin seguimiento paso-a-paso, 
+	  dependiendo de si suministra un observador o no (null).
+	  
+
+////////////////////////////////////////////////////////////////////////////
 2002-12-05 Version 0.7.7
 
 	- Diseño preliminar de ejecución paso-a-paso.

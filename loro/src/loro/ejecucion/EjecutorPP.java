@@ -1,6 +1,7 @@
 package loro.ejecucion;
 
 import loro.IObservadorPP;
+import loro.Rango;
 import loro.arbol.*;
 import loro.visitante.VisitanteException;
 import loro.tabsimb.*;
@@ -65,7 +66,25 @@ public class EjecutorPP extends EjecutorTerminable
 		{
 			int senal = controlpp.obtSenal();
 			if ( obspp != null )
+			{
+				System.out.println("unidadActual=" +unidadActual);
+				String src = unidadActual.getSourceCode();
+				if ( src != null )
+				{
+					System.out.println("{" +src+ "}");
+					Rango r = u.obtRango();
+					try
+					{
+						System.out.println("[" +src.substring(r.obtPosIni(), r.obtPosFin())+ "]");
+					}
+					catch(StringIndexOutOfBoundsException ex)
+					{
+						ex.printStackTrace();
+					}
+				}
+				
 				obspp.ver(u);
+			}
 		}
 		catch(InterruptedException ex)
 		{

@@ -455,21 +455,24 @@ public final class Loro
 	 *                  En caso contrario el intéprete toma como base una tabla
 	 *                  que será compartida por todos los intérpretes instanciados
 	 *                  con este parámetro dado en false.
+	 *
+	 * @param obspp     Si != null, se crea un ejecutor con seguimiento paso-a-paso.
+	 *                  See InterpreteImpl.
 	 */
-	public static IInterprete crearInterprete(Reader r, Writer w, boolean newSymTab)
+	public static IInterprete crearInterprete(Reader r, Writer w, boolean newSymTab, IObservadorPP obspp)
 	{
 		_verificarIniciado();
 		
 		if ( newSymTab )
 		{
-			return new InterpreteImpl(r, w, new TablaSimbolos(), loroClassLoader);
+			return new InterpreteImpl(r, w, new TablaSimbolos(), loroClassLoader, obspp);
 		}
 		else if ( tabSimbBase == null )
 		{
 			tabSimbBase = new TablaSimbolos();
 		}
 		
-		return new InterpreteImpl(r, w, tabSimbBase, loroClassLoader);
+		return new InterpreteImpl(r, w, tabSimbBase, loroClassLoader, obspp);
 	}
 
 

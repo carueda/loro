@@ -47,7 +47,11 @@ public class InterpreteImpl implements IInterprete
 	 * @param tabSimbBase Tabla de símbolos de base.
 	 * @param loroClassLoader
 	 */
-	public InterpreteImpl(Reader r, Writer w, TablaSimbolos tabSimbBase, LoroClassLoader loroClassLoader)
+	public InterpreteImpl(
+		Reader r, Writer w, 
+		TablaSimbolos tabSimbBase, LoroClassLoader loroClassLoader, 
+		IObservadorPP obspp
+	)
 	{
 		super();
 
@@ -58,21 +62,8 @@ public class InterpreteImpl implements IInterprete
 
 		chequeador = new Chequeador(tabSimbBase, ui);
 
-		// NOTA    (2002-12-05)
-		// Las pruebas con EjecutorPP estan en proceso.
-		// Por lo pronto, para actualizar el CVS sin comprometer la ejecución
-		// del sistema, se deshabilita y se sigue con el EjecutorTerminable.
-		// Luego se parametrizará esta opción de acuerdo con una nueva API
-		// que se defina para el propósito.
-		
-		if ( true )
+		if ( obspp != null )
 		{
-			ejecutor = new EjecutorTerminable(tabSimbBase, ui);
-		}
-		else
-		{
-			// PENDIENTE: implementación incompleta
-			
 			ejecutor = new EjecutorPP(tabSimbBase, ui);
 	
 			try
@@ -82,13 +73,12 @@ public class InterpreteImpl implements IInterprete
 			catch(InterruptedException ex)
 			{
 			}
-			ejecutor.ponObservadorPP(new loro.IObservadorPP() {
-				public int ver(loro.arbol.IUbicable u)
-				{
-					System.out.println("u = " +u);
-					return 0;
-				}
-			});
+			
+			ejecutor.ponObservadorPP(obspp); 
+		}
+		else
+		{
+			ejecutor = new EjecutorTerminable(tabSimbBase, ui);
 		}
 		
 		ejecutor.ponClassLoader(loroClassLoader);
