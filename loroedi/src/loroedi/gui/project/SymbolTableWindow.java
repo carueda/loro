@@ -30,18 +30,25 @@ public class SymbolTableWindow
 {
 	private ISymbolTable symTab;
 	private JFrame frame = null;
+	private boolean closeable;
 
 	private TableModel tableModel;
 	private JTable table;
 	private int selectedRow;
+	private boolean delVar;
 
 	/////////////////////////////////////////////////////////
-	public SymbolTableWindow(ISymbolTable symTab)
+	public SymbolTableWindow(
+		String title,
+		ISymbolTable symTab,
+		boolean closeable, boolean delVar, final String preferenceKey)
 	{
 		this.symTab = symTab;
-		frame = new JFrame("Declaraciones");
+		this.closeable = closeable;
+		this.delVar = delVar;
+		frame = new JFrame(title);
 		JPanel cp = new JPanel(new BorderLayout());
-		cp.setBorder(BorderFactory.createTitledBorder("Variables declaradas"));
+		cp.setBorder(BorderFactory.createTitledBorder("Variables declaradas " +title));
 		frame.setContentPane(cp);
 
 		tableModel = new TableModel();
@@ -71,16 +78,22 @@ public class SymbolTableWindow
 		frame.getContentPane().add(buttons, "South");
 		JButton b;
 		ActionListener lis = new BListener();
-		b = new JButton("Borrar variable");
-		b.setActionCommand("delete-variable");
-		b.addActionListener(lis);
-		buttons.add(b);
-		b = new JButton("Cerrar");
-		b.setActionCommand("close");
-		b.addActionListener(lis);
-		buttons.add(b);
+		if ( delVar )
+		{
+			b = new JButton("Borrar variable");
+			b.setActionCommand("delete-variable");
+			b.addActionListener(lis);
+			buttons.add(b);
+		}
+		if ( closeable )
+		{
+			b = new JButton("Cerrar");
+			b.setActionCommand("close");
+			b.addActionListener(lis);
+			buttons.add(b);
+		}
 
-		Rectangle rect = Preferencias.obtRectangulo(Preferencias.SYMTAB_RECT);
+		Rectangle rect = Preferencias.obtRectangulo(preferenceKey);
 		frame.setLocation(rect.x, rect.y);
 		frame.setSize(rect.width, rect.height);
 		frame.addComponentListener(new ComponentAdapter()
@@ -88,10 +101,22 @@ public class SymbolTableWindow
 			void common()
 			{
 				Rectangle rect_ = new Rectangle(frame.getLocationOnScreen(), frame.getSize());
-				Preferencias.ponRectangulo(Preferencias.SYMTAB_RECT, rect_);
+				Preferencias.ponRectangulo(preferenceKey, rect_);
 			}
 			public void componentResized(ComponentEvent e){common();}
 			public void componentMoved(ComponentEvent e){common();}
+		});
+	
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			public void windowClosing(java.awt.event.WindowEvent _)
+			{
+				if ( SymbolTableWindow.this.closeable )
+				{
+					SymbolTableWindow.this.frame.dispose();
+				}
+			}
 		});
 	}
 
@@ -104,6 +129,15 @@ public class SymbolTableWindow
 		frame.setVisible(true);
 	}
 
+	/////////////////////////////////////////////////////////
+	/**
+	 * Obtiene la ventana.
+	 */
+	public JFrame getFrame()
+	{
+		return frame;
+	}
+	
 	/////////////////////////////////////////////////////////
 	public void setSymbolTable(ISymbolTable symTab)
 	{

@@ -124,7 +124,15 @@ public class Project extends JPanel
 			Object obj = cell.getUserObject();
 			if ( obj instanceof AlgorithmUnit )
 			{
-				GUI.executeAlgorithm((AlgorithmUnit) obj);
+				GUI.executeAlgorithm((AlgorithmUnit) obj, false);
+			}
+		}
+		else if ( kc == KeyEvent.VK_F9 && (md & KeyEvent.SHIFT_MASK) == KeyEvent.SHIFT_MASK )
+		{
+			Object obj = cell.getUserObject();
+			if ( obj instanceof AlgorithmUnit )
+			{
+				GUI.executeAlgorithm((AlgorithmUnit) obj, true);
 			}
 		}
 		else if ( kc == KeyEvent.VK_F1 && (md & KeyEvent.CTRL_MASK) == KeyEvent.CTRL_MASK )
@@ -1084,13 +1092,13 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public void executeAlgorithm()
+	public void executeAlgorithm(boolean ejecutorpp)
 	{
 		Object obj = selectedCell.getUserObject();
 		if ( obj instanceof AlgorithmUnit )
 		{
 			AlgorithmUnit alg = (AlgorithmUnit) obj;
-			GUI.executeAlgorithm(alg);
+			GUI.executeAlgorithm(alg, ejecutorpp);
 		}
 	}
 

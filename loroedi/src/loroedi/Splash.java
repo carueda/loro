@@ -93,7 +93,7 @@ public class Splash extends JWindow
 		if ( url != null )
 		{
 			javax.swing.ImageIcon ii = new javax.swing.ImageIcon(url);
-			int delay = 5 * 1000;
+			int delay = 7 * 1000;
 			new Splash(text, ii, frame, delay);
 		}
 	}

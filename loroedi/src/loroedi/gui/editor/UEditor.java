@@ -48,7 +48,9 @@ public class UEditor implements EditorListener
 	 * @param executable Include "execute" action?
 	 * @param doc Include "view-unit-doc-from-editor" action?
 	 */
-	public UEditor(String title, boolean modifiable, boolean executable, boolean doc)
+	public UEditor(String title, boolean modifiable, boolean executable, boolean doc,
+		boolean include_toolbar
+	)
 	{
 		this.title = title;
 		this.saved = true;
@@ -98,7 +100,7 @@ public class UEditor implements EditorListener
 		frame.setSize(700, 500);
 
 		createActions(modifiable, executable, doc);
-		createMenuBarAndToolBar();
+		createMenuBarAndToolBar(include_toolbar);
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -148,13 +150,10 @@ public class UEditor implements EditorListener
 	/**
 	 * Crea la barra de menus.
 	 */
-	private void createMenuBarAndToolBar()
+	private void createMenuBarAndToolBar(boolean include_toolbar)
 	{
 		JMenuBar mb = new JMenuBar();
 		frame.setJMenuBar(mb);
-		JToolBar tb = new JToolBar();
-		tb.setFloatable(false);
-		frame.getContentPane().add(tb, "North");
 		
 		JMenu menu;
 		
@@ -188,18 +187,24 @@ public class UEditor implements EditorListener
 		menu.add((Action) actions.get("incr-fontsize"));
 		menu.add((Action) actions.get("decr-fontsize"));
 
-		// Toolbar:		
-		tb.add((Action) actions.get("save"));
-		tb.addSeparator();
-		tb.add((Action) actions.get("copy-selection"));
-		tb.add((Action) actions.get("cut-selection"));
-		tb.add((Action) actions.get("paste"));
-		tb.addSeparator();
-		tb.add((Action) actions.get("find-text"));
-		tb.add((Action) actions.get("find-next"));
-		tb.addSeparator();
-		tb.add((Action) actions.get("compile"));
-		tb.add((Action) actions.get("view-unit-doc-from-editor"));
+		// Toolbar:
+		if ( include_toolbar )
+		{
+			JToolBar tb = new JToolBar();
+			tb.setFloatable(false);
+			frame.getContentPane().add(tb, "North");
+			tb.add((Action) actions.get("save"));
+			tb.addSeparator();
+			tb.add((Action) actions.get("copy-selection"));
+			tb.add((Action) actions.get("cut-selection"));
+			tb.add((Action) actions.get("paste"));
+			tb.addSeparator();
+			tb.add((Action) actions.get("find-text"));
+			tb.add((Action) actions.get("find-next"));
+			tb.addSeparator();
+			tb.add((Action) actions.get("compile"));
+			tb.add((Action) actions.get("view-unit-doc-from-editor"));
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -333,6 +338,15 @@ public class UEditor implements EditorListener
 	public void select(int start, int end)
 	{
 		editor.obtAreaTexto().select(start, end);
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Selecciona todo.
+	 */
+	public void selectAll()
+	{
+		editor.obtAreaTexto().selectAll();
 	}
 	
 	////////////////////////////////////////////////////////////////

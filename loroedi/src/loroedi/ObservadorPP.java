@@ -23,41 +23,79 @@ public class ObservadorPP implements IObservadorPP
 	SymbolTableWindow symbolTableWindow;
 	
 	//////////////////////////////////////////////////////////////////////
-	public int ver(IUbicable u, ISymbolTable symbTab, String src)
+	public int enter(IUbicable u, ISymbolTable symbTab, String src)
+	{
+		setup(symbTab);
+		editor.setTitle(PREFIX + u.getClass());
+		editor.getMessageArea().println("[->] " +u);
+		if ( src != null )
+		{
+			editor.setText(src);
+			Rango r = u.obtRango();
+			if ( r != null )
+				editor.select(r.obtPosIni(), r.obtPosFin());
+			else
+				editor.selectAll();
+		}
+		symbolTableWindow.setSymbolTable(symbTab);
+		
+		return 0;
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	public int exit(IUbicable u, ISymbolTable symbTab, String src)
+	{
+		editor.setTitle(PREFIX + u.getClass());
+		editor.getMessageArea().println("[<-] " +u);
+		if ( src != null )
+		{
+			editor.setText(src);
+			Rango r = u.obtRango();
+			if ( r != null )
+				editor.select(r.obtPosIni(), r.obtPosFin());
+			else
+				editor.selectAll();
+		}
+		symbolTableWindow.setSymbolTable(symbTab);
+		
+		return 0;
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	public int end()
+	{
+		editor.getFrame().dispose();
+		symbolTableWindow.getFrame().dispose();
+		return 0;
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	private void setup(ISymbolTable symbTab)
 	{
 		if ( editor == null )
 		{
-			editor = new UEditor(PREFIX, false, false, false);
+			editor = new UEditor(PREFIX, false, false, false, false);
 			editor.setEditorListener(new UEditorListener()
 			{
 				public void changed() {} 
 				public void save() {} 
 				public void closeWindow() {} 
-				{
-					editor.getFrame().setVisible(false);
-					editor.getFrame().dispose();
-				}
 				public void compile() {}
 				public void execute() {} 
 				public void reload() {} 
 				public void viewDoc() {}
 			});
 			editor.display();
-			symbolTableWindow = new SymbolTableWindow(symbTab);
+			symbolTableWindow = new SymbolTableWindow(
+				"ámbito en curso",
+				symbTab,
+				false,   // closeable
+				false,   // delVar
+				Preferencias.SYMTAB_TRACE_RECT  // preferenceCode
+			);
 			symbolTableWindow.show();
 		}
-			
-		editor.setTitle(PREFIX + u.getClass());
-		System.out.println("u = " +u);
-		if ( src != null )
-		{
-			editor.setText(src);
-			Rango r = u.obtRango();
-			editor.select(r.obtPosIni(), r.obtPosFin());
-		}
-		symbolTableWindow.setSymbolTable(symbTab);
-		
-		return 0;
 	}
+	
 }
 

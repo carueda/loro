@@ -48,8 +48,11 @@ public class Preferencias
 	/** Rectangle for the last open project window. */
 	public static final String PRJ_RECT = "loroedi.pref.prj.rect";
 
-	/** Rectangle for the symbol table window. */
+	/** Rectangle for the top-level symbol table window. */
 	public static final String SYMTAB_RECT = "loroedi.pref.symtab.rect";
+
+	/** Rectangle for the trace symbol table window. */
+	public static final String SYMTAB_TRACE_RECT = "loroedi.pref.symtab.trace.rect";
 
 	/** Base projects directory. */
 	public static final String PRS_DIR = "loroedi.pref.prs.dir";
@@ -203,6 +206,17 @@ public class Preferencias
 			ponRectangulo(SYMTAB_RECT, rect);
 		}
 		
+		// SYMTAB_TRACE_RECT
+		if ( props.getProperty(SYMTAB_TRACE_RECT) == null )
+		{
+			Dimension s = new Dimension(300, 150);
+			Rectangle rect = new Rectangle(
+					(d.width - s.width) / 2 + 20, (d.height - s.height) / 2 + 20,
+					s.width, s.height
+			);
+			ponRectangulo(SYMTAB_TRACE_RECT, rect);
+		}
+
 		// PRS_DIR:
 		String prs_dir = props.getProperty(PRS_DIR);
 		if ( prs_dir == null )

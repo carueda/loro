@@ -50,7 +50,9 @@ implements ActionListener
 	boolean execute = true;
 	IInterprete loroii;
 
-	Thread readingThread = null;	
+	Thread readingThread = null;
+
+	IObservadorPP obspp;	
 
 
 	/////////////////////////////////////////////////////////////////////
@@ -76,9 +78,7 @@ implements ActionListener
 		pw = new PrintWriter(term.getWriter());
 		br = new BufferedReader(term.getReader());
 
-		IObservadorPP obspp = null;
-		if ( ejecutorpp )
-			obspp = new ObservadorPP(); 
+		obspp = ejecutorpp ? new ObservadorPP() : null;
 		
 		loroii = Loro.crearInterprete(br, pw, newSymTab, obspp);
 
@@ -251,6 +251,8 @@ implements ActionListener
 		String cmd = e.getActionCommand();
 		if ( cmd.equalsIgnoreCase("Cerrar") )
 		{
+			if ( obspp != null )
+				obspp.end();
 			frame.setVisible(false);
 		}
 		else if ( cmd.equalsIgnoreCase("Terminar ejecución") )

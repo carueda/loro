@@ -93,6 +93,7 @@ public class Actions
 		addAction("show-variables", new ShowSymbolTableAction(), execution_group.actions);
 		execution_group.actions.add(null);
 		addAction("run-demo", new RunDemoAction(), execution_group.actions);
+		addAction("run-trace-demo", new RunTraceDemoAction(), execution_group.actions);
 		
 		help_group = new Group("Ayuda", KeyEvent.VK_Y, new ArrayList());
 		addAction("help", new HelpAction(), help_group.actions);
@@ -176,6 +177,7 @@ public class Actions
 			else if ( unit instanceof AlgorithmUnit )
 			{
 				list.add(new ExecuteAlgorithmAction());
+				list.add(new ExecuteTraceAlgorithmAction());
 				list.add(new TestAlgorithmAction());
 			}
 			else if ( unit instanceof ClassUnit )
@@ -722,7 +724,25 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public void actionPerformed(ActionEvent e)
 		{
-			GUI.getFocusedProject().executeAlgorithm();
+			GUI.getFocusedProject().executeAlgorithm(false);
+		}
+	}
+	
+	/////////////////////////////////////////////////////////
+	class ExecuteTraceAlgorithmAction extends AbstractAction
+	{
+		/////////////////////////////////////////////////////////
+		public ExecuteTraceAlgorithmAction()
+		{
+			super("Ejecutar paso-a-paso");
+			putValue(SHORT_DESCRIPTION, "Ejecuta este algoritmo paso-a-paso");
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.SHIFT_MASK));
+		}
+	
+		/////////////////////////////////////////////////////////
+		public void actionPerformed(ActionEvent e)
+		{
+			GUI.getFocusedProject().executeAlgorithm(true);
 		}
 	}
 	
@@ -847,7 +867,25 @@ public class Actions
 		/////////////////////////////////////////////////////////
 		public void actionPerformed(ActionEvent e)
 		{
-			GUI.runDemo();
+			GUI.runDemo(false);
+		}
+	}
+
+	/////////////////////////////////////////////////////////
+	class RunTraceDemoAction extends AbstractAction
+	{
+		/////////////////////////////////////////////////////////
+		public RunTraceDemoAction()
+		{
+			super("Ejecutar demo paso-a-paso");
+			putValue(SHORT_DESCRIPTION, "Ejecuta paso-a-paso un guión de demostración de este proyecto");
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.SHIFT_MASK));
+		}
+	
+		/////////////////////////////////////////////////////////
+		public void actionPerformed(ActionEvent e)
+		{
+			GUI.runDemo(true);
 		}
 	}
 

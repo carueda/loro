@@ -189,7 +189,13 @@ public class GUI
 		ICompilador compilador = Loro.obtCompilador();
 		compilador.ponDirectorioDestino(oro_dir);
 		
-		symbolTableWindow = new SymbolTableWindow(Loro.getSymbolTable());
+		symbolTableWindow = new SymbolTableWindow(
+			"top-level",
+			Loro.getSymbolTable(),
+			true,   // closeable
+			true,   // delVar
+			Preferencias.SYMTAB_RECT  // preferenceCode
+		);
 	}
 	
 	
@@ -1218,7 +1224,7 @@ public class GUI
 				return null;
 			}
 			boolean modifiable = pkg.getModel().getControlInfo().isModifiable();
-			editor = new UEditor(name, modifiable, unit instanceof AlgorithmUnit, true);
+			editor = new UEditor(name, modifiable, unit instanceof AlgorithmUnit, true, true);
 			editor.setText(src);
 			editor.setEditable(unit.isEditable());
 			editor.setCaretPosition(0);
@@ -1733,7 +1739,7 @@ public class GUI
 		String name = info.getName();
 		String src = info.getDemoScript();
 		boolean modifiable = prjm.getControlInfo().isModifiable();
-		final UEditor editor = new UEditor("Demo '" +name+ "'", modifiable, true, false);
+		final UEditor editor = new UEditor("Demo '" +name+ "'", modifiable, true, false, true);
 		editor.setText(src);
 		editor.setCaretPosition(0);
 		// el editor-listener puesto después para no recibir .changed():
@@ -1773,7 +1779,7 @@ public class GUI
 				{
 					save();
 				}
-				runDemo();
+				runDemo(false);
 			}
 			public void reload() 
 			{
@@ -1793,7 +1799,7 @@ public class GUI
 	/**
 	 * Ejecuta un guión de demostración.
 	 */
-	public static void runDemo()
+	public static void runDemo(final boolean ejecutorpp)
 	{
 		Runnable run = new Runnable() 
 		{
@@ -1849,7 +1855,7 @@ public class GUI
 					null,
 					cmds,
 					true,     // newSymTab
-					true      // ejecutorpp
+					ejecutorpp
 				);
 			}
 		};
@@ -1861,12 +1867,12 @@ public class GUI
 	/**
 	 * ejecuta un algoritmo.
 	 */
-	public static void executeAlgorithm(AlgorithmUnit alg)
+	public static void executeAlgorithm(AlgorithmUnit alg, boolean ejecutorpp)
 	{
 		IUnidad u = alg.getIUnidad();
 		if ( u != null )
 		{	
-			workspace.executeAlgorithm(alg, null, true);
+			workspace.executeAlgorithm(alg, null, ejecutorpp);
 		}
 		else
 		{
@@ -2002,6 +2008,7 @@ public class GUI
 		{
 			ex.printStackTrace();
 		}
+		System.out.println("bye!");
 		System.exit(0);
 	}
 	
@@ -3020,7 +3027,7 @@ public class GUI
 		public void execute() 
 		{
 			if ( unit instanceof AlgorithmUnit )
-				executeAlgorithm((AlgorithmUnit) unit);
+				executeAlgorithm((AlgorithmUnit) unit, false);
 		}
 
 		/////////////////////////////////////////////////////////////////

@@ -64,6 +64,27 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-06 (0.8pre8)
+
+Ejecución paso-a-paso
+
+	- Mejor sincronizacion. Ver IObservadorPP.java
+	
+	- Ajustes a SymbolTableWindow para diferenciar según si es
+	  instancia para top-level o para ámbito en curso.
+	  
+	- Asociado el texto del comando en intérprete como source
+	  para la NUnidadInterprete. De esta manera se muestra hora
+	  el código fuente en el editor de seguimineot del comando 
+	  ingresado para ejecución.
+	  
+	- Nuevas acciones para ejecución paso-a-paso de algoritmo (Shift-F9)
+	  y demo (Shift-M).
+	
+	- Nueva preferencia SYMTAB_TRACE_RECT para la ventana de declaraciones
+	  del ámbito en curso.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-05 (0.8pre8)
 
 Ejecución paso-a-paso
