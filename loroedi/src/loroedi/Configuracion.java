@@ -77,29 +77,24 @@ public class Configuracion
 	 *
 	 * Para esto, lee el archivo user.home/.loro/loroedi.conf (si estamos
 	 * en windows es user.home/_loro/loroedi.conf).
+	 * Si es necesario (ej. primera ejecucion), se crea.
 	 *
 	 * La propiedades a establecer son: donde [CV] es codigo de la version actual:
 	 *  loroedi.[CV].dir  - directorio de instalacion
 	 *  loroedi.[CV].n    - numero de ejecuciones completas de la version actual.
 	 *
-	 * @throws Exception  Problema para cargar el archivo de configuracion.
+	 * @throws Exception  Problema para cargar/crear el archivo de configuracion.
 	 */
 	public static void load() throws Exception {
 		File conf_file = new File(loro_conf_name);
 		if ( !conf_file.exists() ) {
-			// now I create this file from here (no more from installation)
 			try {
-				String dir = System.getProperty("LOROEDIDIR");
-				if ( dir == null )
-					throw new Exception("Please call me with LOROEDIDIR defined properly");
-				
+				// creacion solo con header
 				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(conf_file));
-				props.setProperty(DIR, dir);
 				props.store(out, header);
 				out.close();
 			}
-			catch (IOException ex )
-			{
+			catch (IOException ex ) {
 				throw new Exception(
 					"No se pudo crear el archivo de propiedades de Loro:\n" +
 					"  " +loro_conf_name+ "\n" +
@@ -110,21 +105,16 @@ public class Configuracion
 			}
 		}
 	
-		// what follows is basically what I had before.
-		// Later this will be modified.
-		
 		try {
 			// load properties:
 			BufferedInputStream br =
 				new BufferedInputStream(new FileInputStream(conf_file))
 			;
-
 			props.load(br);
 		}
-		catch (IOException ex )
-		{
+		catch (IOException ex ) {
 			throw new Exception(
-				"No se pudo cargar el archivo de propiedades de Loro:\n" +
+				"No se pudo cargar el archivo de propiedades de LoroEDI:\n" +
 				"  " +loro_conf_name+ "\n" +
 				"\n" +
 				"El problema ha sido:\n" +
@@ -134,17 +124,17 @@ public class Configuracion
 			);
 		}
 
-		// DIR: debe venir desde la instalacion:
 		String loro_dir = props.getProperty(DIR);
-		if ( loro_dir == null )
-		{
-			throw new Exception(
-				"El archivo de configuracion de Loro:\n" +
-				"  " +loro_conf_name+ "\n" +
-				"esta corrupto: no se encuentra la propiedad '" +DIR+ "'"+
-				"\n" +
-				"Se recomienda hacer una reintalacion de Loro\n"
-			);
+		if ( loro_dir == null ) {
+			loro_dir = System.getProperty("LOROEDIDIR");
+			if ( loro_dir == null ) {
+				throw new Exception(
+					"loroedi.jar deberia haberse llamado con LOROEDIDIR definido.\n"+
+					"Esto no deberia ocurrir. Por favor notificar esta anomalia."
+				);
+			}
+			System.out.println("Setting property " +DIR+ "=[" +loro_dir+ "]");
+			props.setProperty(DIR, loro_dir);
 		}
 
 		// Manejo del numero de ejecuciones de la version actual del sistema:
@@ -154,7 +144,6 @@ public class Configuracion
 			// primera vez: ponga esta propiedad en cero.  Vea store().
 			props.setProperty(VC, "0");
 		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////
