@@ -27,6 +27,16 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2002-10-30 Version 0.7.4
+
+	- En loro.util.Util:
+		- Nuevo método similar a getFilenames, pero recibiendo también
+		  un filename filter: getFilenames(String, boolean, FilenameFilter)
+		- Nuevos métodos para agregar entradas a un archivo zip:
+			copyDirectoryToZip(File, ZipOutputStream, FilenameFilter)
+			copyFileToZip(String, String, ZipOutputStream)
+	
+////////////////////////////////////////////////////////////////////////////
 2002-10-25 Version 0.7.4
 
 	- Modificado InterpreteImpl para permitir reader y/o writer nulos.

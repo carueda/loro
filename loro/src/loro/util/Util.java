@@ -6,14 +6,14 @@ import loro.Rango;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.*;
-import java.io.File;
+import java.io.*;
+import java.util.zip.*;
 
 
 ///////////////////////////////////////////////////////////////
 /**
- * Algunas utilerias.
+ * Algunas utilerias generales
  *
- * @version 2002-06-05
  */
 public final class Util
 {
@@ -407,7 +407,7 @@ public final class Util
 
 	/////////////////////////////////////////////////////////////////////
 	/**
-	 * Gets the list of filenames in a directory.
+	 * Gets the list of names of all files in a directory.
 	 *
 	 * @param directory  The directory
 	 * @param recurse    Recurse into subdirectories?
@@ -416,10 +416,30 @@ public final class Util
 	 */
 	public static List getFilenames(String directory, boolean recurse)
 	{
+		return getFilenames(directory, recurse, null);
+	}
+
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Gets the list of names of all files in a directory accordinf to a
+	 * filename filter.
+	 *
+	 * @param directory  The directory
+	 * @param recurse    Recurse into subdirectories?
+	 * @param fnfilter   The filename filter. Can be null.
+	 *
+	 * @return The list of filenames (String's).
+	 */
+	public static List getFilenames(
+		String directory,
+		boolean recurse,
+		FilenameFilter fnfilter
+	)
+	{
 		List list = new ArrayList();
 		File file = new File(directory);
 		int level = recurse ? Integer.MAX_VALUE : 1;
-		addFilenames(list, file, "", level);
+		addFilenames(list, file, "", level, fnfilter);
 		return list;
 	}
 
@@ -430,8 +450,15 @@ public final class Util
 	 * @param list The list.
 	 * @param file The file to start with.
 	 * @param level The level of recursion. Must be >= 1
+	 * @param fnfilter   The filename filter. Can be null.
 	 */
-	private static void addFilenames(List list, File file, String basename, int level)
+	private static void addFilenames(
+		List list, 
+		File file, 
+		String basename, 
+		int level,
+		FilenameFilter fnfilter
+	)
 	{
 		if ( file.isDirectory() )
 		{
@@ -444,19 +471,30 @@ public final class Util
 					{
 						addFilenames(list, dir[i], 
 							basename+ dir[i].getName()+ "/", 
-							level - 1
+							level - 1,
+							fnfilter
 						);
 					}
 					else
 					{
-						list.add(basename+ dir[i].getName());
+						if ( fnfilter == null
+						||   fnfilter.accept(file, dir[i].getName()) )
+						{
+							list.add(basename+ dir[i].getName());
+						}
 					}
 				}
 			}
 		}
 		else
 		{
-			list.add(basename+ file.getName());
+			String name2 = basename+ file.getName();
+			File file2 = new File(name2);
+			if ( fnfilter == null
+			||   fnfilter.accept(file2.getParentFile(), file2.getName()) )
+			{
+				list.add(name2);
+			}
 		}
 	}
 
@@ -479,4 +517,51 @@ public final class Util
 		// Utilice equals:
 		return e_val.equals(f_val);
 	}
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    public static void copyDirectoryToZip(
+		File basedir, 
+		ZipOutputStream zos,
+		FilenameFilter fnfilter
+	)
+    throws Exception
+    {
+        List list = getFilenames(basedir.getAbsolutePath(), true, fnfilter);
+
+        for ( Iterator it = list.iterator(); it.hasNext(); )
+        {
+            String filename = (String) it.next();
+            copyFileToZip(
+                filename,
+                basedir.getAbsolutePath()+ "/" +filename,
+                zos
+            );
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    public static void copyFileToZip(
+		String entryName,
+		String filename,
+		ZipOutputStream zos
+	)
+    throws Exception
+    {
+        ZipEntry entry = new ZipEntry(entryName);
+        zos.putNextEntry(entry);
+
+        BufferedInputStream bis = new BufferedInputStream(
+            new FileInputStream(filename)
+        );
+
+        int avail = bis.available();
+        byte[] buffer = new byte[avail];
+        bis.read(buffer, 0, avail);
+
+        zos.write(buffer, 0, avail);
+
+        zos.closeEntry();
+    }
+
 }
