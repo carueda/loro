@@ -1115,16 +1115,13 @@ public class GUI
 			{
 				dest = f_directory.getText().trim();
 				File file = new File(dest);
-				if ( file.exists() )
-				{
-					if ( !confirm(frame, 
+				if ( file.exists()
+				&&   !confirm(frame, 
 						"El directorio de destino ya existe:\n"+
 						"  " +dest+ "\n"+
 						"¿Proceder con la exportación?\n") )
-					{
-						return;
-					}
-					
+				{
+					return;
 				}
 			}
 			else // ( radio_extension.isSelected() )
@@ -1133,10 +1130,12 @@ public class GUI
 				if ( !dest.endsWith(".lar") )
 					dest += ".lar";
 				
-				if ( !confirm(frame, 
-					"El archivo de destino ya existe:\n"+
-					"  " +dest+ "\n"+
-					"¿Proceder con la exportación?\n") )
+				File file = new File(dest);
+				if ( file.exists()
+				&&  !confirm(frame, 
+						"El archivo de destino ya existe:\n"+
+						"  " +dest+ "\n"+
+						"¿Proceder con la exportación?\n") )
 				{
 					return;
 				}
