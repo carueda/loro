@@ -23,7 +23,7 @@
 		<copy todir="${build}/ext/mat">
 			<fileset dir="${src}/ext/mat"/> 
 		</copy>
-        <jar jarfile="${dist}/ext/mat.lar" 
+        <zip zipfile="${dist}/ext/mat.lar" 
 		 basedir="${build}/ext/mat"
 		/>
     </target>
@@ -41,7 +41,7 @@
 		<copy todir="${build}/ext/entsal">
 			<fileset dir="${src}/ext/entsal"/> 
 		</copy>
-        <jar jarfile="${dist}/ext/entsal.lar" 
+        <zip zipfile="${dist}/ext/entsal.lar" 
 		 basedir="${build}/ext/entsal"
 		/>
     </target>
