@@ -350,6 +350,13 @@ public class InterpreteImpl implements IInterprete
 		IMetaListener client = null;
 		
 		String info =
+"El Intérprete Interactivo permite ejecutar instrucciones en el lenguaje\n"+
+"Loro de manera inmediata. Escribe una instrucción a continuación del\n"+
+"indicador y presiona Intro.\n" +
+"\n"+
+"Los siguientes son algunos comandos especiales para el propio intérprete\n"+
+"reconocidos porque empiezan con punto (.):\n"+
+"\n"+
 ".?            - Muestra esta ayuda\n" +
 ".vars         - Muestra las variables declaradas actualmente\n" +
 ".borrar ID    - Borra la declaración de la variable indicada\n" +

@@ -12,6 +12,11 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-15 Version 0.7.91
+
+	- InterpreteImpl: menores ajustes en mensajes.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-14 Version 0.7.91
 
 	- Avances en interfaz para interpretación interactiva.
