@@ -5,7 +5,6 @@ import loroedi.gui.project.model.*;
 import loroedi.gui.project.unit.*;
 import loroedi.gui.editor.UEditor;
 
-import loroedi.LoroControl;
 import loroedi.InterpreterWindow;
 
 import loro.*;
@@ -87,14 +86,14 @@ public final class Workspace
 	PMListener pmlistener;
 
 
-	LoroControl loroControl;
+	EDICompiler ediCompiler;
 	
 	/////////////////////////////////////////////////////////////////
 	private Workspace(String prs_directory)
 	throws Exception
 	{
 		pmlistener = new PMListener();
-		loroControl = new LoroControl();
+		ediCompiler = new EDICompiler();
 		prjnames = new ArrayList();
 		name_prj = new HashMap();
 		
@@ -1225,8 +1224,8 @@ public final class Workspace
 		ICompilador compiler = Loro.obtCompilador();
 		compiler.ponDirectorioDestino(prj_dir.getAbsolutePath());
 		
-		//IUnidad[] unids = loroControl.derivar(source);
-		IFuente fuente = loroControl.compilar(source);
+		//IUnidad[] unids = ediCompiler.derivar(source);
+		IFuente fuente = ediCompiler.compilar(source);
 		String pkgname = fuente.getPackageName();
 		IFuente.IUtiliza[] uses = fuente.obtUtilizas();
 		
@@ -1335,16 +1334,16 @@ public final class Workspace
 		IUnidad u;
 		if ( unit instanceof SpecificationUnit )
 		{
-			u = loroControl.compileSpecification(pkgname, unitname, src);
+			u = ediCompiler.compileSpecification(pkgname, unitname, src);
 		}
 		else if ( unit instanceof AlgorithmUnit )
 		{
 			String specname = ((AlgorithmUnit) unit).getSpecificationName();
-			u = loroControl.compileAlgorithm(pkgname, unitname, specname, src);
+			u = ediCompiler.compileAlgorithm(pkgname, unitname, specname, src);
 		}
 		else if ( unit instanceof ClassUnit )
 		{
-			u = loroControl.compileClass(pkgname, unitname, src);
+			u = ediCompiler.compileClass(pkgname, unitname, src);
 		}
 		else
 		{
