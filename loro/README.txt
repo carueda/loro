@@ -27,6 +27,14 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2003-02-10 Version 0.7.7
+
+Ejecución paso-a-paso
+
+	- EjecutorPP.java: Se hace _obtSenalPP() tanto en _pushEvent()
+	  como en _popEvent().
+
+////////////////////////////////////////////////////////////////////////////
 2003-02-09 Version 0.7.7
 
 Ejecución paso-a-paso

@@ -139,6 +139,7 @@ public class EjecutorPP extends EjecutorTerminable
 	{
 		if ( obspp != null )
 		{
+			int senal = _obtSenalPP(unidadActual);
 			String src = unidadActual.getSourceCode();
 			obspp.push(unidadActual, tabSimb, src);
 		}				
@@ -148,9 +149,9 @@ public class EjecutorPP extends EjecutorTerminable
 	protected void _popEvent()
 	throws VisitanteException
 	{
-		int senal = _obtSenalPP(null);
 		if ( obspp != null )
 		{
+			int senal = _obtSenalPP(unidadActual);
 			String src = unidadActual.getSourceCode();
 			obspp.pop(unidadActual, tabSimb, src);
 		}				
