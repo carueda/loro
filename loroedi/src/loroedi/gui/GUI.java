@@ -412,7 +412,6 @@ public class GUI
 		URL url = ClassLoader.getSystemClassLoader().getResource("img/icon.jpg");
 		if ( url != null ) 
 			docFrame.setIconImage(new ImageIcon(url).getImage());
-		docFrame.setSize(500, 450);
 		docFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		docFrame.addWindowListener(new java.awt.event.WindowAdapter()
 		{
@@ -423,66 +422,76 @@ public class GUI
 		});
 		Preferencias.Util.updateRect(docFrame, Preferencias.DOC_RECT);
 
+		URL home_url = null;
 		try
 		{
-			URL home_url = null;
-			try
-			{
-				home_url = new File(doc_dir, "index.html").toURL();
-			}
-			catch(MalformedURLException e)
-			{
-				// ignore.
-			}
-			browser  = new BrowserPanel(home_url, null);
-			docFrame.getContentPane().add(browser);
+			home_url = new File(doc_dir, "index.html").toURL();
 		}
-		catch(Exception ex)
+		catch(MalformedURLException e)
 		{
-			JTextArea ta = new JTextArea();
-			ta.setText("Error creando área de documentación:\n" +ex.getMessage());
-			docFrame.getContentPane().add(ta);
+			// ignore.
 		}
+		browser  = new BrowserPanel(home_url, null);
+		docFrame.getContentPane().add(browser);
+		if ( home_url != null )
+			browser.setPage(home_url);
+		
+		// para revisar si es archivo local y existencia:
+		browser.setClickListener(new BrowserPanel.IClickListener()
+		{
+			public boolean click(URL hyperlink)
+			{
+				if ( hyperlink.getProtocol().equalsIgnoreCase("file")
+				&&  !new File(hyperlink.getPath()).exists() )
+				{
+					message(docFrame, 
+"No se encuentra el documento indicado por este enlace.\n"+
+"\n" +
+"Si se trata de una unidad del lenguaje o de un proyecto\n"+
+"del sistema, esta documentación se genera automáticamente\n"+
+"como parte del comando de compilación."
+					);
+					return true;
+				}
+				return false;
+			}
+		});
 	}
-
-
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Al nombre se hace remplazo de "::" por File.separator y se le
-	 * agrega ".html", y se toma relativo a doc_dir.
-	 */
-	static URL getDocumentURL(String docname)
-	throws Exception
-	{
-		docname = loro.util.Util.replace(docname, "::", File.separator);
-		File file = new File(doc_dir, docname + ".html");
-		return file.toURL();
-	}
-
 
 	
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Despliega el documento indicado. 
 	 */
-	static void showDocumentation(String docname)
+	private static void showDocumentation(String basename, String ext)
 	{
+		String docname = basename+ "." +ext;
+		String filename = loro.util.Util.replace(basename, "::", File.separator);
+		filename += "." +ext+ ".html";
+		File file = new File(doc_dir, filename);
+		if ( !file.exists() )
+		{
+			message(focusedProject.getFrame(), 
+"No se encuentra el documento HTML asociado.\n"+
+"\n" +
+"Esta documentación se genera de forma automática\n"+
+"como parte del comando de compilación."
+			);
+			return;
+		}
+		
 		if ( browser == null )
 			createBrowserPanel();
 
+		docFrame.setVisible(true);
 		try
 		{
-			URL url = getDocumentURL(docname);
+			URL url = file.toURL();
 			URL prev = browser.getPage();
 			if ( prev != null && prev.equals(url) )
-			{
 				browser.refresh();
-			}
 			else
-			{
 				browser.setPage(url);
-			}
-			docFrame.setVisible(true);
 		}
 		catch(Exception ex)
 		{
@@ -503,7 +512,7 @@ public class GUI
 		// actualice por posibles adiciones/borrados de elementos:
 		_saveProjectDoc(focusedProject.getModel(), null);
 		String prjname = focusedProject.getModel().getInfo().getName();
-		showDocumentation(prjname+ ".prj");
+		showDocumentation(prjname, "prj");
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -513,7 +522,7 @@ public class GUI
 	public static void showUnitDocumentation(IProjectUnit unit)
 	{
 		String unitname = unit.getQualifiedName();
-		showDocumentation(unitname+ "." +unit.getCode());
+		showDocumentation(unitname, unit.getCode());
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -528,12 +537,12 @@ public class GUI
 			try
 			{
 				String unitname = unit.getQualifiedName();
-				URL url = getDocumentURL(unitname+ "." +unit.getCode());
+				String filename = loro.util.Util.replace(unitname, "::", File.separator);
+				filename += "." +unit.getCode()+ ".html";
+				URL url = new File(doc_dir, filename).toURL();
 				URL prev = browser.getPage();
 				if ( prev != null && prev.equals(url) )
-				{
 					browser.refresh();
-				}
 			}
 			catch(Exception ex)
 			{
@@ -1038,15 +1047,22 @@ public class GUI
 		{
 			String prjname = (String) it.next();
 			IProjectModel.IROInfo info = workspace.getProjectModelInfo(prjname);
+			String version = info.getVersion();
+			String title = info.getTitle();
+			if ( version == null ) 
+				version = "?";
+			if ( title == null ) 
+				title = "?";
+			
 			sb.append("<tr>\n");
 			sb.append("<td bgcolor=\"#FFCCCC\">\n");
 			sb.append("  <a href=\"" +prjname+ ".prj.html"+ "\">" +prjname+ "</a>\n");
 			sb.append("</td>\n");
 			sb.append("<td bgcolor=\"#FFCCCC\">\n");
-			sb.append("  " +info.getVersion()+ "\n");
+			sb.append("  " +version+ "\n");
 			sb.append("</td>\n");
 			sb.append("<td bgcolor=\"#FFEEEE\">\n");
-			sb.append("  " +info.getTitle()+ "\n");
+			sb.append("  " +title+ "\n");
 			sb.append("</td>\n");
 			sb.append("</tr>\n");
 		}

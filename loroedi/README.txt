@@ -13,8 +13,14 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
-2003-05-23 (0.8pre12)
+2003-05-24 (0.8pre12)
 
+	- GUI: mejoras en despliegue de documentación html y errores:
+		.createBrowserPanel(): Inicia el BrowserPanel con su "home". 
+			Atiende clics para desplegar un mejor error cuando no se encuentra 
+			un enlace. 
+		.showDocumentation(): Inicia chequeando existencia del archivo.
+	
 	- Bug 718461 corregido:
 	  Project.setModel: pone un label transitorio mientras se actualiza el
 	  diagrama; esto evita la actualización incremental que no es necesaria y
