@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.*;
 import java.awt.*;
+import java.net.URL;
 
 
 
@@ -47,6 +48,9 @@ public class SymbolTableWindow
 		this.closeable = closeable;
 		this.delVar = delVar;
 		frame = new JFrame(title);
+		URL url = getClass().getClassLoader().getResource("img/icon.jpg");
+		if ( url != null ) 
+			frame.setIconImage(new ImageIcon(url).getImage());
 		JPanel cp = new JPanel(new BorderLayout());
 		cp.setBorder(BorderFactory.createTitledBorder("Variables declaradas " +title));
 		frame.setContentPane(cp);

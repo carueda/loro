@@ -64,6 +64,23 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-12 (0.8pre8)
+
+Ajustes cosméticos.
+
+	- GUI: Ahora se muestran mensajes de estado de inicio en el splash window.
+	
+	- GUI: Si al iniciar el entorno se tiene un proyecto vacío, se despliega
+	  un mensaje de guía para el usuario refiriendo las opciones de
+	  "abrir" e "instalar".
+	  
+	- GUI: Se despliega un mensaje justo al abrirse un proyecto.
+	
+	- LoroControl: actualizado obtMensajeAPropositoDe().
+	
+	- Asociación de ícono (icon.jpg) a las diferentes ventanas.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-11 (0.8pre8)
 
 Ejecución paso-a-paso
@@ -83,7 +100,7 @@ Ejecución paso-a-paso
 	  de visualización muestre el comienzo del fragmento de código. 
 	  
 	- MessageArea ahora hace un control simple para prevenir una
-	  una sobrepetición de memoria, lo que podría suceder al hacer 
+	  sobrepetición de memoria, lo que podría suceder al hacer 
 	  seguimiento a cualquier ejecución prolongada (por ejemplo
 	  si se llama fiboRecur(10) (!)
 	  Una mejor implementación utilizaría alguna estrategia de

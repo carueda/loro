@@ -80,7 +80,7 @@ public class LoroControl
 			obtMensajeAPropositoDe(),
 			"A propósito de...",
 			javax.swing.JOptionPane.INFORMATION_MESSAGE,
-			Util.getIcon("img/splash.gif")
+			Util.getIcon("img/splash.jpg")
 		);
 	}
 
@@ -91,17 +91,19 @@ public class LoroControl
 	public String obtMensajeAPropositoDe()
 	{
 		return
-			Info.obtNombre()+ "   " + "Versión " +Info.obtVersion()+ "\n" +
-			"Un Sistema de Programación Didáctico\n"+
+			"Loro - Sistema Didáctico de Programación\n"+
+			" \n" +
+			Info.obtNombre()+ " " +Info.obtVersion()+ " (" +Info.obtBuild()+ ")\n" +
+			Loro.obtNombre()+ " " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")\n" +
 			" \n" +
 			"http://loro.sf.net\n" +
 			" \n"+
 			"Este programa es software libre y puede ser\n"+
-			"redistribuirlo si se desea. Se ofrece con la\n"+
+			"redistribuido si se desea. Se ofrece con la\n"+
 			"esperanza que sea útil, pero sin ningún tipo\n"+
 			"de garantía. Por favor, lea la licencia de uso.\n"+
 			" \n" +
-			"Copyright© 1999-2002 Carlos Rueda\n" +
+			"Copyright© 1999-2003 Carlos A. Rueda\n" +
 			"Universidad Autónoma de Manizales\n" +
 			"Manizales - Colombia\n" +
 			" \n"

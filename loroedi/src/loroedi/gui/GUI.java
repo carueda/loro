@@ -14,7 +14,7 @@ import loroedi.Preferencias;
 import loroedi.Interprete;
 import loroedi.laf.LookAndFeel;
 import loroedi.help.BrowserPanel;
-
+import loroedi.Splash;
 
 import loro.*;
 
@@ -60,8 +60,10 @@ public class GUI
 	/** Mapping from names to UEditor's de scripts de demostración. */
 	static Map demoEditors;
 	
-	
 	static SymbolTableWindow symbolTableWindow;
+	
+	static Splash splash;
+	
 	
 	/** Atiende items en el menu "Ventana" */
 	static ActionListener selectFromWindowMenu = new ActionListener() 
@@ -110,6 +112,7 @@ public class GUI
 			// **** NOTA: Por ahora se hace así siempre ****
 			docInProjectDirectory = true;
 			
+			splash.status("Iniciando espacio de trabajo...");
 			workspace = Workspace.createInstance(prs_dir); 
 
 			numOpen = 0;
@@ -119,6 +122,7 @@ public class GUI
 			if ( recent.length() > 0
 			&&   workspace.existsProjectModel(recent) )
 			{
+				splash.status("Cargando proyecto reciente...");
 				model = workspace.getProjectModel(recent);
 			}
 			else
@@ -141,6 +145,24 @@ public class GUI
 			_dispatch(frame, model);
 			
 			_firstTime();
+			
+			if ( _isNewAndEmpty(model) )
+			{
+				focusedProject.getMessageArea().print(
+"Proyecto nuevo. Para proceder con su definición, elegir la opción 'Propiedades'\n"+
+"en el menú 'Proyecto'.  Si se desea acceder a un proyecto ya existente, elegir\n"+
+"opción 'Abrir...' (Ctrl-O) u opción 'Instalar...' (Ctrl-I)."
+				);
+			}
+			else
+			{
+				focusedProject.getMessageArea().print(
+"Proyecto '" +model.getInfo().getName()+ "' abierto."
+				);
+			}
+
+			// cierre el splash window.			
+			splash.status(null);
 		}
 		catch (Exception ex)
 		{
@@ -169,8 +191,10 @@ public class GUI
 	static void _initCore(JFrame frame)
 	throws Exception
 	{
-		loroedi.Splash.showSplash(frame);
+		splash = Splash.showSplash(frame);
+		splash.status("Leyendo configuración...");
 		Configuracion.load();
+		splash.status("Leyendo preferencias...");
 		Preferencias.load();
 		
 		if ( prs_dir == null )
@@ -180,6 +204,7 @@ public class GUI
 		new File(prs_dir).mkdirs();
 
 		// prepare valores de configuración para Loro:
+		splash.status("Configurando núcleo...");
 		String ext_dir = Configuracion.getProperty(Configuracion.DIR)+ "/lib/ext/";
 		String paths_dir = prs_dir;
 		Loro.configurar(ext_dir, paths_dir);
@@ -189,6 +214,7 @@ public class GUI
 		ICompilador compilador = Loro.obtCompilador();
 		compilador.ponDirectorioDestino(oro_dir);
 		
+		splash.status("Preparando entorno...");
 		symbolTableWindow = new SymbolTableWindow(
 			"top-level",
 			Loro.getSymbolTable(),
@@ -225,6 +251,7 @@ public class GUI
 
 		////////////////////////////////////////
 		// Verifique el núcleo Loro: 
+		splash.status("Verificando núcleo...");
 		Loro.verificarNucleo();
 
 		IDocumentador documentador = Loro.obtDocumentador();
@@ -237,6 +264,7 @@ public class GUI
 		// genere documentacion de extensiones en doc_dir:
 		// lo siguiente genera doc para todas las unidades,
 		// incluyendo las del núcleo:
+		splash.status("Actualizando documentación...");
 		documentador.documentarExtensiones(doc_dir);
 		
 		// y lo siguiente genera doc para cada proyecto-extensión como tal
@@ -253,6 +281,7 @@ public class GUI
 		
 		////////////////////////////////////////
 		// Abra la ventana de ayuda:
+		splash.status("Abriendo ayuda...");
 		loroedi.help.HelpManager.displayHelp();
 		
 		//pendiente revisar esto:
@@ -372,6 +401,9 @@ public class GUI
 	static void createBrowserPanel()
 	{
 		docFrame = new JFrame("Documentación");
+		URL url = ClassLoader.getSystemClassLoader().getResource("img/icon.jpg");
+		if ( url != null ) 
+			docFrame.setIconImage(new ImageIcon(url).getImage());
 		docFrame.setSize(500, 450);
 		docFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		docFrame.addWindowListener(new java.awt.event.WindowAdapter()
@@ -2178,6 +2210,8 @@ public class GUI
 			_updateWindowMenu();
 		}
 		dispatch(prjname);
+		focusedProject.getMessageArea().clear();
+		focusedProject.getMessageArea().println("Proyecto '" +prjname+ "' abierto");
 		return true;
 	}
 	
@@ -2945,9 +2979,7 @@ public class GUI
 			setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 			URL url = getClass().getClassLoader().getResource("img/icon.jpg");
 			if ( url != null ) 
-			{
 				setIconImage(new ImageIcon(url).getImage());
-			}
 
 			windowMenu = new JMenu("Ventana");
 			JMenuBar mb = createMenuBar(windowMenu); 

@@ -67,6 +67,9 @@ public class HelpManager
 		home_url = new URL(page);
 
 		frame = new JFrame("Loro Ayuda");
+		URL url = getClass().getClassLoader().getResource("img/icon.jpg");
+		if ( url != null ) 
+			frame.setIconImage(new ImageIcon(url).getImage());
 		frame.addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)

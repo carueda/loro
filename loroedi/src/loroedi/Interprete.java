@@ -18,6 +18,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.StringTokenizer;
 import javax.swing.*;
+import java.net.URL;
 
 
 /////////////////////////////////////////////////////////////////////
@@ -26,7 +27,6 @@ import javax.swing.*;
  * PENDIENTE: factorizar con InterpreterWindow.
  *
  * @author Carlos Rueda
- * @version 2002-10-02
  */
 public class Interprete extends Thread
 implements ActionListener
@@ -240,6 +240,9 @@ implements ActionListener
 
 		ii = new Interprete();
 		frame = new JFrame("Intérprete Interactivo de Loro");
+		URL url = ClassLoader.getSystemClassLoader().getResource("img/icon.jpg");
+		if ( url != null ) 
+			frame.setIconImage(new ImageIcon(url).getImage());
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new java.awt.event.WindowAdapter()
 		{
@@ -378,6 +381,7 @@ implements ActionListener
 		else if ( text.equals(".version") )
 		{
 			msg =
+"Loro - Sistema Didáctico de Programación\n"+
 Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
 Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			;

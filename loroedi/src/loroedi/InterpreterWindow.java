@@ -18,6 +18,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.StringTokenizer;
 import javax.swing.*;
+import java.net.URL;
 
 
 /////////////////////////////////////////////////////////////////////
@@ -92,6 +93,9 @@ implements ActionListener
 		}
 		
 		frame = new JFrame(title);
+		URL url = getClass().getClassLoader().getResource("img/icon.jpg");
+		if ( url != null ) 
+			frame.setIconImage(new ImageIcon(url).getImage());
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new java.awt.event.WindowAdapter()
 		{
@@ -385,6 +389,7 @@ implements ActionListener
 		else if ( text.equals(".version") )
 		{
 			msg =
+"Loro - Sistema Didáctico de Programación\n"+
 Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
 Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			;

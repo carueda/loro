@@ -11,6 +11,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
+import java.net.URL;
 
 
 /////////////////////////////////////////////////////////
@@ -58,6 +59,9 @@ public class UEditor implements EditorListener
 		this.saved = true;
 		frame = new JFrame(title);
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		URL url = getClass().getClassLoader().getResource("img/icon.jpg");
+		if ( url != null ) 
+			frame.setIconImage(new ImageIcon(url).getImage());
 
 		// cree el area de texto (aun no tenemos el Editor):
 		AreaTexto areaTexto = new AreaTexto_jedit(null);
@@ -304,7 +308,7 @@ public class UEditor implements EditorListener
 				public void componentResized(ComponentEvent e)
 				{
 					double h = split0.getSize().getHeight();
-					double p = 0.1;
+					double p = 0.15;   // 15%
 					if ( p * h < 60. )
 						p = 60. / h;
 
