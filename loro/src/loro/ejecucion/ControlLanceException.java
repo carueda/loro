@@ -1,5 +1,6 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
 import loro.arbol.NExpresion;
 import loro.util.UtilValor;
 
@@ -33,8 +34,9 @@ public class ControlLanceException extends ControlException
 	 */
 	public ControlLanceException(Object r, NExpresion expresion, PilaEjecucion pilaEjec)
 	{
-		super("Se generó excepción: " +
+		super(Str.get("rt.1_exception_thrown",
 			UtilValor.valorComillasDeExpresion(expresion.obtTipo(), r)
+			)
 		);
 		res = r;
 		this.expresion = expresion;

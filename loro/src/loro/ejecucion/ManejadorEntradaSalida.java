@@ -1,5 +1,6 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
 import loro.ijava.LManejadorES;
 import java.io.Reader;
 import java.io.Writer;
@@ -43,26 +44,26 @@ public class ManejadorEntradaSalida implements LManejadorES
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Escribe una cadena por la salida.
-	 * Si este argumento es null, se imprime "nulo".
+	 * Si este argumento es null, se imprime "null".
 	 */
 	public void escribir(String s)
 	{
-		pw.print(s != null ? s : "nulo");
+		pw.print(s != null ? s : Str.get("null"));
 		pw.flush();
 	}
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Escribe una cadena por la salida con cambio de linea al final.
-	 * Si este argumento es null, se imprime "nulo".
+	 * Si este argumento es null, se imprime "null".
 	 */
 	public void escribirln(String s)
 	{
-		pw.println(s != null ? s : "nulo");
+		pw.println(s != null ? s : Str.get("null"));
 		pw.flush();
 	}
 	//////////////////////////////////////////////////////////////
 	/**
-	 * Lee un valor booleano: cierto o falso.
+	 * reads a boolean value: true or false.
 	 */
 	public boolean leerBooleano()
 	throws IOException
@@ -71,13 +72,13 @@ public class ManejadorEntradaSalida implements LManejadorES
 		if ( res != null )
 		{
 			res = res.trim();
-			if ( res.equalsIgnoreCase("cierto") )
+			if ( res.equalsIgnoreCase(Str.get("true")) )
 				return true;
-			else if ( res.equalsIgnoreCase("falso") )
+			else if ( res.equalsIgnoreCase(Str.get("false")) )
 				return false;
 		}
 		throw new RuntimeException(
-			"leerBooleano(): Formato inválido para el valor (se espera cierto o falso)"
+			Str.get("rt.error.invalid_boolean_value")
 		);
 	}
 	/////////////////////////////////////////////////////////////
@@ -94,9 +95,10 @@ public class ManejadorEntradaSalida implements LManejadorES
 		}
 		catch(EOFException ex)
 		{
-			throw new RuntimeException("Fin de archivo inesperado"); 
+			throw new RuntimeException(Str.get("rt.error.unexpected_eof"));
 		}
-/*		catch(InterruptedIOException ex)
+		/*		
+		catch(InterruptedIOException ex)
 		{
 			// interrupcion se toma como terminacion externa:
 			throw new loro.ejecucion.EjecucionTerminadaExternamenteException();
@@ -134,11 +136,8 @@ public class ManejadorEntradaSalida implements LManejadorES
 	throws IOException
 	{
 		String res = leerCadenaNoVacia();
-		if ( res == null )
-		{
-			throw new RuntimeException(
-				"leerCaracter(): Formato inválido para el valor"
-			);
+		if ( res == null ) {
+			throw new RuntimeException(Str.get("rt.error.invalid_char_value"));
 		}
 			
 		return res.charAt(0);
@@ -161,7 +160,7 @@ public class ManejadorEntradaSalida implements LManejadorES
 		catch (NumberFormatException e)
 		{
 			throw new NumberFormatException(
-				"leerEntero(): Formato inválido para el número"
+				Str.get("rt.error.invalid_integer_value")
 			);
 		}
 	}
@@ -192,7 +191,7 @@ public class ManejadorEntradaSalida implements LManejadorES
 		catch (NumberFormatException e)
 		{
 			throw new NumberFormatException(
-				"leerReal(): Formato inválido para el número"
+				Str.get("rt.error.invalid_real_value")
 			);
 		}
 	}

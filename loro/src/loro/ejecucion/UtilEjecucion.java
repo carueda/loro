@@ -1,5 +1,6 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
 import loro.arbol.*;
 import loro.util.ManejadorUnidades;
 import loro.util.UtilValor;
@@ -35,21 +36,26 @@ final class UtilEjecucion
 		NDeclaracion[] pent = alg.obtParametrosEntrada();
 
 		mes.escribir(
-PREFIX+ " Ejecutando " +alg+ "\n"
+			PREFIX+ " " +Str.get("rt.running")+ " " +alg+ "\n"
 		);
-		if ( args.length > 0 )
-		{
+		
+		if ( args.length > 1 ) {
 			mes.escribir(
-PREFIX+ " Con argumento" +(args.length > 1 ? "s" : "")+ ":\n");
-			for ( int i = 0; i < args.length; i++ )
-			{
-				mes.escribir(
-PREFIX+ "   "
-				);
-				
-				NDeclaracion dec = pent[i];
-				mes.escribir(dec.obtId()+ " = " +UtilValor.comoCadena(args[i])+ "\n");
-			}
+				PREFIX+ " " +Str.get("rt.with_args")+ ":\n"
+			);
+		}
+		else if ( args.length == 1 ) {
+			mes.escribir(
+				PREFIX+ " " +Str.get("rt.with_arg")+ ":\n"
+			);
+		}
+			
+		for ( int i = 0; i < args.length; i++ )
+		{
+			mes.escribir(PREFIX+ "   ");
+			
+			NDeclaracion dec = pent[i];
+			mes.escribir(dec.obtId()+ " = " +UtilValor.comoCadena(args[i])+ "\n");
 		}
 	}
 	
@@ -100,28 +106,20 @@ PREFIX+ "   "
 		try
 		{
 			mes.escribir(
-PREFIX+ " Para ejecutar:\n"+
-PREFIX+ "    " +alg+ "\n"
+				PREFIX+ " " +Str.get("rt.1_to_execute", alg)+ " \n"
 			);
-			if ( n == 1 )
-			{
+			if ( n == 1 ) {
 				mes.escribir(
-PREFIX+ " se requiere una entrada.\n"+
-PREFIX+ " A continuación, se solicitará esta información.\n"+
-PREFIX+ " Tener en cuenta el tipo esperado para esta entrada.\n"
+					PREFIX+ " " +Str.get("rt.prompt_for_input")+ "\n"
 				);
 			}
-			else
-			{
+			else {
 				mes.escribir(
-PREFIX+ " se requieren " +n+ " entradas.\n"+
-PREFIX+ " A continuación, se solicitará esta información.\n"+
-PREFIX+ " Tener en cuenta los tipos esperados para estas entradas.\n"
+					PREFIX+ " " +Str.get("rt.1_prompt_for_inputs", ""+n)+ "\n"
 				);
 			}
 			
-			for ( int i = 0; i < n; i++ )
-			{
+			for ( int i = 0; i < n; i++ ) {
 				if ( dent != null )
 				{
 					NDescripcion des = dent[i];
@@ -134,8 +132,7 @@ PREFIX+ " Tener en cuenta los tipos esperados para estas entradas.\n"
 				cadArgs[i] = mes.leerCadena();
 			}
 		}
-		catch(java.io.IOException ex)
-		{
+		catch(java.io.IOException ex) {
 			throw new TerminacionException(alg, pilaEjec);
 		}
 
@@ -157,14 +154,12 @@ PREFIX+ " Tener en cuenta los tipos esperados para estas entradas.\n"
 		NDeclaracion[] pent = alg.obtParametrosEntrada();
 		NDeclaracion[] psal = alg.obtParametrosSalida();
 
-		mes.escribir("::::::::::::::: Inicio despacho implementación \"usr\"" + "\n");
+		mes.escribir("::::::::::::::: " +Str.get("rt.begin_usr_dispatch")+ "\n");
 		
 		mes.escribir("   " +alg+ "\n");
-		if ( args.length > 0 )
-		{
-			mes.escribir("ha sido llamado con:\n");
-			for ( int i = 0; i < args.length; i++ )
-			{
+		if ( args.length > 0 ) {
+			mes.escribir(Str.get("rt.has_been_called_with")+ ":\n");
+			for ( int i = 0; i < args.length; i++ ) {
 				NDeclaracion dec = pent[i];
 				mes.escribir("   " +dec.obtId()+ " = ");
 				mes.escribir(UtilValor.valorComillasDeExpresion(
@@ -178,7 +173,7 @@ PREFIX+ " Tener en cuenta los tipos esperados para estas entradas.\n"
 				{
 					NDeclaracion d = psal[0];
 					TId d_id = d.obtId();
-					mes.escribir(" Expresión para asignar valor a la variable de salida:\n");
+					mes.escribir(" " +Str.get("rt.expression_to_assign")+ ":\n");
 					mes.escribir("   " +d_id+ " := ");
 					String expr = mes.leerCadena();
 					
@@ -203,7 +198,7 @@ PREFIX+ " Tener en cuenta los tipos esperados para estas entradas.\n"
 			}
 		}
 		
-		mes.escribir("::::::::::::::: Fin.\n");
+		mes.escribir("::::::::::::::: " +Str.get("rt.end_usr_dispatch")+ "\n");
 	}
 	
 }

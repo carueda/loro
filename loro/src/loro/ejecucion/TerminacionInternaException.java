@@ -1,5 +1,7 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
+
 //////////////////////////////////////////////////////////////////
 /**
  * Exception lanzada cuando se llama el proceso 
@@ -18,7 +20,7 @@ class TerminacionInternaException extends RuntimeException
 	 */
 	public TerminacionInternaException(int codigo)
 	{
-		super("Código terminación = " +codigo);
+		super(Str.get("rt.exit_code")+ " = " +codigo);
 		this.codigo = codigo;
 	}
 	/////////////////////////////////////////////////////////

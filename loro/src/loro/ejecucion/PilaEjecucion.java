@@ -1,5 +1,6 @@
 package loro.ejecucion;
 
+import loro.Loro.Str;
 import loro.tabsimb.*;
 import loro.Rango;
 import loro.arbol.*;
@@ -75,11 +76,12 @@ public final class PilaEjecucion extends Stack
 		int size = size();
 		int count = size;
 
-		if ( count > maxNivelesMostrar )
-		{
+		if ( count > maxNivelesMostrar ) {
 			count = maxNivelesMostrar;
 		}
 
+		String at = Str.get("rt.stack_at");
+		
 		StringBuffer sb = new StringBuffer();
 
 		for (int i = size - 1; i >= 0 && count >= 0; i--, count-- )
@@ -87,8 +89,7 @@ public final class PilaEjecucion extends Stack
 			MarcoActivacion m = (MarcoActivacion) elementAt(i);
 			String fuente = m.uni.obtNombreFuente();
 
-			if ( fuente != null )
-			{
+			if ( fuente != null ) {
 				// deje solo nombre del archivo fuente (sin ruta):
 				fuente = fuente.replace('\\', '/');
 				int index = fuente.lastIndexOf('/');
@@ -97,15 +98,14 @@ public final class PilaEjecucion extends Stack
 					fuente = fuente.substring(index + 1);
 				}
 			}
-			else
-			{
-				fuente = "<fuente?>";
+			else {
+				fuente = "<?>";
 			}
 
 			int iniLin = m.curr_node.obtRango().obtIniLin();
 			int iniCol = m.curr_node.obtRango().obtIniCol();
 			String pos_msg = iniLin+ "," +iniCol;
-			sb.append("  en " +m.uni+ " (" +fuente+ ":" +pos_msg+ ")\n");
+			sb.append("  " +at+ " " +m.uni+ " (" +fuente+ ":" +pos_msg+ ")\n");
 		}
 
 		pw.print(sb.toString());

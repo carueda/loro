@@ -18,8 +18,7 @@ abstract class ControlException extends VisitanteException
 	/**
 	 * Crea un exception de control.
 	 */
-	protected ControlException(String m)
-	{
+	protected ControlException(String m) {
 		super(m);
 	}
 	
@@ -27,8 +26,7 @@ abstract class ControlException extends VisitanteException
 	/**
 	 * Crea un exception de control.
 	 */
-	protected ControlException()
-	{
-		this("Excepcion de control");
+	protected ControlException() {
+		this("ControlException");
 	}
 }

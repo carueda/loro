@@ -47,7 +47,7 @@ public class LoroClassLoader
 	public void ponDirectorioExtensiones(String dir_ext)
 	throws MalformedURLException
 	{
-		Loro.log("Creando classloader en " +dir_ext+ "...");
+		Loro.log("Creating classloader in " +dir_ext+ "...");
 
 		File dir_file = new File(dir_ext);
 		File[] files = dir_file.listFiles();
@@ -61,7 +61,7 @@ public class LoroClassLoader
 				if ( file.getName().toLowerCase().endsWith(".lar")
 				||   file.getName().toLowerCase().endsWith(".jar") )
 				{
-					Loro.log("Incluyendo: " +file.getAbsoluteFile());
+					Loro.log("Including: " +file.getAbsoluteFile());
 					try
 					{
 						URL url = file.getAbsoluteFile().toURL();
@@ -77,16 +77,16 @@ public class LoroClassLoader
 
 		if ( list.size() == 0 )
 		{
-			Loro.log("Sin elementos de busqueda para el classloader.");
+			Loro.log("Empty search list for classloader.");
 		}
 		else
 		{
 			URL[] a = (URL[]) list.toArray(EMPTY_URL_ARRAY);
 			classLoader = new URLClassLoader(a);
-			Loro.log("classloader creado con " +a.length+ " elementos de búsqueda.");
+			Loro.log("classloader created with " +a.length+ " search elements.");
 		}
 
-		Loro.log("Finalizado classloader.");
+		Loro.log("classloader done.");
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -110,7 +110,7 @@ public class LoroClassLoader
 		{
 			clazz = Class.forName(class_name);
 
-			Loro.log("Clase " +class_name+ " obtenida de Class.forName");
+			Loro.log("Class " +class_name+ " gotten from Class.forName");
 			return clazz;
 		}
 		catch ( ClassNotFoundException ex )
@@ -124,11 +124,11 @@ public class LoroClassLoader
 		try
 		{
 			clazz = classLoader.loadClass(class_name);
-			Loro.log("Clase " +class_name+ " obtenida del classloader");
+			Loro.log("Class " +class_name+ " gotten from classloader");
 		}
 		catch ( ClassNotFoundException ex )
 		{
-			Loro.log("Clase " +class_name+ " NO encontrada");
+			Loro.log("Class " +class_name+ " not found");
 			throw ex;
 		}
 

@@ -8,6 +8,9 @@ $Id$
 	  words and identifiers.
 	- CompiladorImpl._openReader() uses charset ISO-8859-1
 	
+	- loro.ejecucion: starting localization: 
+	  continue with LoroEjecutor* !!
+	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-21 Version 0.7.95
 	- Starting to localize strings by using ResourceBundle.
