@@ -10,13 +10,14 @@ import loro.util.ManejadorUnidades;
 
 import java.io.*;
 import java.util.*;
+import java.nio.charset.Charset;
 
 /////////////////////////////////////////////////////////////////////
 /**
  * Implementacion de ICompilador
  *
  * @author Carlos Rueda
- * @version 2002-10-06
+ * @version $Id$
  */
 public class CompiladorImpl implements ICompilador
 {
@@ -411,8 +412,7 @@ public class CompiladorImpl implements ICompilador
 			String nombre = (String) it.next();
 			try
 			{
-				FileInputStream fis = new FileInputStream(nombre);
-				Reader reader = new BufferedReader(new InputStreamReader(fis));
+				Reader reader = _openReader(nombre);
 				ponTextoFuente(reader);
 				ponNombreArchivo(nombre);
 				IFuente fuente = compilarFuente();
@@ -456,8 +456,7 @@ public class CompiladorImpl implements ICompilador
 			String nombre = (String) it.next();
 			try
 			{
-				FileInputStream fis = new FileInputStream(nombre);
-				Reader reader = new BufferedReader(new InputStreamReader(fis));
+				Reader reader = _openReader(nombre);
 				ponTextoFuente(reader);
 				ponNombreArchivo(nombre);
 				compilarFuente();
@@ -474,5 +473,13 @@ public class CompiladorImpl implements ICompilador
 		}
 		
 		return anticompilados;
+	}
+
+	private static Reader _openReader(String filename) 
+	throws FileNotFoundException, CompilacionException {
+		FileInputStream fis = new FileInputStream(filename);
+		Charset cs = Charset.forName("ISO-8859-1");
+		InputStreamReader is = new InputStreamReader(fis, cs);
+		return new BufferedReader(is);
 	}
 }

@@ -127,6 +127,7 @@ public class LoroCompilerTask extends MatchingTask
 	public void setLog(String loro_log)
 	{
 		this.loro_log = loro_log;
+		log("property 'log' set to '" +loro_log+ "'");
 	}
 
 	/////////////////////////////////////////////////////////////////////////

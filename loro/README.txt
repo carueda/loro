@@ -2,13 +2,21 @@ Loro README
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-01-07 Version 0.7.92
+2004-01-07 Version 0.7.93
 
-	- build.xml: 
-	  Agregue encoding="ISO8859_1" para la compilacion: por alguna razon bajo 
-	  mi sistema debian, el entorno java no esta procesando apropiadamente 
-	  algunos caracteres no ascii que tengo en algunos fuentes (por ejemplo,
-	  Sistema.terminarEjecución).
+	- Charset : ISO8859_1
+	  Descubri que el charset ISO8859_1 no necesariamente esta automaticamente
+	  disponible bajo ambiente java (al menos no bajo mi sistema debian).
+	  Asi que hice los siguientes cambios.
+		
+		- build.xml: 
+		  Agregue encoding="ISO8859_1" para la compilacion de fuentes java:
+		  ya que algunos identificadores con caracteres no ascii, como 
+		  Sistema.terminarEjecución.
+		  
+		- CompiladorImpl.java:
+		  Para la compilacion de fuentes loro, hice asociacion explicita del 
+		  charset ISO8859_1 al abrir los archivos a compilar.
 
 ////////////////////////////////////////////////////////////////////////////
 2003-05-24 Version 0.7.92

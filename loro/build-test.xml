@@ -41,6 +41,7 @@
 			includes="**/**.loro"
 			excludes="**/*LEAME.loro, **/*README.loro"
 			save="true"
+			log="System.out"
 		/>
 	</target>
 
