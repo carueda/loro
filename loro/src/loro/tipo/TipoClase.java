@@ -12,49 +12,54 @@ public class TipoClase extends TipoUnidad
 {
 	//////////////////////////////////////////////////////////////////////
 	/**
+	 * Crea un tipo clase asociado al nombre dado.
+	 */
+	TipoClase(String[] nombre)
+	{
+		super(nombre);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	/**
 	 * Dice si a una variable de este tipo se le puede asignar un valor
 	 * del tipo dado.
 	 * En este caso, si t es el tipo nulo o si t es clase igual o subclase
 	 * de este tipo clase.
+	 * Si esta clase es la raiz de clases de Loro, i.e., Objeto,
+	 * entonces se retorna lo mismo que t.esObjeto().
 	 */
 	public boolean esAsignable(Tipo t)
 	throws ClaseNoEncontradaException
 	{
+		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
+		if ( mu.obtNombreClaseRaiz().equals(obtNombreCompletoString()) )
+			return t.esObjeto();
+		
 		if ( t.esNulo() )
 			return true;
 		
 		if ( t.esClase() )
 		    return Tipos.aKindOf((TipoClase) t, this);
 	    
-		// si esta clase es la raiz de clases de Loro, i.e., Objeto,
-		// entonces t puede ser cadena, o arreglo:
-		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
-		if ( mu.obtNombreClaseRaiz().equals(obtNombreCompletoString()) )
-		{
-			return t.esCadena() || t.esArreglo();
-		}
-		
 		return false;
 	}
 	
 	//////////////////////////////////////////////////////////
 	/**
 	 * Dice si un valor de este tipo es convertible al tipo dado.
+	 * Si esta clase es la raiz de clases de Loro, i.e., Objeto,
+	 * entonces se retorna lo mismo que t.esObjeto().
 	 */
 	public boolean esConvertibleA(Tipo t)
 	{
 		try
 		{
-			if ( t.esClase() ) 
-			    return Tipos.aKindOf((TipoClase) t, this) || Tipos.aKindOf(this, (TipoClase) t);
-			
-			// si esta clase es la raiz de clases de Loro, i.e., Objeto,
-			// entonces t puede ser cadena, o arreglo:
 			ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
 			if ( mu.obtNombreClaseRaiz().equals(obtNombreCompletoString()) )
-			{
-				return t.esCadena() || t.esArreglo();
-			}
+				return t.esObjeto();
+			
+			if ( t.esClase() ) 
+			    return Tipos.aKindOf((TipoClase) t, this) || Tipos.aKindOf(this, (TipoClase) t);
 			
 			return false;
 		}
@@ -126,16 +131,6 @@ public class TipoClase extends TipoUnidad
 	public String toString()
 	{
 		return nombre != null ? Util.obtStringRuta(nombre) : "<clase?>";
-	}
-
-
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 * Crea un tipo clase asociado al nombre dado.
-	 */
-	TipoClase(String[] nombre)
-	{
-		super(nombre);
 	}
 
 

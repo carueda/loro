@@ -7,7 +7,7 @@ import loro.compilacion.ClaseNoEncontradaException;
 /**
  * Tipo arreglo.
  */
-class TipoArreglo extends Tipo
+class TipoArreglo extends TipoObjeto
 {
 	Tipo elemTipo;
 
@@ -34,8 +34,7 @@ class TipoArreglo extends Tipo
 	throws ClaseNoEncontradaException
 	{
 		return t.esNulo()
-			||    t instanceof TipoArreglo
-			   && elemTipo.esAsignable(t.obtTipoElemento())
+			|| ( t.esArreglo() && elemTipo.esAsignable(t.obtTipoElemento()) )
 		;
 	}
 	
@@ -57,12 +56,6 @@ class TipoArreglo extends Tipo
 		}
 		
 		return false;
-	}
-	
-	//////////////////////////////////////////////////////////////////////
-	public boolean esObjeto()
-	{
-		return true;
 	}
 	
 	//////////////////////////////////////////////////////////////////////

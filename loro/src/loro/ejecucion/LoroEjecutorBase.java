@@ -36,10 +36,10 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	protected boolean enInvocacion;
 
 	/** Objeto al que se le acaba de invocar un método. */
-	protected Objeto objInvocado;
+	protected LObjeto objInvocado;
 		
 	/** Objeto asociado a la expresión "éste" */
-	protected Objeto este;
+	protected LObjeto este;
 		
 	/** Argumentos para ejecucion de una algoritmo. */
 	protected Object[] argsParaAlgoritmo;
@@ -618,10 +618,16 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 			ev = abnc.array;
 			base = abnc.base;
 		}
-		else
+		else if ( obj instanceof Object[] )
 		{
 			ev = (Object[]) obj;
 			base = 0;
+		}
+		else
+		{
+			throw _crearEjecucionException(u,
+				"No es un arreglo que pueda subindizarse"
+			);
 		}
 
 		try
@@ -670,10 +676,16 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 			ev = abnc.array;
 			base = abnc.base;
 		}
-		else
+		else if ( obj instanceof Object[] )
 		{
 			ev = (Object[]) obj;
 			base = 0;
+		}
+		else
+		{
+			throw _crearEjecucionException(u,
+				"No es un arreglo que pueda subindizarse"
+			);
 		}
 
 		try
@@ -1111,12 +1123,15 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	///////////////////////////////////////////////////////////////
 	/**
 	 */
-	protected Object _obtMetodoDeObjeto(Objeto obj, String id, IUbicable u)
+	protected Object _obtMetodoDeObjeto(LObjeto obj, String id, IUbicable u)
 	throws VisitanteException
 	{
 		try
 		{
-			return obj.obtMetodo(id);
+			if ( obj instanceof Objeto )
+				return ((Objeto) obj).obtMetodo(id);
+			else
+				return obj.getMethod(id);
 		}
 		catch(LException ex)
 		{
@@ -1127,7 +1142,7 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	///////////////////////////////////////////////////////////////
 	/**
 	 */
-	protected Object _obtValorDeObjeto(Objeto obj, String id, IUbicable u)
+	protected Object _obtValorDeObjeto(LObjeto obj, String id, IUbicable u)
 	throws VisitanteException
 	{
 		try

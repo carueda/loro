@@ -111,6 +111,20 @@ public class Objeto implements LObjeto
 
 	///////////////////////////////////////////////////////////////
 	/**
+	 * Retorna null.
+	 * Por cumplir con la interface. Esta operación está ahora destinada
+	 * a servir a otras implementaciones de LObjeto.
+	 * En un futuro podría unificarse el manejo y entonces aquí se
+	 * haría una implementación adecuada.
+	 */
+	public LMethod getMethod(String nom)
+	throws LException
+	{
+		return null;
+	}
+	
+	///////////////////////////////////////////////////////////////
+	/**
 	 * Obtiene el metodo de nombre dado
 	 */
 	public Object obtMetodo(String nom)

@@ -4,11 +4,13 @@ package loro.tipo;
 /**
  * Tipo nulo
  */
-class TipoNulo extends Tipo
+class TipoNulo extends TipoObjeto
 {
+	/** Mi unica instancia */
+	private static final Tipo instancia = new TipoNulo();
+
 	//////////////////////////////////////////////////////////////////////
 	private TipoNulo() {}
-
 
 	//////////////////////////////////////////////////////////////////////
 	public boolean esNulo()
@@ -28,11 +30,7 @@ class TipoNulo extends Tipo
 	 */
 	public boolean esConvertibleA(Tipo t)
 	{
-		return t instanceof TipoClase
-			|| t instanceof TipoArreglo
-			|| t instanceof TipoCadena
-			|| igual(t)
-		;
+		return t.esObjeto();
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -46,9 +44,6 @@ class TipoNulo extends Tipo
 	{
 		return "(tipo nulo)";
 	}
-
-	/** Mi unica instancia */
-	private static final Tipo instancia = new TipoNulo();
 
 	//////////////////////////////////////////////////////////////////////
 	static Tipo obtInstancia()

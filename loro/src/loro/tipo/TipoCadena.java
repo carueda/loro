@@ -6,8 +6,20 @@ import loro.util.ManejadorUnidades;
 /**
  * Tipo cadena
  */
-class TipoCadena extends Tipo
+class TipoCadena extends TipoObjeto
 {
+	/** Mi unica instancia */
+	private static final Tipo instancia = new TipoCadena();
+
+	//////////////////////////////////////////////////////////////////////
+	private TipoCadena() {}
+
+	//////////////////////////////////////////////////////////////////////
+	static Tipo obtInstancia()
+	{
+		return instancia;
+	}
+
 	///////////////////////////////////////////////////////////
 	public boolean esAsignable(Tipo t)
 	{
@@ -47,9 +59,7 @@ class TipoCadena extends Tipo
 	 */
 	public boolean igual(Tipo t)
 	{
-		return t instanceof TipoCadena
-			   ||  t.esNulo()
-			   ;
+		return this == t;
 	}
 
 	///////////////////////////////////////////////////////////
@@ -68,18 +78,6 @@ class TipoCadena extends Tipo
 	public String toString()
 	{
 		return "cadena";
-	}
-
-	/** Mi unica instancia */
-	private static final Tipo instancia = new TipoCadena();
-
-	//////////////////////////////////////////////////////////////////////
-	private TipoCadena() {}
-
-	//////////////////////////////////////////////////////////////////////
-	static Tipo obtInstancia()
-	{
-		return instancia;
 	}
 
 	//////////////////////////////////////////////////////////////////////

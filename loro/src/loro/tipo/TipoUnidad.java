@@ -7,7 +7,7 @@ import loro.arbol.NUnidad;
 /**
  * Tipo para una unidad.
  */
-public abstract class TipoUnidad extends Tipo
+public abstract class TipoUnidad extends TipoObjeto
 {
 	/**
 	 * Nombre completo de la unidad.
@@ -15,7 +15,14 @@ public abstract class TipoUnidad extends Tipo
 	String[] nombre;
 
 
-
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * Crea un tipo unidad asociado al nombre completo correspondiente.
+	 */
+	TipoUnidad(String[] nombre)
+	{
+		this.nombre = nombre;
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	/**
@@ -33,19 +40,6 @@ public abstract class TipoUnidad extends Tipo
 	public String[] obtNombreConPaquete()
 	{
 		return nombre;
-	}
-
-
-
-
-
-	//////////////////////////////////////////////////////////////////////
-	/**
-	 * Crea un tipo unidad asociado al nombre completo correspondiente.
-	 */
-	TipoUnidad(String[] nombre)
-	{
-		this.nombre = nombre;
 	}
 
 	//////////////////////////////////////////////////////////////////////

@@ -41,4 +41,13 @@ public interface LObjeto
 	 */
 	public void ponValor(String atr, Object valor)
 	throws LException;
+
+
+	///////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene el método de nombre dado.
+	 */
+	public LMethod getMethod(String nom)
+	throws LException;
+
 }

@@ -26,6 +26,42 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-03 Version 0.7.9
+
+Revisión de manejo de objetos Loro.
+
+	- Ahora se pueden utilizar algoritmos y objetos para interfaces en
+	  donde se espera un loroI::sistema::Objeto.
+	  
+	  Implementación:
+	  	Nueva superclase TipoObjeto para todos los tipos que representan
+		objetos en Loro: Tipo{Unidad,Arreglo,Cadena,Nulo}. En particular,
+		redefine esObjeto() para retornar true, y redefine esConvertibleA(t)
+		para ver si t es la clase raiz.
+	  	En TipoClase, cuando se trata de la clase raiz, ahora esAsignable(t)
+		y esConvertibleA(t) aceptan que t.esObjeto(). 
+		
+	- Modificados:
+		LoroEjecutorBase
+		LoroEjecutor
+		Tipo*
+		
+	- Ahora se pueden crear objetos desde código Java para interfaces Loro, 
+	  es decir, sin necesidad de clases mediadoras.
+		- Nueva interfaz LMethod
+		- Nueva operación LObjeto.getMethod(String nom)
+		  En Objeto, getMethod retorna null.
+		  La operación está ahora destinada a servir a otras implementaciones
+		  de LObjeto. En un futuro podría unificarse el manejo y entonces 
+		  se haría una implementación adecuada.
+		
+		
+	Pendientes:
+		- Definir interfaz (digamos ISecuencia) para arreglos y cadenas, de
+		  tal modo que se maneje .longitud, .inf y .sup como operaciones: 
+		  .longitud(), .inf(), .sup().
+	
+////////////////////////////////////////////////////////////////////////////
 2003-03-31 Version 0.7.9
 
 	- Objeto.obtMetodo(String nom): corregido para utilizar nombre

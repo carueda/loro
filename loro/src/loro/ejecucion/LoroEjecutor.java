@@ -668,7 +668,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 				//
 				
 				String nombreMetodo = alg.obtNombreSimpleCadena();
-				clase = objInvocado.obtNClase();
+				
+				if ( !(objInvocado instanceof Objeto) )
+					throw new RuntimeException("PENDIENTE: !(objInvocado instanceof Objeto)");
+				
+				clase = ((Objeto) objInvocado).obtNClase();
 				
 				NClase klase = clase;
 				// ciclo para mirar superclase si es necesario:
@@ -1195,7 +1199,7 @@ search:
 
 		// Cree objeto a retornar y actualice "éste":
 		Objeto obj = new Objeto(clase);
-		Objeto save_este = este;
+		LObjeto save_este = este;
 		este = obj;
 
 		try
@@ -1955,7 +1959,7 @@ search:
 			a[i] = _ejecutarExpresion(args[i]);
 		}
 
-		Objeto save_este = este;
+		LObjeto save_este = este;
 
 		// ejecute la expresión que se va a invocar:
 		objInvocado = null;
@@ -2009,6 +2013,24 @@ search:
 			{
 				throw _crearEjecucionException(expr,
 					"Error al ejecutar LAlgoritmo: " +ex.getMessage()
+				);
+			}
+		}
+		else if ( invoc instanceof LMethod )
+		{
+			// PENDIENTE (2001-10-11)
+			// Hacer mismo manejo que con NAlgoritmo sobre posible
+			// conversion de valores.
+
+			LMethod lalg = (LMethod) invoc;
+			try
+			{
+				retorno = lalg.invoke(este, a);
+			}
+			catch(LException ex)
+			{
+				throw _crearEjecucionException(expr,
+					"Error al ejecutar LMethod: " +ex.getMessage()
 				);
 			}
 		}
@@ -2818,15 +2840,13 @@ search:
 		NExpresion e = n.obtExpresion();
 		Object o = _ejecutarExpresion(e);
 		if ( o == null )
-		{
 			throw _crearEjecucionException(e, "Referencia nula");
-		}
 
 		TId id = n.obtId();
 		
-		if ( o instanceof Objeto )
+		if ( o instanceof LObjeto )
 		{
-			Objeto obj = (Objeto)o;
+			LObjeto obj = (LObjeto) o;
 			
 			retorno = _obtValorDeObjeto(obj, id.obtId(), e);
 			if ( retorno == null && enInvocacion )
@@ -2839,7 +2859,9 @@ search:
 				}
 			}
 		}
-		else
+		else if ( o instanceof String
+		||        o instanceof ArregloBaseNoCero
+		||        o instanceof Object[] )
 		{
 			int size;
 			int base;
@@ -2856,37 +2878,32 @@ search:
 				size = abnc.array.length;
 				base = abnc.base;
 			}
-			else if ( o instanceof Object[] )
+			else // if ( o instanceof Object[] )
 			{
 				size = ((Object[]) o).length;
 				base = 0;
 			}
-			else
-			{
-				throw new RuntimeException(
-					"Inesperado tipo para objeto: " +o.getClass().getName()
-				);
-			}
 			
 			String oper = id.obtId();
 			if ( oper.equals("longitud") )
-			{
 				retorno = new Integer(size);
-			}
 			else if ( oper.equals("inf") )
-			{
 				retorno = new Integer(base);
-			}
 			else if ( oper.equals("sup") )
-			{
 				retorno = new Integer(base + size - 1);
-			}
 			else
 			{
-				throw new RuntimeException(
+				// pero debería controlarse desde compilación
+				throw _crearEjecucionException(e,
 					"Operacion no reconocida para arreglos: " +oper
 				);
 			}
+		}
+		else
+		{
+			throw _crearEjecucionException(e,
+				"No es un objeto para acceder a campo: " +id.obtId()
+			);
 		}
 	}
 	
