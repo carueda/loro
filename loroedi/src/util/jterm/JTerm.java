@@ -48,7 +48,7 @@ public class JTerm
 	
 	/**
 	 * Text area is originally editable? 
-	 * ta.setEditable() will not be called if !ta.isEditable() whn 
+	 * ta.setEditable() will not be called if !ta.isEditable() wehn 
 	 * this JTerm object is created. 
 	 */
 	protected boolean taIsEditable;
@@ -255,14 +255,16 @@ public class JTerm
 						if ( e.getModifiers() != 0 )
 							break;
 						e.consume();
-						processHistory(key_code == KeyEvent.VK_UP);
+						if ( taIsEditable )
+							processHistory(key_code == KeyEvent.VK_UP);
 						break;
 
 					case KeyEvent.VK_ESCAPE:
 						e.consume();
 						if ( !reading )
 							break;
-						processEscape();
+						if ( taIsEditable )
+							processEscape();
 						break;
 
 					case KeyEvent.VK_HOME:
@@ -375,8 +377,6 @@ public class JTerm
 		taIsEditable = ta.isEditable();
 		
 		ta.addKeyListener(new Key());
-		if ( taIsEditable )
-			ta.setEditable(true);
 		ta.setFont(new Font("monospaced", Font.PLAIN, 14));
 
 		history = new ArrayList();
@@ -395,10 +395,13 @@ public class JTerm
 				// Auxiliar method to mouse dispatching.
 				void aux()
 				{
-					ITextArea ta_ = JTerm.this.ta;
-					int pos_now = ta_.getCaretPosition();
-					if ( ta_.isEditable() != pos_now >= pos )
-						ta_.setEditable(pos_now >= pos);
+					if ( taIsEditable )
+					{
+						ITextArea ta_ = JTerm.this.ta;
+						int pos_now = ta_.getCaretPosition();
+						if ( ta_.isEditable() != pos_now >= pos )
+							ta_.setEditable(pos_now >= pos);
+					}
 				}
 
 				////////////////////////////////////////////////////
@@ -426,7 +429,7 @@ public class JTerm
 	{
 		synchronized(lock)
 		{
-			if  ( !reading )
+			if  ( taIsEditable && !reading )
 				ta.setText("");
 		}
 	}
