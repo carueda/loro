@@ -14,10 +14,10 @@ import java.io.*;
  */
 public class PrefixWriter extends FilterWriter
 {
-	/** current prefix. */
+	/** current prefix. "" by default.*/
 	private String prefix;
 	
-	/** last line written. */
+	/** last line written not including prefix*/
 	private String lastLine;
 	
 	private static Pattern lf_pattern = Pattern.compile("\n");
@@ -49,19 +49,22 @@ public class PrefixWriter extends FilterWriter
 		{
 			if ( lastLine.length() == 0 )
 			{
-				//if ( ! old_prefix.equals(prefix) ) 
-					//replace last line with new prefix:
+				// nothing has been written in current line.
+				// replace last line with new prefix if necessary:
+				if ( ! old_prefix.equals(prefix) ) 
 					super.write("\r" +prefix, 0, 1 + prefix.length());
 			}
 			else
 			{
+				// just start a new line:
 				super.write("\n" +prefix, 0, 1 + prefix.length());
 				lastLine = "";
 			}
 		}
 		catch ( IOException ex )
 		{
-			// ignore
+			// shouldn't happen
+			System.err.println("setPrefix exception: " +ex.getMessage());
 		}
 	}
 
@@ -89,16 +92,16 @@ public class PrefixWriter extends FilterWriter
 		lastLine = lines[lines.length - 1];
 		lastLine = lastLine.substring(1 + lastLine.lastIndexOf('\r'));
 
-		// escriba:
-		// ponga prefix a cada parte:
-		lines[0] = lines[0].replaceAll("\r", "\r" +prefix);
+		for ( int i = 0; i < lines.length; i++ )
+			lines[i] = lines[i].replaceAll("\r", "\r" +prefix);
+
 		if ( lastLineReprocessed )
 			lines[0] = prefix + lines[0];
 		super.write(lines[0], 0, lines[0].length());
 		for ( int i = 1; i < lines.length; i++ )
 		{
-			lines[i] = prefix + lines[i].replaceAll("\r", "\r" +prefix);
-			super.write("\n" +lines[i], 0, 1 + lines[i].length());
+			lines[i] = "\n" +prefix+ lines[i];
+			super.write(lines[i], 0, lines[i].length());
 		}
 	}
 }

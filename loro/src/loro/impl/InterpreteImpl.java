@@ -550,6 +550,8 @@ public class InterpreteImpl implements IInterprete
 					String text = br.readLine();
 					if ( text == null )
 						break;
+					pw.println();
+					
 					text = text.trim();
 					if ( text.length() == 0 )
 						continue;
