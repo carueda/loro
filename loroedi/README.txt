@@ -65,6 +65,19 @@ NOTAS
 	  
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-03-19 (0.8pre10)
+
+	- Mejorada inicialización de código en creación de algoritmo.
+	
+	  - Se simplifican nombres cuando el algoritmo está en mismo paquete
+	    de la especificación.
+	    
+	  - Incluye corrección de bug 701386 que generaba:
+	  	utiliza especificación <nombre-simple-de-unidad-en-paquete-automático>
+		
+	  Ver MUtil.setSourceCodeTemplate().
+	
+////////////////////////////////////////////////////////////////////////////
 2003-03-16 (0.8pre9)
 
 Instalación de proyecto desde enlace .lar en página web:

@@ -103,10 +103,10 @@ public class MUtil
 		IPackageModel pkg = unit.getPackage();
 		StringBuffer sb = new StringBuffer();
 		boolean anonymous_pkg = pkg.getModel().isAnonymous(pkg);
+		
 		if ( ! anonymous_pkg )
-		{
-			sb.append("paquete " +pkg.getName()+ ";\n" + "\n");
-		}
+			sb.append("paquete " +pkg.getName()+ "\n" + "\n");
+
 		String name = unit.getName();
 		if ( unit instanceof SpecificationUnit )
 		{
@@ -129,68 +129,61 @@ public class MUtil
 			IProjectModel prj = pkg.getModel();
 			AlgorithmUnit alg = (AlgorithmUnit) unit;
 			String spec_name = alg.getSpecificationName();
-			String spec_signature = null;
+			IUnidad.IEspecificacion ne = null;
 			
 			SpecificationUnit spec = prj.getAlgorithmSpecification(alg);
 			if ( spec != null )
 			{
 				// encontrada la especificación en el mismo proyecto.
-				IUnidad.IEspecificacion ne = (IUnidad.IEspecificacion) spec.getIUnidad();
-				if ( ne != null )
-				{
-					spec_signature = ne.toString();
-					if ( spec_signature.startsWith("especificaci") )
-					{
-						// para omitir esta palabra y dejar el prototipo
-						spec_signature = spec_signature.substring("especificación".length() + 1);
-						spec_signature = spec_signature.trim();
-					}
-				}
+				ne = (IUnidad.IEspecificacion) spec.getIUnidad();
 			}
 			else
 			{
 				// la especificación debe estar en otro proyecto del espacio de trabajo.
-				IUnidad.IEspecificacion ne = Loro.getSpecification(spec_name);
-				if ( ne != null )
-				{
-					spec_signature = ne.toString();
-					if ( spec_signature.startsWith("especificaci") )
-					{
-						// para omitir esta palabra y dejar el prototipo
-						spec_signature = spec_signature.substring("especificación".length() + 1);
-						spec_signature = spec_signature.trim();
-					}
-				}
+				ne = Loro.getSpecification(spec_name);
 			}
 			
-			if ( spec_signature == null )
+			String spec_signature = null;
+			if ( ne == null )
 			{
 				spec_signature = "{{" +"Error: No se encuentra la especificación " +spec_name+ "}}";
 			}
 			else
 			{
-				// Si la especificación está en el paquete automático, mejor
-				// omitir tal prefijo de la signatura:
-				String auto_pkg_sep = Loro.getAutomaticPackageName() + "::";
-				if ( spec_signature.startsWith(auto_pkg_sep) )
+				spec_signature = ne.getPrototype();
+				String spec_pkg_name = ne.obtNombrePaquete();
+				String spec_simple_name = ne.obtNombreSimpleCadena();
+
+				String alg_prefix_pkg  = anonymous_pkg ? "" : pkg.getName()+"::";
+				String spec_prefix_pkg = spec_pkg_name == null ? "" : spec_pkg_name+"::";
+				
+				// si los paquetes son distintos...
+				if ( !alg_prefix_pkg.equals(spec_prefix_pkg) )
 				{
-					// tome supuesto nombre simple:
-					String aux = spec_signature.substring(auto_pkg_sep.length());
-					if ( aux.indexOf("::") < 0 )
+					if ( Loro.getAutomaticPackageName().equals(spec_pkg_name) )
 					{
-						// en efecto no está en subpaquete, así que simplifique:
-						spec_signature = aux;
+						// especificación en el paquete automático.
+						// Se deja spec_signature como está (que NO incluye paquete).
+						// --nada por hacer.
+					}
+					else
+					{
+						// Se usa nombre completo para spec_signature:
+						if ( spec_pkg_name != null )
+							spec_signature = spec_pkg_name + "::" +spec_signature;
+					}
+					
+					// En caso que este algoritmo NO esté en el paquete anónimo pero
+					// la especificación si lo esté, entonces hay necesidad de agregar:
+					//   utiliza especificación spec_name;
+					if ( ! anonymous_pkg
+					&&     spec_pkg_name == null )
+					{
+						sb.append("utiliza especificación " +spec_name+ "\n" + "\n");
 					}
 				}
 				
-				// En caso que este algoritmo NO esté en el paquete anónimo pero
-				// la especificación si lo esté, entonces hay necesidad de agregar:
-				//   utiliza especificación spec_name;
-				if ( ! anonymous_pkg
-				&&     spec_name.indexOf("::") < 0 )
-				{
-					sb.append("utiliza especificación " +spec_name+ ";\n" + "\n");
-				}
+				
 			}
 			
 			sb.append(
