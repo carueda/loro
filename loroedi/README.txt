@@ -14,6 +14,32 @@ NOTAS
 	  
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-05-19 (0.8pre11)
+
+	- GUI.CmdSource renombrado a SourceSegment.
+	- GUI._createCommands modificado para nuevo manejo especial de líneas
+	  que finalicen con algo comenzado en "//."
+	  Ejemplo:
+		  escribir("Hola");
+		  escribir(" Mundo");  //.p
+	  Hace aparecer:
+	  	$ escribir("Hola");
+	  	$ escribir(" Mundo");
+	  junto con el mensaje de "presionar Intro para continuar".
+	  En este momento se reconocen:
+	  	//.$    para finalizar segmento fuente
+	  	//.p    para finalizar segmento fuente y además provocar "pausa"
+	  Ambos permiten definir un segmento fuente con las líneas acumuladas 
+	  hasta el momento. Estas líneas conformarán un SourceSegment y se hace
+	  un preparativo para el próximo segmento. 
+	  Otros casos que comiencen con //. son ignorados (por ahora).
+	  
+	- Workspace.executeCommands() mejorado: ahora pide una confirmación al
+	  usuario cuando ha dado el botón de terminar y aún quedan comandos por
+	  procesar.
+
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-18 (0.8pre11)
 
 	- InterpreterWindow.readLine siempre hace butTerminar.setEnabled(true):

@@ -1444,21 +1444,24 @@ public final class Workspace
 	public void executeCommands(
 		String title, String hello, 
 		final List cmds,
-		final boolean enter_processing,
 		boolean newSymTab,
 		boolean ejecutorpp
 	)
 	{
 		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp)
 		{
-			public void body()
+			// se actualiza cuando se invoca terminate()
+			boolean terminated = false;
+			
+			//////////////////////////////////////////////////////////////////
+			protected void body()
 			throws Exception
 			{
-				String ask_enter = enter_processing ? " " : null;
-				for ( Iterator it = cmds.iterator(); it.hasNext(); )
+				for ( Iterator iter = cmds.iterator(); iter.hasNext(); )
 				{
-					GUI.CmdSource cmdsrc = (GUI.CmdSource) it.next();
-					String cmd = cmdsrc.src;
+					GUI.SourceSegment ss = (GUI.SourceSegment) iter.next();
+					String cmd = ss.src;
+					String ask_enter = ss.pause ? "" : null;
 					try
 					{
 						interpret(cmd, ask_enter);
@@ -1466,8 +1469,23 @@ public final class Workspace
 					catch ( Exception ex )
 					{
 						handleException(ex);
+						// Si es terminated y hay más segmentos pendientes, se
+						// le pide confirmación al usuario para continuar:
+						if ( terminated && iter.hasNext() && !GUI.confirm(frame, 
+							"Hay más comandos pendientes.\n" +
+							"¿Continuar con su ejecución?"
+						))
+							break;
+							
+						terminated = false;
 					}
 				}
+			}
+			//////////////////////////////////////////////////////////////////
+			protected void terminate()
+			{
+				super.terminate();
+				terminated = true;
 			}
 		};
 		iw.getTextArea().setEditable(false);

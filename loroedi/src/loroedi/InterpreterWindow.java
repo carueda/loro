@@ -212,73 +212,73 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 	}
 
 	
-			///////////////////////////////////////////////////////////////////////
-			public String prompt()
-			throws IOException
-			{
-				term.setPrefix(PROMPT);
-				String text = br.readLine();
-				term.setPrefix(PREFIX_SPECIAL);
-				return text;
-			}
+	///////////////////////////////////////////////////////////////////////
+	public String prompt()
+	throws IOException
+	{
+		term.setPrefix(PROMPT);
+		String text = br.readLine();
+		term.setPrefix(PREFIX_SPECIAL);
+		return text;
+	}
 
-			///////////////////////////////////////////////////////////////////////
-			public void expression(String expr)
-			{
-				term.setPrefix(PREFIX_EXPR);
-				pw.println(expr);
-			}
+	///////////////////////////////////////////////////////////////////////
+	public void expression(String expr)
+	{
+		term.setPrefix(PREFIX_EXPR);
+		pw.println(expr);
+	}
 
-			///////////////////////////////////////////////////////////////////////
-			public String formatException(Exception exc)
+	///////////////////////////////////////////////////////////////////////
+	public String formatException(Exception exc)
+	{
+		String msg = null;
+		try
+		{
+			throw exc;
+		}
+		catch(EjecucionException ex)
+		{
+			if ( ex.esTerminacionInterna() )
 			{
-				String msg = null;
-				try
-				{
-					throw exc;
-				}
-				catch(EjecucionException ex)
-				{
-					if ( ex.esTerminacionInterna() )
-					{
-						msg = "Ejecución terminada. Código de terminación = " 
-							+ex.obtCodigoTerminacionInterna()
-						;
-					}
-					else
-					{
-						StringWriter sw = new StringWriter();
-						ex.printStackTrace(new PrintWriter(sw));
-						msg = ex.getMessage() + "\n" +sw.toString();
-					}
-				}
-				catch(CompilacionException ex)
-				{
-					msg = ex.getMessage();
-				}
-				catch(InterruptedIOException ex)
-				{
-					msg = "Ejecución interrumpida en operación de entrada/salida.";
-				}
-				catch(Exception ex)
-				{
-					StringWriter sw = new StringWriter();
-					PrintWriter psw = new PrintWriter(sw);
-					psw.println("INESPERADO");
-					ex.printStackTrace(psw);
-					psw.println("Esta es una anomalía del sistema.");
-					msg = sw.toString();
-				}
-				return msg;
+				msg = "Ejecución terminada. Código de terminación = " 
+					+ex.obtCodigoTerminacionInterna()
+				;
 			}
-			
-			///////////////////////////////////////////////////////////////////////
-			public void handleException(Exception exc)
+			else
 			{
-				String msg = formatException(exc);
-				term.setPrefix(PREFIX_INVALID);
-				pw.println(msg);
+				StringWriter sw = new StringWriter();
+				ex.printStackTrace(new PrintWriter(sw));
+				msg = ex.getMessage() + "\n" +sw.toString();
 			}
+		}
+		catch(CompilacionException ex)
+		{
+			msg = ex.getMessage();
+		}
+		catch(InterruptedIOException ex)
+		{
+			msg = "Ejecución interrumpida en operación de entrada/salida.";
+		}
+		catch(Exception ex)
+		{
+			StringWriter sw = new StringWriter();
+			PrintWriter psw = new PrintWriter(sw);
+			psw.println("INESPERADO");
+			ex.printStackTrace(psw);
+			psw.println("Esta es una anomalía del sistema.");
+			msg = sw.toString();
+		}
+		return msg;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	public void handleException(Exception exc)
+	{
+		String msg = formatException(exc);
+		term.setPrefix(PREFIX_INVALID);
+		pw.println(msg);
+	}
 	
 	
 	
@@ -382,6 +382,15 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 	}
 
 	//////////////////////////////////////////////////////////////////
+	protected void terminate()
+	{
+		loroii.terminarExternamente();
+		if ( readingThread != null && readingThread != Thread.currentThread() )
+			readingThread.interrupt();
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////
 	public void actionPerformed(ActionEvent e)
 	{
 		String cmd = e.getActionCommand();
@@ -392,11 +401,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 		}
 		else if ( cmd.equals("terminate") )
 		{
-			loroii.terminarExternamente();
-			if ( readingThread != null && readingThread != Thread.currentThread() )
-			{
-				readingThread.interrupt();
-			}
+			terminate();
 		}
 		else if ( cmd.equals("resume") )
 		{

@@ -1648,10 +1648,10 @@ public class GUI
 			IInterprete ii = Loro.crearInterprete(null, null, true, null);
 			
 			List cmds = new ArrayList();
-			boolean enter_processing = _createCommands(src, cmds);
+			_createCommands(src, cmds);
 			for ( Iterator it = cmds.iterator(); it.hasNext(); )
 			{
-				CmdSource cmdsrc = (CmdSource) it.next();
+				SourceSegment cmdsrc = (SourceSegment) it.next();
 				offset = cmdsrc.offset;
 				String cmd = cmdsrc.src;
 				ii.compilar(cmd);
@@ -1906,9 +1906,9 @@ public class GUI
 						String cmd = getTestExecutionCmd(tested_alg, false);
 						if ( cmd != null )
 						{
-							cmds.add(new CmdSource(0,
+							cmds.add(new SourceSegment(0,
 									"// Probando " +tested_alg+ "\n"+
-									cmd
+									cmd, false
 								)
 							);
 						}
@@ -1917,15 +1917,14 @@ public class GUI
 				if ( cmds.size() > 0 )
 				{
 					prj_msg.print("Lanzando ventana para ejecución de pruebas...\n");
-					cmds.add(new CmdSource(0,
-							"// Pruebas terminadas exitosamente."
+					cmds.add(new SourceSegment(0,
+							"// Pruebas terminadas exitosamente.", false
 						)
 					);
 					workspace.executeCommands(
 						"Probando proyecto " +focusedProject.getModel().getInfo().getName(),
 						"Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba.\n",
 						cmds,
-						false,    // enter_processing
 						false,    // newSymTab
 						false     // ejecutorpp
 					);
@@ -2072,13 +2071,11 @@ public class GUI
 			public void run() 
 			{
 				List cmds = new ArrayList();
-				boolean enter_processing = _createCommands(src, cmds);
-				
+				_createCommands(src, cmds);
 				workspace.executeCommands(
 					title,
 					null,
 					cmds,
-					enter_processing,
 					true,     // newSymTab
 					ejecutorpp
 				);
@@ -2090,14 +2087,24 @@ public class GUI
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Genera la lista de comandos definidos en el guión dado.
+	 * Genera la lista de segmentos definidos en el guión dado.
+	 * Líneas que comiencen con ".." tienen un manejo especial:
+	 * <ul>
+	 *  <li> Si comienza con "..$", se finaliza segmento de acciones;
+	 *       además, si comienza con "..$p", se hará "pausa", es decir,
+	 *       se hará petición de Enter para proceder.
+	 *  <li> En otro caso, la línea se ignora.
+	 * </ul>
 	 */
-	private static boolean _createCommands(String src, List cmds)
+	private static void _createCommands(String src, List segments)
 	{
+		// separador en línea para manejo especial:
+		// (por lo pronto, se define aquí localmente)
+		String prefix_sep = "//.";
+		
 		int src_len = src.length();
-		StringBuffer cmd = null;
+		StringBuffer segment = null;
 		boolean firstLine = true;
-		boolean enter_processing = false;
 
 		StringBuffer linebuf = new StringBuffer();
 		int pos_ini = 0;
@@ -2113,54 +2120,47 @@ public class GUI
 				linebuf.append(src.charAt(pos));
 			}
 			line = linebuf.toString();
+
+			String special = "";
+			int idx = line.lastIndexOf(prefix_sep);
+			if ( idx >= 0 )
+			{
+				// Tome después-de y antes-de prefix_sep en special y line:
+				special = line.substring(idx + prefix_sep.length());
+				line = line.substring(0, idx);
+			}
+
+			boolean pause = special.startsWith("p");
+			boolean end_segment = pause || special.startsWith("$");
+
 			String linetrim = line.trim();
 			
-			if ( firstLine )
+			if ( segment == null )
 			{
-				firstLine = false;
-				enter_processing = linetrim.length() > 0 && linetrim.charAt(0) == '$';
-				if ( enter_processing )
-				{
-					pos_ini = pos;
-					continue;     // resto de linea se ignora (por ahora)
-				}
-			}
-			
-			if ( linetrim.length() == 0 )
-			{
-				// linea en blanco agrega comando acumulado:
-				if ( cmd != null )
-				{
-					cmds.add(new CmdSource(pos_ini, cmd.toString()));
-					cmd = null;
-					pos_ini = pos + 1;  // +1 por cambio de línea
-				}
+				if ( linetrim.length() > 0 )
+					segment = new StringBuffer(line);
 			}
 			else
+				segment.append("\n" +line);
+			
+			if ( end_segment )   // segment?
 			{
-				// linea normal:
-				if ( cmd == null )
-					cmd = new StringBuffer(line);
-				else
-				{
-					if ( cmd.length() > 0 ) 
-						cmd.append("\n");
-					cmd.append(line);
-				}
+				if ( segment != null )
+					segments.add(new SourceSegment(pos_ini, segment.toString(), pause));
+				segment = null;
+				pos_ini = pos + 1;
 			}
 		}
 	
-		if ( cmd != null )
-			cmds.add(new CmdSource(pos_ini, cmd.toString()));
-		
-		return enter_processing;
+		if ( segment != null )
+			segments.add(new SourceSegment(pos_ini, segment.toString(), false));
 	}
 	
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Un comando dentro de un texto fuente.
+	 * Un segmento de acciones dentro de un texto fuente.
 	 */
-	public static class CmdSource
+	public static class SourceSegment
 	{
 		/** Posicion de inicio dentro del fuente. */
 		public int offset;
@@ -2168,10 +2168,14 @@ public class GUI
 		/** Código fuente del propio comando. */
 		public String src;
 		
-		CmdSource(int offset, String src)
+		/** Hacer pausa antes de procesar comando?. */
+		public boolean pause;
+		
+		SourceSegment(int offset, String src, boolean pause)
 		{
 			this.offset = offset;
 			this.src = src;
+			this.pause = pause;
 		}
 	}
 	
@@ -2270,20 +2274,19 @@ public class GUI
 		if ( cmd != null )
 		{
 			List cmds = new ArrayList();
-			cmds.add(new CmdSource(0,
+			cmds.add(new SourceSegment(0,
 					"// Probando " +tested_alg+ "\n"+
-					cmd
+					cmd, false
 				)
 			);
-			cmds.add(new CmdSource(0,
-					"// Prueba terminada exitosamente."
+			cmds.add(new SourceSegment(0,
+					"// Prueba terminada exitosamente.", false
 				)
 			);
 			workspace.executeCommands(
 				"Probando " +tested_alg.getIUnidad(),
 				null,
 				cmds,
-				false,    // enter_processing
 				false,    // newSymTab
 				false     // ejecutorpp
 			);
