@@ -1,9 +1,7 @@
 #Propiedades de paquete
-#Mon Oct 07 20:28:55 PDT 2002
+#Sun Mar 23 00:26:44 PST 2003
 class.0=OpcionMenu
-alg.5=escribirBeca, opcionMenu
-spec.3=demoMenu
-alg.4=demoMenu, demoMenu
+alg.4=escribirBeca, opcionMenu
 spec.2=opcionMenu
 alg.3=escribirCarro, opcionMenu
 spec.1=despacharMenu

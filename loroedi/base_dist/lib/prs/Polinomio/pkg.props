@@ -1,7 +1,5 @@
 #Propiedades de paquete
-#Mon Oct 07 20:20:03 PDT 2002
-spec.1=evalPol
-spec.0=demoEvalPol
-alg.2=evalPolHorner, evalPol
-alg.1=evalPolDirecto, evalPol
-alg.0=demoEvalPol, demoEvalPol
+#Sun Mar 23 00:36:27 PST 2003
+spec.0=evalPol
+alg.1=evalPolHorner, evalPol
+alg.0=evalPolDirecto, evalPol
