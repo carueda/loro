@@ -805,7 +805,8 @@ public final class Loro
 		_verificarIniciado();
 		
 		logger.log("%%%% INICIO verificación de configuración");
-		mu.verificarUnidadesCompiladas(lars, oros);
+		// PENDIENTE separar lars de oros...
+		mu.getOroLoaderManager().verify(oros);
 		logger.log("%%%% FINAL verificación de configuración");
 	}
 
@@ -844,7 +845,7 @@ public final class Loro
 	public static IOroLoader getCoreLoader()
 	{
 		_verificarIniciado();
-		return mu.getCoreLoader();
+		return mu.getOroLoaderManager().getCoreLoader();
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -862,7 +863,7 @@ public final class Loro
 	public static List getExtensionLoaders()
 	{
 		_verificarIniciado();
-		return mu.getExtensionLoaders();
+		return mu.getOroLoaderManager().getExtensionLoaders();
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -874,7 +875,7 @@ public final class Loro
 	public static List getExtensionFiles()
 	{
 		_verificarIniciado();
-		return mu.getExtensionFiles();
+		return mu.getOroLoaderManager().getExtensionFiles();
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -888,7 +889,7 @@ public final class Loro
 	public static void addDirectoryToPath(File dir)
 	{
 		_verificarIniciado();
-		mu.addDirectoryToPath(dir);
+		mu.getOroLoaderManager().addDirectoryToPath(dir);
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -903,7 +904,7 @@ public final class Loro
 	public static IOroLoader addExtensionToPath(File file)
 	{
 		_verificarIniciado();
-		return mu.addExtensionToPath(file);
+		return mu.getOroLoaderManager().addExtensionToPath(file);
 	}
 
 }

@@ -120,7 +120,7 @@ public class LoroDocumentador
 				try
 				{
 					int size = units.size();
-					mu.cargarUnidadesDeZip(name, units);
+					Documentador.cargarUnidadesDeZip(name, units);
 					System.out.println("Cargadas " +(units.size() - size)+ " unidades de " +name);
 				}
 				catch ( Exception ex )
@@ -131,7 +131,7 @@ public class LoroDocumentador
 			else
 			{
 				// se asume que name corresponde a nombre de paquete:
-				mu.cargarUnidadesDePaquete(name, units);
+				mu.getOroLoaderManager().loadUnitsFromPackage(name, units);
 			}
 		}
 

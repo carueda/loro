@@ -1,14 +1,11 @@
 package loro.doc;
 
+import loro.IOroLoader;
 import loro.arbol.NUnidad;
-
 import loro.visitante.VisitanteException;
-import loro.util.ManejadorUnidades;
+import loro.util.*;
 
-
-
-import java.io.IOException;
-
+import java.io.*;
 import java.util.*;
 
 ///////////////////////////////////////////////////////////////////
@@ -16,7 +13,6 @@ import java.util.*;
  * Ofrece algunos servicios para generar documentacion.
  *
  * @author Carlos Rueda
- * @version 09/11/01
  */
 public class Documentador
 {
@@ -36,10 +32,30 @@ public class Documentador
 	throws IOException
 	{
 		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
-		List units = mu.cargarUnidadesDeZip(zipFilename, null);
+		List units = cargarUnidadesDeZip(zipFilename, null);
 		return procesarLista(units, baseDir);
 	}
 
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Carga todas las unidades del archivo zip dado en una lista.
+	 *
+	 * @param zipFilename   Nombre del archivo zip.
+	 * @param list          En donde se ponen las unidades encontradas.
+	 * @throws IOException  Si hay problema para abrir archivo.
+	 */
+	public static List cargarUnidadesDeZip(String zipFilename, List list)
+	throws IOException
+	{
+		if ( list == null )
+			list = new ArrayList();
+		
+		IOroLoader loader = new ZipFileOroLoader(new File(zipFilename));
+		loader.loadUnitsFromPackage("*", list);
+		loader.close();
+		return list;
+	}
+	
 	////////////////////////////////////////////////////////////////////
 	/**
 	 * Genera documentacion para las unidades en una lista.
@@ -91,7 +107,7 @@ public class Documentador
 	{
 		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
 		List units = new ArrayList();
-		mu.cargarUnidadesDePaquete(pn, units);
+		mu.getOroLoaderManager().loadUnitsFromPackage(pn, units);
 		return procesarLista(units, baseDir);
 	}
 }

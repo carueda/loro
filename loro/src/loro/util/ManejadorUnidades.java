@@ -8,11 +8,6 @@ import loro.compilacion.ClaseNoEncontradaException;
 import loro.Loro;
 
 import java.util.*;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.jar.JarFile;
-import java.util.jar.JarEntry;
 import java.io.File;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
@@ -20,8 +15,6 @@ import java.io.ObjectInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.JarURLConnection;
 
 
 ///////////////////////////////////////////////////////////////
@@ -35,7 +28,6 @@ import java.net.JarURLConnection;
  * puede (debe) llamarse destruirManejadorUnidades; después del cual podría 
  * llamarse nuevamente a crearManejadorUnidades.
  *
- * @version 2002-06-02
  * @author Carlos Rueda
  */
 public class ManejadorUnidades
@@ -47,6 +39,9 @@ public class ManejadorUnidades
 
 	// fijado aqui por el momento
 	private static final String NOMBRE_CLASE_RAIZ = PAQUETE_AUTOMATICO+ "::Objeto";
+
+	// fijado aqui por el momento
+	private static final String NOMBRE_INTERFACE_RAIZ = PAQUETE_AUTOMATICO+ "::IObjeto";
 
 	/**
 	 * La instancia única para manejo de unidades.
@@ -96,13 +91,10 @@ public class ManejadorUnidades
 
 		// invalidemos el objeto actual:
 		mu.logger = null;
-		mu.rutaLeer = null;
 		mu.dirGuardar = null;
 		mu.cache = null;
 		
-		mu.coreOroLoader = null;
 		mu.oroLoaderMan = null;
-		mu.dirGuardarOroLoader = null;
 		
 		// quedamos oficialmente sin instancia:
 		mu = null;
@@ -145,14 +137,6 @@ public class ManejadorUnidades
 	private Logger logger;
 
 	/**
-	 * Ruta para leer unidades compiladas.
-	 * Cada elemento puede ser:
-	 *		File:  Un directorio o un nombre de archivo.
-	 *		ZipFile: Un archivo zip.
-	 */
-	private Object[] rutaLeer;
-
-	/**
 	 * Directorio para guardar unidades compiladas.
 	 */
 	private String dirGuardar;
@@ -166,9 +150,10 @@ public class ManejadorUnidades
 	 */
 	private Map cache;
 
-	private CoreOroLoader coreOroLoader;
+	/**
+	 * El manejador general de carga de unidades.
+	 */
 	private OroLoaderManager oroLoaderMan;
-	private DirectoryOroLoader dirGuardarOroLoader;
 
 	//////////////////////////////////////////////////////////////////////
 	/**
@@ -179,107 +164,37 @@ public class ManejadorUnidades
 	 */
 	private ManejadorUnidades(File[] files)
 	{
-		rutaLeer = new Object[0];
-		dirGuardar = "";
 		cache = new HashMap();
 		logger = Logger.getLogger();
-		coreOroLoader = new CoreOroLoader();
 		
 		oroLoaderMan = new OroLoaderManager(files);
 
-		dirGuardarOroLoader = new DirectoryOroLoader(new File(dirGuardar));
+		dirGuardar = "";
+		ponDirGuardarCompilado(dirGuardar);
 		guardarCompilados = true;
 	}
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Obtiene los objetos File de los cargadores tomados como extensiones.
-	 *
-	 * @return Lista con elementos de tipo File.
+	 * Obtiene el manejador de cargadores de unidades.
 	 */
-	public List getExtensionFiles()
+	public OroLoaderManager getOroLoaderManager()
 	{
-		return oroLoaderMan.getExtensionFiles();
+		return oroLoaderMan;
 	}
-	
-
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Obtiene los cargador del núcleo.
-	 *
-	 * @since 0.8pre1
-	 */
-	public IOroLoader getCoreLoader()
-	{
-		return coreOroLoader;
-	}
-
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Obtiene los cargadores de las extensiones activas.
-	 * Por cada extensión hay un cargador correspondiente.
-	 *
-	 * @since 0.8pre1
-	 *
-	 * @return Lista con elementos de tipo IOroLoader.
-	 */
-	public List getExtensionLoaders()
-	{
-		return oroLoaderMan.getExtensionLoaders();  // PENDING dirGuardarOroLoader
-	}
-
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Adiciona una directorio a la ruta de búsqueda.
-	 *
-	 * @since 0.8pre1
-	 *
-	 * @param dir El directorio a incluir.
-	 */
-	public void addDirectoryToPath(File dir)
-	{
-		oroLoaderMan.addDirectoryToPath(dir);
-	}
-
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Adiciona un archivo zip a la ruta de búsqueda.
-	 *
-	 * @param file El archivo zip a incluir.
-	 * @return El cargador asociado.
-	 */
-	public IOroLoader addExtensionToPath(File file)
-	{
-		return oroLoaderMan.addExtensionToPath(file);
-	}
-
 
 	/////////////////////////////////////////////////////////////////////
 	/**
-	 * Carga de disco una unidad. Se asume que el nombre incluye la
-	 * indicacion del tipo de nodo a leer; ejs:
-	 *		unaEspecificacion.e
-	 *		unAlgoritmo.a
-	 *		unaClase.c
-	 *
-	 * La busqueda se hace en el siguiente orden: <br>
-	 *	- coreOroLoader<br>
-	 *	- oroLoaderMan<br>
-	 *	- dirGuardarOroLoader<br>
-	 *    
+	 * Carga una unidad del oroLoaderMan.
 	 * En caso que la unidad se haya encontrado, se pone en el cache.
 	 */
 	private NUnidad _cargarUnidad(String nombre)
 	{
-		NUnidad n;
-		if ( null != (n = coreOroLoader.getUnit(nombre))
-		||   null != (n = oroLoaderMan.getUnit(nombre))
-		||   null != (n = dirGuardarOroLoader.getUnit(nombre)) )
-		{
+		NUnidad n = oroLoaderMan.getUnit(nombre);
+		if ( null != n )
 			cache.put(nombre, n);
-			return n;
-		}
-		return null;
+
+		return n;
 	}
 	
 	//////////////////////////////////////////////////////////////////////
@@ -526,20 +441,20 @@ public class ManejadorUnidades
 	public void ponDirGuardarCompilado(String rb)
 	{
 		if ( rb == null )
-		{
 			throw new NullPointerException();
-		}
 		
 		char sc = java.io.File.separatorChar;
 		rb = rb.replace('/', sc).replace('\\', sc);
 
 		dirGuardar = rb;
 		if ( dirGuardar.length() > 0 && !dirGuardar.endsWith(File.separator) )
-		{
 			dirGuardar += File.separator;
-		}
-		dirGuardarOroLoader = new DirectoryOroLoader(new File(dirGuardar));
+		
+		File dir = new File(dirGuardar);
+		oroLoaderMan.addDirectoryToPath(dir);
+		oroLoaderMan.setFirstDirectory(dir);
 	}
+	
 	//////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Pone una especificacion. Esto significa guardar esta unidad en disco y tenerla
@@ -782,130 +697,10 @@ public class ManejadorUnidades
 		return nom_atrs;
 	}
 
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 * Carga todas las unidades de apoyo en la lista dada.
-	 *
-	 * NO SE MODIFICA NINGUNO DE LOS CACHES.
-	 *
-	 * @param list   En donde se ponen las unidades encontradas.
-	 */
-	public void cargarUnidadesDeApoyo(List list)
-	{
-		if ( list == null )
-		{
-			throw new NullPointerException("list == null");
-		}
-		coreOroLoader.loadUnitsFromPackage("*", list);
-	}
-
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 * Carga todas las unidades de un paquete dado.
-	 * 2001-09-04
-	 *
-	 * La busqueda se hace siguiendo en orden las siguientes
-	 * posibilidades:
-	 *	- las unidades de apoyo del sistema.
-	 *	- la ruta para leer unidades compiladas
-	 *	- directorio donde se guardan compilados
-	 *
-	 * NO SE MODIFICA NINGUNO DE LOS CACHES.
-	 *
-	 * @param nombrePaquete    Nombre del paquete en estilo '::'.
-	 * @param list             En donde se agregan las unidades encontradas.
-	 */
-	public void cargarUnidadesDePaquete(String nombrePaquete, List list)
-	{
-		list = coreOroLoader.loadUnitsFromPackage(nombrePaquete, list);
-		oroLoaderMan.loadUnitsFromPackage(nombrePaquete, list);
-		dirGuardarOroLoader.loadUnitsFromPackage(nombrePaquete, list);
-	}
-
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 * Carga todas las unidades del archivo zip dado en una lista.
-	 *
-	 * NO SE MODIFICA NINGUNO DE LOS CACHES.
-	 *
-	 * @param zipFilename   Nombre del archivo zip.
-	 * @param list          En donde se ponen las unidades encontradas.
-	 * @throws IOException  Si hay problema para abrir archivo.
-	 */
-	public List cargarUnidadesDeZip(String zipFilename, List list)
-	throws IOException
-	{
-		if ( list == null )
-		{
-			list = new ArrayList();
-		}
-		
-		IOroLoader loader = new ZipFileOroLoader(new File(zipFilename));
-		loader.loadUnitsFromPackage("*", list);
-		loader.close();
-		return list;
-	}
-	
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 * Obtiene los nombres de todos los paquetes del archivo zip dado en una lista.
-	 * Se considera paquete todo directorio que contenga por lo menos un archivo
-	 * .oro .
-	 * Cada nombre se agrega en el estilo "::". 
-	 * No se repiten nombres en la lista.
-	 * Si la lista dada es null, se crea y retorna una creada internamente.
-	 *
-	 * @since 0.8pre1
-	 *
-	 * @param zipFilename   Nombre del archivo zip.
-	 * @param list          En donde se ponen los nombres.
-	 *
-	 * @return              La lista.
-	 * @throws IOException  Si hay problema para abrir archivo.
-	 */
-	public List getPackageNamesFromZip(String zipFilename, List list)
-	throws IOException
-	{
-		File file = new File(zipFilename);
-		ZipFile zf = new ZipFile(file);
-
-		if ( list == null )
-		{
-			list = new ArrayList();
-		}
-		
-		logger.log("Obteniendo paquetes de zip "+ zf.getName());
-		
-		for ( Enumeration entries = zf.entries(); entries.hasMoreElements(); )
-		{
-			ZipEntry en = (ZipEntry) entries.nextElement();
-			String name = en.getName(); 
-			if ( name.endsWith(".oro") )
-			{
-				String parent = "";
-				int index = name.lastIndexOf('/');
-				if ( index > 0 )
-				{
-					parent = name.substring(0, index);
-				}
-				String pkgname = Util.replace(parent, "/", "::");
-				if ( ! list.contains(pkgname) )
-				{
-					list.add(pkgname);
-					logger.log("   Adicionado: " +pkgname);
-				}
-			}
-		}
-		return list;
-
-	}
-	
 	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Escribe una unidad en el ObjectOutputStream dado.
 	 * Hace manejo de version de la unidad.
-	 *
-	 * @since 0.7s1
 	 */
 	private void escribirUnidad(ObjectOutputStream out, NUnidad n)
 	throws IOException
@@ -927,8 +722,6 @@ public class ManejadorUnidades
 	/**
 	 * Lee una unidad del ObjectInputStream dado.
 	 * Hace manejo de version de la unidad.
-	 *
-	 * @since 0.7s1
 	 */
 	static NUnidad leerUnidad(ObjectInputStream ois)
 	throws Exception
@@ -947,31 +740,6 @@ public class ManejadorUnidades
 		return n;
 	}
 	
-	/////////////////////////////////////////////////////////////////
-	/**
-	 * Verifica las unidades compiladas encontradas en la ruta de búsqueda.
-	 *
-	 * @param lars Lista en donde se agregarán los nombres completos de
-	 *			los archivos LAR que resultan incompatibles con
-	 *			la versión actual del núcleo.
-	 *	 
-	 * @param oros Lista en donde se agregarán los nombres completos de
-	 *			los archivos .oro que resultan incompatibles con
-	 *			la versión actual del núcleo.
-	 */
-	public void verificarUnidadesCompiladas(List lars, List oros)
-	{
-		Loro.log("ManejadorUnidades: iniciando verificarUnidadesCompiladas() ...");
-
-		// pendiente separar lars de oros...
-		
-		dirGuardarOroLoader.verify(oros);
-		oroLoaderMan.verify(oros);
-	}
-	
-	// fijado aqui por el momento
-	private static final String NOMBRE_INTERFACE_RAIZ = PAQUETE_AUTOMATICO+ "::IObjeto";
-
 	////////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene los nombres de las superinterfaces de una interface.

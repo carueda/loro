@@ -20,14 +20,23 @@ import java.io.*;
  */
 public class OroLoaderManager
 {
+	/** Cargador de unidades del núcleo. */
+	private CoreOroLoader coreOroLoader;
+	
 	/** Cargadores considerados como extensiones. */
 	private List extensionLoaders;
 	
 	/** Los File's correspondientes a las extensiones. */
 	private List extensionFiles;
 	
-	/** Cargadores de directorios. */
+	/** Cargadores desde directorios. */
 	private List directoryLoaders;
+	
+	/**
+	 * Los File's correspondientes a los directorios.
+	 * El mapping es: nombre_canónico --> File
+	 */
+	private Map directoryFiles;
 	
 	/** Todos los cargadores. */
 	private List loaders;
@@ -42,9 +51,13 @@ public class OroLoaderManager
 	public OroLoaderManager(File[] files)
 	{
 		logger = Logger.getLogger();
+		
+		coreOroLoader = new CoreOroLoader();
+		
 		directoryLoaders = new ArrayList();
 		extensionLoaders = new ArrayList();
 		extensionFiles = new ArrayList();
+		directoryFiles = new HashMap();
 		loaders = new ArrayList();
 		for ( int i = 0; i < files.length; i++ )
 		{
@@ -62,18 +75,72 @@ public class OroLoaderManager
 	
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Adiciona una directorio a la ruta de búsqueda.
+	 * Adiciona una directorio a la ruta de búsqueda. 
+	 * Si el directorio ya está en tal ruta, no se hace nada.
+	 * Para esta verificación se utiliza el nombre canónico.
 	 *
 	 * @param dir El directorio a incluir.
 	 */
 	public void addDirectoryToPath(File dir)
 	{
-		IOroLoader ol = new DirectoryOroLoader(dir);
-		directoryLoaders.add(ol); 
-		loaders.add(ol);
-		logger.log("OroLoaderManager: added directory: " +dir.getAbsolutePath());
+		String canonical_path;
+		
+		try
+		{
+			canonical_path = dir.getCanonicalPath();
+		}
+		catch(IOException ex)
+		{
+			// pero no debería suceder.
+			logger.log("getCanonicalPath(): " +ex.getMessage());
+			return;
+		}
+		
+		if ( directoryFiles.get(canonical_path) == null )
+		{
+			IOroLoader ol = new DirectoryOroLoader(dir);
+			directoryLoaders.add(ol); 
+			directoryFiles.put(canonical_path, ol);
+			loaders.add(ol);
+			logger.log("OroLoaderManager: added directory: " +dir.getAbsolutePath());
+		}
 	}
 
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Establece el directorio dado como el primero a examinar para búsquedas.
+	 * Este orden puede alterar el resultado de getUnit cuando diversas
+	 * unidades tienen el mismo nombre en distintos directorios.
+	 *
+	 * Si el directorio NO está en la ruta, no se hace nada.
+	 * Para esta verificación se utiliza el nombre canónico.
+	 *
+	 * @param dir El directorio a buscar primero.
+	 */
+	public void setFirstDirectory(File dir)
+	{
+		String canonical_path;
+		
+		try
+		{
+			canonical_path = dir.getCanonicalPath();
+		}
+		catch(IOException ex)
+		{
+			// pero no debería suceder.
+			logger.log("getCanonicalPath(): " +ex.getMessage());
+			return;
+		}
+
+		IOroLoader ol = (IOroLoader) directoryFiles.get(canonical_path);
+		if ( ol != null )
+		{
+			boolean existing = loaders.remove(ol);
+			Util._assert(existing, "existing in loaders");
+			loaders.add(0, ol);
+		}
+	}
+		
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Adiciona un archivo zip a la ruta de búsqueda.
@@ -97,6 +164,15 @@ public class OroLoaderManager
 			logger.log(file+ ": " +ex.getMessage());
 		}
 		return ol;
+	}
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene los cargador del núcleo.
+	 */
+	public IOroLoader getCoreLoader()
+	{
+		return coreOroLoader;
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -134,17 +210,29 @@ public class OroLoaderManager
 	}
 	
 	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene una unidad. Se asume que el nombre incluye la
+	 * indicacion del tipo de nodo a leer; ejs:
+	 *		unaEspecificacion.e
+	 *		unAlgoritmo.a
+	 *		unaClase.c
+	 *
+	 * La busqueda se hace en el siguiente orden: <br>
+	 *	- cargador de unidades del núcleo<br>
+	 *	- lista de cargadores<br>
+	 */
 	public NUnidad getUnit(String unitname)
 	{
-		NUnidad n = null;
+		NUnidad n = coreOroLoader.getUnit(unitname);
+		if ( n != null )
+			return n;
+		
 		for ( Iterator it = loaders.iterator(); it.hasNext(); )
 		{
 			IOroLoader loader = (IOroLoader) it.next();
 			n = loader.getUnit(unitname);
 			if ( n != null )
-			{
 				break;
-			}
 		}
 		return n;
 	}
@@ -170,6 +258,7 @@ public class OroLoaderManager
 		if ( list == null )
 			list  = new ArrayList();
 
+		list = coreOroLoader.loadUnitsFromPackage(nombrePaquete, list);
 		for ( Iterator it = loaders.iterator(); it.hasNext(); )
 		{
 			IOroLoader loader = (IOroLoader) it.next();

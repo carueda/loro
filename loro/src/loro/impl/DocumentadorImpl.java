@@ -5,6 +5,7 @@ import loro.util.ManejadorUnidades;
 
 import java.util.Vector;
 import java.util.Iterator;
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,7 +14,6 @@ import java.io.IOException;
  * Implementacion de IDocumentador.
  *
  * @author Carlos Rueda
- * @version 2002-08-29
  */
 public class DocumentadorImpl implements IDocumentador
 {
@@ -43,7 +43,7 @@ public class DocumentadorImpl implements IDocumentador
 		// cargue las unidades de apoyo:
 		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
 		Vector units = new Vector();
-		mu.cargarUnidadesDeApoyo(units);
+		mu.getOroLoaderManager().getCoreLoader().loadUnitsFromPackage("*", units);
 		
 		// genere la documentacion
 		String s = loro.doc.Documentador.procesarLista(units, dir);
@@ -58,9 +58,9 @@ public class DocumentadorImpl implements IDocumentador
 	public void documentarExtensiones(String dir)
 	throws LoroException, IOException
 	{
-		// cargue las unidades de apoyo:
 		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
-		for ( Iterator it = mu.getExtensionFiles().iterator(); it.hasNext(); )
+		List list = mu.getOroLoaderManager().getExtensionFiles();
+		for ( Iterator it = list.iterator(); it.hasNext(); )
 		{
 			File file = (File) it.next();
 			String s = loro.doc.Documentador.procesarArchivoZip(file.getAbsolutePath(), dir);

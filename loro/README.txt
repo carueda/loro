@@ -26,6 +26,35 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-22 Version 0.7.9
+
+Algo de refactoring y limpieza -- manejo de unidades compiladas.
+
+	- ManejadorUnidades:
+		- Eliminado atributo obsoleto rutaLeer.
+		
+		- OroLoaderManager se encarga ahora del coreOroLoader.
+		
+		- Eliminado cargarUnidadesDePaquete(): Documentador y
+		  LoroDocumentador ahora piden mu.getOroLoaderManager() directamente.
+		  
+		- Eliminado cargarUnidadesDeApoyo(): DocumentadorImpl ahora
+		  pide mu.getOroLoaderManager() directamente.
+		  
+		- Eliminado atributo dirGuardarOroLoader, que se asociaba
+		  con dirGuardar.
+		  
+		- Eliminado verificarUnidadesCompiladas(): Loro ahora
+		  pide mu.getOroLoaderManager() directamente.
+		  
+		- Movido cargarUnidadesDeZip() a Documentador.
+		
+		- Eliminado getPackageNamesFromZip() (no usado).
+		  
+	- Nuevo servicio OroLoaderMan.setFirstDirectory(dir), que es llamado
+	  en ManejadorUnidades.ponDirGuardarCompilado().
+	
+////////////////////////////////////////////////////////////////////////////
 2003-03-18 Version 0.7.9
 
 	- LoroEjecutor.visitar(NEsInstanciaDe n) ahora utiliza Tipos.aKindOf().
