@@ -15,6 +15,25 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-24 (0.8pre12)
 
+	Limpieza general:
+	----------------
+		- Workspace: no usa más LoroControl; ahora usa instancia de la nueva
+		  clase EDICompiler, que toma lo que se usaba de LoroControl.
+		  
+		- GUI.quit(): se remplaza LoroEDI.finalizar() por sus acciones. 
+		  
+		- Movidos a un nuevo subproyecto ``simpledi'' (como backup) las
+		  siguientes clases y paquetes que servían de soporte a la GUI anterior
+		  llamada versión 0.7.x:  (*)
+			- loroedi.Acciones
+			- loroedi.EDI
+			- loroedi.HiloAlgoritmo
+			- loroedi.LoroControl
+			- loroedi.LoroEDI
+			- util.consola.*
+			
+		- Esto ha reducido loroedi.jar en unos 50K (!)
+	  
 	- GUI: compilación de demo factorizada para unificar manejo por segmentos
 	  tanto desde el editor como desde el proyecto. Corregida ubicación de
 	  línea en mensajes de errores de compilación (se hace un control de

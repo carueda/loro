@@ -6,7 +6,6 @@ import loroedi.gui.project.unit.*;
 import loroedi.gui.editor.*;
 import loroedi.gui.misc.MessageArea;
 
-import loroedi.LoroEDI;
 import loroedi.Util;
 import loroedi.Configuracion;
 import loroedi.Preferencias;
