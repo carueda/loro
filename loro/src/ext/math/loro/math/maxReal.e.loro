@@ -1,0 +1,9 @@
+package loro::math
+
+specification maxReal(v1, v2: real) -> max: real
+    ''The greater of two real values.''
+    input v1: ''one argument.''
+          v2: ''other argument.''
+    output max: ''the greater value.''
+    post { (v1 >= v2 => max = v1) && (v1 < v2 => max = v2) }
+end specification

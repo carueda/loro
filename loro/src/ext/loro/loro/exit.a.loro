@@ -1,0 +1,8 @@
+package loro
+
+algorithm exit for exit(cod:int)
+implementation "bsh" 
+{%
+	$amb.terminarEjecucion(cod);
+%}
+end algorithm

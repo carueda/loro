@@ -1,0 +1,8 @@
+package loro
+
+algorithm readBoolean for readBoolean()->v:boolean
+implementation "bsh"
+{%
+	return $amb.obtManejadorEntradaSalida().leerBooleano();
+%}
+end algorithm

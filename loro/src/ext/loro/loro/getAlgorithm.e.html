@@ -1,0 +1,66 @@
+<html>
+<head>
+<!-- Generated Tue Jul 06 18:43:19 PDT 2004-->
+<!-- Loro version 0.8pre4-->
+<!-- Source:  -->
+<!-- user.name: carueda -->
+<title>
+specification getAlgorithm</title>
+</head>
+<body>
+
+<font size="-1">package: <code><b>loro</b></code></font>
+<table BORDER=0 BGCOLOR="#FFEEEE">
+<tr bgcolor="#FFCCCC">
+<td>
+<code>
+specification <b>getAlgorithm(name)</b>
+<b> -> alg</b></code>
+</td>
+</tr>
+<tr><td>
+<blockquote>
+
+Reads and returns a compiled algorithm.<br>
+
+</blockquote>
+
+</td></tr>
+<tr><td>
+<table border="0" bgcolor="#FFDDDD" width="100%">
+
+<tr bgcolor="#FFCCCC">
+<td><i><u>input</u></i></td><td><code>:</code></td><td><i>type</i></td><td><code>:</code></td><td><i>description</i></td></tr>
+<tr valign="top"><td><code><b>name</b></code></td><td><code>:</code></td><td><code>string</code></td><td><code>:</code></td><td>Qualified name of algorithm to load.</td></tr>
+
+<tr bgcolor="#FFEEEE"></tr>
+<tr bgcolor="#FFCCCC">
+<td><i><u>output</u></i></td><td><code>:</code></td><td><i>type</i></td><td><code>:</code></td><td><i>description</i></td></tr>
+<tr valign="top"><td><code><b>alg</b></code></td><td><code>:</code></td><td><code>algorithm</code></td><td><code>:</code></td><td>The algorithm.  
+                null if name is not found or does not correspond
+                to an algorithm.</td></tr>
+
+</table>
+
+</td></tr>
+<tr bgcolor="#FFEEEE"></tr>
+<tr><td>
+<table border="0" bgcolor="#FFDDDD" width="100%">
+
+<tr bgcolor="#FFCCCC">
+<td><u>Precondition</u></td>
+</tr>
+<tr valign="top"><td><code>{ name != null }</code></td></tr>
+<tr bgcolor="#FFEEEE"></tr>
+<tr bgcolor="#FFCCCC">
+<td><u>Postcondition</u></td>
+</tr>
+<tr valign="top"><td><code>{ alg = alg' }</code></td></tr>
+</table>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+

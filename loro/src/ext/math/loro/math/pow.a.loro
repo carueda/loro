@@ -1,0 +1,8 @@
+package loro::math
+
+algorithm pow for pow(v1:real,v2:real)->r:real
+implementation "bsh" 
+{%
+	return Math.pow(v1, v2);
+%}
+end algorithm

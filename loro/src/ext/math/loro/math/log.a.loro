@@ -1,0 +1,8 @@
+package loro::math
+
+algorithm log for log(v:real)->r:real
+implementation "bsh" 
+{%
+	return Math.log(v);
+%}
+end algorithm

@@ -1,0 +1,6 @@
+package loro
+
+specification sleep(millis: int)
+    input millis: ''sleeps for some time.''
+    pre  { millis >= 0 }
+end specification

@@ -1,0 +1,8 @@
+package loro
+
+algorithm readCharacter for readCharacter()->v:char
+implementation "bsh"
+{%
+	return $amb.obtManejadorEntradaSalida().leerCaracter();
+%}
+end algorithm

@@ -1,0 +1,9 @@
+package loro::math
+
+specification minReal(v1, v2: real) -> min: real
+    ''The smaller of two real values.''
+    input v1: ''one argument.''
+          v2: ''other argument.''
+    output min: ''the smaller value.''
+    post { (v1 <= v2 => min = v1) && (v1 > v2 => min = v2) }
+end specification

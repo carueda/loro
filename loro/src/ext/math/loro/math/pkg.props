@@ -1,0 +1,37 @@
+#Package properties
+#Tue Jul 06 19:48:55 PDT 2004
+spec.16=maxInteger
+alg.9=minReal, loro\:\:math\:\:minReal
+spec.15=maxReal
+alg.8=sqrt, loro\:\:math\:\:sqrt
+spec.14=randomReal
+alg.7=PI, loro\:\:math\:\:realConstant
+spec.13=cos
+alg.6=floor, loro\:\:math\:\:floor
+spec.12=exp
+alg.5=round, loro\:\:math\:\:round
+spec.11=pow
+alg.4=minInteger, loro\:\:math\:\:minInteger
+spec.10=ceil
+alg.3=tan, loro\:\:math\:\:tan
+spec.9=minReal
+alg.2=abs, loro\:\:math\:\:abs
+spec.8=sqrt
+alg.1=sin, loro\:\:math\:\:sin
+spec.7=floor
+alg.0=log, loro\:\:math\:\:log
+spec.6=realConstant
+spec.5=round
+spec.4=minInteger
+spec.3=tan
+spec.2=abs
+spec.1=sin
+spec.0=log
+alg.17=E, loro\:\:math\:\:realConstant
+alg.16=maxInteger, loro\:\:math\:\:maxInteger
+alg.15=maxReal, loro\:\:math\:\:maxReal
+alg.14=randomReal, loro\:\:math\:\:randomReal
+alg.13=cos, loro\:\:math\:\:cos
+alg.12=exp, loro\:\:math\:\:exp
+alg.11=ceil, loro\:\:math\:\:ceil
+alg.10=pow, loro\:\:math\:\:pow

@@ -1,0 +1,8 @@
+package loro::math
+
+algorithm maxInteger for maxInteger(v1:int,v2:int)->max:int
+implementation "bsh" 
+{%
+	return Math.max(v1, v2);
+%}
+end algorithm

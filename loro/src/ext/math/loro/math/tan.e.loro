@@ -1,0 +1,8 @@
+package loro::math
+
+specification tan(v: real) -> r: real
+    ''Trigonometric tangent of an angle''
+    input v: ''input value.''
+    output r: ''Result.''
+    post { r = r' }
+end specification
