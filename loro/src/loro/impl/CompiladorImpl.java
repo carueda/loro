@@ -169,7 +169,7 @@ public class CompiladorImpl implements ICompilador
 					if ( ! ok )
 					{
 						ManejadorUnidades mu = chequeador.obtManejadorUnidades();
-						String auto_pkg = mu.obtNombrePaqueteAutomatico();
+						String auto_pkg = Loro.getLanguageInfo().getAutomaticPackageName();
 						ok = expected_specname.equals(auto_pkg+ "::" +specname);
 					}
 				}

@@ -43,9 +43,11 @@
 		<mkdir dir="${build}/classes"/>
         <mkdir dir="${build}/oro"/>
         <mkdir dir="${build}/ext"/>
+        <mkdir dir="${build}/ext_en"/>
 		<mkdir dir="${build}/classes/recurso"/>
 		<mkdir dir="${dist}"/>
 		<mkdir dir="${dist}/ext"/>
+		<mkdir dir="${dist}/ext_en"/>
 		
 		<uptodate property="parser.noRequerido" 
 		 targetfile="${src}/loro/parsers/javacc/ParserEs.java" >

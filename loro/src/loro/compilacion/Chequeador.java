@@ -2943,7 +2943,7 @@ public class Chequeador extends ChequeadorBase
 		{
 			throw new ChequeadorException(
 				e,
-				Str.get("error.error.expected_array_or_string")
+				Str.get("error.expected_array_or_string")
 			);
 		}
 

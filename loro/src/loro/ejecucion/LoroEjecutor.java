@@ -148,8 +148,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 			{
 				// OK, indica terminar programa Loro desde una
 				// invocación de programa:
-				TerminacionInternaException ti = (TerminacionInternaException) thr;
-				throw new TerminacionException(alg, pilaEjec, ti.obtCodigo());
+				throw _crearEjecucionException(alg,
+					thr.getMessage()
+				);
+				// TerminacionInternaException ti = (TerminacionInternaException) thr;
+				// throw new TerminacionException(alg, pilaEjec, ti.obtCodigo());
 			}
 			else if ( thr instanceof TerminacionExternaException )
 			{
@@ -184,7 +187,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 	}
 
 	/**
-	 * Ejecuta un algoritmo implementado en BeanShell.
+	 * Executes a BeanShel-implemented algorithm.
 	 *
 	 * @throws EjecucionException 
 	 *                   Por cualquier error de ejecucion
@@ -195,22 +198,19 @@ public class LoroEjecutor extends LoroEjecutorBase
 	 *                   Por terminacion sea interna o externa.
 	 */
 	protected Object ejecutarAlgoritmoBsh(NAlgoritmo alg, Object[] args)
-	throws EjecucionVisitanteException
-	{
+	throws EjecucionVisitanteException {
 		String id = alg.obtNombreSimpleCadena();
-		if ( !alg.implementadoEnLenguaje("bsh") )
-		{
-				throw _crearEjecucionException(alg,
-					"Algorithm '" +id+ "' not implemented in BeanShell"
-				);
+		if ( !alg.implementadoEnLenguaje("bsh") ) {
+			throw _crearEjecucionException(alg,
+				"Algorithm '" +id+ "' not implemented in BeanShell"
+			);
 		}
 
 		NDeclaracion[] pent = alg.obtParametrosEntrada();
 		NDeclaracion[] psal = alg.obtParametrosSalida();
 		
 		String src = alg.obtInfoImplementacion();
-		if ( src  == null )
-		{
+		if ( src  == null ) {
 			throw _crearEjecucionException(alg,
 				"Missing script source"
 			);
@@ -218,14 +218,13 @@ public class LoroEjecutor extends LoroEjecutorBase
 		bsh.Interpreter bsh = new bsh.Interpreter();
 		bsh.getNameSpace().importPackage("loro.ijava");
 		Object res = null;
-		try
-		{
+		try {
 			bsh.set("$amb", this);
 			bsh.set("$este", este);
 			bsh.set("$this", este);       // should be only this one  PENDING
+			bsh.set("$thrw", null);       // any thrown object
 			
-			for (int i = 0; i < args.length; i++)
-			{
+			for (int i = 0; i < args.length; i++) {
 				String in_id = pent[i].obtId().obtId();
 				Object obj = args[i];
 				if ( obj instanceof Integer )
@@ -240,9 +239,16 @@ public class LoroEjecutor extends LoroEjecutorBase
 				else
 					bsh.set(in_id, _convertirArgumentoParaJava(obj));
 			}
-			res = bsh.eval(src);
-			if ( res == null && psal.length > 0 )
-			{
+			
+			// put some code to catch any throwable:
+			String bsh_src =  "try { " +src+ " } catch(Throwable $thrwarg) { $thrw = $thrwarg; }";
+			res = bsh.eval(bsh_src);
+			
+			Throwable thrw = (Throwable) bsh.get("$thrw");
+			if ( thrw != null )
+				throw thrw;
+			
+			if ( res == null && psal.length > 0 ) {
 				String out_id = psal[0].obtId().obtId();
 				res = bsh.get(out_id);
 			}
@@ -250,8 +256,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 			// Convierta retorno:
 			res = _convertirRetornoDeJava(res);
 		}
-		catch ( bsh.EvalError ex )
-		{
+		catch ( bsh.EvalError ex ) {
 			throw _crearEjecucionException(alg,
 				"Error while ejecuting script:\n"+
 				"line: " +ex.getErrorLineNumber()+ "\n"+
@@ -259,6 +264,35 @@ public class LoroEjecutor extends LoroEjecutorBase
 				"message: " +ex.getMessage()+ "\n"
 			);
 		}
+		catch(java.io.InterruptedIOException thr) {
+			// OK, indica terminar programa Loro por un evento externo:
+			// Ver metodos Java Sistema.leer..()
+			throw new TerminacionException(alg, pilaEjec);
+		}
+		catch(TerminacionExternaException thr) {
+			// OK, indica terminar programa Loro por un evento externo:
+			throw thr;
+		}
+		catch(InterruptedException thr) {
+			throw new TerminacionException(alg, pilaEjec);
+		}
+		catch(LException thr) {
+			throw _crearEjecucionException(alg,
+				thr.getMessage()
+			);
+		}
+		catch(TerminacionInternaException thr) {
+			throw _crearEjecucionException(alg,
+				thr.getMessage()
+			);
+		}
+		catch(Throwable thr) {
+			thr.printStackTrace();
+			throw _crearEjecucionException(alg,
+				thr.getMessage()
+			);
+		}
+		
 		return res;
 	}
 

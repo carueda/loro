@@ -1,5 +1,6 @@
 package loro.compilacion;
 
+import loro.Loro;
 import loro.Loro.Str;
 import loro.visitante.IVisitante;
 import loro.visitante.VisitanteException;
@@ -602,10 +603,9 @@ abstract class ChequeadorBase implements IVisitante
 
 		NAlgoritmo alg = mu.obtAlgoritmo(nombreCompuesto);
 
-		if ( alg == null )
-		{
+		if ( alg == null ) {
 			// intente por el paquete visible automaticamente:
-			nombreCompuesto = mu.obtNombrePaqueteAutomatico()+ "::" +id.obtId();
+			nombreCompuesto = Loro.getLanguageInfo().getAutomaticPackageName()+ "::" +id.obtId();
 			alg = mu.obtAlgoritmo(nombreCompuesto);
 		}
 
@@ -669,10 +669,9 @@ abstract class ChequeadorBase implements IVisitante
 
 		NClase clase = mu.obtClase(nombreCompuesto);
 
-		if ( clase == null )
-		{
+		if ( clase == null ) {
 			// intente por el paquete visible automaticamente:
-			nombreCompuesto = mu.obtNombrePaqueteAutomatico()+ "::" +id.obtId();
+			nombreCompuesto = Loro.getLanguageInfo().getAutomaticPackageName()+ "::" +id.obtId();
 			clase = mu.obtClase(nombreCompuesto);
 		}
 
@@ -740,10 +739,9 @@ abstract class ChequeadorBase implements IVisitante
 		}
 		NEspecificacion espec = mu.obtEspecificacion(nombreCompuesto);
 
-		if ( espec == null )
-		{
+		if ( espec == null ) {
 			// intente por el paquete visible automaticamente:
-			nombreCompuesto = mu.obtNombrePaqueteAutomatico()+ "::" +id;
+			nombreCompuesto = Loro.getLanguageInfo().getAutomaticPackageName()+ "::" +id;
 			espec = mu.obtEspecificacion(nombreCompuesto);
 		}
 
@@ -789,10 +787,9 @@ abstract class ChequeadorBase implements IVisitante
 		}
 		NEspecificacion espec = mu.obtEspecificacion(nombreCompuesto);
 
-		if ( espec == null )
-		{
+		if ( espec == null ) {
 			// intente por el paquete visible automaticamente:
-			nombreCompuesto = mu.obtNombrePaqueteAutomatico()+ "::" +id.obtId();
+			nombreCompuesto = Loro.getLanguageInfo().getAutomaticPackageName()+ "::" +id.obtId();
 			espec = mu.obtEspecificacion(nombreCompuesto);
 		}
 
@@ -883,10 +880,9 @@ abstract class ChequeadorBase implements IVisitante
 
 		NInterface interface_ = mu.obtInterface(nombreCompuesto);
 
-		if ( interface_ == null )
-		{
+		if ( interface_ == null ) {
 			// intente por el paquete visible automaticamente:
-			nombreCompuesto = mu.obtNombrePaqueteAutomatico()+ "::" +id.obtId();
+			nombreCompuesto = Loro.getLanguageInfo().getAutomaticPackageName()+ "::" +id.obtId();
 			interface_ = mu.obtInterface(nombreCompuesto);
 		}
 

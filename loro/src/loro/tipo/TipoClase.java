@@ -1,5 +1,6 @@
 package loro.tipo;
 
+import loro.Loro;
 import loro.util.Util;
 import loro.util.ManejadorUnidades;
 import loro.compilacion.ClaseNoEncontradaException;
@@ -31,8 +32,7 @@ public class TipoClase extends TipoUnidad
 	public boolean esAsignable(Tipo t)
 	throws ClaseNoEncontradaException
 	{
-		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
-		if ( mu.obtNombreClaseRaiz().equals(obtNombreCompletoString()) )
+		if ( Loro.getLanguageInfo().getRootClassName().equals(obtNombreCompletoString()) )
 			return t.esObjeto();
 		
 		if ( t.esNulo() )
@@ -54,8 +54,7 @@ public class TipoClase extends TipoUnidad
 	{
 		try
 		{
-			ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
-			if ( mu.obtNombreClaseRaiz().equals(obtNombreCompletoString()) )
+			if ( Loro.getLanguageInfo().getRootClassName().equals(obtNombreCompletoString()) )
 				return t.esObjeto();
 			
 			if ( t.esClase() ) 

@@ -13,6 +13,10 @@ COMPILACIÓN: Ver build.xml.
 
 ACTUALIZACIONES:
 
+		2004-07-06
+		- algoritmos implementados en cualquier lenguaje pueden
+		  describirse.
+		
 		2004-07-05
 		- Algunas reglas se han hecho menos estrictas:
 			- Elementos de documentacion ahora son opcionales
@@ -23,7 +27,7 @@ ACTUALIZACIONES:
 			        ...
 			     fin
 			    
-		- loro.jj es la especificacion para el idioma ingles:
+		- loro_en.jj es la especificacion para el idioma ingles:
 		  La gramatica es exactamente la misma EXCEPTO:
 			- conjunto de palabras reservadas (seccion de lexico)
 			- produccion para() es manejada de manera diferente

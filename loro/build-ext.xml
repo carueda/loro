@@ -16,13 +16,28 @@
 	 	<antcall target="prj">
 			<param name="basename" value="ext/mat"/>
 			<param name="includes" value="loroI/mat/**/*.loro"/>
+			<param name="locale" value="es"/>
 		</antcall>
 		
 	 	<antcall target="prj">
 			<param name="basename" value="ext/entsal"/>
 			<param name="includes" value="loroI/entsal/**/*.loro"/>
+			<param name="locale" value="es"/>
 		</antcall>
-    </target>
+
+	 	<antcall target="prj">
+			<param name="basename" value="ext_en/loro"/>
+			<param name="includes" value="loro/*.loro"/>
+			<param name="locale" value="en"/>
+		</antcall>
+
+	 	<antcall target="prj">
+			<param name="basename" value="ext_en/math"/>
+			<param name="includes" value="loro/math/**/*.loro"/>
+			<param name="locale" value="en"/>
+		</antcall>
+
+	</target>
 
 
 	<!-- prj .................................................. -->

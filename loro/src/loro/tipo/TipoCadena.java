@@ -1,5 +1,6 @@
 package loro.tipo;
 
+import loro.Loro;
 import loro.Loro.Str;
 import loro.util.ManejadorUnidades;
 
@@ -36,9 +37,8 @@ class TipoCadena extends TipoObjeto
 		if ( t.esClase() )
 		{
 			TipoClase tc = (TipoClase) t;
-			ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
 			String class_name = tc.obtNombreCompletoString();
-			if ( mu.obtNombreClaseRaiz().equals(class_name) )
+			if ( Loro.getLanguageInfo().getRootClassName().equals(class_name) )
 			{
 				return true;
 			}

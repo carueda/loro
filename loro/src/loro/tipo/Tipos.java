@@ -1,12 +1,13 @@
 package loro.tipo;
 
+import loro.Loro;
 import loro.arbol.*;
-
 import loro.util.Util;
 import loro.ejecucion.Objeto;
 import loro.util.ManejadorUnidades;
-import java.util.*;
 import loro.compilacion.ClaseNoEncontradaException;
+
+import java.util.*;
 
 ////////////////////////////////////////////////////
 /**
@@ -133,7 +134,7 @@ public class Tipos
 		{
 			// t2 tiene que ser "cadena" o el nombre de la clase raiz:
 			return Tipo.cadena.toString().equals(t2)
-			    || mu.obtNombreClaseRaiz().equals(t2);
+			    || Loro.getLanguageInfo().getRootClassName().equals(t2);
 		}
 		else if ( object instanceof Object[] )
 		{

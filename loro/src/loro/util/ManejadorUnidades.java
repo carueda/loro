@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 ///////////////////////////////////////////////////////////////
 /**
- * Manejador de unidades compiladas. Esta es una clase "singleton".
+ * A "singleton" class to manage compiled units.
  *
  * Gestiona el almacenamiento, recuperación y versión de unidades compiladas.
  *
@@ -30,22 +30,8 @@ import java.io.InputStream;
  *
  * @author Carlos Rueda
  */
-public class ManejadorUnidades
-{
-	/**
-	 * Paquete automáticamente visible.
-	 */
-	private static final String PAQUETE_AUTOMATICO = "loroI::sistema";
-
-	// fijado aqui por el momento
-	private static final String NOMBRE_CLASE_RAIZ = PAQUETE_AUTOMATICO+ "::Objeto";
-
-	// fijado aqui por el momento
-	private static final String NOMBRE_INTERFACE_RAIZ = PAQUETE_AUTOMATICO+ "::IObjeto";
-
-	/**
-	 * La instancia única para manejo de unidades.
-	 */
+public class ManejadorUnidades {
+	/** The only instance. */
 	private static ManejadorUnidades mu = null;
 
 
@@ -294,19 +280,6 @@ public class ManejadorUnidades
 		return interface_;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Obtiene la clase raiz.
-	 *
-	 * @return La clase raiz de Loro.
-	 *         null si tal clase no se encuentra.
-	 */
-	public NClase obtClaseRaiz()
-	{
-		return obtClase(NOMBRE_CLASE_RAIZ);
-	}
-
-
 	///////////////////////////////////////////////////////////
 	/**
 	 * Obtiene el directorio para guardar compilados.
@@ -518,25 +491,6 @@ public class ManejadorUnidades
 		return n;
 	}
 
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 * Retorna el nombre completo del paquete automatico como cadena
-	 * con separadores "::".
-	 */
-	public String obtNombrePaqueteAutomatico()
-	{
-		return PAQUETE_AUTOMATICO;
-	}
-
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 * Retorna el nombre completo de la clase raiz.
-	 */
-	public String obtNombreClaseRaiz()
-	{
-		return NOMBRE_CLASE_RAIZ;
-	}
-
 	////////////////////////////////////////////////////////////////
 	/**
 	 * Obtiene la superclase de una clase.
@@ -551,26 +505,22 @@ public class ManejadorUnidades
 	 *              (Debio haber sido borrada despues de haber sido compilada.)
 	 *
 	 */
-	public NClase obtSuperClase(NClase clase)
-	throws ClaseNoEncontradaException
-	{
+	public NClase obtSuperClase(NClase clase) throws ClaseNoEncontradaException {
 		// revise si la clase es la raiz:
+		String root_name = Loro.getLanguageInfo().getRootClassName();
 		String nombre = clase.obtNombreCompletoCadena();
-		if ( NOMBRE_CLASE_RAIZ.equals(nombre) )
-		{
+		if ( root_name.equals(nombre) ) {
 			return null;
 		}
 
 		TNombre extiende = clase.obtNombreExtiende();
-		if ( extiende == null )
-		{
+		if ( extiende == null ) {
 			// no se indico 'extiende', por lo tanto es la raiz:
-			NClase raiz = obtClaseRaiz();
-			if ( raiz == null )
-			{
-				throw new ClaseNoEncontradaException(NOMBRE_CLASE_RAIZ);
+			NClase root = obtClase(root_name);
+			if ( root == null ) {
+				throw new ClaseNoEncontradaException(root_name);
 			}
-			return raiz;
+			return root;
 		}
 
 		// Busque super con base en el 'extiende'.
@@ -583,46 +533,39 @@ public class ManejadorUnidades
 
 		String nombreCompuesto;
 		TId[] ids = extiende.obtIds();
-		if ( ids.length == 1 )
-		{
+		if ( ids.length == 1 ) {
 			TId id = ids[0];
 			nombreCompuesto = clase.obtNombreCompuesto("c" +id);
-			if ( nombreCompuesto == null )
-			{
+			if ( nombreCompuesto == null ) {
 				// Intente por el paquete de esta misma clase:
 				String[] paquete = clase.obtPaquete();
-				if ( paquete != null )
-				{
+				if ( paquete != null ) {
 					nombreCompuesto = Util.obtStringRuta(paquete)+ "::" +id.obtId();
 				}
-				else
-				{
+				else {
 					// Intente por el paquete sin nombre:
 					nombreCompuesto = id.obtId();
 				}
 			}
 		}
-		else
-		{
+		else {
 			nombreCompuesto = extiende.obtCadena();
 		}
 
 		clase = mu.obtClase(nombreCompuesto);
 
-		if ( clase == null && ids.length == 1 )
-		{
+		if ( clase == null && ids.length == 1 ) {
 			// intente por el paquete visible automaticamente:
-			nombreCompuesto = PAQUETE_AUTOMATICO+ "::" +ids[0];
+			String auto_pkg = Loro.getLanguageInfo().getAutomaticPackageName();
+			nombreCompuesto = auto_pkg+ "::" +ids[0];
 			clase = mu.obtClase(nombreCompuesto);
 		}
 
-		if ( clase == null )
-		{
+		if ( clase == null ) {
 			throw new ClaseNoEncontradaException(extiende.obtCadena());
 		}
 
 		return clase;
-
 	}
 
 
@@ -747,32 +690,28 @@ public class ManejadorUnidades
 	 *              (Debio haber sido borrada despues de haber sido compilada.)
 	 */
 	private void _obtSuperInterfaces(NInterface interf, Set set)
-	throws ClaseNoEncontradaException
-	{
+	throws ClaseNoEncontradaException {
 		// revise si la interface es la raiz:
+		String root_interface_name = Loro.getLanguageInfo().getRootInterfaceName();
 		String nombre = interf.obtNombreCompletoCadena();
-		if ( NOMBRE_INTERFACE_RAIZ.equals(nombre) )
-		{
+		if ( root_interface_name.equals(nombre) ) {
 			return;
 		}
 
 		TNombre[] extiendes = interf.obtInterfaces();
-		if ( extiendes.length == 0 )
-		{
+		if ( extiendes.length == 0 ) {
 			// no se indico 'extiende', por lo tanto implicitamente es la interface raiz:
-			NInterface raiz = obtInterfaceRaiz();
-			if ( raiz == null )
-			{
-				throw new ClaseNoEncontradaException(NOMBRE_INTERFACE_RAIZ);
+			NInterface raiz = obtInterface(root_interface_name);
+			if ( raiz == null ) {
+				throw new ClaseNoEncontradaException(root_interface_name);
 			}
 			
-			set.add(NOMBRE_INTERFACE_RAIZ);
+			set.add(root_interface_name);
 			
 			return;
 		}
 
-		for (int i = 0; i < extiendes.length; i++)
-		{
+		for (int i = 0; i < extiendes.length; i++) {
 			TNombre extiende = extiendes[i];
 			
 			// si este 'extiende' es simple, o sea sin paquete, se intenta
@@ -784,59 +723,39 @@ public class ManejadorUnidades
 
 			String nombreCompuesto;
 			TId[] ids = extiende.obtIds();
-			if ( ids.length == 1 )
-			{
+			if ( ids.length == 1 ) {
 				TId id = ids[0];
 				nombreCompuesto = interf.obtNombreCompuesto("c" +id);
-				if ( nombreCompuesto == null )
-				{
+				if ( nombreCompuesto == null ) {
 					// Intente por el paquete de esta misma clase:
 					String[] paquete = interf.obtPaquete();
-					if ( paquete != null )
-					{
+					if ( paquete != null ) {
 						nombreCompuesto = Util.obtStringRuta(paquete)+ "::" +id.obtId();
 					}
-					else
-					{
+					else {
 						// Intente por el paquete sin nombre:
 						nombreCompuesto = id.obtId();
 					}
 				}
 			}
-			else
-			{
+			else {
 				nombreCompuesto = extiende.obtCadena();
 			}
 
 			interf = mu.obtInterface(nombreCompuesto);
 
-			if ( interf == null && ids.length == 1 )
-			{
+			if ( interf == null && ids.length == 1 ) {
 				// intente por el paquete visible automaticamente:
-				nombreCompuesto = PAQUETE_AUTOMATICO+ "::" +ids[0];
+				String auto_pkg = Loro.getLanguageInfo().getAutomaticPackageName();
+				nombreCompuesto = auto_pkg+ "::" +ids[0];
 				interf = mu.obtInterface(nombreCompuesto);
 			}
 
-			if ( interf == null )
-			{
+			if ( interf == null ) {
 				throw new ClaseNoEncontradaException(extiende.obtCadena());
 			}
-
 			set.add(nombreCompuesto);
 		}
-
-	}
-
-	//////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Obtiene la interface raiz.
-	 *
-	 * @return La interface raiz de Loro.
-	 *         null si tal interface no se encuentra.
-	 */
-	public NInterface obtInterfaceRaiz()
-	{
-		return obtInterface(NOMBRE_INTERFACE_RAIZ);
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -861,11 +780,11 @@ public class ManejadorUnidades
 		Set set = new HashSet();
 
 		// toda clase implementa por lo menos la interface raiz:
-		set.add(NOMBRE_INTERFACE_RAIZ);
+		String root_interface_name = Loro.getLanguageInfo().getRootInterfaceName();
+		set.add(root_interface_name);
 
 		TNombre[] obj_interfs = clase.obtInterfacesDeclaradas();
-		for (int i = 0; i < obj_interfs.length; i++)
-		{
+		for (int i = 0; i < obj_interfs.length; i++) {
 			TNombre tnom = obj_interfs[i];
 			
 			String nombreCompuesto;
@@ -896,10 +815,10 @@ public class ManejadorUnidades
 
 			NInterface interf = mu.obtInterface(nombreCompuesto);
 
-			if ( interf == null && ids.length == 1 )
-			{
+			if ( interf == null && ids.length == 1 ) {
 				// intente por el paquete visible automaticamente:
-				nombreCompuesto = PAQUETE_AUTOMATICO+ "::" +ids[0];
+				String auto_pkg = Loro.getLanguageInfo().getAutomaticPackageName();
+				nombreCompuesto = auto_pkg+ "::" +ids[0];
 				interf = mu.obtInterface(nombreCompuesto);
 			}
 
@@ -936,21 +855,15 @@ public class ManejadorUnidades
 	 *
 	 */
 	public Set obtSuperInterfaces(NInterface interf)
-	throws ClaseNoEncontradaException
-	{
+	throws ClaseNoEncontradaException {
 		// revise si la interface es la raiz:
 		String nombre = interf.obtNombreCompletoCadena();
-		if ( NOMBRE_INTERFACE_RAIZ.equals(nombre) )
-		{
+		String root_interface_name = Loro.getLanguageInfo().getRootInterfaceName();
+		if ( root_interface_name.equals(nombre) ) {
 			return null;
 		}
-
 		Set set = new HashSet();
-
 		_obtSuperInterfaces(interf, set);
-		
-
 		return set;
-
 	}
 }

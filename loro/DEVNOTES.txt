@@ -3,7 +3,18 @@ $Id$
 
 ////////////////////////////////////////////////////////////////////////////
 2004-07-06 Version 0.8pre4
-	- strings for special operations on arrays: length, inf, sup 
+	- strings for special operations on arrays: length, inf, sup
+	- ILanguageInfo now provides information about automatic package name
+	  and names of basic units. In particular, ``loroI::sistema'' continue
+	  to be the automatic package under the "es" locale, while ``loro''
+	  for the "en" locale.
+	- Algorithms implemented in other languages can now be described as well.
+	- New extension archive loro.lar with automatic package ``loro''. 
+	  This is being included as a regular extension. This works just 
+	  fine (maybe I should handle loroI.lar the same manner).
+	- New extension archive math.lar with ``loro::math'' package.
+	- TerminacionInternaException: now the system shows the exit code.
+	- These extensions are in src/ext_en/
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-07-05 Version 0.8pre3

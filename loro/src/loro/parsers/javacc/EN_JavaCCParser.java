@@ -214,6 +214,9 @@ public class EN_JavaCCParser extends BaseParser {
 		public String[] getKeywords2() { return keywords2; }
 		public String[] getKeywords3() { return keywords3; }
 		public String[] getLiterals()  { return literals; }
+		public String getAutomaticPackageName() { return "loro"; }
+		public String getRootClassName() { return getAutomaticPackageName()+ "::Object"; } 
+		public String getRootInterfaceName() { return getAutomaticPackageName()+ "::IObject"; } 
 	}
 }
 

@@ -562,8 +562,8 @@ NAlgoritmo algoritmo() :
 	( ti=<ALGORITHM> | ti=<METHOD> )
 	[id=tid()] <FOR> esp=tnombre() "(" [ent=declaraciones()]  ")"
 			[ "->" sal=declaraciones() ]
+	[ [ <DESCRIPTION> ] d=tdoc() ]
 	(
-		[ [ <DESCRIPTION> ] d=tdoc() ]
 		<BEGIN>
 			a=acciones()
 	  |

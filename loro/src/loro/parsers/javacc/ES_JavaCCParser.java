@@ -224,6 +224,9 @@ public class ES_JavaCCParser extends BaseParser {
 		public String[] getKeywords2() { return keywords2; }
 		public String[] getKeywords3() { return keywords3; }
 		public String[] getLiterals()  { return literals; }
+		public String getAutomaticPackageName() { return "loroI::sistema"; }
+		public String getRootClassName() { return getAutomaticPackageName()+ "::Objeto"; }
+		public String getRootInterfaceName() { return getAutomaticPackageName()+ "::IObjeto"; }
 	}
 }
 

@@ -690,12 +690,10 @@ public final class Loro
 		_verificarIniciado();
 		
 		IUnidad.IEspecificacion u = mu.obtEspecificacion(qname);
-		if ( u == null )
-		{
+		if ( u == null ) {
 			// intente paquete automático
-			if ( qname.indexOf(":") < 0 )    // qname debe ser simple
-			{
-				String auto_pkg = mu.obtNombrePaqueteAutomatico();
+			if ( qname.indexOf(":") < 0 ) {   // qname debe ser simple
+				String auto_pkg = getLanguageInfo().getAutomaticPackageName();
 				u = mu.obtEspecificacion(auto_pkg+ "::" +qname);
 			}
 		}
@@ -717,12 +715,10 @@ public final class Loro
 		_verificarIniciado();
 		
 		IUnidad.IAlgoritmo u = mu.obtAlgoritmo(qname);
-		if ( u == null )
-		{
+		if ( u == null ) {
 			// intente paquete automático
-			if ( qname.indexOf(":") < 0 )    // qname debe ser simple
-			{
-				String auto_pkg = mu.obtNombrePaqueteAutomatico();
+			if ( qname.indexOf(":") < 0 ) {   // qname debe ser simple
+				String auto_pkg = getLanguageInfo().getAutomaticPackageName();
 				u = mu.obtAlgoritmo(auto_pkg+ "::" +qname);
 			}
 		}
@@ -744,29 +740,14 @@ public final class Loro
 		_verificarIniciado();
 		
 		IUnidad.IClase u = mu.obtClase(qname);
-		if ( u == null )
-		{
+		if ( u == null ) {
 			// intente paquete automático
-			if ( qname.indexOf(":") < 0 )    // qname debe ser simple
-			{
-				String auto_pkg = mu.obtNombrePaqueteAutomatico();
+			if ( qname.indexOf(":") < 0 ) {   // qname debe ser simple
+				String auto_pkg = getLanguageInfo().getAutomaticPackageName();
 				u = mu.obtClase(auto_pkg+ "::" +qname);
 			}
 		}
 		return u;
-	}	
-
-	//////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Obtiene el nombre del paquete automático.
-	 *
-	 * @return el nombre del paquete automático.
-	 */
-	public static String getAutomaticPackageName()
-	{
-		_verificarIniciado();
-		
-		return mu.obtNombrePaqueteAutomatico();
 	}	
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -844,10 +825,14 @@ public final class Loro
 	 * Verifica que existan los elementos de apoyo requeridos para 
 	 * operar normalmente en el uso final del sistema. 
 	 * 
-	 * La verificación del núcleo consta de:
+	 * La verificación del núcleo consta de:  *****VER NOTA*****
 	 * <ul>
 	 *   <li> Que la clase raiz exista.
+	 *        <br>*****NOTA*****:  No se esta haciendo.
+	 *        Actualmente las unidades de soporte pueden ir en extensiones
+	 *        regulares (en particular loro.lar pare el locale "en")
 	 * </ul>
+	 *
 	 *
 	 * Este método siempre debe ser llamado justo a continuación de 
 	 * configurar(). 
@@ -860,18 +845,16 @@ public final class Loro
 	 *
 	 * @throws LoroException  Si la verificacion falla.
 	 */
-	public static void verificarNucleo()
-	throws LoroException
-	{
+	public static void verificarNucleo() throws LoroException {
 		_verificarIniciado();
 		
-		NClase clase_raiz = mu.obtClaseRaiz();
-		if ( clase_raiz == null )
-		{
-			throw new LoroException(Str.get("error.root_class_not_found")+ ": " +
-				mu.obtNombreClaseRaiz()+
-				"\n"
-			);
+		String root_name = getLanguageInfo().getRootClassName();
+		NClase clase_raiz = mu.obtClase(root_name);
+		if ( clase_raiz == null ) {
+			String m = Str.get("error.root_class_not_found")+ ": " +root_name+ "\n";
+			// Ahora solo se imprime un warning:
+			System.out.println(m);
+			//throw new LoroException(m);
 		}
 	}
 	

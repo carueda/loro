@@ -1,5 +1,6 @@
 package loro.tipo;
 
+import loro.Loro;
 import loro.util.ManejadorUnidades;
 import loro.compilacion.ClaseNoEncontradaException;
 
@@ -26,8 +27,7 @@ abstract class TipoObjeto extends Tipo
 		if ( t.esClase() )
 		{
 			TipoClase tc = (TipoClase) t;
-			ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
-			if ( mu.obtNombreClaseRaiz().equals(tc.obtNombreCompletoString()) )
+			if ( Loro.getLanguageInfo().getRootClassName().equals(tc.obtNombreCompletoString()) )
 				return true;
 		}
 		return super.esConvertibleA(t);

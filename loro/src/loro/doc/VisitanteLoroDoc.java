@@ -332,6 +332,7 @@ public class VisitanteLoroDoc extends VisitanteProfundidad
 			String strat = pd(tstrat.obtCadena());
 			out.println(
 				processInlineTags(strat, n)
+				+br()
 			);
 		}
 		if ( !n.implementadoEnLoro() ) {
