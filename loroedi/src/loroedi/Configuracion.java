@@ -94,7 +94,7 @@ public class Configuracion
 					conf_dir.mkdirs();
 					if ( !conf_dir.isDirectory() ) {
 						throw new Exception(
-							"No se pudo crear el directorio para las propiedades de Loro:\n" +
+							"Could not create properties directory:\n" +
 							"  " +conf_dir+ "\n" +
 							"\n"
 						);
@@ -107,10 +107,9 @@ public class Configuracion
 			}
 			catch (IOException ex ) {
 				throw new Exception(
-					"No se pudo crear el archivo de propiedades de Loro:\n" +
+					"Could not create properties file:\n" +
 					"  " +loro_conf_name+ "\n" +
 					"\n" +
-					"El problema ha sido:\n" +
 					"  " +ex.getMessage()+ "\n"
 				);
 			}
@@ -125,13 +124,10 @@ public class Configuracion
 		}
 		catch (IOException ex ) {
 			throw new Exception(
-				"No se pudo cargar el archivo de propiedades de LoroEDI:\n" +
+				"Could not load properties file:\n" +
 				"  " +loro_conf_name+ "\n" +
 				"\n" +
-				"El problema ha sido:\n" +
-				"  " +ex.getMessage()+ "\n" +
-				"\n" +
-				"Se recomienda hacer una reintalacion de Loro\n"
+				"  " +ex.getMessage()+ "\n"
 			);
 		}
 		
@@ -139,8 +135,7 @@ public class Configuracion
 		String loro_dir = System.getProperty("LOROEDIDIR");
 		if ( loro_dir == null ) {
 			throw new Exception(
-				"loroedi.jar deberia haberse llamado con LOROEDIDIR definido.\n"+
-				"Esto no deberia ocurrir. Por favor notificar esta anomalia."
+				"UNEXPECTED: loroedi.jar should be called with system property LOROEDIDIR defined.\n"
 			);
 		}
 		System.out.println("Setting property " +DIR+ "=[" +loro_dir+ "]");
@@ -207,10 +202,9 @@ public class Configuracion
 		catch (IOException ex )
 		{
 			throw new Exception(
-				"No se pudo almacenar en el archivo de propiedades de loro:\n" +
+				"Could not save properties file:\n" +
 				"  " +loro_conf_name+ "\n" +
 				"\n" +
-				"El problema ha sido:\n" +
 				"  " +ex.getMessage()
 			);
 		}

@@ -2,16 +2,22 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-06-28 (0.8.7)
+2004-06-29 (0.9pre1)
 	- Localization scheme:
-		loroedi/ ..
+		loroedi/ .. ok
+			Configuracion .. ok
+			Preferencias .. ok
+			Splash .. ok
 			Info .. ok
 			InterpreterWindow .. ok
+			ObservadorPP .. ok
+			Util .. not necessary
 		loroedi/gui/ ..
 			GUI .. ok
 			Actions .. ok
 		loroedi/gui/editor/ .. ok
 			UEditor .. ok
+		util/editor/ .. ok
 		loroedi/laf/  not necessary
 		loroedi/gui/misc/  not necessary
 		loroedi/gui/project/unit/ .. ok 
@@ -32,11 +38,12 @@ $Id$
 		loroedi/help/ .. ok
 			BrowserPanel .. ok 
 			HelpManager .. ok
-		loroedi/jedit/ ..  
-			LoroTokenMarker .. 
+		loroedi/jedit/ .. ok
+			LoroTokenMarker .. ok (now uses Loro.getLanguageInfo()) 
 		
 	- util/edit/* simplified (original sources moved to simpledi)
 	- izinstall: now includes langpack iso3="eng"
+	- build.xml: loroc now with locale="es" since test programs are in spanish.
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 (0.8.7)

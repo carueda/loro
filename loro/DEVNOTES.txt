@@ -2,7 +2,7 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-06-29 Version 0.7.95
+2004-06-29 Version 0.8pre1
 	- new ILanguageInfo to provide meta information about the current
 	  programming language. Currently it only gives lists of keywords
 	  and literals.
