@@ -93,6 +93,9 @@ public class JTerm
 	/** Prefix. */
 	protected String prefix;
 
+	/** Is a '\r' pending to be written. */
+	protected boolean cr_pending;
+
 	private static Pattern lf_pattern = Pattern.compile("\n");
 
 
@@ -110,6 +113,7 @@ public class JTerm
 		System.setProperty("line.separator", "\n");
 
 		prefix = "";
+		cr_pending = false;
 		
 		this.ta = ta;
 		jtermIsEditable = true;
@@ -180,7 +184,10 @@ public class JTerm
 		synchronized(lock)
 		{
 			if  ( jtermIsEditable && !reading )
+			{
 				ta.setText("");
+				cr_pending = false;
+			}
 		}
 	}
 	
@@ -444,7 +451,6 @@ public class JTerm
 			enter = false;
 			reading = false;
 			textNotRead = "";
-
 			simpleRead = false;
 		}
 	}
@@ -465,6 +471,7 @@ public class JTerm
 		String text = ta.getText();
 		int len = text.length();
 		ta.setCaretPosition(len);
+		cr_pending = false;
 	}
 	
 	////////////////////////////////////////////////////////////////
@@ -478,6 +485,7 @@ public class JTerm
 	{
 		processItalicFont();
 	}
+	
 	
 	///////////////////////////////////////////////////
 	/**
