@@ -1,5 +1,6 @@
 package loroedi.gui.project.model;
 
+import loroedi.Info.Str;
 import loroedi.gui.project.unit.*;
 
 import loro.Loro;
@@ -10,7 +11,6 @@ import loro.IUnidad;
  * Utilerías varias.
  *
  * @author Carlos Rueda
- * @version 2002-10-06
  */
 public class MUtil
 {
@@ -24,19 +24,10 @@ public class MUtil
 	{
 		String var = "alg";
 		StringBuffer sb = new StringBuffer();
-		if ( pkg_name != null )
-		{
-			sb.append("paquete " +pkg_name+ ";\n" + "\n");
+		if ( pkg_name != null ) {
+			sb.append(Loro.Str.get("package")+ " " +pkg_name+ "\n\n");
 		}
-		sb.append(
-			"especificación " +spec_name+ "(" +var+ ": algoritmo para " +tested_spec_name+ ")\n"+
-			"    descripción\n"+
-			"           ''Probador de algoritmos para la especificación " +tested_spec_name+ "''\n"+
-			"    entrada\n"+
-			"        " +var+ ": ''El algoritmo sometido a pruebas.''\n"+
-			"    pre { " +var+ " != nulo }\n"+
-			"fin especificación"
-		);
+		sb.append(Str.get("templ.2_test_spec", spec_name, tested_spec_name));
 		return sb.toString();
 	}
 	
@@ -50,18 +41,10 @@ public class MUtil
 	{
 		String var = "alg";
 		StringBuffer sb = new StringBuffer();
-		if ( pkg_name != null )
-		{
-			sb.append("paquete " +pkg_name+ ";\n" + "\n");
+		if ( pkg_name != null ) {
+			sb.append(Loro.Str.get("package")+ " " +pkg_name+ "\n\n");
 		}
-		sb.append(
-			"algoritmo para " +spec_name+ "(" +var+ ": algoritmo para " +tested_spec_name+ ")\n"+
-			"    descripción\n"+
-			"           ''Contiene código para probar el algoritmo pasado como argumento''\n"+
-			"inicio\n"+
-			"    {{ Código de prueba (generalmente, una secuencia de afirmaciones) }}\n"+
-			"fin algoritmo"
-		);
+		sb.append(Str.get("templ.2_test_algorithm", spec_name, tested_spec_name));
 		return sb.toString();
 	}
 	

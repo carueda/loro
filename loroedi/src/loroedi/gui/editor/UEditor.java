@@ -798,7 +798,7 @@ public class UEditor implements EditorListener
 		public IncreaseFontAction()
 		{
 			super();
-			String[] strs = Str.get("gui.action_increase").split("\\|", 2);
+			String[] strs = Str.get("gui.action_increase_font").split("\\|", 2);
 			putValue(NAME, strs[0]);
 			putValue(SHORT_DESCRIPTION, strs[1]);
 		}
