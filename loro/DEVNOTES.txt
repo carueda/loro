@@ -2,6 +2,10 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-07-07 Version 0.8pre6
+	- new loro::replaceChar (src/ext_en)
+	
+////////////////////////////////////////////////////////////////////////////
 2004-07-06 Version 0.8pre5
 	- strings for special operations on arrays: length, inf, sup
 	- ILanguageInfo now provides information about automatic package name
