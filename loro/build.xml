@@ -101,6 +101,7 @@
 			excludes="misc/ant/**"
 			classpath="${bsh.jar}"
 			debug="on"
+			encoding="ISO8859_1"
        />
     </target>
 
@@ -120,6 +121,7 @@
         	includes="/loro/misc/ant/**"
 			classpath="${build}/classes"
 			debug="on"
+			encoding="ISO8859_1"
 		/>
     </target>
 

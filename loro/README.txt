@@ -2,6 +2,15 @@ Loro README
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-01-07 Version 0.7.92
+
+	- build.xml: 
+	  Agregue encoding="ISO8859_1" para la compilacion: por alguna razon bajo 
+	  mi sistema debian, el entorno java no esta procesando apropiadamente 
+	  algunos caracteres no ascii que tengo en algunos fuentes (por ejemplo,
+	  Sistema.terminarEjecución).
+
+////////////////////////////////////////////////////////////////////////////
 2003-05-24 Version 0.7.92
 
 	- LoroClassLoader: Ahora procesa también *.lar
