@@ -98,7 +98,7 @@ public class UEditor implements EditorListener
 		frame.setSize(700, 500);
 
 		createActions(modifiable, executable, doc);
-		createMenuBarAndToolBar(executable, doc);
+		createMenuBarAndToolBar();
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -108,10 +108,9 @@ public class UEditor implements EditorListener
 		Action a;
 		actions.put("save",     a=new SaveAction());     a.setEnabled(modifiable);
 		actions.put("compile",  a=new CompileAction());  a.setEnabled(modifiable);
-		if ( executable )
-			actions.put("execute",  a=new ExecuteAction());
-		if ( doc )
-			actions.put("view-unit-doc-from-editor",  new ViewDocFromEditorAction());
+		actions.put("execute",  a=new ExecuteAction());  a.setEnabled(executable);
+		actions.put("view-unit-doc-from-editor",  
+		                        a=new ViewDocFromEditorAction());  a.setEnabled(doc);
 		actions.put("reload",   a=new ReloadAction());   a.setEnabled(modifiable);
 		actions.put("close",    new CloseAction());
 
@@ -149,7 +148,7 @@ public class UEditor implements EditorListener
 	/**
 	 * Crea la barra de menus.
 	 */
-	private void createMenuBarAndToolBar(boolean executable, boolean doc)
+	private void createMenuBarAndToolBar()
 	{
 		JMenuBar mb = new JMenuBar();
 		frame.setJMenuBar(mb);
@@ -165,10 +164,8 @@ public class UEditor implements EditorListener
 		mb.add(menu);
 		menu.add((Action) actions.get("save"));
 		menu.add((Action) actions.get("compile"));
-		if ( executable )
-			menu.add((Action) actions.get("execute"));
-		if ( doc )
-			menu.add((Action) actions.get("view-unit-doc-from-editor"));
+		menu.add((Action) actions.get("execute"));
+		menu.add((Action) actions.get("view-unit-doc-from-editor"));
 		menu.addSeparator();
 		menu.add((Action) actions.get("reload"));
 		menu.addSeparator();
@@ -202,8 +199,7 @@ public class UEditor implements EditorListener
 		tb.add((Action) actions.get("find-next"));
 		tb.addSeparator();
 		tb.add((Action) actions.get("compile"));
-		if ( doc )
-			tb.add((Action) actions.get("view-unit-doc-from-editor"));
+		tb.add((Action) actions.get("view-unit-doc-from-editor"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////
