@@ -12,6 +12,7 @@ import loroedi.Preferencias;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.io.File;
  * GUI para un proyecto Loro.
  *
  * @author Carlos Rueda
- * @version 2002-10-06
+ * @version $Id$
  */
 public class Project extends JPanel
 {
@@ -873,7 +874,9 @@ public class Project extends JPanel
 		};
 		
 		//final Collection supp_specs = getSpecNamesFromDependencies();
-		final Collection supp_specs = GUI.getAllSpecs();
+		
+		//// Se evita este llamado hasta que se haga una implementación más eficiente
+		//final Collection supp_specs = GUI.getAllSpecs();
 
         final ProjectDialog form = new ProjectDialog(frame, "Crear algoritmo", array)
 		{
@@ -889,11 +892,13 @@ public class Project extends JPanel
 					IUnidad.IEspecificacion u = Loro.getSpecification(spec_name);
 					if (  u == null )
 					{
+						msg = "Especificación inexistente o no compilada";
+						
 						// no existe o no está compilada. Precisar:
-						if (  supp_specs.contains(spec_name) )   // existe?
-							msg = "Especificación no compilada";
-						else
-							msg = "Especificación inexistente";
+//						if (  supp_specs.contains(spec_name) )   // existe?
+//							msg = "Especificación no compilada";
+//						else
+//							msg = "Especificación inexistente";
 					}
 				}
 			
@@ -916,14 +921,29 @@ public class Project extends JPanel
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				chooseSpecification(choose, new ActionListener() 
+				JPopupMenu popup = chooseSpecification(form, new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent e)
 					{
 						String str = e.getActionCommand();
 						f_spec_name.setText(str);
+						form.toFront();
+						f_spec_name.requestFocus();
 					}
 				});
+				popup.addPopupMenuListener(new PopupMenuListener()
+				{
+					public void popupMenuCanceled(PopupMenuEvent e){}
+					public void popupMenuWillBecomeVisible(PopupMenuEvent e){}
+					public void popupMenuWillBecomeInvisible(PopupMenuEvent e)
+					{
+						form.toFront();
+						f_spec_name.requestFocus();
+					}
+				});
+				
+				popup.show(form, form.getSize().width / 2, 20);
+				form.requestFocus();
 			}
 		});
 		
@@ -947,14 +967,30 @@ public class Project extends JPanel
 	/**
 	 * Lanza un popup menu para que el usuario elija una especificación.
 	 */
-	protected void chooseSpecification(Component c, ActionListener al)
+	protected JPopupMenu chooseSpecification(final Dialog owner, final ActionListener al)
+	{
+		final JPopupMenu popup = new JPopupMenu();
+		GUI.progressRun(owner, "generando lista de especificaciones", new Runnable() 
+		{
+			public void run() 
+			{
+				_prepareChooseSpecification(popup, al);
+			}
+		});
+		return popup;
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene un popup menu para que el usuario elija una especificación.
+	 */
+	protected JPopupMenu _prepareChooseSpecification(JPopupMenu popup, ActionListener al)
 	{
 		JMenu submenu;
 		Collection strings;
 		JLabel empty_lbl = new JLabel(" (No hay)");
 		empty_lbl.setForeground(Color.gray);
 
-        final JPopupMenu popup = new JPopupMenu();
 		JMenuItem mi;
 		JLabel lbl = new JLabel("Especificaciones disponibles", SwingConstants.CENTER);
 		lbl.setForeground(Color.blue);
@@ -996,10 +1032,7 @@ public class Project extends JPanel
 				}
 			}
 		}
-		
-
-		Dimension d = c.getSize();
-		popup.show(c, 20, d.height);
+		return popup;
 	}
 	
 	////////////////////////////////////////////////////////////////

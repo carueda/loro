@@ -2473,7 +2473,7 @@ public class GUI
 		final String prjname = _openProjectDialog(focusedProject.getFrame());
 		if ( prjname != null )
 		{
-			progressRun("abriendo '" +prjname+ "'", new Runnable() 
+			progressRun(focusedProject.getFrame(), "abriendo '" +prjname+ "'", new Runnable() 
 			{
 				public void run() 
 				{
@@ -3555,13 +3555,22 @@ public class GUI
 	/**
 	 * Ejecuta una tarea
 	 */
-	public static void progressRun(final String msg, final Runnable runnable)
+	public static void progressRun(Window owner, final String msg, final Runnable runnable)
 	{
 		final JProgressBar progressBar = new JProgressBar();
 		progressBar.setIndeterminate(true);
 		progressBar.setStringPainted(true);
 		progressBar.setString(msg);
-		final JDialog dialog = new JDialog(focusedProject.getFrame(), msg, true);
+		
+		JDialog dialog2;
+		if ( owner instanceof Frame )
+			dialog2 = new JDialog((Frame) owner, msg, true);
+		else if ( owner instanceof Dialog )
+			dialog2 = new JDialog((Dialog) owner, msg, true);
+		else
+			throw new Error("Frame or Dialog expected");
+		
+		final JDialog dialog = dialog2;
 		JPanel panel = new JPanel();
 		panel.add(progressBar);
 		dialog.getContentPane().add(progressBar);

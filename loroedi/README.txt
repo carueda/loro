@@ -13,6 +13,20 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-05-21 (0.8pre11)
+
+	- Project.createAlgorithm(): Por fines de eficiencia, ahora chequea la 
+	  especificación sólo con base en Loro.getSpecification(). Antes verificaba
+	  también con la lista de todas las especificaciones del espacio de trabajo
+	  para distinguir entre "no existente" y "no compilada". Ahora se simplifica
+	  a sólo el posible mensaje de error "Especificación inexistente o no compilada".
+	  El anterior esquema podría restablecerse tan pronto se disponga de una
+	  implementación mas eficiente de GUI.getAllSpecs(), es decir de
+	  Workspace.getAvailableSpecifications().
+	  
+	- Project.chooseSpecification() ahora utiliza GUI.progressRun().
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-20 (0.8pre11)
 
 	- Actualización de documentos de distribución y algunos demos.
