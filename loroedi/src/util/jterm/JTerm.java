@@ -36,6 +36,7 @@ import java.util.ArrayList;
  * @version 0.4 2001-02-23
  * @version 0.5 2001-10-09 - Prefix handling.
  * @version 0.6 2002-10-01 - Handling of given initial part for reading.
+ * @version 0.7 2003-04-23 - original editable status in text area taken into account
  */
 public class JTerm
 {
@@ -43,31 +44,38 @@ public class JTerm
 	protected Object lock;
 
 	/** Where info is taken from and displayed to. */
-	ITextArea ta;
+	protected ITextArea ta;
+	
+	/**
+	 * Text area is originally editable? 
+	 * ta.setEditable() will not be called if !ta.isEditable() whn 
+	 * this JTerm object is created. 
+	 */
+	protected boolean taIsEditable;
 
 	/** Has been ENTER typed? */
-	boolean enter;
+	protected boolean enter;
 
 	/** Initial part to include when a new reading is about to start. */
-	String initialStringToRead;
+	protected String initialStringToRead;
 
 	/** Text entered by the user but not read yet. */
-	String textNotRead;
+	protected String textNotRead;
 
 	/** Is read() being executed?. */
-	boolean reading;
+	protected boolean reading;
 
 	/** Where a read is started in the text area. */
-	int pos;
+	protected int pos;
 
 	/** History of entered lines. */
-	List history;
+	protected List history;
 
 	/** Position navigating the history. */
-	int posHistory;
+	protected int posHistory;
 
 	/** Is history being navigated currently? */
-	boolean inHistory;
+	protected boolean inHistory;
 
 
 	/**
@@ -89,13 +97,13 @@ public class JTerm
 	private JTermListener listener;
 
 	/** Prefix. */
-	String prefix;
+	protected String prefix;
 
 	/** First use of prefix after setted with setPrefix? */
-	boolean prefixToFirstUse;
+	protected boolean prefixToFirstUse;
 
 	/** Something written after setted with setPrefix? */
-	boolean somethingWritten;
+	protected boolean somethingWritten;
 
 
 	////////////////////////////////////////////////////////////////
@@ -103,11 +111,6 @@ public class JTerm
 	 * The reader associated with this jterm.
 	 * You have to use JTerm.getReader() to get an instance of this
 	 * inner class.
-	 *
-	 * @author Carlos Rueda
-	 * @version 0.1 1999-04-15
-	 * @version 0.2 2000-01-10
-	 * @version 0.3 2000-01-17
 	 */
 	public class JTermReader extends Reader
 	{
@@ -154,12 +157,6 @@ public class JTerm
 	 * The writer associated with this jterm.
 	 * You have to use JTerm.getWriter() to get an instance of this
 	 * inner class.
-	 *
-	 *
-	 * @author Carlos Rueda
-	 * @version 0.1 1999-04-15
-	 * @version 0.2 2000-01-10
-	 * @version 0.3 2000-01-17
 	 */
 	public class JTermWriter extends Writer
 	{
@@ -214,15 +211,18 @@ public class JTerm
 		{
 			synchronized(lock)
 			{
-				if ( !reading )
+				if ( taIsEditable )
 				{
-					ta.setEditable(false);
-				}
-				else
-				{
-					int pos_now = ta.getCaretPosition();
-					if ( ta.isEditable() != pos_now >= pos )
-						ta.setEditable(pos_now >= pos);
+					if ( !reading )
+					{
+						ta.setEditable(false);
+					}
+					else
+					{
+						int pos_now = ta.getCaretPosition();
+						if ( ta.isEditable() != pos_now >= pos )
+							ta.setEditable(pos_now >= pos);
+					}
 				}
 
 				if ( !enter )
@@ -372,9 +372,11 @@ public class JTerm
 		lock = this;
 
 		this.ta = ta;
-
+		taIsEditable = ta.isEditable();
+		
 		ta.addKeyListener(new Key());
-		ta.setEditable(true);
+		if ( taIsEditable )
+			ta.setEditable(true);
 		ta.setFont(new Font("monospaced", Font.PLAIN, 14));
 
 		history = new ArrayList();

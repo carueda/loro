@@ -65,6 +65,24 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-23 (0.8pre11)
+
+Ejecución de demo:
+
+	- Reorganización de código.
+	- Nuevo método auxiliar GUI._createCommands(): si la primera línea empieza
+	  con $, se hace manejo de "enter": lectura de Enter para proceder con
+	  cada comando por parte de workspace.executeCommands().
+	- JTerm ahora tiene en cuenta el estado original de editabilidad del text area.
+	- constructor InterpreterWindow recibe ahora también indicador editable
+	  para el text area.
+	- Workspace.executeCommands() pone no-editable la ventana de interpretación
+	  y hace manejo de "enter" para cada comando a ejecutar.
+	- InterpreterWindow.interpret() hace manejo de "enter" y permite también 
+	  meta-comandos.
+	  (Nota: Manejo de meta-comandos actualmente en revisión desde el núcleo.)
+	
+////////////////////////////////////////////////////////////////////////////
 2003-04-16 (0.8pre11)
 
 	- Algo de limpieza en GUI.java, Workspace.java: import de HiloAlgoritmo

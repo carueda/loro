@@ -1849,6 +1849,7 @@ public class GUI
 						"Probando proyecto " +focusedProject.getModel().getInfo().getName(),
 						"Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba.\n",
 						cmds,
+						false,    // enter_processing
 						false,    // newSymTab
 						false     // ejecutorpp
 					);
@@ -1978,52 +1979,22 @@ public class GUI
 				MessageArea prj_msg = focusedProject.getMessageArea();
 				prj_msg.clear();
 				IProjectModel model = focusedProject.getModel();
-				prj_msg.print("Ejecutando demo '" +model.getInfo().getName()+ "' ...\n");
 				String src = model.getInfo().getDemoScript();
 				if ( src == null )
 				{
 					prj_msg.print("No hay código de demo definido\n");
 					return;
 				}
-				BufferedReader br = new BufferedReader(new StringReader(src));
-				String line;
-				StringBuffer cmd = null;
+				
+				prj_msg.print("Ejecutando demo '" +model.getInfo().getName()+ "' ...\n");
 				List cmds = new ArrayList();
-				try
-				{
-					while ( (line = br.readLine()) != null )
-					{
-						if ( line.trim().length() == 0 )
-						{
-							// linea en blanco agrega comando acumulado:
-							if ( cmd != null )
-							{
-								cmds.add(cmd.toString());
-								cmd = null;
-							}
-						}
-						else
-						{
-							// linea normal:
-							if ( cmd == null )
-								cmd = new StringBuffer(line);
-							else
-								cmd.append("\n" +line);
-						}
-					}
-				}
-				catch(IOException ex)
-				{
-					// ignore
-				}
-
-				if ( cmd != null )
-					cmds.add(cmd.toString());
+				boolean enter_processing = _createCommands(src, cmds);
 				
 				workspace.executeCommands(
 					"Ejecución demo '" +model.getInfo().getName()+ "'",
 					null,
 					cmds,
+					enter_processing,
 					true,     // newSymTab
 					ejecutorpp
 				);
@@ -2033,6 +2004,60 @@ public class GUI
 	}
 
 
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Genera la lista de comandos definidos en el guión dado.
+	 */
+	private static boolean _createCommands(String src, List cmds)
+	{
+		BufferedReader br = new BufferedReader(new StringReader(src));
+		String line;
+		StringBuffer cmd = null;
+		boolean firstLine = true;
+		boolean enter_processing = false;
+		try
+		{
+			while ( (line = br.readLine()) != null )
+			{
+				line = line.trim();
+				if ( firstLine )
+				{
+					firstLine = false;
+					enter_processing = line.length() > 0 && line.charAt(0) == '$';
+					if ( enter_processing )
+						continue;     // resto de linea se ignora (por ahora)
+				}
+				
+				if ( line.length() == 0 )
+				{
+					// linea en blanco agrega comando acumulado:
+					if ( cmd != null )
+					{
+						cmds.add(cmd.toString());
+						cmd = null;
+					}
+				}
+				else
+				{
+					// linea normal:
+					if ( cmd == null )
+						cmd = new StringBuffer(line);
+					else
+						cmd.append("\n" +line);
+				}
+			}
+		}
+		catch(IOException ex)
+		{
+			// ignore
+		}
+	
+		if ( cmd != null )
+			cmds.add(cmd.toString());
+		
+		return enter_processing;
+	}
+	
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * ejecuta un algoritmo.
@@ -2137,6 +2162,7 @@ public class GUI
 				"Probando " +tested_alg.getIUnidad(),
 				null,
 				cmds,
+				false,    // enter_processing
 				false,    // newSymTab
 				false     // ejecutorpp
 			);

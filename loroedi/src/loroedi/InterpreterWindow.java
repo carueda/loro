@@ -38,26 +38,26 @@ implements ActionListener, JTermListener
 
 	protected JFrame frame = null;    // en donde se pone el interprete
 
-	JButton butTerminar;
-	JButton butCerrar;
-	JButton butStep;
-	JButton butStepInto;
-	JButton butResume;
+	protected JButton butTerminar;
+	protected JButton butCerrar;
+	protected JButton butStep;
+	protected JButton butStepInto;
+	protected JButton butResume;
 
-	JEditTextArea ta;
+	protected JEditTextArea ta;
 	protected JTerm term;
 
 	protected PrintWriter pw;
 	protected BufferedReader br;
 
-	boolean execute = true;
-	IInterprete loroii;
+	protected boolean execute = true;
+	protected IInterprete loroii;
 
-	Thread readingThread = null;
+	protected Thread readingThread = null;
 
-	ObservadorPP obspp;	
+	protected ObservadorPP obspp;	
 
-	String title;
+	protected String title;
 
 	/////////////////////////////////////////////////////////////////////
 	/**
@@ -66,8 +66,15 @@ implements ActionListener, JTermListener
 	 * @param title For the window.
 	 * @param hello Message to start with. Can be null.
 	 * @param newSymTab See Loro.crearInterprete
+	 * @param ejecutorpp step-by-step execution?
+	 * @param editable Text area editable?
 	 */
-	public InterpreterWindow(String title, String hello, boolean newSymTab, boolean ejecutorpp)
+	public InterpreterWindow(
+		String title, String hello, 
+		boolean newSymTab, 
+		boolean ejecutorpp,
+		boolean editable
+	)
 	{
 		super();
 		this.title = title;
@@ -78,6 +85,8 @@ implements ActionListener, JTermListener
 			PREFIX_INVALID,
 			false
 		);
+		ta.setEditable(editable);
+		
 		term = new JTerm((ITextArea) ta);
 		term.addJTermListener(this);
 
@@ -438,6 +447,12 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	}
 
 	///////////////////////////////////////////////////////////////////////
+	public ITextArea getTextArea()
+	{
+		return ta;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
 	JComponent obtAreaTexto()
 	{
 		return ta;
@@ -459,14 +474,19 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	protected void interpret(String text)
+	protected void interpret(String text, String ask_enter)
 	throws Exception
 	{
 		term.setPrefix(PROMPT);
 		pw.print(text);
 		term.setPrefix(null);
-		pw.println();
-		procesarLoro(text);
+
+		if ( ask_enter != null )
+			readLine(ask_enter);
+		else
+			pw.println();
+
+		procesar(text);
 	}
 	
 	/////////////////////////////////////////////////////////////////

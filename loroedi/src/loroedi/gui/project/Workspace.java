@@ -1379,7 +1379,7 @@ public final class Workspace
 		compiler.ponDirectorioDestino(prj_dir.getAbsolutePath());
 		
 		InterpreterWindow iw = 
-			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp)
+			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp, true)
 		{
 			public void body()
 			throws Exception
@@ -1439,21 +1439,30 @@ public final class Workspace
 	 * @param hello Message to start with. Can be null.
 	 * @param cmds Commands to execute.
 	 * @param newSymTab See InterpreterWindow
+	 * @param ejecutorpp step-by-step execution?
 	 */
-	public void executeCommands(String title, String hello, final List cmds, boolean newSymTab, boolean ejecutorpp)
+	public void executeCommands(
+		String title, String hello, 
+		final List cmds,
+		final boolean enter_processing,
+		boolean newSymTab,
+		boolean ejecutorpp
+	)
 	{
-		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp)
+		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp, false)
 		{
 			public void body()
 			throws Exception
 			{
+				String ask_enter = enter_processing ? " " : null;
 				for ( Iterator it = cmds.iterator(); it.hasNext(); )
 				{
 					String cmd = (String) it.next();
-					interpret(cmd);
+					interpret(cmd, ask_enter);
 				}
 			}
 		};
+		iw.getTextArea().setEditable(false);
 		iw.mostrar();
 		iw.start();
 	}
