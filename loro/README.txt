@@ -12,6 +12,12 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-14 Version 0.7.91
+
+	- Eliminado manejo de prefix (PrefixWriter) en 
+	  InterpreteImpl.InteractiveInterpreter.
+
+////////////////////////////////////////////////////////////////////////////
 2003-05-13 Version 0.7.91
 
 	- Revisar ChequeadorBase._aKindOf: eliminar o factorizar en Tipos.

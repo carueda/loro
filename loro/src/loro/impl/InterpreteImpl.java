@@ -39,7 +39,6 @@ public class InterpreteImpl implements IInterprete
 	
 	BufferedReader br = null;
 	PrintWriter pw = null;
-	PrefixWriter prefixw;
 
 	String version =	
 		"Intérprete Interactivo de Loro\n" +
@@ -100,8 +99,6 @@ public class InterpreteImpl implements IInterprete
 				pw = (PrintWriter) w;
 			else
 				pw = new PrintWriter(w, true);
-			prefixw = new PrefixWriter(pw);
-			pw = new PrintWriter(prefixw);
 
 			ejecutor.ponSalidaEstandar(pw);
 		}
@@ -506,6 +503,7 @@ public class InterpreteImpl implements IInterprete
 		String prefix_invalid =  "!  ";
 		String prefix_special =  "   ";
 		
+		
 		///////////////////////////////////////////////////////////////////////
 		public void setPrompt(String prompt)
 		{
@@ -531,10 +529,9 @@ public class InterpreteImpl implements IInterprete
 		{
 			if ( interactive )
 			{
-				prefixw.setPrefix(prefix_special);
 				pw.println(
-					version+ "\n" +
-					"Escribe .? para obtener una ayuda\n"
+					prefix_special+ version+ "\n" +
+					prefix_special+ "Escribe .? para obtener una ayuda\n"
 				);
 			}
 			
@@ -542,7 +539,7 @@ public class InterpreteImpl implements IInterprete
 			{
 				String res = null;  // normal output
 				
-				prefixw.setPrefix(prompt);
+				pw.print(prompt);
 				pw.flush();
 	
 				try
@@ -550,19 +547,15 @@ public class InterpreteImpl implements IInterprete
 					String text = br.readLine();
 					if ( text == null )
 						break;
-					pw.println();
 					
 					text = text.trim();
 					if ( text.length() == 0 )
 						continue;
 	
-					prefixw.setPrefix(prefix_special);
-					pw.flush();
 					res = procesar(text);
 					if ( res != null )
 					{
-						prefixw.setPrefix(prefix_expr);
-						pw.println(res);
+						pw.println(prefix_expr+ res);
 						continue;
 					}
 				}
@@ -600,10 +593,7 @@ public class InterpreteImpl implements IInterprete
 				}
 	
 				if ( res != null )
-				{
-					prefixw.setPrefix(prefix_invalid);
 					pw.println(res);
-				}
 			}
 		}
 	}
