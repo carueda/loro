@@ -221,4 +221,17 @@ public class Tipos
 		return null;
 
 	}
+
+
+	//////////////////////////////////////////////////////////
+	/**
+	 * Dice si el tipo corresponde a un tipo referencia. Concretamente,
+	 * una variable de tipo referencia puede tener el valor nulo (null).
+	 * La implementación actual retorna la evaluación de
+	 * t.obtValorDefecto() == null .
+	 */
+	public static boolean esReferencia(Tipo t)
+	{
+		return t.obtValorDefecto() == null ;
+	}
 }

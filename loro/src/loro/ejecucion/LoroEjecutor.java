@@ -874,7 +874,8 @@ search:
 				res = new Object[psal.length];
 				if ( psal.length > 0 )
 				{
-					if ( obj == null )
+					if ( obj == null 
+					&&   ! Tipos.esReferencia(psal[0].obtTipo()) )
 					{
 						throw _crearEjecucionException(alg,
 							"Retorno sin asignacion de valor " +
@@ -898,7 +899,8 @@ search:
 				res = new Object[psal.length];
 				if ( psal.length > 0 )
 				{
-					if ( obj == null )
+					if ( obj == null 
+					&&   ! Tipos.esReferencia(psal[0].obtTipo()) )
 					{
 						throw _crearEjecucionException(alg,
 							"Retorno sin asignacion de valor " +
@@ -3060,4 +3062,5 @@ search:
 		Tipo tipo = Tipo.interface_(interf.obtNombreCompleto());
 		n.ponTipo(tipo);
 	}
+
 }
