@@ -40,11 +40,6 @@ public class InterpreteImpl implements IInterprete
 	BufferedReader br = null;
 	PrintWriter pw = null;
 
-	String version =	
-		"Intérprete Interactivo de Loro\n" +
-		Loro.obtNombre()+ " versión " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")"
-	;
-
 	IMetaListener base_ml;
 	
 	boolean interactive;
@@ -361,7 +356,6 @@ public class InterpreteImpl implements IInterprete
 ".borrarvars   - Borra todas las variables declaradas\n" +
 ".verobj nivel - Pone máximo nivel para visualizar objetos\n"+
 ".verarr long  - Pone máxima longitud para visualizar arreglos\n" +
-".version      - Muestra información general sobre versión del sistema\n" +
 ".modo         - Muestra el modo de interpretación actual.\n" +
 "                Hay dos modos de operación:\n" +
 "                  - ejecución completa (por defecto)\n" +
@@ -436,10 +430,6 @@ public class InterpreteImpl implements IInterprete
 				}
 				msg = "Modo cambiado a: " +obtModo(execute);
 			}
-			else if ( text.equals(".version") )
-			{
-				msg = version;
-			}
 			else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )
 			{
 				StringTokenizer st = new StringTokenizer(text);
@@ -458,11 +448,6 @@ public class InterpreteImpl implements IInterprete
 				{
 					msg = "Indique un valor numérico";
 				}
-			}
-			else if ( text.equals(".salir") )
-			{
-				interactive = false;
-				msg = "** modo interactivo terminado **";
 			}
 			else if ( text.equals(".gc") )
 			{
@@ -498,24 +483,38 @@ public class InterpreteImpl implements IInterprete
 	///////////////////////////////////////////////////////////////////////
 	private class InteractiveInterpreter implements IInteractiveInterpreter
 	{
-		String prompt         =  " $ ";
-		String prefix_expr    =  "=  ";
-		String prefix_invalid =  "!  ";
-		String prefix_special =  "   ";
-		
+		IManager mgr = new Manager();
 		
 		///////////////////////////////////////////////////////////////////////
-		public void setPrompt(String prompt)
+		// Default manager for interaction
+		private class Manager implements IManager
 		{
-			this.prompt = prompt;
-		}
+			///////////////////////////////////////////////////////////////////////
+			public String prompt()
+			throws IOException
+			{
+				pw.print(" $ ");
+				pw.flush();
+				return br.readLine();
+			}
 
+			///////////////////////////////////////////////////////////////////////
+			public void expression(String expr)
+			{
+				pw.println(" = " +expr);
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			public void exception(String msg)
+			{
+				pw.println(msg);
+			}
+		}
+		
 		///////////////////////////////////////////////////////////////////////
-		public void setPrefixes(String expr, String invalid, String special)
+		public void setManager(IManager mgr)
 		{
-			this.prefix_expr    = expr;
-			this.prefix_invalid = invalid;
-			this.prefix_special = special;
+			this.mgr = mgr;
 		}
 
 		///////////////////////////////////////////////////////////////////////
@@ -527,24 +526,13 @@ public class InterpreteImpl implements IInterprete
 		///////////////////////////////////////////////////////////////////////
 		public void run()
 		{
-			if ( interactive )
-			{
-				pw.println(
-					prefix_special+ version+ "\n" +
-					prefix_special+ "Escribe .? para obtener una ayuda\n"
-				);
-			}
-			
 			while ( interactive )
 			{
-				String res = null;  // normal output
+				String msg = null; // for exception
 				
-				pw.print(prompt);
-				pw.flush();
-	
 				try
 				{
-					String text = br.readLine();
+					String text = mgr.prompt();
 					if ( text == null )
 						break;
 					
@@ -552,10 +540,10 @@ public class InterpreteImpl implements IInterprete
 					if ( text.length() == 0 )
 						continue;
 	
-					res = procesar(text);
+					String res = procesar(text);
 					if ( res != null )
 					{
-						pw.println(prefix_expr+ res);
+						mgr.expression(res);
 						continue;
 					}
 				}
@@ -563,7 +551,7 @@ public class InterpreteImpl implements IInterprete
 				{
 					if ( ex.esTerminacionInterna() )
 					{
-						res = "Ejecución terminada. Código de terminación = " 
+						msg = "Ejecución terminada. Código de terminación = " 
 							+ex.obtCodigoTerminacionInterna()
 						;
 					}
@@ -571,12 +559,12 @@ public class InterpreteImpl implements IInterprete
 					{
 						StringWriter sw = new StringWriter();
 						ex.printStackTrace(new PrintWriter(sw));
-						res = ex.getMessage() + "\n" +sw.toString();
+						msg = ex.getMessage() + "\n" +sw.toString();
 					}
 				}
 				catch(CompilacionException ex)
 				{
-					res = ex.getMessage() + "\n";
+					msg = ex.getMessage() + "\n";
 				}
 				catch ( InterruptedIOException ex )
 				{
@@ -589,11 +577,11 @@ public class InterpreteImpl implements IInterprete
 					psw.println("INESPERADO");
 					ex.printStackTrace(psw);
 					psw.println("Esta es una anomalía del sistema.");
-					res = sw.toString();
+					msg = sw.toString();
 				}
 	
-				if ( res != null )
-					pw.println(res);
+				if ( msg != null )
+					mgr.exception(msg);
 			}
 		}
 	}

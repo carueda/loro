@@ -1,5 +1,8 @@
 package loro;
 
+import java.io.IOException;
+
+
 /////////////////////////////////////////////////////////////////////
 /**
  * Interprete para acciones.
@@ -161,21 +164,41 @@ public interface IInterprete
 	{
 		///////////////////////////////////////////////////////////////////////
 		/**
-		 * Pone el prompt.
-		 */
-		public void setPrompt(String prompt);
-
-		///////////////////////////////////////////////////////////////////////
-		/**
-		 * Pone prefijos para interacción.
-		 */
-		public void setPrefixes(String expr, String invalid, String special);
-		
-		///////////////////////////////////////////////////////////////////////
-		/**
 		 * Hace terminar el método run(), esto significa completar el comando
 		 * en curso pero no continuar pidiendo más comandos.
 		 */
 		public void end();
+
+		///////////////////////////////////////////////////////////////////////
+		/**
+		 * Pone el objeto para atender interacción.
+		 */
+		public void setManager(IManager mgr);
+		
+		///////////////////////////////////////////////////////////////////////
+		/**
+		 * Interfaz para objetos interesados en atender interacción.
+		 */
+		public static interface IManager
+		{
+			///////////////////////////////////////////////////////////////////////
+			/**
+			 * Llamado para pedir una orden de entrada.
+			 */
+			public String prompt()
+			throws IOException;
+
+			///////////////////////////////////////////////////////////////////////
+			/**
+			 * Llamado para imprimir un resultado.
+			 */
+			public void expression(String expr);
+
+			///////////////////////////////////////////////////////////////////////
+			/**
+			 * Llamado para imprimir un mensaje de error.
+			 */
+			public void exception(String msg);
+		}
 	}
 }

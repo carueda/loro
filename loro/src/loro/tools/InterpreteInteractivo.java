@@ -10,6 +10,7 @@ import java.util.*;
  * Intérprete para acciones interactivas.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class InterpreteInteractivo
 {
@@ -23,6 +24,11 @@ public class InterpreteInteractivo
 		end();
 	}
 	
+	static String version =	
+		"Intérprete Interactivo de Loro\n" +
+		Loro.obtNombre()+ " versión " +Loro.obtVersion()+ " (" +Loro.obtBuild()+ ")"
+	;
+
 	static PrintWriter pw;
 	static BufferedReader br;
 	static IInterprete loroi;
@@ -92,9 +98,36 @@ public class InterpreteInteractivo
 
 		loroi = Loro.crearInterprete(br, pw, false, null);
 		ii = loroi.getInteractiveInterpreter();
+		ii.setManager(new IInterprete.IInteractiveInterpreter.IManager()
+		{
+			///////////////////////////////////////////////////////////////////////
+			public String prompt()
+			throws IOException
+			{
+				pw.print(" ? ");
+				pw.flush();
+				return br.readLine();
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			public void expression(String expr)
+			{
+				pw.println("Expresion = " +expr);
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			public void exception(String msg)
+			{
+				pw.println("Exception = " +msg);
+			}
+		});
+		
 		loroi.setMetaListener(new IInterprete.IMetaListener()
 		{
-			String info = ".salir        - Termina el modo interactivo";
+			String info = 
+".version      - Muestra información general sobre versión del sistema\n" +
+".salir        - Termina el modo interactivo"
+			;
 			
 			///////////////////////////////////////////////////////////////////////
 			public String getInfo()
@@ -105,7 +138,11 @@ public class InterpreteInteractivo
 			public String execute(String meta)
 			{
 				String res = null;
-				if ( meta.equals(".salir") )
+				if ( meta.equals(".version") )
+				{
+					res = version;
+				}
+				else if ( meta.equals(".salir") )
 				{
 					ii.end();
 					res = "** modo interactivo terminado **";
@@ -118,6 +155,10 @@ public class InterpreteInteractivo
 	/////////////////////////////////////////////////////////////////////
 	static void execute()
 	{
+		pw.println(
+			version+ "\n" +
+			"Escribe .? para obtener una ayuda\n"
+		);
 		ii.run();
 	}
 	
