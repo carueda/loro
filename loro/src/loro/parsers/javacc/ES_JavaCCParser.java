@@ -200,7 +200,6 @@ public class ES_JavaCCParser extends BaseParser {
 		"utiliza",
 	};
 	private static String[] keywords3 = {
-		"nada",
 		"descripcion",
 		"descripción",
 		"estrategia",

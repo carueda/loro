@@ -1,7 +1,5 @@
 Especificación JavaCC para Loro
 Carlos Rueda
-FECHA ORIGINAL      : 1998-01-28
-ULTIMA ACTUALIZACION: 2004-07-05
 $Id$
 
 	loro_es.jj : especificación para español
@@ -24,9 +22,8 @@ ACTUALIZACIONES:
 		- loro.jj es la especificacion para el idioma ingles:
 		  La gramatica es exactamente la misma EXCEPTO:
 			- conjunto de palabras reservadas (seccion de lexico)
-			- produccion para()
-			  Esto es necesario por las idiosincracias entre los
-			  dos idiomas.
+			- produccion para() es manejada de manera diferente
+			  por las idiosincracias entre los dos idiomas.
 
 		2004-06-22
 		- unicode scape sequences for accents in reserved
@@ -311,4 +308,6 @@ ACTUALIZACIONES:
       - "o", "y" dejan de ser palabras reservadas
       - Se opta por los operadores: &&, ||
       - El operador de concatenación es +, como en Java.
+  Ene/28/1998
+      - version inicial.
 

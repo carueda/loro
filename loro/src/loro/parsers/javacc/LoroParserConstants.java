@@ -17,71 +17,70 @@ public interface LoroParserConstants {
   int REAL = 23;
   int ALGORITHM = 24;
   int CATCH = 25;
-  int DOWNTO = 26;
-  int CASE = 27;
-  int LOOP = 28;
-  int TRUE = 29;
-  int CLASS = 30;
-  int AS = 31;
-  int CONSTANT = 32;
-  int CONSTRUCTOR = 33;
-  int CONTINUE = 34;
-  int NEW = 35;
-  int FROM = 36;
-  int TO = 37;
-  int DESCRIPTION = 38;
-  int IN = 39;
-  int THEN = 40;
-  int INPUT = 41;
-  int INSTANCEOF = 42;
-  int SPECIFICATION = 43;
-  int THIS = 44;
-  int STRATEGY = 45;
-  int EXISTS = 46;
-  int EXTENDS = 47;
-  int FALSE = 48;
-  int END = 49;
-  int GLOBAL = 50;
-  int DO = 51;
-  int UNTIL = 52;
-  int IMPLEMENTATION = 53;
-  int BEGIN = 54;
-  int IMPLEMENTS = 55;
-  int TRY = 56;
-  int INTERFACE = 57;
-  int THROW = 58;
-  int METHOD = 59;
-  int WHILE = 60;
-  int NADA = 61;
-  int NULL = 62;
-  int OBJECT = 63;
-  int OPERATION = 64;
-  int PACKAGE = 65;
-  int FOR = 66;
+  int CASE = 26;
+  int LOOP = 27;
+  int TRUE = 28;
+  int CLASS = 29;
+  int AS = 30;
+  int CONSTANT = 31;
+  int CONSTRUCTOR = 32;
+  int CONTINUE = 33;
+  int NEW = 34;
+  int FROM = 35;
+  int TO = 36;
+  int DESCRIPTION = 37;
+  int IN = 38;
+  int THEN = 39;
+  int INPUT = 40;
+  int INSTANCEOF = 41;
+  int SPECIFICATION = 42;
+  int THIS = 43;
+  int STRATEGY = 44;
+  int EXISTS = 45;
+  int EXTENDS = 46;
+  int FALSE = 47;
+  int END = 48;
+  int GLOBAL = 49;
+  int DO = 50;
+  int UNTIL = 51;
+  int IMPLEMENTATION = 52;
+  int BEGIN = 53;
+  int IMPLEMENTS = 54;
+  int TRY = 55;
+  int INTERFACE = 56;
+  int THROW = 57;
+  int METHOD = 58;
+  int WHILE = 59;
+  int NULL = 60;
+  int OBJECT = 61;
+  int OPERATION = 62;
+  int PACKAGE = 63;
+  int FOR = 64;
+  int DOWNTO = 65;
+  int BY = 66;
   int FORALL = 67;
-  int STEP = 68;
-  int POST = 69;
-  int PRE = 70;
-  int REPEAT = 71;
-  int RETURN = 72;
-  int OUTPUT = 73;
-  int SWITCH = 74;
-  int IF = 75;
-  int ELSE = 76;
-  int ELSEIF = 77;
-  int FINALLY = 78;
-  int SUPER = 79;
-  int BREAK = 80;
-  int USES = 81;
-  int INT_LITERAL = 82;
-  int REAL_LITERAL = 83;
-  int EXPONENT = 84;
-  int HEXA = 85;
-  int CHAR_LITERAL = 86;
-  int STRING_LITERAL = 87;
-  int ID = 88;
-  int LETTER = 89;
-  int DIGIT = 90;
+  int POST = 68;
+  int PRE = 69;
+  int REPEAT = 70;
+  int RETURN = 71;
+  int OUTPUT = 72;
+  int SWITCH = 73;
+  int IF = 74;
+  int ELSE = 75;
+  int ELSEIF = 76;
+  int FINALLY = 77;
+  int SUPER = 78;
+  int BREAK = 79;
+  int USES = 80;
+  int INT_LITERAL = 81;
+  int REAL_LITERAL = 82;
+  int EXPONENT = 83;
+  int HEXA = 84;
+  int CHAR_LITERAL = 85;
+  int STRING_LITERAL = 86;
+  int ID = 87;
+  int LETTER = 88;
+  int DIGIT = 89;
 
   int DEFAULT = 0;
   int IN_SINGLE_LINE_COMMENT = 1;
@@ -118,7 +117,6 @@ public interface LoroParserConstants {
     "\"real\"",
     "\"algorithm\"",
     "\"catch\"",
-    "\"downto\"",
     "\"case\"",
     "\"loop\"",
     "\"true\"",
@@ -153,14 +151,14 @@ public interface LoroParserConstants {
     "\"throw\"",
     "\"method\"",
     "\"while\"",
-    "\"nada\"",
     "\"null\"",
     "\"object\"",
     "\"operation\"",
     "\"package\"",
     "\"for\"",
+    "\"downto\"",
+    "\"by\"",
     "\"forall\"",
-    "\"step\"",
     "\"post\"",
     "\"pre\"",
     "\"repeat\"",

@@ -158,7 +158,7 @@ public class EN_JavaCCParser extends BaseParser {
 		"until",
 		"to",
 		"downto",
-		"step",
+		"by",
 		"begin",
 		"end",
 		"loop",
@@ -194,9 +194,7 @@ public class EN_JavaCCParser extends BaseParser {
 		"uses",
 	};
 	private static String[] keywords3 = {
-		"nothing",
 		"description",
-		"strategy",
 		"pre",
 		"post",
 		"input",

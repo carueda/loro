@@ -1,3 +1,6 @@
+// Grammar for English
+// $Id$
+
 options {
 	STATIC = false;
 }

@@ -29,11 +29,9 @@
 //		- loro.jj es la especificacion para el idioma ingles:
 //		  La gramatica es exactamente la misma EXCEPTO:
 //			- conjunto de palabras reservadas (seccion de lexico)
-//			- produccion para() utiliza aqui token <UNTIL>
-//			  pero loro.jj utiliza el token <TO>.
+//			- produccion para()
 //			  Esto es necesario por las idiosincracias entre los
-//			  dos idiomas (ademas esta es una solucion no definitiva
-//			  para manejar multiples idiomas).
+//			  dos idiomas.
 //
 //		2004-06-22
 //		- unicode scape sequences for accents in reserved
@@ -418,7 +416,6 @@ TOKEN : // otras palabras reservadas
 {
 	< ALGORITHM: "algoritmo">
   | < CATCH: "atrape">
-  | < DOWNTO: "bajando">
   | < CASE: "caso" >
   | < LOOP: "ciclo" >
   | < TRUE: "cierto" >
@@ -453,14 +450,14 @@ TOKEN : // otras palabras reservadas
   | < THROW: "lance">
   | < METHOD: "metodo" | "método" | "m\u00e9todo" >
   | < WHILE: "mientras" >
-  | < NADA: "nada">
   | < NULL: "nulo">
   | < OBJECT: "objeto">
   | < OPERATION: "operacion" | "operación" | "operaci\u00f3n" >
   | < PACKAGE: "paquete">
   | < FOR: "para">
+  | < BAJANDO: "bajando">         // See para()
+  | < BY: "paso" >
   | < FORALL: "para_todo">
-  | < STEP: "paso" >
   | < POST: "pos">
   | < PRE: "pre">
   | < REPEAT: "repita">
@@ -794,7 +791,7 @@ NConstructor constructor() :
 {
 	tini=<CONSTRUCTOR> "(" [ ent=declaraciones() ]  ")"
 	   [ LOOKAHEAD(2) [ <DESCRIPTION> ] d=tdoc() ]
-	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
+	   [    <INPUT> dent=descripciones() ]
 	   [    <PRE>  pre=afirmacion()  ]
 	   [    <POST> pos=afirmacion()  ]
 	[ [ <DESCRIPTION> | <STRATEGY> ] e=tdoc() ]
@@ -826,8 +823,8 @@ NEspecificacion especificacion() :
 		i=tid() "(" ( ent=declaraciones() )?  ")"
 			( "->" sal=declaraciones() )?
 		[ [ <DESCRIPTION> ] d=tdoc() ]
-	   [    <INPUT> ( "nada" | dent=descripciones() )  ]
-	   [    <OUTPUT>  ( "nada" | dsal=descripciones() )  ]
+	   [    <INPUT> dent=descripciones() ]
+	   [    <OUTPUT> dsal=descripciones() ]
 	   [    <PRE>  pre=afirmacion()  ]
 	   [    <POST> pos=afirmacion()  ]
 	tfin=<END> [ LOOKAHEAD(2) ( tfin=<SPECIFICATION> | tfin=<OPERATION> ) ]
@@ -1320,8 +1317,9 @@ NIteracion para() :
 {
 	ti=<FOR> [ "/" etq=tid() "/" ] ( LOOKAHEAD(2) d=declaracion() | i=tid() )
 	(
-		(<FROM> | ":=") ed=expresion()     (<DOWNTO> { b = true; } )?
-		(<STEP> ep=expresion())?
+		(<FROM> | ":=") ed=expresion()     
+		(<BAJANDO> { b = true; } )?
+		(<BY> ep=expresion())?
 		<UNTIL> eh=expresion()
 		<DO>
 			a=acciones()
