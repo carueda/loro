@@ -63,7 +63,8 @@ NOTAS
 	  build-ext.html del núcleo), pero se tiene generada en un directorio para
 	  ello.
 	  
-	  
+
+
 ////////////////////////////////////////////////////////////////////////////
 2003-03-21 (0.8pre10)
 
