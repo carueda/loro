@@ -30,6 +30,9 @@ NOTAS
 2002-10-25 Version 0.7.4
 
 	- Modificado InterpreteImpl para permitir reader y/o writer nulos.
+	
+	- Modificada gramatica para aceptar coma "," al final de la lista de
+	  expresiones en definición de arreglo enumerado.
 		
 ////////////////////////////////////////////////////////////////////////////
 2002-10-22 Version 0.7.4

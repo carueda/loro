@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2002-10-22
+// FECHA ULTIMA ACTUALIZACION   : 2002-10-25
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2002-10-25
+//			- Modificada gramatica para aceptar coma "," al final de la lista de
+//			  expresiones en definición de arreglo enumerado.
 //
 //		2002-10-22
 //			- Nuevo accionesInterprete()
@@ -1778,8 +1782,12 @@ NExpresion e_prefijoPrimaria() :
 	(
 		e=e_const()
 	  |
-	    ti="[" e=expresion()        { list.add(e); } 
-		    ( "," e=expresion()  { list.add(e); } )* 
+	    ti="[" e=expresion()     { list.add(e); }
+		    ( 
+			   LOOKAHEAD(2)         // for comma
+			   "," e=expresion()  { list.add(e); } 
+			)* 
+			[ "," ]              
 		tf="]"
 		{
 			e = ConstructorArbol.crearNExpresionArreglo(ti, list, tf);
