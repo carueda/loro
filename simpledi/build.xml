@@ -15,7 +15,6 @@
 			java -jar simpledi.jar
 			
 	   N O T A 
-	   -------
 	  	Al parecer, el viejo entorno sigue funcionando bien (salvo por
 		algunos mensajes de versión que aluden al nuevo entorno loroedi), 
 		PERO NO se hace ahora ningún esfuerzo por hacerle mantenimiento!
