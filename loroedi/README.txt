@@ -16,6 +16,12 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-15 (0.8pre11)
 
+	- InterpreterWindow en revisión: eliminado metaProcesar (que ya no era
+	  llamado)...
+	  Idea para el núcleo: Quizá hacer una clase InteractiveInterpreter
+	  siguiendo el esquema de InterpreterWindow: con métodos protected
+	  que una subclase pueda acondicionar ....
+	
 	- loroedi.Interprete: completada reimplementación con base en nuevo servicio
 	  del núcleo IInterprete.IInteractiveInterpreter.
 	  (La revisión justamente anterior es Interprete.java,v 1.9)

@@ -37,6 +37,12 @@ implements ActionListener, JTermListener
 	protected static final String PREFIX_INVALID =  "!  ";
 	protected static final String PREFIX_SPECIAL =  "   ";
 
+	static private String version =	
+"Loro - Sistema Didáctico de Programación\n"+
+Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
+Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
+	;
+
 	protected static final String defaultAddTitleRead =  "<<ESPERANDO ENTRADA POR TECLADO>>";
 
 	protected JFrame frame = null;    // en donde se pone el interprete
@@ -97,6 +103,34 @@ implements ActionListener, JTermListener
 		obspp = ejecutorpp ? new ObservadorPP(this) : null;
 		
 		loroii = Loro.crearInterprete(br, pw, newSymTab, obspp);
+		loroii.setMetaListener(new IInterprete.IMetaListener()
+		{
+			String info = 
+".version      - Muestra información general sobre versión del sistema\n" +
+".limpiar      - Limpia la ventana"
+			;
+			
+			///////////////////////////////////////////////////////////////////////
+			public String getInfo()
+			{
+				return info;
+			}
+			
+			public String execute(String meta)
+			{
+				String res = null;
+				if ( meta.equals(".version") )
+				{
+					res = version;
+				}
+				else if ( meta.equals(".limpiar") )
+				{
+					ta.setText("");
+					res = "";
+				}
+				return res;
+			}
+		});
 		
 		if ( hello != null )
 		{
@@ -192,6 +226,7 @@ implements ActionListener, JTermListener
 	///////////////////////////////////////////////////////////////////////
 	protected void handleException(Exception exc)
 	{
+System.out.println("handleException="+exc);
 		String msg = null;
 		try
 		{
@@ -302,122 +337,6 @@ implements ActionListener, JTermListener
 		term.requestFocus();
 	}
 
-
-
-	///////////////////////////////////////////////////////////////////////
-	void metaProcesar(String text)
-	{
-		String msg;
-
-		term.setPrefix(PREFIX_SPECIAL);
-		if ( text.equals(".?") )
-		{
-			msg =
-"El Intérprete Interactivo permite ejecutar instrucciones de\n"+
-"manera inmediata. Escribe una instrucción a continuación del\n"+
-"indicador (símbolo " +PROMPT.trim()+ ") y presiona Entrar.\n" +
-"\n"+
-"Hay algunos comandos especiales para el propio intérprete\n"+
-"reconocidos porque empiezan con punto (.):\n"+
-"\n"+
-"   .?            - Muestra esta ayuda\n" +
-"   .limpiar      - Limpia la ventana\n"+
-"   .vars         - Muestra las variables declaradas actualmente\n" +
-"   .borrar ID    - Borra la declaración de la variable indicada\n" +
-"   .borrarvars   - Borra todas las variables declaradas\n" +
-"   .verobj nivel - Pone máximo nivel para visualizar objetos\n"+
-"   .verarr long  - Pone máxima longitud para visualizar arreglos\n" +
-"   .version      - Muestra información general sobre versión del sistema\n" +
-"   .??           - Muestra otros comandos avanzados"
-			;
-		}
-		else if ( text.equals(".??") )
-		{
-			msg =
-"Comandos avanzados:\n"+
-"   .modo         - Muestra el modo de interpretación actual.\n" +
-"                   Hay dos modos de operación:\n" +
-"                     - ejecución completa (por defecto)\n" +
-"                     - sólo compilación (usar con cuidado)\n" +
-"   .cambiarmodo  - Intercambia el modo de interpretación\n"+
-"   .gc           - Reciclar memoria\n"
-			;
-		}
-		else if ( text.equals(".vars") )
-		{
-			msg = loroii.getSymbolTable().toString();
-		}
-		else if ( text.equals(".borrarvars") )
-		{
-			loroii.reiniciar();
-			msg = loroii.getSymbolTable().toString();
-		}
-		else if ( text.startsWith(".borrar") )
-		{
-			StringTokenizer st = new StringTokenizer(text.substring(".borrar".length()));
-			try
-			{
-				String id = st.nextToken();
-				msg = id+ " " +(loroii.quitarID(id)
-					? "borrado" 
-					: "no declarado"
-				);
-			}
-			catch ( Exception ex )
-			{
-				msg = "Indique un nombre de variable";
-			}
-		}
-		else if ( text.equals(".limpiar") )
-		{
-			ta.setText("");
-			msg = "";
-		}
-		else if ( text.equals(".version") )
-		{
-			msg =
-"Loro - Sistema Didáctico de Programación\n"+
-Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
-Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
-			;
-		}
-		else if ( text.startsWith(".verobj") || text.startsWith(".verarr") )
-		{
-			StringTokenizer st = new StringTokenizer(text);
-			try
-			{
-				st.nextToken(); // ignore comando
-				int num = Integer.parseInt(st.nextToken());
-				if ( text.startsWith(".verobj") )
-				{
-					loroii.ponNivelVerObjeto(num);
-				}
-				else
-				{
-					loroii.ponLongitudVerArreglo(num);
-				}
-				msg = "";
-			}
-			catch ( Exception ex )
-			{
-				msg = "Indique un valor numérico";
-			}
-		}
-		else if ( text.equals(".gc") )
-		{
-			System.gc();
-			msg = "free memory = " +Runtime.getRuntime().freeMemory()+ "  " +
-			      "total memory = " +Runtime.getRuntime().totalMemory()
-			;
-		}
-		else
-		{
-			msg = text+ ": comando no entendido.    .? para obtener ayuda.";
-		}
-		term.setPrefix(PREFIX_SPECIAL);
-		pw.println(msg);
-	}
-
 	////////////////////////////////////////////////////////////////////////////
 	public void mostrar()
 	{
@@ -439,19 +358,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	{
 		return ta;
 		//return new JScrollPane(ta);
-	}
-
-	///////////////////////////////////////////////////////////////////////
-	void procesar(String text)
-	throws AnalisisException
-	{
-		if ( text.charAt(0) == '.' )
-			metaProcesar(text);
-		else
-			procesarLoro(text);
-
-		if ( obspp != null && obspp.getSymbolTableWindow() != null )
-			obspp.getSymbolTableWindow().update();
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -484,6 +390,55 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		procesar(text);
 	}
 	
+	///////////////////////////////////////////////////////////////////////
+	void procesar(String text)
+	throws AnalisisException
+	{
+		procesarLoro(text);
+
+		if ( obspp != null && obspp.getSymbolTableWindow() != null )
+			obspp.getSymbolTableWindow().update();
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	protected void procesarLoro(String text)
+	throws AnalisisException
+	{
+System.out.println("procesarLoro="+text);
+		try
+		{
+			term.setPrefix(PREFIX_SPECIAL);
+			
+			// habilite el boton de terminacion si el modo es ejecucion:
+			butTerminar.setEnabled(loroii.getExecute());
+			enableTraceableButtons(loroii.getExecute());
+			
+			if ( loroii.getExecute() )
+			{
+				String res = loroii.ejecutar(text);
+				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+				butTerminar.setEnabled(false);
+				enableTraceableButtons(false);
+				
+				if ( res != null )
+				{
+					term.setPrefix(PREFIX_EXPR);
+					pw.println(res);
+				}
+			}
+			else
+			{
+				loroii.compilar(text);
+			}
+		}
+		finally
+		{
+			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+			butTerminar.setEnabled(false);
+			enableTraceableButtons(false);
+		}
+	}
+
 	/////////////////////////////////////////////////////////////////
 	/** For JTermListener */
 	public void waitingRead(boolean reading)
@@ -524,45 +479,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			readingThread = null;
 		}
 	}
-	
-	///////////////////////////////////////////////////////////////////////
-	protected void procesarLoro(String text)
-	throws AnalisisException
-	{
-		try
-		{
-			term.setPrefix(PREFIX_SPECIAL);
-			
-			// habilite el boton de terminacion si el modo es ejecucion:
-			butTerminar.setEnabled(loroii.getExecute());
-			enableTraceableButtons(loroii.getExecute());
-			
-			if ( loroii.getExecute() )
-			{
-				String res = loroii.ejecutar(text);
-				Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
-				butTerminar.setEnabled(false);
-				enableTraceableButtons(false);
-				
-				if ( res != null )
-				{
-					term.setPrefix(PREFIX_EXPR);
-					pw.println(res);
-				}
-			}
-			else
-			{
-				loroii.compilar(text);
-			}
-		}
-		finally
-		{
-			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
-			butTerminar.setEnabled(false);
-			enableTraceableButtons(false);
-		}
-	}
-	
 	
 	///////////////////////////////////////////////
 	protected void close()
