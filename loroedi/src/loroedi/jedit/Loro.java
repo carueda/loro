@@ -29,7 +29,7 @@ public class Loro
 	 *
 	 * @param enter   Si es true, se atiende el enter.
 	 * @param prompt  Si es !- null, se resalta esta cadena de manera especial.
-	 *                Vea el manejo de token-marker en loro.jedit.
+	 *                Vea el manejo de token-marker.
 	 */
 	public static JEditTextArea crearJEditTextArea(
 		boolean enter,
