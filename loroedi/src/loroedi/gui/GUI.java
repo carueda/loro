@@ -1949,13 +1949,11 @@ public class GUI
 				if ( cmds.size() > 0 )
 				{
 					prj_msg.print("Lanzando ventana para ejecución de pruebas...\n");
-					cmds.add(new SourceSegment(0, 0,
-							"// Pruebas terminadas exitosamente.", false
-						)
-					);
 					workspace.executeCommands(
 						"Probando proyecto " +focusedProject.getModel().getInfo().getName(),
-						"Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba.\n",
+						"---Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba---\n",
+						"---Pruebas terminadas exitosamente---",   // byeOK
+						"---Hubo error(es)---",                    // byeErr
 						cmds,
 						false,    // newSymTab
 						false     // ejecutorpp
@@ -2059,6 +2057,8 @@ public class GUI
 				_createCommands(src, cmds);
 				workspace.executeCommands(
 					title,
+					null,
+					null,
 					null,
 					cmds,
 					true,     // newSymTab
@@ -2264,18 +2264,12 @@ public class GUI
 		if ( cmd != null )
 		{
 			List cmds = new ArrayList();
-			cmds.add(new SourceSegment(0, 0,
-					"// Probando " +tested_alg+ "\n"+
-					cmd, false
-				)
-			);
-			cmds.add(new SourceSegment(0, 0,
-					"// Prueba terminada exitosamente.", false
-				)
-			);
+			cmds.add(new SourceSegment(0, 0, "// Probando " +tested_alg+ "\n"+cmd, false));
 			workspace.executeCommands(
 				"Probando " +tested_alg.getIUnidad(),
-				null,
+				"---Invocando algoritmo de prueba---\n",
+				"---Prueba terminada exitosamente---",    // byeOK
+				"---Hubo error(es)---",                   // byeErr
 				cmds,
 				false,    // newSymTab
 				false     // ejecutorpp

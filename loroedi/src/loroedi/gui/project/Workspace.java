@@ -1506,40 +1506,40 @@ public final class Workspace
 	/**
 	 * Ejecuta una lista (String) de comandos en una ventana de interpretación.
 	 *
-	 * @param title For the window.
-	 * @param hello Message to start with. Can be null.
-	 * @param cmds Commands to execute.
+	 * @param title   For the window.
+	 * @param hello   Message to start with. Can be null.
+	 * @param byeOK   Message to show at the end if all OK. Can be null.
+	 * @param byeErr  Message to show at the end if any exception. Can be null.
+	 * @param cmds    Commands to execute.
 	 * @param newSymTab See InterpreterWindow
 	 * @param ejecutorpp step-by-step execution?
 	 */
 	public void executeCommands(
-		String title, String hello, 
+		String title, 
+		String hello, 
+		final String byeOK, 
+		final String byeErr, 
 		final List cmds,
 		boolean newSymTab,
 		boolean ejecutorpp
-	)
-	{
-		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp)
-		{
+	) {
+		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp) {
 			// se actualiza cuando se invoca terminate()
 			boolean terminated = false;
 			
 			//////////////////////////////////////////////////////////////////
-			protected void body()
-			throws Exception
-			{
-				for ( Iterator iter = cmds.iterator(); iter.hasNext(); )
-				{
+			protected void body() throws Exception {
+				boolean all_OK = true;
+				for ( Iterator iter = cmds.iterator(); iter.hasNext(); ) {
 					GUI.SourceSegment ss = (GUI.SourceSegment) iter.next();
 					String cmd = ss.src;
 					String ask_enter = ss.pause ? "" : null;
-					try
-					{
+					try {
 						interpret(cmd, ask_enter);
 					}
-					catch ( Exception ex )
-					{
+					catch ( Exception ex ) {
 						handleException(ex);
+						all_OK = false;
 						// Si es terminated y hay más segmentos pendientes, se
 						// le pide confirmación al usuario para continuar:
 						if ( terminated && iter.hasNext() && !GUI.confirm(frame, 
@@ -1551,10 +1551,17 @@ public final class Workspace
 						terminated = false;
 					}
 				}
+				if ( all_OK && byeOK != null ) {
+					term.setPrefix(PREFIX_SPECIAL);
+					pw.println(byeOK);
+				}
+				if ( !all_OK && byeErr != null ) {
+					term.setPrefix(PREFIX_SPECIAL);
+					pw.println(byeErr);
+				}
 			}
 			//////////////////////////////////////////////////////////////////
-			protected void terminate()
-			{
+			protected void terminate() {
 				super.terminate();
 				terminated = true;
 			}
