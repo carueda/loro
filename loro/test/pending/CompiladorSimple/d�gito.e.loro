@@ -1,7 +1,0 @@
-
-especificación dígito(as: AS)
-	descripción ''Proceso para el no terminal dígito.''
-	entrada 
-		as: ''El objeto de control del análisis.''
-	pre { as != nulo }
-fin especificación

@@ -1,7 +1,0 @@
-
-especificación término(as: AS)
-	descripción ''Proceso para el no terminal término.''
-	entrada 
-		as: ''El objeto de control del análisis.''
-	pre { as != nulo }
-fin especificación

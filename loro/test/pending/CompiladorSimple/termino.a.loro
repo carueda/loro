@@ -1,5 +1,5 @@
 
-algoritmo para término(as: AS)
+algoritmo para termino(as: AS)
 	estrategia ''Descendente recursiva predictiva.''
 inicio
 	factor(as);

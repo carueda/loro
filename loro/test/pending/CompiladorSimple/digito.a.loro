@@ -1,5 +1,5 @@
 
-algoritmo para dígito(as: AS)
+algoritmo para digito(as: AS)
 	estrategia ''Descendente recursiva predictiva.''
 inicio
 	si '0' <= as.lookahead && as.lookahead <= '9' entonces

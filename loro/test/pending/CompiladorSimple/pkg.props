@@ -1,17 +1,16 @@
 #Propiedades de paquete
-#Sat Aug 31 22:24:02 PDT 2002
-alg.9=d\u00EDgito, d\u00EDgito
+alg.9=digito, digito
 alg.8=nextToken, nextToken
 alg.7=aceptar, aceptar
 alg.6=error, error
 alg.5=crearAS, crearAS
-spec.11=expresi\u00F3n
+spec.11=expresion
 alg.4=analizar, analizar
-spec.10=asignaci\u00F3n
-alg.3=t\u00E9rmino, t\u00E9rmino
+spec.10=asignacion
+alg.3=termino, termino
 spec.9=nextToken
 alg.2=variable, variable
-spec.8=d\u00EDgito
+spec.8=digito
 alg.1=identificador, identificador
 spec.7=aceptar
 alg.0=factor, factor
@@ -19,9 +18,9 @@ spec.6=error
 class.0=AS
 spec.5=crearAS
 spec.4=analizar
-spec.3=t\u00E9rmino
+spec.3=termino
 spec.2=variable
 spec.1=identificador
 spec.0=factor
-alg.11=expresi\u00F3n, expresi\u00F3n
-alg.10=asignaci\u00F3n, asignaci\u00F3n
+alg.11=expresion, expresion
+alg.10=asignacion, asignacion
