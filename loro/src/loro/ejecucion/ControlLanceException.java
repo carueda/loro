@@ -1,10 +1,16 @@
 package loro.ejecucion;
 
 import loro.arbol.NExpresion;
+import loro.util.UtilValor;
+
+import java.io.*;
 
 //////////////////////////////////////////////////////////////////
 /**
  * Exception de control para el mecanismo "lance".
+ *
+ * @author Carlos Rueda
+ * @version $Id$
  */
 public class ControlLanceException extends ControlException
 {
@@ -27,11 +33,13 @@ public class ControlLanceException extends ControlException
 	 */
 	public ControlLanceException(Object r, NExpresion expresion, PilaEjecucion pilaEjec)
 	{
-		super("Se generó excepción: " +r);
+		super("Se generó excepción: " +
+			UtilValor.valorComillasDeExpresion(expresion.obtTipo(), r)
+		);
 		res = r;
 		this.expresion = expresion;
-		java.io.StringWriter sw = new java.io.StringWriter();
-		pilaEjec.mostrar(new java.io.PrintWriter(sw));
+		StringWriter sw = new StringWriter();
+		pilaEjec.mostrar(new PrintWriter(sw));
 		stackTrace = sw.toString();
 	}
 	
