@@ -20,12 +20,12 @@ import loro.Rango;
  */
 public class EN_JavaCCParser extends BaseParser {
 	/** The "real" parser. */
-	private LoroParser parser;
+	private ParserEn parser;
 
 	/** Creates a javacc-based parser for english lexical elements */
 	public EN_JavaCCParser() {
 		super();
-		parser = new LoroParser(new StringReader(""));
+		parser = new ParserEn(new StringReader(""));
 	}
 	
 	public List derivarAccionesInterprete() throws DerivacionException {
@@ -133,7 +133,7 @@ public class EN_JavaCCParser extends BaseParser {
 		fuente += "\n";
 		texto = fuente;
 		parser.ReInit(new StringReader(texto));
-		//parser = new LoroParser(new StringReader(texto));
+		//parser = new ParserEn(new StringReader(texto));
 		ConstructorArbol.ponTexto(texto);
 		return this;
 	}

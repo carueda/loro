@@ -48,7 +48,7 @@
 		<mkdir dir="${dist}/ext"/>
 		
 		<uptodate property="parser.noRequerido" 
-		 targetfile="${src}/loro/parsers/javacc/LoroIParser.java" >
+		 targetfile="${src}/loro/parsers/javacc/ParserEs.java" >
 			<srcfiles dir= "${src}/loro/parsers" includes="**/*.jj"/>
 		</uptodate>
 

@@ -9,6 +9,7 @@ $Id$
 	  ChequeadorBase: see flags required*
 	  These flags are now fixed but later there will be public
 	  services to allow for configuration.
+	- nuevo loro/parsers/javacc/LEAME.txt (consultarlo).
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-07-03 Version 0.8pre3

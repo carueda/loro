@@ -5,12 +5,12 @@ options {
 	STATIC = false;
 }
 
-PARSER_BEGIN(LoroParser)
+PARSER_BEGIN(ParserEn)
 	package loro.parsers.javacc;
 	import loro.arbol.*;
 	import java.util.*;
-	class LoroParser { }
-PARSER_END(LoroParser)
+	class ParserEn { }
+PARSER_END(ParserEn)
 
 
 SKIP : // spaces and comments

@@ -19,6 +19,12 @@ import loro.Loro.Str;
  */
 class ParseException extends Exception {
 
+	static {
+		if (ParserEnConstants.GUIDE != ParserEsConstants.GUIDE)  {
+			throw new Error("ParserEnConstants.GUIDE != ParserEsConstants.GUIDE");
+		}
+	}
+
   /**
    * This variable determines which constructor was used to create
    * this object and thereby affects the semantics of the
@@ -180,7 +186,7 @@ class ParseException extends Exception {
 	Token tok = currentToken.next;
 	
 	// carueda: manejo simplificado para el caso GUIDE:  (09/25/02)
-	if (tok.kind == LoroIParserConstants.GUIDE)  {
+	if (tok.kind == ParserEsConstants.GUIDE)  {
 		retval = tok.image;
 	}
 	else {

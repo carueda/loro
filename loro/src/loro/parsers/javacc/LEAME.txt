@@ -2,8 +2,12 @@ Especificación JavaCC para Loro
 Carlos Rueda
 $Id$
 
-	loro_es.jj : especificación para español
-	loro_en.jj : especificación para ingles
+	loro_es.jj:
+		especificación para español.
+		Crea clases ParserEs*.java
+	loro_en.jj:
+		especificación para ingles.
+		Crea clases ParserEn*.java
 	
 COMPILACIÓN: Ver build.xml.
 
