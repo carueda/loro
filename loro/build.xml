@@ -5,7 +5,7 @@
 	Carlos A. Rueda
 	$Id$
 	
-	Consultar primero build.properties
+	See first build.properties
 	
 	Para compilar todo el proyecto:
 		$ ant

@@ -9,12 +9,11 @@ $Id$
 		- loro.ejecucion/ ready.
 		- loro.tabsimb/ ready.
 		- loro.tipo/ ready.
-		- loro.impl/ ready
 		- loro.util/ ready
 		- loro.visitante/ ok
 		- loro.doc/ ok
-	  Ajustes completados. Pendientes cambios con respecto a palabras
-	  reservadas del lenguaje.
+		- loro.impl/ ..  !!
+	  Pendientes cambios con respecto a palabras reservadas del lenguaje.
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-20 Version 0.7.95

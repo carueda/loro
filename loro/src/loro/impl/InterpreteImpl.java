@@ -1,5 +1,6 @@
 package loro.impl;
 
+import loro.Loro.Str;
 import loro.visitante.VisitanteException;
 import loro.compilacion.*;
 import loro.arbol.Nodo;
