@@ -106,7 +106,7 @@ public final class Workspace
 		{
 			if ( files[i].isDirectory() )
 			{
-				String name = files[i].getName(); 
+				String name = files[i].getName();
 				prjnames.add(name);
 				IProjectModel prjm = _loadProjectModelDirectory(name);
 				name_prj.put(name.toLowerCase(), prjm);
