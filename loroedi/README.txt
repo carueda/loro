@@ -1,6 +1,14 @@
 LoroEDI README
 $Id$
 
+! ! ! ! ! !  C V S   C O M M I T     P E N D I N G   ! ! ! !
+DELETE THIS MESSAGE FIRST, :-)
+////////////////////////////////////////////////////////////////////////////
+2004-01-14 (0.8.2)
+
+	- Enlace con nucleo 0.7.94
+	- ObservadorPP usa ahora la interface loro.INode
+
 ////////////////////////////////////////////////////////////////////////////
 2004-01-07 (0.8.1)
 
