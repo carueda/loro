@@ -1,4 +1,5 @@
 Loro README
+$Id$
 
 NOTAS
 	
@@ -10,6 +11,24 @@ NOTAS
 	  desde un paquete nombrado ni siquiera con un 'import' --el import 
 	  no acepta un nombre simple.)
 
+////////////////////////////////////////////////////////////////////////////
+2003-05-04 Version 0.7.91
+
+	- ChequeadorBase.chequear(Nodo n) complementado para controlar 
+	  empilamiento de ámbitos de la tabla de símbolos.
+	
+	- Nuevo método LoroEjecutorBase.ejecutarNodo(Nodo n) por ahora sólo para
+	  invocar el método de aceptación (estilo ChequeadorBase.chequear(Nodo n)).
+	  InterpreteImpl.eval() ahora invoca este método.
+	  
+	- Bug 731674 corregido:
+	  Solución: LoroEjecutorBase._visitarAcciones() no controlaba completamente
+	  el anidamiento de ámbitos. Sólo manejaba la tabSimb actual, pero se
+	  necesitaba también anotar cuál tabSimb operar puesto que ésta va cambiando
+	  en operaciones _push/_pop. Así que ahora se anota la tabSimb actual y su
+	  marca para restaurar (sección finally) este estado después de visitar el 
+	  bloque de acciones.
+	
 ////////////////////////////////////////////////////////////////////////////
 2003-04-28 Version 0.7.91
 

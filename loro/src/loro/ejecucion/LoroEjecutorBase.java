@@ -26,6 +26,7 @@ import java.util.*;
  * Código de base para el visitante de ejecución.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 {
@@ -157,6 +158,18 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 		this.loroClassLoader = new LoroClassLoader();
 		
 		reset(tabSimbBase, unidadBase);
+	}
+
+	//////////////////////////////////////////////////
+	/**
+	 * Servicio para ejecutar un nodo.
+	 *
+	 * Unicamente se pide al nodo la aceptacion de este ejecutor.
+	 */
+	public void ejecutarNodo(Nodo n)
+	throws VisitanteException
+	{
+		n.aceptar(this);
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -1202,26 +1215,33 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 
 	/////////////////////////////////////////////////////////////////////////
 	/**
-	 * Auxiliar para visitar una lista de acciones. 
-	 * Básicamente hace: marca la tabla de símbolos, llama aceptar para cada
-	 * nodo de la lista, y desmarca la tabla.
+	 * Auxiliar para visitar una lista de acciones.
+	 * <ul>
+	 *  <li> Guarda una referencia a la actual tabla de símbolos(*)
+	 *  <li> marca la tabla de símbolos
+	 *  <li> llama aceptar para cada nodo de la lista
+	 *  <li> desmarca la tabla
+	 *  <li> restablece la tabla de simbolos
+	 * </ul>
+	 * (*) La referencia general a la tabla de símbolos va cambiando según
+	 * la dinámica de las operaciones _push../_pop.
 	 *
 	 * @param acciones Las acciones a ejecutar.
 	 */
 	protected void _visitarAcciones(Nodo[] acciones)
 	throws VisitanteException
 	{
+		TablaSimbolos ts = tabSimb;
 		int marca = tabSimb.marcar();
 		try
 		{
 			for ( int i = 0; i < acciones.length; i++ )
-			{
 				acciones[i].aceptar(this);
-			}
 		}
 		finally
 		{
-			tabSimb.irAMarca(marca);
+			ts.irAMarca(marca);
+			tabSimb = ts;
 		}
 	}
 

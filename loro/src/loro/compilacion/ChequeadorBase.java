@@ -17,7 +17,7 @@ import java.util.*;
  * Servicios de base para el visitante chequeador.
  *
  * @author Carlos Rueda
- * @version 2002-05-18
+ * @version $Id$
  */
 abstract class ChequeadorBase implements IVisitante
 {
@@ -172,17 +172,19 @@ abstract class ChequeadorBase implements IVisitante
 	public void chequear(Nodo n)
 	throws ChequeadorException
 	{
+		int marca = tabSimb.marcar();
 		try
 		{
 			n.aceptar(this);
 		}
 		catch(ChequeadorException ex)
 		{
+			tabSimb.irAMarca(marca);
 			throw ex;   // OK, es lo esperado
 		}
 		catch(VisitanteException ex)
 		{
-			// no debe suceder
+			// Pero NO debe suceder.
 			throw new Error("No debe suceder: excepcion es VisitanteException");
 		}
 	}

@@ -199,7 +199,7 @@ public class InterpreteImpl implements IInterprete
 					{
 						ui.setSourceCode(text);
 						ejecutor.reset(tabSimbBase, ui);
-						n.aceptar(ejecutor);
+						ejecutor.ejecutarNodo(n);
 						ret = ejecutor.obtRetorno();
 						if ( comillas )
 							ret = valorComillas(n, ret);

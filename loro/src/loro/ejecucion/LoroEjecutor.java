@@ -173,10 +173,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 			}
 			else
 			{
-				throw _crearEjecucionException(alg,
-					"Metodo Java '"
-					+clase_java+ "." +id+ "' genero excepcion:\n"
-					+thr.getClass()+ ": " +thr.getMessage()
+				ex.printStackTrace();
+				return _crearEjecucionException(alg,
+						"Metodo Java '"
+						+clase_java+ "." +id+ "' genero excepcion:\n"
+						+thr.getClass()+ ": " +thr.getMessage()
 				);
 			}
 		}
