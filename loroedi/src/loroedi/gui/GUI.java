@@ -1570,80 +1570,59 @@ public class GUI
 	 *
 	 * @return true si todo bien.
 	 */
-	public static boolean _compileProjectDemo()
+	private static boolean _compileProjectDemo()
 	{
+		MessageArea prj_msg = focusedProject.getMessageArea();		
 		IProjectModel prjm = focusedProject.getModel();
 		String name = prjm.getInfo().getName();
-		String src;
-		
-		UEditor editor = (UEditor) demoEditors.get(name);
-		
-		if ( editor != null )
-			src = editor.getText();
-		else
-			src = focusedProject.getModel().getInfo().getDemoScript();
-
-		if ( src == null )
-			return true;
-		
 		String compiling_msg = "Compilando demo '" +name+ "' ...";
+		
+		boolean ok = false;
+		UEditor editor = (UEditor) demoEditors.get(name);
 		if ( editor != null )
 		{
 			editor.getMessageArea().clear();
 			editor.getMessageArea().println(compiling_msg);
+			prj_msg.print("  Demo: ");
+			ok = _compileDemo(editor);
 		}
-		
-		MessageArea prj_msg = focusedProject.getMessageArea();
-		//prj_msg.clear();
-		prj_msg.println(" " +compiling_msg);
-
-		try
+		else
 		{
-			IInterprete ii = Loro.crearInterprete(null, null, true, null);
-			ii.compilar(src);
-			prj_msg.print(" Bien!");
-			if ( editor != null )
-				editor.getMessageArea().print(" Bien!");
+			String src = focusedProject.getModel().getInfo().getDemoScript();
+			if ( src == null || src.trim().length() == 0 )
+				return true;  // inmediatamente, sin mensajes.
 			
-			return true;
-		}
-		catch(CompilacionException ce)
-		{
-			Rango rango = ce.obtRango();
-			
-			String res = "[" +rango.obtIniLin()+ "," +rango.obtIniCol()+ "]" +
-				" " +ce.getMessage()
-			;
-			
-			prj_msg.println(res);
-
-			if ( editor == null )
+			prj_msg.print("  Demo: ");
+			int[] offsets = new int[2];
+			try
+			{
+				_compileDemoSource(src, offsets);
+				ok = true;
+			}
+			catch(CompilacionException ce)
 			{
 				// aquí necesitamos el editor para mostrar el problema:
 				editor = createDemoEditor(prjm);
+				String msg = _handleDemoCompilacionException(editor, ce, offsets);
 			}
-			
-			if ( rango != null )
-				editor.select(rango.obtPosIni(), rango.obtPosFin());
-			editor.display();
-			editor.getMessageArea().print(res);
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				JOptionPane.showOptionDialog(
+					null, //focusedProject.getFrame(),
+					ex.getMessage(),
+					"Error al tratar de compilar guión",
+					JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE,
+					null,
+					null,
+					null
+				);
+			}
 		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-			JOptionPane.showOptionDialog(
-				null, //focusedProject.getFrame(),
-				ex.getMessage(),
-				"Error al tratar de compilar unidad",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.ERROR_MESSAGE,
-				null,
-				null,
-				null
-			);
-		}
+		prj_msg.print(ok ? "Bien!" : "Error!");
 		
-		return false;
+		return ok;
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -1654,40 +1633,24 @@ public class GUI
 	 */
 	private static boolean _compileDemo(UEditor editor)
 	{
-		String compiling_msg = "Compilando '" +editor.getTitle()+ "'";
+		DemoEditorListener el = (DemoEditorListener) editor.getEditorListener();
+		el.save();
+
 		MessageArea msgArea = editor.getMessageArea();
 		msgArea.clear();
-		msgArea.println(compiling_msg);
+		msgArea.println("Compilando:");
 		
 		String src = editor.getText();
-		int offset = 0;
+		int[] offsets = new int[2];
 		try
 		{
-			IInterprete ii = Loro.crearInterprete(null, null, true, null);
-			
-			List cmds = new ArrayList();
-			_createCommands(src, cmds);
-			for ( Iterator it = cmds.iterator(); it.hasNext(); )
-			{
-				SourceSegment cmdsrc = (SourceSegment) it.next();
-				offset = cmdsrc.offset;
-				String cmd = cmdsrc.src;
-				ii.compilar(cmd);
-			}
+			_compileDemoSource(src, offsets);
 			msgArea.print(" Bien!");
 			return true;
 		}
 		catch(CompilacionException ce)
 		{
-			Rango rango = ce.obtRango();
-			
-			String res = "[" +rango.obtIniLin()+ "," +rango.obtIniCol()+ "]" +
-				" " +ce.getMessage()
-			;
-			
-			msgArea.println(res);
-			if ( rango != null )
-				editor.select(offset + rango.obtPosIni(), offset + rango.obtPosFin());
+			_handleDemoCompilacionException(editor, ce, offsets);
 		}
 		catch(Exception ex)
 		{
@@ -1706,6 +1669,51 @@ public class GUI
 		
 		return false;
 	}
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Compila el código demo dado.
+	 */
+	private static void _compileDemoSource(String src, int[] offset)
+	throws CompilacionException
+	{
+		offset[0] = 0;
+		IInterprete ii = Loro.crearInterprete(null, null, true, null);
+		
+		List cmds = new ArrayList();
+		_createCommands(src, cmds);
+		for ( Iterator it = cmds.iterator(); it.hasNext(); )
+		{
+			SourceSegment cmdsrc = (SourceSegment) it.next();
+			offset[0] = cmdsrc.offset;
+			offset[1] = cmdsrc.line;
+			String cmd = cmdsrc.src;
+			ii.compilar(cmd);
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Despacha un error de compilación de demo.
+	 * Retorna el mensaje de error.
+	 *
+	 * @return true si todo bien.
+	 */
+	private static String _handleDemoCompilacionException(
+		UEditor editor, CompilacionException ce, int[] offsets
+	)
+	{
+		MessageArea msgArea = editor.getMessageArea();
+		Rango rango = ce.obtRango();
+		String msg = "[" +(offsets[1] + rango.obtIniLin())+ "," +rango.obtIniCol()+ "]" +
+			" " +ce.getMessage()
+		;
+		msgArea.println(msg);
+		editor.select(offsets[0] + rango.obtPosIni(), offsets[0] + rango.obtPosFin());
+		editor.display();
+		return msg;
+	}
+
 
 	/////////////////////////////////////////////////////////////////
 	/**
@@ -1809,91 +1817,98 @@ public class GUI
 		{
 			public void run() 
 			{
-				MessageArea prj_msg = focusedProject.getMessageArea();
-				prj_msg.clear();
-				prj_msg.print("Compilando proyecto...");
-				IProjectModel model = focusedProject.getModel();
-				try
-				{
-					workspace.compileProjectModel(model);
-					prj_msg.print(" Bien!");
-					if ( browser != null ) // simplemente refresque.
-						browser.refresh();
-		
-					File doc2_dir = null;
-					if ( docInProjectDirectory )
-					{
-						doc2_dir = new File(prs_dir +File.separator+ model.getInfo().getName());
-					}
-					_saveProjectDoc(model, doc2_dir);
-					
-					// ahora compile el demo: (allí se abre el editor en caso de error.)
-					boolean demo_ok = _compileProjectDemo();
-					if ( demo_ok )					
-						message(focusedProject.getFrame(), "Compilación de proyecto exitosa");
-				}
-				catch(UnitCompilationException ex)
-				{
-					CompilacionException ce = ex.getCompilacionException();
-					Rango rango = ce.obtRango();
-		
-					IProjectUnit unit = ex.getUnit();
-					
-					String res = "[" +rango.obtIniLin()+ "," +rango.obtIniCol()+ "]" +
-						" " +ex.getMessage()
-					;
-		
-					prj_msg.println("\n" +unit.getStereotypedName()+ ": " +res);
-					
-					UEditor editor = (UEditor) unit.getUserObject();
-					
-					if ( editor == null )
-					{
-						// aquí necesitamos el editor para mostrar el problema:
-						editor = editUnit(unit, null);
-					}
-					
-					if ( editor != null )
-					{
-						if ( rango != null )
-						{	
-							editor.select(rango.obtPosIni(), rango.obtPosFin());
-						}
-						editor.display();
-						editor.getMessageArea().setText(res);
-					}
-					else
-					{
-						// pero no debería suceder.
-						JOptionPane.showOptionDialog(
-							null,
-							res,
-							"Hubo error en compilación",
-							JOptionPane.DEFAULT_OPTION,
-							JOptionPane.ERROR_MESSAGE,
-							null,
-							null,
-							null
-						);
-					}
-				}
-				catch(Exception ex)
-				{
-					//ex.printStackTrace();
-					JOptionPane.showOptionDialog(
-						focusedProject.getFrame(),
-						ex.getMessage(),
-						"Error al compilar proyecto",
-						JOptionPane.DEFAULT_OPTION,
-						JOptionPane.ERROR_MESSAGE,
-						null,
-						null,
-						null
-					);
-				}
+				_compileProject();
 			}
 		};
 		new Thread(run).start();
+	}
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Auxiliar para compilar el proyecto enfocado.
+	 */
+	private static void _compileProject()
+	{
+		MessageArea prj_msg = focusedProject.getMessageArea();
+		prj_msg.clear();
+		prj_msg.println("Compilando proyecto:");
+		IProjectModel model = focusedProject.getModel();
+		try
+		{
+			prj_msg.print("  Unidades: ");
+			workspace.compileProjectModel(model);
+			prj_msg.println("Bien!");
+			if ( browser != null ) // simplemente refresque.
+				browser.refresh();
+
+			File doc2_dir = null;
+			if ( docInProjectDirectory )
+				doc2_dir = new File(prs_dir +File.separator+ model.getInfo().getName());
+			_saveProjectDoc(model, doc2_dir);
+			
+			// ahora compile el demo: (allí se abre el editor en caso de error.)
+			boolean demo_ok = _compileProjectDemo();
+			if ( demo_ok )
+				message(focusedProject.getFrame(), "Compilación de proyecto exitosa");
+		}
+		catch(UnitCompilationException ex)
+		{
+			CompilacionException ce = ex.getCompilacionException();
+			Rango rango = ce.obtRango();
+
+			IProjectUnit unit = ex.getUnit();
+			
+			String res = "[" +rango.obtIniLin()+ "," +rango.obtIniCol()+ "]" +
+				" " +ex.getMessage()
+			;
+
+			prj_msg.println("Error!");
+			prj_msg.println(unit.getStereotypedName()+ ": " +res);
+			
+			UEditor editor = (UEditor) unit.getUserObject();
+			
+			if ( editor == null )
+			{
+				// aquí necesitamos el editor para mostrar el problema:
+				editor = editUnit(unit, null);
+			}
+			
+			if ( editor != null )
+			{
+				if ( rango != null )
+					editor.select(rango.obtPosIni(), rango.obtPosFin());
+				editor.display();
+				editor.getMessageArea().setText(res);
+			}
+			else
+			{
+				// pero no debería suceder.
+				JOptionPane.showOptionDialog(
+					null,
+					res,
+					"Hubo error en compilación",
+					JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE,
+					null,
+					null,
+					null
+				);
+			}
+		}
+		catch(Exception ex)
+		{
+			//ex.printStackTrace();
+			JOptionPane.showOptionDialog(
+				focusedProject.getFrame(),
+				ex.getMessage(),
+				"Error al compilar proyecto",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.ERROR_MESSAGE,
+				null,
+				null,
+				null
+			);
+		}
 	}
 
 
@@ -1924,7 +1939,7 @@ public class GUI
 						String cmd = getTestExecutionCmd(tested_alg, false);
 						if ( cmd != null )
 						{
-							cmds.add(new SourceSegment(0,
+							cmds.add(new SourceSegment(0, 0,
 									"// Probando " +tested_alg+ "\n"+
 									cmd, false
 								)
@@ -1935,7 +1950,7 @@ public class GUI
 				if ( cmds.size() > 0 )
 				{
 					prj_msg.print("Lanzando ventana para ejecución de pruebas...\n");
-					cmds.add(new SourceSegment(0,
+					cmds.add(new SourceSegment(0, 0,
 							"// Pruebas terminadas exitosamente.", false
 						)
 					);
@@ -1989,7 +2004,7 @@ public class GUI
 	/**
 	 * Crea el editor para el guión de demostración del proyecto dado.
 	 */
-	private static UEditor createDemoEditor(final IProjectModel prjm)
+	private static UEditor createDemoEditor(IProjectModel prjm)
 	{
 		IProjectModel.IInfo info = prjm.getInfo();
 		String name = info.getName();
@@ -1998,61 +2013,14 @@ public class GUI
 			src = "";
 		
 		boolean modifiable = prjm.getControlInfo().isModifiable();
-		final UEditor editor = new UEditor(
+		UEditor editor = new UEditor(
 			"Demo '" +name+ "'", modifiable, true, false, true,
 			Preferencias.DEMO_RECT
 		);
 		editor.setText(src);
 		editor.setCaretPosition(0);
 		// el editor-listener puesto después para no recibir .changed():
-		editor.setEditorListener(new UEditorListener()
-		{
-			String saved = editor.getText();
-			public void changed() 
-			{
-				if ( editor.isSaved() )
-				{
-					// primer cambio.
-					editor.getMessageArea().print("\nIniciando edición");
-				}
-				editor.setSaved(false);
-			}
-			public void save() 
-			{
-				IProjectModel.IInfo info = prjm.getInfo();
-				info.setDemoScript(editor.getText());
-				workspace.saveDemoScript(prjm);
-				editor.setSaved(true);
-				editor.getMessageArea().setText("Guardado.");
-				saved = editor.getText();
-			}
-			public void closeWindow() 
-			{
-				editor.getFrame().setVisible(false);
-			}
-			public void compile() 
-			{
-				if ( !editor.isSaved() )
-					save();
-				compileDemo(editor);
-			}
-			public void execute(boolean trace) 
-			{
-				if ( !editor.isSaved() )
-					save();
-				String title = "Ejecutando";
-				editor.getMessageArea().setText(title+ " ...\n");
-				runDemo(saved, title, trace);
-			}
-			public void reload() 
-			{
-				editor.setText(saved);
-				editor.setSaved(true);
-				editor.getMessageArea().setText("Recargado.");
-				editor.setCaretPosition(0);
-			}
-			public void viewDoc() {}
-		});
+		editor.setEditorListener(new DemoEditorListener(prjm, editor));
 		
 		demoEditors.put(name, editor);
 		return editor;
@@ -2130,6 +2098,8 @@ public class GUI
 
 		StringBuffer linebuf = new StringBuffer();
 		int pos_ini = 0;
+		int line_ini = 0;
+		int lineno = 0;
 		for ( int pos = 0; pos < src_len; pos++ )
 		{
 			// get next line:
@@ -2141,6 +2111,7 @@ public class GUI
 				linebuf.append(src.charAt(pos));
 			}
 			String line = linebuf.toString();
+			lineno++;
 
 			String special = "";
 			int idx = line.lastIndexOf(prefix_sep);
@@ -2161,14 +2132,15 @@ public class GUI
 			boolean end_segment = pause || special.startsWith("$");
 			if ( end_segment ) 
 			{
-				segments.add(new SourceSegment(pos_ini, segment.toString(), pause));
+				segments.add(new SourceSegment(pos_ini, line_ini, segment.toString(), pause));
 				segment = null;
 				pos_ini = pos + 1;
+				line_ini = lineno;
 			}
 		}
 	
 		if ( segment != null )
-			segments.add(new SourceSegment(pos_ini, segment.toString(), false));
+			segments.add(new SourceSegment(pos_ini, line_ini, segment.toString(), false));
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -2180,14 +2152,18 @@ public class GUI
 		/** Posicion de inicio dentro del fuente. */
 		public int offset;
 		
+		/** Línea de inicio dentro del fuente. */
+		public int line;
+		
 		/** Código fuente del propio comando. */
 		public String src;
 		
 		/** Hacer pausa antes de procesar comando?. */
 		public boolean pause;
 		
-		SourceSegment(int offset, String src, boolean pause)
+		SourceSegment(int offset, int line, String src, boolean pause)
 		{
+			this.line = line;
 			this.offset = offset;
 			this.src = src;
 			this.pause = pause;
@@ -2289,12 +2265,12 @@ public class GUI
 		if ( cmd != null )
 		{
 			List cmds = new ArrayList();
-			cmds.add(new SourceSegment(0,
+			cmds.add(new SourceSegment(0, 0,
 					"// Probando " +tested_alg+ "\n"+
 					cmd, false
 				)
 			);
-			cmds.add(new SourceSegment(0,
+			cmds.add(new SourceSegment(0, 0,
 					"// Prueba terminada exitosamente.", false
 				)
 			);
@@ -3536,6 +3512,71 @@ public class GUI
 	
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Atiende acciones sobre un editor de guión de demostración.
+	 */
+	private static class DemoEditorListener implements UEditorListener
+	{
+		IProjectModel prjm;
+		UEditor editor;
+		String saved;
+		
+		DemoEditorListener(IProjectModel prjm, UEditor editor)
+		{
+			this.prjm = prjm;
+			this.editor = editor;
+			saved = editor.getText();
+		}
+		
+		public void changed() 
+		{
+			if ( editor.isSaved() )
+			{
+				// primer cambio.
+				editor.getMessageArea().print("\nIniciando edición");
+			}
+			editor.setSaved(false);
+		}
+		public void save() 
+		{
+			IProjectModel.IInfo info = prjm.getInfo();
+			info.setDemoScript(editor.getText());
+			workspace.saveDemoScript(prjm);
+			editor.setSaved(true);
+			editor.getMessageArea().setText("Guardado.");
+			saved = editor.getText();
+		}
+		public void closeWindow() 
+		{
+			editor.getFrame().setVisible(false);
+		}
+		public void compile() 
+		{
+			if ( !editor.isSaved() )
+				save();
+			compileDemo(editor);
+		}
+		public void execute(boolean trace) 
+		{
+			if ( !editor.isSaved() )
+				save();
+			String title = "Ejecutando";
+			editor.getMessageArea().setText(title+ " ...\n");
+			runDemo(saved, title, trace);
+		}
+		public void reload() 
+		{
+			editor.setText(saved);
+			editor.setSaved(true);
+			editor.getMessageArea().setText("Recargado.");
+			editor.setCaretPosition(0);
+		}
+		public void viewDoc() {}
+	}
+	
+	
+	
 	/////////////////////////////////////////////////////////////////////
 	public static boolean confirm(JFrame frame, String msg)
 	{
@@ -3579,7 +3620,7 @@ public class GUI
 		progressBar.setString(msg);
 		
 		JDialog dialog2;
-		if ( owner instanceof Frame )
+		if ( owner == null || owner instanceof Frame )
 			dialog2 = new JDialog((Frame) owner, msg, true);
 		else if ( owner instanceof Dialog )
 			dialog2 = new JDialog((Dialog) owner, msg, true);
@@ -3591,14 +3632,6 @@ public class GUI
 		panel.add(progressBar);
 		dialog.getContentPane().add(progressBar);
 
-		final Timer timer = new Timer(250, new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent evt) 
-			{
-				progressBar.setString(msg);
-			}
-		});
-
 		Runnable run = new Runnable() 
 		{
 			public void run() 
@@ -3609,7 +3642,6 @@ public class GUI
 				}
 				finally
 				{
-					timer.stop();
 					dialog.dispose();
 				}
 			}

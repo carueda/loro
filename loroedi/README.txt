@@ -15,6 +15,11 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-24 (0.8pre12)
 
+	- GUI: compilación de demo factorizada para unificar manejo por segmentos
+	  tanto desde el editor como desde el proyecto. Corregida ubicación de
+	  línea en mensajes de errores de compilación (se hace un control de
+	  offsets para recalcular posiciones iniciales en rango de texto).
+	
 	- GUI: mejoras en despliegue de documentación html y errores:
 		.createBrowserPanel(): Inicia el BrowserPanel con su "home". 
 			Atiende clics para desplegar un mejor error cuando no se encuentra 

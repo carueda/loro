@@ -169,6 +169,15 @@ public class UEditor implements EditorListener
 	
 	////////////////////////////////////////////////////////////////////////////
 	/**
+	 * Obtiene el listener.
+	 */
+	public UEditorListener getEditorListener()
+	{
+		return listener;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////
+	/**
 	 * Crea la barra de menus.
 	 */
 	private void createMenuBarAndToolBar(boolean include_toolbar)
