@@ -78,7 +78,7 @@ Ajustes cosméticos.
 	
 	- Asociación de ícono (icon.jpg) a las diferentes ventanas.
 	
-	- GUI.init: Ahora se cargada configuración y preferencias antes 
+	- GUI.init: Ahora se carga configuración y preferencias antes 
 	  de procesar L&F y lo demás.
 	
 ////////////////////////////////////////////////////////////////////////////
