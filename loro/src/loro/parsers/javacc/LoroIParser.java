@@ -3049,12 +3049,6 @@ class LoroIParser implements LoroIParserConstants {
     return retval;
   }
 
-  static final private boolean jj_3R_59() {
-    if (jj_3R_74()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   static final private boolean jj_3R_142() {
     if (jj_scan_token(PRE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -3997,6 +3991,12 @@ class LoroIParser implements LoroIParserConstants {
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  static final private boolean jj_3R_59() {
+    if (jj_3R_74()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 

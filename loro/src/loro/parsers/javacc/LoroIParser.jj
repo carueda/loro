@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2003-03-18
+// FECHA ULTIMA ACTUALIZACION   : 2003-04-23
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2003-04-23
+//		- accionInterprete() incluye meta-comandos
 //
 //		2003-03-18
 //		- ";" opcional al final de:
