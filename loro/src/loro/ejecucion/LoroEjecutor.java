@@ -1358,11 +1358,16 @@ search:
 	throws VisitanteException
 	{
 		NExpresion[] exprs = n.obtExpresiones();
+		NExpresion e = exprs[0];
+		Tipo e_tipo = e.obtTipo();
 		Object[] vals = new Object[exprs.length];
 		
 		for ( int i = 0; i < exprs.length; i++ )
 		{
-			vals[i] = _ejecutarExpresion(exprs[i]);
+			NExpresion f = exprs[i];
+			vals[i] = _ejecutarExpresion(f);
+			Tipo f_tipo = f.obtTipo();
+			vals[i] = _convertirValor(n, e_tipo, f_tipo, vals[i]);
 		}
 
 		retorno = vals;

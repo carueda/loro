@@ -364,7 +364,7 @@ public class Chequeador extends ChequeadorBase
 		// revise asignabilidad:
 		Tipo expr_tipo = expr.obtTipo();
 		Tipo var_tipo = var.obtTipo();
-		_chequearAsignabilidad(expr, var_tipo, expr_tipo);
+		_chequearAsignabilidad(expr, var_tipo, expr_tipo, expr);
 
 		n.ponTipo(var_tipo);
 
@@ -1053,7 +1053,7 @@ public class Chequeador extends ChequeadorBase
 			NExpresion f = exprs[i];
 			f.aceptar(this);
 			Tipo f_tipo = f.obtTipo();
-			_chequearAsignabilidad(f, e_tipo, f_tipo);
+			_chequearAsignabilidad(f, e_tipo, f_tipo, f);
 		}
 
 		n.ponTipo(Tipo.arreglo(e_tipo));
@@ -1405,7 +1405,7 @@ public class Chequeador extends ChequeadorBase
 		if ( e != null )
 		{
 			// revise asignabilidad:
-			_chequearAsignabilidad(e, tipo, e.obtTipo());
+			_chequearAsignabilidad(e, tipo, e.obtTipo(), e);
 		}
 	}
 
@@ -1443,7 +1443,7 @@ public class Chequeador extends ChequeadorBase
 		if ( e != null )
 		{
 			// Se revisa compatibilidad:
-			_chequearAsignabilidad(e, tipo, e.obtTipo());
+			_chequearAsignabilidad(e, tipo, e.obtTipo(), e);
 		}
 	}
 
@@ -2153,7 +2153,7 @@ public class Chequeador extends ChequeadorBase
 			a.aceptar(this);
 			Tipo tipo_dado = a.obtTipo();
 			Tipo tesperado = nespec_pent[i].obtTipo();
-			_chequearAsignabilidad(a, tesperado, tipo_dado);
+			_chequearAsignabilidad(a, tesperado, tipo_dado, a);
 		}
 
 		NDeclaracion[] nespec_psal = nespec.obtParametrosSalida();
@@ -2653,7 +2653,7 @@ public class Chequeador extends ChequeadorBase
 			IUbicable u = id;
 			if ( u == null )
 				u = dec;
-			_chequearAsignabilidad(u, var_tipo, elem_tipo);
+			_chequearAsignabilidad(u, var_tipo, elem_tipo, null);
 	
 			Nodo[] acciones = n.obtAcciones();
 			visitarAcciones(acciones);
@@ -2876,7 +2876,7 @@ public class Chequeador extends ChequeadorBase
 			Tipo d_tipo = d.obtTipo();
 
 			// revise asignabilidad:
-			_chequearAsignabilidad(e, d_tipo, e_tipo);
+			_chequearAsignabilidad(e, d_tipo, e_tipo, e);
 
 			TId d_id = d.obtId();
 			if ( ! tabSimb.obtAsignado(d_id.obtId()) )

@@ -12,6 +12,21 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-06 Version 0.7.91
+
+	- Lenguaje: se permite ahora la asignación de un literal entero a un
+	  caracter siempre que el valor entero sea >= 0 y < 65536 (como en Java).
+	  Ejs:    
+	  		c : caracter := 76;
+			['L', 111, 'r', 111]
+	  Ajustes en Chequeador, ChequeadorBase._chequearAsignabilidad().
+	  Nota: En el caso:
+	  		para c:caracter en [111, 0] haga fin para
+	  aún se genera un error de posible conversión inválida. Para permitir
+	  este caso habría que actualizar Chequeador.visitar(NForEach n) y
+	  LoroEjecutor.visitar(NForEach n). (No muy necesario por lo pronto.)
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-04 Version 0.7.91
 
 	- ChequeadorBase.chequear(Nodo n) complementado para controlar 

@@ -282,7 +282,7 @@ abstract class ChequeadorBase implements IVisitante
 	 * @param var_tipo      Tipo de la variable.
 	 * @param expr_tipo     Tipo de la expresion.
 	 */
-	protected void _chequearAsignabilidad(IUbicable n, Tipo var_tipo, Tipo expr_tipo)
+	protected void _chequearAsignabilidad(IUbicable n, Tipo var_tipo, Tipo expr_tipo, NExpresion nexpr)
 	throws VisitanteException
 	{
 		boolean asignable;
@@ -310,6 +310,30 @@ abstract class ChequeadorBase implements IVisitante
 				String vn = ((TipoClase) var_tipo).obtNombreCompletoString();
 				String en = ((TipoClase) expr_tipo).obtNombreCompletoString();
 				asignable = cn.equals(vn) && vn.equals(en);
+			}
+		}
+		
+		if ( !asignable )
+		{
+			// mire si se trata de asignación de un literal entero a un caracter
+			if ( var_tipo.esCaracter() && expr_tipo.esEntero() )
+			{
+				if ( nexpr instanceof NLiteralEntero )
+				{
+					Object value = ((NLiteralEntero) nexpr).obtValor();
+					if ( value instanceof Integer )
+					{
+						int val = ((Integer) value).intValue();
+						asignable = 0 <= val && val < 65536;
+					}
+				}
+				if ( !asignable )
+				{
+					throw new ChequeadorException(
+						n,
+						"Posible conversión inválida de entero a caracter"
+					);
+				}
 			}
 		}
 		

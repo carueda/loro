@@ -552,6 +552,7 @@ public class InterpreteImpl implements IInterprete
 	
 					prefixw.setPrefix(prefix_special);
 					pw.print(prefix_special);
+					pw.flush();
 					res = procesar(text);
 					prefix = prefix_expr;
 				}
