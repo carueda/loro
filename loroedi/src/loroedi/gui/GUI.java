@@ -6,6 +6,7 @@ import loroedi.gui.project.unit.*;
 import loroedi.gui.editor.*;
 import loroedi.gui.misc.MessageArea;
 
+import loroedi.Info;
 import loroedi.Info.Str;
 import loroedi.Util;
 import loroedi.Configuracion;
@@ -23,17 +24,18 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
-import java.util.*;
-import java.util.List;
 import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.util.*;
+import java.util.List;
+import java.util.Locale;
 
 import javax.swing.Timer;
  
 //////////////////////////////////////////////////
 /**
- * Controlador general del entorno integrado.
+ * Main controller of integrated environment.
  *
  * @author Carlos Rueda
  * @version $Id$
@@ -41,7 +43,7 @@ import javax.swing.Timer;
 public class GUI
 {
 	public static final Font monospaced12_font = new Font("monospaced", Font.PLAIN, 12);
-	public static final String UNTITLED_PROJECT = Str.get("gui.untitled_prj");
+	public static String UNTITLED_PROJECT;
 	public static final String tester_prefix = "test_";
 	
 	static Workspace workspace;
@@ -87,18 +89,42 @@ public class GUI
 		}
 	};
 	
+	/** Init locale	 */
+	static void _initLocale() {
+		// izpack uses iso3 codes. We map here to iso2.
+		String iso3 = System.getProperty("ISO3_LANG");
+		if ( iso3 != null ) {
+			String iso2 = null;
+			if ( iso3.equals("spa") )
+				iso2 = "es";
+			else if ( iso3.equals("eng") )
+				iso2 = "en";
+			
+			if ( iso2 != null ) {
+				Locale locale = new Locale(iso2);
+				Info.setLocale(locale);
+				Loro.setLocale(locale);
+			}
+		}
+		else {
+			// (shouldn't happen.)
+			// we let the core to use its default locale
+		}
+	}
 	
-	/////////////////////////////////////////////////////////////////
-	public static void init(String prs_dir_)
-	{
+	public static void init(String prs_dir_) {
+		_initLocale();
+		UNTITLED_PROJECT = Str.get("gui.untitled_prj");
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		JDialog.setDefaultLookAndFeelDecorated(true);
+		
 		prs_dir = prs_dir_;
 		
 		actions = new Actions();
 		openFrames = new HashMap();
 		demoEditors = new HashMap();
 
-		try
-		{		
+		try {		
 			ProjectFrame frame = new ProjectFrame();
 			splash = Splash.showSplash(frame);
 		
@@ -161,8 +187,7 @@ public class GUI
 			// cierre el splash window.			
 			splash.status(null);
 		}
-		catch (Exception ex)
-		{
+		catch (Exception ex) {
 			ex.printStackTrace();
 			JOptionPane.showOptionDialog(
 				null,
@@ -185,9 +210,7 @@ public class GUI
 	 *
 	 * @throws Exception Si se presenta algún problema de inicio.
 	 */
-	static void _initCore()
-	throws Exception
-	{
+	static void _initCore() throws Exception {
 		if ( prs_dir == null ) {
 			prs_dir = Preferencias.obtPreferencia(Preferencias.PRS_DIR);
 		}
@@ -195,8 +218,14 @@ public class GUI
 
 		// prepare valores de configuración para Loro:
 		splash.status(Str.get("gui.msg_init_core"));
-		String ext_dir = Configuracion.getProperty(Configuracion.DIR)+ "/lib/ext/";
+		
+		String ext_dir;
+		if ( Info.getLocale().getLanguage().equals("es") )		
+			ext_dir = Configuracion.getProperty(Configuracion.DIR)+ "/lib/ext/";
+		else //if ( Info.getLocale().getLanguage().equals("en") )		
+			ext_dir = Configuracion.getProperty(Configuracion.DIR)+ "/lib/ext_en/";
 		String paths_dir = prs_dir;
+		
 		Loro.configurar(ext_dir, paths_dir);
 
 		// pendiente
@@ -947,10 +976,9 @@ public class GUI
 			String dir = Configuracion.getProperty(Configuracion.DIR);
 			String templ_filename = dir;
 
-			Locale locale = Loro.getLocale();
-			if ( locale.getLanguage().equals("es") )		
+			if ( Info.getLocale().getLanguage().equals("es") )		
 				templ_filename += "/doc/templprj.html";
-			else //if ( locale.getLanguage().equals("en") )		
+			else //if ( Info.getLocale().getLanguage().equals("en") )		
 				templ_filename += "/doc/en/templprj.html";
 
 			File file = new File(templ_filename);
@@ -2559,10 +2587,9 @@ public class GUI
 	 */
 	private static void _installProject() {
 		String private_prs_directory = Configuracion.getProperty(Configuracion.DIR);
-		Locale locale = Loro.getLocale();
-		if ( locale.getLanguage().equals("es") )		
+		if ( Info.getLocale().getLanguage().equals("es") )		
 			private_prs_directory += "/lib/prs/";
-		else //if ( locale.getLanguage().equals("en") )		
+		else //if ( Info.getLocale().getLanguage().equals("en") )		
 			private_prs_directory += "/lib/prs_en/";
 		
 		List prjnames = new ArrayList();

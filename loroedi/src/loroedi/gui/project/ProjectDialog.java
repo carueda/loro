@@ -74,10 +74,9 @@ public class ProjectDialog extends JDialog
 		btnAccept.setToolTipText(strs[1]);
 		
 		strs = Str.get("but.cancel").split("\\|", 2);
-		JButton btnCancel = new JButton(strs[0]);
-		btnCancel.setToolTipText(strs[1]);
+		String cancel_but_text = strs[0];  // simpler than using a regular button
 		
-        Object[] options = {btnAccept, btnCancel};
+        Object[] options = {btnAccept, cancel_but_text};
 		accepted = false;
 		btnAccept.addActionListener(accept_al);
 

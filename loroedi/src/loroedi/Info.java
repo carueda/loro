@@ -3,6 +3,7 @@ package loroedi;
 import java.util.*;
 import java.io.*;
 import java.util.ResourceBundle;
+import java.util.Locale;
 
 /////////////////////////////////////////////////////////////////////
 /**
@@ -106,21 +107,30 @@ public final class Info
 	private Info()	{}
 
 
+	private static Locale locale = null;
 	private static ResourceBundle strings = null;
 	
-	/** Sets up the bundle loro.resource.strings */
-	static {
+	/** Sets the locale. */
+	public static void setLocale(Locale locale_) {
 		try {
-			strings = ResourceBundle.getBundle("loroedi.resource.strings");
+			strings = ResourceBundle.getBundle("loroedi.resource.strings", locale_);
+			locale = locale_;
 		}
 		catch(java.util.MissingResourceException ex) {
 			System.err.println(
 				"!!!!!! Warning:\n" +
 				"!!!!!! Cannot get bundle loroedi.resource.strings.\n" +
-				"!!!!!! The system has not been compiled properly.\n"
+				"!!!!!! The system has not been compiled properly.\n"+
+				"!!!!!! locale = " +locale_+ "\n"
 			);
 		}
 	}
+	
+	/** Returns the locale used by the LoroEDI system. */
+	public static Locale getLocale() {
+		return locale;
+	}
+	
 
 	public static abstract class Str {
 		/** gets a string from the locale bundle. */

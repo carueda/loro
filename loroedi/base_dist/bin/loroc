@@ -1,1 +1,1 @@
-java "-DLOROEDIDIR=$INSTALL_PATH" -cp "$INSTALL_PATH/lib/loro.jar" loro.tools.LoroCompilador $@
+java "-DISO3_LANG=$ISO3_LANG" "-DLOROEDIDIR=$INSTALL_PATH" -cp "$INSTALL_PATH/lib/loro.jar" loro.tools.LoroCompilador $@

@@ -73,7 +73,9 @@ public class Preferencias
 	/** Rectangle for the trace symbol table window. */
 	public static final String SYMTAB_TRACE_RECT = "loroedi.pref.symtab.trace.rect";
 
-	/** Base projects directory. */
+	/** Base projects directory.
+	 * No longer read from the properties file, but
+	 * determined by current locale. */
 	public static final String PRS_DIR = "loroedi.pref.prs.dir";
 
 	/** Rectangle for dialog window to choose a .lar project. */
@@ -286,13 +288,14 @@ public class Preferencias
 		}
 
 		// PRS_DIR:
-		String prs_dir = props.getProperty(PRS_DIR);
-		if ( prs_dir == null )
-		{
+		// No longer read from the properties file, but
+		// determined by current locale:
+		if ( Info.getLocale().getLanguage().equals("es") )		
 			props.setProperty(PRS_DIR, Configuracion.getConfDirectory()+ "/prs");
-		}
-
+		else //if ( Info.getLocale().getLanguage().equals("en") )		
+			props.setProperty(PRS_DIR, Configuracion.getConfDirectory()+ "/prs_en");
 	}
+	
 	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Almacena las preferencias actuales.

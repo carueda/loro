@@ -2,6 +2,15 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-07-06 (0.9pre5)
+	- installer: license according to chosen language.
+	- chosen language in installation also determines the locale.
+	- "preference" PRS_DIR no longer read from the properties file, but
+	  determined by current locale:
+		- .loro/prs_en/ used if locale is not "es"
+		- .loro/prs/ continue to be used for "es" locale
+	
+////////////////////////////////////////////////////////////////////////////
 2004-07-06 (0.9pre4)
 	- Using core 0.8pre4
 	- New base_dist/lib/prs_en/ with demo projects in english:

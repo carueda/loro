@@ -209,8 +209,12 @@
 		<copy todir="${dir.installer}/lib"      file="${bsh.jar}"/>
 		<!-- <copy todir="${dir.installer}/lib"      file="${looks.jar}"/> -->
 		<copy todir="${dir.installer}/lib"      file="${skinlf.jar}"/>
+		
 		<copy todir="${dir.installer}/lib/ext">
 			<fileset dir="${loro.dist}/ext"/> 
+		</copy>
+		<copy todir="${dir.installer}/lib/ext_en">
+			<fileset dir="${loro.dist}/ext_en"/> 
 		</copy>
 		
    		<delete file="${dist}/izinstall.xml"/>

@@ -109,8 +109,7 @@ public class MUtil
 				
 				// si los paquetes son distintos...
 				if ( !alg_prefix_pkg.equals(spec_prefix_pkg) ) {
-					if ( Loro.getAutomaticPackageName().equals(spec_pkg_name) )
-					{
+					if ( Loro.getLanguageInfo().getAutomaticPackageName().equals(spec_pkg_name) ) {
 						// especificación en el paquete automático.
 						// Se deja spec_signature como está (que NO incluye paquete).
 						// --nada por hacer.

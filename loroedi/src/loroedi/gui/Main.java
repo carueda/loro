@@ -1,7 +1,5 @@
 package loroedi.gui;
 
-import javax.swing.*;
-
 /**
  * Main entry point to integrated environment
  * @author Carlos Rueda
@@ -16,8 +14,6 @@ public class Main {
 			System.out.println("\n" + "Main [-prsdir <prs-directory>]" + "\n");
 			return;
 		}
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		JDialog.setDefaultLookAndFeelDecorated(true);
 		GUI.init(prs_directory);
 	}
 }

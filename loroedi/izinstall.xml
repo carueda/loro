@@ -22,7 +22,9 @@
     <resources>
 		<res id="Installer.image" src="doc/images/splash.jpg" />
         <res id="HTMLLicencePanel.licence" src="doc/LICENCIA.html"/>
-		<res id="shortcutSpec.xml" src="lib/izshortcut.xml"/>
+        <res id="HTMLLicencePanel.licence_eng" src="doc/COPYING.txt"/>
+		<res id="shortcutSpec.xml_spa" src="lib/resource/izshortcut_spa.xml"/>
+		<res id="shortcutSpec.xml_eng" src="lib/resource/izshortcut_eng.xml"/>
     </resources>
     
     <panels>

@@ -376,12 +376,9 @@ public final class Util
 	private static String currentDirectoryPath = null;
 
 	////////////////////////////////////////////////////////////////////////////
-	private static void _managePreference()
-	{
-		if ( currentDirectoryPath == null )
-		{
+	private static void _managePreference() {
+		if ( currentDirectoryPath == null ) {
 			currentDirectoryPath = System.getProperty("user.home");
-			//currentDirectoryPath = Preferencias.obtPreferencia(Preferencias.PRS_DIR);
 		}
 	}
 
