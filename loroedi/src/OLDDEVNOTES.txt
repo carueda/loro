@@ -1,5 +1,5 @@
-LORO - NOTAS DE DESARROLLO
---------------------------
+LORO - VIEJAS NOTAS DE DESARROLLO
+Cuando el nucleo y la GUI estaban unidos.
 
 /////////////////////////////////////////////////////////////////////////
 	2002-03-05
