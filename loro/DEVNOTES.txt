@@ -5,6 +5,7 @@ $Id$
 2004-07-12 Version 0.8pre7
 	- loro_es.jj: Nombres de tokens otra vez puestos en español puesto
 	  que estos son mostrados en mensajes de error!
+	- fixed: string "method" was missing
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-07-07 Version 0.8pre6
