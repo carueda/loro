@@ -3,64 +3,38 @@ Loro Project README
 Carlos A. Rueda
 $Id$
 
-El proyecto Loro se compone actualmente de los siguientes módulos:
-
+El proyecto Loro se compone de los siguientes módulos principales:
 	loro             Núcleo del lenguaje
 	loroedi          Entorno Integrado
-	nanoinstaller    Creador simple del instalador utilizado por LoroEDI
-	simpledi         VIEJO entorno de desarrollo (no requerido)
-
-Directorio de elementos "generados"
+	
+Directorio de elementos "generados":
 	Los diferentes build.properties definen la propiedad 'generated.dir' 
 	para designar el directorio ../_GENERATED/ (relativo a la ubicación
 	de este README.txt)	como base para poner todos los archivos generados.
 	
-	NOTA: Hay una excepción: el compilador del nanoInstaller, nic.jar, se 
-	crea directamente en el directorio lib/ .
-	
 Directorio lib/
-	El directorio lib/ contiene los archivos foráneos (salvo nic.jar) de
+	El directorio lib/ contiene los archivos foráneos de
 	los cuales depende el proyecto Loro. Actualmente:
-		nic.jar
+		nic.jar (no mas requerido, ver mas abajo)
 		bsh-core-1.2b6.jar
 		jgraph.jar
 		kunststoff.jar
 		skinlf.jar	
 
-Compilación completa del proyecto
-	Realizar en orden los siguientes pasos para contruir el sistema completo:
-	(pendiente un build.xml maestro para esto)
-	
-	Núcleo:
-		$ cd loro     # el núcleo propiamente
-		$ ant         # genera el .jar del núcleo. Ver build.properties
-		$ ant ext     # crea las extensiones .lar
-		$ ant test    # hace pruebas
-		$ cd ..       # listo
+Sobre compilación completa del proyecto y otras notas, consultar
+los respectivos README.txt bajo los subdirectorios loro/ y loroedi/
 
-	nanoInstaller:
-		No es necesario hacer nada pues ya se tiene lib/nic.jar, utilizado por
-		el entorno integrado para hacer el instalador. Por supuesto, si se hacen
-		cambios a los fuentes del nanoInstaller, entonces los pasos serían:
+Componentes viejos
+	Los siguientes son modulos viejos utilizados anteriormente pero que
+	ya no son requeridos.
+	
+	nanoinstaller - Creador simple del instalador utilizado por LoroEDI
+		Compilacion:
 		$ cd nanoinstaller/src
 		$ ant          # genera nic.jar
-		$ cd ../..     # listo
-		
-	Entorno integrado:
-		$ cd loroedi
-		$ ant              # genera el loroedi.jar. Ver build.properties
-		$ ant test         # inicia pruebas
-		$ ant test2        # continúa pruebas
-		$ ant test2        # repetir hasta que haya exito o realmente haya problemas :-}
-		                   # (Algunos fuentes tienen dependencias mutuas y por eso
-						   # se requieren varias pasadas para la compilación completa.
-						   # Está pendiente hacer compilación bajo el esquema de proyectos.)
-		$ ant instalador   # crea el instalador para el usuario final
-		$ cd ..            # listo		
-		
-	VIEJO Entorno integrado:
-		NO es requerido.
+	simpledi - Viejo entorno de desarrollo
+		Compilacion:
 		$ cd simpledi
 		$ ant              # genera el simpledi.jar. Ver README.txt.
-
+		
 
