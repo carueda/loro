@@ -2496,11 +2496,20 @@ public class Chequeador extends ChequeadorBase
 		}
 		else
 		{
+			// 2003-03-09
+			// permitimos que se trate de un algoritmo:
+			NAlgoritmo alg = _obtAlgoritmoParaNombre(nom);
+			if ( alg != null )
+			{
+				n.ponTipo(Tipo.especificacion(alg.obtNombreEspecificacion()));
+				return;
+			}
+			
 			NClase clase = _obtClaseParaNombre(nom);
 			if ( clase != null )
 			{
 				throw new ChequeadorException(n,
-					"Intento de usar clase '" +nom.obtCadena()+ "' como una valor"
+					"No se puede usar clase '" +nom.obtCadena()+ "' como un valor"
 				);
 			}
 			

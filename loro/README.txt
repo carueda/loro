@@ -35,6 +35,27 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2003-03-09 Version 0.7.8
+
+	- Chequeador.visitar(NNombre):
+		- Ahora permite que el nombre sea el de un algoritmo utilizado 
+		como un valor. Antes se generaba error estilo: "No se puede
+		usar posible unidad..."
+	  
+	  	- Cambio menor en el mensaje de error cuando se trata de usar
+		  una clase como un valor.
+		  
+	- Nuevo servicio Tipos.esReferencia(Tipo t) para indicar tipos cuyas 
+	  variables admiten el valor nulo. Esto permite controlar los valores
+	  de retorno al invocar  algoritmos implementados en otros lenguajes 
+	  (LoroEjecutor.visitar(NAlgoritmo)) y poder decidir si se admite
+	  o no un retorno nulo, que es el caso cuando la variable de salida es de
+	  un tipo referencia.  La implementacion de Tipos.esReferencia(t) retorna
+	  ahora lo mismo que t.obtValorDefecto() == null. 
+	  Lo anterior corrige bug 698059. 
+
+	
+////////////////////////////////////////////////////////////////////////////
 2003-02-15 Version 0.7.7  (final)
 
 Sobre nuevo código de implementación "usr"
