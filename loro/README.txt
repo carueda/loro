@@ -26,6 +26,13 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-16 Version 0.7.91
+
+	- LAlgoritmoImp.ejecutar():  Ajustes en proceso para definir nueva
+	  ejecución sobre un nuevo objeto/hilo correspondiente.
+	  PENDIENTE: revisión general.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-04-15 Version 0.7.91
 
 	- LoroEjecutor.ejecutarAlgoritmoBsh ahora enlaza tambien la variable

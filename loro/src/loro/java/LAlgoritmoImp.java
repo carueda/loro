@@ -30,7 +30,27 @@ public class LAlgoritmoImp implements LAlgoritmo
 	{
 		try
 		{
-			return ejecutor.ejecutarAlgoritmo(alg, args);
+//
+// PROVISIONAL   2003-04-16
+//
+// La ejecución por este medio debe lanzarse en un NUEVO objeto
+// de ejecución.
+//
+// Provisionalmente se hace un poco a "fuerza bruta".
+// PENDIENTE definir mejor diseño para esto.
+//
+			
+			loro.IEjecutor exe = loro.Loro.crearEjecutorTerminableExternamente();
+			loro.ejecucion.ManejadorEntradaSalida mes = (loro.ejecucion.ManejadorEntradaSalida)
+				ejecutor.obtManejadorEntradaSalida();
+			exe.ponEntradaEstandar(mes.obtEntradaEstandar());
+			exe.ponSalidaEstandar(mes.obtSalidaEstandar());
+			Object ret = exe.ejecutarAlgoritmo(alg, args);
+			return ret;
+
+
+// codigo anterior: ejecución sobre el mismo ejecutor:
+			//return ejecutor.ejecutarAlgoritmo(alg, args);
 		}
 		catch(EjecucionException ex)
 		{
