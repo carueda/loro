@@ -129,6 +129,7 @@ implements ActionListener, JTermListener
 		);
 		javax.swing.JButton but;
 		butCerrar = but = new javax.swing.JButton("Cerrar");
+		butCerrar.setMnemonic(KeyEvent.VK_C);
 		but.setActionCommand("close");
 		but.setToolTipText("Cierra esta ventana");
 		but.setEnabled(false);
@@ -137,6 +138,7 @@ implements ActionListener, JTermListener
 		
 		pan.add(new javax.swing.JLabel("        "));
 		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
+		butTerminar.setMnemonic(KeyEvent.VK_T);
 		but.setActionCommand("terminate");
 		but.setToolTipText("Termina abruptamente la ejecución en curso");
 		but.addActionListener(this);

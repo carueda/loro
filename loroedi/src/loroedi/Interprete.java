@@ -246,11 +246,13 @@ implements ActionListener
 		);
 		javax.swing.JButton but;
 		butCerrar = but = new javax.swing.JButton("Cerrar");
+		butCerrar.setMnemonic(KeyEvent.VK_C);
 		butCerrar.setToolTipText("Cierra esta ventana");
 		but.addActionListener(ii);
 		pan.add(but);
 		pan.add(new javax.swing.JLabel("        "));
 		butTerminar = but = new javax.swing.JButton("Terminar ejecución");
+		butTerminar.setMnemonic(KeyEvent.VK_T);
 		butTerminar.setToolTipText("Termina abruptamente la ejecución en curso");
 		but.addActionListener(ii);
 		butTerminar.setEnabled(false);
