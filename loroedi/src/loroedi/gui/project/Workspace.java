@@ -160,9 +160,9 @@ public final class Workspace
 		if ( dir.isDirectory() )
 		{
 			IProjectModel prjm = _loadProjectModelDirectory(name);
-			name_prj.put(name.toLowerCase(), prjm);
 			if ( !existsProjectModel(name) )
 				prjnames.add(name);
+			name_prj.put(name.toLowerCase(), prjm);
 		}
 		else
 		{
