@@ -2,6 +2,11 @@ Loro DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-07-12 Version 0.8pre7
+	- loro_es.jj: Nombres de tokens otra vez puestos en español puesto
+	  que estos son mostrados en mensajes de error!
+	
+////////////////////////////////////////////////////////////////////////////
 2004-07-07 Version 0.8pre6
 	- new loro::replaceChar (src/ext_en)
 	
@@ -9,7 +14,7 @@ $Id$
 2004-07-06 Version 0.8pre5
 	- strings for special operations on arrays: length, inf, sup
 	- ILanguageInfo now provides information about automatic package name
-	  and names of basic units. In particular, ``loroI::sistema'' continue
+	  and names of basic units. In particular, ``loroI::sistema'' continues
 	  to be the automatic package under the "es" locale, while ``loro''
 	  for the "en" locale.
 	- Algorithms implemented in other languages can now be described as well.

@@ -13,6 +13,10 @@ COMPILACIÓN: Ver build.xml.
 
 ACTUALIZACIONES:
 
+		2004-07-12
+		- loro_es.jj: Nombres de tokens otra vez puestos en español puesto
+		  que estos son mostrados en mensajes de error!
+		  
 		2004-07-06
 		- algoritmos implementados en cualquier lenguaje pueden
 		  describirse.
