@@ -219,6 +219,12 @@ class ConstructorArbol
 		return new NEquivalencia(e, f);
 	}
 
+	//////////////////////////////////////////////////////////////////
+	static NEste crearNEste(Token t)
+	{
+		Rango rango = obtRango(t, t);
+		return new NEste(rango);
+	}
 
 	//////////////////////////////////////////////////////////////////
 	static NFuente crearNFuente(NPaquete paquete, NUtiliza[] autz, Nodo[] n)

@@ -164,7 +164,8 @@ public class NAlgoritmo extends NUnidad implements IUnidad.IAlgoritmo
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer(
-			"algoritmo " +obtNombreCompletoCadena()+ "("
+			(clase == null ? "algoritmo " : "método " +clase.obtNombreCompletoCadena()+ ".") 
+			+obtNombreCompletoCadena()+ "("
 		);
 		for ( int i = 0; i < pent.length; i++ )
 		{
@@ -318,4 +319,12 @@ public class NAlgoritmo extends NUnidad implements IUnidad.IAlgoritmo
 		return clase;
 	}
 
+	////////////////////////////////////////////////////////////////////
+	/**
+	 * Si soy método, retorno el fuente asociado a mi clase.
+	 */
+	public String obtNombreFuente()
+	{
+		return clase == null ? super.obtNombreFuente() : clase.obtNombreFuente();
+	}
 }

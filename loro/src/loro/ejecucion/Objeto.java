@@ -3,13 +3,15 @@ package loro.ejecucion;
 import loro.ijava.*;
 import loro.java.LClaseImp;
 import loro.arbol.NClase;
-
-import java.util.Hashtable;
-import java.util.Enumeration;
+import loro.util.ManejadorUnidades;
+import loro.compilacion.ClaseNoEncontradaException;
 
 import loro.arbol.NInterface;
 import loro.arbol.NAlgoritmo;
 import loro.tipo.TipoInterface;
+
+import java.util.Hashtable;
+import java.util.Enumeration;
 
 //////////////////////////////////////////////////////////
 /**
@@ -114,14 +116,29 @@ public class Objeto implements LObjeto
 	public Object obtMetodo(String nom)
 	throws LException
 	{
-		NAlgoritmo[] mets = clase.obtMetodosDeclarados();
-		for (int i = 0; i < mets.length; i++)
+		NClase klase = clase;
+		ManejadorUnidades mu = ManejadorUnidades.obtManejadorUnidades();
+		
+		// ciclo para mirar superclase si es necesario:
+		try
 		{
-			NAlgoritmo met = mets[i];
-			if ( met.obtNombreCompletoCadena().equals(nom) )
+			while ( klase != null )
 			{
-				return met;
+				NAlgoritmo[] mets = klase.obtMetodosDeclarados();
+				for (int i = 0; i < mets.length; i++)
+				{
+					NAlgoritmo met = mets[i];
+					if ( met.obtNombreCompletoCadena().equals(nom) )
+					{
+						return met;
+					}
+				}
+				klase = mu.obtSuperClase(klase);
 			}
+		}
+		catch(ClaseNoEncontradaException ex)
+		{
+			throw new LException(ex.getMessage());
 		}
 		
 		return null;

@@ -591,6 +591,9 @@ public class LoroEjecutor extends LoroEjecutorBase
 	public void visitar(NAlgoritmo alg)
 	throws VisitanteException
 	{
+		// por si se trata de método.
+		NClase clase = null;
+		
 		try
 		{
 			if ( argsParaAlgoritmo == null )
@@ -603,7 +606,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 
 			_pushAlgoritmo(alg);
 			String sespec = Util.obtStringRuta(alg.obtNombreEspecificacion());
-			NEspecificacion espec;
+			NEspecificacion espec = null;
 			if ( objInvocado == null )
 			{
 				espec = mu.obtEspecificacion(sespec);
@@ -611,22 +614,65 @@ public class LoroEjecutor extends LoroEjecutorBase
 			else
 			{
 				//
-				// Pendiente para cuando se complemente manejo de métodos.
+				// PENDIENTE: Implementación incompleta!
 				//
 				
+				String nombreMetodo = alg.obtNombreSimpleCadena();
+				clase = objInvocado.obtNClase();
+				
+				NClase klase = clase;
+				// ciclo para mirar superclase si es necesario:
+				try
+				{
+search:
+					while ( klase != null )
+					{
+						TNombre[] interfs = klase.obtInterfacesDeclaradas();
+						for ( int i = 0; i < interfs.length; i++ )
+						{
+							NInterface ni = mu.obtInterface(interfs[i].obtCadena());
+							if ( ni == null )
+							{
+								throw _crearEjecucionException(alg,
+									"No encontrada la interface " +interfs[i].obtCadena()
+								);
+							}
+							NEspecificacion[] opers = ni.obtOperacionesDeclaradas();
+							for ( int j = 0; j < opers.length; j++ )
+							{
+								NEspecificacion oper = opers[j];
+								String id = oper.obtNombreSimpleCadena();
+								if ( nombreMetodo.equals(id) )
+								{
+									espec = oper;
+									break search;
+								}
+							}
+						}
+						klase = mu.obtSuperClase(klase);
+					}
+				}
+				catch(ClaseNoEncontradaException ex)
+				{
+					throw _crearEjecucionException(alg,
+						"No encontrado '" +ex.obtNombre()+ "' en invocación de método"
+					);
+				}
+			}
+			
+			if ( espec == null )
+			{
 				throw _crearEjecucionException(alg,
-					"INVOCACION DE METODO NO IMPLEMENTADO EN ESTA VERSION"
+					"No encontrada la especificación"
 				);
-				
-				/*
-				NClase clase = objInvocado.obtNClase();
-				String[] nom_espec = alg.obtNombreEspecificacion();
-				sespec = Util.obtStringRuta(nom_espec);
-				espec = mu.obtEspecificacion(sespec);
+			}
 
-				NAlgoritmo[] mets = clase.obtMetodosDeclarados()				;
-				
+			if ( clase != null )
+			{
+				// Se trata de método.
+			
 				List decl_atrs = null;
+				
 				try
 				{
 					decl_atrs = _obtDeclaracionesAtributos(clase);
@@ -634,11 +680,20 @@ public class LoroEjecutor extends LoroEjecutorBase
 				catch(ClaseNoEncontradaException ex)
 				{
 					throw _crearEjecucionException(alg,
-						"No encontrado '" +ex.getMessage()+ "' en invocacion de metodo"
+						"No encontrado '" +ex.obtNombre()+ "' en invocación de método"
 					);
 				}
-				*/
-				
+		
+				for ( Iterator it = decl_atrs.iterator(); it.hasNext(); )
+				{
+					NDeclDesc d = (NDeclDesc) it.next();
+					TId d_id = d.obtId();
+					String atr = d_id.obtId();
+					Object val = _obtValorDeObjeto(objInvocado, atr, alg);
+					EntradaTabla et = new EntradaTabla(atr, d.obtTipo());
+					et.ponValor(val);
+					_insertarEnTablaSimbolos(et, d_id);
+				}
 			}
 			
 
@@ -1023,8 +1078,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 		NClase clase = n.obtClase();
 		_pushClase(clase);
 
+		// Cree objeto a retornar y actualice "éste":
+		Objeto obj = new Objeto(clase);
+		este = obj;
+
 		List decl_atrs = null;
-		
 		try
 		{
 			decl_atrs = _obtDeclaracionesAtributos(clase);
@@ -1055,7 +1113,11 @@ public class LoroEjecutor extends LoroEjecutorBase
 					val = d_tipo.obtValorDefecto();
 				}
 				TId d_id = d.obtId();
-				EntradaTabla et = new EntradaTabla(d_id.obtId(), d_tipo);
+				String atr = d_id.obtId();
+				
+				_ponValorAObjeto(obj, atr, val, n);
+			
+				EntradaTabla et = new EntradaTabla(atr, d_tipo);
 				et.ponValor(val);
 				_insertarEnTablaSimbolos(et, d_id);
 			}
@@ -1082,17 +1144,6 @@ public class LoroEjecutor extends LoroEjecutorBase
 		catch (loro.compilacion.ChequeadorException ex)
 		{
 			throw new RuntimeException("Imposible: " +ex);
-		}
-
-		// Arme objeto con los valores asociados en la
-		// tabla de simbolos:
-		Objeto obj = new Objeto(clase);
-		for ( Iterator it = decl_atrs.iterator(); it.hasNext(); )
-		{
-			NDeclDesc d = (NDeclDesc) it.next();
-			String atr = d.obtId().obtId();
-			Object val = tabSimb.obtValor(atr);
-			_ponValorAObjeto(obj, atr, val, n);
 		}
 
 		_pop();
@@ -1556,6 +1607,17 @@ public class LoroEjecutor extends LoroEjecutorBase
 			"Uy! Ejecutor.visitar(NEspecificacion) llamado"
 		);
 	}
+
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * Ejecuta una expresión "éste".
+	 */
+	public void visitar(NEste n)
+	throws VisitanteException
+	{
+		retorno = este;
+	}
+
 	/**
 	 * Por cumplir con la implementación.  NO se usa.
 	 */
@@ -1799,10 +1861,14 @@ public class LoroEjecutor extends LoroEjecutorBase
 				);
 			}
 
+			Objeto save_este = este;
+			
 			argsParaAlgoritmo = a;
 
 			// todo listo para ejecutar el algoritmo:
 			alg.aceptar(this);
+			
+			este = save_este;
 		}
 		else if ( invoc instanceof LAlgoritmo )
 		{
@@ -2519,33 +2585,15 @@ public class LoroEjecutor extends LoroEjecutorBase
 		{
 			Objeto obj = (Objeto)o;
 			
-//			PENDIENTE
-//			=========
-//			Si enInvocacion == true, tenemos aquí una situación de ambiguedad:
-//				- se trata de un método como tal?, o
-//				- se trata de un campo que tiene tipo algoritmo?
-//			Esto está por resoverse para cuando se incluya completamente el
-//			mecanismo de métodos. 
-//			Este es el código que se tenía (a medias) previamente:
-//			
-//			if ( enInvocacion )
-//				retorno = _obtMetodoDeObjeto(obj, id.obtId(), e);
-//			else
-//				retorno = _obtValorDeObjeto(obj, id.obtId(), e);
-//
-//			El cual asume que se tratará de invocación de método.
-//			
-//			La solución actual es la siguiente: Siempre se intenta primero encontrar
-//			un campo del nombre correspondiente. Si este no existe y se está
-//			en invocación, entonces ahora sí se intenta encontrar un método
-//			de tal nombre:
-			
 			retorno = _obtValorDeObjeto(obj, id.obtId(), e);
 			if ( retorno == null && enInvocacion )
 			{
 				retorno = _obtMetodoDeObjeto(obj, id.obtId(), e);
 				if ( retorno != null )
+				{
 					objInvocado = obj;
+					este = obj;
+				}
 			}
 		}
 		else

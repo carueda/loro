@@ -636,6 +636,10 @@ public class Chequeador extends ChequeadorBase
 					tabSimb.ponAsignado(pent[i].obtId().obtId(), true);
 				}
 			}
+			
+			// volver a la marca inicial para deshacer declaraciones de
+			// atributos, tanto de superclases como de este misma clase:
+			tabSimb.irAMarca(marca_tabla);
 
 			// Chequear constructores:
 			for ( int i = 0; i < pcons.length; i++ )
@@ -665,6 +669,7 @@ public class Chequeador extends ChequeadorBase
 					);
 				}
 				*/
+				
 				metodos[i].aceptar(this);
 			}
 		}
@@ -694,19 +699,12 @@ public class Chequeador extends ChequeadorBase
 	///////////////////////////////////////////////////////////////////////
 	/**
 	 * Chequeo de la definicion de una interface.
-	 * Genera inmediatamente un error "No implementado aún".
+	 * NOTA: Implementación INCOMPLETA.
 	 */
 	public void visitar(NInterface n)
 	throws VisitanteException
 	{
 		TId id = n.obtId();
-
-		if ( true )
-		{
-			throw new ChequeadorException(id,
-				"Definición de interface no implementada aún: '" +id+ "'"
-			);
-		}
 
 		try
 		{
@@ -1772,6 +1770,23 @@ public class Chequeador extends ChequeadorBase
 			_agregarEspecificacion(n);
 			_guardarCompilado(n);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	/**
+	 * Chequea una expresión "éste".
+	 */
+	public void visitar(NEste n)
+	throws VisitanteException
+	{
+		if ( claseActual == null )
+		{
+			throw new ChequeadorException(n,
+				"Ubicacion invalida de 'éste'"
+			);
+		}
+
+		n.ponTipo(Tipo.clase(claseActual.obtNombreCompleto()));
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -2908,19 +2923,37 @@ public class Chequeador extends ChequeadorBase
 		}
 		else if ( e_tipo.esClase() )
 		{
-			TipoClase tipoClase = (TipoClase) e_tipo;
-			String[] nombre = tipoClase.obtNombreConPaquete();
-			String snombre = Util.obtStringRuta(nombre);
-			NClase clase = mu.obtClase(snombre);
+			NClase clase;
+			if ( e instanceof NEste )
+			{
+				clase = claseActual;
+			}
+			else
+			{
+				TipoClase tipoClase = (TipoClase) e_tipo;
+				String[] nombre = tipoClase.obtNombreConPaquete();
+				String snombre = Util.obtStringRuta(nombre);
+				clase = mu.obtClase(snombre);
+			}
 			
 			Tipo tipo = _obtTipoAtributo(n, clase, id.obtId());
 			if ( tipo == null )
 			{
+				if ( enInvocacion )
+				{
+					tipo = _obtTipoMetodo(n, clase, id.obtId());
+				}
+			}
+			
+			if ( tipo == null )
+			{
 				throw new ChequeadorException(
 					id,
-					"'" +e_tipo+ "' no tiene atributo '" +id+ "'"
+					"'" +e_tipo+ "' no tiene "
+					+(enInvocacion ? "método" : "atributo") + " '" +id+ "'"
 				);
 			}
+			
 			n.ponTipo(tipo);
 		}
 		// e puede ser un arreglo o cadena:
@@ -3363,18 +3396,11 @@ public class Chequeador extends ChequeadorBase
 	/////////////////////////////////////////////////////////////////////////
 	/**
 	 * Actualiza el tipo del nodo-tipo visitado.
+	 * NOTA: Implementación INCOMPLETA.
 	 */
 	public void visitar(NTipoInterface n)
 	throws VisitanteException
 	{
-		if ( true )
-		{
-			throw new ChequeadorException(
-				n,
-				"Tipo 'interface' no implementado aún."
-			);
-		}
-
 		TNombre nombre = n.obtTNombre();
 
 		NInterface interf = _obtInterfaceParaNombre(nombre);

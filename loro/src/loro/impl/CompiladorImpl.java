@@ -218,7 +218,9 @@ public class CompiladorImpl implements ICompilador
 			);
 		}
 		
-		if ( !(unidades[0] instanceof NClase) )
+		if ( !(unidades[0] instanceof NClase) 
+		&&   !(unidades[0] instanceof NInterface) )   // PROVISIONAL aqui NInterface
+		                                              // Luego habria compileInterface
 		{
 			IUnidad u2 = unidades[0];
 			Rango r = u2.obtRango();

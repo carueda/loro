@@ -153,13 +153,16 @@ public class Tipos
 			String nom_interf = (String) it.next();
 
 			NInterface interf = mu.obtInterface(nom_interf);
-			NEspecificacion[] opers = interf.obtOperacionesDeclaradas();
-			for ( int k = 0; k < opers.length; k++ )
+			if ( interf != null )
 			{
-				String test_id = opers[k].obtId().obtId();
-				if ( id.equals(test_id)  )
+				NEspecificacion[] opers = interf.obtOperacionesDeclaradas();
+				for ( int k = 0; k < opers.length; k++ )
 				{
-					return opers[k];
+					String test_id = opers[k].obtId().obtId();
+					if ( id.equals(test_id)  )
+					{
+						return opers[k];
+					}
 				}
 			}
 		}
@@ -190,6 +193,10 @@ public class Tipos
 
 		// recoja los nombres de las interfaces en donde buscar:
 		Set nom_interfs = mu.obtSuperInterfaces(interf);
+		if ( nom_interfs == null  )
+		{
+			nom_interfs = new HashSet();
+		}
 
 		// agregue el propio nombre de la interface dada
 		nom_interfs.add(ti.obtNombreCompletoString());

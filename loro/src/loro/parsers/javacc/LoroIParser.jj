@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2002-11-21
+// FECHA ULTIMA ACTUALIZACION   : 2002-11-27
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2002-11-27
+//		- Nueva producción e_este()
 //
 //		2002-11-21
 //		- Nuevas palabras reservadas y sintaxis correspondiente para:
@@ -1845,6 +1848,8 @@ NExpresion e_prefijoPrimaria() :
 	(
 		e=e_const()
 	  |
+	  	e=e_este()
+	  |
 	    ti="[" e=expresion()     { list.add(e); }
 		    ( 
 			   LOOKAHEAD(2)         // for comma
@@ -1955,6 +1960,19 @@ NExpresion e_const() :
 	)
 	{
 		return e;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+NEste e_este() :
+{
+	Token t;
+}
+{
+	t=<ESTE>
+	{
+		return ConstructorArbol.crearNEste(t);
 	}
 }
 

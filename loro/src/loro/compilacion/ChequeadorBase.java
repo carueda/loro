@@ -418,10 +418,19 @@ abstract class ChequeadorBase implements IVisitante
 			
 			if ( tipo instanceof TipoClase )
 			{
-				TipoClase tc = (TipoClase) tipo;
-				String[] nombre = tc.obtNombreConPaquete();
-				String snombre = Util.obtStringRuta(nombre);
-				NClase clase = mu.obtClase(snombre);
+				NClase clase;
+				if ( e instanceof NEste )
+				{
+					NEste este = (NEste) e;
+					clase = claseActual;
+				}
+				else
+				{
+					TipoClase tc = (TipoClase) tipo;
+					String[] nombre = tc.obtNombreConPaquete();
+					String snombre = Util.obtStringRuta(nombre);
+					clase = mu.obtClase(snombre);
+				}
 				
 				return clase.esAtributoConstante(id.obtId());
 			}
@@ -911,6 +920,38 @@ abstract class ChequeadorBase implements IVisitante
 
 		return null;
 	}
+
+	////////////////////////////////////////////////////////////////
+	protected Tipo _obtTipoMetodo(Nodo n, NClase clase, String nombreMetodo)
+	throws ChequeadorException
+	{
+		// ciclo para mirar superclase si es necesario:
+		while ( clase != null )
+		{
+			TNombre[] interfs = clase.obtInterfacesDeclaradas();
+			for ( int i = 0; i < interfs.length; i++ )
+			{
+				NInterface ni = mu.obtInterface(interfs[i].obtCadena());
+				NEspecificacion[] opers = ni.obtOperacionesDeclaradas();
+				for ( int j = 0; j < opers.length; j++ )
+				{
+					NEspecificacion oper = opers[j];
+					String id = oper.obtNombreSimpleCadena();
+					if ( nombreMetodo.equals(id) )
+					{
+						TipoInterface ti = Tipo.interface_(ni.obtNombreCompleto());
+						return Tipo.especificacion(ti, id);
+					}
+				}
+			}
+
+			clase = _obtSuperClase(n, clase);
+		}		
+		
+		return null;
+	}
+
+
 	////////////////////////////////////////////////////////////////
 	protected void _operadorBinNoDefinido(IUbicable u, String op, Tipo et, Tipo ft)
 	throws VisitanteException

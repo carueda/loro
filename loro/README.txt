@@ -27,6 +27,27 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2002-11-27 Version 0.7.7
+
+Algunos avances en manejo de métodos, pero aún incompleto.
+
+	- Manejo de "éste" como expresión.  Ver LoroIParser.jj.
+	- Nuevo nodo NEste.
+	- Actualizados varios fuentes (visitantes, ConstructorArbol, ...)
+	- NAlgoritmo fue modificado, así que deja de haber compatibidad binaria.
+	
+	- Ahora todo acceso a los atributos de una clase se debe hacer a través
+	  de "éste", tanto en constructores como en métodos. Anteriormente las
+	  declaraciones de los atributos seguían vigentes durante las visita
+	  tanto a contructores como a métodos. Un efecto de esto es que ahora
+	  es posible declarar parámetros repitiendo nombres de atributos.
+	  Este cambio parece interesante por disciplina para enseñanza pero
+	  hay que someterlo a más consideración.
+	  
+	- Siguen más pruebas para decidir hasta donde dejar este manejo para
+	  una primera versión aunque no completa.  
+	  
+////////////////////////////////////////////////////////////////////////////
 2002-11-21 Version 0.7.6
 
 Nuevo manejo de excepciones

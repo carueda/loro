@@ -372,6 +372,16 @@ public class VisitanteProfundidad implements IVisitante
 		if ( n.obtPoscondicion() != null )
 			n.obtPoscondicion().aceptar(this);
 	}
+
+	/**
+	 * Visita una expresión "éste".
+	 */
+	public void visitar(NEste n)
+	throws VisitanteException
+	{
+		// nada
+	}
+
 	/**
 	 * Visita un fuente de compilación.
 	 */

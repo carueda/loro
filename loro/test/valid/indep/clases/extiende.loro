@@ -6,16 +6,16 @@ clase X
 	x1: entero := 1 : "Atributo x1";
 	x2: entero := 2 : "Atributo x2";
 
-	constructor(x1_, x2_:entero)
+	constructor(x1, x2:entero)
 		descripcion ""
 			entrada 
-				x1_: "Valor para x1";
-				x2_: "Valor para x2";
+				x1: "Valor para x1";
+				x2: "Valor para x2";
 			pre { cierto }
 		estrategia ""
 	inicio
-		x1 := x1_;
-		x2 := x2_;
+		este.x1 := x1;
+		este.x2 := x2;
 	fin constructor
 fin clase
 
@@ -24,21 +24,21 @@ clase Y extiende X
 	descripción "clase Y"
 
 	y1: entero := x1 + 1000 : "Atributo y1";
-
-	constructor(x1_, x2_, y1_:entero)
+/*
+	constructor(x1, x2, y1: entero)
 		descripcion ""
 			entrada
-				x1_: "Valor para x1";
-				x2_: "Valor para x2";
-				y1_: "Valor para y1";
+				x1: "Valor para x1";
+				x2: "Valor para x2";
+				y1: "Valor para y1";
 			pre { cierto }
 		estrategia ""
 	inicio
-		x1 := x1_;
-		x2 := x2_;
-		y1 := y1_;
+		este.x1 := x1;
+		este.x2 := x2;
+		este.y1 := y1;
 	fin constructor
-
+*/
 fin clase
 
 ///////////////////////////////////////////////////////////////
@@ -89,9 +89,9 @@ algoritmo test_extiende para PRUEBA()
 estrategia "."
 inicio
 	x: X;
-	x := crear Y(10,20,30);
+	x := crear Y;//(10,20,30);
 	
-	y: Y := crear Y(10,20,30);
+	y: Y := crear Y;//(10,20,30);
 
 	verX(x);
 	verX(y);

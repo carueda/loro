@@ -12,16 +12,16 @@ clase X
 	inicio
 	fin constructor
 
-	constructor(x1_, x2_:entero)
+	constructor(x1, x2: entero)
 		descripcion ""
 			entrada 
-				x1_: "Valor para x1";
-				x2_: "Valor para x2";
+				x1: "Valor para x1";
+				x2: "Valor para x2";
 			pre { cierto }
 		estrategia ""
 	inicio
-		x1 := x1_;
-		x2 := x2_;
+		este.x1 := x1;
+		este.x2 := x2;
 	fin constructor
 fin clase
 

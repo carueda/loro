@@ -39,6 +39,9 @@ abstract class LoroEjecutorBase implements LAmbiente, IVisitante
 	/** Objeto al que se le acaba de invocar un método. */
 	protected Objeto objInvocado;
 		
+	/** Objeto asociado a la expresión "éste" */
+	protected Objeto este;
+		
 	/** Argumentos para ejecucion de una algoritmo. */
 	protected Object[] argsParaAlgoritmo;
 

@@ -12,7 +12,7 @@ clase Baz
 	estrategia ""
 	inicio
 		escribirln("constructor(nn: entero)");
-		n := nn;
+		este.n := nn;
 	fin constructor
 
 	///////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ clase Baz
 	estrategia ""
 	inicio
 		escribirln("constructor(nn: real)");
-		n := nn como entero;
+		este.n := nn como entero;
 	fin constructor
 
 fin clase // Baz
