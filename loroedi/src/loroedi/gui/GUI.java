@@ -911,6 +911,10 @@ public class GUI
 		String version = info.getVersion();
 		String description = info.getDescription();
 		String pkgDoc = _getPackagesDoc(model);
+		
+		// process inline tags in description:
+		description = loro.util.Util.processInlineTags(description, null);
+		
 		try
 		{
 			String dir = Configuracion.getProperty(Configuracion.DIR);

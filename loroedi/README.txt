@@ -64,6 +64,13 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-03-14 (0.8pre9)
+
+	- Incluido procesamiento de inline tags @{...} en descripción
+	  de proyectos para la generación de HTML. Ver:
+		  GUI._saveProjectDoc()
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-03-13 (0.8pre9)
 
 	- Bug corregido: Al compilar proyecto sin demo se podría generar un
