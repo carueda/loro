@@ -61,7 +61,7 @@ implements ActionListener
 	 * @param hello Message to start with. Can be null.
 	 * @param newSymTab See Loro.crearInterprete
 	 */
-	public InterpreterWindow(String title, String hello, boolean newSymTab)
+	public InterpreterWindow(String title, String hello, boolean newSymTab, boolean ejecutorpp)
 	{
 		super();
 
@@ -76,7 +76,20 @@ implements ActionListener
 		pw = new PrintWriter(term.getWriter());
 		br = new BufferedReader(term.getReader());
 
-		loroii = Loro.crearInterprete(br, pw, newSymTab);
+		IObservadorPP obspp = null;
+		if ( ejecutorpp )
+		{
+			obspp = new loro.IObservadorPP() 
+			{
+				public int ver(loro.arbol.IUbicable u)
+				{
+					System.out.println("u = " +u);
+					return 0;
+				}
+			};
+		}
+		
+		loroii = Loro.crearInterprete(br, pw, newSymTab, obspp);
 
 		if ( hello != null )
 		{
@@ -234,8 +247,8 @@ implements ActionListener
 			butTerminar.setEnabled(false);
 			if ( loroii.isTraceable() )
 			{
-				butStep.setEnabled(true);
-				butResume.setEnabled(true);
+				butStep.setEnabled(false);
+				butResume.setEnabled(false);
 			}
 			GUI.updateSymbolTable();
 		}

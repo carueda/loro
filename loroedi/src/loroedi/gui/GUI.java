@@ -1395,7 +1395,7 @@ public class GUI
 
 		try
 		{
-			IInterprete ii = Loro.crearInterprete(null, null, true);
+			IInterprete ii = Loro.crearInterprete(null, null, true, null);
 			ii.compilar(src);
 			prj_msg.print(" Bien!");
 			if ( editor != null )
@@ -1677,7 +1677,8 @@ public class GUI
 						"Probando proyecto " +focusedProject.getModel().getInfo().getName(),
 						"Invocando algoritmo" +(cmds.size() > 0 ? "s" : "")+ " de prueba.\n",
 						cmds,
-						false    // newSymTab
+						false,    // newSymTab
+						false     // ejecutorpp
 					);
 				}
 				else if ( total_algs > 0 )
@@ -1845,7 +1846,8 @@ public class GUI
 					"Ejecución demo '" +model.getInfo().getName()+ "'",
 					null,
 					cmds,
-					true     // newSymTab
+					true,     // newSymTab
+					true      // ejecutorpp
 				);
 			}
 		};
@@ -1862,7 +1864,7 @@ public class GUI
 		IUnidad u = alg.getIUnidad();
 		if ( u != null )
 		{	
-			workspace.executeAlgorithm(alg, null);
+			workspace.executeAlgorithm(alg, null, true);
 		}
 		else
 		{
@@ -1957,7 +1959,8 @@ public class GUI
 				"Probando " +tested_alg.getIUnidad(),
 				null,
 				cmds,
-				false    // newSymTab
+				false,    // newSymTab
+				false     // ejecutorpp
 			);
 		}
 	}

@@ -1355,7 +1355,7 @@ public final class Workspace
 	/**
 	 * Ejecuta una unidad.
 	 */
-	public void executeAlgorithm(final AlgorithmUnit alg, Object[] args)
+	public void executeAlgorithm(final AlgorithmUnit alg, Object[] args, boolean ejecutorpp)
 	{
 		IUnidad u = alg.getIUnidad();
 		if ( u == null )
@@ -1378,7 +1378,7 @@ public final class Workspace
 //		ha.start();
 	
 		InterpreterWindow iw = 
-			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false)
+			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp)
 		{
 			public void body()
 			throws Exception
@@ -1439,9 +1439,9 @@ public final class Workspace
 	 * @param cmds Commands to execute.
 	 * @param newSymTab See InterpreterWindow
 	 */
-	public void executeCommands(String title, String hello, final List cmds, boolean newSymTab)
+	public void executeCommands(String title, String hello, final List cmds, boolean newSymTab, boolean ejecutorpp)
 	{
-		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab)
+		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp)
 		{
 			public void body()
 			throws Exception

@@ -46,14 +46,14 @@ implements ActionListener
 	////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Muestra la ventana del Interprete. Debe llamarse despues de haber
-	 * invocado crearInterprete(LoroIParser).
+	 * invocado crearInterprete().
 	 */
 	public static void mostrarInterprete()
 	{
 		if ( ii == null )
 		{
 			throw new IllegalStateException(
-				"Aun no se ha llamado a crearInterprete(LoroIParser parser)!"
+				"Aun no se ha llamado a crearInterprete()!"
 			);
 		}
 
@@ -212,7 +212,7 @@ implements ActionListener
 		pw = new PrintWriter(term.getWriter());
 		br = new BufferedReader(term.getReader());
 
-		loroii = Loro.crearInterprete(br, pw, false);
+		loroii = Loro.crearInterprete(br, pw, false, null);
 
 		term.setPrefix(PREFIX_SPECIAL);
 		pw.print(

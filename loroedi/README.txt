@@ -64,6 +64,12 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-02-04 (0.8pre8)
+
+	- Manejo de IObservadorPP según adición en el núcleo.
+	  En proceso de complemento...
+	  
+////////////////////////////////////////////////////////////////////////////
 2002-12-05 (0.8pre8)
 
 	- InterpreterWindow: Nuevos comandos para ejecución dependiendo de si 
