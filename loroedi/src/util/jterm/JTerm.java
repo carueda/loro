@@ -71,16 +71,6 @@ public class JTerm
 	/** Is history being navigated currently? */
 	protected boolean inHistory;
 
-
-	/**
-	 * Is a simple (eg. no history) read to be done?
-	 * Not yet implemented. This flag is to be updated somehow
-	 * by the jshell, i.e., set to false when jshell is about to
-	 * read a new command, and set to false to start a command.
-	 */
-	private boolean simpleRead;
-
-
 	/** The reader associated with this jterm. */
 	private JTermReader jtreader;
 
@@ -243,24 +233,21 @@ public class JTerm
 		if ( pos < t.length() )
 			new_cmd = t.substring(pos);
 
-		if ( !simpleRead )
-		{
-			inHistory = false;
+		inHistory = false;
 
-			// Add new_cmd to history as long as it is not empty
-			// and not equal to the last memorized:
-			if ( new_cmd.length() > 0 )
+		// Add new_cmd to history as long as it is not empty
+		// and not equal to the last memorized:
+		if ( new_cmd.length() > 0 )
+		{
+			if ( history.size() > 0 )
 			{
-				if ( history.size() > 0 )
-				{
-					t = (String) history.get(history.size() -1);
-					if ( !new_cmd.equals(t) )
-						history.add(new_cmd);
-				}
-				else
-				{
+				t = (String) history.get(history.size() -1);
+				if ( !new_cmd.equals(t) )
 					history.add(new_cmd);
-				}
+			}
+			else
+			{
+				history.add(new_cmd);
 			}
 		}
 
@@ -446,14 +433,7 @@ public class JTerm
 			enter = false;
 			reading = false;
 			textNotRead = "";
-			simpleRead = false;
 		}
-	}
-	
-	////////////////////////////////////////////////////////////////
-	void setSimpleRead(boolean simpleRead)
-	{
-		this.simpleRead = simpleRead;
 	}
 	
 	///////////////////////////////////////////////////
@@ -756,11 +736,6 @@ public class JTerm
 					case KeyEvent.VK_DOWN:
 						if ( !reading )
 							break;
-						if ( simpleRead )
-						{
-							e.consume();
-							break;
-						}
 						if ( e.getModifiers() != 0 )
 							break;
 						e.consume();
@@ -777,11 +752,6 @@ public class JTerm
 						break;
 
 					case KeyEvent.VK_HOME:
-						if ( simpleRead )
-						{
-							e.consume();
-							break;
-						}
 						if ( e.getModifiers() != 0 )
 							break;
 						if ( !reading )
