@@ -6,6 +6,7 @@ $Id$
 	- Continuing localizing strings.
 	- LoroEjecutor* ready.
 	- tabsimb/ ready.
+	- tipo/ ready.
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 Version 0.7.95

@@ -1,5 +1,7 @@
 package loro.tipo;
 
+import loro.Loro.Str;
+
 ///////////////////////////////////////////////////////////
 /**
  * Tipo real
@@ -50,7 +52,7 @@ class TipoReal extends TipoBasico
 	//////////////////////////////////////////////////////////////////////
 	public String toString()
 	{
-		return "real";
+		return Str.get("real");
 	}
 
 	/** Valor por defecto para un real Loro. */

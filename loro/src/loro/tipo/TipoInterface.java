@@ -2,27 +2,15 @@ package loro.tipo;
 
 import loro.util.Util;
 
-
 import loro.arbol.NEspecificacion;
 import loro.compilacion.ClaseNoEncontradaException;
 
 ///////////////////////////////////////////////////////////
 /**
  * El tipo central de Loro para objetos.
- *
- * 2002-05-24
  */
 public class TipoInterface extends TipoUnidad
 {
-	
-
-	
-
-
-
-	
-
-	
 	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Dice si a una variable de este tipo se le puede asignar un valor
@@ -63,13 +51,6 @@ public class TipoInterface extends TipoUnidad
 		return t.esCadena() || igual(t);
 	}
 	
-
-
-	
-
-	
-
-	
 	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Este tipo es igual al dado solo si:
@@ -93,14 +74,6 @@ public class TipoInterface extends TipoUnidad
 		return s.equals(ss);
 	}
 
-
-
-
-
-
-
-
-
 	//////////////////////////////////////////////////////////////////////
 	/**
 	 * Crea un tipo interface asociado al nombre dado.
@@ -111,8 +84,6 @@ public class TipoInterface extends TipoUnidad
 	{
 		super(nombre);
 	}
-
-
 
 	//////////////////////////////////////////////////////////
 	/**

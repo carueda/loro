@@ -141,7 +141,7 @@ public class Tipos
 			return e_tipo.igual(tipo);
 		}
 		else
-			throw new Error("Tipo.isInstanceOf: Imposible");
+			throw new Error("Internal error: Tipo.isInstanceOf");
 	}
 	
 	//////////////////////////////////////////////////////////
