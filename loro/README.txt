@@ -26,6 +26,40 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-02-15 Version 0.7.7
+
+Sobre nuevo código de implementación "usr"
+
+	- Gramática: Leve ajuste: Segunda cadena para "implementación" es 
+	  ahora opcional. Ver LoroIParser.jj
+	  Dependencias en LoroEjecutor y NAlgoritmo ajustadas.
+	  En particular el modo "usr" no requiere esta informacion adicional.
+	  
+	- Nuevo servicio UtilEjecucion._executeUsrAlgorithm() de apoyo a
+	  LoroEjecutor.ejecutarAlgoritmoUsr().
+	  Se trata de una primera versión de interacción con el usuario
+	  para notificarle que el algoritmo con indicación "usr" acaba de
+	  ser invocado. Se le muestran los valores reales de los argumentos
+	  y se le pide una expresión para asignar a la variable de salida
+	  (en caso que la haya). Esta expresión es evaluada con un
+	  intérprete que se crea para el efecto, el cual se inicializa con
+	  la tabla de símbolos vigente, es decir, con las correspondientes
+	  declaraciones tanto de las entradas como de la salida.
+	  Una posible complementación a este esquema es permitirle al usuario
+	  el acceso a las declaraciones del entorno global, es decir,
+	  las que se han hecho a través del intérprete interactivo. Esto
+	  podría hacerse a través de un objeto especial con atributos
+	  correspondientes a dichas declaraciones. El nombre de este
+	  objeto especial podría ser una palabra reservada cuyo uso se
+	  restringiría solamente a la ejecución de algoritmos "usr".
+	  (A propósito, 'global' se encuentra como palabra reservada 
+	  desde hace buen tiempo pero aún no se usa para nada).
+	  
+	  Aún no se define una API que le permita a un cliente tener
+	  algún control sobre la ejecución de algoritmos "usr".
+	  Se deja pendiente (no es prioritario).
+		
+////////////////////////////////////////////////////////////////////////////
 2003-02-14 Version 0.7.7
 
 	- PilaEjecucion.java: algo de limpieza de código.
@@ -40,7 +74,7 @@ NOTAS
 	  mostrándole cuál algoritmo (nombre) y con cuáles argumentos reales
 	  ha sido invocado y le pedirá que responda de acuerdo con el
 	  parámetro de salida. Un cliente gráfico (loroedi concretamente)
-	  deberá poder poder complementar esto para ofrecer una ventana
+	  deberá poder complementar esto para ofrecer una ventana
 	  nueva de diálogo que haga más claro el evento. Posiblemente se
 	  agregaría la posibilidad de hacer en general una sesión de
 	  interpretación interactiva para que el usuario puedar llevar

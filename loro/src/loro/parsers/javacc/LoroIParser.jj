@@ -6,7 +6,7 @@
 // DESCRIPCION                  : Especificación JavaCC de la gramática de Loro
 // AUTOR                        : Carlos Rueda
 // FECHA ORIGINAL               : 1998-01-28
-// FECHA ULTIMA ACTUALIZACION   : 2002-11-27
+// FECHA ULTIMA ACTUALIZACION   : 2003-02-15
 //
 // COMPILACIÓN
 //  con JavaCC Versión 2.1: Ver build.xml.
@@ -33,6 +33,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // ACTUALIZACIONES:
+//
+//		2003-02-15
+//		- Segunda cadena para "implementación" es ahora opcional:
+//			<IMPLEMENTACION> leng=timpl() [ lengAdic=timpl() ] [";"]
 //
 //		2002-11-27
 //		- Nueva producción e_este()
@@ -860,7 +864,7 @@ NAlgoritmo algoritmo() :
 		"inicio"
 			a=acciones()
 	  |
-		<IMPLEMENTACION> leng=timpl() lengAdic=timpl() [";"]
+		<IMPLEMENTACION> leng=timpl() [ lengAdic=timpl() ] [";"]
 	)
 	"fin" ( tf="algoritmo" | tf=<METODO> )
 	{

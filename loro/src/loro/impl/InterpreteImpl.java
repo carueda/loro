@@ -40,7 +40,7 @@ public class InterpreteImpl implements IInterprete
 
 	/////////////////////////////////////////////////////////////////////
 	/**
-	 * Crea un intérprete para acciones interactivas.
+	 * Crea un intérprete.
 	 *
 	 * @param r
 	 * @param w
@@ -126,7 +126,17 @@ public class InterpreteImpl implements IInterprete
 	public String ejecutar(String text)
 	throws AnalisisException
 	{
-		String ret = null;
+		return (String) eval(text, true);
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	/**
+	 * Ver UtilEjecucion._executeUsrAlgorithm() 
+	 */
+	public Object eval(String text, boolean comillas)
+	throws AnalisisException
+	{
+		Object ret = null;
 		List list = _compilar(text);
 		if ( list == null || list.size() == 0 )
 		{
@@ -152,8 +162,9 @@ public class InterpreteImpl implements IInterprete
 					ui.setSourceCode(text);
 					ejecutor.reset(tabSimbBase, ui);
 					n.aceptar(ejecutor);
-					Object o = ejecutor.obtRetorno();
-					ret = valorComillas(n, o);
+					ret = ejecutor.obtRetorno();
+					if ( comillas )
+						ret = valorComillas(n, ret);
 				}
 			}
 			

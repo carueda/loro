@@ -86,6 +86,13 @@ public class LoroEjecutor extends LoroEjecutorBase
 		}
 
 		String clase_java = alg.obtInfoImplementacion();
+		if ( clase_java == null )
+		{
+			throw _crearEjecucionException(alg,
+				"No se ha indicado la clase para ejecutar método Java"
+			);
+		}
+		
 		Class clazz = null;
 		Object res = null;
 		try
@@ -204,6 +211,12 @@ public class LoroEjecutor extends LoroEjecutorBase
 		NDeclaracion[] psal = alg.obtParametrosSalida();
 		
 		String src = alg.obtInfoImplementacion();
+		if ( src  == null )
+		{
+			throw _crearEjecucionException(alg,
+				"No se ha indicado el código del script"
+			);
+		}
 		bsh.Interpreter bsh = new bsh.Interpreter();
 		bsh.getNameSpace().importPackage("loro.ijava");
 		Object res = null;
@@ -250,10 +263,19 @@ public class LoroEjecutor extends LoroEjecutorBase
 	 * @throws TerminacionException 
 	 *                   Por terminacion sea interna o externa.
 	 */
-	protected Object ejecutarAlgoritmoUsr(NAlgoritmo alg, Object[] args)
+	protected void ejecutarAlgoritmoUsr(NAlgoritmo alg, Object[] args, TablaSimbolos tabSimb)
 	throws EjecucionVisitanteException
 	{
-		return "usr response (mecanismo pendiente)";
+		String info = alg.obtInfoImplementacion();
+		if ( info != null )
+		{
+			throw _crearEjecucionException(alg,
+				"No se espera información adicional en algoritmo con implementación 'usr'"
+			);
+		}
+		UtilEjecucion._executeUsrAlgorithm(
+			alg, args, tabSimb, mu, mes, pilaEjec, loroClassLoader
+		);
 	}
 	
 	///////////////////////////////////////////////////////////////////
@@ -849,6 +871,13 @@ search:
 				res = new Object[psal.length];
 				if ( psal.length > 0 )
 				{
+					if ( obj == null )
+					{
+						throw _crearEjecucionException(alg,
+							"Retorno sin asignacion de valor " +
+							"a variable de salida: " +psal[0].obtId()
+						);
+					}
 					res[0] = obj;
 				}
 
@@ -866,6 +895,13 @@ search:
 				res = new Object[psal.length];
 				if ( psal.length > 0 )
 				{
+					if ( obj == null )
+					{
+						throw _crearEjecucionException(alg,
+							"Retorno sin asignacion de valor " +
+							"a variable de salida: " +psal[0].obtId()
+						);
+					}
 					res[0] = obj;
 				}
 
@@ -879,19 +915,19 @@ search:
 			}
 			else if ( alg.implementadoEnLenguaje("usr") )
 			{
-				Object obj = ejecutarAlgoritmoUsr(alg, val_args);
+				ejecutarAlgoritmoUsr(alg, val_args, tabSimb);
 				res = new Object[psal.length];
 				if ( psal.length > 0 )
 				{
-					res[0] = obj;
-				}
-
-				// enlace los valores a los parametros de salida:
-				// Esto es necesario para procesar poscondicion mas adelante.
-				for ( int i = 0; i < res.length; i++ )
-				{
-					NDeclaracion d = psal[i];
-					tabSimb.ponValor(d.obtId().obtId(), res[i]);
+					NDeclaracion d = psal[0];
+					if ( !tabSimb.obtAsignado(d.obtId().obtId()) )
+					{
+						throw _crearEjecucionException(alg,
+							"Retorno sin asignacion de valor " +
+							"a variable de salida: " +d.obtId()
+						);
+					}
+					res[0] = tabSimb.obtValor(d.obtId().obtId());
 				}
 			}
 			else

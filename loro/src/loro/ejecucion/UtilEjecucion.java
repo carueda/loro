@@ -4,6 +4,9 @@ import loro.arbol.*;
 import loro.util.ManejadorUnidades;
 import loro.util.UtilValor;
 import loro.ijava.LException;
+import loro.tabsimb.TablaSimbolos;
+import loro.impl.InterpreteImpl;
+import loro.AnalisisException;
 
 
 ///////////////////////////////////////////////////////////////
@@ -138,4 +141,69 @@ PREFIX+ " Tener en cuenta los tipos esperados para estas entradas.\n"
 
 		return cadArgs;
 	}
+
+	/////////////////////////////////////////////////////////////////////
+	static void _executeUsrAlgorithm(
+		NAlgoritmo alg,
+		Object[] args,
+		TablaSimbolos tabSimb,
+		ManejadorUnidades mu,
+		ManejadorEntradaSalida mes,
+		PilaEjecucion pilaEjec,
+		LoroClassLoader loroClassLoader
+	)
+	throws TerminacionException
+	{
+		NDeclaracion[] pent = alg.obtParametrosEntrada();
+		NDeclaracion[] psal = alg.obtParametrosSalida();
+
+		mes.escribir("::::::::::::::: Inicio despacho implementación \"usr\"" + "\n");
+		
+		mes.escribir("   " +alg+ "\n");
+		if ( args.length > 0 )
+		{
+			mes.escribir("ha sido llamado con:\n");
+			for ( int i = 0; i < args.length; i++ )
+			{
+				NDeclaracion dec = pent[i];
+				mes.escribir("   " +dec.obtId()+ " = ");
+				mes.escribir(UtilValor.valorComillasDeExpresion(
+					pent[i].obtTipo(), args[i]
+				));
+				mes.escribir("\n");
+			}
+			try
+			{
+				if ( psal.length > 0 )
+				{
+					NDeclaracion d = psal[0];
+					TId d_id = d.obtId();
+					mes.escribir(" Expresión para asignar valor a la variable de salida:\n");
+					mes.escribir("   " +d_id+ " := ");
+					String expr = mes.leerCadena();
+					
+					InterpreteImpl interp = new InterpreteImpl(
+						mes.obtEntradaEstandar(), 
+						mes.obtSalidaEstandar(), 
+						tabSimb, 
+						loroClassLoader, 
+						null		// obspp
+					);
+					
+					interp.eval(d_id+ " := " +expr, false);
+				}
+			}
+			catch(AnalisisException ex)
+			{
+				mes.escribir(ex.getMessage()+ "\n");
+			}
+			catch(java.io.IOException ex)
+			{
+				throw new TerminacionException(alg, pilaEjec);
+			}
+		}
+		
+		mes.escribir("::::::::::::::: Fin.\n");
+	}
+	
 }

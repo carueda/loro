@@ -31,7 +31,7 @@ public class NAlgoritmo extends NUnidad implements IUnidad.IAlgoritmo
 	/** Lenguaje en que se implementa este algoritmo. */
 	TCadena impLenguaje;
 
-	/** Informacion adicional para el implementador. */
+	/** Informacion adicional para el implementador. Puede ser null. */
 	TCadena impInfo;
 
 	/** 
@@ -136,7 +136,7 @@ public class NAlgoritmo extends NUnidad implements IUnidad.IAlgoritmo
 	 */
 	public String obtInfoImplementacion()
 	{
-		return impInfo.obtCadena();
+		return impInfo != null ? impInfo.obtCadena() : null;
 	}
 	
 	///////////////////////////////////////////////////////////
