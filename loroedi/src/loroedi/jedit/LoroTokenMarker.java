@@ -5,25 +5,20 @@ import loro.ILanguageInfo;
 
 import javax.swing.text.Segment;
 
-///////////////////////////////////////////////////////////////////
 /**
  * Loro token marker.
  *
  * @author Carlos Rueda
  * @version 0.1 2001-01-29 (based on JavaTokenMarker by Slava Pestov)
  */
-public class LoroTokenMarker extends CTokenMarker
-{
+public class LoroTokenMarker extends CTokenMarker {
 	// private members
 	private static KeywordMap keywords;
 
-	///////////////////////////////////////////////////////////////////
-	public LoroTokenMarker()
-	{
+	public LoroTokenMarker() {
 		super(false,getKeywords());
 	}
 
-	///////////////////////////////////////////////////////////////////
 	public LoroTokenMarker(
 		String prompt,
 		String prefix_special,
@@ -45,7 +40,6 @@ public class LoroTokenMarker extends CTokenMarker
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////
 	public static KeywordMap getKeywords() {
 		if(keywords == null) {
 			keywords = new KeywordMap(false);
