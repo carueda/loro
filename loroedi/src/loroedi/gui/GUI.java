@@ -10,7 +10,7 @@ import loroedi.LoroEDI;
 import loroedi.Util;
 import loroedi.Configuracion;
 import loroedi.Preferencias;
-import loroedi.Interprete;
+import loroedi.InterpreterWindow;
 import loroedi.laf.LookAndFeel;
 import loroedi.help.BrowserPanel;
 import loroedi.Splash;
@@ -61,6 +61,8 @@ public class GUI
 	static Map demoEditors;
 	
 	static SymbolTableWindow symbolTableWindow;
+	
+	static InterpreterWindow interactiveInterpreter;
 	
 	static Splash splash;
 	
@@ -343,11 +345,22 @@ public class GUI
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Despliega el Intérprete Interactivo general.
+	 * Despliega el Intérprete Interactivo único.
 	 */
 	public static void showII()
 	{
-		loroedi.Interprete.getInstance().mostrar();
+		if ( interactiveInterpreter == null )
+		{
+			interactiveInterpreter = new InterpreterWindow(
+				"Intérprete Interactivo de Loro",     //title
+				loroedi.Info.obtTituloII()+ "\n"
+				+"Escribe .? para obtener una ayuda",  //hello
+				false,                                //newSymTab
+				false                                 //ejecutorpp
+			);
+			interactiveInterpreter.start();
+		}
+		interactiveInterpreter.mostrar();
 	}
 	
 	/////////////////////////////////////////////////////////////////

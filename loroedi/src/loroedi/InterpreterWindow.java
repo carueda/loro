@@ -29,12 +29,12 @@ import java.net.URL;
  * @author Carlos Rueda
  * @version $Id$
  */
-public abstract class InterpreterWindow extends Thread
+public class InterpreterWindow extends Thread
 implements ActionListener, JTermListener
 {
 	protected static final String PROMPT         =  " $ ";
-	protected static final String PREFIX_EXPR    =  "=  ";
-	protected static final String PREFIX_INVALID =  "!  ";
+	protected static final String PREFIX_EXPR    =  " = ";
+	protected static final String PREFIX_INVALID =  " ! ";
 	protected static final String PREFIX_SPECIAL =  "   ";
 
 	static private String version =	
@@ -68,6 +68,8 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 	protected String title;
 	private String addTitleRead;
 
+	protected boolean interactive;
+	
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Crea una ventana interprete.
@@ -116,6 +118,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 				return info;
 			}
 			
+			///////////////////////////////////////////////////////////////////////
 			public String execute(String meta)
 			{
 				String res = null;
@@ -208,9 +211,141 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 		Preferencias.Util.updateRect(frame, Preferencias.I_RECT);
 	}
 
+	
+			///////////////////////////////////////////////////////////////////////
+			public String prompt()
+			throws IOException
+			{
+				term.setPrefix(PROMPT);
+				String text = br.readLine();
+				term.setPrefix(PREFIX_SPECIAL);
+				return text;
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			public void expression(String expr)
+			{
+				term.setPrefix(PREFIX_EXPR);
+				pw.println(expr);
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			public String formatException(Exception exc)
+			{
+				String msg = null;
+				try
+				{
+					throw exc;
+				}
+				catch(EjecucionException ex)
+				{
+					if ( ex.esTerminacionInterna() )
+					{
+						msg = "Ejecución terminada. Código de terminación = " 
+							+ex.obtCodigoTerminacionInterna()
+						;
+					}
+					else
+					{
+						StringWriter sw = new StringWriter();
+						ex.printStackTrace(new PrintWriter(sw));
+						msg = ex.getMessage() + "\n" +sw.toString();
+					}
+				}
+				catch(CompilacionException ex)
+				{
+					msg = ex.getMessage();
+				}
+				catch(InterruptedIOException ex)
+				{
+					msg = "Ejecución interrumpida en operación de entrada/salida.";
+				}
+				catch(Exception ex)
+				{
+					StringWriter sw = new StringWriter();
+					PrintWriter psw = new PrintWriter(sw);
+					psw.println("INESPERADO");
+					ex.printStackTrace(psw);
+					psw.println("Esta es una anomalía del sistema.");
+					msg = sw.toString();
+				}
+				return msg;
+			}
+			
+			///////////////////////////////////////////////////////////////////////
+			public void handleException(Exception exc)
+			{
+				String msg = formatException(exc);
+				term.setPrefix(PREFIX_INVALID);
+				pw.println(msg);
+			}
+	
+	
+	
 	///////////////////////////////////////////////////////////////////////
-	protected abstract void body()
-	throws Exception;
+	/**
+	 * Simplemente invoca goInteractive().
+	 */
+	protected void body()
+	throws Exception
+	{
+		goInteractive();
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	/**
+	 * Hace un ciclo de ejecución interactiva.
+	 * Para terminarlo, debe llamarse endInteractive();
+	 */
+	protected void goInteractive()
+	throws Exception
+	{
+		interactive = true;
+		butCerrar.setEnabled(true);
+		while ( interactive )
+		{
+			try
+			{
+				String text = prompt();
+				if ( text == null )
+					break;
+				
+				text = text.trim();
+				if ( text.length() == 0 )
+					continue;
+
+				butTerminar.setEnabled(true);
+				String res = loroii.procesar(text);
+				if ( res != null )
+					expression(res);
+				
+				if ( obspp != null && obspp.getSymbolTableWindow() != null )
+					obspp.getSymbolTableWindow().update();
+			}
+			catch ( Exception ex )
+			{
+				handleException(ex);
+			}
+			finally
+			{
+				butTerminar.setEnabled(false);
+				enableTraceableButtons(false);
+				GUI.updateSymbolTable();
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	/**
+	 * Hace terminar el ciclo interactivo iniciado con goInteractive().
+	 * Esto significa completar el comando en curso pero no continuar 
+	 * pidiendo más comandos.
+	 */
+	protected void endInteractive()
+	throws Exception
+	{
+		interactive = false;
+	}
 	
 	///////////////////////////////////////////////////////////////////////
 	void enableTraceableButtons(boolean enable)
@@ -223,59 +358,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 		}
 	}
 	
-	///////////////////////////////////////////////////////////////////////
-	protected void handleException(Exception exc)
-	{
-System.out.println("handleException="+exc);
-		String msg = null;
-		try
-		{
-			throw exc;
-		}
-		catch ( EjecucionException ex )
-		{
-			if ( ex.esTerminacionInterna() )
-			{
-				msg = "Ejecución terminada. Código de terminación = " 
-					+ex.obtCodigoTerminacionInterna()
-				;
-			}
-			else
-			{
-				StringWriter sw = new StringWriter();
-				ex.printStackTrace(new PrintWriter(sw));
-				msg = ex.getMessage() + "\n" +sw.toString();
-			}
-		}
-		catch(CompilacionException ex)
-		{
-			msg = ex.getMessage();
-		}
-		catch ( InterruptedIOException ex )
-		{
-			msg = "Ejecución interrumpida en operación de entrada/salida.";
-			//ex.printStackTrace();
-		}
-		catch(Exception ex)
-		{
-			StringWriter sw = new StringWriter();
-			PrintWriter psw = new PrintWriter(sw);
-			psw.println("INESPERADO");
-			ex.printStackTrace(psw);
-			psw.println(
-"Esta es una anomalía del sistema.  Consultar por favor la\n"+
-"ayuda general (F1) para saber cómo proceder en esta situación."
-			);
-			msg = sw.toString();
-		}
-
-		if ( msg != null )
-		{
-			term.setPrefix(PREFIX_INVALID);
-			pw.println(msg);
-		}
-	}
-
 
 	///////////////////////////////////////////////////////////////////////
 	public void run()
@@ -306,6 +388,7 @@ System.out.println("handleException="+exc);
 		if ( cmd.equals("close") )
 		{
 			close();
+			return; //  term.requestFocus() innecesario.
 		}
 		else if ( cmd.equals("terminate") )
 		{
@@ -333,7 +416,6 @@ System.out.println("handleException="+exc);
 				}
 			}
 		}
-
 		term.requestFocus();
 	}
 
@@ -341,9 +423,8 @@ System.out.println("handleException="+exc);
 	public void mostrar()
 	{
 		if ( !frame.isShowing() )
-		{
 			frame.setVisible(true);
-		}
+
 		term.requestFocus();
 	}
 
@@ -357,7 +438,6 @@ System.out.println("handleException="+exc);
 	JComponent obtAreaTexto()
 	{
 		return ta;
-		//return new JScrollPane(ta);
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -387,24 +467,13 @@ System.out.println("handleException="+exc);
 			pw.println();
 		}
 
-		procesar(text);
+		procesarLoro(text);
 	}
 	
-	///////////////////////////////////////////////////////////////////////
-	void procesar(String text)
-	throws AnalisisException
-	{
-		procesarLoro(text);
-
-		if ( obspp != null && obspp.getSymbolTableWindow() != null )
-			obspp.getSymbolTableWindow().update();
-	}
-
 	///////////////////////////////////////////////////////////////////////
 	protected void procesarLoro(String text)
 	throws AnalisisException
 	{
-System.out.println("procesarLoro="+text);
 		try
 		{
 			term.setPrefix(PREFIX_SPECIAL);
@@ -436,6 +505,8 @@ System.out.println("procesarLoro="+text);
 			Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 			butTerminar.setEnabled(false);
 			enableTraceableButtons(false);
+			if ( obspp != null && obspp.getSymbolTableWindow() != null )
+				obspp.getSymbolTableWindow().update();
 		}
 	}
 
@@ -481,25 +552,35 @@ System.out.println("procesarLoro="+text);
 	}
 	
 	///////////////////////////////////////////////
+	/**
+	 * Cierra la ventana. Si el indicador interactive es true,
+	 * esto es lo único que sucede. En otro caso (interactive es false),
+	 * este objeto se destruye completamente.
+	 * No se hace nada si el botón de "Cerrar" está deshabilitado.
+	 */
 	protected void close()
 	{
-		if ( butCerrar.isEnabled() )
+		if ( !butCerrar.isEnabled() )
+			return;
+		
+		frame.setVisible(false);
+		
+		if ( interactive )
+			return;        // no se hace más. Se puede llamar mostrar() después.
+		
+		if ( obspp != null )
+			obspp.end();
+		try
 		{
-			if ( obspp != null )
-				obspp.end();
-			try
-			{
-				frame.setVisible(false);
-				pw.close();
-				br.close();
-			}
-			catch(Exception e)
-			{
-			}
-			finally
-			{
-				frame.dispose();
-			}
+			pw.close();
+			br.close();
+		}
+		catch(Exception e)
+		{
+		}
+		finally
+		{
+			frame.dispose();
 		}
 	}
 }

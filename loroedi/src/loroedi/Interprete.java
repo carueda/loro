@@ -142,6 +142,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 		loroii = Loro.crearInterprete(br, pw, false, null);
 
 		ii = loroii.getInteractiveInterpreter();
+		final IInterprete.IInteractiveInterpreter.IManager def_mgr = ii.getManager();
 		ii.setManager(new IInterprete.IInteractiveInterpreter.IManager()
 		{
 			///////////////////////////////////////////////////////////////////////
@@ -162,8 +163,15 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")"
 			}
 
 			///////////////////////////////////////////////////////////////////////
-			public void exception(String msg)
+			public String formatException(Exception exc)
 			{
+				return def_mgr.formatException(exc);
+			}
+			
+			///////////////////////////////////////////////////////////////////////
+			public void handleException(Exception exc)
+			{
+				String msg = def_mgr.formatException(exc);
 				term.setPrefix(PREFIX_INVALID);
 				pw.println(msg);
 			}

@@ -14,6 +14,23 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-17 (0.8pre11)
+
+	- InterpreterWindow: ya no es abstracta: su método body() invoca ahora
+	  un nuevo método goInteractive() que hace un ciclo leer-evaluar-imprimir
+	  propicio para interpretación interactiva. El nuevo método endInteractive()
+	  permite terminar el ciclo de interacción.
+	  
+	  Las subclases de InterpreterWindow (por ejemplo dentro de
+	  Workspace.executeCommands), no se afectan por este cambio.
+	  
+	- GUI: ahora utiliza una instancia de InterpreterWindow para el
+	  intérprete interactivo único. Ver GUI.showII().
+	  
+	- loroedi.Interprete: Ya no se usa más (sólo en loroedi.EDI que también
+	  desaparecerá en una próxima limpieza).
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-15 (0.8pre11)
 
 	- InterpreterWindow en revisión: eliminado metaProcesar (que ya no era
