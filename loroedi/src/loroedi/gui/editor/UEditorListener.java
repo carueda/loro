@@ -4,9 +4,8 @@ import javax.swing.*;
 
 //////////////////////////////////////////////////
 /**
- *
+ * Interface para notificar ciertos eventos asociados a un UEditor.
  * @author Carlos Rueda
- * @version 2002-08-29
  */
 public interface UEditorListener
 {
@@ -34,6 +33,12 @@ public interface UEditorListener
 	 * UEditor llama este método cuando el usuario lanza la acción "compile".
 	 */
 	public void compile();
+
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * UEditor llama este método cuando el usuario lanza la acción "execute".
+	 */
+	public void execute();
 
 	/////////////////////////////////////////////////////////////////
 	/**

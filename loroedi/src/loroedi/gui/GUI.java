@@ -1054,7 +1054,7 @@ public class GUI
 				return null;
 			}
 			boolean modifiable = pkg.getModel().getControlInfo().isModifiable();
-			editor = new UEditor(name, modifiable);
+			editor = new UEditor(name, modifiable, unit instanceof AlgorithmUnit, true);
 			editor.setText(src);
 			editor.setEditable(unit.isEditable());
 			editor.setCaretPosition(0);
@@ -1170,6 +1170,109 @@ public class GUI
 		}
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Ejecución en un hilo de _compileDemo();
+	 */
+	public static Thread compileDemo()
+	{
+		Runnable run = new Runnable() 
+		{
+			public void run() 
+			{
+				_compileDemo();
+			}
+		};
+		Thread thread = new Thread(run);
+		thread.start();
+		return thread;
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Compila el demo script del proyecto enfocado.
+	 * Si el editor asociado a este script existe, se toma el código
+	 * fuente del contenido de tal editor; si no, se toma directamente el
+	 * código indicado por el proyecto enfocado.
+	 * Si hay error y el editor no existe, se crea el editor y se despliega
+	 * el mensaje allí.
+	 *
+	 * @return true si todo bien.
+	 */
+	public static boolean _compileDemo()
+	{
+		String name = focusedProject.getModel().getInfo().getName();
+		String compiling_msg = "Compilando demo '" +name+ "' ...";
+		String src;
+		
+		UEditor editor = (UEditor) demoEditors.get(name);
+		
+		if ( editor != null )
+		{
+			editor.getMessageArea().clear();
+			editor.getMessageArea().println(compiling_msg);
+			src = editor.getText();
+		}
+		else
+		{
+			src = focusedProject.getModel().getInfo().getDemoScript();
+		}
+		
+		MessageArea prj_msg = focusedProject.getMessageArea();
+		//prj_msg.clear();
+		prj_msg.println(compiling_msg);
+
+		try
+		{
+			IInterprete ii = Loro.crearInterprete(null, null, true);
+			ii.compilar(src);
+			prj_msg.print(" Bien!");
+			if ( editor != null )
+				editor.getMessageArea().print(" Bien!");
+			
+			return true;
+		}
+		catch(CompilacionException ce)
+		{
+			Rango rango = ce.obtRango();
+			
+			String res = "[" +rango.obtIniLin()+ "," +rango.obtIniCol()+ "]" +
+				" " +ce.getMessage()
+			;
+			
+			prj_msg.println(res);
+
+			if ( editor == null )
+			{
+				// aquí necesitamos el editor para mostrar el problema:
+				editor = createDemoEditor();
+			}
+			
+			if ( rango != null )
+			{	
+				editor.select(rango.obtPosIni(), rango.obtPosFin());
+			}
+			editor.display();
+			editor.getMessageArea().print(res);
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showOptionDialog(
+				null, //focusedProject.getFrame(),
+				ex.getMessage(),
+				"Error al tratar de compilar unidad",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.ERROR_MESSAGE,
+				null,
+				null,
+				null
+			);
+		}
+		
+		return false;
+	}
+
 	/////////////////////////////////////////////////////////////////
 	/**
 	 * Compila una unidad.
@@ -1289,7 +1392,12 @@ public class GUI
 						doc2_dir = new File(prs_dir +File.separator+ model.getInfo().getName());
 					}
 					_saveProjectDoc(model, doc2_dir);
-					message(focusedProject.getFrame(), "Compilación de proyecto exitosa");
+					
+					// ahora compile el demo:
+					boolean demo_ok = _compileDemo();
+					// _compileDemo() abre el editor en caso de error.
+					if ( demo_ok )					
+						message(focusedProject.getFrame(), "Compilación de proyecto exitosa");
 				}
 				catch(UnitCompilationException ex)
 				{
@@ -1426,47 +1534,85 @@ public class GUI
 
 	/////////////////////////////////////////////////////////////////
 	/**
-	 * Edita el guión de demostración.
+	 * Abre el edita del guión de demostración.
 	 */
-	public static void editDemo()
+	public static UEditor editDemo()
 	{
 		String name = focusedProject.getModel().getInfo().getName();
-		UEditor pre_editor = (UEditor) demoEditors.get(name);
-		if ( pre_editor == null )
+		UEditor editor = (UEditor) demoEditors.get(name);
+		if ( editor == null )
 		{
-			final IProjectModel prjm = focusedProject.getModel();
-			IProjectModel.IInfo info = prjm.getInfo();
-			String src = info.getDemoScript();
-			boolean modifiable = focusedProject.getModel().getControlInfo().isModifiable();
-			final UEditor editor = new UEditor(name, modifiable);
-			editor.setText(src);
-			editor.setCaretPosition(0);
-			// el editor-listener puesto después para no recibir .changed():
-			editor.setEditorListener(new UEditorListener()
-			{
-				public void changed() 
-				{
-					editor.setSaved(false);
-				}
-				public void save() 
-				{
-					IProjectModel.IInfo info = prjm.getInfo();
-					info.setDemoScript(editor.getText());
-					workspace.saveDemoScript(prjm);
-					editor.setSaved(true);
-				}
-				public void closeWindow() 
-				{
-					editor.getFrame().setVisible(false);
-				}
-				public void compile() {}
-				public void reload() {}
-				public void viewDoc() {}
-			});
-			demoEditors.put(name, editor);
-			pre_editor = editor;
+			editor = createDemoEditor();
 		}
-		pre_editor.display();
+		editor.display();
+		return editor;
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	/**
+	 * Crea el editor para el guión de demostración del proyecto enfocado
+	 */
+	private static UEditor createDemoEditor()
+	{
+		final IProjectModel prjm = focusedProject.getModel();
+		IProjectModel.IInfo info = prjm.getInfo();
+		String name = info.getName();
+		String src = info.getDemoScript();
+		boolean modifiable = prjm.getControlInfo().isModifiable();
+		final UEditor editor = new UEditor("Demo '" +name+ "'", modifiable, true, false);
+		editor.setText(src);
+		editor.setCaretPosition(0);
+		// el editor-listener puesto después para no recibir .changed():
+		editor.setEditorListener(new UEditorListener()
+		{
+			String saved = editor.getText();
+			public void changed() 
+			{
+				if ( editor.isSaved() )
+				{
+					// primer cambio.
+					editor.getMessageArea().print("\nIniciando edición");
+				}
+				editor.setSaved(false);
+			}
+			public void save() 
+			{
+				IProjectModel.IInfo info = prjm.getInfo();
+				info.setDemoScript(editor.getText());
+				workspace.saveDemoScript(prjm);
+				editor.setSaved(true);
+				editor.getMessageArea().setText("Guardado.");
+				saved = editor.getText();
+			}
+			public void closeWindow() 
+			{
+				editor.getFrame().setVisible(false);
+			}
+			public void compile() 
+			{
+				save();
+				compileDemo();
+			}
+			public void execute() 
+			{
+				if ( !editor.isSaved() )
+				{
+					save();
+				}
+				runDemo();
+			}
+			public void reload() 
+			{
+				editor.setText(saved);
+				editor.setSaved(true);
+				editor.getMessageArea().setText("Recargado.");
+				editor.setCaretPosition(0);
+			}
+			public void viewDoc() {}
+		});
+		
+		demoEditors.put(name, editor);
+		return editor;
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -1481,8 +1627,8 @@ public class GUI
 			{
 				MessageArea prj_msg = focusedProject.getMessageArea();
 				prj_msg.clear();
-				prj_msg.print("Ejecutando demo...\n");
 				IProjectModel model = focusedProject.getModel();
+				prj_msg.print("Ejecutando demo '" +model.getInfo().getName()+ "' ...\n");
 				String src = model.getInfo().getDemoScript();
 				if ( src == null )
 				{
@@ -1525,7 +1671,7 @@ public class GUI
 					cmds.add(cmd.toString());
 				
 				workspace.executeCommands(
-					"Ejecutando demo",
+					"Ejecución demo '" +model.getInfo().getName()+ "'",
 					null,
 					cmds,
 					true     // newSymTab
@@ -2382,6 +2528,13 @@ public class GUI
 			}
 		}
 	
+		/////////////////////////////////////////////////////////////////
+		public void execute() 
+		{
+			if ( unit instanceof AlgorithmUnit )
+				executeAlgorithm((AlgorithmUnit) unit);
+		}
+
 		/////////////////////////////////////////////////////////////////
 		public void reload()
 		{

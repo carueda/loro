@@ -71,6 +71,21 @@ PENDIENTES (más o menos en orden de prioridad)
 
 	  
 ////////////////////////////////////////////////////////////////////////////
+2002-10-25 (0.8pre5)
+
+	- Implementados "compile demo", "reload demo source"
+		UEditor.getTitle()
+		GUI.compileDemo()
+		
+	- GUI.compilePropect() actualizado para incluir el demo.
+	
+	- UEditor: nuevos argumentos executable y doc en constructor, y nueva
+	  acción "execute".
+	
+	- UEditorListener: nueva operación execute()
+	
+	
+////////////////////////////////////////////////////////////////////////////
 2002-10-23 (0.8pre5)
 
 	- Modificado TextAreaPainter.nextTabStop para verificar tabSize > 0

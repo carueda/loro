@@ -42,8 +42,13 @@ public class UEditor implements EditorListener
 	////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Crea una ventana para edición de una unidad.
+	 *
+	 * @param title Title
+	 * @param modifiable Is the contents modifiable?
+	 * @param executable Include "execute" action?
+	 * @param doc Include "view-unit-doc-from-editor" action?
 	 */
-	public UEditor(String title, boolean modifiable)
+	public UEditor(String title, boolean modifiable, boolean executable, boolean doc)
 	{
 		this.title = title;
 		this.saved = true;
@@ -92,18 +97,21 @@ public class UEditor implements EditorListener
 		frame.getContentPane().add(split);
 		frame.setSize(700, 500);
 
-		createActions(modifiable);
-		createMenuBarAndToolBar();
+		createActions(modifiable, executable, doc);
+		createMenuBarAndToolBar(executable, doc);
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-	private void createActions(boolean modifiable)
+	private void createActions(boolean modifiable, boolean executable, boolean doc)
 	{
 		actions = new HashMap();
 		Action a;
 		actions.put("save",     a=new SaveAction());     a.setEnabled(modifiable);
 		actions.put("compile",  a=new CompileAction());  a.setEnabled(modifiable);
-		actions.put("view-unit-doc-from-editor",  new ViewDocFromEditorAction());
+		if ( executable )
+			actions.put("execute",  a=new ExecuteAction());
+		if ( doc )
+			actions.put("view-unit-doc-from-editor",  new ViewDocFromEditorAction());
 		actions.put("reload",   a=new ReloadAction());   a.setEnabled(modifiable);
 		actions.put("close",    new CloseAction());
 
@@ -141,7 +149,7 @@ public class UEditor implements EditorListener
 	/**
 	 * Crea la barra de menus.
 	 */
-	private void createMenuBarAndToolBar()
+	private void createMenuBarAndToolBar(boolean executable, boolean doc)
 	{
 		JMenuBar mb = new JMenuBar();
 		frame.setJMenuBar(mb);
@@ -157,7 +165,10 @@ public class UEditor implements EditorListener
 		mb.add(menu);
 		menu.add((Action) actions.get("save"));
 		menu.add((Action) actions.get("compile"));
-		menu.add((Action) actions.get("view-unit-doc-from-editor"));
+		if ( executable )
+			menu.add((Action) actions.get("execute"));
+		if ( doc )
+			menu.add((Action) actions.get("view-unit-doc-from-editor"));
 		menu.addSeparator();
 		menu.add((Action) actions.get("reload"));
 		menu.addSeparator();
@@ -191,7 +202,8 @@ public class UEditor implements EditorListener
 		tb.add((Action) actions.get("find-next"));
 		tb.addSeparator();
 		tb.add((Action) actions.get("compile"));
-		tb.add((Action) actions.get("view-unit-doc-from-editor"));
+		if ( doc )
+			tb.add((Action) actions.get("view-unit-doc-from-editor"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -233,6 +245,15 @@ public class UEditor implements EditorListener
 	{
 		this.title = title;
 		updateTitle();
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Gets the main frame's title.
+	 */
+	public String getTitle()
+	{
+		return title;
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -447,6 +468,26 @@ public class UEditor implements EditorListener
 		{
 			editor.traerAlFrente();
 			listener.compile();
+		}
+	}
+
+	/////////////////////////////////////////////////////////
+	class ExecuteAction extends AbstractAction
+	{
+		/////////////////////////////////////////////////////////
+		public ExecuteAction()
+		{
+			super("Ejecutar");
+			putValue(SHORT_DESCRIPTION, "Ejecuta este elemento");
+			putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_E));
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.CTRL_MASK));
+		}
+	
+		/////////////////////////////////////////////////////////
+		public void actionPerformed(ActionEvent e)
+		{
+			editor.traerAlFrente();
+			listener.execute();
 		}
 	}
 
