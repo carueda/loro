@@ -1,576 +1,458 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="Author" content="Carlos Rueda">
-   <meta name="GENERATOR" content="Mozilla/4.78 [en] (Windows NT 5.0; U) [Netscape]">
-   <title>Cambios Loro - LoroEDI</title>
+    
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+    
+  <meta name="Author" content="Carlos Rueda">
+    
+  <meta name="GENERATOR"
+ content="Mozilla/4.78 [en] (Windows NT 5.0; U) [Netscape]">
+  <title>Cambios Loro - LoroEDI</title>
 </head>
-<body text="#000000" bgcolor="#FFE6CC" link="#0000EE" vlink="#551A8B" alink="#FF0000">
-<b><tt><font size=+2>Resumen de cambios</font></tt></b>
-<br>
-<hr WIDTH="100%">
-<br><b><tt>0.8pre11&nbsp; - 2003-05-21</tt></b>
+  <body text="#000000" bgcolor="#ffe6cc" link="#0000ee" vlink="#551a8b"
+ alink="#ff0000">
+ <b><tt><font size="+2">Resumen de cambios</font></tt></b> <br>
+ 
+<hr width="100%"> <br>
+<b><tt>0.8 final - 2003-05-27</tt></b><b><tt><br>
+</tt></b>
 <ul>
-<li>
-<b>Sobre entorno integrado</b>:</li>
-
+  <li>Mejoras en despliegue de documentaci&oacute;n HTML y posibles errores
+asociados..</li>
+  <li>Corregida mala actualizaci&oacute;n de la interfaz gr&aacute;fica en
+el comando Projecto&gt;Recargar.</li>
+</ul>
+<hr width="100%" size="2"><br>
+<b><tt>0.8pre11&nbsp; - 2003-05-21</tt></b> 
 <ul>
-<li>
-El tiempo de arrancada del entorno se ha acelerado significativamente.</li>
-
-<li>
-Nuevo bot&oacute;n "Inicio" en ventana de documentaci&oacute;n que abre
-el &iacute;ndice (index.html) con todos los proyectos del espacio de trabajo.</li>
-
-<li>
-Nuevo manejo de ejecuci&oacute;n por segmentos en guiones de demostraci&oacute;n.
-Las cadenas&nbsp; "<tt>//.$</tt>"&nbsp; y&nbsp; "<tt>//.p</tt>"&nbsp; sirven
-como delimitadores de segmentos; en el segundo caso, se hace adem&aacute;s
-una "pausa" antes de proceder con la ejecuci&oacute;n del segmento. Por
-pausa se quiere decir que el usuario debe presionar Intro para continuar.
-Anteriormente las l&iacute;neas en blanco serv&iacute;an como delimitadores.
-Por lo tanto, deber&aacute;n modificarse los guiones de demostraci&oacute;n
-que usen segmentos para incluir expl&iacute;citamente alguna de estas cadenas
-especiales. Ej:<br>
-<tt>&nbsp;// Esto escribe: Hola<br>
-&nbsp;escribirln("Hola"); //.$<br>
-<br>
-&nbsp;// Esto escribe: L o r o<br>
-<b>&nbsp;para </b>car:caracter <b>en</b> "Loro" <b>haga</b></tt></li>
-
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp; escribir(car + " ");</tt>
-<br><tt>&nbsp;<b>fin para</b>; //.p</tt>
-<br>&nbsp;
-<li>
-Ahora los caracteres de control '<tt>\b</tt>' (retroceso de un espacio)
-y '<tt>\r</tt>' (retroceso al comienzo de l&iacute;nea) son procesados
+ <li> <b>Sobre entorno integrado</b>:</li>
+  
+  <ul>
+ <li> El tiempo de arrancada del entorno se ha acelerado significativamente.</li>
+  <li> Nuevo bot&oacute;n "Inicio" en ventana de documentaci&oacute;n que
+abre el &iacute;ndice (index.html) con todos los proyectos del espacio de
+trabajo.</li>
+  <li> Nuevo manejo de ejecuci&oacute;n por segmentos en guiones de demostraci&oacute;n. 
+Las cadenas&nbsp; "<tt>//.$</tt>"&nbsp; y&nbsp; "<tt>//.p</tt>"&nbsp; sirven 
+como delimitadores de segmentos; en el segundo caso, se hace adem&aacute;s 
+una "pausa" antes de proceder con la ejecuci&oacute;n del segmento. Por pausa
+se quiere decir que el usuario debe presionar Intro para continuar. Anteriormente
+las l&iacute;neas en blanco serv&iacute;an como delimitadores. Por lo tanto,
+deber&aacute;n modificarse los guiones de demostraci&oacute;n que usen segmentos
+para incluir expl&iacute;citamente alguna de estas cadenas especiales. Ej:<br>
+ <tt>&nbsp;// Esto escribe: Hola<br>
+ &nbsp;escribirln("Hola"); //.$<br>
+ <br>
+ &nbsp;// Esto escribe: L o r o<br>
+ <b>&nbsp;para </b>car:caracter <b>en</b> "Loro" <b>haga</b></tt></li>
+  <br>
+    <tt>&nbsp;&nbsp;&nbsp;&nbsp; escribir(car + " ");</tt> <br>
+    <tt>&nbsp;<b>fin para</b>; //.p</tt> <br>
+&nbsp; <li> Ahora los caracteres de control '<tt>\b</tt>' (retroceso de un
+espacio) y '<tt>\r</tt>' (retroceso al comienzo de l&iacute;nea) son procesados 
 en la escritura de mensajes en las ventanas de ejecuci&oacute;n. Ej:<br>
-<tt>&nbsp; escribir("&nbsp;&nbsp; procesados");</tt></li>
-
-<br><tt>&nbsp; <b>para </b>i:entero := 1 <b>hasta </b>20 <b>haga</b></tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escribir("\r" + i); dormir(300);</tt>
-<br><tt>&nbsp; <b>fin para</b></tt>
-<li>
-Se recuerda el &uacute;ltimo proyecto instalado.</li>
-
-<li>
-Diversas mejoras generales de interfaz.</li>
-</ul>
-
-<li>
-<b>N&uacute;cleo del lenguaje</b></li>
-
-<ul>
-<li>
-Se permite ahora la asignaci&oacute;n de un literal entero a un caracter
+ <tt>&nbsp; escribir("&nbsp;&nbsp; procesados");</tt></li>
+  <br>
+    <tt>&nbsp; <b>para </b>i:entero := 1 <b>hasta </b>20 <b>haga</b></tt> 
+    <br>
+    <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escribir("\r" + i); dormir(300);</tt> 
+    <br>
+    <tt>&nbsp; <b>fin para</b></tt> <li> Se recuerda el &uacute;ltimo proyecto
+instalado.</li>
+  <li> Diversas mejoras generales de interfaz.</li>
+ 
+  </ul>
+  <li> <b>N&uacute;cleo del lenguaje</b></li>
+  
+  <ul>
+ <li> Se permite ahora la asignaci&oacute;n de un literal entero a un caracter 
 siempre que el valor entero est&eacute; entre 0 y 65535 (como en Java).<br>
-Ej:&nbsp;&nbsp;&nbsp; <tt>c : caracter := 76;&nbsp;&nbsp; //&nbsp; c =
-'L'</tt></li>
-
-<li>
-Revisado y mejorado el mecanismo de implementaci&oacute;n de algoritmos
+ Ej:&nbsp;&nbsp;&nbsp; <tt>c : caracter := 76;&nbsp;&nbsp; //&nbsp; c = 'L'</tt></li>
+  <li> Revisado y mejorado el mecanismo de implementaci&oacute;n de algoritmos 
 en Java.</li>
+ 
+  </ul>
+  <li> <b>Sobre Compatibilidad</b></li>
+  
+  <ul>
+ <li> <b>A nivel de fuentes</b>: Los guiones de demostraci&oacute;n cuentan
+ahora con un esquema definido para establecer segmentos de ejecuci&oacute;n
+integral, para lo cual se usan ciertos marcadores especiales como se explica
+m&aacute;s arriba. En cuanto a programas del lenguaje (algoritmos, clases,
+especificaciones), estos siguen siendo v&aacute;lidos.</li>
+  <li> <b>A nivel de binarios</b>: Es posible que algunos proyectos deban
+recompilarse (comando <b>F9</b>).</li>
+ 
+  </ul>
+  <li> Diversas anomal&iacute;as corregidas.</li>
+ 
 </ul>
-
-<li>
-<b>Sobre Compatibilidad</b></li>
-
+  
+<hr width="100%"><b><tt>0.8pre10&nbsp; - 2003-03-21</tt></b> 
 <ul>
-<li>
-<b>A nivel de fuentes</b>: Los guiones de demostraci&oacute;n cuentan ahora
-con un esquema definido para establecer segmentos de ejecuci&oacute;n integral,
-para lo cual se usan ciertos marcadores especiales como se explica m&aacute;s
-arriba. En cuanto a programas del lenguaje (algoritmos, clases, especificaciones),
-estos siguen siendo v&aacute;lidos.</li>
-
-<li>
-<b>A nivel de binarios</b>: Es posible que algunos proyectos deban recompilarse
-(comando <b>F9</b>).</li>
-</ul>
-
-<li>
-Diversas anomal&iacute;as corregidas.</li>
-</ul>
-
-<hr WIDTH="100%"><b><tt>0.8pre10&nbsp; - 2003-03-21</tt></b>
-<ul>
-<li>
-<b>Sobre nuevo entorno</b>:</li>
-
-<ul>
-<li>
-En lnstalaci&oacute;n de proyecto se permite ahora navegar una p&aacute;gina
+ <li> <b>Sobre nuevo entorno</b>:</li>
+  
+  <ul>
+ <li> En lnstalaci&oacute;n de proyecto se permite ahora navegar una p&aacute;gina 
 web para ubicar el enlace correspondiente.</li>
-
-<li>
-Mejoramiento de la documentaci&oacute;n HTML generada. Ahora la p&aacute;gina
+  <li> Mejoramiento de la documentaci&oacute;n HTML generada. Ahora la p&aacute;gina 
 de un proyecto incluye enlaces a todos sus componentes.</li>
-
-<li>
-En las propiedades de un proyecto, puede indicarse ahora si la descripci&oacute;n
+  <li> En las propiedades de un proyecto, puede indicarse ahora si la descripci&oacute;n 
 contiene o no marcadores HTML.</li>
-</ul>
-
-<li>
-<b>N&uacute;cleo del lenguaje</b></li>
-
-<ul>
-<li>
-Ahora se permite que un nombre cualificado corresponda a un algoritmo.
-Antes se generaba un error del estilo: "No se puede&nbsp; usar posible
-unidad..."</li>
-
-<li>
-Incluida variante "<i>para cada elemento en</i>" a la iteraci&oacute;n
+ 
+  </ul>
+  <li> <b>N&uacute;cleo del lenguaje</b></li>
+  
+  <ul>
+ <li> Ahora se permite que un nombre cualificado corresponda a un algoritmo. 
+Antes se generaba un error del estilo: "No se puede&nbsp; usar posible unidad..."</li>
+  <li> Incluida variante "<i>para cada elemento en</i>" a la iteraci&oacute;n 
 "para":&nbsp;&nbsp; Ejemplo:</li>
-
-<br><tt>&nbsp; <b>para </b>cad:cadena <b>en</b> ["hola", "mundo"] <b>haga</b></tt>
-<br><tt>&nbsp;&nbsp;&nbsp; escribir(cad+ " --> ");</tt>
-<br><tt>&nbsp;&nbsp;&nbsp; <b>para </b>car:caracter <b>en</b> cad <b>haga</b></tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escribir("&nbsp; " +car);</tt>
-<br><tt>&nbsp;&nbsp;&nbsp; <b>fin para</b>;</tt>
-<br><tt>&nbsp;&nbsp;&nbsp; escribirln("");</tt>
-<br><tt>&nbsp; <b>fin para</b>;</tt>
-<li>
-Ahora ";" es opcional al final de:</li>
-
-<ul>
-<li>
-&nbsp;indicaci&oacute;n de paquete</li>
-
-<li>
-&nbsp;indicaci&oacute;n utiliza</li>
-
-<li>
-&nbsp;cada atributo en definici&oacute;n de clase</li>
+  <br>
+    <tt>&nbsp; <b>para </b>cad:cadena <b>en</b> ["hola", "mundo"] <b>haga</b></tt> 
+    <br>
+    <tt>&nbsp;&nbsp;&nbsp; escribir(cad+ " --&gt; ");</tt> <br>
+    <tt>&nbsp;&nbsp;&nbsp; <b>para </b>car:caracter <b>en</b> cad <b>haga</b></tt> 
+    <br>
+    <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escribir("&nbsp; " +car);</tt> <br>
+    <tt>&nbsp;&nbsp;&nbsp; <b>fin para</b>;</tt> <br>
+    <tt>&nbsp;&nbsp;&nbsp; escribirln("");</tt> <br>
+    <tt>&nbsp; <b>fin para</b>;</tt> <li> Ahora ";" es opcional al final
+de:</li>
+  
+    <ul>
+ <li> &nbsp;indicaci&oacute;n de paquete</li>
+  <li> &nbsp;indicaci&oacute;n utiliza</li>
+  <li> &nbsp;cada atributo en definici&oacute;n de clase</li>
+ 
+    </ul>
+ 
+  </ul>
+  <li> <b>Sobre Compatibilidad</b></li>
+  
+  <ul>
+ <li> <b>A nivel de fuentes</b>: Los programas v&aacute;lidos previos no
+se ven afectados por los cambios hechos sobre el lenguaje.</li>
+  <li> <b>A nivel de binarios</b>: Hay cambios internos que se actualizan
+autom&aacute;ticamente con solo dar el comando <b>F9</b> (compilar).</li>
+ 
+  </ul>
+  <li> Diversas anomal&iacute;as corregidas.</li>
+ 
 </ul>
-</ul>
-
-<li>
-<b>Sobre Compatibilidad</b></li>
-
+  
+<hr width="100%"> <br>
+<b><tt>0.8pre8&nbsp; - 2003-02-12</tt></b> 
 <ul>
-<li>
-<b>A nivel de fuentes</b>: Los programas v&aacute;lidos previos no se ven
-afectados por los cambios hechos sobre el lenguaje.</li>
-
-<li>
-<b>A nivel de binarios</b>: Hay cambios internos que se actualizan autom&aacute;ticamente
-con solo dar el comando <b>F9</b> (compilar).</li>
+ <li> <b>Sobre nuevo entorno</b>:</li>
+  
+  <ul>
+ <li> <b>Ejecuci&oacute;n paso-a-paso</b>. La principal novedad en esta versi&oacute;n 
+es la opci&oacute;n de hacer ejecuci&oacute;n en la modalidad paso-a-paso. 
+Esto es posible tanto para algoritmos (<b>Shift-F9</b>) como para los guiones 
+de demostraci&oacute;n (<b>Shift-M</b>). Durante la ejecuci&oacute;n paso-a-paso 
+se despliega tanto el c&oacute;digo fuente (con resaltado especial del fragmento
+en ejecuci&oacute;n), como la tabla de declaraciones vigente seg&uacute;n
+el &aacute;mbito en curso. Se ofrecen algunos de los comandos acostumbrados:
+"Entrar" para ingresar en forma paso-a-paso en un cierto fragmento de c&oacute;digo;
+"Pasar" para ejecutar el fragmento de manera continua hasta completarse;
+"Continuar" para completar la ejecuci&oacute;n desactivando la modalidad
+paso-a-paso; y "Terminar" (que ya se ten&iacute;a) para terminar abruptamente
+la ejecuci&oacute;n. En la ventana de seguimiento se incluye una secci&oacute;n
+especial que describe cada paso en ejecuci&oacute;n.</li>
+ 
+  </ul>
+  <li> Diversas anomal&iacute;as corregidas.</li>
+ 
 </ul>
-
-<li>
-Diversas anomal&iacute;as corregidas.</li>
-</ul>
-
-<hr WIDTH="100%">
-<br><b><tt>0.8pre8&nbsp; - 2003-02-12</tt></b>
+  
+<hr width="100%"> <br>
+<b><tt>0.8pre4-0.8pre7&nbsp; - 2002-11-27</tt></b> 
 <ul>
-<li>
-<b>Sobre nuevo entorno</b>:</li>
-
-<ul>
-<li>
-<b>Ejecuci&oacute;n paso-a-paso</b>. La principal novedad en esta versi&oacute;n
-es la opci&oacute;n de hacer ejecuci&oacute;n en la modalidad paso-a-paso.
-Esto es posible tanto para algoritmos (<b>Shift-F9</b>) como para los guiones
-de demostraci&oacute;n (<b>Shift-M</b>). Durante la ejecuci&oacute;n paso-a-paso
-se despliega tanto el c&oacute;digo fuente (con resaltado especial del
-fragmento en ejecuci&oacute;n), como la tabla de declaraciones vigente
-seg&uacute;n el &aacute;mbito en curso. Se ofrecen algunos de los comandos
-acostumbrados: "Entrar" para ingresar en forma paso-a-paso en un cierto
-fragmento de c&oacute;digo; "Pasar" para ejecutar el fragmento de manera
-continua hasta completarse; "Continuar" para completar la ejecuci&oacute;n
-desactivando la modalidad paso-a-paso; y "Terminar" (que ya se ten&iacute;a)
-para terminar abruptamente la ejecuci&oacute;n. En la ventana de seguimiento
-se incluye una secci&oacute;n especial que describe cada paso en ejecuci&oacute;n.</li>
-</ul>
-
-<li>
-Diversas anomal&iacute;as corregidas.</li>
-</ul>
-
-<hr WIDTH="100%">
-<br><b><tt>0.8pre4-0.8pre7&nbsp; - 2002-11-27</tt></b>
-<ul>
-<li>
-<b>Sobre nuevo entorno</b>:</li>
-
-<ul>
-<li>
-Nuevo concepto de "demostraci&oacute;n" asociado a un proyecto. Una demostraci&oacute;n
-es un "gui&oacute;n" de c&oacute;digo Loro tratado como un cuerpo integral.
-Se tienen las nuevas opciones "editar demo" y "ejecutar demo" (Ctrl-M).</li>
-
-<li>
-Complementada opci&oacute;n "Exportar proyecto". Ahora se puede exportar
-a un directorio o a un archivo proyecto. Este archivo proyecto (extensi&oacute;n
-.lar) puede cargarse ("instalarse") f&aacute;cilmente desde en otro sistema
+ <li> <b>Sobre nuevo entorno</b>:</li>
+  
+  <ul>
+ <li> Nuevo concepto de "demostraci&oacute;n" asociado a un proyecto. Una
+demostraci&oacute;n es un "gui&oacute;n" de c&oacute;digo Loro tratado como
+un cuerpo integral. Se tienen las nuevas opciones "editar demo" y "ejecutar
+demo" (Ctrl-M).</li>
+  <li> Complementada opci&oacute;n "Exportar proyecto". Ahora se puede exportar 
+a un directorio o a un archivo proyecto. Este archivo proyecto (extensi&oacute;n 
+.lar) puede cargarse ("instalarse") f&aacute;cilmente desde en otro sistema 
 Loro.</li>
-
-<li>
-Complementada opci&oacute;n "instalar proyecto" para incluir, adem&aacute;s
-de proyectos incluidos con el sistema, otros de proveniencia externa, es
-decir, desde la web o desde el sistema local de archivos.</li>
-</ul>
-
-<li>
-<b>N&uacute;cleo del lenguaje</b></li>
-
-<ul>
-<li>
-Permitida ahora una lista de acciones como entrada para interpretaci&oacute;n
+  <li> Complementada opci&oacute;n "instalar proyecto" para incluir, adem&aacute;s 
+de proyectos incluidos con el sistema, otros de proveniencia externa, es decir,
+desde la web o desde el sistema local de archivos.</li>
+ 
+  </ul>
+  <li> <b>N&uacute;cleo del lenguaje</b></li>
+  
+  <ul>
+ <li> Permitida ahora una lista de acciones como entrada para interpretaci&oacute;n 
 interactiva (antes s&oacute;lo una acci&oacute;n era permitida). Ej:</li>
-
-<br>&nbsp;&nbsp;&nbsp;&nbsp; $ cad: cadena := "hola "; cad := cad + "mundo";
-escribir(cad); cad
-<li>
-Algunos avances en manejo de m&eacute;todos y otras caracter&iacute;sticas
-orientadas a objetos, pero a&uacute;n incompleto. Luego se notificar&aacute;n
+  <br>
+&nbsp;&nbsp;&nbsp;&nbsp; $ cad: cadena := "hola "; cad := cad + "mundo"; escribir(cad);
+cad <li> Algunos avances en manejo de m&eacute;todos y otras caracter&iacute;sticas 
+orientadas a objetos, pero a&uacute;n incompleto. Luego se notificar&aacute;n 
 oficialmente.</li>
-
-<li>
-Agregada posibilidad de implementar algoritmos utilizando Java a trav&eacute;s
+  <li> Agregada posibilidad de implementar algoritmos utilizando Java a trav&eacute;s 
 de BeanShell.</li>
-</ul>
-
-<li>
-<b>Sobre Compatibilidad</b></li>
-
-<ul>
-<li>
-<b>A nivel de fuentes</b>:</li>
-
-<ol>
-<li>
-Hay nuevas palabras reservadas para manejo de excepciones: "lance", "intente",
-"atrape", "siempre". Tambi&eacute;n se ha agregado "interfaz" que es la
-palabra correcta seg&uacute;n la RAE.&nbsp; Por ahora se deja tambi&eacute;n
+ 
+  </ul>
+  <li> <b>Sobre Compatibilidad</b></li>
+  
+  <ul>
+ <li> <b>A nivel de fuentes</b>:</li>
+  
+    <ol>
+ <li> Hay nuevas palabras reservadas para manejo de excepciones: "lance",
+"intente", "atrape", "siempre". Tambi&eacute;n se ha agregado "interfaz"
+que es la palabra correcta seg&uacute;n la RAE.&nbsp; Por ahora se deja tambi&eacute;n 
 como sin&oacute;nimo "interface".</li>
-
-<li>
-Ahora todo acceso a los atributos de una clase se debe hacer a trav&eacute;s
-de la palabra reservad <b>&eacute;ste</b>, tanto en constructores como
-en m&eacute;todos. Anteriormente las declaraciones de los atributos segu&iacute;an
-vigentes tanto en los contructores como en los m&eacute;todos. Un efecto
-de este cambio es que ahora es posible declarar par&aacute;metros repitiendo
+  <li> Ahora todo acceso a los atributos de una clase se debe hacer a trav&eacute;s 
+de la palabra reservad <b>&eacute;ste</b>, tanto en constructores como en
+m&eacute;todos. Anteriormente las declaraciones de los atributos segu&iacute;an 
+vigentes tanto en los contructores como en los m&eacute;todos. Un efecto de
+este cambio es que ahora es posible declarar par&aacute;metros repitiendo 
 nombres de atributos.</li>
-</ol>
-
-<li>
-<b>A nivel de binarios</b>: Hay cambios internos. Para actualizar un proyecto,
-revisar primero posibles incompatibilidades a nivel de fuentes (seg&uacute;n
-punto anterior) y luego dar el comando <b>F9</b> (compilar).</li>
+ 
+    </ol>
+  <li> <b>A nivel de binarios</b>: Hay cambios internos. Para actualizar
+un proyecto, revisar primero posibles incompatibilidades a nivel de fuentes
+(seg&uacute;n punto anterior) y luego dar el comando <b>F9</b> (compilar).</li>
+ 
+  </ul>
+  <li> Diversas anomal&iacute;as corregidas.</li>
+ 
 </ul>
-
-<li>
-Diversas anomal&iacute;as corregidas.</li>
-</ul>
-
-<hr WIDTH="100%"><b><tt>0.8pre3&nbsp; - 2002-10-08</tt></b>
+  
+<hr width="100%"><b><tt>0.8pre3&nbsp; - 2002-10-08</tt></b> 
 <ul>
-<li>
-<b>Sobre nuevo entorno</b>:</li>
-
-<ul>
-<li>
-Mejorados diversos controles para definici&oacute;n de elementos de composici&oacute;n
-de los proyectos.</li>
-
-<li>
-Habilitada la escogencia de una especificaci&oacute;n teniendo en cuenta
-todos los proyectos del espacio de trabajo.</li>
-
-<li>
-Mejorado despliegue del diagrama, as&iacute; como algunos controles internos
-(antes era posible que se repitieran algunos elementos).</li>
-
-<li>
-Actualizaci&oacute;n de enfoque en listas de selecci&oacute;n.</li>
-
-<li>
-Confirmaci&oacute;n antes de salir del entorno.</li>
-
-<li>
-Nueva ventana para mostrar la variables declaradas en el entorno de ejecuci&oacute;n
-(<b>Ctrl-E</b>). Estas variables son las que se declaran en el int&eacute;rprete
-interactivo o en ventanas de ejecuci&oacute;n (ver a continuaci&oacute;n).
-El contenido de esta ventana se actualiza ante nuevas declaraciones y borrado
-de declaraciones. Tambi&eacute;n se ha incluido un primer criterio de actualizaci&oacute;n
-autom&aacute;tica ante compilaciones que puedan comprometer las variables
-actualmente declaradas (en cuyo caso se borran).</li>
-
-<li>
-Unificaci&oacute;n de las ventanas de ejecuci&oacute;n. Ahora siguen el
-mismo estilo del int&eacute;rprete interactivo. En particular, Ctrl-F9
-(ejecutar algoritmo), permite ahora acceder a las variables declaradas
-en el entorno para fines de suministrar argumentos y/o asignar valores
-de resultado, si es necesario.</li>
-
-<li>
-Implementadas las opciones "Crear esquema para pruebas" (para especificaci&oacute;n),
-"Probar" (para algoritmo), y "Probar proyecto" (<b>Ctrl-T</b>) para todo
-un proyecto. Esta &uacute;ltima, por ejemplo, pone a prueba autom&aacute;ticamente
+ <li> <b>Sobre nuevo entorno</b>:</li>
+  
+  <ul>
+ <li> Mejorados diversos controles para definici&oacute;n de elementos de
+composici&oacute;n de los proyectos.</li>
+  <li> Habilitada la escogencia de una especificaci&oacute;n teniendo en
+cuenta todos los proyectos del espacio de trabajo.</li>
+  <li> Mejorado despliegue del diagrama, as&iacute; como algunos controles
+internos (antes era posible que se repitieran algunos elementos).</li>
+  <li> Actualizaci&oacute;n de enfoque en listas de selecci&oacute;n.</li>
+  <li> Confirmaci&oacute;n antes de salir del entorno.</li>
+  <li> Nueva ventana para mostrar la variables declaradas en el entorno de
+ejecuci&oacute;n (<b>Ctrl-E</b>). Estas variables son las que se declaran
+en el int&eacute;rprete interactivo o en ventanas de ejecuci&oacute;n (ver
+a continuaci&oacute;n). El contenido de esta ventana se actualiza ante nuevas
+declaraciones y borrado de declaraciones. Tambi&eacute;n se ha incluido un
+primer criterio de actualizaci&oacute;n autom&aacute;tica ante compilaciones
+que puedan comprometer las variables actualmente declaradas (en cuyo caso
+se borran).</li>
+  <li> Unificaci&oacute;n de las ventanas de ejecuci&oacute;n. Ahora siguen
+el mismo estilo del int&eacute;rprete interactivo. En particular, Ctrl-F9 
+(ejecutar algoritmo), permite ahora acceder a las variables declaradas en
+el entorno para fines de suministrar argumentos y/o asignar valores de resultado,
+si es necesario.</li>
+  <li> Implementadas las opciones "Crear esquema para pruebas" (para especificaci&oacute;n), 
+"Probar" (para algoritmo), y "Probar proyecto" (<b>Ctrl-T</b>) para todo un
+proyecto. Esta &uacute;ltima, por ejemplo, pone a prueba autom&aacute;ticamente 
 todos los algoritmos del proyecto que cuenten con esquema de pruebas.</li>
-
-<li>
-Mejorado mecanismo de compilaci&oacute;n de un proyecto completo ante posibles
-interdependencias entre las unidades constituyentes.</li>
+  <li> Mejorado mecanismo de compilaci&oacute;n de un proyecto completo ante
+posibles interdependencias entre las unidades constituyentes.</li>
+ 
+  </ul>
+ 
 </ul>
-</ul>
-
+  
 <ul>
-<li>
-obtAlgoritmo(nombre: cadena) ahora retorna nulo si el algoritmo no se encuentra
-(antes se generaba un error en ejecuci&oacute;n).</li>
-
-<li>
-Operador 'implementa' habilitado para revisar si una expresi&oacute;n es
-un algoritmo que implementa una cierta especificaci&oacute;n. Ejemplo:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp; alg: algoritmo := fiboIter;</tt>
-<br><tt>&nbsp;&nbsp;&nbsp; ...</tt>
-<br><tt>&nbsp;&nbsp;&nbsp; si alg implementa algoritmo para fibo entonces</tt>
-<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f := (alg como algoritmo
-para fibo)(20);</tt>
-<br><tt>&nbsp;&nbsp;&nbsp; ...</tt>
-<li>
-<b>Sobre Compatibilidad</b></li>
-
-<ul>
-<li>
-<b>A nivel de fuentes</b>: Hay dos cambios:</li>
-
-<br>(1) Se permite ahora una cadena de documentaci&oacute;n (que se escribe
-encerrada entre pares de comillas sencillas) en el contenido de una afirmaci&oacute;n.
-Esta se vuelve la forma preferida en vez de cadena literal (comillas dobles).
-Por compatibilidad, se seguir&aacute; aceptando temporalmente la cadena
-literal hasta que se avise lo contrario. Ejemplo: Modificar
-<tt>{"duerme
-por 5 segundos"}&nbsp;</tt> por&nbsp; <tt>{''duerme por 5 segundos''}.</tt>
-<br>(2) Ahora se acepta s&oacute;lo una comilla sencilla (<tt>'</tt>) al
-final de un identificador para fines de indicar una variable sem&aacute;ntica.
-Si se utiliza algo como <tt>n''</tt>, ser&aacute; necesario modificar el
-c&oacute;digo fuente.
-<li>
-<b>A nivel de binarios</b>: Hay cambios internos. S&oacute;lo bastar&aacute;
-un <b>F9</b> (compilar) para cada proyecto que deba actualizarse. Los paquetes
-de extensi&oacute;n ser&aacute; marcados con un aviso respectivo.</li>
-</ul>
-
-<li>
-Anomal&iacute;as corregidas:</li>
-
-<ul>
-<li>
-'continue' dentro de iteraci&oacute;n 'para' no estaba actualizando variable
-de control. Corregido.</li>
-
-<li>
-Posible persistencia de declaraciones internas y/o etiquetas en interpretaci&oacute;n
+ <li> obtAlgoritmo(nombre: cadena) ahora retorna nulo si el algoritmo no
+se encuentra (antes se generaba un error en ejecuci&oacute;n).</li>
+  <li> Operador 'implementa' habilitado para revisar si una expresi&oacute;n
+es un algoritmo que implementa una cierta especificaci&oacute;n. Ejemplo:</li>
+  <br>
+  <tt>&nbsp;&nbsp;&nbsp; alg: algoritmo := fiboIter;</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp; ...</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp; si alg implementa algoritmo para fibo entonces</tt> 
+  <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f := (alg como algoritmo 
+para fibo)(20);</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp; ...</tt> <li> <b>Sobre Compatibilidad</b></li>
+  
+  <ul>
+ <li> <b>A nivel de fuentes</b>: Hay dos cambios:</li>
+  <br>
+(1) Se permite ahora una cadena de documentaci&oacute;n (que se escribe encerrada
+entre pares de comillas sencillas) en el contenido de una afirmaci&oacute;n. 
+Esta se vuelve la forma preferida en vez de cadena literal (comillas dobles). 
+Por compatibilidad, se seguir&aacute; aceptando temporalmente la cadena literal
+hasta que se avise lo contrario. Ejemplo: Modificar <tt>{"duerme por 5 segundos"}&nbsp;</tt>
+por&nbsp; <tt>{''duerme por 5 segundos''}.</tt> <br>
+(2) Ahora se acepta s&oacute;lo una comilla sencilla (<tt>'</tt>) al final
+de un identificador para fines de indicar una variable sem&aacute;ntica. Si
+se utiliza algo como <tt>n''</tt>, ser&aacute; necesario modificar el c&oacute;digo
+fuente. <li> <b>A nivel de binarios</b>: Hay cambios internos. S&oacute;lo
+bastar&aacute; un <b>F9</b> (compilar) para cada proyecto que deba actualizarse.
+Los paquetes de extensi&oacute;n ser&aacute; marcados con un aviso respectivo.</li>
+ 
+  </ul>
+  <li> Anomal&iacute;as corregidas:</li>
+  
+  <ul>
+ <li> 'continue' dentro de iteraci&oacute;n 'para' no estaba actualizando
+variable de control. Corregido.</li>
+  <li> Posible persistencia de declaraciones internas y/o etiquetas en interpretaci&oacute;n 
 interactiva. Corregido.</li>
-
-<li>
-Posible conversi&oacute;n inv&aacute;lida de valor de retorno en algoritmos.
+  <li> Posible conversi&oacute;n inv&aacute;lida de valor de retorno en algoritmos. 
 Corregido.</li>
+ 
+  </ul>
+ 
 </ul>
-</ul>
-
-<hr width="100%">
-<br><b><tt>0.8pre2&nbsp; - 2002-08-31</tt></b>
-<br>(Primera 0.8preX anunciada)
+  
+<hr width="100%"> <br>
+<b><tt>0.8pre2&nbsp; - 2002-08-31</tt></b> <br>
+(Primera 0.8preX anunciada) 
 <ul>
-<li>
-Totalmente nueva interface gr&aacute;fica, mucho mejor integrada, intuitiva
+ <li> Totalmente nueva interface gr&aacute;fica, mucho mejor integrada, intuitiva 
 y funcional.</li>
-
-<ul>
-<li>
-Manejo por <b>proyectos</b>.</li>
-
-<li>
-Diagrama para mostrar componentes de un proyecto (estilo UML).</li>
-
-<li>
-Interacci&oacute;n de usuario m&aacute;s c&oacute;moda y supervisada.</li>
-
-<li>
-Actualizaci&oacute;n autom&aacute;tica de documentaci&oacute;n HTML.</li>
-
-<li>
-Compilaci&oacute;n de un proyecto completo o por unidad.</li>
-
-<li>
-Importaci&oacute;n/Instalaci&oacute;n/Exportaci&oacute;n de proyectos.</li>
-
-<li>
-Las demostraciones vienen ahora como proyectos. El comando "Instalar" permite
-poner las demostraciones en el espacio de trabajo.</li>
-
-<li>
-Comandos de teclado reasignados buscando m&aacute;s estandarizaci&oacute;n.</li>
-
-<li>
-Reasignados colores para algunos elementos l&eacute;xicos del lenguaje
+  
+  <ul>
+ <li> Manejo por <b>proyectos</b>.</li>
+  <li> Diagrama para mostrar componentes de un proyecto (estilo UML).</li>
+  <li> Interacci&oacute;n de usuario m&aacute;s c&oacute;moda y supervisada.</li>
+  <li> Actualizaci&oacute;n autom&aacute;tica de documentaci&oacute;n HTML.</li>
+  <li> Compilaci&oacute;n de un proyecto completo o por unidad.</li>
+  <li> Importaci&oacute;n/Instalaci&oacute;n/Exportaci&oacute;n de proyectos.</li>
+  <li> Las demostraciones vienen ahora como proyectos. El comando "Instalar"
+permite poner las demostraciones en el espacio de trabajo.</li>
+  <li> Comandos de teclado reasignados buscando m&aacute;s estandarizaci&oacute;n.</li>
+  <li> Reasignados colores para algunos elementos l&eacute;xicos del lenguaje 
 para mejor diferenciaci&oacute;n.</li>
+ 
+  </ul>
+  <li> <b>&iquest;Y mis programas anteriores?</b></li>
+  <br>
+Este cambio a nivel del entorno obliga a que los programas existentes sean
+  <b>importados</b> al entorno en forma de <b>proyectos</b>. Por cada conjunto
+de programas fuentes que se quiera tener como un proyecto, se debe seguir
+este procedimiento general: 
+  <ul>
+ <li> Utilizar el comando "Nuevo..." para definir el proyecto. Llenae los
+campos informativos que se piden.</li>
+  <li> Para cada uno de los archivos fuentes, utilizar el comando "Importar". 
+Indicar el archivo y Loro lo cargar&aacute; y asociar&aacute; al proyecto. 
+Por el momento Loro s&oacute;lo puede importar archivos que son v&aacute;lidos 
+(sin errores de compilaci&oacute;n). Si este no es el caso, de todas maneras 
+se pueden definir las unidades (especificaciones, algoritmos o clases) utilizando
+el entorno, y luego complementar el c&oacute;digo fuente de dichas unidades
+mediante el mecanismo copiar-pegar.</li>
+ 
+  </ul>
+  <li> Ahora se revisan las expresiones que se usan como acciones: Ya que
+una expresi&oacute;n puede ser una acci&oacute;n, ahora se revisa que dicha 
+expresi&oacute;n sea permitida. Las expresiones permitidas como acciones son:</li>
+  
+  <ul>
+ 
+    <ul>
+ <li> Asignaci&oacute;n</li>
+  <li> Invocaci&oacute;n</li>
+  <li> Creaci&oacute;n de arreglo</li>
+  <li> Creaci&oacute;n de objeto</li>
+  <li> Condici&oacute;n (operador ternario <b>?:</b>)</li>
+ 
+    </ul>
+ 
+  </ul>
+  <li> Nuevo elemento l&eacute;xico para textos de documentaci&oacute;n.
+Ahora un texto de documentaci&oacute;n debe encerrarse en pares de comillas
+sencillas, por ejemplo:</li>
+  <br>
+  <tt>&nbsp;&nbsp;&nbsp; ''Este es el texto de documentaci&oacute;n''</tt> 
+  <br>
+Esto permite reflejar expl&iacute;citamente la diferencia l&oacute;gica que
+hay entre un texto de documentaci&oacute;n y un literal cadena.&nbsp; Sin
+embargo, por compatibilidad con c&oacute;digo anterior, a&uacute;n se siguen
+aceptando las comillas dobles. <li> Nuevo elemento l&eacute;xico para marcas
+    <tt>{{escriba aqu&iacute;}}</tt>. Sint&aacute;cticamente este elemento
+no es permitido en ninguna parte del programa, pero es una forma de indicar
+&aacute;reas concretas que deber&iacute;an remplazarse por c&oacute;digo
+v&aacute;lido.</li>
+  <li> Versi&oacute;n cadena de objetos modificada para hacer mejor control
+de posible recursi&oacute;n infinita. Un ejemplo con arreglos:</li>
+  
+  <ul>
+ <li> <tt>arr : [] Objeto;&nbsp; // un arreglo de objetos</tt></li>
+  <li> <tt>obj : Objeto;&nbsp;&nbsp;&nbsp;&nbsp; // un objeto</tt></li>
+  <li> <tt>arr := ["hola", "mundo'];</tt></li>
+  <li> <tt>obj := arr;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // v&aacute;lido
+porque los arreglos son objetos</tt></li>
+  <li> <tt>arr[1] := obj;&nbsp;&nbsp;&nbsp; // v&aacute;lido, pero note el
+ciclo recursivo que se forma</tt></li>
+ 
+  </ul>
+ Si se imprime <tt>obj </tt>(o <tt>arr</tt>, pues son el mismo objeto), se
+obtiene: 
+  <ul>
+    <tt>["hola",[!]]</tt>
+  </ul>
+ el s&iacute;mbolo <tt>[!]</tt> indica que se trata de un arreglo que ya se
+se est&aacute; procesando (o ya se proces&oacute;). Para objetos que son
+miembros de otros objetos, se utiliza el s&iacute;mbolo <tt>{!}</tt>. <br>
+Los comandos <tt>.verobj</tt> para establecer el "m&aacute;ximo nivel para
+ver objetos", y <tt>.verarr</tt> para la "m&aacute;xima longitud para ver
+arreglos", siguen operando de la misma manera.
 </ul>
-
-<li>
-<b>&iquest;Y mis programas anteriores?</b></li>
-
-<br>Este cambio a nivel del entorno obliga a que los programas existentes
-sean <b>importados</b> al entorno en forma de <b>proyectos</b>. Por cada
-conjunto de programas fuentes que se quiera tener como un proyecto, se
-debe seguir este procedimiento general:
+  
 <ul>
-<li>
-Utilizar el comando "Nuevo..." para definir el proyecto. Llenae los campos
-informativos que se piden.</li>
-
-<li>
-Para cada uno de los archivos fuentes, utilizar el comando "Importar".
-Indicar el archivo y Loro lo cargar&aacute; y asociar&aacute; al proyecto.
-Por el momento Loro s&oacute;lo puede importar archivos que son v&aacute;lidos
-(sin errores de compilaci&oacute;n). Si este no es el caso, de todas maneras
-se pueden definir las unidades (especificaciones, algoritmos o clases)
-utilizando el entorno, y luego complementar el c&oacute;digo fuente de
-dichas unidades mediante el mecanismo copiar-pegar.</li>
-</ul>
-
-<li>
-Ahora se revisan las expresiones que se usan como acciones: Ya que una
-expresi&oacute;n puede ser una acci&oacute;n, ahora se revisa que dicha
-expresi&oacute;n sea permitida. Las expresiones permitidas como acciones
-son:</li>
-
-<ul>
-<ul>
-<li>
-Asignaci&oacute;n</li>
-
-<li>
-Invocaci&oacute;n</li>
-
-<li>
-Creaci&oacute;n de arreglo</li>
-
-<li>
-Creaci&oacute;n de objeto</li>
-
-<li>
-Condici&oacute;n (operador ternario <b>?:</b>)</li>
-</ul>
-</ul>
-
-<li>
-Nuevo elemento l&eacute;xico para textos de documentaci&oacute;n. Ahora
-un texto de documentaci&oacute;n debe encerrarse en pares de comillas sencillas,
-por ejemplo:</li>
-
-<br><tt>&nbsp;&nbsp;&nbsp; ''Este es el texto de documentaci&oacute;n''</tt>
-<br>Esto permite reflejar expl&iacute;citamente la diferencia l&oacute;gica
-que hay entre un texto de documentaci&oacute;n y un literal cadena.&nbsp;
-Sin embargo, por compatibilidad con c&oacute;digo anterior, a&uacute;n
-se siguen aceptando las comillas dobles.
-<li>
-Nuevo elemento l&eacute;xico para marcas <tt>{{escriba aqu&iacute;}}</tt>.
-Sint&aacute;cticamente este elemento no es permitido en ninguna parte del
-programa, pero es una forma de indicar &aacute;reas concretas que deber&iacute;an
-remplazarse por c&oacute;digo v&aacute;lido.</li>
-
-<li>
-Versi&oacute;n cadena de objetos modificada para hacer mejor control de
-posible recursi&oacute;n infinita. Un ejemplo con arreglos:</li>
-
-<ul>
-<li>
-<tt>arr : [] Objeto;&nbsp; // un arreglo de objetos</tt></li>
-
-<li>
-<tt>obj : Objeto;&nbsp;&nbsp;&nbsp;&nbsp; // un objeto</tt></li>
-
-<li>
-<tt>arr := ["hola", "mundo'];</tt></li>
-
-<li>
-<tt>obj := arr;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // v&aacute;lido porque
-los arreglos son objetos</tt></li>
-
-<li>
-<tt>arr[1] := obj;&nbsp;&nbsp;&nbsp; // v&aacute;lido, pero note el ciclo
-recursivo que se forma</tt></li>
-</ul>
-Si se imprime <tt>obj </tt>(o <tt>arr</tt>, pues son el mismo objeto),
-se obtiene:
-<ul><tt>["hola",[!]]</tt></ul>
-el s&iacute;mbolo <tt>[!]</tt> indica que se trata de un arreglo que ya
-se se est&aacute; procesando (o ya se proces&oacute;). Para objetos que
-son miembros de otros objetos, se utiliza el s&iacute;mbolo <tt>{!}</tt>.
-<br>Los comandos <tt>.verobj</tt> para establecer el "m&aacute;ximo nivel
-para ver objetos", y <tt>.verarr</tt> para la "m&aacute;xima longitud para
-ver arreglos", siguen operando de la misma manera.</ul>
-
-<ul>
-<li>
-<b>Sobre Compatibilidad</b></li>
-
-<ul>
-<li>
-<b>A nivel de fuentes</b>: Hay cambios pero hay compatibilidad. Sin embargo,
-es altamente recomendable remplazar las comillas dobles para <b>textos
-de documentaci&oacute;n</b> por pares de comillas sencillas. Ejemplo: Modificar
-<tt>"bla
-bla bla"</tt> por <tt>''bla bla bla''</tt>.</li>
-
-<br><b>Nota</b>: las cadenas literales de caracteres (cuyo tipo es <b>cadena</b>)
-contin&uacute;an escribi&eacute;ndose con comillas dobles.
-<li>
-<b>A nivel de binarios</b>: Hay cambios internos. De hecho, el cambio general
-del entorno obliga a que los programas existentes sean <b>importados</b>
-al entorno en forma de <b>proyectos</b>. Ver m&aacute;s arriba.</li>
-</ul>
-
-<li>
-<b>Sobre requerimientos</b>:</li>
-
-<ul>
-<li>
-El entorno Loro requiere ahora un ambiente de ejecuci&oacute;n Java (JRE)
-version 1.4 o posterior.</li>
-</ul>
-
-<li>
-Anomal&iacute;as corregidas:</li>
-
-<ul>
-<li>
-Una definici&oacute;n de clase A recursiva (con un miembro de clase A),
-con un constructor asignando al miembro: produc&iacute;a error de compilaci&oacute;n
+ <li> <b>Sobre Compatibilidad</b></li>
+  
+  <ul>
+ <li> <b>A nivel de fuentes</b>: Hay cambios pero hay compatibilidad. Sin
+embargo, es altamente recomendable remplazar las comillas dobles para <b>textos 
+de documentaci&oacute;n</b> por pares de comillas sencillas. Ejemplo: Modificar 
+      <tt>"bla bla bla"</tt> por <tt>''bla bla bla''</tt>.</li>
+  <br>
+    <b>Nota</b>: las cadenas literales de caracteres (cuyo tipo es <b>cadena</b>) 
+contin&uacute;an escribi&eacute;ndose con comillas dobles. <li> <b>A nivel
+de binarios</b>: Hay cambios internos. De hecho, el cambio general del entorno
+obliga a que los programas existentes sean <b>importados</b> al entorno en
+forma de <b>proyectos</b>. Ver m&aacute;s arriba.</li>
+ 
+  </ul>
+  <li> <b>Sobre requerimientos</b>:</li>
+  
+  <ul>
+ <li> El entorno Loro requiere ahora un ambiente de ejecuci&oacute;n Java
+(JRE) version 1.4 o posterior.</li>
+ 
+  </ul>
+  <li> Anomal&iacute;as corregidas:</li>
+  
+  <ul>
+ <li> Una definici&oacute;n de clase A recursiva (con un miembro de clase
+A), con un constructor asignando al miembro: produc&iacute;a error de compilaci&oacute;n 
 asociado a la NO resoluci&oacute;n del tipo recursivo. Corregido.</li>
-
-<li>
-Conversi&oacute;n de valor operaba mal en el caso 'nulo' (el cual debe
-dejarse tal cual). Corregido.</li>
-
-<li>
-<tt>obj.xxx()</tt> generaba error de invocaci&oacute;n sobre objeto nulo.
-Corregido. (Esta anomal&iacute;a surgi&oacute; recientemente por la adici&oacute;n
-de ciertos mecanismos para el manejo de objetos y m&eacute;todos, los cuales
-a&uacute;n no se encuentran habilitados.)</li>
-
-<li>
-Posible recursi&oacute;n infinita al visualizar un objeto o un arreglo.
+  <li> Conversi&oacute;n de valor operaba mal en el caso 'nulo' (el cual
+debe dejarse tal cual). Corregido.</li>
+  <li> <tt>obj.xxx()</tt> generaba error de invocaci&oacute;n sobre objeto
+nulo. Corregido. (Esta anomal&iacute;a surgi&oacute; recientemente por la
+adici&oacute;n de ciertos mecanismos para el manejo de objetos y m&eacute;todos,
+los cuales a&uacute;n no se encuentran habilitados.)</li>
+  <li> Posible recursi&oacute;n infinita al visualizar un objeto o un arreglo. 
 Corregido. (Ver arriba.)</li>
+ 
+  </ul>
+ 
 </ul>
-</ul>
-
-<hr WIDTH="100%">
-<br><tt>0.7s2&nbsp; - 2002-06-18</tt>
+  
+<hr width="100%"> <br>
+<tt>0.7s2&nbsp; - 2002-06-18</tt> 
 <ul>
-<li>
-Versi&oacute;n final 0.7.0</li>
+ <li> Versi&oacute;n final 0.7.0</li>
+ 
 </ul>
-
+  <br>
 </body>
 </html>
