@@ -63,7 +63,17 @@ public class EjecutorPP extends EjecutorTerminable
 		super._enter(n);
 		if ( obspp != null )
 		{
-			String src = unidadActual.getSourceCode();
+			String src;
+			if ( n instanceof NUnidad )
+			{
+				// n se convertirá eventualmente en la "unidadActual";
+				// en particular, esto sucede con la visita a NAlgoritmo
+				// en este momento [2003-02-13].
+				src = ((NUnidad) n).getSourceCode();
+			}
+			else
+				src = unidadActual.getSourceCode();
+			
 			try
 			{
 				obspp.enter(n, tabSimb, src);
@@ -77,8 +87,7 @@ public class EjecutorPP extends EjecutorTerminable
 	
 	////////////////////////////////////////////////////////////
 	/**
-	 * Llama super._exit(n), pide una señal de control de
-	 * seguimiento paso-a-paso, y notifica al observador.
+	 * Llama super._exit(n) y notifica al observador.
 	 */
 	protected void _exit(INodo n)
 	throws VisitanteException
@@ -142,7 +151,8 @@ public class EjecutorPP extends EjecutorTerminable
 			String src = unidadActual.getSourceCode();
 			try
 			{
-				obspp.pop(unidadActual, tabSimb, src);
+				INodo curr_node = pilaEjec.peekNode();
+				obspp.pop(unidadActual, curr_node, tabSimb, src);
 			}
 			catch(InterruptedException ex)
 			{

@@ -36,8 +36,11 @@ public final class PilaEjecucion extends Stack
 	 */
 	static class MarcoActivacion
 	{
+		/** El nodo en curso. */
+		INodo curr_node;
+		
 		/** Posicion actual dentro del fuente correspondiente. */
-		int iniLin, iniCol;
+		//int iniLin, iniCol;
 
 		/** La unidad de esta activacion. */
 		NUnidad uni;
@@ -49,8 +52,9 @@ public final class PilaEjecucion extends Stack
 		MarcoActivacion(NUnidad uni, TablaSimbolos tabSimb)
 		{
 			this.uni = uni;
-			this.iniLin = uni.obtRango().obtIniLin();
-			this.iniCol = uni.obtRango().obtIniCol();
+			this.curr_node = uni;
+//			this.iniLin = uni.obtRango().obtIniLin();
+//			this.iniCol = uni.obtRango().obtIniCol();
 
 			this.tabSimb = tabSimb;
 		}
@@ -110,7 +114,11 @@ public final class PilaEjecucion extends Stack
 				fuente = "<fuente?>";
 			}
 
-			String pos_msg = m.iniLin+ "," +m.iniCol;
+			int iniLin = m.curr_node.obtRango().obtIniLin();
+			int iniCol = m.curr_node.obtRango().obtIniCol();
+
+			String pos_msg = iniLin+ "," +iniCol;
+			//String pos_msg = m.iniLin+ "," +m.iniCol;
 			
 			sb.append("  en " +m.uni+ " (" +fuente+ ":" +pos_msg+ ")\n");
 		}
@@ -196,13 +204,30 @@ public final class PilaEjecucion extends Stack
 	 * Actualiza info sobre posicion en el tope de esta pila.
 	 * Si esta pila esta vacia, no se hace nada.
 	 */
-	public final void actualizarTope(IUbicable u)
+	public final void actualizarTope(INodo u)
 	{
 		if ( ! isEmpty() )
 		{
 			MarcoActivacion m = (MarcoActivacion) peek();
-			m.iniLin = u.obtRango().obtIniLin();
-			m.iniCol = u.obtRango().obtIniCol();
+			m.curr_node = u;
+//			m.iniLin = u.obtRango().obtIniLin();
+//			m.iniCol = u.obtRango().obtIniCol();
 		}
 	}
+
+	/////////////////////////////////////////////////////////////
+	/**
+	 * Obtiene el nodo en el tope de esta pila.
+	 * Si esta pila esta vacia, se retorna null.
+	 */
+	public final INodo peekNode()
+	{
+		if ( ! isEmpty() )
+		{
+			MarcoActivacion m = (MarcoActivacion) peek();
+			return m.curr_node;
+		}
+		return null;
+	}
+
 }

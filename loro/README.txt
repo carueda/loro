@@ -27,6 +27,17 @@ NOTAS
 
 
 ////////////////////////////////////////////////////////////////////////////
+2003-02-13 Version 0.7.7
+
+Ejecución paso-a-paso
+
+	- PilaEjecucion.java: Se mantiene referencia al nodo pasado en
+	  actualizarTope en cada marco de activación. Esta información
+	  es más completa (que sólo la línea/columna), y además permite
+	  al EjecutorPP._popEvent() notificar también el nodo concreto
+	  al que se regresa.
+	  
+////////////////////////////////////////////////////////////////////////////
 2003-02-11 Version 0.7.7
 
 	- Nuevo servicio Loro.getNodeDescription(INodo n) que obtiene una

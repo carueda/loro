@@ -30,14 +30,14 @@ public interface IObservadorPP
 	/**
 	 * Llamado cuando acaba de ingresarse a un ámbito de unidad.
 	 */
-	public int push(IUnidad n, ISymbolTable symbTab, String src)
+	public int push(IUnidad u, ISymbolTable symbTab, String src)
 	throws InterruptedException;
 
 	//////////////////////////////////////////////////////////////
 	/**
 	 * Llamado cuando acaba de salirse de un ámbito de unidad.
 	 */
-	public int pop(IUnidad n, ISymbolTable symbTab, String src)
+	public int pop(IUnidad u, INodo n, ISymbolTable symbTab, String src)
 	throws InterruptedException;
 
 	//////////////////////////////////////////////////////////////
