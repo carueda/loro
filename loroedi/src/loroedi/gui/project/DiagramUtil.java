@@ -16,10 +16,7 @@ import java.util.*;
 
 /////////////////////////////////////////////////////////
 /** ~!~
- * 
- *
  * @author Carlos Rueda
- * @version 2002-07-18
  */
 public final class DiagramUtil
 {
@@ -54,8 +51,7 @@ public final class DiagramUtil
 	}
 
 	/////////////////////////////////////////////////////////////////////
-	static double getWidth(String str, Font font) 
-	{
+	static double getWidth(String str, Font font) {
 		return new TextLayout(str, font, frc).getBounds().getWidth();
 	}
 	
@@ -72,17 +68,13 @@ public final class DiagramUtil
 	}
 	
 	/////////////////////////////////////////////////////////////////////
-	static String getStereo(Object obj)
-	{
-		if ( obj instanceof IProjectUnit )
-		{
+	static String getStereo(Object obj) {
+		if ( obj instanceof IProjectUnit ) {
 			return ((IProjectUnit) obj).getStereotype();
 		}
-		else
-		{
+		else {
 			return "??????";
 		}
 	}
-	
-	
 }
+

@@ -10,8 +10,7 @@
 //
 // $Id$
 //
-// COMPILACIÓN
-//  con JavaCC Versión 3.2: Ver build.xml.
+// COMPILACIÓN: Ver build.xml.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -305,17 +304,10 @@
 
 
 PARSER_BEGIN(LoroIParser)
-
-package loro.parsers.javacc;
-
-import loro.arbol.*;
-
-import java.util.*;
-
-class LoroIParser
-{
-}
-
+	package loro.parsers.javacc;
+	import loro.arbol.*;
+	import java.util.*;
+	class LoroIParser { }
 PARSER_END(LoroIParser)
 
 
