@@ -1,7 +1,6 @@
 package loroedi.gui.project.model;
 
 import loroedi.gui.project.unit.*;
-import loro.util.Logger;
 
 import loro.*;
 
@@ -15,6 +14,7 @@ import java.util.*;
  * El paquete anónimo se identifica con el nombre vacío, "". 
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public class ProjectModel implements IProjectModel
 {

@@ -8,7 +8,6 @@ import loroedi.gui.editor.UEditor;
 import loroedi.InterpreterWindow;
 
 import loro.*;
-import loro.util.Logger;
 
 import java.util.*;
 import java.util.zip.ZipOutputStream;
@@ -648,7 +647,7 @@ public final class Workspace
 		}
 		catch(Exception ex)
 		{
-			Logger.getLogger().log("Error al obtener fuente para unidad: " 
+			Loro.log("Error al obtener fuente para unidad: " 
 				+unitname+ ": " +ex.getMessage()
 			);
 		}
@@ -1382,7 +1381,7 @@ public final class Workspace
 		}
 		catch(Exception ex)
 		{
-			Logger.getLogger().log("Error al actualizar propiedades de paquete: " +ex.getMessage());
+			Loro.log("Error al actualizar propiedades de paquete: " +ex.getMessage());
 		}
 	}
 		
@@ -1421,7 +1420,7 @@ public final class Workspace
 			}
 			catch(Exception ex)
 			{
-				Logger.getLogger().log("Error al actualizar demo script: " +ex.getMessage());
+				Loro.log("Error al actualizar demo script: " +ex.getMessage());
 			}
 		}
 	}
@@ -1726,7 +1725,7 @@ public final class Workspace
 			File file = new File(pkg_dir, name + ext_id + exts[i]);
 			if ( file.exists() && ! file.delete() )
 			{
-				Logger.getLogger().log("No se pudo borrar archivo: " +file);
+				Loro.log("No se pudo borrar archivo: " +file);
 			}
 		}
 		File pkg_props = new File(pkg_dir, "pkg.props");
@@ -1736,7 +1735,7 @@ public final class Workspace
 		}
 		catch(Exception ex)
 		{
-			Logger.getLogger().log("Error al actualizar propiedades de paquete: " +ex.getMessage());
+			Loro.log("Error al actualizar propiedades de paquete: " +ex.getMessage());
 		}
 	}
 		
@@ -1759,7 +1758,7 @@ public final class Workspace
 		File file = new File(pkg_dir, "pkg.props");
 		if ( file.exists() && ! file.delete() )
 		{
-			Logger.getLogger().log("No se pudo borrar archivo: " +file);
+			Loro.log("No se pudo borrar archivo: " +file);
 		}
 	}
 		
@@ -1785,7 +1784,7 @@ public final class Workspace
 					}
 					catch(Exception ex)
 					{
-						Logger.getLogger().log("Error al guardar PAQUETE: " +ex.getMessage());
+						Loro.log("Error al guardar PAQUETE: " +ex.getMessage());
 					}
 					break;
 					
@@ -1798,7 +1797,7 @@ public final class Workspace
 					}
 					catch(Exception ex)
 					{
-						Logger.getLogger().log("Error al guardar unidad: " +ex.getMessage());
+						Loro.log("Error al guardar unidad: " +ex.getMessage());
 					}
 					break;
 
