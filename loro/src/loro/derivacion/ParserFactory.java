@@ -11,11 +11,11 @@ import java.util.HashMap;
  * @author Carlos Rueda
  */
 public final class ParserFactory {
-	/** Code of Spanish-0 parser */
-	public static final String SP_0 = "sp-0";
+	/** Code of Spanish parser */
+	public static final String SP = "sp";
 
-	/** Code of English-0 parser */
-	public static final String EN_0 = "en-0";
+	/** Code of English parser */
+	public static final String EN = "en";
 
 	private static class Pair {
 		IDerivador parser;
@@ -35,16 +35,16 @@ public final class ParserFactory {
 	/** initialization: must be called before other services. */
 	static {
 		parsers = new HashMap();
-		parsers.put(SP_0,
+		parsers.put(SP,
 			new Pair(
-				new loro.parsers.javacc.SP0_JavaCCParser(),
-				new loro.parsers.javacc.SP0_JavaCCParser.MetaInfo()
+				new loro.parsers.javacc.ES_JavaCCParser(),
+				new loro.parsers.javacc.ES_JavaCCParser.MetaInfo()
 			)
 		);
-		parsers.put(EN_0, 
+		parsers.put(EN, 
 			new Pair(
-				new loro.parsers.javacc.EN0_JavaCCParser(),
-				new loro.parsers.javacc.EN0_JavaCCParser.MetaInfo()
+				new loro.parsers.javacc.EN_JavaCCParser(),
+				new loro.parsers.javacc.EN_JavaCCParser.MetaInfo()
 			)
 		);
 	}		

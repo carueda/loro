@@ -104,9 +104,9 @@ public final class Loro
 			strings = ResourceBundle.getBundle("loro.resource.strings", locale_);
 			locale = locale_;
 			if ( locale.toString().startsWith("es") )
-				ParserFactory.setCurrentCode(ParserFactory.SP_0);
+				ParserFactory.setCurrentCode(ParserFactory.SP);
 			else
-				ParserFactory.setCurrentCode(ParserFactory.EN_0);
+				ParserFactory.setCurrentCode(ParserFactory.EN);
 			log("Locale set to: " +locale);
 		}
 		catch(java.util.MissingResourceException ex) {

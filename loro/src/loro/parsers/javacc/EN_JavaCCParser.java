@@ -22,7 +22,7 @@ public class EN_JavaCCParser extends BaseParser {
 	/** The "real" parser. */
 	private LoroParser parser;
 
-	/** Creates a javacc-based parser for sp_0 lexical elements */
+	/** Creates a javacc-based parser for english lexical elements */
 	public EN_JavaCCParser() {
 		super();
 		parser = new LoroParser(new StringReader(""));
