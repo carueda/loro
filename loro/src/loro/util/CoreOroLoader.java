@@ -21,6 +21,8 @@ import java.net.JarURLConnection;
 ///////////////////////////////////////////////////////////////
 /**
  * Cargador de las unidades del núcleo de Loro.
+ * El recurso que contiene este núcleo se incluye en el mismo
+ * archivo que contiene las clases. 
  */
 class CoreOroLoader implements IOroLoader
 {
@@ -259,6 +261,36 @@ class CoreOroLoader implements IOroLoader
 		return "CoreOroLoader: " +getName();
 	}
 
+	/////////////////////////////////////////////////////////////////////
+	public List getFilenames(FilenameFilter fnfilter)
+	{
+		try
+		{
+			List list  = new ArrayList();
+			ZipInputStream zis = _getZipInputStream();
+			ZipEntry entry;
+			while ( (entry = zis.getNextEntry()) != null )
+			{
+				if ( !entry.isDirectory() )
+				{
+					String name = entry.getName();
+					if ( fnfilter == null
+					||   fnfilter.accept(null, name) )
+					{
+						list.add(name);
+					}
+				}			
+				zis.closeEntry();
+			}
+			zis.close();
+			return list;
+		}
+		catch(Exception ex)
+		{
+			throw new RuntimeException("CoreOroLoader.getFilenames: " +ex.getMessage());
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////
 	/**
 	 * Auxiliar para obtener el flujo hacia el recurso núcleo.

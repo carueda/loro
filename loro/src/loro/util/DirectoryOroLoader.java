@@ -8,6 +8,9 @@ import java.util.*;
 import java.io.*;
 
 ///////////////////////////////////////////////////////////////
+/**
+ * Cargador de las unidades desde un directorio.
+ */
 class DirectoryOroLoader implements IOroLoader
 {
 	private File directory;
@@ -223,6 +226,16 @@ class DirectoryOroLoader implements IOroLoader
 		return "DirectoryOroLoader: " +getName();
 	}
 	
+	/////////////////////////////////////////////////////////////////////
+	public List getFilenames(FilenameFilter fnfilter)
+	{
+		return Util.getFilenames(
+			directory.getAbsolutePath(),
+			true,   // recurse,
+			fnfilter
+		);
+	}
+
 	/////////////////////////////////////////////////////////////////////
 	/**
 	 * Reads an entire text file.

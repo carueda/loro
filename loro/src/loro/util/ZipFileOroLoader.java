@@ -20,6 +20,9 @@ import java.net.JarURLConnection;
 
 
 ///////////////////////////////////////////////////////////////
+/**
+ * Cargador de unidades desde un archivo zip.
+ */
 public class ZipFileOroLoader implements IOroLoader
 {
 	private ZipFile zf;
@@ -255,6 +258,26 @@ public class ZipFileOroLoader implements IOroLoader
 		return "ZipFileOroLoader: " +getName();
 	}
 	
+	
+	/////////////////////////////////////////////////////////////////////
+	public List getFilenames(FilenameFilter fnfilter)
+	{
+		List list  = new ArrayList();
+		for ( Enumeration enum = zf.entries(); enum.hasMoreElements(); )
+		{
+			ZipEntry entry = (ZipEntry) enum.nextElement();
+			if ( !entry.isDirectory() )
+			{
+				String name = entry.getName();
+				if ( fnfilter == null
+				||   fnfilter.accept(null, name) )
+				{
+					list.add(name);
+				}
+			}
+		}
+		return list;		
+	}
 	
 	/////////////////////////////////////////////////////////////////////
 	/**
