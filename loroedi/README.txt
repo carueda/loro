@@ -13,6 +13,16 @@ NOTAS
 	  ello.
 	  
 ////////////////////////////////////////////////////////////////////////////
+2003-05-23 (0.8pre12)
+
+	- Bug 718461 corregido:
+	  Project.setModel: pone un label transitorio mientras se actualiza el
+	  diagrama; esto evita la actualización incremental que no es necesaria y
+	  que hasta ahora producía a veces un mal refresco de la ventana.
+	  
+	- GUI.reloadProject() usa ahora progressRun().
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-21 (0.8pre11)
 
 	- Project.createAlgorithm(): Por fines de eficiencia, ahora chequea la 

@@ -3305,7 +3305,7 @@ public class GUI
 	 */
 	public static void reloadProject()
 	{
-		final Runnable doIt = new Runnable() 
+		progressRun(focusedProject.getFrame(), "recargando", new Runnable() 
 		{	
 			public void run() 
 			{
@@ -3319,9 +3319,9 @@ public class GUI
 				focusedProject.getDiagram().repaint();
 				prj_msg.print(" Listo");
 			}
-		};
+		});
 		
-		new Thread(doIt).start(); 
+		//new Thread(doIt).start(); 
 	}
 	
 	////////////////////////////////////////////////////////////////////////////

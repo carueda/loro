@@ -46,6 +46,8 @@ public class Project extends JPanel
 	
 	protected MessageArea msgArea;
 	
+	protected JSplitPane split0;
+	
 	////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Crea una nueva ventana para gestión de un proyecto.
@@ -58,11 +60,10 @@ public class Project extends JPanel
 		updateTitle();
 		diagram = new Diagram(this);
 		
-		JSplitPane split0 = getJSplitPane0();
-		
-		split0.add(diagram);
-		split0.add(new JScrollPane(msgArea = new MessageArea()));
-		
+		createJSplitPane0();
+		split0.setTopComponent(diagram);
+		split0.setBottomComponent(new JScrollPane(msgArea = new MessageArea()));
+		updateDividerLocation();
 		this.add(split0);
 		frame.getContentPane().add(this);
 	}
@@ -75,7 +76,19 @@ public class Project extends JPanel
 	{
 		this.model = model;
 		updateTitle();
-		diagram.reset();
+		JLabel label = new JLabel("un momento...");
+		label.setVerticalAlignment(JLabel.NORTH);
+		try
+		{
+			split0.setTopComponent(label);
+			updateDividerLocation();
+			diagram.reset();
+		}
+		finally
+		{
+			split0.setTopComponent(diagram);
+			updateDividerLocation();
+		}
 	}
 	
 	/////////////////////////////////////////////////////////
@@ -451,46 +464,37 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	private JSplitPane getJSplitPane0()
+	protected void updateDividerLocation()
 	{
-		final JSplitPane split0 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		double h = split0.getSize().getHeight();
+		double p = 0.1;
+		if ( p * h < 60. )
+			p = 60. / h;
+
+		p = 1. -p;
+		if ( 0. < p && p < 1.0 )
+			split0.setDividerLocation(p);
+	}
+	
+	////////////////////////////////////////////////////////////////
+	/**
+	 */
+	private void createJSplitPane0()
+	{
+		split0 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		split0.setDividerSize(3);
 		split0.setAutoscrolls(false);
 		split0.setContinuousLayout(false);
 		split0.setMinimumSize(new java.awt.Dimension(100, 100));
-		split0.addComponentListener
-		(	new ComponentAdapter()
+		split0.addComponentListener(new ComponentAdapter()
+		{
+			public void componentResized(ComponentEvent e)
 			{
-				public void componentResized(ComponentEvent e)
-				{
-					double h = split0.getSize().getHeight();
-					double p = 0.1;
-					if ( p * h < 60. )
-						p = 60. / h;
-
-					p = 1. -p;
-					if ( 0. < p && p < 1.0 )
-						split0.setDividerLocation(p);
-				}
+				updateDividerLocation();
 			}
-		);
-		return split0;
+		});
 	}
 
-	////////////////////////////////////////////////////////////////
-	/**
-	 */
-	private JSplitPane getJSplitPane1()
-	{
-		final JSplitPane split1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		split1.setDividerSize(4);
-		split1.setAutoscrolls(false);
-		split1.setContinuousLayout(false);
-		return split1;
-	}
-
-	
-	
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
