@@ -6,6 +6,7 @@ import loroedi.gui.project.unit.*;
 import loroedi.gui.editor.UEditor;
 
 import loroedi.InterpreterWindow;
+import loroedi.Util;
 
 import loro.*;
 
@@ -391,7 +392,7 @@ public final class Workspace
 				pkg_props = new File(pkg_dir, "pkg.props");
 				if ( pkg_props.exists() )   // a real package?
 				{
-					pkgname = loro.util.Util.replace(pkgname, File.separator, "::");
+					pkgname = Util.replace(pkgname, File.separator, "::");
 					IPackageModel pkgm = prjm.addPackage(pkgname);
 					_setupPackageFromDirectory(pkg_dir, pkg_props, pkgm, prjm);
 				}
@@ -1116,7 +1117,7 @@ public final class Workspace
 	throws Exception
 	{
 		String pkgname = pkgm.getName();
-		pkgname = loro.util.Util.replace(pkgname, "::", File.separator);
+		pkgname = Util.replace(pkgname, "::", File.separator);
 		File pkg_dir = new File(pkgs_dir, pkgname);
 		File pkg_props = new File(pkg_dir, "pkg.props");
 
@@ -1365,7 +1366,7 @@ public final class Workspace
 	{
 		IPackageModel pkgm = unit.getPackage();
 		String pkgname = pkgm.getName();
-		pkgname = loro.util.Util.replace(pkgname, "::", File.separator);
+		pkgname = Util.replace(pkgname, "::", File.separator);
 
 		IProjectModel prjm = pkgm.getModel();
 		String prjname = prjm.getInfo().getName();
@@ -1709,7 +1710,7 @@ public final class Workspace
 	{
 		IPackageModel pkgm = unit.getPackage();
 		String pkgname = pkgm.getName();
-		pkgname = loro.util.Util.replace(pkgname, "::", File.separator);
+		pkgname = Util.replace(pkgname, "::", File.separator);
 
 		IProjectModel prjm = pkgm.getModel();
 		String prjname = prjm.getInfo().getName();
@@ -1747,7 +1748,7 @@ public final class Workspace
 	private void _removePackage(IPackageModel pkgm)
 	{
 		String pkgname = pkgm.getName();
-		pkgname = loro.util.Util.replace(pkgname, "::", File.separator);
+		pkgname = Util.replace(pkgname, "::", File.separator);
 
 		IProjectModel prjm = pkgm.getModel();
 		String prjname = prjm.getInfo().getName();

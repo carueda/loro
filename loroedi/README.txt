@@ -2,6 +2,12 @@ LoroEDI README
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
+2004-01-17 (0.8.2)
+	- New loroedi.Util.replace() (copied verbatim from loro.util.Util.replace()) 
+	  (goal: to have less dependence on loro implementation).
+	- GUI, Workspace: loro.util.Util.replace() replaced by loroedi.Util.replace()
+
+////////////////////////////////////////////////////////////////////////////
 2004-01-14 (0.8.2)
 
 	- Enlace con nucleo 0.7.94

@@ -9,6 +9,7 @@ import java.util.*;
  * Algunas utilerias generales.
  *
  * @author Carlos Rueda
+ * @version $Id$
  */
 public final class Util
 {
@@ -449,4 +450,20 @@ public final class Util
 
 		return null;
 	}
+	
+	/**
+	 * Replace in 's' all occurrences of 'from' to 'to'.
+	 */
+	public static String replace(String s, String from, String to) {
+		StringBuffer sb = new StringBuffer();
+		int len = from.length();
+		int i, p = 0;
+		while ( (i = s.indexOf(from, p)) >= 0 ) {
+			sb.append(s.substring(p, i) + to);
+			p = i + len;
+		}
+		sb.append(s.substring(p));
+		return sb.toString();
+	}
+
 }

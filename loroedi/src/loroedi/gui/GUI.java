@@ -465,7 +465,7 @@ public class GUI
 	private static void showDocumentation(String basename, String ext)
 	{
 		String docname = basename+ "." +ext;
-		String filename = loro.util.Util.replace(basename, "::", File.separator);
+		String filename = Util.replace(basename, "::", File.separator);
 		filename += "." +ext+ ".html";
 		File file = new File(doc_dir, filename);
 		if ( !file.exists() )
@@ -536,7 +536,7 @@ public class GUI
 			try
 			{
 				String unitname = unit.getQualifiedName();
-				String filename = loro.util.Util.replace(unitname, "::", File.separator);
+				String filename = Util.replace(unitname, "::", File.separator);
 				filename += "." +unit.getCode()+ ".html";
 				URL url = new File(doc_dir, filename).toURL();
 				URL prev = browser.getPage();
@@ -910,7 +910,7 @@ public class GUI
 			for ( Iterator itt = pkgm.getUnits().iterator(); itt.hasNext(); )
 			{
 				IProjectUnit unit = (IProjectUnit) itt.next();
-				String qname = loro.util.Util.replace(
+				String qname = Util.replace(
 					unit.getQualifiedName(), "::", "/"
 				);
 				String code = unit.getCode();
@@ -988,7 +988,7 @@ public class GUI
 				};
 				for ( int i = 0; i < reps.length; i += 2 )
 				{
-					content = loro.util.Util.replace(content, reps[i], reps[i+1]);
+					content = Util.replace(content, reps[i], reps[i+1]);
 				}
 			}
 			else // no debería suceder, pero...
