@@ -1,16 +1,6 @@
 Loro README
 $Id$
 
-NOTAS
-	
-	- Si un elemento dentro de un paquete foo necesita referenciar un
-	  elemento baz que está en el paquete anónimo, debe hacer un 
-	  'utiliza xxx baz;' correspondiente. Es decir, el paquete anónimo
-	  NO es visible automáticamente desde otros paquetes.
-	  (Como contraste, en Java no es posible acceder al paquete anónimo
-	  desde un paquete nombrado ni siquiera con un 'import' --el import 
-	  no acepta un nombre simple.)
-
 ////////////////////////////////////////////////////////////////////////////
 2003-05-24 Version 0.7.92
 
