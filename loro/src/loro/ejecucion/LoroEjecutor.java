@@ -223,6 +223,7 @@ public class LoroEjecutor extends LoroEjecutorBase
 		try
 		{
 			bsh.set("$amb", this);
+			bsh.set("$este", este);
 			
 			for (int i = 0; i < args.length; i++)
 			{

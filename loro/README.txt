@@ -26,6 +26,13 @@ NOTAS
 	  no acepta un nombre simple.)
 
 ////////////////////////////////////////////////////////////////////////////
+2003-04-15 Version 0.7.91
+
+	- LoroEjecutor.ejecutarAlgoritmoBsh ahora enlaza tambien la variable
+	  '$este' con el valor de 'este' al intérprete bsh. En el código
+	  Java siempre será cierto que: $este == $amb.obtEste() .
+
+////////////////////////////////////////////////////////////////////////////
 2003-04-08 Version 0.7.9
 
 	- Bug corregido: Un argumento de tipo primitivo en Loro (ejemplo,
