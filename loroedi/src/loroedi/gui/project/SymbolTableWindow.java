@@ -3,12 +3,14 @@ package loroedi.gui.project;
 import loroedi.Preferencias;
 
 import loro.ISymbolTable;
+import loro.Loro;
 import loroedi.gui.*;
 import loroedi.gui.project.model.*;
 import loroedi.gui.project.unit.*;
 
 import loroedi.gui.misc.*;
 import loroedi.Preferencias;
+import loroedi.Info.Str;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -23,9 +25,7 @@ import java.net.URL;
 /////////////////////////////////////////////////////////
 /**
  * Ventana para acceder a una tabla de símbolos.
- *
  * @author Carlos Rueda
- * @version 2003-02-05
  */
 public class SymbolTableWindow
 {
@@ -52,7 +52,7 @@ public class SymbolTableWindow
 		if ( url != null ) 
 			frame.setIconImage(new ImageIcon(url).getImage());
 		JPanel cp = new JPanel(new BorderLayout());
-		cp.setBorder(BorderFactory.createTitledBorder("Variables declaradas " +title));
+		cp.setBorder(BorderFactory.createTitledBorder(Str.get("gui.1_title_namespace", title)));
 		frame.setContentPane(cp);
 
 		tableModel = new TableModel();
@@ -63,13 +63,10 @@ public class SymbolTableWindow
 		frame.getContentPane().add(new JScrollPane(table));
 
 		ListSelectionModel rowSM = table.getSelectionModel();
-		rowSM.addListSelectionListener(new ListSelectionListener()
-		{
-			public void valueChanged(ListSelectionEvent e)
-			{
+		rowSM.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
 				//Ignore extra messages.
-				if (e.getValueIsAdjusting())
-				{
+				if (e.getValueIsAdjusting())  {
 					return;
 				}
 
@@ -82,16 +79,18 @@ public class SymbolTableWindow
 		frame.getContentPane().add(buttons, "South");
 		JButton b;
 		ActionListener lis = new BListener();
-		if ( delVar )
-		{
-			b = new JButton("Borrar variable");
+		if ( delVar ) {
+			String[] strs = Str.get("but.delete_declaration").split("\\|", 2);
+			b = new JButton(strs[0]);
+			b.setToolTipText(strs[1]);
 			b.setActionCommand("delete-variable");
 			b.addActionListener(lis);
 			buttons.add(b);
 		}
-		if ( closeable )
-		{
-			b = new JButton("Cerrar");
+		if ( closeable ) {
+			String[] strs = Str.get("but.close").split("\\|", 2);
+			b = new JButton(strs[0]);
+			b.setToolTipText(strs[1]);
 			b.setActionCommand("close");
 			b.addActionListener(lis);
 			buttons.add(b);
@@ -100,12 +99,9 @@ public class SymbolTableWindow
 		Preferencias.Util.updateRect(frame, preferenceKey);
 	
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		frame.addWindowListener(new java.awt.event.WindowAdapter()
-		{
-			public void windowClosing(java.awt.event.WindowEvent _)
-			{
-				if ( SymbolTableWindow.this.closeable )
-				{
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent _) {
+				if ( SymbolTableWindow.this.closeable ) {
 					SymbolTableWindow.this.frame.dispose();
 				}
 			}
@@ -147,17 +143,13 @@ public class SymbolTableWindow
 	}
 
 	/////////////////////////////////////////////////////////
-	private class BListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
+	private class BListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
-			if ( cmd.equals("delete-variable") )
-			{
+			if ( cmd.equals("delete-variable") ) {
 				tableModel.delete_attribute();
 			}
-			else // "close"
-			{
+			else { // "close"
 				SymbolTableWindow.this.frame.dispose();
 			}
 		}
@@ -165,37 +157,32 @@ public class SymbolTableWindow
 	}
 
 	/////////////////////////////////////////////////////////
-	private class TableModel extends AbstractTableModel
-	{
-		final String[] colnames = { "Variable", "Tipo", "Valor" };
+	private class TableModel extends AbstractTableModel {
+		final String[] colnames = { 
+			Loro.Str.get("ns.id"), Loro.Str.get("ns.type"), Loro.Str.get("ns.value") 
+		};
 
 		/////////////////////////////////////////////////////////
-		public int getColumnCount()
-		{
+		public int getColumnCount() {
 			return colnames.length;
 		}
 
 		/////////////////////////////////////////////////////////
-		public String getColumnName(int columnIndex)
-		{
+		public String getColumnName(int columnIndex) {
 			return colnames[columnIndex];
 		}
 
 		/////////////////////////////////////////////////////////
-		public int getRowCount()
-		{
+		public int getRowCount() {
 			String[] vars = symTab.getVariableNames();
 			return vars.length;
 		}
 
 		/////////////////////////////////////////////////////////
-		public Object getValueAt(int row, int col)
-		{
+		public Object getValueAt(int row, int col) {
 			String[] vars = symTab.getVariableNames();
-			try
-			{
-				switch ( col )
-				{
+			try {
+				switch ( col ) {
 					case 0:
 						return vars[row];
 					case 1:
@@ -205,11 +192,8 @@ public class SymbolTableWindow
 				}
 				throw new InternalError("col=" +col);
 			}
-			catch(ArrayIndexOutOfBoundsException ex)
-			{
-				// IGNORE
-				// (sucede algunas veces.
-				//  bug de Java?, problema de sincronizacion?)
+			catch(ArrayIndexOutOfBoundsException ex) {
+				// IGNORE: (this happens sometimes; a Java bug?, synchronization?)
 				return null;
 			}
 		}
@@ -217,8 +201,7 @@ public class SymbolTableWindow
 		/////////////////////////////////////////////////////////
 		/**
 		 */
-		private void delete_attribute()
-		{
+		private void delete_attribute() {
 			if ( selectedRow < 0 )
 				return;
 

@@ -9,8 +9,6 @@ import java.util.Collection;
 
 //////////////////////////////////////////////////
 /** ~!~
- *
- * @author Carlos Rueda
  * @version 2002-07-13
  */
 public interface IPackageModel

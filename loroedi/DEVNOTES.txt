@@ -2,7 +2,7 @@ LoroEDI DEVNOTES
 $Id$
 
 ////////////////////////////////////////////////////////////////////////////
-2004-06-27 (0.8.7)
+2004-06-28 (0.8.7)
 	- Localization scheme:
 		loroedi/ ..
 			Info .. ok
@@ -15,14 +15,25 @@ $Id$
 		loroedi/laf/  not necessary
 		loroedi/gui/misc/  not necessary
 		loroedi/gui/project/unit/ .. ok 
-		loroedi/gui/project/model/ ..
+		loroedi/gui/project/model/ .. ok
 			MUtil .. ok
 			PackageModel .. ok
-			Projectmodel ..
-		loroedi/gui/project/ .. 
-		loroedi/help/doc/ .. 
-		loroedi/help/ .. 
-		loroedi/jedit/ ..  principalmente LoroTokenMarker 
+			Projectmodel .. ok
+			ProjectModelEvent .. not necessary
+		loroedi/gui/project/ .. ok
+			Diagram .. not necessary
+			DiagramUtil .. not necessary
+			EDICompiler .. not necessary
+			UnitCompilationException .. not necessary
+			ProjectDialog .. ok
+			Workspace .. ok
+			SymbolTableWindow .. ok
+			Project .. ok
+		loroedi/help/ ..
+			BrowserPanel .. 
+			HelpManager ..
+		loroedi/jedit/ ..  
+			LoroTokenMarker .. 
 		
 	- util/edit/* simplified (original sources moved to simpledi)
 	

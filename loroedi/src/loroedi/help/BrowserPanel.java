@@ -17,7 +17,6 @@ import javax.swing.*;
  * BrowserPanel.
  *
  * @author Carlos Rueda
- * @version 2002-04-25
  */
 public class BrowserPanel extends JPanel
 {

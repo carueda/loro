@@ -7,6 +7,7 @@ import loroedi.gui.editor.UEditor;
 
 import loroedi.InterpreterWindow;
 import loroedi.Util;
+import loroedi.Info.Str;
 
 import loro.*;
 
@@ -16,20 +17,15 @@ import java.io.*;
 
 //////////////////////////////////////////////////
 /**
- * Se encarga de gestionar el catálago de proyectos disponibles.
+ * Manages the set of available projects.
  *
- * Los proyectos disponibles son:
+ * Available projects are:
  * <ul>
- *	<li> Los obtenidos como extensiones del núcleo.
- *       Estos no son modificables.
- *
- *	<li> Los encontrados bajo el directorio indicado como base para proyectos.
- *       Estos sí son modificables.
+ *	<li> Those that are core extensions (read only).
+ *	<li> Those found under the project directory (modifiable).
  * </ul>
  *
- * En los nombres de proyecto no se tienen en cuenta diferencias
- * por mayúsculas o minúsculas, así que "MI PROYECTO" es lo mismo que
- * "Mi Proyecto".
+ * Project names are not case sensitive.
  *
  * @author Carlos Rueda
  * @version $Id$
@@ -101,7 +97,7 @@ public final class Workspace
 		prs_dir = new File(prs_directory);
 		if ( !prs_dir.isDirectory() )
 		{
-			throw new Exception(prs_dir+ ": No es directorio!");
+			throw new Exception(prs_dir+ ": Not a directory!");
 		}
 		File[] files = prs_dir.listFiles();
 		for ( int i = 0; i < files.length; i++ )
@@ -167,7 +163,7 @@ public final class Workspace
 		}
 		else
 		{
-			throw new RuntimeException(dir+ ": no es directorio");
+			throw new RuntimeException(dir+ ": not a directory!");
 		}
 	}
 	
@@ -240,7 +236,7 @@ public final class Workspace
 		}
 		else
 		{
-			throw new RuntimeException(prjname+ ": proyecto no disponible");
+			throw new RuntimeException(prjname+ ": unavailable project!");
 		}
 
 		prjm.addProjectModelListener(pmlistener);
@@ -280,7 +276,7 @@ public final class Workspace
 		}
 		else
 		{
-			throw new RuntimeException(prjname+ ": proyecto no disponible");
+			throw new RuntimeException(prjname+ ": unavailable project!");
 		}
 	}
 
@@ -525,7 +521,7 @@ public final class Workspace
 			if ( na != null )
 				spec_name = na.getSpecificationName();
 			else
-				spec_name = "(DESCONOCIDA)";
+				spec_name = "(UNKNOWN)";
 
 			AlgorithmUnit alg = pkgm.addAlgorithm(name, spec_name);			
 			alg.setSourceCode(src);
@@ -648,7 +644,7 @@ public final class Workspace
 		}
 		catch(Exception ex)
 		{
-			Loro.log("Error al obtener fuente para unidad: " 
+			Loro.log("Error ocurred while getting source for unit: " 
 				+unitname+ ": " +ex.getMessage()
 			);
 		}
@@ -727,7 +723,7 @@ public final class Workspace
 			if ( !parent.exists() )
 			{
 				if ( !parent.mkdirs() )
-					throw new Exception("No pudo crearse el directorio: " +parent);
+					throw new Exception("Could not create directory: " +parent);
 			}
 			
 			// export to an extension archive.
@@ -741,11 +737,11 @@ public final class Workspace
 		{
 			dir = new File(dest);
 			if ( !dir.isAbsolute() )
-				throw new Exception("Debe indicarse un directorio absoluto: " +dest);
+				throw new Exception("Directory must be absolute: " +dest);
 			if ( !dir.exists() )
 			{
 				if ( !dir.mkdirs() )
-					throw new Exception("No pudo crearse el directorio: " +dir);
+					throw new Exception("Could not create directory: " +dir);
 			}
 		}
 
@@ -766,7 +762,7 @@ public final class Workspace
 			}
 			else
 			{
-				throw new Exception("Inesperado: extensión sin cargador de unidades."); 
+				throw new Exception("extension with no unit loader."); 
 			}
 		}
 		else
@@ -899,7 +895,7 @@ public final class Workspace
 				if ( !editor.isSaved() && !GUI.saveUnit(unit) )
 				{
 					throw new Exception(unit.getStereotypedName()+ 
-						": Esta unidad no pudo guardarse"
+						": this unit could not be saved!"
 					);
 				}
 			}
@@ -988,19 +984,15 @@ public final class Workspace
 	 * @throws Exception Si no se puede crear el directorio para el proyecto
 	 *         cuando éste no existe con anterioridad.
 	 */
-	public void saveProjectModel(IProjectModel prjm)
-	throws Exception
-	{
-		if ( !prjm.getControlInfo().isModifiable() )
-		{
-			throw new RuntimeException("Guardar proyecto: No es modificable");
+	public void saveProjectModel(IProjectModel prjm) throws Exception {
+		if ( !prjm.getControlInfo().isModifiable() ) {
+			throw new RuntimeException("project is unmodifiable");
 		}
 
 		IProjectModel.IInfo info = prjm.getInfo();
 		String name = info.getName();
-		if ( name.trim().length() == 0 )
-		{
-			throw new RuntimeException("Guardar proyecto: El proyecto no tiene nombre");
+		if ( name.trim().length() == 0 ) {
+			throw new RuntimeException("unnamed project");
 		}
 		
 		File prj_dir = new File(prs_dir, name);
@@ -1025,19 +1017,14 @@ public final class Workspace
 	 * @throws Exception Si no se puede crear el directorio para el proyecto
 	 *         cuando éste no existe con anterioridad.
 	 */
-	public void saveProjectModelProperties(IProjectModel prjm)
-	throws Exception
-	{
-		if ( !prjm.getControlInfo().isModifiable() )
-		{
-			throw new RuntimeException("Guardar proyecto: No es modificable");
+	public void saveProjectModelProperties(IProjectModel prjm) throws Exception {
+		if ( !prjm.getControlInfo().isModifiable() ) {
+			throw new RuntimeException("project unmodifiable");
 		}
-
 		IProjectModel.IInfo info = prjm.getInfo();
 		String name = info.getName();
-		if ( name.trim().length() == 0 )
-		{
-			throw new RuntimeException("Guardar proyecto: El proyecto no tiene nombre");
+		if ( name.trim().length() == 0 ) {
+			throw new RuntimeException("unnamed project");
 		}
 		
 		File prj_dir = new File(prs_dir, name);
@@ -1072,13 +1059,9 @@ public final class Workspace
 
 		// guarde propiedades y descripción		
 		Properties props = new Properties();
-		if ( !prj_dir.exists() )
-		{
-			if ( ! prj_dir.mkdirs() ) 
-			{
-				throw new Exception("Guardar proyecto: " +
-					"No se pudo crear directorio " +prj_dir
-				);
+		if ( !prj_dir.exists() ) {
+			if ( ! prj_dir.mkdirs() )  {
+				throw new Exception("Could not create directory " +prj_dir);
 			}
 		}
 		props.setProperty("title", info.getTitle());
@@ -1086,7 +1069,7 @@ public final class Workspace
 		props.setProperty("version", info.getVersion());
 		props.setProperty("description.format", info.getDescriptionFormat());
 		loroedi.Util.storeProperties(
-			"Propiedades de proyecto", 
+			"Project properties", 
 			props,
 			new File(prj_dir, "prj.props")
 		);
@@ -1121,19 +1104,14 @@ public final class Workspace
 		File pkg_dir = new File(pkgs_dir, pkgname);
 		File pkg_props = new File(pkg_dir, "pkg.props");
 
-		if ( !pkg_dir.exists() )
-		{
-			if ( ! pkg_dir.mkdirs() ) 
-			{
-				throw new Exception("Guardar proyecto: " +
-					"No se pudo crear directorio " +pkg_dir
-				);
+		if ( !pkg_dir.exists() ) {
+			if ( ! pkg_dir.mkdirs() )  {
+				throw new Exception("Could not create directory " +pkg_dir);
 			}
 		}
 
-		System.out.println("guardando paquete " +pkgname);
-		for ( Iterator it = pkgm.getSpecNames().iterator(); it.hasNext(); )
-		{
+		System.out.println("saving package " +pkgname);
+		for ( Iterator it = pkgm.getSpecNames().iterator(); it.hasNext(); ) {
 			String name = (String) it.next();
 			// save source:
 			SpecificationUnit spec = pkgm.getSpecification(name);
@@ -1204,7 +1182,7 @@ public final class Workspace
 		}
 
 		loroedi.Util.storeProperties(
-			"Propiedades de paquete", 
+			"Package properties", 
 			props,
 			pkg_props 
 		);
@@ -1232,11 +1210,11 @@ public final class Workspace
 		// prepare "primeras líneas" para cada fuente de unidad:
 		StringBuffer sbheader = new StringBuffer();
 		if ( pkgname != null )
-			sbheader.append("paquete " +pkgname+ "\n");
-		for ( int i = 0; i < uses.length; i++ )
-		{
+			sbheader.append(Loro.Str.get("package")+ " " +pkgname+ "\n\n");
+
+		for ( int i = 0; i < uses.length; i++ ) {
 			IFuente.IUtiliza use = uses[i];
-			sbheader.append("utiliza " +use.obtQue()+ " " +use.getName()+ "\n");
+			sbheader.append(Loro.Str.get("uses")+ " " +use.obtQue()+ " " +use.getName()+ "\n\n");
 		}
 		String header = sbheader.toString();
 		
@@ -1382,7 +1360,7 @@ public final class Workspace
 		}
 		catch(Exception ex)
 		{
-			Loro.log("Error al actualizar propiedades de paquete: " +ex.getMessage());
+			Loro.log("Error while updating package properties: " +ex.getMessage());
 		}
 	}
 		
@@ -1398,7 +1376,7 @@ public final class Workspace
 		String ext = _getFileExtensionId(unit) + ".loro";
 		loroedi.Util.writeFile(
 			new File(pkg_dir, name + ext),  
-			src != null ? src : "//no source yet"
+			src != null ? src : "// no source yet"
 		);
 	}
 
@@ -1421,7 +1399,7 @@ public final class Workspace
 			}
 			catch(Exception ex)
 			{
-				Loro.log("Error al actualizar demo script: " +ex.getMessage());
+				Loro.log("Error while updating demo script: " +ex.getMessage());
 			}
 		}
 	}
@@ -1433,8 +1411,7 @@ public final class Workspace
 	public void executeAlgorithm(final AlgorithmUnit alg, Object[] args, boolean ejecutorpp)
 	{
 		IUnidad u = alg.getIUnidad();
-		if ( u == null )
-		{
+		if ( u == null ) {
 			throw new NullPointerException("algorithm doesn't have an associated IUnidad");
 		}
 		
@@ -1450,38 +1427,32 @@ public final class Workspace
 		compiler.ponDirectorioDestino(prj_dir.getAbsolutePath());
 		
 		InterpreterWindow iw = 
-			new InterpreterWindow("Ejecución de " +alg.getQualifiedName(), null, false, ejecutorpp)
+		new InterpreterWindow(Str.get("gui.1_title_run_algorithm", alg.getQualifiedName()), 
+		null, false, ejecutorpp)
 		{
-			protected void body()
-			throws Exception
-			{
+			protected void body() throws Exception {
 				// A este prefijo se le agrega lo que suministre el usuario 
 				// en caso de necesitarse argumentos.
 				String initial_part = alg.getQualifiedName()+ "("; 
 				IUnidad u = alg.getIUnidad();
-				pw.println(PROMPT+ "// Ejecución de:\n" +u);
+				pw.println(PROMPT+ "// " +Str.get("gui.1_title_run_algorithm", u));
 				String cmd;
 				int num_args = Loro.getNumArguments(u);
 				boolean hasReturnValue = Loro.hasReturnValue(u);
-				if ( num_args == 1 )
-				{
-					pw.println(PROMPT+ "// Agrega el argumento necesario para el algoritmo");
+				if ( num_args == 1 ) {
+					pw.println(PROMPT+ "// " +Str.get("gui.run_algorithm_prompt_arg"));
 				}
-				else if ( num_args > 1 )
-				{
-					pw.println(PROMPT+ "// Agrega los " +num_args+ " argumentos necesarios para el algoritmo");
+				else if ( num_args > 1 ) {
+					pw.println(PROMPT+ "// " +Str.get("gui.1_run_algorithm_prompt_args", ""+num_args));
 				}
-				else
-				{
+				else {
 					initial_part += ")";
 				}
-				if ( hasReturnValue )
-				{
-					pw.println(PROMPT+ "// Haz una asignación si quieres almacenar el valor de resultado");
+				if ( hasReturnValue ) {
+					pw.println(PROMPT+ "// " +Str.get("gui.run_algorithm_prompt_assignment"));
 				}
 				
-				if ( num_args > 0 || hasReturnValue )
-				{
+				if ( num_args > 0 || hasReturnValue ) {
 					pw.print(PROMPT);
 					String text = readLine(initial_part);
 					if ( text == null )
@@ -1489,8 +1460,7 @@ public final class Workspace
 	
 					cmd = text;
 				}
-				else
-				{
+				else {
 					cmd = initial_part;
 					pw.println(PROMPT + cmd);
 				}
@@ -1524,7 +1494,7 @@ public final class Workspace
 		boolean ejecutorpp
 	) {
 		InterpreterWindow iw = new InterpreterWindow(title, hello, newSymTab, ejecutorpp) {
-			// se actualiza cuando se invoca terminate()
+			// updated when terminate() is called
 			boolean terminated = false;
 			
 			//////////////////////////////////////////////////////////////////
@@ -1542,9 +1512,8 @@ public final class Workspace
 						all_OK = false;
 						// Si es terminated y hay más segmentos pendientes, se
 						// le pide confirmación al usuario para continuar:
-						if ( terminated && iter.hasNext() && !GUI.confirm(frame, 
-							"Hay más comandos pendientes.\n" +
-							"¿Continuar con su ejecución?"
+						if ( terminated && iter.hasNext() && !GUI.confirm(frame,
+							Str.get("gui.conf_stop_commands")
 						))
 							break;
 							
@@ -1576,22 +1545,18 @@ public final class Workspace
 	 * Obtiene el fragmento de extensión distintivo dependiendo del
 	 * tipo de unidad concreto.
 	 */
-	private String _getFileExtensionId(IProjectUnit unit)
-	{
-		if ( unit instanceof SpecificationUnit )
-		{
+	private String _getFileExtensionId(IProjectUnit unit) {
+		if ( unit instanceof SpecificationUnit ) {
 			return ".e";
 		}
-		else if ( unit instanceof AlgorithmUnit )
-		{
+		else if ( unit instanceof AlgorithmUnit ) {
 			return ".a";
 		}
-		else if ( unit instanceof ClassUnit )
-		{
+		else if ( unit instanceof ClassUnit ) {
 			return ".c";
 		}
 		throw new RuntimeException(
-			"Esperado: SpecificationUnit, AlgorithmUnit, o ClassUnit"
+			"Expected: SpecificationUnit, AlgorithmUnit, ClassUnit"
 		);
 	}
 
@@ -1728,22 +1693,18 @@ public final class Workspace
 		String name = unit.getName();
 		String ext_id = _getFileExtensionId(unit);
 		String[] exts = { ".oro", ".html", ".loro" };
-		for ( int i = 0; i < exts.length; i++ )
-		{
+		for ( int i = 0; i < exts.length; i++ ) {
 			File file = new File(pkg_dir, name + ext_id + exts[i]);
-			if ( file.exists() && ! file.delete() )
-			{
-				Loro.log("No se pudo borrar archivo: " +file);
+			if ( file.exists() && ! file.delete() ) {
+				Loro.log("Could not delete file: " +file);
 			}
 		}
 		File pkg_props = new File(pkg_dir, "pkg.props");
-		try
-		{
+		try {
 			_updatePackageProperties(pkg_props, pkgm);
 		}
-		catch(Exception ex)
-		{
-			Loro.log("Error al actualizar propiedades de paquete: " +ex.getMessage());
+		catch(Exception ex) {
+			Loro.log("Error while updating package properties: " +ex.getMessage());
 		}
 	}
 		
@@ -1764,48 +1725,39 @@ public final class Workspace
 		
 		File pkg_dir = new File(pkgs_dir, pkgname);
 		File file = new File(pkg_dir, "pkg.props");
-		if ( file.exists() && ! file.delete() )
-		{
-			Loro.log("No se pudo borrar archivo: " +file);
+		if ( file.exists() && ! file.delete() ) {
+			Loro.log("Could not delete file: " +file);
 		}
 	}
 		
 
 	/////////////////////////////////////////////////////////////////////
-	class PMListener implements IProjectModelListener
-	{
-		/////////////////////////////////////////////////////////////////
+	class PMListener implements IProjectModelListener {
 		// ProjectListener method:
-		public void action(ProjectModelEvent e)
-		{
-			switch ( e.getID() )
-			{
+		public void action(ProjectModelEvent e) {
+			switch ( e.getID() ) {
 				case ProjectModelEvent.PACKAGE_ADDED:
 					IPackageModel pkgm = (IPackageModel) e.getElement();
 					IProjectModel prjm = pkgm.getModel();
 					String name = prjm.getInfo().getName();
 					File prj_dir = new File(prs_dir, name);
 					File pkgs_dir = prj_dir;
-					try
-					{
+					try {
 						_savePackageModel(pkgm, pkgs_dir);
 					}
-					catch(Exception ex)
-					{
-						Loro.log("Error al guardar PAQUETE: " +ex.getMessage());
+					catch(Exception ex) {
+						Loro.log("Error while saving pakage: " +ex.getMessage());
 					}
 					break;
 					
 				case ProjectModelEvent.SPEC_ADDED:
 				case ProjectModelEvent.ALGORITHM_ADDED:
 				case ProjectModelEvent.CLASS_ADDED:
-					try
-					{
+					try {
 						saveUnit((IProjectUnit) e.getElement());
 					}
-					catch(Exception ex)
-					{
-						Loro.log("Error al guardar unidad: " +ex.getMessage());
+					catch(Exception ex) {
+						Loro.log("Error while saving unit: " +ex.getMessage());
 					}
 					break;
 
@@ -1826,8 +1778,7 @@ public final class Workspace
 	/**
 	 * All set* methods throw UnsupportedOperationException
 	 */
-	private static class ReadOnlyInfo implements IProjectModel.IROInfo
-	{
+	private static class ReadOnlyInfo implements IProjectModel.IROInfo {
 		String name;
 		String title;
 		String authors;
@@ -1857,46 +1808,39 @@ public final class Workspace
 		}
 		
 		/////////////////////////////////////////////////////////////////
-		public String getName()
-		{
+		public String getName() {
 			return name;
 		}
 		
 		/////////////////////////////////////////////////////////////////
-		public String getTitle()
-		{
+		public String getTitle() {
 			return title;
 		}
 	
 		/////////////////////////////////////////////////////////////////
-		public String getAuthors()
-		{
+		public String getAuthors() {
 			return authors;
 		}
 	
 		/////////////////////////////////////////////////////////////////
-		public String getVersion()
-		{
+		public String getVersion() {
 			return version;
 		}
 	
 		/////////////////////////////////////////////////////////////////
-		public String getDescription()
-		{
+		public String getDescription() {
 			return description;
 		}
 		
 		/////////////////////////////////////////////////////////////////
-		public String getDescriptionFormat()
-		{
+		public String getDescriptionFormat() {
 			return descriptionFormat;
 		}
 
 		/////////////////////////////////////////////////////////////////
-		public String getDemoScript()
-		{
+		public String getDemoScript() {
 			return demoSrc;
 		}
 	}
-	
 }
+

@@ -11,8 +11,6 @@ import java.util.Collection;
 //////////////////////////////////////////////////
 /**
  * Modelo de proyecto.
- *
- * @author Carlos Rueda
  * @version $Id$
  */
 public interface IProjectModel
@@ -304,6 +302,5 @@ public interface IProjectModel
 	 * Establece el cargador de unidades asociado.
 	 */
 	public void setOroLoader(IOroLoader oroLoader);
-	
-	
 }
+

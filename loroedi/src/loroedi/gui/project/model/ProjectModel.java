@@ -1,6 +1,7 @@
 package loroedi.gui.project.model;
 
 import loroedi.gui.project.unit.*;
+import loroedi.Info.Str;
 
 import loro.*;
 
@@ -235,14 +236,10 @@ public class ProjectModel implements IProjectModel
 	{
 		String val = validateName(name);
 		if ( val != null )
-		{
 			return val;
-		}
 
 		if ( pkgmap.keySet().contains(name) )
-		{
-			return "nombre ya existe";
-		}
+			return Str.get("model.prj_pkg_exists");
 		
 		return null;
 	}
@@ -252,23 +249,18 @@ public class ProjectModel implements IProjectModel
 	{
 		name = name.trim();
 		if ( name.length() == 0 )
-			return "Nombre vacío";
+			return Str.get("model.missing_name");
 		
 		if ( name.indexOf('/') >= 0 )  // posible comentario
-			return "Error sintáctico: nombre mal formado.";
+			return Str.get("model.malformed_id");
 		
 		ICompilador compilador = Loro.obtCompilador();
 		compilador.ponTextoFuente(name);
-		try
-		{
+		try {
 			compilador.derivarNombre();
 		}
-		catch(CompilacionException ex)
-		{
-			return "Error sintáctico: nombre mal formado.";
-			
-			// No es necesario mostrar todo el mensaje:
-			//return ex.getMessage();
+		catch(CompilacionException ex) {
+			return Str.get("model.malformed_id");
 		}
 		return null;
 	}

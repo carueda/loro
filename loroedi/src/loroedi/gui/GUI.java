@@ -2370,19 +2370,15 @@ public class GUI
 	
 
 	////////////////////////////////////////////////////////////////////////////
-	private static void _updateWindowMenu()
-	{
+	private static void _updateWindowMenu() {
 		Collection prjnames = openFrames.keySet();
-		for ( Iterator it = openFrames.values().iterator(); it.hasNext(); )
-		{
+		for ( Iterator it = openFrames.values().iterator(); it.hasNext(); ) {
 			ProjectFrame frame = (ProjectFrame) it.next();
 			frame.windowMenu.removeAll();
-			for ( Iterator itt = prjnames.iterator(); itt.hasNext(); )
-			{
+			for ( Iterator itt = prjnames.iterator(); itt.hasNext(); ) {
 				String prjname = (String) itt.next();
 				String actionCmd = "p:" +prjname;
-				if ( prjname.trim().length() == 0  )
-				{
+				if ( prjname.trim().length() == 0  ) {
 					prjname = UNTITLED_PROJECT;
 				}
 				JMenuItem mi = new JMenuItem(Str.get("gui.1_msg_project", prjname));

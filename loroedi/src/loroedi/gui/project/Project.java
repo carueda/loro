@@ -2,10 +2,11 @@ package loroedi.gui.project;
 
 import loro.Loro;
 import loro.IUnidad;
+
+import loroedi.Info.Str;
 import loroedi.gui.*;
 import loroedi.gui.project.model.*;
 import loroedi.gui.project.unit.*;
-
 import loroedi.gui.misc.*;
 import loroedi.gui.editor.*;
 import loroedi.Preferencias;
@@ -22,7 +23,7 @@ import java.io.File;
 
 /////////////////////////////////////////////////////////
 /**
- * GUI para un proyecto Loro.
+ * GUI for projects.
  *
  * @author Carlos Rueda
  * @version $Id$
@@ -31,7 +32,6 @@ public class Project extends JPanel
 {
 	static final IPackageModel[] EMPTY_PACKAGE_ARRAY = new IPackageModel[0];
 	
-	protected static final String title_prefix = "Proyecto ";
 	protected static final int SPEC_TYPE = 0;
 	protected static final int ALGORITHM_TYPE = 1;
 	protected static final int CLASS_TYPE = 2;
@@ -76,7 +76,7 @@ public class Project extends JPanel
 	{
 		this.model = model;
 		updateTitle();
-		JLabel label = new JLabel("un momento...");
+		JLabel label = new JLabel(Str.get("gui.msg_please_wait"));
 		label.setVerticalAlignment(JLabel.NORTH);
 		try
 		{
@@ -238,18 +238,15 @@ public class Project extends JPanel
 	/**
 	 * Borra el algoritmo dado.
 	 */
-	private boolean _deleteAlgorithm(AlgorithmUnit alg)
-	{
+	private boolean _deleteAlgorithm(AlgorithmUnit alg) {
 		StringBuffer msg = new StringBuffer(
 			alg.getStereotype()+ " " +alg.getQualifiedName()+ "\n"+
 			"\n"+
-			"¿Eliminar este algoritmo?\n"
+			Str.get("gui.prj_conf_delete_algorithm")+ "\n"
 		);
-		if ( GUI.confirm(frame, msg.toString()) )
-		{
+		if ( GUI.confirm(frame, msg.toString()) ) {
 			IPackageModel pkgm = alg.getPackage();
-			if ( pkgm.removeAlgorithm(alg) )
-			{
+			if ( pkgm.removeAlgorithm(alg) ) {
 				model.notifyListeners(
 					new ProjectModelEvent(this, ProjectModelEvent.ALGORITHM_REMOVED, alg)
 				);
@@ -268,13 +265,11 @@ public class Project extends JPanel
 		StringBuffer msg = new StringBuffer(
 			clazz.getStereotype()+ " " +clazz.getQualifiedName()+ "\n"+
 			"\n"+
-			"¿Eliminar esta clase?\n"
+			Str.get("gui.prj_conf_delete_class")+ "\n"
 		);
-		if ( GUI.confirm(frame, msg.toString()) )
-		{
+		if ( GUI.confirm(frame, msg.toString()) ) {
 			IPackageModel pkgm = clazz.getPackage();
-			if ( pkgm.removeClass(clazz) )
-			{
+			if ( pkgm.removeClass(clazz) ) {
 				model.notifyListeners(
 					new ProjectModelEvent(this, ProjectModelEvent.CLASS_REMOVED, clazz)
 				);
@@ -297,22 +292,16 @@ public class Project extends JPanel
 		);
 		
 		Collection algs = model.getAlgorithms(spec);
-		if ( algs.size() > 0 )
-		{
-			msg.append(
-				"No se puede borrar esta especificación puesto que tiene\n"+
-				"uno o más algoritmos dependientes en este proyecto\n"
-			);
+		if ( algs.size() > 0 ) {
+			msg.append(Str.get("gui.prj_spec_has_algorithms") +"\n");
 			GUI.message(frame, msg.toString());
 			return false;
 		}
 
-		msg.append("¿Eliminar esta especificación?\n");
-		if ( GUI.confirm(frame, msg.toString()) )
-		{
+		msg.append(Str.get("gui.prj_conf_delete_spec")+ "\n");
+		if ( GUI.confirm(frame, msg.toString()) ) {
 			IPackageModel pkgm = spec.getPackage();
-			if ( pkgm.removeSpecification(spec) )
-			{
+			if ( pkgm.removeSpecification(spec) ) {
 				model.notifyListeners(
 					new ProjectModelEvent(this, ProjectModelEvent.SPEC_REMOVED, spec)
 				);
@@ -326,34 +315,27 @@ public class Project extends JPanel
 	/**
 	 * Borra la unidad dada.
 	 */
-	private void _deleteUnit(IProjectUnit unit)
-	{
-		if ( !model.getControlInfo().isModifiable() )
-		{
-			GUI.message(frame, "Este proyecto no es modificable");
+	private void _deleteUnit(IProjectUnit unit) {
+		if ( !model.getControlInfo().isModifiable() ) {
+			GUI.message(frame, Str.get("gui.msg_project_is_read_only"));
 			return;
 		}
 		
 		boolean deleted = false;
-		if ( unit instanceof SpecificationUnit )
-		{
+		if ( unit instanceof SpecificationUnit ) {
 			deleted = _deleteSpecification((SpecificationUnit) unit);
 		}
-		else if ( unit instanceof AlgorithmUnit )
-		{
+		else if ( unit instanceof AlgorithmUnit ) {
 			deleted = _deleteAlgorithm((AlgorithmUnit) unit);
 		}
-		else if ( unit instanceof ClassUnit )
-		{
+		else if ( unit instanceof ClassUnit ) {
 			deleted = _deleteClass((ClassUnit) unit);
 		}
-		if ( deleted )
-		{
+		if ( deleted ) {
 			msgArea.clear();
-			msgArea.print("Eliminado " +unit.getStereotypedName());
+			msgArea.print(Str.get("gui.1_prj_msg_unit_deleted", unit.getStereotypedName()));
 			UEditor editor = (UEditor) unit.getUserObject();
-			if ( editor != null )
-			{
+			if ( editor != null ) {
 				editor.getFrame().dispose();
 				unit.setUserObject(null);
 			}
@@ -364,11 +346,9 @@ public class Project extends JPanel
 	/**
 	 * Remueve el paquete seleccionado.
 	 */
-	public void deletePackage()
-	{
+	public void deletePackage() {
 		Object obj = selectedCell.getUserObject();
-		if ( obj instanceof IPackageModel )
-		{
+		if ( obj instanceof IPackageModel ) {
 			_deletePackage((IPackageModel) obj);
 		}
 	}
@@ -377,41 +357,36 @@ public class Project extends JPanel
 	/**
 	 * Remueve el paquete dado siempre que se encuentre vacío.
 	 */
-	private void _deletePackage(IPackageModel pkgm)
-	{
-		if ( !model.getControlInfo().isModifiable() )
-		{
-			GUI.message(frame, "Este proyecto no es modificable");
+	private void _deletePackage(IPackageModel pkgm) {
+		if ( !model.getControlInfo().isModifiable() ) {
+			GUI.message(frame, Str.get("gui.msg_project_is_read_only"));
 			return;
 		}
 
 		String pkgname = pkgm.getName();
-		String shown_pkgname = pkgname.length() > 0 ? pkgname : "(anónimo)"; 
+		String shown_pkgname = pkgname.length() > 0 ? pkgname : "(" +Loro.Str.get("anonymous")+ ")"; 
 	
 		StringBuffer msg = new StringBuffer(
-			"Paquete: " +shown_pkgname+ "\n"+
+			Loro.Str.get("package")+ ": " +shown_pkgname+ "\n"+
 			"\n"
 		);
 		if ( pkgm.getSpecNames().size() > 0
 		||   pkgm.getAlgorithmNames().size() > 0
 		||   pkgm.getClassNames().size() > 0 )
 		{
-			msg.append(
-				"No se puede borrar este paquete porque no está vacío.\n"
-			);
+			msg.append(Str.get("gui.prj_pkg_not_empty")+ "\n");
 			GUI.message(frame, msg.toString());
 			return;
 		}
 		
-		msg.append("¿Eliminar este paquete?\n");
+		msg.append(Str.get("gui.prj_conf_delete_pkg")+ "\n");
 		if ( !GUI.confirm(frame, msg.toString()) )
 			return;
 
 		IProjectModel prjm = pkgm.getModel();
-		if ( prjm.removePackage(pkgm) )
-		{
+		if ( prjm.removePackage(pkgm) ) {
 			msgArea.clear();
-			msgArea.print("Eliminado paquete " +shown_pkgname);
+			msgArea.print(Str.get("gui.1_prj_msg_pkg_deleted", shown_pkgname));
 
 			model.notifyListeners(
 				new ProjectModelEvent(this, ProjectModelEvent.PACKAGE_REMOVED, pkgm)
@@ -423,11 +398,9 @@ public class Project extends JPanel
 	/**
 	 * Visualiza la documentación para el objecto seleccionado.
 	 */
-	public void viewDoc()
-	{
+	public void viewDoc() {
 		Object obj = selectedCell.getUserObject();
-		if ( obj instanceof IProjectUnit )
-		{
+		if ( obj instanceof IProjectUnit ) {
 			IProjectUnit unit = (IProjectUnit) obj;
 			GUI.showUnitDocumentation(unit);
 		}
@@ -439,26 +412,19 @@ public class Project extends JPanel
 	 * Si tal nombre es vacío, se pone GUI.UNTITLED_PROJECT.
 	 * El título se completa según el proyecto sea válido y/o modificable.
 	 */
-	public void updateTitle()
-	{
+	public void updateTitle() {
 		String title = model.getInfo().getName();
-		if ( title.trim().length() == 0 )
-		{
+		if ( title.trim().length() == 0 ) {
 			title = GUI.UNTITLED_PROJECT;
 		}
-		else
-		{
-			title = "\"" +title+ "\"";
-		}
+		String suffix = "";
 		if ( !model.getControlInfo().isValid() )
-		{
-			title += " - Incompatible";
-		}
-		if ( !model.getControlInfo().isModifiable() )
-		{
-			title += " - no modificable";
-		}
-		frame.setTitle(title_prefix + title);
+			suffix += " (incompatible!)";   // pending
+
+		if ( model.getControlInfo().isModifiable() )
+			frame.setTitle(Str.get("gui.2_title_project", title, suffix));
+		else
+			frame.setTitle(Str.get("gui.2_title_project_read_only", title, suffix));
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -498,34 +464,28 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public JPopupMenu getPopupMenu(ICell cell)
-	{
+	public JPopupMenu getPopupMenu(ICell cell) {
 		Object obj = cell.getUserObject();
 		JPopupMenu popupGroup = new JPopupMenu();
 		JLabel label = new JLabel();
 		label.setForeground(Color.blue);
 		label.setFont(new Font("monospaced", Font.PLAIN, 12));
-		if ( obj instanceof IProjectUnit )
-		{
+		if ( obj instanceof IProjectUnit ) {
 			IProjectUnit unit = (IProjectUnit) obj;
 			label.setText(unit.getStereotypedName());
 		}
-		else if ( obj instanceof IPackageModel )
-		{
+		else if ( obj instanceof IPackageModel ) {
 			IPackageModel pkgm = (IPackageModel) obj;
 			String pkgname = pkgm.getName();
 			if ( pkgname.length() == 0 )
-			{
-				pkgname = "(anónimo)";
-			}
-			label.setText("paquete " +pkgname);
+				pkgname = "(" +Loro.Str.get("anonymous")+ ")";
+			label.setText(Loro.Str.get("package")+ " " +pkgname);
 		}
 		popupGroup.add(label);
 		popupGroup.addSeparator();
 		
 		List list = GUI.getActions().getActions(obj);
-		for ( Iterator it = list.iterator(); it.hasNext(); )
-		{
+		for ( Iterator it = list.iterator(); it.hasNext(); ) {
 			Action action = (Action) it.next();
 			if ( action == null )
 				popupGroup.addSeparator();
@@ -543,9 +503,8 @@ public class Project extends JPanel
 	 */
 	public void createTestForSpecification()
 	{
-		if ( !model.getControlInfo().isModifiable() )
-		{
-			GUI.message(frame, "Este proyecto no es modificable");
+		if ( !model.getControlInfo().isModifiable() ) {
+			GUI.message(frame, Str.get("gui.msg_project_is_read_only"));
 			return;
 		}
 		Object obj = selectedCell.getUserObject();
@@ -554,32 +513,24 @@ public class Project extends JPanel
 
 		SpecificationUnit spec = (SpecificationUnit) obj;
 		
-		if (  spec.getIUnidad() == null )
-		{
-			GUI.message(frame, "Especificación no compilada aún");
+		if (  spec.getIUnidad() == null ) {
+			GUI.message(frame, Str.get("gui.msg_spec_not_compiled"));
 			return;
 		}
 		
 		// La spec y el algoritmo probador se ponen en el mismo paquete de la especificación.
 		// Se utiliza el mismo nombre simple pero prefijado con GUI.tester_prefix. 
 		// Por ejemplo, si la especificación es "foo::baz", entonces tanto la nueva spec como
-		// el algoritmo probador toman el nombre "foo::probar_baz" (asumiendo que
-		// GUI.tester_prefix == "probar_". 
+		// el algoritmo probador toman el nombre "foo::test_baz" (asumiendo que
+		// GUI.tester_prefix == "test_". 
 		
 		String spec_name = spec.getName();
 		
 		
 		// confirme con el usuario si parece que va a crear un probador para un probador:
 		if ( spec_name.startsWith(GUI.tester_prefix)
-		&&   ! GUI.confirm(frame, 
-				"Parece que vas a crear un esquema de pruebas para una especificación que\n"+
-				"a su vez es para pruebas (puesto que su nombre comienza con '" +GUI.tester_prefix+ "').\n"+
-				"\n"+
-				"¿Confirmas la creación del esquema de pruebas?"+
-				"\n"
-				)
-		)
-		{
+		&&   !GUI.confirm(frame,  Str.get("gui.1_conf_test_test", GUI.tester_prefix)+ "\n")
+		) {
 				return;
 		}
 		
@@ -589,19 +540,17 @@ public class Project extends JPanel
 		IProjectModel prjm = pkg.getModel();
 		
 		// compruebe que ya no exista la pareja spec/alg de pruebas:
-		if ( pkg.getSpecification(tester_name) != null )
-		{
-			GUI.message(frame, "La especificación '" +tester_name+ "' ya existe!");
+		if ( pkg.getSpecification(tester_name) != null ) {
+			GUI.message(frame, Str.get("gui.1_msg_spec_exists", tester_name));
 			return;
 		}
-		if ( pkg.getAlgorithm(tester_name) != null )
-		{
-			GUI.message(frame, "El algoritmo '" +tester_name+ "' ya existe!");
+		if ( pkg.getAlgorithm(tester_name) != null ) {
+			GUI.message(frame, Str.get("gui.1_msg_algorithm_exists", tester_name));
 			return;
 		}
 
 		msgArea.clear();
-		msgArea.print("Creando esquema probador de algoritmos para " +spec_name+ "...\n");
+		msgArea.print(Str.get("gui.1_msg_creating_test_scheme", spec_name)+ "\n");
 		
 		String pkg_name = prjm.isAnonymous(pkg) ? null : pkg.getName();
 		
@@ -610,33 +559,29 @@ public class Project extends JPanel
 		tester_spec.setSourceCode(
 			MUtil.getSourceCodeTemplateSpecTest(pkg_name, tester_name, spec_name)
 		);
-		msgArea.print("... Agregando especificación " +tester_spec.getName()+ "\n");
+		msgArea.print("... " +Str.get("gui.1_msg_test_adding_spec", tester_spec.getName())+ "\n");
 		// guardar el código fuente:
-		if ( ! GUI.saveUnit(tester_spec) )
-		{
+		if ( ! GUI.saveUnit(tester_spec) ) {
 			return;
 		}
 		// ahora compile:
 		Thread thread = GUI.compileUnit(tester_spec);
-		try
-		{
+		try {
 			thread.join();
 		}
-		catch(InterruptedException ex)
-		{
+		catch(InterruptedException ex) {
 			msgArea.print("compilation of spec interrupted!");
 		}
 		
-		if ( tester_spec.getIUnidad() == null )
-		{
+		if ( tester_spec.getIUnidad() == null ) {
 			// compilación fallida!?  No se espera que esto suceda.
-			msgArea.print("Compilación de especificación falló! (por qué?)");
+			msgArea.print("Compilation failed! (?)");
 			return;
 			
 		}
 		// agregue algoritmo:
 		String q_spec_name = tester_spec.getQualifiedName();
-		msgArea.print("... Agregando algoritmo probador " +tester_name);
+		msgArea.print("... " +Str.get("gui.1_msg_test_adding_algorithm", tester_name)+ "\n");
 		AlgorithmUnit tester_alg = pkg.addAlgorithm(tester_name, q_spec_name);
 		tester_alg.setSourceCode(
 			MUtil.getSourceCodeTemplateAlgTest(pkg_name, tester_name, spec_name)
@@ -644,13 +589,7 @@ public class Project extends JPanel
 		// Avise al usuario lo sucedido y lo que debería completar:
 		GUI.message(
 			frame, 
-			"Esquema de pruebas listo.\n"+
-			"\n"+
-			"Se ha creado una pareja especificación/algoritmo '" +tester_name+ "' para probar\n"+
-			"algoritmos que implementen la especificación '" +spec_name+ "'.\n"+
-			"\n"+
-			"A continuación, se abrirá la ventana de edición del algoritmo probador para que\n"+
-			"escribas el código de prueba necesario."
+			Str.get("gui.2_msg_test_scheme_ready", tester_name, spec_name)
 		);
 		GUI.editUnit(tester_alg, frame);
 		
@@ -659,48 +598,40 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public void createPackage()
-	{
+	public void createPackage() {
 		final JTextField textField = new JTextField(50);
 		textField.setFont(GUI.monospaced12_font);
 		final JLabel status = new JLabel();
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
 		
-		textField.setBorder(GUI.createTitledBorder("Nombre paquete"));
+		textField.setBorder(GUI.createTitledBorder(Str.get("gui.prj_pkg_name")));
 
 		Object[] array = {
 			textField,
 			status
 		};
 
-        ProjectDialog form = new ProjectDialog(frame, "Crear paquete", array)
-		{
-			public boolean dataOk()
-			{
+        ProjectDialog form = new ProjectDialog(frame, Str.get("gui.prj_title_create_pkg"), array) {
+			public boolean dataOk() {
 				status.setForeground(Color.gray);
 				String name = textField.getText().trim();
 				String msg = null;
-				if ( name.length() == 0 )
-				{
+				if ( name.length() == 0 ) {
 					IPackageModel pkg = model.getPackage(name);
-					if ( pkg == null )
-					{
-						status.setText("Campo en blanco creará el paquete anónimo");
+					if ( pkg == null ) {
+						status.setText(Str.get("gui.prj_msg_blank_create_anonymous"));
 						return true;
 					}
-					msg = "El paquete anónimo ya está creado";
+					msg = Str.get("gui.prj_msg_anonymous_exists");
 				}
-				else
-				{
+				else {
 					msg = model.validateNewPackageName(name);
 				}
 				
-				if ( msg == null )
-				{
-					status.setText("Nombre válido");
+				if ( msg == null ) {
+					status.setText(Str.get("gui.prj_msg_name_is_valid"));
 				}
-				else
-				{
+				else {
 					status.setForeground(Color.red);
 					status.setText(msg);
 				}
@@ -711,12 +642,11 @@ public class Project extends JPanel
         form.pack();
 		form.setLocationRelativeTo(frame);
 		form.setVisible(true);
-		if ( form.accepted() )
-		{
+		if ( form.accepted() ) {
 			String name = textField.getText().trim();
 			model.addPackage(name);
 			msgArea.clear();
-			msgArea.print("Agregado paquete " +name);
+			msgArea.print(Str.get("gui.1_prj_msg_pkg_added", name));
 		}
 	}
 	
@@ -730,8 +660,8 @@ public class Project extends JPanel
 		{
 			JOptionPane.showMessageDialog(
 				frame,
-				"No hay paquetes creados aún",
-				"Atención",
+				Str.get("gui.prj_msg_no_pkgs"),
+				"",
 				JOptionPane.INFORMATION_MESSAGE
 			);
 			return;
@@ -743,8 +673,8 @@ public class Project extends JPanel
 		final JLabel status = new JLabel();
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
 		
-		cb_pkgs.setBorder(GUI.createTitledBorder("En el paquete"));
-		textField.setBorder(GUI.createTitledBorder("Nombre especificación"));
+		cb_pkgs.setBorder(GUI.createTitledBorder(Str.get("gui.prj_in_pkg")));
+		textField.setBorder(GUI.createTitledBorder(Str.get("gui.prj_spec_name")));
 
 		Object[] array = {
 			cb_pkgs,
@@ -752,20 +682,16 @@ public class Project extends JPanel
 			status
 		};
 
-        ProjectDialog form = new ProjectDialog(frame, "Crear especificación", array)
-		{
-			public boolean dataOk()
-			{
+        ProjectDialog form = new ProjectDialog(frame, Str.get("gui.prj_title_create_spec"), array) {
+			public boolean dataOk() {
 				IPackageModel pkg = (IPackageModel) cb_pkgs.getSelectedItem();
 				String spec_name = textField.getText();
 				String msg = pkg.validateNewSpecificationName(spec_name);
-				if ( msg == null )
-				{
+				if ( msg == null ) {
 					status.setForeground(Color.gray);
-					status.setText("Nombre válido");
+					status.setText(Str.get("gui.prj_msg_name_is_valid"));
 				}
-				else
-				{
+				else {
 					status.setForeground(Color.red);
 					status.setText(msg);
 				}
@@ -776,30 +702,25 @@ public class Project extends JPanel
         form.pack();
 		form.setLocationRelativeTo(frame);
 		form.setVisible(true);
-		if ( form.accepted() )
-		{
+		if ( form.accepted() ) {
 			IPackageModel pkg = (IPackageModel) cb_pkgs.getSelectedItem();
 			String name = textField.getText().trim();
 			IProjectUnit unit = pkg.addSpecification(name);
 			msgArea.clear();
-			msgArea.print("Agregado " +unit.getStereotypedName());
+			msgArea.print(Str.get("gui.1_prj_msg_unit_added", unit.getStereotypedName()));
 		}
 	}
 
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	Collection getSpecNamesFromDependencies()
-	{
+	Collection getSpecNamesFromDependencies() {
 		List list = new ArrayList();
-		for ( Iterator it = model.getSupportingProjects().iterator(); it.hasNext(); )
-		{
+		for ( Iterator it = model.getSupportingProjects().iterator(); it.hasNext(); ) {
 			IProjectModel m2 = (IProjectModel) it.next();
-			for ( Iterator itt = m2.getPackages().iterator(); itt.hasNext(); )
-			{
+			for ( Iterator itt = m2.getPackages().iterator(); itt.hasNext(); ) {
 				IPackageModel pkg = (IPackageModel) itt.next();
-				for ( Iterator ittt = pkg.getSpecNames().iterator(); ittt.hasNext(); )
-				{
+				for ( Iterator ittt = pkg.getSpecNames().iterator(); ittt.hasNext(); ) {
 					String spec_name = (String) ittt.next();
 					list.add(spec_name);
 				}
@@ -811,24 +732,20 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public void createAlgorithm()
-	{
+	public void createAlgorithm() {
 		createAlgorithm("");
 	}
 	
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public void createAlgorithmFromSpecification()
-	{
-		if ( !model.getControlInfo().isModifiable() )
-		{
-			GUI.message(frame, "Este proyecto no es modificable");
+	public void createAlgorithmFromSpecification() {
+		if ( !model.getControlInfo().isModifiable() ) {
+			GUI.message(frame, Str.get("gui.msg_project_is_read_only"));
 			return;
 		}
 		Object obj = selectedCell.getUserObject();
-		if ( obj instanceof SpecificationUnit )
-		{
+		if ( obj instanceof SpecificationUnit ) {
 			SpecificationUnit spec = (SpecificationUnit) obj;
 			createAlgorithm(spec.getQualifiedName());
 		}
@@ -837,15 +754,13 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	private void createAlgorithm(String default_spec_name)
-	{
+	private void createAlgorithm(String default_spec_name) {
 		IPackageModel[] pkgs = (IPackageModel[]) model.getPackages().toArray(EMPTY_PACKAGE_ARRAY);
-		if ( pkgs.length == 0 )
-		{
+		if ( pkgs.length == 0 ) {
 			JOptionPane.showMessageDialog(
 				frame,
-				"No hay paquetes creados aún",
-				"Atención",
+				Str.get("gui.prj_msg_no_pkgs"),
+				"",
 				JOptionPane.INFORMATION_MESSAGE
 			);
 			return;
@@ -858,17 +773,18 @@ public class Project extends JPanel
 		f_spec_name.setFont(GUI.monospaced12_font);
 		f_spec_name.setText(default_spec_name);
 		final JLabel status = new JLabel();
-		final JButton choose = new JButton("Escoger");
+		String[] strs = Str.get("but.choose").split("\\|", 2);
+		final JButton choose = new JButton(strs[0]);
 		choose.setMnemonic(KeyEvent.VK_E);
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
 		
-		cb_pkgs.setBorder(GUI.createTitledBorder("En el paquete"));
-		f_alg_name.setBorder(GUI.createTitledBorder("Nombre algoritmo"));
+		cb_pkgs.setBorder(GUI.createTitledBorder(Str.get("gui.prj_in_pkg")));
+		f_alg_name.setBorder(GUI.createTitledBorder(Str.get("gui.prj_algorithm_name")));
 		
 		JPanel panel_spec = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel_spec.add(f_spec_name);
 		panel_spec.add(choose);
-		panel_spec.setBorder(GUI.createTitledBorder("para la especificación"));
+		panel_spec.setBorder(GUI.createTitledBorder(Str.get("gui.prj_for_spec")));
 
         Object[] array = {
 			cb_pkgs,
@@ -882,38 +798,31 @@ public class Project extends JPanel
 		//// Se evita este llamado hasta que se haga una implementación más eficiente
 		//final Collection supp_specs = GUI.getAllSpecs();
 
-        final ProjectDialog form = new ProjectDialog(frame, "Crear algoritmo", array)
-		{
-			public boolean dataOk()
-			{
+        final ProjectDialog form = new ProjectDialog(frame, Str.get("gui.prj_title_create_algorithm"), array) {
+			public boolean dataOk() {
 				IPackageModel pkg = (IPackageModel) cb_pkgs.getSelectedItem();
 				String alg_name = f_alg_name.getText();
 				String spec_name = f_spec_name.getText();
 				String msg = null;
 
-				if ( (msg = pkg.validateNewAlgorithmName(alg_name)) == null )
-				{
+				if ( (msg = pkg.validateNewAlgorithmName(alg_name)) == null ) {
 					IUnidad.IEspecificacion u = Loro.getSpecification(spec_name);
-					if (  u == null )
-					{
-						msg = "Especificación inexistente o no compilada";
-						
+					if ( u == null ) {
+						msg = Str.get("gui.prj_spec_not_found_compiled");
 						// no existe o no está compilada. Precisar:
-//						if (  supp_specs.contains(spec_name) )   // existe?
-//							msg = "Especificación no compilada";
-//						else
-//							msg = "Especificación inexistente";
+						//if (  supp_specs.contains(spec_name) )   // existe?
+						//	msg = "Especificación no compilada";
+						//else
+						//	msg = "Especificación inexistente";
 					}
 				}
 			
-				if ( msg == null )
-				{
+				if ( msg == null ) {
 					status.setForeground(Color.gray);
-					status.setText("Datos válidos");
+					status.setText(Str.get("gui.ok"));
 					return true;
 				}
-				else
-				{
+				else {
 					status.setForeground(Color.red);
 					status.setText(msg);
 					return false;
@@ -921,26 +830,20 @@ public class Project extends JPanel
 			}
 		};
 		
-		choose.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				JPopupMenu popup = chooseSpecification(form, new ActionListener() 
-				{
-					public void actionPerformed(ActionEvent e)
-					{
+		choose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPopupMenu popup = chooseSpecification(form, new ActionListener()  {
+					public void actionPerformed(ActionEvent e) {
 						String str = e.getActionCommand();
 						f_spec_name.setText(str);
 						form.toFront();
 						f_spec_name.requestFocus();
 					}
 				});
-				popup.addPopupMenuListener(new PopupMenuListener()
-				{
+				popup.addPopupMenuListener(new PopupMenuListener() {
 					public void popupMenuCanceled(PopupMenuEvent e){}
 					public void popupMenuWillBecomeVisible(PopupMenuEvent e){}
-					public void popupMenuWillBecomeInvisible(PopupMenuEvent e)
-					{
+					public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 						form.toFront();
 						f_spec_name.requestFocus();
 					}
@@ -955,14 +858,13 @@ public class Project extends JPanel
         form.pack();
 		form.setLocationRelativeTo(frame);
 		form.setVisible(true);
-		if ( form.accepted() )
-		{
+		if ( form.accepted() ) {
 			IPackageModel pkg = (IPackageModel) cb_pkgs.getSelectedItem();
 			String alg_name = f_alg_name.getText().trim();
 			String spec_name = f_spec_name.getText().trim();
 			IProjectUnit unit = pkg.addAlgorithm(alg_name, spec_name);
 			msgArea.clear();
-			msgArea.print("Agregado " +unit.getStereotypedName());
+			msgArea.print(Str.get("gui.1_prj_msg_unit_added", unit.getStereotypedName()));
 		}
 	}
 
@@ -971,13 +873,10 @@ public class Project extends JPanel
 	/**
 	 * Lanza un popup menu para que el usuario elija una especificación.
 	 */
-	protected JPopupMenu chooseSpecification(final Dialog owner, final ActionListener al)
-	{
+	protected JPopupMenu chooseSpecification(final Dialog owner, final ActionListener al) {
 		final JPopupMenu popup = new JPopupMenu();
-		GUI.progressRun(owner, "generando lista de especificaciones", new Runnable() 
-		{
-			public void run() 
-			{
+		GUI.progressRun(owner, Str.get("gui.generating_spec_list"), new Runnable() {
+			public void run() {
 				_prepareChooseSpecification(popup, al);
 			}
 		});
@@ -988,15 +887,14 @@ public class Project extends JPanel
 	/**
 	 * Obtiene un popup menu para que el usuario elija una especificación.
 	 */
-	protected JPopupMenu _prepareChooseSpecification(JPopupMenu popup, ActionListener al)
-	{
+	protected JPopupMenu _prepareChooseSpecification(JPopupMenu popup, ActionListener al) {
 		JMenu submenu;
 		Collection strings;
-		JLabel empty_lbl = new JLabel(" (No hay)");
+		JLabel empty_lbl = new JLabel(" " +Str.get("gui.empty"));
 		empty_lbl.setForeground(Color.gray);
 
 		JMenuItem mi;
-		JLabel lbl = new JLabel("Especificaciones disponibles", SwingConstants.CENTER);
+		JLabel lbl = new JLabel(Str.get("gui.available_specs"), SwingConstants.CENTER);
 		lbl.setForeground(Color.blue);
 		popup.add(lbl);
 		popup.addSeparator();
@@ -1004,30 +902,25 @@ public class Project extends JPanel
 		Collection prjnames = GUI.getAvailableProjects();
 		List prjms = new ArrayList();
 		prjms.add(model); // este de primero
-		for ( Iterator it = prjnames.iterator(); it.hasNext(); )
-		{
+		for ( Iterator it = prjnames.iterator(); it.hasNext(); ) {
 			String prjname = (String) it.next();
 			IProjectModel prjm = GUI.getProjectModel(prjname);
 			if ( prjm != model )
 				prjms.add(prjm);
 		}
 		
-		for ( Iterator it = prjms.iterator(); it.hasNext(); )
-		{
+		for ( Iterator it = prjms.iterator(); it.hasNext(); ) {
 			IProjectModel prjm = (IProjectModel) it.next();
 			Collection qnames = getAllSpecsInProject(prjm);
 			
-			submenu = new JMenu("En proyecto " +prjm.getInfo().getName());
+			submenu = new JMenu(Str.get("gui.1_prj_in_prj", prjm.getInfo().getName()));
 			popup.add(submenu);
 			
-			if ( qnames.size() == 0 )
-			{
+			if ( qnames.size() == 0 ) {
 				submenu.add(empty_lbl);
 			}
-			else
-			{
-				for ( Iterator itt = qnames.iterator(); itt.hasNext(); )
-				{
+			else {
+				for ( Iterator itt = qnames.iterator(); itt.hasNext(); ) {
 					String qname = (String) itt.next();
 					mi = new JMenuItem(qname);
 					mi.setFont(GUI.monospaced12_font);
@@ -1043,14 +936,11 @@ public class Project extends JPanel
 	/**
 	 * Returns the qualified names of all specs in the given project.
 	 */
-	static Collection getAllSpecsInProject(IProjectModel model)
-	{
+	static Collection getAllSpecsInProject(IProjectModel model) {
 		List list = new ArrayList();
-		for ( Iterator it = model.getPackages().iterator(); it.hasNext(); )
-		{
+		for ( Iterator it = model.getPackages().iterator(); it.hasNext(); ) {
 			IPackageModel pkg = (IPackageModel) it.next();
-			for ( Iterator itt = pkg.getSpecNames().iterator(); itt.hasNext(); )
-			{
+			for ( Iterator itt = pkg.getSpecNames().iterator(); itt.hasNext(); ) {
 				String spec_name = (String) itt.next();
 				String qname = model.isAnonymous(pkg) ? spec_name : pkg.getName() + "::" + spec_name;
 				list.add(qname);
@@ -1063,15 +953,13 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public void createClass()
-	{
+	public void createClass() {
 		IPackageModel[] pkgs = (IPackageModel[]) model.getPackages().toArray(EMPTY_PACKAGE_ARRAY);
-		if ( pkgs.length == 0 )
-		{
+		if ( pkgs.length == 0 ) {
 			JOptionPane.showMessageDialog(
 				frame,
-				"No hay paquetes creados aún",
-				"Atención",
+				Str.get("gui.prj_msg_no_pkgs"),
+				"",
 				JOptionPane.INFORMATION_MESSAGE
 			);
 			return;
@@ -1083,8 +971,8 @@ public class Project extends JPanel
 		final JLabel status = new JLabel();
 		status.setFont(status.getFont().deriveFont(Font.ITALIC));
 		
-		cb_pkgs.setBorder(GUI.createTitledBorder("Paquete"));
-		textField.setBorder(GUI.createTitledBorder("Nombre"));
+		cb_pkgs.setBorder(GUI.createTitledBorder(Str.get("gui.prj_in_pkg")));
+		textField.setBorder(GUI.createTitledBorder(Str.get("gui.prj_class_name")));
 
 		Object[] array = {
 			cb_pkgs,
@@ -1092,20 +980,16 @@ public class Project extends JPanel
 			status
 		};
 
-        ProjectDialog form = new ProjectDialog(frame, "Crear clase", array)
-		{
-			public boolean dataOk()
-			{
+        ProjectDialog form = new ProjectDialog(frame, Str.get("gui.prj_title_create_class"), array) {
+			public boolean dataOk() {
 				IPackageModel pkg = (IPackageModel) cb_pkgs.getSelectedItem();
 				String name = textField.getText();
 				String msg = pkg.validateNewClassName(name);
-				if ( msg == null )
-				{
+				if ( msg == null ) {
 					status.setForeground(Color.gray);
-					status.setText("Nombre válido");
+					status.setText(Str.get("gui.prj_msg_name_is_valid"));
 				}
-				else
-				{
+				else {
 					status.setForeground(Color.red);
 					status.setText(msg);
 				}
@@ -1116,24 +1000,21 @@ public class Project extends JPanel
         form.pack();
 		form.setLocationRelativeTo(frame);
 		form.setVisible(true);
-		if ( form.accepted() )
-		{
+		if ( form.accepted() ) {
 			IPackageModel pkg = (IPackageModel) cb_pkgs.getSelectedItem();
 			String name = textField.getText().trim();
 			IProjectUnit unit = pkg.addClass(name);
 			msgArea.clear();
-			msgArea.print("Agregado " +unit.getStereotypedName());
+			msgArea.print(Str.get("gui.1_prj_msg_unit_added", unit.getStereotypedName()));
 		}
 	}
 	
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public void executeAlgorithm(boolean ejecutorpp)
-	{
+	public void executeAlgorithm(boolean ejecutorpp) {
 		Object obj = selectedCell.getUserObject();
-		if ( obj instanceof AlgorithmUnit )
-		{
+		if ( obj instanceof AlgorithmUnit ) {
 			AlgorithmUnit alg = (AlgorithmUnit) obj;
 			GUI.executeAlgorithm(alg, ejecutorpp);
 		}
@@ -1142,11 +1023,9 @@ public class Project extends JPanel
 	////////////////////////////////////////////////////////////////
 	/**
 	 */
-	public void testAlgorithm()
-	{
+	public void testAlgorithm() {
 		Object obj = selectedCell.getUserObject();
-		if ( obj instanceof AlgorithmUnit )
-		{
+		if ( obj instanceof AlgorithmUnit ) {
 			AlgorithmUnit alg = (AlgorithmUnit) obj;
 			GUI.testAlgorithm(alg, true);
 		}

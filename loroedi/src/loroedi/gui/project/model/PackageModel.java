@@ -240,10 +240,10 @@ public class PackageModel implements IPackageModel
 	{
 		id = id.trim();
 		if ( id.length() == 0 )
-			return Str.get("model.pkg_empty_name");
+			return Str.get("model.missing_name");
 		
 		if ( id.indexOf('/') >= 0 )  // posible comentario
-			return Str.get("model.pkg_malformed_id");
+			return Str.get("model.malformed_id");
 		
 		ICompilador compilador = Loro.obtCompilador();
 		compilador.ponTextoFuente(id);
@@ -253,7 +253,7 @@ public class PackageModel implements IPackageModel
 		}
 		catch(CompilacionException ex)
 		{
-			return Str.get("model.pkg_malformed_id");
+			return Str.get("model.malformed_id");
 		}
 		return null;
 	}

@@ -2,6 +2,7 @@ package loroedi.gui.project;
 
 import loroedi.gui.project.model.*;
 import loroedi.gui.project.unit.*;
+import loroedi.Info.Str;
 
 import javax.swing.JOptionPane;
 import javax.swing.JDialog;
@@ -18,91 +19,74 @@ import java.awt.event.*;
 
 /////////////////////////////////////////////////////////
 /**
- * Facilidad para diversos diálogos.
+ * An utility for dialogs.
  *
  * @author Carlos Rueda
- * @version 2002-07-24
  */
-public class ProjectDialog extends JDialog 
+public class ProjectDialog extends JDialog
 {
 	public static Border normalBorder = BorderFactory.createLineBorder(Color.black);
 	public static Border redBorder = BorderFactory.createLineBorder(Color.red);
-	
+
     private JOptionPane optionPane;
     private boolean accepted;
-    private JButton btnAccept = new JButton("Aceptar");
-	
-	DocumentListener dl = new DocumentListener()
-	{
-		public void insertUpdate(DocumentEvent e)
-		{
-			notifyUpdate();
-		}
-		public void removeUpdate(DocumentEvent e)
-		{
-			notifyUpdate();
-		}
-		public void changedUpdate(DocumentEvent e)
-		{
-			notifyUpdate();
-		}
+    private JButton btnAccept;
+
+	DocumentListener dl = new DocumentListener() {
+		public void insertUpdate(DocumentEvent e) { notifyUpdate(); }
+		public void removeUpdate(DocumentEvent e) { notifyUpdate(); }
+		public void changedUpdate(DocumentEvent e) { notifyUpdate(); }
 	};
-	ActionListener update_al = new ActionListener() 
-	{
-		public void actionPerformed(ActionEvent e) 
-		{
-			notifyUpdate();
-		}
+	ActionListener update_al = new ActionListener()  {
+		public void actionPerformed(ActionEvent e)  { notifyUpdate(); }
 	};
-	ActionListener accept_al = new ActionListener() 
-	{
-		public void actionPerformed(ActionEvent e) 
-		{
-			optionPane.setValue(btnAccept.getText());
-		}
+	ActionListener accept_al = new ActionListener()  {
+		public void actionPerformed(ActionEvent e)  { optionPane.setValue(btnAccept.getText()); }
 	};
 
 	/////////////////////////////////////////////////////////
-	private void _setListeners(Object comp)
-	{
-		if ( comp instanceof Container )
-		{
+	private void _setListeners(Object comp) {
+		if ( comp instanceof Container ) {
 			Container container = (Container) comp;
 			Component[] components = container.getComponents();
 			for ( int i = 0; i < components.length; i++ )
-			{
 				_setListeners(components[i]);
-			}
 		}
-		if ( comp instanceof JTextComponent )
-		{
+		if ( comp instanceof JTextComponent ) {
 			((JTextComponent) comp).getDocument().addDocumentListener(dl);
 		}
-		if ( comp instanceof JTextField )
-		{
+		if ( comp instanceof JTextField ) {
 			((JTextField) comp).addActionListener(accept_al);
 		}
-		if ( comp instanceof JComboBox )
-		{
+		if ( comp instanceof JComboBox ) {
 			((JComboBox) comp).addActionListener(update_al);
 		}
 	}
 
 	/////////////////////////////////////////////////////////
-    public ProjectDialog(Frame aFrame, String title, Object[] components) 
-	{
+    public ProjectDialog(Frame aFrame, String title, Object[] components)  {
         super(aFrame, title, true);
-        Object[] options = {btnAccept, "Cancelar"};
+		
+		String[] strs;
+		
+		strs = Str.get("but.ok").split("\\|", 2);
+		btnAccept = new JButton(strs[0]);
+		btnAccept.setToolTipText(strs[1]);
+		
+		strs = Str.get("but.cancel").split("\\|", 2);
+		JButton btnCancel = new JButton(strs[0]);
+		btnCancel.setToolTipText(strs[1]);
+		
+        Object[] options = {btnAccept, btnCancel};
 		accepted = false;
 		btnAccept.addActionListener(accept_al);
-		
-		for ( int i = 0; i < components.length; i++ )
-		{
+
+		for ( int i = 0; i < components.length; i++ ) {
 			Object comp = components[i];
 			_setListeners(comp);
 		}
-		
-        optionPane = new JOptionPane(components, 
+
+        optionPane = new JOptionPane(components,
                                     JOptionPane.QUESTION_MESSAGE,
                                     JOptionPane.YES_NO_OPTION,
                                     null,
@@ -110,25 +94,21 @@ public class ProjectDialog extends JDialog
                                     options[0]);
         setContentPane(optionPane);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() 
-		{
-			public void windowClosing(WindowEvent we) 
-			{
+        addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
 				optionPane.setValue(new Integer(JOptionPane.CLOSED_OPTION));
             }
         });
-		
-        optionPane.addPropertyChangeListener(new PropertyChangeListener() 
-		{
-            public void propertyChange(PropertyChangeEvent e) 
-			{
+
+        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent e) {
                 String prop = e.getPropertyName();
 
-                if (isVisible() 
+                if (isVisible()
                 && (e.getSource() == optionPane)
                 && (prop.equals(JOptionPane.VALUE_PROPERTY) ||
                      prop.equals(JOptionPane.INPUT_VALUE_PROPERTY))
-				) 
+				)
 				{
                     Object value = optionPane.getValue();
 
@@ -142,51 +122,43 @@ public class ProjectDialog extends JDialog
                     // presses the same button next time, no
                     // property change event will be fired.
                     optionPane.setValue(JOptionPane.UNINITIALIZED_VALUE);
-//System.out.println(value.getClass().getName()+ " : " +value);
-                    if (value.equals(btnAccept.getText())) 
-					{
-						if ( dataOk() )
-						{
+					//System.out.println(value.getClass().getName()+ " : " +value);
+                    if (value.equals(btnAccept.getText())) {
+						if ( dataOk() ) {
 							accepted = true;
 							setVisible(false);
 						}
-                    } 
-					else 
-					{
+                    }
+					else {
                         setVisible(false);
                     }
                 }
             }
         });
     }
-	
+
 	/////////////////////////////////////////////////////////
-	public void setAcceptText(String text)
-	{
+	public void setAcceptText(String text) {
 		btnAccept.setText(text);
 	}
 
 	/////////////////////////////////////////////////////////
-	public void activate()
-	{
+	public void activate() {
 		btnAccept.setEnabled(dataOk());
 	}
 
 	/////////////////////////////////////////////////////////
-    public void notifyUpdate() 
-	{
+    public void notifyUpdate() {
         btnAccept.setEnabled(dataOk());
     }
 
 	/////////////////////////////////////////////////////////
-	public boolean dataOk()
-	{
+	public boolean dataOk() {
 		return true;
 	}
-	
+
 	/////////////////////////////////////////////////////////
-    public boolean accepted() 
-	{
+    public boolean accepted() {
         return accepted;
     }
 }

@@ -43,14 +43,14 @@ public class ObservadorPP implements IObservadorPP
 	///////////////////////////////////////////////////////////////////////
 	public ObservadorPP(InterpreterWindow iw)
 	{
-			this.iw = iw;
-		}
+		this.iw = iw;
+	}
 
 	///////////////////////////////////////////////////////////////////////
 	public SymbolTableWindow getSymbolTableWindow()
 	{
-			return symbolTableWindow;
-		}
+		return symbolTableWindow;
+	}
 		
 	///////////////////////////////////////////////////////////////////////
 	public void nextStep(boolean stepInto)
@@ -74,7 +74,7 @@ public class ObservadorPP implements IObservadorPP
 			nodeToReturn = currentNode;
 			ppcontrol.setActive(false);
 		}
-				iw.enableTraceableButtons(false);
+		iw.enableTraceableButtons(false);
 		ppcontrol.setSignal(0);
 	}
 
@@ -123,7 +123,7 @@ public class ObservadorPP implements IObservadorPP
 		symbolTableWindow.setSymbolTable(symbTab);
 		
 		onExit = false;
-				iw.enableTraceableButtons(true);
+		iw.enableTraceableButtons(true);
 		ppcontrol.getSignal();
 		
 		return 0;
@@ -175,7 +175,7 @@ public class ObservadorPP implements IObservadorPP
 		symbolTableWindow.setSymbolTable(symbTab);
 		
 		onExit = true;
-				iw.enableTraceableButtons(true);
+		iw.enableTraceableButtons(true);
 		ppcontrol.getSignal();
 		
 		return 0;
@@ -202,14 +202,14 @@ public class ObservadorPP implements IObservadorPP
 		symbolTableWindow.setSymbolTable(symbTab);
 		
 		onExit = false;
-				iw.enableTraceableButtons(true);
+		iw.enableTraceableButtons(true);
 		ppcontrol.getSignal();
 
 		return 0;
 	}
 
 	//////////////////////////////////////////////////////////////////////
-		public int pop(IUnidad u, INode n, ISymbolTable symbTab, String src)
+	public int pop(IUnidad u, INode n, ISymbolTable symbTab, String src)
 	throws InterruptedException
 	{
 		if ( currentNode == nodeToReturn )
@@ -221,17 +221,17 @@ public class ObservadorPP implements IObservadorPP
 		if ( src != null )
 		{
 			editor.setText(src);
-						Rango r;
-						if ( n != null && (r = n.obtRango()) != null )
-							editor.select(r.obtPosFin(), r.obtPosIni());
-						else
-							editor.selectAll();
+			Rango r;
+			if ( n != null && (r = n.obtRango()) != null )
+				editor.select(r.obtPosFin(), r.obtPosIni());
+			else
+				editor.selectAll();
 		}
 		editor.setSelectionColor(exitColor);
 		symbolTableWindow.setSymbolTable(symbTab);
 		
 		onExit = true;
-				iw.enableTraceableButtons(true);
+		iw.enableTraceableButtons(true);
 		ppcontrol.getSignal();
 
 		return 0;
