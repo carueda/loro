@@ -37,6 +37,8 @@ implements ActionListener, JTermListener
 	protected static final String PREFIX_INVALID =  "!  ";
 	protected static final String PREFIX_SPECIAL =  "   ";
 
+	protected static final String defaultAddTitleRead =  "<<ESPERANDO ENTRADA POR TECLADO>>";
+
 	protected JFrame frame = null;    // en donde se pone el interprete
 
 	protected JButton butTerminar;
@@ -58,6 +60,7 @@ implements ActionListener, JTermListener
 	protected ObservadorPP obspp;	
 
 	protected String title;
+	private String addTitleRead;
 
 	/////////////////////////////////////////////////////////////////////
 	/**
@@ -76,6 +79,7 @@ implements ActionListener, JTermListener
 	{
 		super();
 		this.title = title;
+		addTitleRead = defaultAddTitleRead;
 
 		ta = JETextArea.createJEditTextArea(
 			PROMPT,
@@ -473,11 +477,13 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 			term.setEditable(false);
 			try
 			{
+				addTitleRead = "<<presionar Intro para continuar>>";				
 				readLine(ask_enter);
 			}
 			finally
 			{
 				term.setEditable(true);
+				addTitleRead = defaultAddTitleRead;
 			}
 		}
 		else
@@ -495,7 +501,7 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		enableTraceableButtons(!reading);
 		if ( reading )
 		{
-			frame.setTitle(title+ " <<ESPERANDO ENTRADA POR TECLADO>>");
+			frame.setTitle(title+ " " +addTitleRead);
 			term.requestFocus();
 		}
 		else
@@ -515,7 +521,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 		butTerminar.setEnabled(loroii.getExecute());
 		// no queremos control de seguimiento mientras se lee:
 		enableTraceableButtons(false);
-		frame.setTitle(title+ " <<ESPERANDO ENTRADA POR TECLADO>>");
 		readingThread = Thread.currentThread();
 		term.requestFocus();
 		try

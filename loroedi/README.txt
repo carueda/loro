@@ -16,6 +16,9 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-06 (0.8pre11)
 
+	- InterpreterWindow: mensaje en titulo de ventana segun si se espera lectura
+	  normal o solo un Enter.
+	
 	- Actualizada ventana de declaraciones en cada comando ejecutado desde
 	  InterpreterWindow.procesar().  Nuevo ObservadorPP.getSymbolTableWindow().
 	  
