@@ -2,6 +2,7 @@ package loro.util;
 
 import loro.arbol.*;
 import loro.Rango;
+import loro.IOroLoader;
 
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -541,6 +542,52 @@ public final class Util
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    public static void copyExtensionToZip(
+		IOroLoader oroLoader, 
+		ZipOutputStream zos,
+		FilenameFilter fnfilter
+	)
+    throws Exception
+    {
+        List list = oroLoader.getFilenames(fnfilter);
+
+        for ( Iterator it = list.iterator(); it.hasNext(); )
+        {
+            String name = (String) it.next();
+			InputStream is = oroLoader.getResourceAsStream(name);
+            copyStreamToZip(
+                name,
+                is,
+                zos
+            );
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    public static void copyExtensionToDirectory(
+		IOroLoader oroLoader, 
+		File dir,
+		FilenameFilter fnfilter
+	)
+    throws Exception
+    {
+        List list = oroLoader.getFilenames(fnfilter);
+
+        for ( Iterator it = list.iterator(); it.hasNext(); )
+        {
+            String name = (String) it.next();
+			InputStream is = oroLoader.getResourceAsStream(name);
+			File dest = new File(dir, name);
+			File parent = dest.getParentFile();
+			if ( !parent.exists() )
+				parent.mkdirs();
+			OutputStream os = new FileOutputStream(dest); 
+            copyStreamToStream(is, os);
+			os.close();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     public static void copyFileToZip(
 		String entryName,
 		String filename,
@@ -550,18 +597,34 @@ public final class Util
     {
         ZipEntry entry = new ZipEntry(entryName);
         zos.putNextEntry(entry);
-
-        BufferedInputStream bis = new BufferedInputStream(
-            new FileInputStream(filename)
-        );
-
-        int avail = bis.available();
-        byte[] buffer = new byte[avail];
-        bis.read(buffer, 0, avail);
-
-        zos.write(buffer, 0, avail);
-
+		FileInputStream fis = new FileInputStream(filename);
+		copyStreamToStream(new FileInputStream(filename), zos);
+		fis.close();
         zos.closeEntry();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    public static void copyStreamToZip(
+		String entryName,
+		InputStream is,
+		ZipOutputStream zos
+	)
+    throws Exception
+    {
+        ZipEntry entry = new ZipEntry(entryName);
+        zos.putNextEntry(entry);
+		copyStreamToStream(is, zos);
+        zos.closeEntry();
+    }
+	
+    ////////////////////////////////////////////////////////////////////////////
+    private static void copyStreamToStream(InputStream is, OutputStream os)
+    throws Exception
+    {
+        BufferedInputStream bis = new BufferedInputStream(is);
+        int avail = bis.available();
+        byte[] buffer = new byte[avail];
+        bis.read(buffer, 0, avail);
+        os.write(buffer, 0, avail);
+    }
 }
