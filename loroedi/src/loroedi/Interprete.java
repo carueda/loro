@@ -29,7 +29,7 @@ import java.net.URL;
  * @author Carlos Rueda
  * @version $Id$
  */
-public class Interprete extends Thread
+public class Interprete
 implements ActionListener
 {
 	static final String PROMPT         =  " $ ";
@@ -37,6 +37,12 @@ implements ActionListener
 	static final String PREFIX_INVALID =  "!  ";
 	static final String PREFIX_SPECIAL =  "   ";
 
+	static private String version =	
+"Loro - Sistema Didáctico de Programación\n"+
+Info.obtNombre()+ " " +Info.obtVersion()+ " (Build " +Info.obtBuild()+ ")\n" +
+Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
+	;
+	
 	static private Interprete instance = null;
 	static private JFrame frame = null;    // en donde se pone el interprete
 
@@ -104,7 +110,7 @@ implements ActionListener
 		butTerminar.setMnemonic(KeyEvent.VK_T);
 		butTerminar.setToolTipText("Termina abruptamente la ejecución en curso");
 		but.addActionListener(instance);
-		butTerminar.setEnabled(false);
+		//butTerminar.setEnabled(false);
 		pan.add(but);
 		content_pane.add(pan, "South");
 
@@ -123,7 +129,14 @@ implements ActionListener
 			public void componentMoved(ComponentEvent e){common();}
 		});
 
-		instance.start();
+		//instance.start();
+		new Thread(new Runnable()
+		{
+			public void run()
+			{
+				instance.ii.run();
+			}
+		}).start();
 	}
 
 	
@@ -140,7 +153,96 @@ implements ActionListener
 
 	private boolean execute = true;
 	private IInterprete loroii;
+	private IInterprete.IInteractiveInterpreter ii;
 
+
+	/////////////////////////////////////////////////////////////////////
+	/**
+	 * Crea un interprete para acciones interactivas.
+	 */
+	private Interprete()
+	{
+		super();
+
+		ta = JETextArea.createJEditTextArea(
+			PROMPT,
+			PREFIX_SPECIAL,
+			PREFIX_INVALID,
+			false
+		);
+		term = new JTerm((ITextArea) ta);
+
+		pw = new PrintWriter(term.getWriter());
+		br = new BufferedReader(term.getReader());
+
+		loroii = Loro.crearInterprete(br, pw, false, null);
+
+//{{{
+		ii = loroii.getInteractiveInterpreter();
+		ii.setManager(new IInterprete.IInteractiveInterpreter.IManager()
+		{
+			///////////////////////////////////////////////////////////////////////
+			public String prompt()
+			throws IOException
+			{
+				term.setPrefix(PROMPT);
+				String text = br.readLine();
+				term.setPrefix(PREFIX_SPECIAL);
+				return text;
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			public void expression(String expr)
+			{
+				term.setPrefix(PREFIX_EXPR);
+				pw.println(expr);
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			public void exception(String msg)
+			{
+				term.setPrefix(PREFIX_INVALID);
+				pw.println(msg);
+			}
+		});
+		
+		loroii.setMetaListener(new IInterprete.IMetaListener()
+		{
+			String info = 
+".version      - Muestra información general sobre versión del sistema\n" +
+".limpiar      - Limpia la ventana"
+			;
+			
+			///////////////////////////////////////////////////////////////////////
+			public String getInfo()
+			{
+				return info;
+			}
+			
+			public String execute(String meta)
+			{
+				String res = null;
+				if ( meta.equals(".version") )
+				{
+					res = version;
+				}
+				else if ( meta.equals(".limpiar") )
+				{
+					ta.setText("");
+					res = "";
+				}
+				return res;
+			}
+		});
+//}}}
+
+		
+		term.setPrefix(PREFIX_SPECIAL);
+		pw.println(
+			loroedi.Info.obtTituloII() + "\n" +
+			"Escribe .? para obtener una ayuda"
+		);
+	}
 
 
 	///////////////////////////////////////////////////////////////////////
@@ -243,35 +345,6 @@ implements ActionListener
 		term.requestFocus();
 	}
 
-
-
-	/////////////////////////////////////////////////////////////////////
-	/**
-	 * Crea un interprete para acciones interactivas.
-	 */
-	private Interprete()
-	{
-		super();
-
-		ta = JETextArea.createJEditTextArea(
-			PROMPT,
-			PREFIX_SPECIAL,
-			PREFIX_INVALID,
-			false
-		);
-		term = new JTerm((ITextArea) ta);
-
-		pw = new PrintWriter(term.getWriter());
-		br = new BufferedReader(term.getReader());
-
-		loroii = Loro.crearInterprete(br, pw, false, null);
-
-		term.setPrefix(PREFIX_SPECIAL);
-		pw.println(
-			loroedi.Info.obtTituloII() + "\n" +
-			"Escribe .? para obtener una ayuda"
-		);
-	}
 
 	///////////////////////////////////////////////////////////////////////
 	void metaProcesar(String text)

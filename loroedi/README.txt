@@ -16,6 +16,10 @@ NOTAS
 ////////////////////////////////////////////////////////////////////////////
 2003-05-14 (0.8pre11)
 
+	- Primeros ajustes a loroedi.Interprete de acuerdo con nuevo servicio
+	  del núcleo IInterprete.IInteractiveInterpreter, que pretende 
+	  factorizar este mecanismo para diversos usos.
+	
 	- Intérprete interactivo ahora creado por demanda.
 	
 	- JTerm: indicador simpleRead eliminado (no usado).
