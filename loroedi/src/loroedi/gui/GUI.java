@@ -2313,7 +2313,9 @@ public class GUI
 				Preferencias.ponRectangulo(Preferencias.PRJ_RECT, rect);
 			}
 			
-			LoroEDI.finalizar();
+			Preferencias.store();
+			Configuracion.store();
+			Loro.cerrar();
 		}
 		catch(Throwable ex)
 		{
