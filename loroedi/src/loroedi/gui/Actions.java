@@ -18,35 +18,31 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
-
-/////////////////////////////////////////////////////////
 /** 
  * Actions.
  *
  * @author Carlos Rueda
  * @version $Id$
  */
-public class Actions
-{
+public class Actions {
 	protected Group project_group;
 	protected Group develop_group;
 	protected Group execution_group;
 	protected Group help_group;
 	protected Map name_action;
 
-	/////////////////////////////////////////////////////////////////
 	public Actions()
 	{
 		createActions();
 	}
 	
-	/////////////////////////////////////////////////////////////////
-	protected void createActions()
-	{
+	protected void createActions() {
 		Group g;
 		name_action = new HashMap();
+		String[] strs;
 		
-		project_group = new Group(Str.get("gui.menu_project"), KeyEvent.VK_P, new ArrayList());
+		strs = Str.get("gui.menu_project").split("\\|", 2);
+		project_group = new Group(strs[0], strs[1], new ArrayList());
 		addAction("new", new NewAction(), project_group.actions);
 		addAction("open", new OpenAction(), project_group.actions);
 		addAction("install", new InstallAction(), project_group.actions);
@@ -67,8 +63,10 @@ public class Actions
 		//addAction("print", new PrintAction());
 
 		
-		develop_group = new Group(Str.get("gui.menu_dev"), KeyEvent.VK_D, new ArrayList());
-		g = new Group(Str.get("gui.menu_add"), KeyEvent.VK_A, new ArrayList());
+		strs = Str.get("gui.menu_dev").split("\\|", 2);
+		develop_group = new Group(strs[0], strs[1], new ArrayList());
+		strs = Str.get("gui.menu_add").split("\\|", 2);
+		g = new Group(strs[0], strs[1], new ArrayList());
 			addAction("new-pkg", new NewPackageAction(), g.actions);
 			addAction("new-spec", new NewSpecificationAction(), g.actions);
 			addAction("new-algorithm", new NewAlgorithmAction(), g.actions);
@@ -79,9 +77,11 @@ public class Actions
 		develop_group.actions.add(null);
 		addAction("view-prj-doc", new ViewProjectDocAction(), develop_group.actions);
 		develop_group.actions.add(null);
-		Group diag_g = new Group(Str.get("gui.menu_diagram"), KeyEvent.VK_G, new ArrayList());
+		strs = Str.get("gui.menu_diagram").split("\\|", 2);
+		Group diag_g = new Group(strs[0], strs[1], new ArrayList());
 		develop_group.actions.add(diag_g);
-			g = new Group(Str.get("gui.menu_diagram_size"), KeyEvent.VK_T, new ArrayList());
+			strs = Str.get("gui.menu_diagram_size").split("\\|", 2);
+			g = new Group(strs[0], strs[1], new ArrayList());
 				addAction("zoom-in", new ZoomInAction(), g.actions);
 				addAction("zoom-out", new ZoomOutAction(), g.actions);
 				addAction("actual-size", new ActualSizeAction(), g.actions);
@@ -90,7 +90,8 @@ public class Actions
 		develop_group.actions.add(null);
 		addAction("edit-demo", new EditDemoAction(), develop_group.actions);
 
-		execution_group = new Group(Str.get("gui.menu_run"), KeyEvent.VK_E, new ArrayList());
+		strs = Str.get("gui.menu_run").split("\\|", 2);
+		execution_group = new Group(strs[0], strs[1], new ArrayList());
 		addAction("show-ii", new ShowIIAction(), execution_group.actions);
 		execution_group.actions.add(null);
 		addAction("test-project", new TestProjectAction(), execution_group.actions);
@@ -99,7 +100,8 @@ public class Actions
 		addAction("run-demo", new RunDemoAction(), execution_group.actions);
 		addAction("run-trace-demo", new RunTraceDemoAction(), execution_group.actions);
 		
-		help_group = new Group(Str.get("gui.menu_help"), KeyEvent.VK_Y, new ArrayList());
+		strs = Str.get("gui.menu_help").split("\\|", 2);
+		help_group = new Group(strs[0], strs[1], new ArrayList());
 		addAction("help", new HelpAction(), help_group.actions);
 		help_group.actions.add(null);
 		addAction("about", new AboutAction(), help_group.actions);
@@ -202,17 +204,20 @@ public class Actions
 	}
 	
 	/////////////////////////////////////////////////////////
-    public static class Group 
-	{
+    public static class Group  {
 		public String name;
 		public int mnemonic;
 		public List actions;
 		
-		Group(String name, int mnemonic, List actions)
-		{
+		Group(String name, int mnemonic, List actions) {
 			this.name = name;
 			this.mnemonic = mnemonic;
 			this.actions = actions;
+		}
+		Group(String name, String mnemonic, List actions) {
+			this.name = name;
+			this.actions = actions;
+			this.mnemonic = mnemonic.charAt(0);
 		}
 	}
 	

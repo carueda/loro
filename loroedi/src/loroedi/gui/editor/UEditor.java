@@ -181,10 +181,12 @@ public class UEditor implements EditorListener
 		frame.setJMenuBar(mb);
 		
 		JMenu menu;
+		String[] strs;
 		
 		// Unidad:
-		menu = new JMenu(Str.get("gui.menu_unit"));
-		menu.setMnemonic(KeyEvent.VK_U);
+		strs = Str.get("gui.menu_unit").split("\\|", 2);
+		menu = new JMenu(strs[0]);
+		menu.setMnemonic(strs[1].charAt(0));
 		mb.add(menu);
 		menu.add((Action) actions.get("save"));
 		menu.add((Action) actions.get("compile"));
@@ -197,8 +199,9 @@ public class UEditor implements EditorListener
 		menu.add((Action) actions.get("close"));
 		
 		// Edición:
-		menu = new JMenu(Str.get("gui.menu_edit"));
-		menu.setMnemonic(KeyEvent.VK_E);
+		strs = Str.get("gui.menu_edit").split("\\|", 2);
+		menu = new JMenu(strs[0]);
+		menu.setMnemonic(strs[1].charAt(0));
 		mb.add(menu);
 		menu.add((Action) actions.get("copy-selection"));
 		menu.add((Action) actions.get("cut-selection"));

@@ -3325,9 +3325,10 @@ public class GUI
 			if ( url != null ) 
 				setIconImage(new ImageIcon(url).getImage());
 
-			windowMenu = new JMenu(Str.get("gui.menu_window"));
+			String[] strs = Str.get("gui.menu_window").split("\\|", 2);
+			windowMenu = new JMenu(strs[0]);
+			windowMenu.setMnemonic(strs[1].charAt(0));
 			JMenuBar mb = createMenuBar(windowMenu); 
-			windowMenu.setMnemonic(KeyEvent.VK_V);
 			setJMenuBar(mb);
 			getContentPane().add(createToolBar(), "North");
 			if ( rect != null )

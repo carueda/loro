@@ -44,6 +44,7 @@ $Id$
 	- util/edit/* simplified (original sources moved to simpledi)
 	- izinstall: now includes langpack iso3="eng"
 	- build.xml: loroc now with locale="es" since test programs are in spanish.
+	- localized mnemonic for menus (pending for actions)
 	
 ////////////////////////////////////////////////////////////////////////////
 2004-06-22 (0.8.7)
