@@ -14,6 +14,13 @@ NOTAS
 	  
 
 ////////////////////////////////////////////////////////////////////////////
+2003-05-13 (0.8pre11)
+
+	- InterpreterWindow: ajuste menor para poner prefix special tanto en
+	  metaProcesar como en procesarLoro, para mejor control cuando subclases
+	  llamen uno u otro.
+	
+////////////////////////////////////////////////////////////////////////////
 2003-05-08 (0.8pre11)
 
 	- JTerm nuevamente revisado. Ahora está más simplificado el manejo de prefix.

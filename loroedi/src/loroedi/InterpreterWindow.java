@@ -307,6 +307,7 @@ implements ActionListener, JTermListener
 	{
 		String msg;
 
+		term.setPrefix(PREFIX_SPECIAL);
 		if ( text.equals(".?") )
 		{
 			msg =
@@ -442,7 +443,6 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	void procesar(String text)
 	throws AnalisisException
 	{
-		term.setPrefix(PREFIX_SPECIAL);
 		if ( text.charAt(0) == '.' )
 			metaProcesar(text);
 		else
@@ -529,6 +529,8 @@ Loro.obtNombre()+ " " +Loro.obtVersion()+ " (Build " +Loro.obtBuild()+ ")\n"
 	{
 		try
 		{
+			term.setPrefix(PREFIX_SPECIAL);
+			
 			// habilite el boton de terminacion si el modo es ejecucion:
 			butTerminar.setEnabled(loroii.getExecute());
 			enableTraceableButtons(loroii.getExecute());
