@@ -1,4 +1,4 @@
-// Gramatica para español
+// Gramatica para espaï¿½ol
 // $Id$
 
 options {
@@ -85,7 +85,7 @@ TOKEN :
 }
 
 
-TOKEN : // tipos básicos
+TOKEN : // tipos bï¿½sicos
 {
 	< BOOLEANO: "booleano" >
   | < CADENA: "cadena" >
@@ -105,16 +105,16 @@ TOKEN : // otras palabras reservadas
   | < COMO: "como" >
   | < CONSTANTE: "constante">
   | < CONSTRUCTOR: "constructor">
-  | < CONTINUE: "continue" | "continúe" | "contin\u00fae" >
+  | < CONTINUE: "continue" | "continï¿½e" | "contin\u00fae" >
   | < CREAR: "crear">
   | < DESDE: "desde" >
-  | < DESCRIPCION: "descripcion" | "descripción" | "descripci\u00f3n" >
+  | < DESCRIPCION: "descripcion" | "descripciï¿½n" | "descripci\u00f3n" >
   | < EN: "en">
   | < ENTONCES: "entonces" >
   | < ENTRADA: "entrada">
   | < ES_INSTANCIA_DE: "es_instancia_de">
-  | < ESPECIFICACION: "especificacion" | "especificación" | "especificaci\u00f3n" >
-  | < ESTE: "este" | "éste" | "\u00e9ste" >
+  | < ESPECIFICACION: "especificacion" | "especificaciï¿½n" | "especificaci\u00f3n" >
+  | < ESTE: "este" | "ï¿½ste" | "\u00e9ste" >
   | < ESTRATEGIA: "estrategia">
   | < EXISTE: "existe">
   | < EXTIFINE: "extiende">
@@ -123,17 +123,17 @@ TOKEN : // otras palabras reservadas
   | < GLOBAL: "global" >
   | < HAGA: "haga">
   | < HASTA: "hasta">
-  | < IMPLEMENTACION: "implementacion" | "implementación" | "implementaci\u00f3n" >
+  | < IMPLEMENTACION: "implementacion" | "implementaciï¿½n" | "implementaci\u00f3n" >
   | < INICIO: "inicio">
   | < IMPLEMENTA: "implementa">
   | < INTENTE: "intente">
   | < INTERFAZ: "interfaz" | "interface">
   | < LANCE: "lance">
-  | < METODO: "metodo" | "método" | "m\u00e9todo" >
+  | < METODO: "metodo" | "mï¿½todo" | "m\u00e9todo" >
   | < MIENTRAS: "mientras" >
   | < NULO: "nulo">
   | < OBJETO: "objeto">
-  | < OPERACION: "operacion" | "operación" | "operaci\u00f3n" >
+  | < OPERACION: "operacion" | "operaciï¿½n" | "operaci\u00f3n" >
   | < PAQUETE: "paquete">
   | < PARA: "para">
   | < BAJANDO: "bajando">         // See para()
@@ -144,12 +144,12 @@ TOKEN : // otras palabras reservadas
   | < REPITA: "repita">
   | < RETORNE: "retorne">
   | < SALIDA: "salida">
-  | < SEGUN: "segun" | "según" | "seg\u00fan" >
+  | < SEGUN: "segun" | "segï¿½n" | "seg\u00fan" >
   | < SI: "si" >
   | < SI_NO: "si_no" >
   | < SI_NO_SI: "si_no_si" >
   | < SIEMPRE: "siempre" >
-  | < SUPER: "super" | "súper" | "s\u00faper" >
+  | < SUPER: "super" | "sï¿½per" | "s\u00faper" >
   | < TERMINE: "termine" >
   | < UTILIZA: "utiliza" >
 }
@@ -183,7 +183,7 @@ TOKEN : // Literales
 		  "'"
 	>
   |
-	< CADENA_LITERAL:   // se permite que cubra varias líneas
+	< CADENA_LITERAL:   // se permite que cubra varias lï¿½neas
 	  "\""
 	  (   (~["\"","\\"])    //(~["\"","\\","\n","\r"])
 	| ("\\"
@@ -204,7 +204,8 @@ TOKEN : // Identificadores
   |
   < #LETRA:
 	  [
-	   "á", "é", "í", "ó", "ú", "ñ", 
+//	   "Ã¡",      "Ã©",      "Ã­",      "Ã³",      "Ãº",      "Ã±", 
+	   "\u00E1", "\u00E9", "\u00ED", "\u00F3", "\u00FA", "\u00F1", 
 	   "\u0024",
 	   "\u0041"-"\u005a",
 	   "\u005f",
@@ -596,11 +597,11 @@ NDeclaracion[] declaraciones() :
 	}
 	(
 		/*
-		 * En una expresión de variable cuantificada viene
+		 * En una expresiï¿½n de variable cuantificada viene
 		 * posiblemente:
 		 *  "," expresion()
-		 * a continuación de las declaraciones; una expresión
-		 * a su vez puede comenzar con un ID. Así que se
+		 * a continuaciï¿½n de las declaraciones; una expresiï¿½n
+		 * a su vez puede comenzar con un ID. Asï¿½ que se
 		 * requiere un LOOKAHEAD(3) para resolver el asunto.
 		 */
 		LOOKAHEAD(3)
@@ -1357,7 +1358,7 @@ NExpresion e_instancia() :
 				e = ConstructorArbol.crearNImplementa(e, t);
 			}
 		 |
-		    <COMO> t=ntipo()        // conversión 
+		    <COMO> t=ntipo()        // conversiï¿½n 
 			{
 				e = ConstructorArbol.crearNConvertirTipo(e, t);
 			}
@@ -1513,7 +1514,7 @@ NExpresion e_unaria() :
 		(
 			ti=<EXISTE>  |  ti=<PARA_TODO>
 		)
-		d=declaraciones()   // ver LOOKAHEAD allí
+		d=declaraciones()   // ver LOOKAHEAD allï¿½
 		[
 			"," con=expresion()
 		]
@@ -1546,14 +1547,14 @@ NExpresion e_primaria() :
 		)
 	  |
 		(
-			"[" f=expresion() tf="]"	// subindexación
+			"[" f=expresion() tf="]"	// subindexaciï¿½n
 			{
 				e = ConstructorArbol.crearNSubindexacion(e, f, tf);
 			}
 		)
 	  |
 		(
-			"(" [ args=expresiones() ] tf=")"     // invocación
+			"(" [ args=expresiones() ] tf=")"     // invocaciï¿½n
 			{
 				if ( args == null )
 					args = new NExpresion[0];
@@ -1904,7 +1905,7 @@ TNombre tnombreEOF() :  // id1::id2::id3 <EOF>
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Literal cadena para info de implementación
+// Literal cadena para info de implementaciï¿½n
 TCadena timpl() :
 {
 	Token t;
