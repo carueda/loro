@@ -131,9 +131,9 @@ public class ZipFileOroLoader implements IOroLoader
 	{
 		if ( list == null )
 			list  = new ArrayList();
-		for ( Enumeration enum = zf.entries(); enum.hasMoreElements(); )
+		for ( Enumeration entr = zf.entries(); entr.hasMoreElements(); )
 		{
-			ZipEntry entry = (ZipEntry) enum.nextElement();
+			ZipEntry entry = (ZipEntry) entr.nextElement();
 			String name = entry.getName();
 			if ( name.endsWith(".oro") )
 			{
@@ -165,9 +165,9 @@ public class ZipFileOroLoader implements IOroLoader
 			nombrePaquete = nombrePaquete.substring(0, nombrePaquete.length() -1);
 		}
 		nombrePaquete = Util.replace(nombrePaquete, "::", "/");
-		for ( Enumeration enum = zf.entries(); enum.hasMoreElements(); )
+		for ( Enumeration entr = zf.entries(); entr.hasMoreElements(); )
 		{
-			ZipEntry entry = (ZipEntry) enum.nextElement();
+			ZipEntry entry = (ZipEntry) entr.nextElement();
 			String name = entry.getName();
 			if ( name.startsWith(nombrePaquete)
 			&&   name.endsWith(".oro") )
@@ -216,9 +216,9 @@ public class ZipFileOroLoader implements IOroLoader
 	public boolean verify(List list)
 	{
 		boolean ok = true;
-		for ( Enumeration enum = zf.entries(); enum.hasMoreElements(); )
+		for ( Enumeration entr = zf.entries(); entr.hasMoreElements(); )
 		{
-			ZipEntry entry = (ZipEntry) enum.nextElement();
+			ZipEntry entry = (ZipEntry) entr.nextElement();
 			String name = entry.getName();
 			if ( ! name.endsWith(".oro") )
 			{
@@ -264,9 +264,9 @@ public class ZipFileOroLoader implements IOroLoader
 	public List getFilenames(FilenameFilter fnfilter)
 	{
 		List list  = new ArrayList();
-		for ( Enumeration enum = zf.entries(); enum.hasMoreElements(); )
+		for ( Enumeration entr = zf.entries(); entr.hasMoreElements(); )
 		{
-			ZipEntry entry = (ZipEntry) enum.nextElement();
+			ZipEntry entry = (ZipEntry) entr.nextElement();
 			if ( !entry.isDirectory() )
 			{
 				String name = entry.getName();
